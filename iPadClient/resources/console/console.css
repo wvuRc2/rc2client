@@ -1,0 +1,356 @@
+body { 
+	background-color:#ccc;
+	font-family:Inconsolata, Menlo, "Courier New", Monaco, monospace;
+}
+
+#consoleOutputGenerated {
+	white-space: pre;
+	overflow:auto;
+	font-size:10pt;
+	height:600px;
+}
+
+
+.tab-button {
+  outline: 0;
+  margin: 0 4px 0 0;
+  padding: .4em 1em;
+  text-decoration: none !important;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  zoom: 1; }
+
+body {
+  margin-right: 0px;
+  margin-left: 0px;
+  overflow-x: hidden; }
+
+/*
+	ffd524 outer
+	ffe67d inner
+	ffd136 border
+*/
+div.Rimg {
+  border-width: 1px;
+  border-style: solid;
+  margin: 2px;
+  border-color: #ff243b;
+  background-color: #58ff4a;
+  height: 80px;
+  width: 80px;
+  visibility: hidden;
+  display: none; }
+
+#contentArea {
+  height: 500px;
+  width: 100%;
+  margin-bottom: 20px; }
+
+#col1container {
+  overflow: auto;
+  margin: 8px; }
+
+#col2container {
+  overflow: none;
+  margin: 8px; }
+
+#imageContainer {
+  margin-bottom: 20px;
+  width: 100%;
+  height: 120px; }
+
+#tabHeader {
+  margin-bottom: 8px; }
+
+#editor {
+  margin-left: 4px;
+  margin-right: 4px;
+  clear: all; }
+
+#console {
+  background-color: #ededed;
+  font-size: 11pt;
+  font-family: Inconsolata-dz, Inconsolata, Menlo, "Courier New", Monaco, monospace;
+  border-style: groove;
+  border-width: 1px;
+  margin-left: 8px;
+  margin-right: 8px;
+  overflow: none;
+  height: 498px; }
+
+#consoleInput {
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 8px;
+  border-width: 1px;
+  border-color: black; }
+
+#consoleOutput {
+	width:100%;
+  margin-left: 8px;
+  margin-right: 8px; }
+
+#consoleInputDiv {
+  margin-right: 120px; }
+
+input.consoleButton {
+  display: block;
+  width: 90px;
+  float: right; }
+
+input.console {
+  width: 99%;
+  -webkit-border-radius: 10px; }
+
+table.doubleOutput {
+  width: 100%; }
+
+table.doubleOutput td {
+  width: 25%; }
+
+table.doubleOutput span.dr {
+  text-align: left; }
+
+table.doubleOutput span.dl {
+  float: left;
+  text-align: right;
+  width: 50%; }
+
+.vsplitbar {
+  width: 3px;
+  background: #ffbe49; }
+
+.logText {
+  font-size: smaller;
+  color: green;
+  white-space: normal; }
+
+.statusText {
+  font-size: smaller;
+  white-space: normal;
+  color: red; }
+
+.inputText {
+  color: blue;
+  background-color: #87FFA6; }
+
+ul.tabs {
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+
+.editArea {
+  width: 98%;
+  margin-right: 6px;
+  height: 90%;
+  display: block;
+  font-family: monospace;
+  font-size: 1.0em; }
+
+span.genImg {
+  width: 120px;
+  height: 110px;
+  float: left;
+  border: 1px solid #999999;
+  margin: 1px;
+  display: block; }
+
+span.imgClose {
+  visibility: hidden;
+  position: relative;
+  left: 90px;
+  top: -120px;
+  opacity: 0.4; }
+
+span.genImg:hover span.imgClose {
+  visibility: visible; }
+
+#tabContent {
+  border: 2px solid;
+  border-color: #ffd136;
+  border-top-right-radius: 6px 6px;
+  border-bottom-left-radius: 6px 6px;
+  border-bottom-right-radius: 6px 6px;
+  clear: both;
+  background: #ffd524;
+  padding: 4px 4px 4px 4px;
+  margin-right: 16px;
+  height: 460px; }
+
+ul.tabs li {
+  list-style-type: none;
+  display: inline;
+  border: 2px solid;
+  border-color: #ffd136;
+  border-width: 1px 1px 0 1px;
+  border-top-left-radius: 6px 6px;
+  border-top-right-radius: 6px 6px;
+  margin: 0 0.5em 0 0;
+  float: left; }
+
+ul.tabs li a {
+  padding-left: 1em;
+  text-decoration: none; }
+
+li.tabListItem {
+  top: 1px;
+  margin-right: 16px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#c18c40), to(#ff9900), color-stop(0.14, #ffc946)); }
+
+ul.tabs li.selected {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffd524), color-stop(0.5, #ffe67d), color-stop(1, #ffd524)); }
+
+a.closeBox {
+  background: url(../img/close.png) no-repeat right top;
+  padding-right: .5em; }
+
+.ir-fs {
+  width: 120px; }
+
+.ir-fn {
+  width: 300px; }
+
+#fancyOutputControl {
+  font-size: 12px; }
+
+.fancyOutput {
+  border: 1px black solid;
+  white-space: normal; }
+
+td .fancyOutput {
+  margin-right: 0px;
+  margin-left: auto; }
+
+table.ir-expvec {
+  border-collapse: collapse;
+  margin-bottom: 6px;
+  margin-top: 6px; }
+
+table.ir-expvec td {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 2px;
+  text-align: right; }
+
+table.ir-expvec th {
+  text-align: left; }
+
+td.ir-expvecnest {
+  text-align: left !important; }
+
+td.ir-expvecnest .fancyOutput {
+  margin-left: 0px;
+  margin-right: auto; }
+
+table.ir-expvec th.ir-df-ch {
+  text-align: center; }
+
+.ir-df-label {
+  text-align: left; }
+
+.ir-df-label > img {
+  margin-right: 10px; }
+
+#consoleOutputGenerated > table > tbody > tr:nth-child(even) {
+  background-color: #E2FF87; }
+
+#consoleOutputGenerated > table > tbody > tr:nth-child(odd) {
+  background-color: #FFDB87; }
+
+table.ir-mx th {
+  background-color: #FFA532;
+  padding: 2px;
+  min-width: 20px;
+  text-align: center;
+  border: 1px dotted green; }
+
+table.ir-mx td {
+  border: 1px dotted green; }
+
+#fileNameField {
+  width: 240px; }
+
+.dialogErrorMsg {
+  font-size: smaller;
+  color: red; }
+
+#nameFileNote {
+  font-size: smaller;
+  color: green;
+  display: block;
+  font-style: italic;
+  margin-bottom: 6px; }
+
+#SaveNewFile {
+  padding-left: 8px;
+  padding-right: 8px; }
+
+.vertText {
+  -webkit-transform: rotate(90deg);
+  display: block;
+  margin-top: 10px; }
+
+.rtab {
+  padding: 2px;
+  background-color: #999;
+  positon: absolute;
+  z-index: 10000;
+  width: 180px;
+  height: 300px; }
+
+#userTab {
+  width: 180px;
+  height: 300px;
+  z-index: 10001; }
+
+.rtabH {
+  width: 20px;
+  height: 60px;
+  background-color: #999;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  padding: 4px;
+  border-top-left-radius: 9px;
+  border-bottom-left-radius: 9px; }
+
+.histTabH {
+  height: 70px; }
+
+#userTable {
+  margin: 6px;
+  color: white; }
+
+#histTable {
+  list-style: none;
+  margin-left: 0px;
+  padding-left: 0px; }
+
+#histTable li {
+  margin-left: 4px;
+  margin-bottom: 10px; }
+
+#histTable a {
+  color: white;
+  font-size: 11pt;
+  font-family: Inconsolata-dz, Inconsolata, Menlo, "Courier New", Monaco, monospace;
+  padding: 5px; }
+
+#histTable > li:nth-child(even) {
+  background-color: #aaa; }
+
+#histTable > li:nth-child(odd) {
+  background-color: #bbb; }
+
+#fileInput {
+  margin-top: 10px; }
+
+#fileUploadFrame {
+  visibility: hidden; }
+
+#iR-openfile-newTab {
+  margin-top: 12px; }
+
+#nameFile {
+  width: 360px; }
