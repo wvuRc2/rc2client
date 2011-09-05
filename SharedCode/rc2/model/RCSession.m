@@ -91,7 +91,7 @@
 
 -(RCSavedSession*)savedSessionState
 {
-	NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
+	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:self.workspace];
 	if (nil == savedState) {
 		savedState = [RCSavedSession insertInManagedObjectContext:moc];

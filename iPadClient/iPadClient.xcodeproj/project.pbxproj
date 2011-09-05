@@ -181,10 +181,10 @@
 
 /* Begin PBXFileReference section */
 		082D9D531408FF6E008F3CB0 /* notes.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notes.markdown; sourceTree = "<group>"; };
-		082D9D5514097AEF008F3CB0 /* RCSavedSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSavedSession.h; path = source/model/RCSavedSession.h; sourceTree = SOURCE_ROOT; };
-		082D9D5614097AEF008F3CB0 /* RCSavedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSavedSession.m; path = source/model/RCSavedSession.m; sourceTree = SOURCE_ROOT; };
-		082D9D5814097AFA008F3CB0 /* _RCSavedSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCSavedSession.h; sourceTree = "<group>"; };
-		082D9D5914097AFA008F3CB0 /* _RCSavedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCSavedSession.m; sourceTree = "<group>"; };
+		082D9D5514097AEF008F3CB0 /* RCSavedSession.h */ = {isa = PBXFileReference; fileEncoding = 4; name = RCSavedSession.h; path = ../SharedCode/rc2/model/RCSavedSession.h; sourceTree = SOURCE_ROOT; };
+		082D9D5614097AEF008F3CB0 /* RCSavedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSavedSession.m; path = ../SharedCode/rc2/model/RCSavedSession.m; sourceTree = SOURCE_ROOT; };
+		082D9D5814097AFA008F3CB0 /* _RCSavedSession.h */ = {isa = PBXFileReference; fileEncoding = 4; name = _RCSavedSession.h; path = ../SharedCode/rc2/model/generated/_RCSavedSession.h; sourceTree = SOURCE_ROOT; };
+		082D9D5914097AFA008F3CB0 /* _RCSavedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCSavedSession.m; path = ../SharedCode/rc2/model/generated/_RCSavedSession.m; sourceTree = SOURCE_ROOT; };
 		082D9D71140B4F72008F3CB0 /* shift.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shift.png; path = resources/shift.png; sourceTree = SOURCE_ROOT; };
 		082D9D74140B5398008F3CB0 /* shiftHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shiftHighlighted.png; path = resources/shiftHighlighted.png; sourceTree = SOURCE_ROOT; };
 		082DC02913EC99E4008EAA99 /* Rc².app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rc².app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,8 +214,8 @@
 		08349EC914042FDA00B629B4 /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginController.m; path = source/LoginController.m; sourceTree = SOURCE_ROOT; };
 		08349ECA14042FDA00B629B4 /* LoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoginController.xib; path = source/LoginController.xib; sourceTree = SOURCE_ROOT; };
 		08349ED3140434FB00B629B4 /* libVyana-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libVyana-ios.a"; path = "../../../../svn-agilemonks/trunk/Vyana/build/Release-iphoneos/libVyana-ios.a"; sourceTree = "<group>"; };
-		08349ED814044ACC00B629B4 /* Rc2Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rc2Server.h; path = source/Rc2Server.h; sourceTree = SOURCE_ROOT; };
-		08349ED914044ACC00B629B4 /* Rc2Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rc2Server.m; path = source/Rc2Server.m; sourceTree = SOURCE_ROOT; };
+		08349ED814044ACC00B629B4 /* Rc2Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rc2Server.h; path = ../SharedCode/rc2/Rc2Server.h; sourceTree = SOURCE_ROOT; };
+		08349ED914044ACC00B629B4 /* Rc2Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rc2Server.m; path = ../SharedCode/rc2/Rc2Server.m; sourceTree = SOURCE_ROOT; };
 		08349EFD1404591200B629B4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		08349F05140459C300B629B4 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		08349F07140459CF00B629B4 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -246,15 +246,15 @@
 		08349F261404706B00B629B4 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = ../SharedCode/ASIHTTPRequest/Reachability.h; sourceTree = SOURCE_ROOT; };
 		08349F271404706B00B629B4 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = ../SharedCode/ASIHTTPRequest/Reachability.m; sourceTree = SOURCE_ROOT; };
 		08349F311404708F00B629B4 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSON.h; path = ../SharedCode/json/JSON.h; sourceTree = SOURCE_ROOT; };
-		08349F321404708F00B629B4 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; name = "NSObject+SBJSON.h"; path = "../SharedCode/json/NSObject+SBJSON.h"; sourceTree = SOURCE_ROOT; };
+		08349F321404708F00B629B4 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJSON.h"; path = "../SharedCode/json/NSObject+SBJSON.h"; sourceTree = SOURCE_ROOT; };
 		08349F331404708F00B629B4 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+SBJSON.m"; path = "../SharedCode/json/NSObject+SBJSON.m"; sourceTree = SOURCE_ROOT; };
-		08349F341404708F00B629B4 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; name = "NSString+SBJSON.h"; path = "../SharedCode/json/NSString+SBJSON.h"; sourceTree = SOURCE_ROOT; };
+		08349F341404708F00B629B4 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SBJSON.h"; path = "../SharedCode/json/NSString+SBJSON.h"; sourceTree = SOURCE_ROOT; };
 		08349F351404708F00B629B4 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+SBJSON.m"; path = "../SharedCode/json/NSString+SBJSON.m"; sourceTree = SOURCE_ROOT; };
-		08349F361404708F00B629B4 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; name = SBJsonBase.h; path = ../SharedCode/json/SBJsonBase.h; sourceTree = SOURCE_ROOT; };
+		08349F361404708F00B629B4 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonBase.h; path = ../SharedCode/json/SBJsonBase.h; sourceTree = SOURCE_ROOT; };
 		08349F371404708F00B629B4 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonBase.m; path = ../SharedCode/json/SBJsonBase.m; sourceTree = SOURCE_ROOT; };
-		08349F381404708F00B629B4 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; name = SBJsonParser.h; path = ../SharedCode/json/SBJsonParser.h; sourceTree = SOURCE_ROOT; };
+		08349F381404708F00B629B4 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonParser.h; path = ../SharedCode/json/SBJsonParser.h; sourceTree = SOURCE_ROOT; };
 		08349F391404709000B629B4 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonParser.m; path = ../SharedCode/json/SBJsonParser.m; sourceTree = SOURCE_ROOT; };
-		08349F3A1404709000B629B4 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; name = SBJsonWriter.h; path = ../SharedCode/json/SBJsonWriter.h; sourceTree = SOURCE_ROOT; };
+		08349F3A1404709000B629B4 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = ../SharedCode/json/SBJsonWriter.h; sourceTree = SOURCE_ROOT; };
 		08349F3B1404709000B629B4 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = ../SharedCode/json/SBJsonWriter.m; sourceTree = SOURCE_ROOT; };
 		08349F471404959700B629B4 /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailsViewController.h; path = source/DetailsViewController.h; sourceTree = SOURCE_ROOT; };
 		08349F481404959700B629B4 /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailsViewController.m; path = source/DetailsViewController.m; sourceTree = SOURCE_ROOT; };
@@ -262,20 +262,20 @@
 		08349F4C1404988600B629B4 /* WorkspaceTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspaceTableController.h; path = source/WorkspaceTableController.h; sourceTree = SOURCE_ROOT; };
 		08349F4D1404988600B629B4 /* WorkspaceTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceTableController.m; path = source/WorkspaceTableController.m; sourceTree = SOURCE_ROOT; };
 		08349F4E1404988600B629B4 /* WorkspaceTableController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkspaceTableController.xib; path = source/WorkspaceTableController.xib; sourceTree = SOURCE_ROOT; };
-		08349F5114049A7900B629B4 /* RCWorkspaceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCWorkspaceItem.h; path = source/model/RCWorkspaceItem.h; sourceTree = SOURCE_ROOT; };
-		08349F5214049A7900B629B4 /* RCWorkspaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCWorkspaceItem.m; path = source/model/RCWorkspaceItem.m; sourceTree = SOURCE_ROOT; };
-		08349F5514049B7000B629B4 /* RCWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCWorkspace.h; path = source/model/RCWorkspace.h; sourceTree = SOURCE_ROOT; };
-		08349F5614049B7100B629B4 /* RCWorkspace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCWorkspace.m; path = source/model/RCWorkspace.m; sourceTree = SOURCE_ROOT; };
-		08349F5814049BD600B629B4 /* RCWorkspaceFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCWorkspaceFolder.h; path = source/model/RCWorkspaceFolder.h; sourceTree = SOURCE_ROOT; };
-		08349F5914049BD600B629B4 /* RCWorkspaceFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCWorkspaceFolder.m; path = source/model/RCWorkspaceFolder.m; sourceTree = SOURCE_ROOT; };
+		08349F5114049A7900B629B4 /* RCWorkspaceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCWorkspaceItem.h; path = ../SharedCode/rc2/model/RCWorkspaceItem.h; sourceTree = SOURCE_ROOT; };
+		08349F5214049A7900B629B4 /* RCWorkspaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCWorkspaceItem.m; path = ../SharedCode/rc2/model/RCWorkspaceItem.m; sourceTree = SOURCE_ROOT; };
+		08349F5514049B7000B629B4 /* RCWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; name = RCWorkspace.h; path = ../SharedCode/rc2/model/RCWorkspace.h; sourceTree = SOURCE_ROOT; };
+		08349F5614049B7100B629B4 /* RCWorkspace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCWorkspace.m; path = ../SharedCode/rc2/model/RCWorkspace.m; sourceTree = SOURCE_ROOT; };
+		08349F5814049BD600B629B4 /* RCWorkspaceFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; name = RCWorkspaceFolder.h; path = ../SharedCode/rc2/model/RCWorkspaceFolder.h; sourceTree = SOURCE_ROOT; };
+		08349F5914049BD600B629B4 /* RCWorkspaceFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCWorkspaceFolder.m; path = ../SharedCode/rc2/model/RCWorkspaceFolder.m; sourceTree = SOURCE_ROOT; };
 		08349F5B1404C35B00B629B4 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = folder.png; path = resources/folder.png; sourceTree = SOURCE_ROOT; };
 		08349F5C1404C35B00B629B4 /* workspace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = workspace.png; path = resources/workspace.png; sourceTree = SOURCE_ROOT; };
 		08349F5F1404C37F00B629B4 /* WorkspaceTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspaceTableCell.h; path = source/WorkspaceTableCell.h; sourceTree = SOURCE_ROOT; };
 		08349F601404C38000B629B4 /* WorkspaceTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceTableCell.m; path = source/WorkspaceTableCell.m; sourceTree = SOURCE_ROOT; };
 		08349F621404C3FA00B629B4 /* WorkspaceTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkspaceTableCell.xib; path = source/WorkspaceTableCell.xib; sourceTree = SOURCE_ROOT; };
 		08349F641404CDB800B629B4 /* workspaceHi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = workspaceHi.png; path = resources/workspaceHi.png; sourceTree = SOURCE_ROOT; };
-		085323071404F8380045D207 /* RCSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSession.h; path = source/model/RCSession.h; sourceTree = SOURCE_ROOT; };
-		085323081404F8380045D207 /* RCSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSession.m; path = source/model/RCSession.m; sourceTree = SOURCE_ROOT; };
+		085323071404F8380045D207 /* RCSession.h */ = {isa = PBXFileReference; fileEncoding = 4; name = RCSession.h; path = ../SharedCode/rc2/model/RCSession.h; sourceTree = SOURCE_ROOT; };
+		085323081404F8380045D207 /* RCSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSession.m; path = ../SharedCode/rc2/model/RCSession.m; sourceTree = SOURCE_ROOT; };
 		0853230F1405CCC00045D207 /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console; sourceTree = SOURCE_ROOT; };
 		08661A271405AC170087BD34 /* MGSplitCornersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSplitCornersView.h; sourceTree = "<group>"; };
 		08661A281405AC170087BD34 /* MGSplitCornersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSplitCornersView.m; sourceTree = "<group>"; };
@@ -301,8 +301,8 @@
 		088A76CC1406A194003D6A3F /* SessionFilesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SessionFilesController.xib; path = source/SessionFilesController.xib; sourceTree = SOURCE_ROOT; };
 		088A76D41406AF9D003D6A3F /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = source/MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		088A76D51406AF9D003D6A3F /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = source/MBProgressHUD.m; sourceTree = SOURCE_ROOT; };
-		088A76D71406BEC8003D6A3F /* RCImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImage.h; path = source/model/RCImage.h; sourceTree = SOURCE_ROOT; };
-		088A76D81406BEC8003D6A3F /* RCImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImage.m; path = source/model/RCImage.m; sourceTree = SOURCE_ROOT; };
+		088A76D71406BEC8003D6A3F /* RCImage.h */ = {isa = PBXFileReference; fileEncoding = 4; name = RCImage.h; path = ../SharedCode/rc2/model/RCImage.h; sourceTree = SOURCE_ROOT; };
+		088A76D81406BEC8003D6A3F /* RCImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImage.m; path = ../SharedCode/rc2/model/RCImage.m; sourceTree = SOURCE_ROOT; };
 		088A76EB140C220B003D6A3F /* save.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = save.png; path = resources/save.png; sourceTree = SOURCE_ROOT; };
 		088A76EE140C244B003D6A3F /* trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = trash.png; path = resources/trash.png; sourceTree = SOURCE_ROOT; };
 		088A76F0140C25DF003D6A3F /* CoolButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoolButton.h; path = source/CoolButton.h; sourceTree = SOURCE_ROOT; };
@@ -337,8 +337,8 @@
 		08AE4EB01414593800963C52 /* messageCellBGTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = messageCellBGTop.png; path = resources/messageCellBGTop.png; sourceTree = SOURCE_ROOT; };
 		08D55EDD140635CA00E9D981 /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GradientButton.h; path = source/GradientButton.h; sourceTree = SOURCE_ROOT; };
 		08D55EDE140635CA00E9D981 /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GradientButton.m; path = source/GradientButton.m; sourceTree = SOURCE_ROOT; };
-		08D55EE114063C9500E9D981 /* RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCFile.h; path = source/model/RCFile.h; sourceTree = SOURCE_ROOT; };
-		08D55EE214063C9500E9D981 /* RCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCFile.m; path = source/model/RCFile.m; sourceTree = SOURCE_ROOT; };
+		08D55EE114063C9500E9D981 /* RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; name = RCFile.h; path = ../SharedCode/rc2/model/RCFile.h; sourceTree = SOURCE_ROOT; };
+		08D55EE214063C9500E9D981 /* RCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCFile.m; path = ../SharedCode/rc2/model/RCFile.m; sourceTree = SOURCE_ROOT; };
 		08D55EE4140641D900E9D981 /* FileDetailsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileDetailsCell.h; path = source/FileDetailsCell.h; sourceTree = SOURCE_ROOT; };
 		08D55EE5140641D900E9D981 /* FileDetailsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileDetailsCell.m; path = source/FileDetailsCell.m; sourceTree = SOURCE_ROOT; };
 		08D55EE6140641D900E9D981 /* FileDetailsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FileDetailsCell.xib; path = source/FileDetailsCell.xib; sourceTree = SOURCE_ROOT; };
@@ -367,13 +367,13 @@
 		08DD23B51412C36E00217C1A /* DropboxImportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropboxImportCell.m; path = source/DropboxImportCell.m; sourceTree = SOURCE_ROOT; };
 		08DD23B71412C54C00217C1A /* DropboxImportCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DropboxImportCell.xib; path = source/DropboxImportCell.xib; sourceTree = SOURCE_ROOT; };
 		08DD23B91412E10100217C1A /* importCheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = importCheck.png; path = resources/importCheck.png; sourceTree = SOURCE_ROOT; };
-		08DD23BB1413CC6A00217C1A /* _RCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCMessage.h; sourceTree = "<group>"; };
-		08DD23BC1413CC6A00217C1A /* _RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCMessage.m; sourceTree = "<group>"; };
-		08DD23BE1413CC7900217C1A /* RCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMessage.h; path = source/model/RCMessage.h; sourceTree = SOURCE_ROOT; };
-		08DD23BF1413CC7900217C1A /* RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMessage.m; path = source/model/RCMessage.m; sourceTree = SOURCE_ROOT; };
+		08DD23BB1413CC6A00217C1A /* _RCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCMessage.h; path = ../SharedCode/rc2/model/generated/_RCMessage.h; sourceTree = SOURCE_ROOT; };
+		08DD23BC1413CC6A00217C1A /* _RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCMessage.m; path = ../SharedCode/rc2/model/generated/_RCMessage.m; sourceTree = SOURCE_ROOT; };
+		08DD23BE1413CC7900217C1A /* RCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; name = RCMessage.h; path = ../SharedCode/rc2/model/RCMessage.h; sourceTree = SOURCE_ROOT; };
+		08DD23BF1413CC7900217C1A /* RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMessage.m; path = ../SharedCode/rc2/model/RCMessage.m; sourceTree = SOURCE_ROOT; };
 		08F566631407039900229A39 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
-		08F566671407073E00229A39 /* _RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCFile.h; sourceTree = "<group>"; };
-		08F566681407073E00229A39 /* _RCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCFile.m; sourceTree = "<group>"; };
+		08F566671407073E00229A39 /* _RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; name = _RCFile.h; path = ../SharedCode/rc2/model/generated/_RCFile.h; sourceTree = SOURCE_ROOT; };
+		08F566681407073E00229A39 /* _RCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCFile.m; path = ../SharedCode/rc2/model/generated/_RCFile.m; sourceTree = SOURCE_ROOT; };
 		08FE88961414F92F00672474 /* BottomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomViewController.h; path = source/BottomViewController.h; sourceTree = SOURCE_ROOT; };
 		08FE88971414F92F00672474 /* BottomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomViewController.m; path = source/BottomViewController.m; sourceTree = SOURCE_ROOT; };
 		08FE88981414F92F00672474 /* BottomViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BottomViewController.xib; path = source/BottomViewController.xib; sourceTree = SOURCE_ROOT; };
@@ -633,7 +633,7 @@
 				08F566661407073E00229A39 /* generated */,
 			);
 			name = model;
-			path = iPadClient;
+			path = ../SharedCode/rc2/model;
 			sourceTree = "<group>";
 		};
 		0860C54214103D2E00582C7D /* images */ = {

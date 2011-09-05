@@ -115,7 +115,7 @@
 
 -(RCSavedSession*)savedSessionForWorkspace:(RCWorkspace*)workspace
 {
-	NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
+	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	NSArray *allSaved = [moc fetchObjectsArrayForEntityName:@"RCSavedSession" 
 											  withPredicate:@"wspaceId = %@ and login like %@",
 												 workspace.wspaceId, self.currentLogin];
@@ -166,7 +166,7 @@
 {
 	NSMutableArray *entries = [NSMutableArray arrayWithArray:[rsp objectForKey:@"entries"]];
 	//now we need to add any local files that haven't been sent to the server
-	NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
+	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	NSSet *newFiles = [moc fetchObjectsForEntityName:@"RCFile" withPredicate:@"fileId == 0 and wspaceId == %@",
 					   self.selectedWorkspace.wspaceId];
 	[entries addObjectsFromArray:[newFiles allObjects]];

@@ -17,4 +17,4 @@
 	#import <Vyana-ios/Vyana-ios.h>
 #endif
 
-#define UIApp [UIApplication sharedApplication]
+#define TheApp [UIApplication sharedApplication]

@@ -5,7 +5,7 @@
 //parses an array of dictionaries sent from the server and updates stored messages
 +(void)syncFromJsonArray:(NSArray*)inArray
 {
-	NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
+	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	NSMutableSet *unTouched = [[moc fetchObjectsForEntityName:@"RCMessage" withPredicate:nil] mutableCopy];
 	for (NSDictionary *dict in inArray) {
 		RCMessage *msg = [[moc fetchObjectsForEntityName:@"RCMessage" withPredicate:@"rcptmsgId = %@",
