@@ -19,6 +19,7 @@
 @property (nonatomic, retain) id loggedInToken;
 @property (nonatomic, retain) UIActionSheet *addSheet;
 @property (nonatomic, retain) WorkspaceTableCell *currentSelection;
+@property (nonatomic, retain) id themeChangeNotice;
 -(void)handleAddWorkspaceResponse:(BOOL)success results:(NSDictionary*)results;
 @end
 
@@ -43,6 +44,7 @@
 	self.workspaceItems=nil;
     self.addButton=nil;
 	self.parentItem=nil;
+	self.themeChangeNotice=nil;
 }
 
 -(void)dealloc
@@ -57,15 +59,20 @@
 {
 	[super viewDidLoad];
 	if (!_didInitialLoad) {
+		__block WorkspaceTableController *blockSelf = self;
 		Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 		self.view.backgroundColor = [theme colorForKey:@"MasterBackground"];
+		id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
+			blockSelf.view.backgroundColor = [aTheme colorForKey:@"MasterBackground"];
+		}];
+		self.themeChangeNotice = tn;
+		[tn release];
 		((AMTableView*)self.tableView).deselectOnTouchesOutsideCells=YES;
 		self.addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
 																		target:self
 																		action:@selector(doAdd:)] autorelease];
 		self.toolbarItems = ARRAY(self.addButton);
 		self.navigationController.toolbarHidden=NO;
-		__block WorkspaceTableController *blockSelf = self;
 		[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
 			blockSelf.addButton.enabled = [Rc2Server sharedInstance].loggedIn;
 		}];
@@ -221,4 +228,5 @@
 @synthesize addSheet;
 @synthesize addButton;
 @synthesize parentItem;
+@synthesize themeChangeNotice;
 @end

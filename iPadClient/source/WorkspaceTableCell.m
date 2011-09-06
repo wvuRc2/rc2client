@@ -16,6 +16,8 @@
 @property (nonatomic, retain) NSArray *normalColors;
 @property (nonatomic, retain) NSArray *selectedColors;
 @property (nonatomic, assign) CAGradientLayer *gl;
+@property (nonatomic, retain) id themeChangeNotice;
+-(void)updateForNewTheme:(Theme*)theme;
 @end
 
 @implementation WorkspaceTableCell
@@ -26,9 +28,16 @@
 @synthesize normalColors;
 @synthesize selectedColors;
 @synthesize gl;
+@synthesize themeChangeNotice;
 
 -(void)awakeFromNib
 {
+	__block WorkspaceTableCell *blockSelf = self;
+	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
+		[blockSelf updateForNewTheme:theme];
+	}];
+	self.themeChangeNotice = tn;
+	[tn release];
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	self.normalColors = [NSArray arrayWithObjects:
 						 (id)[theme colorForKey:@"MasterCellStart"].CGColor,
@@ -59,11 +68,33 @@
 	[self addShineLayer:self.layer bounds:bgRect];
 }
 
+-(void)updateForNewTheme:(Theme*)theme
+{
+	_bgLayer.backgroundColor = [theme colorForKey:@"MasterCell"].CGColor;
+	self.normalColors = [NSArray arrayWithObjects:
+						 (id)[theme colorForKey:@"MasterCellStart"].CGColor,
+						 (id)[theme colorForKey:@"MasterCellEnd"].CGColor, nil];
+	self.selectedColors = [NSArray arrayWithObjects:
+						   (id)[theme colorForKey:@"MasterCellSelectedStart"].CGColor,
+						   (id)[theme colorForKey:@"MasterCellSelectedEnd"].CGColor, nil];
+	[gl setColors:self.normalColors];
+	if (_drawSelected)
+		[gl setColors:self.selectedColors];
+	if (self.item) {
+		//adjust images
+		UIColor *tintColor = [theme colorForKey:@"MasterImageTint"];
+		imageView.image = [[UIImage imageNamed: self.item.isFolder ? @"folder" : @"workspace"] imageTintedWithColor:tintColor];
+		imageView.highlightedImage = [UIImage imageNamed: self.item.isFolder ? @"folder" : @"workspaceHi"];
+	}
+	[self setNeedsDisplay];
+}
+
 -(void)dealloc
 {
 	self.normalColors=nil;
 	self.selectedColors=nil;
 	self.item=nil;
+	self.themeChangeNotice=nil;
 	[super dealloc];
 }
 

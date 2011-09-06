@@ -16,11 +16,15 @@ extern NSString * const ThemeDidChangeNotification;
 @property (nonatomic, readonly) NSString *name;
 @end
 
+typedef void (^ThemeChangedBlock)(Theme*);
+
 
 @interface ThemeEngine : NSObject
-@property (retain) Theme *currentTheme;
+@property (nonatomic, retain) Theme *currentTheme;
 @property (readonly) NSArray *allThemes;
 +(ThemeEngine*)sharedInstance;
+//an object will be returned. releasing that object will unregister the block
+-(id)registerThemeChangeBlock:(ThemeChangedBlock)tblock;
 @end
 
 @interface UIView(Shine)

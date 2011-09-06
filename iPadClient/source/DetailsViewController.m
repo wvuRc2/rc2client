@@ -39,6 +39,7 @@ enum {
 @property (nonatomic, retain) SettingsController *settingsController;
 @property (nonatomic, retain) MessageController *messageController;
 @property (nonatomic, assign) UIView *currentView;
+@property (nonatomic, retain) id themeChangeNotice;
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace;
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace withLogout:(BOOL)doLogout;
 -(void)updateLoginStatus;
@@ -47,7 +48,7 @@ enum {
 -(void)updateMessageIcon:(BOOL)aboutToSwitch;
 -(void)cleanupAfterLogout;
 -(void)postLoginSetup;
--(void)updateForThemeChange:(NSNotification*)note;
+-(void)updateForNewTheme:(Theme*)theme;
 @end
 
 @implementation DetailsViewController
@@ -77,6 +78,7 @@ enum {
 	self.wsLoginButton=nil;
 	self.actionSheet=nil;
 	self.messageNavView=nil;
+	self.themeChangeNotice=nil;
 }
 
 -(void)dealloc
@@ -107,12 +109,15 @@ enum {
 																		   task:^(id obj, NSDictionary *change) {
 			   [blockSelf performSelectorOnMainThread:@selector(updateLoginStatus) withObject:nil waitUntilDone:NO];
 		}];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForThemeChange:) 
-													 name:ThemeDidChangeNotification object:nil];
 		self.loginButton.possibleTitles = [NSSet setWithObjects:@"Login",@"Logout",nil];
 		self.loginButton.title = @"Login";
 		self.fileTableView.rowHeight = 52;
 		self.currentView = self.welcomeContent;
+		id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
+			[blockSelf updateForNewTheme:theme];
+		}];
+		self.themeChangeNotice = tn;
+		[tn release];
 		Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 		self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
 		self.welcomeContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
@@ -128,7 +133,8 @@ enum {
 	[[Rc2Server sharedInstance] removeObserverWithBlockToken:self.selWspaceToken];
 	[[Rc2Server sharedInstance] removeObserverWithBlockToken:self.loggedInToken];
 	self.fileTableView.allowsSelection = NO;
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:ThemeDidChangeNotification object:nil];
+	self.themeChangeNotice=nil;
+	_didMsgCheck = NO;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
@@ -380,8 +386,15 @@ enum {
 	return newImage;
 }
 
--(void)updateForThemeChange:(NSNotification*)note
+-(void)updateForNewTheme:(Theme*)theme
 {
+	self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+	self.welcomeContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+	self.workspaceContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+	if(self.currentView == self.welcomeContent)
+	   self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+	else
+		self.view.backgroundColor = [theme colorForKey:@"MessageCenterBackground"];
 	[self.view setNeedsDisplay];
 }
 
@@ -466,4 +479,5 @@ enum {
 @synthesize messageController;
 @synthesize currentView;
 @synthesize wspaceLabel;
+@synthesize themeChangeNotice;
 @end

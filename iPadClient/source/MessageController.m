@@ -12,7 +12,9 @@
 #import "RCMessage.h"
 #import "ThemeEngine.h"
 
-@interface MessageController()
+@interface MessageController() {
+	BOOL _didLoad;
+}
 @property (nonatomic, copy) NSArray *flagImages;
 @property (nonatomic, assign) NSInteger selRowIdx;
 @property (nonatomic, assign) NSInteger extraHeight;
@@ -20,7 +22,9 @@
 @property (nonatomic, assign) MessageListCell *currentSelection;
 @property (nonatomic, retain) UIColor *selectedBG;
 @property (nonatomic, retain) UIColor *normalBG;
+@property (nonatomic, retain) id themeChangeNotice;
 -(void)setSelectedCell:(MessageListCell*)newSelCell deselectedCell:(MessageListCell*)oldSelectedCell;
+-(void)updateForTheme:(Theme*)theme;
 @end
 
 @implementation MessageController
@@ -41,12 +45,33 @@
 	self.normalBG=nil;
 	self.flagImages=nil;
 	self.messages=nil;
+	self.themeChangeNotice=nil;
 	[super dealloc];
 }
 
 -(void)viewDidLoad
 {
-	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
+	if (!_didLoad) {
+		Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
+		NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
+		if (ip)
+			[self.tableView deselectRowAtIndexPath:ip animated:NO];
+		UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, 40)];
+		self.tableView.tableHeaderView = v;
+		[v release];
+		[self updateForTheme:theme];
+		__block MessageController *blockSelf = self;
+		id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
+			[blockSelf updateForTheme:theme];
+		}];
+		self.themeChangeNotice=tn;
+		[tn release];
+		_didLoad=YES;
+	}
+}
+
+-(void)updateForTheme:(Theme*)theme
+{
 	NSArray *colors = [theme.themeColors objectForKey:@"PriorityColors"];
 	UIImage *img = [UIImage imageNamed:@"flag"];
 	NSMutableArray *imgs = [NSMutableArray array];
@@ -55,13 +80,7 @@
 		[imgs addObject:newImage];
 	}
 	self.flagImages = imgs;
-	NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
-	if (ip)
-		[self.tableView deselectRowAtIndexPath:ip animated:NO];
-	UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, 40)];
-	self.tableView.tableHeaderView = v;
 	self.tableView.layer.backgroundColor = [theme colorForKey:@"MessageBackground"].CGColor;
-	[v release];
 	self.view.backgroundColor = [theme colorForKey:@"MessageCenterBackground"];
 }
 
@@ -174,4 +193,5 @@
 @synthesize normalBG;
 @synthesize extraHeight;
 @synthesize defaultHeight;
+@synthesize themeChangeNotice;
 @end

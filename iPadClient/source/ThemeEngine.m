@@ -46,13 +46,19 @@ NSString * const ThemeDidChangeNotification = @"ThemeDidChangeNotification";
 }
 @end
 
+@interface ThemeNotifyTracker : NSObject {
+}
+@property (copy) ThemeChangedBlock block;
+@end
+
 @interface ThemeEngine() {
 	NSArray *_allThemes;
+	NSMutableSet *_toNotify;
 }
 @end
 
 @implementation ThemeEngine
-@synthesize currentTheme;
+@synthesize currentTheme=_currentTheme;
 +(ThemeEngine*)sharedInstance
 {
 	static dispatch_once_t pred;
@@ -71,6 +77,7 @@ NSString * const ThemeDidChangeNotification = @"ThemeDidChangeNotification";
 				[t release];
 			}
 			global->_allThemes = [a copy];
+			global->_toNotify = [[NSMutableSet alloc] init];
 		}
 	});
 	return global;
@@ -79,7 +86,35 @@ NSString * const ThemeDidChangeNotification = @"ThemeDidChangeNotification";
 {
 	return _allThemes;
 }
+
+-(void)setCurrentTheme:(Theme *)newTheme
+{
+	if (newTheme == _currentTheme)
+		return;
+	_currentTheme = newTheme;
+	for (id aWeakRef in _toNotify) {
+		ThemeNotifyTracker *tn = [aWeakRef target];
+		if (tn)
+			tn.block(newTheme);
+	}
+}
+
+//an object will be returned. releasing that object will unregister the block
+-(id)registerThemeChangeBlock:(ThemeChangedBlock)tblock
+{
+	ThemeNotifyTracker *tn = [[ThemeNotifyTracker alloc] init];
+	tn.block = tblock;
+	AMZeroingWeakRef *weakRef = [AMZeroingWeakRef refWithTarget:tn];
+	[_toNotify addObject:weakRef];
+	return tn;
+}
+
 @end
+
+@implementation ThemeNotifyTracker
+@synthesize block;
+@end
+
 
 @implementation UIView(Shine)
 - (void)addShineLayer:(CALayer*)parentLayer bounds:(CGRect)bounds

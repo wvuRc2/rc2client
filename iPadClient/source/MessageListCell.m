@@ -18,6 +18,7 @@
 @property (nonatomic, retain) CAGradientLayer *gl;
 @property (nonatomic, retain) NSArray *normalColors;
 @property (nonatomic, retain) NSArray *selectedColors;
+@property (nonatomic, retain) id themeChangeNotice;
 @end
 
 @implementation MessageListCell
@@ -25,6 +26,7 @@
 @synthesize gl;
 @synthesize normalColors;
 @synthesize selectedColors;
+@synthesize themeChangeNotice;
 
 -(void)dealloc
 {
@@ -34,6 +36,7 @@
 	self.theMessage=nil;
 	self.dateFormatter=nil;
 	self.priorityImages=nil;
+	self.themeChangeNotice=nil;
 	[super dealloc];
 }
 
@@ -46,6 +49,22 @@
 	self.dateFormatter.dateStyle = NSDateFormatterShortStyle;
 	_origSize = self.frame.size;
 
+	__block MessageListCell *blockSelf = self;
+	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
+		blockSelf.normalColors = [NSArray arrayWithObjects:
+							 (id)[aTheme colorForKey:@"MessageCellStart"].CGColor,
+							 (id)[aTheme colorForKey:@"MessageCellEnd"].CGColor, nil];
+		blockSelf.selectedColors = [NSArray arrayWithObjects:
+							   (id)[aTheme colorForKey:@"MessageSelectedStart"].CGColor,
+							   (id)[aTheme colorForKey:@"MessageSelectedEnd"].CGColor, nil];
+		if (blockSelf.isSelected)
+			[blockSelf.gl setColors:blockSelf.selectedColors];
+		else
+			[blockSelf.gl setColors:blockSelf.normalColors];
+	}];
+	self.themeChangeNotice = tn;
+	[tn release];
+	
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	self.normalColors = [NSArray arrayWithObjects:
 				   (id)[theme colorForKey:@"MessageCellStart"].CGColor,

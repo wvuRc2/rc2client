@@ -32,6 +32,18 @@
 		<string>ffffff</string>
 		<key>MasterBackground</key>
 		<string>ffffff</string>
-	</dict>
+		<key>MasterCellStart</key>
+		<string>cccccc</string>
+		<key>MasterCellEnd</key>
+		<string>eeeeee</string>
+		<key>MasterCell</key>
+		<string>eeeeee</string>
+		<key>MasterImageTint</key>
+		<string>000000</string>
+		<key>MasterCellSelectedStart</key>
+		<string>999999</string>
+		<key>MasterCellSelectedEnd</key>
+		<string>aaaaaa</string>
+</dict>
 </dict>
 </plist>
