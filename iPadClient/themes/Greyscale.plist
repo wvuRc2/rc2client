@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>version</key>
+	<integer>21</integer>
+	<key>name</key>
+	<string>Greyscale</string>
+	<key>colors</key>
+	<dict>
+		<key>PriorityColors</key>
+		<array>
+			<string>db0404</string>
+			<string>e0610d</string>
+			<string>000000</string>
+			<string>0099cc</string>
+			<string>3e1ce9</string>
+		</array>
+		<key>MessageBackground</key>
+		<string>999999</string>
+		<key>MessageCellStart</key>
+		<string>cccccc</string>
+		<key>MessageCellEnd</key>
+		<string>eeeeee</string>
+		<key>MessageSelectedStart</key>
+		<string>dddddd</string>
+		<key>MessageSelectedEnd</key>
+		<string>ffffff</string>
+		<key>MessageCenterBackground</key>
+		<string>fcfcfc</string>
+	</dict>
+</dict>
+</plist>

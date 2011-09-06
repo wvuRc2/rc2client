@@ -44,7 +44,7 @@
 	self.dateFormatter.dateStyle = NSDateFormatterShortStyle;
 	_origSize = self.frame.size;
 
-	Theme *theme = [ThemeEngine currentTheme];
+	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	self.normalColors = [NSArray arrayWithObjects:
 				   (id)[theme colorForKey:@"MessageCellStart"].CGColor,
 				   (id)[theme colorForKey:@"MessageCellEnd"].CGColor, nil];

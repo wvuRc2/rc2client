@@ -66,6 +66,9 @@
 		08349F651404CDB800B629B4 /* workspaceHi.png in Resources */ = {isa = PBXBuildFile; fileRef = 08349F641404CDB800B629B4 /* workspaceHi.png */; };
 		08447F681415B53B00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F661415B53B00A8DDF8 /* Rc2.xcdatamodeld */; };
 		08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */; };
+		08447F741415DE8F00A8DDF8 /* themes in Resources */ = {isa = PBXBuildFile; fileRef = 08447F731415DE8F00A8DDF8 /* themes */; };
+		08447F781415E96C00A8DDF8 /* ThemePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 08447F761415E96C00A8DDF8 /* ThemePicker.m */; };
+		08447F791415E96C00A8DDF8 /* ThemePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08447F771415E96C00A8DDF8 /* ThemePicker.xib */; };
 		085323091404F8380045D207 /* RCSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 085323081404F8380045D207 /* RCSession.m */; };
 		085323101405CCC00045D207 /* console in Resources */ = {isa = PBXBuildFile; fileRef = 0853230F1405CCC00045D207 /* console */; };
 		08661A2D1405AC180087BD34 /* MGSplitCornersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A281405AC170087BD34 /* MGSplitCornersView.m */; };
@@ -107,7 +110,6 @@
 		08AE4E8F14142D6200963C52 /* home-tbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4E8D14142D6200963C52 /* home-tbar.png */; };
 		08AE4E921414374C00963C52 /* MessageListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08AE4E911414374B00963C52 /* MessageListCell.m */; };
 		08AE4E94141437B400963C52 /* MessageListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4E93141437B400963C52 /* MessageListCell.xib */; };
-		08AE4EA71414451A00963C52 /* DefaultTheme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4EA61414451A00963C52 /* DefaultTheme.plist */; };
 		08AE4EAA1414475100963C52 /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4EA91414475100963C52 /* flag.png */; };
 		08AE4EAC1414536B00963C52 /* darkishbg600.png in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4EAB1414536B00963C52 /* darkishbg600.png */; };
 		08AE4EAE1414568700963C52 /* messageCellBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4EAD1414568700963C52 /* messageCellBG.png */; };
@@ -278,6 +280,10 @@
 		08447F671415B53B00A8DDF8 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
 		08447F6D1415CBF300A8DDF8 /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/ThemeEngine.h; sourceTree = SOURCE_ROOT; };
 		08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/ThemeEngine.m; sourceTree = SOURCE_ROOT; };
+		08447F731415DE8F00A8DDF8 /* themes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = themes; sourceTree = SOURCE_ROOT; };
+		08447F751415E96C00A8DDF8 /* ThemePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemePicker.h; path = source/ThemePicker.h; sourceTree = SOURCE_ROOT; };
+		08447F761415E96C00A8DDF8 /* ThemePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemePicker.m; path = source/ThemePicker.m; sourceTree = SOURCE_ROOT; };
+		08447F771415E96C00A8DDF8 /* ThemePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ThemePicker.xib; path = source/ThemePicker.xib; sourceTree = SOURCE_ROOT; };
 		085323071404F8380045D207 /* RCSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSession.h; path = ../SharedCode/rc2/model/RCSession.h; sourceTree = SOURCE_ROOT; };
 		085323081404F8380045D207 /* RCSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSession.m; path = ../SharedCode/rc2/model/RCSession.m; sourceTree = SOURCE_ROOT; };
 		0853230F1405CCC00045D207 /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console; sourceTree = SOURCE_ROOT; };
@@ -333,7 +339,6 @@
 		08AE4E901414374B00963C52 /* MessageListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageListCell.h; path = source/MessageListCell.h; sourceTree = SOURCE_ROOT; };
 		08AE4E911414374B00963C52 /* MessageListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageListCell.m; path = source/MessageListCell.m; sourceTree = SOURCE_ROOT; };
 		08AE4E93141437B400963C52 /* MessageListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageListCell.xib; path = source/MessageListCell.xib; sourceTree = SOURCE_ROOT; };
-		08AE4EA61414451A00963C52 /* DefaultTheme.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultTheme.plist; path = resources/DefaultTheme.plist; sourceTree = SOURCE_ROOT; };
 		08AE4EA91414475100963C52 /* flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flag.png; path = resources/flag.png; sourceTree = SOURCE_ROOT; };
 		08AE4EAB1414536B00963C52 /* darkishbg600.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = darkishbg600.png; path = resources/darkishbg600.png; sourceTree = SOURCE_ROOT; };
 		08AE4EAD1414568700963C52 /* messageCellBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = messageCellBG.png; path = resources/messageCellBG.png; sourceTree = SOURCE_ROOT; };
@@ -550,6 +555,7 @@
 			isa = PBXGroup;
 			children = (
 				0853230F1405CCC00045D207 /* console */,
+				08447F731415DE8F00A8DDF8 /* themes */,
 				08DD231B14125B0700217C1A /* Keyboard.xib */,
 				08DD231F1412641B00217C1A /* leftSym.txt */,
 				08349EBD1403311500B629B4 /* rightSym.txt */,
@@ -561,7 +567,6 @@
 				082DC03613EC99E5008EAA99 /* InfoPlist.strings */,
 				082DC03913EC99E5008EAA99 /* rc2-Prefix.pch */,
 				082DC03A13EC99E5008EAA99 /* main.m */,
-				08AE4EA61414451A00963C52 /* DefaultTheme.plist */,
 			);
 			name = "Supporting Files";
 			path = iPadClient;
@@ -769,6 +774,9 @@
 				08DD23AF1412BBDC00217C1A /* DropboxImportController.h */,
 				08DD23B01412BBDD00217C1A /* DropboxImportController.m */,
 				08DD23B11412BBDD00217C1A /* DropboxImportController.xib */,
+				08447F751415E96C00A8DDF8 /* ThemePicker.h */,
+				08447F761415E96C00A8DDF8 /* ThemePicker.m */,
+				08447F771415E96C00A8DDF8 /* ThemePicker.xib */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -1003,7 +1011,6 @@
 				08AE4E8E14142D6200963C52 /* home-tbar-down.png in Resources */,
 				08AE4E8F14142D6200963C52 /* home-tbar.png in Resources */,
 				08AE4E94141437B400963C52 /* MessageListCell.xib in Resources */,
-				08AE4EA71414451A00963C52 /* DefaultTheme.plist in Resources */,
 				08AE4EAA1414475100963C52 /* flag.png in Resources */,
 				08AE4EAC1414536B00963C52 /* darkishbg600.png in Resources */,
 				08AE4EAE1414568700963C52 /* messageCellBG.png in Resources */,
@@ -1023,6 +1030,8 @@
 				08FE899A141563CC00672474 /* db_link_header@2x.png in Resources */,
 				08FE899B141563CC00672474 /* db_logo.png in Resources */,
 				08FE899C141563CC00672474 /* db_logo@2x.png in Resources */,
+				08447F741415DE8F00A8DDF8 /* themes in Resources */,
+				08447F791415E96C00A8DDF8 /* ThemePicker.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1115,6 +1124,7 @@
 				08FE897D141562AC00672474 /* DBSession.m in Sources */,
 				08447F681415B53B00A8DDF8 /* Rc2.xcdatamodeld in Sources */,
 				08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */,
+				08447F781415E96C00A8DDF8 /* ThemePicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

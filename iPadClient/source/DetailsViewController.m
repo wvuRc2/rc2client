@@ -13,6 +13,7 @@
 #import "Rc2AppDelegate.h"
 #import "FileDetailsCell.h"
 #import "SettingsController.h"
+#import "ThemePicker.h"
 #import "MessageController.h"
 #import "ThemeEngine.h"
 
@@ -27,6 +28,7 @@ enum {
 @interface DetailsViewController() {
 	NSInteger _whatsVisible;
 	BOOL _didMsgCheck;
+	BOOL _didNibCheck;
 }
 @property (nonatomic, retain) NSString *selWspaceToken;
 @property (nonatomic, retain) NSString *loggedInToken;
@@ -41,9 +43,11 @@ enum {
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace withLogout:(BOOL)doLogout;
 -(void)updateLoginStatus;
 -(void)displaySettings;
+-(void)displayThemes;
 -(void)updateMessageIcon:(BOOL)aboutToSwitch;
 -(void)cleanupAfterLogout;
 -(void)postLoginSetup;
+-(void)updateForThemeChange:(NSNotification*)note;
 @end
 
 @implementation DetailsViewController
@@ -86,26 +90,31 @@ enum {
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-	[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
-	[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-	__block DetailsViewController *blockSelf = self;
-	self.selWspaceToken = [[Rc2Server sharedInstance] addObserverForKeyPath:@"selectedWorkspace" 
-																	   task:^(id obj, NSDictionary *change) {
-		RCWorkspace *sel = [obj selectedWorkspace];
-	   if (blockSelf.selectedWorkspace != sel) {
-			[blockSelf updateSelectedWorkspace:sel];
-//		   [blockSelf performSelectorOnMainThread:@selector(updateSelectedWorkspace:) withObject:sel waitUntilDone:NO];
-	   }
-	}];
-	self.loggedInToken =  [[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" 
-																	   task:^(id obj, NSDictionary *change) {
-		   [blockSelf performSelectorOnMainThread:@selector(updateLoginStatus) withObject:nil waitUntilDone:NO];
-	}];
-	self.loginButton.possibleTitles = [NSSet setWithObjects:@"Login",@"Logout",nil];
-	self.loginButton.title = @"Login";
-	self.fileTableView.rowHeight = 52;
-	self.currentView = self.welcomeContent;
+	if (!_didNibCheck) {
+		self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+		[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
+		[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+		__block DetailsViewController *blockSelf = self;
+		self.selWspaceToken = [[Rc2Server sharedInstance] addObserverForKeyPath:@"selectedWorkspace" 
+																		   task:^(id obj, NSDictionary *change) {
+			RCWorkspace *sel = [obj selectedWorkspace];
+		   if (blockSelf.selectedWorkspace != sel) {
+				[blockSelf updateSelectedWorkspace:sel];
+	//		   [blockSelf performSelectorOnMainThread:@selector(updateSelectedWorkspace:) withObject:sel waitUntilDone:NO];
+		   }
+		}];
+		self.loggedInToken =  [[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" 
+																		   task:^(id obj, NSDictionary *change) {
+			   [blockSelf performSelectorOnMainThread:@selector(updateLoginStatus) withObject:nil waitUntilDone:NO];
+		}];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForThemeChange:) 
+													 name:ThemeDidChangeNotification object:nil];
+		self.loginButton.possibleTitles = [NSSet setWithObjects:@"Login",@"Logout",nil];
+		self.loginButton.title = @"Login";
+		self.fileTableView.rowHeight = 52;
+		self.currentView = self.welcomeContent;
+		_didNibCheck=YES;
+	}
 }
 
 - (void)viewDidUnload
@@ -115,6 +124,7 @@ enum {
 	[[Rc2Server sharedInstance] removeObserverWithBlockToken:self.selWspaceToken];
 	[[Rc2Server sharedInstance] removeObserverWithBlockToken:self.loggedInToken];
 	self.fileTableView.allowsSelection = NO;
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ThemeDidChangeNotification object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
@@ -127,7 +137,7 @@ enum {
 -(IBAction)doActionMenu:(id)sender
 {
 	if (nil == self.actionSheet) {
-		self.actionSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Settings",nil] autorelease];
+		self.actionSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Settings",@"Theme",nil] autorelease];
 	}
 	[self.actionSheet showFromBarButtonItem:sender animated:YES];	
 }
@@ -155,7 +165,7 @@ enum {
 
 -(IBAction)doMessages:(id)sender
 {
-	Theme *theme = [ThemeEngine currentTheme];
+	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	if (nil == self.messageController) {
 		self.messageController = [[[MessageController alloc] init] autorelease];
 		self.messageController.view.frame = self.welcomeContent.frame;
@@ -168,7 +178,7 @@ enum {
 							toView:self.welcomeContent
 						  duration:0.7
 						   options:UIViewAnimationOptionTransitionFlipFromRight
-						completion:^(BOOL finished) { }];
+						completion:^(BOOL finished) { self.messageController=nil; }];
 		self.currentView = self.welcomeContent;
 		self.view.backgroundColor = [UIColor whiteColor];
 	} else {
@@ -207,6 +217,24 @@ enum {
 	centerPt.x = 512;
 	centerPt.y = 100 + floor(sz.height/2);
 	self.settingsController.view.superview.center = centerPt;
+}
+
+-(void)displayThemes
+{
+	ThemePicker *picker = [[[ThemePicker alloc] init] autorelease];
+	picker.modalPresentationStyle = UIModalPresentationPageSheet;
+	[picker view];
+	CGSize sz = picker.view.frame.size;
+	[self presentModalViewController:picker animated:YES];
+	picker.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
+		| UIViewAutoresizingFlexibleBottomMargin;
+	CGRect r = picker.view.superview.frame;
+	r.size = sz;
+	picker.view.superview.frame = r;
+	CGPoint centerPt = CGPointZero;
+	centerPt.x = 512;
+	centerPt.y = 100 + floor(sz.height/2);
+	picker.view.superview.center = centerPt;
 }
 
 -(void)refreshDetails
@@ -319,6 +347,8 @@ enum {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self displaySettings];
 		});
+	} else if (1== buttonIndex) {
+		[self displayThemes];
 	}
 }
 
@@ -344,6 +374,11 @@ enum {
 	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	return newImage;
+}
+
+-(void)updateForThemeChange:(NSNotification*)note
+{
+	[self.view setNeedsDisplay];
 }
 
 -(void)updateMessageIcon:(BOOL)aboutToSwitch

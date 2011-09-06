@@ -46,7 +46,7 @@
 
 -(void)viewDidLoad
 {
-	Theme *theme = [ThemeEngine currentTheme];
+	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	NSArray *colors = [theme.themeColors objectForKey:@"PriorityColors"];
 	UIImage *img = [UIImage imageNamed:@"flag"];
 	NSMutableArray *imgs = [NSMutableArray array];

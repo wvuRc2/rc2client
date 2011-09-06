@@ -8,20 +8,27 @@
 
 #import "ThemeEngine.h"
 
-@interface Theme()
+NSString * const ThemeDidChangeNotification = @"ThemeDidChangeNotification";
+
+@interface Theme() {
+	NSMutableDictionary *_colorCache;
+}
 @property (nonatomic, copy) NSDictionary *themeDict;
 @end
 
 @implementation Theme
 @synthesize themeDict;
--(id)init
+-(id)initWithDictionary:(NSDictionary*)dict
 {
 	if ((self = [super init])) {
-		NSString *path = [[NSBundle mainBundle] pathForResource:@"DefaultTheme" ofType:@"plist"];
-		ZAssert(path, @"gotta have a theme file");
-		self.themeDict = [NSDictionary dictionaryWithContentsOfFile:path];
+		self.themeDict = dict;
+		_colorCache = [[NSMutableDictionary alloc] init];
 	}
 	return self;
+}
+-(NSString*)name
+{
+	return [self.themeDict objectForKey:@"name"];
 }
 -(NSDictionary*)themeColors
 {
@@ -29,20 +36,47 @@
 }
 -(UIColor*)colorForKey:(NSString*)key
 {
-	return [UIColor colorWithHexString:[self.themeColors objectForKey:key]];
+	UIColor *color = [_colorCache objectForKey:key];
+	if (nil == color) {
+		color = [UIColor colorWithHexString:[self.themeColors objectForKey:key]];
+		if (color)
+			[_colorCache setObject:color forKey:key];
+	}
+	return color;
+}
+@end
+
+@interface ThemeEngine() {
+	NSArray *_allThemes;
 }
 @end
 
 @implementation ThemeEngine
-+(Theme*)currentTheme
+@synthesize currentTheme;
++(ThemeEngine*)sharedInstance
 {
 	static dispatch_once_t pred;
-	static Theme *global;
+	static ThemeEngine *global;
 	
 	dispatch_once(&pred, ^{ 
-		global = [[Theme alloc] init];
+		global = [[ThemeEngine alloc] init];
+		NSMutableArray *a = [NSMutableArray array];
+		for (NSURL *aUrl in [[NSBundle mainBundle] URLsForResourcesWithExtension:@"plist" subdirectory:@"themes"]) {
+			NSDictionary *d = [NSDictionary dictionaryWithContentsOfURL:aUrl];
+			if ([[d objectForKey:@"version"] intValue] == 21) {
+				Theme *t = [[Theme alloc] initWithDictionary:d];
+				if ([t.name isEqualToString:@"Default"])
+					global.currentTheme = t;
+				[a addObject:t];
+				[t release];
+			}
+			global->_allThemes = [a copy];
+		}
 	});
-	
 	return global;
+}
+-(NSArray*)allThemes
+{
+	return _allThemes;
 }
 @end

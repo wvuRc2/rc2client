@@ -8,12 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const ThemeDidChangeNotification;
+
 @interface Theme : NSObject 
 -(UIColor*)colorForKey:(NSString*)key;
 -(NSDictionary*)themeColors;
+@property (nonatomic, readonly) NSString *name;
 @end
 
 
 @interface ThemeEngine : NSObject
-+(Theme*)currentTheme;
+@property (retain) Theme *currentTheme;
+@property (readonly) NSArray *allThemes;
++(ThemeEngine*)sharedInstance;
 @end
