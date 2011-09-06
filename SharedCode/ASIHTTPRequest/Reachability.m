@@ -442,7 +442,7 @@ const SCNetworkReachabilityFlags kConnectionDown =  kSCNetworkReachabilityFlagsC
 		//
 		// Test Value: Reachability Flag Status: WR xxxxxxx
 #ifndef __MAC_OS_X_VERSION_MIN_REQUIRED
-		if (flags & kSCNetworkReachabilityFlagsIsDirectctct) { return kReachableViaWWAN; }
+		if (flags & kSCNetworkReachabilityFlagsIsDirect) { return kReachableViaWWAN; }
 #endif
 		
 		// Clear moot bits.
