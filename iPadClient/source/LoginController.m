@@ -15,7 +15,8 @@
 
 @interface LoginController()
 -(void)reportError:(NSString*)errMsg;
--(void)saveLoginInfo;-(void)loadPasswordForLogin:(NSString*)login;
+-(void)saveLoginInfo;
+-(void)loadPasswordForLogin:(NSString*)login;
 @end
 
 @implementation LoginController

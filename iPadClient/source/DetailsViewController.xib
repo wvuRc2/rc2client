@@ -132,7 +132,7 @@
 								</object>
 								<object class="NSCustomResource" key="IBUIHighlightedImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">message-tbard.png</string>
+									<string key="NSResourceName">message-tbar-down.png</string>
 								</object>
 								<object class="NSCustomResource" key="IBUINormalImage">
 									<string key="NSClassName">NSImage</string>
@@ -867,7 +867,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="message-tbar.png">{44, 32}</string>
-			<string key="message-tbard.png">{44, 32}</string>
+			<string key="message-tbar-down.png">{44, 32}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">919</string>
 	</data>

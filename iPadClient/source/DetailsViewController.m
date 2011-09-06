@@ -170,7 +170,7 @@ enum {
 		self.currentView = self.welcomeContent;
 	} else {
 		self.titleLabel.text = @"Message Center";
-		NSManagedObjectContext *moc = [UIApp valueForKeyPath:@"delegate.managedObjectContext"];
+		NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 		self.messageController.messages = [moc fetchObjectsForEntityName:@"RCMessage" withPredicate:nil sortKey:@"dateSent"];
 		[UIView transitionFromView:self.welcomeContent
 							toView:self.messageController.view
@@ -350,7 +350,7 @@ enum {
 		[theButton setImage:[UIImage imageNamed:@"message-tbar-down"] forState:UIControlStateHighlighted];
 	} else if (!aboutToSwitch || (nil == self.welcomeContent.superview)) {
 		//we are showing messages but about to change
-		NSManagedObjectContext *moc = [UIApp valueForKeyPath:@"delegate.managedObjectContext"];
+		NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 		NSInteger count = [moc countForEntityName:@"RCMessage" withPredicate:@"dateRead = nil"];
 		if (count < 1) {
 			[theButton setImage:[UIImage imageNamed:@"message-tbar"] forState:UIControlStateNormal];
