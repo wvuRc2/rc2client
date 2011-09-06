@@ -22,3 +22,7 @@ extern NSString * const ThemeDidChangeNotification;
 @property (readonly) NSArray *allThemes;
 +(ThemeEngine*)sharedInstance;
 @end
+
+@interface UIView(Shine)
+- (void)addShineLayer:(CALayer*)parentLayer bounds:(CGRect)bounds;
+@end

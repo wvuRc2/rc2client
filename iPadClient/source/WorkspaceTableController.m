@@ -11,15 +11,20 @@
 #import "RCWorkspaceFolder.h"
 #import "Rc2Server.h"
 #import "WorkspaceTableCell.h"
+#import "ThemeEngine.h"
 
-@interface WorkspaceTableController()
+@interface WorkspaceTableController() {
+	BOOL _didInitialLoad;
+}
 @property (nonatomic, retain) id loggedInToken;
 @property (nonatomic, retain) UIActionSheet *addSheet;
+@property (nonatomic, retain) WorkspaceTableCell *currentSelection;
 -(void)handleAddWorkspaceResponse:(BOOL)success results:(NSDictionary*)results;
 @end
 
 @implementation WorkspaceTableController
 @synthesize workspaceItems=_workspaceItems;
+@synthesize currentSelection;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -51,16 +56,20 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	((AMTableView*)self.tableView).deselectOnTouchesOutsideCells=YES;
-	self.addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-																	target:self
-																	action:@selector(doAdd:)] autorelease];
-	self.toolbarItems = ARRAY(self.addButton);
-	self.navigationController.toolbarHidden=NO;
-	__block WorkspaceTableController *blockSelf = self;
-	[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
-		blockSelf.addButton.enabled = [Rc2Server sharedInstance].loggedIn;
-	}];
+	if (!_didInitialLoad) {
+		Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
+		self.view.backgroundColor = [theme colorForKey:@"MasterBackground"];
+		((AMTableView*)self.tableView).deselectOnTouchesOutsideCells=YES;
+		self.addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+																		target:self
+																		action:@selector(doAdd:)] autorelease];
+		self.toolbarItems = ARRAY(self.addButton);
+		self.navigationController.toolbarHidden=NO;
+		__block WorkspaceTableController *blockSelf = self;
+		[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
+			blockSelf.addButton.enabled = [Rc2Server sharedInstance].loggedIn;
+		}];
+	}
 }
 
 - (void)viewDidUnload
@@ -147,10 +156,7 @@
 {
 	WorkspaceTableCell *cell = [WorkspaceTableCell cellForTableView:tableView];
 	RCWorkspaceItem *item = [self.workspaceItems objectAtIndex:indexPath.row];
-	cell.label.text = item.name;
-	cell.imageView.image = [UIImage imageNamed: item.isFolder ? @"folder" : @"workspace"];
-	cell.imageView.highlightedImage = [UIImage imageNamed: item.isFolder ? @"folder" : @"workspaceHi"];
-	
+	cell.item = item;
 	return cell;
 }
 
@@ -163,6 +169,8 @@
 		RunAfterDelay(0, ^{
 			[tableView deselectRowAtIndexPath:indexPath animated:NO];
 			[Rc2Server sharedInstance].selectedWorkspace=nil;
+			self.currentSelection.drawSelected=NO;
+			self.currentSelection=nil;
 		});
 		return nil;
 	}
@@ -171,6 +179,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	WorkspaceTableCell *newCell = (WorkspaceTableCell*)[tableView cellForRowAtIndexPath:indexPath];
+
+	newCell.drawSelected = YES;
+	self.currentSelection.drawSelected = NO;
+	self.currentSelection = newCell;
+
 	RCWorkspaceItem *wsitem = [_workspaceItems objectAtIndex:indexPath.row];
 	if (wsitem.isFolder) {
 		WorkspaceTableController *tc = [[WorkspaceTableController alloc] initWithNibName:@"WorkspaceTableController" bundle:nil];
@@ -187,6 +201,8 @@
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	self.currentSelection.drawSelected=NO;
+	self.currentSelection=nil;
 	[Rc2Server sharedInstance].selectedWorkspace = nil;
 }
 

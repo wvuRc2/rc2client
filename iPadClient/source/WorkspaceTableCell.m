@@ -7,9 +7,86 @@
 //
 
 #import "WorkspaceTableCell.h"
+#import "RCWorkspaceItem.h"
+#import "ThemeEngine.h"
+
+@interface WorkspaceTableCell() {
+	CALayer *_bgLayer;
+}
+@property (nonatomic, retain) NSArray *normalColors;
+@property (nonatomic, retain) NSArray *selectedColors;
+@property (nonatomic, assign) CAGradientLayer *gl;
+@end
 
 @implementation WorkspaceTableCell
 @synthesize imageView;
 @synthesize label;
+@synthesize item=_item;
+@synthesize drawSelected=_drawSelected;
+@synthesize normalColors;
+@synthesize selectedColors;
+@synthesize gl;
 
+-(void)awakeFromNib
+{
+	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
+	self.normalColors = [NSArray arrayWithObjects:
+						 (id)[theme colorForKey:@"MasterCellStart"].CGColor,
+						 (id)[theme colorForKey:@"MasterCellEnd"].CGColor, nil];
+	self.selectedColors = [NSArray arrayWithObjects:
+						   (id)[theme colorForKey:@"MasterCellSelectedStart"].CGColor,
+						   (id)[theme colorForKey:@"MasterCellSelectedEnd"].CGColor, nil];
+	_bgLayer = [CALayer layer];
+	_bgLayer.backgroundColor = [theme colorForKey:@"MasterCell"].CGColor;
+	_bgLayer.cornerRadius = 13;
+	CGRect bgRect = CGRectInset([self frame], 4, 4);
+	_bgLayer.frame = bgRect;
+    [_bgLayer setPosition:CGPointMake([self bounds].size.width/2, [self bounds].size.height/2)];
+    [self.layer setMasksToBounds:YES];
+	self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+	[self.layer insertSublayer:_bgLayer atIndex:0];
+
+	// Initialize the gradient layer
+    self.gl = [CAGradientLayer layer];
+    [gl setBounds:bgRect];
+    [gl setPosition:CGPointMake([self bounds].size.width/2, [self bounds].size.height/2)];
+    [self.layer insertSublayer:gl atIndex:1];
+    [[self layer] setCornerRadius:13.0f];
+	[gl setColors:self.normalColors];
+
+	
+	self.selectionStyle = UITableViewCellSelectionStyleNone;
+	[self addShineLayer:self.layer bounds:bgRect];
+}
+
+-(void)dealloc
+{
+	self.normalColors=nil;
+	self.selectedColors=nil;
+	self.item=nil;
+	[super dealloc];
+}
+
+-(void)setDrawSelected:(BOOL)seld
+{
+	_drawSelected=seld;
+	if (_drawSelected)
+		[gl setColors:self.selectedColors];
+	else
+		[gl setColors:self.normalColors];
+}
+
+-(void)setItem:(RCWorkspaceItem *)anItem
+{
+	if (anItem == _item)
+		return;
+	[_item release];
+	_item = [anItem retain];
+	label.text = anItem.name;
+	
+	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
+	UIColor *tintColor = [theme colorForKey:@"MasterImageTint"];
+	imageView.image = [[UIImage imageNamed: anItem.isFolder ? @"folder" : @"workspace"] imageTintedWithColor:tintColor];
+	imageView.highlightedImage = [UIImage imageNamed: anItem.isFolder ? @"folder" : @"workspaceHi"];
+}
 @end

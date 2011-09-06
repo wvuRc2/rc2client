@@ -80,3 +80,26 @@ NSString * const ThemeDidChangeNotification = @"ThemeDidChangeNotification";
 	return _allThemes;
 }
 @end
+
+@implementation UIView(Shine)
+- (void)addShineLayer:(CALayer*)parentLayer bounds:(CGRect)bounds
+{
+    CAGradientLayer *shineLayer = [CAGradientLayer layer];
+    shineLayer.frame = bounds;
+    shineLayer.colors = [NSArray arrayWithObjects:
+                         (id)[UIColor colorWithWhite:0.8f alpha:0.4f].CGColor,
+                         (id)[UIColor colorWithWhite:0.8f alpha:0.2f].CGColor,
+                         (id)[UIColor colorWithWhite:0.75f alpha:0.2f].CGColor,
+                         (id)[UIColor colorWithWhite:0.4f alpha:0.2f].CGColor,
+                         (id)[UIColor colorWithWhite:1.0f alpha:0.4f].CGColor,
+                         nil];
+    shineLayer.locations = [NSArray arrayWithObjects:
+                            [NSNumber numberWithFloat:0.0f],
+                            [NSNumber numberWithFloat:0.3f],
+                            [NSNumber numberWithFloat:0.3f],
+                            [NSNumber numberWithFloat:0.8f],
+                            [NSNumber numberWithFloat:1.0f],
+                            nil];
+    [parentLayer addSublayer:shineLayer];
+}
+@end

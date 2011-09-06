@@ -109,7 +109,7 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="154441039"/>
 								<string key="NSReuseIdentifierKey">_NS:226</string>
-								<object class="NSColor" key="IBUIBackgroundColor">
+								<object class="NSColor" key="IBUIBackgroundColor" id="8796169">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MCAwAA</bytes>
 								</object>
@@ -118,7 +118,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<object class="NSColor" key="IBUIHighlightedTitleColor" id="964150947">
+								<object class="NSColor" key="IBUIHighlightedTitleColor">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MQA</bytes>
 								</object>
@@ -344,13 +344,15 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="20480083"/>
 						<string key="NSReuseIdentifierKey">_NS:164</string>
-						<reference key="IBUIBackgroundColor" ref="964150947"/>
+						<reference key="IBUIBackgroundColor" ref="8796169"/>
+						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<bool key="IBUIAlwaysBounceVertical">YES</bool>
 						<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
 						<int key="IBUISeparatorStyle">1</int>
 						<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
+						<bool key="IBUIAllowsSelection">NO</bool>
 						<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
 						<float key="IBUIRowHeight">96</float>
 						<float key="IBUISectionHeaderHeight">22</float>
@@ -866,8 +868,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="message-tbar.png">{44, 32}</string>
 			<string key="message-tbar-down.png">{44, 32}</string>
+			<string key="message-tbar.png">{44, 32}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">919</string>
 	</data>

@@ -28,6 +28,10 @@
 		<string>ffffff</string>
 		<key>MessageCenterBackground</key>
 		<string>fcfcfc</string>
+		<key>WelcomeBackground</key>
+		<string>ffffff</string>
+		<key>MasterBackground</key>
+		<string>ffffff</string>
 	</dict>
 </dict>
 </plist>

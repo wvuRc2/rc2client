@@ -113,6 +113,10 @@ enum {
 		self.loginButton.title = @"Login";
 		self.fileTableView.rowHeight = 52;
 		self.currentView = self.welcomeContent;
+		Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
+		self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+		self.welcomeContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+		self.workspaceContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
 		_didNibCheck=YES;
 	}
 }
@@ -180,7 +184,7 @@ enum {
 						   options:UIViewAnimationOptionTransitionFlipFromRight
 						completion:^(BOOL finished) { self.messageController=nil; }];
 		self.currentView = self.welcomeContent;
-		self.view.backgroundColor = [UIColor whiteColor];
+		self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
 	} else {
 		self.titleLabel.text = @"Message Center";
 		NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];

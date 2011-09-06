@@ -37,6 +37,8 @@
 	[super dealloc];
 }
 
+
+
 -(void)awakeFromNib
 {
 	self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -72,7 +74,7 @@
     // with a 1.0 pixel width
 //    [[self layer] setBorderWidth:1.0f];
 	[gl setColors:self.normalColors];
-	 self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+	self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
 }
 
 - (void)didMoveToSuperview

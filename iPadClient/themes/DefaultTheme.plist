@@ -28,6 +28,22 @@
 		<string>ffffff</string>
 		<key>MessageCenterBackground</key>
 		<string>f4edd1</string>
+		<key>WelcomeBackground</key>
+		<string>f4edd1</string>
+		<key>MasterBackground</key>
+		<string>f4edd1</string>
+		<key>MasterCellStart</key>
+		<string>f4edd1</string>
+		<key>MasterCellEnd</key>
+		<string>f6eabb</string>
+		<key>MasterCell</key>
+		<string>f6eabb</string>
+		<key>MasterImageTint</key>
+		<string>000000</string>
+		<key>MasterCellSelectedStart</key>
+		<string>d2ecf5</string>
+		<key>MasterCellSelectedEnd</key>
+		<string>c2e8f5</string>
 	</dict>
 </dict>
 </plist>
