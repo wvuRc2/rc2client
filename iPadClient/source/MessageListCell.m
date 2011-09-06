@@ -8,18 +8,29 @@
 
 #import "MessageListCell.h"
 #import "RCMessage.h"
+#import "ThemeEngine.h"
 
 @interface MessageListCell() {
 	CGSize _origSize;
 }
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;
 @property (nonatomic, retain) RCMessage *theMessage;
+@property (nonatomic, retain) CAGradientLayer *gl;
+@property (nonatomic, retain) NSArray *normalColors;
+@property (nonatomic, retain) NSArray *selectedColors;
 @end
 
 @implementation MessageListCell
 
+@synthesize gl;
+@synthesize normalColors;
+@synthesize selectedColors;
+
 -(void)dealloc
 {
+	self.gl=nil;
+	self.selectedColors=nil;
+	self.normalColors=nil;
 	self.theMessage=nil;
 	self.dateFormatter=nil;
 	self.priorityImages=nil;
@@ -32,11 +43,42 @@
 	self.dateFormatter.timeStyle = NSDateFormatterShortStyle;
 	self.dateFormatter.dateStyle = NSDateFormatterShortStyle;
 	_origSize = self.frame.size;
+
+	Theme *theme = [ThemeEngine currentTheme];
+	self.normalColors = [NSArray arrayWithObjects:
+				   (id)[theme colorForKey:@"MessageCellStart"].CGColor,
+				   (id)[theme colorForKey:@"MessageCellEnd"].CGColor, nil];
+	self.selectedColors = [NSArray arrayWithObjects:
+						 (id)[theme colorForKey:@"MessageSelectedStart"].CGColor,
+						 (id)[theme colorForKey:@"MessageSelectedEnd"].CGColor, nil];
+
+	
+	// Initialize the gradient layer
+    self.gl = [[CAGradientLayer alloc] init];
+    // Set its bounds to be the same of its parent
+	CGRect r = self.bounds;
+	r.size.height += 200;
+    [gl setBounds:r];
+    // Center the layer inside the parent layer
+    [gl setPosition:CGPointMake([self bounds].size.width/2, [self bounds].size.height/2)];
+    // Insert the layer at position zero to make sure the 
+    // text of the button is not obscured
+    [[self layer] insertSublayer:gl atIndex:0];
+	// Set the layer's corner radius
+    [[self layer] setCornerRadius:18.0f];
+    // Turn on masking
+    [[self layer] setMasksToBounds:YES];
+    // Display a border around the button 
+    // with a 1.0 pixel width
+//    [[self layer] setBorderWidth:1.0f];
+	[gl setColors:self.normalColors];
+	 self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
 }
 
 - (void)didMoveToSuperview
 {
-	CGRect r = CGRectInset([self frame], -4, -4);
+	CGRect r = CGRectInset([self frame], 8, 8);
+	
 	self.frame = r;
 }
 
@@ -64,6 +106,15 @@
 		return [self calculateHeightWithBody:message.body];
 	}
 	return 0;
+}
+
+-(void)setIsSelected:(BOOL)selected
+{
+	if (selected) {
+		[gl setColors:self.selectedColors];
+	} else {
+		[gl setColors:self.normalColors];
+	}
 }
 
 -(CGFloat)defaultCellHeight

@@ -10,6 +10,7 @@
 #import "MessageListCell.h"
 #import "Rc2Server.h"
 #import "RCMessage.h"
+#import "ThemeEngine.h"
 
 @interface MessageController()
 @property (nonatomic, copy) NSArray *flagImages;
@@ -45,8 +46,8 @@
 
 -(void)viewDidLoad
 {
-	NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DefaultTheme" ofType:@"plist"]];
-	NSArray *colors = [dict objectForKey:@"PriorityColors"];
+	Theme *theme = [ThemeEngine currentTheme];
+	NSArray *colors = [theme.themeColors objectForKey:@"PriorityColors"];
 	UIImage *img = [UIImage imageNamed:@"flag"];
 	NSMutableArray *imgs = [NSMutableArray array];
 	for (NSString *aStr in colors) {
@@ -54,11 +55,14 @@
 		[imgs addObject:newImage];
 	}
 	self.flagImages = imgs;
-	self.normalBG = [UIColor colorWithHexString:@"cccccc"];
-	self.selectedBG = [UIColor colorWithHexString:@"eeeeee"];
 	NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
 	if (ip)
 		[self.tableView deselectRowAtIndexPath:ip animated:NO];
+	UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, 40)];
+	self.tableView.tableHeaderView = v;
+	self.tableView.layer.backgroundColor = [theme colorForKey:@"MessageBackground"].CGColor;
+	[v release];
+	self.view.backgroundColor = [theme colorForKey:@"MessageCenterBackground"];
 }
 
 -(IBAction)doDone:(id)sender
@@ -80,10 +84,12 @@
 -(void)setSelectedCell:(MessageListCell*)newSelCell deselectedCell:(MessageListCell*)oldSelectedCell
 {
 	if (nil != oldSelectedCell) {
-		oldSelectedCell.view.backgroundColor = self.normalBG;
+//		oldSelectedCell.view.backgroundColor = self.normalBG;
+		[oldSelectedCell setIsSelected:NO];
 		oldSelectedCell.deleteButton.hidden = YES;
 	}
-	newSelCell.view.backgroundColor = self.selectedBG;
+//	newSelCell.view.backgroundColor = self.selectedBG;
+	[newSelCell setIsSelected:YES];
 	newSelCell.deleteButton.hidden = NO;
 }
 
@@ -112,17 +118,11 @@
 	CGFloat eh = [cell setMessage:[self.messages objectAtIndex:row] 
 								  selected:cell == self.currentSelection];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	cell.view.layer.cornerRadius = 18;
 	cell.deleteButton.hidden=YES;
-	cell.view.layer.borderColor = [UIColor blackColor].CGColor;
-	cell.view.layer.borderWidth = 1;
-	cell.view.backgroundColor = [UIColor colorWithHexString:@"#cccccc"];
 	cell.clipsToBounds=YES;
-	cell.backgroundColor = [UIColor clearColor];
 	cell.opaque = NO;
 	if (cell == self.currentSelection) {
 		cell.deleteButton.hidden=NO;
-		cell.view.backgroundColor = [UIColor colorWithHexString:@"#eeeeee"];
 		self.extraHeight = eh;
 	}
 	

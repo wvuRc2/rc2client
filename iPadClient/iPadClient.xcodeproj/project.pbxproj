@@ -65,6 +65,7 @@
 		08349F631404C3FA00B629B4 /* WorkspaceTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08349F621404C3FA00B629B4 /* WorkspaceTableCell.xib */; };
 		08349F651404CDB800B629B4 /* workspaceHi.png in Resources */ = {isa = PBXBuildFile; fileRef = 08349F641404CDB800B629B4 /* workspaceHi.png */; };
 		08447F681415B53B00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F661415B53B00A8DDF8 /* Rc2.xcdatamodeld */; };
+		08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */; };
 		085323091404F8380045D207 /* RCSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 085323081404F8380045D207 /* RCSession.m */; };
 		085323101405CCC00045D207 /* console in Resources */ = {isa = PBXBuildFile; fileRef = 0853230F1405CCC00045D207 /* console */; };
 		08661A2D1405AC180087BD34 /* MGSplitCornersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A281405AC170087BD34 /* MGSplitCornersView.m */; };
@@ -275,6 +276,8 @@
 		08349F621404C3FA00B629B4 /* WorkspaceTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkspaceTableCell.xib; path = source/WorkspaceTableCell.xib; sourceTree = SOURCE_ROOT; };
 		08349F641404CDB800B629B4 /* workspaceHi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = workspaceHi.png; path = resources/workspaceHi.png; sourceTree = SOURCE_ROOT; };
 		08447F671415B53B00A8DDF8 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
+		08447F6D1415CBF300A8DDF8 /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/ThemeEngine.h; sourceTree = SOURCE_ROOT; };
+		08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/ThemeEngine.m; sourceTree = SOURCE_ROOT; };
 		085323071404F8380045D207 /* RCSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSession.h; path = ../SharedCode/rc2/model/RCSession.h; sourceTree = SOURCE_ROOT; };
 		085323081404F8380045D207 /* RCSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSession.m; path = ../SharedCode/rc2/model/RCSession.m; sourceTree = SOURCE_ROOT; };
 		0853230F1405CCC00045D207 /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console; sourceTree = SOURCE_ROOT; };
@@ -521,6 +524,8 @@
 				08DD23091411C50D00217C1A /* AppConstants.h */,
 				082DC03C13EC99E5008EAA99 /* Rc2AppDelegate.h */,
 				082DC03D13EC99E5008EAA99 /* Rc2AppDelegate.m */,
+				08447F6D1415CBF300A8DDF8 /* ThemeEngine.h */,
+				08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */,
 				08349ED814044ACC00B629B4 /* Rc2Server.h */,
 				08349ED914044ACC00B629B4 /* Rc2Server.m */,
 				082DC03F13EC99E5008EAA99 /* MainWindow.xib */,
@@ -1109,6 +1114,7 @@
 				08FE897C141562AC00672474 /* DBRestClient.m in Sources */,
 				08FE897D141562AC00672474 /* DBSession.m in Sources */,
 				08447F681415B53B00A8DDF8 /* Rc2.xcdatamodeld in Sources */,
+				08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

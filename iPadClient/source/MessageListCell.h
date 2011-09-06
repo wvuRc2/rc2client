@@ -28,6 +28,7 @@
 
 //returns extra height needed to fit the body string in the cell (if selected)
 -(CGFloat)setMessage:(RCMessage*)message selected:(BOOL)selected;
+-(void)setIsSelected:(BOOL)selected;
 
 -(CGFloat)calculateHeightWithBody:(NSString*)body;
 -(CGFloat)defaultCellHeight;

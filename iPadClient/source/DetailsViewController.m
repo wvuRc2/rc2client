@@ -14,6 +14,7 @@
 #import "FileDetailsCell.h"
 #import "SettingsController.h"
 #import "MessageController.h"
+#import "ThemeEngine.h"
 
 #define kDefaultTitleText @"Welcome to Rc²"
 
@@ -154,6 +155,7 @@ enum {
 
 -(IBAction)doMessages:(id)sender
 {
+	Theme *theme = [ThemeEngine currentTheme];
 	if (nil == self.messageController) {
 		self.messageController = [[[MessageController alloc] init] autorelease];
 		self.messageController.view.frame = self.welcomeContent.frame;
@@ -168,6 +170,7 @@ enum {
 						   options:UIViewAnimationOptionTransitionFlipFromRight
 						completion:^(BOOL finished) { }];
 		self.currentView = self.welcomeContent;
+		self.view.backgroundColor = [UIColor whiteColor];
 	} else {
 		self.titleLabel.text = @"Message Center";
 		NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
@@ -178,6 +181,7 @@ enum {
 						   options:UIViewAnimationOptionTransitionFlipFromLeft
 						completion:^(BOOL finished) { }];
 		self.currentView = self.messageController.view;
+		self.view.backgroundColor = [theme colorForKey:@"MessageCenterBackground"];
 	}
 }
 
