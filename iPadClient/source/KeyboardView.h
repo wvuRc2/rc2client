@@ -22,7 +22,9 @@ typedef enum {
 -(IBAction)doKeyPress:(id)sender;
 
 //should be called after setting the keyboard style
--(void)layoutKeyboard;
+//if null, uses builtin keyboards based on lefty pref.
+//to use a custom keyboard, change 1 or both paths
+-(void)layoutKeyboard:(NSString*)keyPath1 secondary:(NSString*)keyPath2;
 @end
 
 @protocol KeyboardViewDelegate <NSObject>

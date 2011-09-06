@@ -54,7 +54,7 @@ enum {
 	[self cacheGradients];
 }
 
--(void)layoutKeyboard
+-(void)layoutKeyboard:(NSString*)keyPath1 secondary:(NSString*)keyPath2
 {
 	CGRect vframe = self.frame;
 	vframe.origin = CGPointZero;
@@ -68,15 +68,21 @@ enum {
 	aView.alpha = 0;
 	[aView release];
 
-	self.buttonTemplateData = [NSKeyedArchiver archivedDataWithRootObject:self.buttonTemplate];
-	[self.buttonTemplate removeFromSuperview];
-	self.buttonTemplate=nil;
-	
+	if (nil == self.buttonTemplateData) {
+		self.buttonTemplateData = [NSKeyedArchiver archivedDataWithRootObject:self.buttonTemplate];
+		[self.buttonTemplate removeFromSuperview];
+		self.buttonTemplate=nil;
+	}
+	NSFileManager *fm = [NSFileManager defaultManager];
 	NSString *keyPath = [[NSBundle mainBundle] pathForResource:@"rightAlpha" ofType:@"txt"];
+	if ([fm fileExistsAtPath:keyPath1])
+		keyPath = keyPath1;
 	[self loadKeyFile:keyPath intoView:self.alphaKeyView];
 	[self addSubview:self.alphaKeyView];
 	[self addSubview:self.symKeyView];
-	if (self.keyboardStyle == eKeyboardStyle_LeftHanded)
+	if ([fm fileExistsAtPath:keyPath2])
+		keyPath = keyPath2;
+	else if (self.keyboardStyle == eKeyboardStyle_LeftHanded)
 		keyPath = [[NSBundle mainBundle] pathForResource:@"leftSym" ofType:@"txt"];
 	else
 		keyPath = [[NSBundle mainBundle] pathForResource:@"rightSym" ofType:@"txt"];

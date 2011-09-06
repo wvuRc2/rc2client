@@ -154,14 +154,37 @@
 
 #pragma mark - meat & potatoes
 
+-(NSString*)dowmloadKeyFile:(NSString*)urlStr
+{
+	if (nil == urlStr || ![urlStr hasPrefix:@"http://"])
+		return nil;
+	NSLog(@"fetching keyboard %@", urlStr);
+	NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
+	NSData *keyData = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:nil];
+	if (nil == keyData)
+		return nil;
+	//need to save the file somewhere, we'll use a contant name
+	NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:
+					  [NSString stringWithFormat:@"%1.1f.txt", [NSDate timeIntervalSinceReferenceDate]]];
+	if ([keyData writeToFile:path atomically:NO])
+		return path;
+	return nil;
+}
+
 -(void)loadKeyboard
 {
 	//remove existing keyboard
 	[self.keyboardView removeFromSuperview];
 	[[NSBundle mainBundle] loadNibNamed:@"Keyboard" owner:self options:nil];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:kPrefLefty])
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	if ([defaults boolForKey:kPrefLefty])
 		self.keyboardView.keyboardStyle = eKeyboardStyle_LeftHanded;
-	[self.keyboardView layoutKeyboard];
+	NSString *path1=nil, *path2=nil;
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:kPrefDynKey]) {
+		path1 = [self dowmloadKeyFile:[defaults objectForKey:kPrefCustomKey1URL]];
+		path2 = [self dowmloadKeyFile:[defaults objectForKey:kPrefCustomKey2URL]];
+	}
+	[self.keyboardView layoutKeyboard:path1 secondary:path2];
 	self.editorController.textView.inputView = self.keyboardView;
 	self.keyboardView.textView = self.editorController.textView;
 	self.keyboardView.delegate = self.editorController;

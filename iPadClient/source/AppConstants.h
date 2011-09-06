@@ -7,6 +7,9 @@
 //
 
 #define kPrefLefty @"LeftyPref"
+#define kPrefDynKey @"DynKeyboard"
+#define kPrefCustomKey1URL @"PrefCustomKey1URL"
+#define kPrefCustomKey2URL @"PrefCustomKey2URL"
 
 #define KeyboardPrefsChangedNotification @"KeyboardPrefsChangedNotification"
 
