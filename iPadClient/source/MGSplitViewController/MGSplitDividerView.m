@@ -23,6 +23,8 @@
 		self.userInteractionEnabled = NO;
 		self.allowsDragging = NO;
 		self.contentMode = UIViewContentModeRedraw;
+		self.lightColor = [UIColor colorWithRed:0.988 green:0.988 blue:0.988 alpha:1];
+		self.darkColor = [UIColor colorWithRed:0.875 green:0.875 blue:0.875 alpha:1];
 	}
 	return self;
 }
@@ -31,6 +33,8 @@
 - (void)dealloc
 {
 	self.splitViewController = nil;
+	self.lightColor=nil;
+	self.darkColor=nil;
 	[super dealloc];
 }
 
@@ -48,10 +52,9 @@
 		// Draw gradient background.
 		CGRect bounds = self.bounds;
 		CGColorSpaceRef rgb = CGColorSpaceCreateDeviceRGB();
+		NSArray *colors = [NSArray arrayWithObjects:(id)self.lightColor.CGColor, (id)self.darkColor.CGColor, nil];
 		CGFloat locations[2] = {0, 1};
-		CGFloat components[8] = {	0.988, 0.988, 0.988, 1.0,  // light
-									0.875, 0.875, 0.875, 1.0 };// dark
-		CGGradientRef gradient = CGGradientCreateWithColorComponents (rgb, components, locations, 2);
+		CGGradientRef gradient = CGGradientCreateWithColors(rgb, (CFArrayRef)colors, locations);
 		CGContextRef context = UIGraphicsGetCurrentContext();
 		CGPoint start, end;
 		if (splitViewController.vertical) {
@@ -211,6 +214,7 @@
 
 @synthesize splitViewController;
 @synthesize allowsDragging;
-
+@synthesize lightColor;
+@synthesize darkColor;
 
 @end

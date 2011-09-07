@@ -8,10 +8,17 @@
 
 #import "ThemePicker.h"
 #import "ThemeEngine.h"
+#import "Vyana-ios/AMTextFieldFloater.h"
+
+
+@interface ThemePicker()
+@property (nonatomic, retain) AMTextFieldFloater *floater;
+@end
 
 @implementation ThemePicker
 @synthesize picker;
 @synthesize customUrlField;
+@synthesize floater;
 
 - (id)init
 {
@@ -29,15 +36,15 @@
 	NSInteger idx = [allthemes indexOfObject:curTheme];
 	[self.picker selectRow:idx inComponent:0 animated:NO];
 	self.customUrlField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomThemeURL];
+	self.floater = [[[AMTextFieldFloater alloc] initWithRootView:self.view] autorelease];
+	self.customUrlField.delegate = self.floater;
 }
 
 - (void)viewDidUnload
 {
 	[self setPicker:nil];
 	[self setCustomUrlField:nil];
-	[super viewDidUnload];
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+	self.floater=nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -48,6 +55,7 @@
 - (void)dealloc
 {
 	self.picker=nil;
+	self.floater=nil;
 	[customUrlField release];
 	[super dealloc];
 }

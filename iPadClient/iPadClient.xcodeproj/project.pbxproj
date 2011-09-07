@@ -556,6 +556,7 @@
 			children = (
 				0853230F1405CCC00045D207 /* console */,
 				08447F731415DE8F00A8DDF8 /* themes */,
+				08447F891416D82D00A8DDF8 /* ThemeEngine.plist */,
 				08DD231B14125B0700217C1A /* Keyboard.xib */,
 				08DD231F1412641B00217C1A /* leftSym.txt */,
 				08349EBD1403311500B629B4 /* rightSym.txt */,
@@ -567,7 +568,6 @@
 				082DC03613EC99E5008EAA99 /* InfoPlist.strings */,
 				082DC03913EC99E5008EAA99 /* rc2-Prefix.pch */,
 				082DC03A13EC99E5008EAA99 /* main.m */,
-				08447F891416D82D00A8DDF8 /* ThemeEngine.plist */,
 			);
 			name = "Supporting Files";
 			path = iPadClient;
@@ -910,9 +910,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		082DC02813EC99E4008EAA99 /* iPad App */ = {
+		082DC02813EC99E4008EAA99 /* iPadApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 082DC04A13EC99E5008EAA99 /* Build configuration list for PBXNativeTarget "iPad App" */;
+			buildConfigurationList = 082DC04A13EC99E5008EAA99 /* Build configuration list for PBXNativeTarget "iPadApp" */;
 			buildPhases = (
 				082DC02513EC99E4008EAA99 /* Sources */,
 				082DC02613EC99E4008EAA99 /* Frameworks */,
@@ -922,7 +922,7 @@
 			);
 			dependencies = (
 			);
-			name = "iPad App";
+			name = iPadApp;
 			productName = "rc2-iPad";
 			productReference = 082DC02913EC99E4008EAA99 /* Rc².app */;
 			productType = "com.apple.product-type.application";
@@ -947,7 +947,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				082DC02813EC99E4008EAA99 /* iPad App */,
+				082DC02813EC99E4008EAA99 /* iPadApp */,
 			);
 		};
 /* End PBXProject section */
@@ -1228,7 +1228,7 @@
 					"-lUnittWebSocketClient",
 				);
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "14AC3E0C-3B5B-4B10-AF7B-99BCBD1CF4F9";
+				PROVISIONING_PROFILE = "89E9A380-5496-46A4-83E7-473B7053157C";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1257,11 +1257,58 @@
 					"-lUnittWebSocketClient",
 				);
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "14AC3E0C-3B5B-4B10-AF7B-99BCBD1CF4F9";
+				PROVISIONING_PROFILE = "89E9A380-5496-46A4-83E7-473B7053157C";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
+		};
+		085B945F1417E01B00042E91 /* Archive */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Archive;
+		};
+		085B94601417E01B00042E91 /* Archive */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "source/rc2-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"/**",
+					"\"$(SRCROOT)/../3rdparty/UnittWebSocketClient/include\"",
+					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+				);
+				INFOPLIST_FILE = "resources/rc2-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(BUILD_DIR)/Vyana",
+					"$(inherited)",
+					"\"$(SRCROOT)/../3rdparty/UnittWebSocketClient/bin/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-lUnittWebSocketClient",
+				);
+				PRODUCT_NAME = "Rc²";
+				PROVISIONING_PROFILE = "89E9A380-5496-46A4-83E7-473B7053157C";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Archive;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1271,15 +1318,17 @@
 			buildConfigurations = (
 				082DC04813EC99E5008EAA99 /* Debug */,
 				082DC04913EC99E5008EAA99 /* Release */,
+				085B945F1417E01B00042E91 /* Archive */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		082DC04A13EC99E5008EAA99 /* Build configuration list for PBXNativeTarget "iPad App" */ = {
+		082DC04A13EC99E5008EAA99 /* Build configuration list for PBXNativeTarget "iPadApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				082DC04B13EC99E5008EAA99 /* Debug */,
 				082DC04C13EC99E5008EAA99 /* Release */,
+				085B94601417E01B00042E91 /* Archive */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

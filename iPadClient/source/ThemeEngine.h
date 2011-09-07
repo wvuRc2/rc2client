@@ -26,6 +26,11 @@ typedef void (^ThemeChangedBlock)(Theme*);
 +(ThemeEngine*)sharedInstance;
 //an object will be returned. releasing that object will unregister the block
 -(id)registerThemeChangeBlock:(ThemeChangedBlock)tblock;
+
+//will add a layer that has a gradient background if the current theme has
+// the colors for one, otherwise it will use a solid color from the theme.
+//if the theme doesn't have that, it will do nothing. the bg will be centered in parentLayer
+-(void)addBackgroundLayer:(CALayer*)parentLayer withKey:(NSString*)key frame:(CGRect)frame;
 @end
 
 @interface UIView(Shine)

@@ -16,7 +16,7 @@
 #define MG_DEFAULT_CORNER_COLOR			[UIColor blackColor]	// default color of intruding inner corners (and divider background).
 
 #define MG_PANESPLITTER_CORNER_RADIUS	0.0		// corner-radius of split-inner corners for MGSplitViewDividerStylePaneSplitter style.
-#define MG_PANESPLITTER_SPLIT_WIDTH		25.0	// width of split-gutter for MGSplitViewDividerStylePaneSplitter style.
+#define MG_PANESPLITTER_SPLIT_WIDTH		18.0	// width of split-gutter for MGSplitViewDividerStylePaneSplitter style.
 
 #define MG_MIN_VIEW_WIDTH				200.0	// minimum width a view is allowed to become as a result of changing the splitPosition.
 

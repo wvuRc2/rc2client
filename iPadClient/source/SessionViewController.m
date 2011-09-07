@@ -23,6 +23,7 @@
 #import "RCFile.h"
 #import "MBProgressHUD.h"
 #import "RCSavedSession.h"
+#import "ThemeEngine.h"
 
 @interface SessionViewController() {
 	RCSession *_session;
@@ -32,6 +33,7 @@
 @property (nonatomic, retain) NSOperationQueue *dloadQueue;
 @property (nonatomic, retain) NSMutableDictionary *imgCache;
 @property (nonatomic, retain) ImageDisplayController *imgController;
+@property (nonatomic, retain) id themeToken;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL autoReconnect;
 -(void)saveSessionState;
@@ -84,6 +86,7 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	self.themeToken=nil;
 	self.jsQuiteRExp=nil;
 	self.imgController=nil;
 	self.imgCachePath=nil;
@@ -113,8 +116,7 @@
 	[self.view addSubview:self.outerSplitController.view];
 	rec = self.outerSplitController.dividerView.frame;
 	rec.size.height -= 25;
-	
-	
+
 	CGFloat splitPos = [[_session settingForKey:@"splitPosition"] floatValue];
 	if (splitPos < 300 || splitPos > 1024)
 		splitPos = 512;
@@ -130,6 +132,18 @@
 	self.innerSplitController.delegate = self;
 //	[self.view addSubview:self.innerSplitController.view];
 	
+	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
+	self.innerSplitController.dividerView.lightColor = [theme colorForKey:@"SessionPaneSplitterStart"];
+	self.innerSplitController.dividerView.darkColor = [theme colorForKey:@"SessionPaneSplitterEnd"];
+	__block SessionViewController *blockSelf = self;
+	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
+		blockSelf.innerSplitController.dividerView.lightColor = [aTheme colorForKey:@"SessionPaneSplitterStart"];
+		blockSelf.innerSplitController.dividerView.darkColor = [aTheme colorForKey:@"SessionPaneSplitterEnd"];
+	}];
+	self.themeToken = tn;
+	[tn release];
+	[self.innerSplitController.dividerView addShineLayer:self.innerSplitController.dividerView.layer bounds:self.innerSplitController.dividerView.bounds];
+	
 	RCSavedSession *savedState = self.session.savedSessionState;
 	self.consoleController.session = self.session;
 	[self.consoleController view]; //force loading
@@ -144,12 +158,50 @@
 {
     [super viewDidUnload];
 	self.imgController=nil;
+	self.themeToken=nil;
 }
+
+#pragma mark - orientations & rotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
 {
     // Return YES for supported orientations
     return UIInterfaceOrientationIsLandscape(ior);
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	[self.splitViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+	[self.splitViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];	
+	[self.splitViewController.view setNeedsLayout];
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
+										 duration:(NSTimeInterval)duration
+{
+	[self.splitViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
+
+- (void)willAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	[self.splitViewController willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
+
+- (void)didAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+	[self.splitViewController didAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation];
+}
+
+
+- (void)willAnimateSecondHalfOfRotationFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	[self.splitViewController willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
 }
 
 #pragma mark - meat & potatoes
@@ -445,4 +497,5 @@
 @synthesize autoReconnect;
 @synthesize bottomController;
 @synthesize outerSplitController;
+@synthesize themeToken;
 @end

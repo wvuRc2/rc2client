@@ -14,6 +14,8 @@
 	BOOL allowsDragging;
 }
 
+@property (nonatomic, retain) UIColor *lightColor;
+@property (nonatomic, retain) UIColor *darkColor;
 @property (nonatomic, assign) MGSplitViewController *splitViewController; // weak ref.
 @property (nonatomic, assign) BOOL allowsDragging;
 

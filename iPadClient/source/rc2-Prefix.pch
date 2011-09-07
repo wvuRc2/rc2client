@@ -14,8 +14,8 @@
 	#import <CoreData/CoreData.h>
 	#import <QuartzCore/QuartzCore.h>
 	#import <MessageUI/MessageUI.h>
-	#import <Vyana-ios/Vyana-ios.h>
-	#import <Vyana-ios/AMZeroingWeakRef.h>
+	#import "Vyana-ios/Vyana-ios.h"
+	#import "Vyana-ios/AMZeroingWeakRef.h"
 #endif
 
 #define TheApp [UIApplication sharedApplication]

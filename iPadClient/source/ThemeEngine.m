@@ -9,6 +9,7 @@
 #import "ThemeEngine.h"
 #import "ASIHTTPRequest.h"
 #import "ASICacheDelegate.h"
+#import "Vyana-ios/CALayer+LayerDebugging.h"
 
 @interface Theme() {
 	@protected
@@ -66,8 +67,10 @@
 	NSArray *_allThemes;
 	NSMutableSet *_toNotify;
 	Theme *_defaultTheme;
+	NSDictionary *_teDict;
 }
 @property (nonatomic, retain) ASIHTTPRequest *customRequest;
+-(NSArray*)allColorKeys;
 @end
 
 @implementation ThemeEngine
@@ -157,6 +160,50 @@
 	return tn;
 }
 
+#define kThemeBGLayerName @"themed bg"
+//will add a layer that has a gradient background if the current theme has
+// the colors for one, otherwise it will use a solid color from the theme.
+//if the theme doesn't have that, it will do nothing. the bg will be centered in parentLayer
+-(void)addBackgroundLayer:(CALayer*)parentLayer withKey:(NSString*)key frame:(CGRect)frame
+{
+	if (nil != [parentLayer firstSublayerWithName:kThemeBGLayerName]) {
+		NSLog(@"asked to add a bg when already has one");
+		return;
+	}
+    CAGradientLayer *gl = [CAGradientLayer layer];
+    [gl setBounds:frame];
+    [gl setPosition:CGPointMake(parentLayer.bounds.size.width/2, parentLayer.bounds.size.height/2)];
+    [parentLayer insertSublayer:gl atIndex:[parentLayer.sublayers count]];
+	gl.zPosition = -1;
+	gl.name = kThemeBGLayerName;
+	//now we need to find out what colors to use
+	Theme *th = _currentTheme;
+	UIColor *startColor = [th colorForKey:[key stringByAppendingString:@"Start"]];
+	UIColor *endColor = [th colorForKey:[key stringByAppendingString:@"End"]];
+	if (startColor && endColor) {
+		NSArray *colors = [NSArray arrayWithObjects:(id)startColor.CGColor, (id)endColor.CGColor, nil];
+		[gl setColors:colors];
+	} else {
+		startColor = [th colorForKey:key];
+		if (startColor) {
+//			gl.backgroundColor = startColor.CGColor;
+		}
+	}
+}
+
+-(void)loadTEDict
+{
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"ThemeEngine" ofType:@"plist"];
+	_teDict = [[NSDictionary dictionaryWithContentsOfFile:path] retain];
+	ZAssert(_teDict, @"failed to load ThemeEngine.plist");
+}
+
+-(NSArray*)allColorKeys
+{
+	if (nil == _teDict)
+		[self loadTEDict];
+	return [_teDict objectForKey:@"ColorKeys"];
+}
 @end
 
 @implementation ThemeNotifyTracker
@@ -190,7 +237,7 @@
 	//if we got here, we think we have a valid dictionary
 	//now we need to loop through and add appropriate stuff from secondary
 	NSDictionary *custColorDict = [custDict objectForKey:@"colors"];
-	for (NSString *aKey in [self.defaultTheme.themeColors allKeys]) {
+	for (NSString *aKey in [[ThemeEngine sharedInstance] allColorKeys]) {
 		NSString *val = [custColorDict objectForKey:aKey];
 		if (val)
 			[mc setObject:val forKey:aKey];
