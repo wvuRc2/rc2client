@@ -63,7 +63,8 @@
 		Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 		self.view.backgroundColor = [theme colorForKey:@"MasterBackground"];
 		id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
-			blockSelf.view.backgroundColor = [aTheme colorForKey:@"MasterBackground"];
+			UIColor *newColor = [aTheme colorForKey:@"MasterBackground"];
+			blockSelf.view.backgroundColor = newColor;
 		}];
 		self.themeChangeNotice = tn;
 		[tn release];

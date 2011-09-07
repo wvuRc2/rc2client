@@ -7,6 +7,8 @@
 //
 
 #import "ThemeEngine.h"
+#import "ASIHTTPRequest.h"
+#import "ASICacheDelegate.h"
 
 @interface Theme() {
 	@protected
@@ -52,7 +54,7 @@
 @interface CustomTheme : Theme
 @property (nonatomic, retain) Theme *defaultTheme;
 @property (nonatomic, retain) NSDictionary *customData;
--(void)reloadTheme;
+-(void)reloadTheme:(NSData*)data;
 @end
 
 @interface ThemeNotifyTracker : NSObject {
@@ -65,10 +67,12 @@
 	NSMutableSet *_toNotify;
 	Theme *_defaultTheme;
 }
+@property (nonatomic, retain) ASIHTTPRequest *customRequest;
 @end
 
 @implementation ThemeEngine
 @synthesize currentTheme=_currentTheme;
+@synthesize customRequest=_customRequest;
 +(ThemeEngine*)sharedInstance
 {
 	static dispatch_once_t pred;
@@ -103,18 +107,44 @@
 	return _allThemes;
 }
 
+-(void)startCustomDownload:(CustomTheme*)newTheme
+{
+	NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomThemeURL];
+	if (nil == url) {
+		self.customRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://loclhoast/index.html"]];
+		[self setCurrentTheme:newTheme];
+		return;
+	}
+	self.customRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+	self.customRequest.cachePolicy = ASIDoNotReadFromCacheCachePolicy;
+	[self.customRequest setCompletionBlock:^{
+		[newTheme reloadTheme:self.customRequest.responseData];
+		[self setCurrentTheme:newTheme];
+	}];
+	[self.customRequest startAsynchronous];
+}
+
 -(void)setCurrentTheme:(Theme *)newTheme
 {
+	if (newTheme.isCustom && nil == _customRequest) {
+		//we need to fire off a background request
+		[self startCustomDownload:(CustomTheme*)newTheme];
+		return;
+	}
 	if (!newTheme.isCustom && newTheme == _currentTheme)
 		return;
-	if (newTheme.isCustom)
-		[(CustomTheme*)newTheme reloadTheme];
 	_currentTheme = newTheme;
+	NSMutableSet *oldones = [NSMutableSet set];
 	for (id aWeakRef in _toNotify) {
 		ThemeNotifyTracker *tn = [aWeakRef target];
 		if (tn)
 			tn.block(newTheme);
+		else
+			[oldones addObject:aWeakRef];
 	}
+	[_toNotify minusSet:oldones];
+	if (newTheme.isCustom)
+		self.customRequest=nil;
 }
 
 //an object will be returned. releasing that object will unregister the block
@@ -138,7 +168,7 @@
 @synthesize customData;
 -(NSString*)name { return @"Custom"; }
 -(BOOL)isCustom { return YES; }
--(void)reloadTheme
+-(void)reloadTheme:(NSData*)data
 {
 	//setup the base we'll be trying to add to
 	NSMutableDictionary *md = [NSMutableDictionary dictionary];
@@ -148,13 +178,6 @@
 	if ([_colorCache count] > 40)
 		[_colorCache removeAllObjects];
 	self.customData = self.defaultTheme.themeDict; //copy defaults to use if we return early
-	NSString *urlStr = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomThemeURL];
-	if (nil == urlStr)
-		return;
-	NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
-	NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:nil];
-	if (nil == data)
-		return;
 	NSError *err=nil;
 	NSDictionary *custDict = [NSPropertyListSerialization propertyListWithData:data 
 																		options:NSPropertyListMutableContainers
@@ -163,6 +186,7 @@
 		NSLog(@"bad custom theme: %@", [err localizedDescription]);
 		return;
 	}
+	[_colorCache removeAllObjects];
 	//if we got here, we think we have a valid dictionary
 	//now we need to loop through and add appropriate stuff from secondary
 	NSDictionary *custColorDict = [custDict objectForKey:@"colors"];
