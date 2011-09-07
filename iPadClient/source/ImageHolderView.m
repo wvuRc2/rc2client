@@ -197,6 +197,8 @@ static const CGFloat kKeyboardHeight = 354;
 	[self adjustImageDetails];
 }
 
+#pragma mark - text field
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];

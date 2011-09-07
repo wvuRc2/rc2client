@@ -60,7 +60,6 @@
 {
 	Theme *th = [[[ThemeEngine sharedInstance] allThemes] objectAtIndex:[self.picker selectedRowInComponent:0]];
 	[[ThemeEngine sharedInstance] setCurrentTheme:th];
-	[[NSNotificationCenter defaultCenter] postNotificationName:ThemeDidChangeNotification object:nil];
 	if ([self respondsToSelector:@selector(presentingViewController)])
 		[self.presentingViewController dismissModalViewControllerAnimated:YES];
 	else

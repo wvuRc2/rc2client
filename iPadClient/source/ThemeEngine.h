@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const ThemeDidChangeNotification;
-
 @interface Theme : NSObject 
 -(UIColor*)colorForKey:(NSString*)key;
 -(NSDictionary*)themeColors;

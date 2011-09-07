@@ -8,8 +8,6 @@
 
 #import "ThemeEngine.h"
 
-NSString * const ThemeDidChangeNotification = @"ThemeDidChangeNotification";
-
 @interface Theme() {
 	NSMutableDictionary *_colorCache;
 }
