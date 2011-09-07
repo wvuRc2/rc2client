@@ -11,6 +11,7 @@
 
 @implementation ThemePicker
 @synthesize picker;
+@synthesize customUrlField;
 
 - (id)init
 {
@@ -27,11 +28,13 @@
 	Theme *curTheme = te.currentTheme;
 	NSInteger idx = [allthemes indexOfObject:curTheme];
 	[self.picker selectRow:idx inComponent:0 animated:NO];
+	self.customUrlField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomThemeURL];
 }
 
 - (void)viewDidUnload
 {
 	[self setPicker:nil];
+	[self setCustomUrlField:nil];
 	[super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
@@ -45,6 +48,7 @@
 - (void)dealloc
 {
 	self.picker=nil;
+	[customUrlField release];
 	[super dealloc];
 }
 
@@ -58,6 +62,7 @@
 
 - (IBAction)doDone:(id)sender
 {
+	[[NSUserDefaults standardUserDefaults] setObject:self.customUrlField.text forKey:kPrefCustomThemeURL];
 	Theme *th = [[[ThemeEngine sharedInstance] allThemes] objectAtIndex:[self.picker selectedRowInComponent:0]];
 	[[ThemeEngine sharedInstance] setCurrentTheme:th];
 	if ([self respondsToSelector:@selector(presentingViewController)])

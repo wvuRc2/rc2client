@@ -11,6 +11,7 @@
 @interface ThemePicker : UIViewController
 
 @property (retain, nonatomic) IBOutlet UIPickerView *picker;
+@property (retain, nonatomic) IBOutlet UITextField *customUrlField;
 - (IBAction)doCancel:(id)sender;
 - (IBAction)doDone:(id)sender;
 @end

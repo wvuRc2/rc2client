@@ -9,9 +9,10 @@
 #import "ThemeEngine.h"
 
 @interface Theme() {
+	@protected
 	NSMutableDictionary *_colorCache;
 }
-@property (nonatomic, copy) NSDictionary *themeDict;
+@property (nonatomic, retain) NSDictionary *themeDict;
 @end
 
 @implementation Theme
@@ -42,6 +43,16 @@
 	}
 	return color;
 }
+-(BOOL)isCustom
+{
+	return NO;
+}
+@end
+
+@interface CustomTheme : Theme
+@property (nonatomic, retain) Theme *defaultTheme;
+@property (nonatomic, retain) NSDictionary *customData;
+-(void)reloadTheme;
 @end
 
 @interface ThemeNotifyTracker : NSObject {
@@ -52,6 +63,7 @@
 @interface ThemeEngine() {
 	NSArray *_allThemes;
 	NSMutableSet *_toNotify;
+	Theme *_defaultTheme;
 }
 @end
 
@@ -69,14 +81,20 @@
 			NSDictionary *d = [NSDictionary dictionaryWithContentsOfURL:aUrl];
 			if ([[d objectForKey:@"version"] intValue] == 21) {
 				Theme *t = [[Theme alloc] initWithDictionary:d];
-				if ([t.name isEqualToString:@"Default"])
+				if ([t.name isEqualToString:@"Default"]) {
 					global.currentTheme = t;
+					global->_defaultTheme = t;
+				}
 				[a addObject:t];
 				[t release];
 			}
-			global->_allThemes = [a copy];
-			global->_toNotify = [[NSMutableSet alloc] init];
 		}
+		CustomTheme *custom = [[CustomTheme alloc] initWithDictionary:nil];
+		[a addObject:custom];
+		[custom release];
+		custom.defaultTheme = global->_defaultTheme;
+		global->_allThemes = [a copy];
+		global->_toNotify = [[NSMutableSet alloc] init];
 	});
 	return global;
 }
@@ -87,8 +105,10 @@
 
 -(void)setCurrentTheme:(Theme *)newTheme
 {
-	if (newTheme == _currentTheme)
+	if (!newTheme.isCustom && newTheme == _currentTheme)
 		return;
+	if (newTheme.isCustom)
+		[(CustomTheme*)newTheme reloadTheme];
 	_currentTheme = newTheme;
 	for (id aWeakRef in _toNotify) {
 		ThemeNotifyTracker *tn = [aWeakRef target];
@@ -111,6 +131,48 @@
 
 @implementation ThemeNotifyTracker
 @synthesize block;
+@end
+
+@implementation CustomTheme
+@synthesize defaultTheme;
+@synthesize customData;
+-(NSString*)name { return @"Custom"; }
+-(BOOL)isCustom { return YES; }
+-(void)reloadTheme
+{
+	//setup the base we'll be trying to add to
+	NSMutableDictionary *md = [NSMutableDictionary dictionary];
+	NSMutableDictionary *mc = [[self.defaultTheme.themeColors mutableCopy] autorelease];
+	[md setObject:mc forKey:@"colors"];
+	self.themeDict = md;
+	if ([_colorCache count] > 40)
+		[_colorCache removeAllObjects];
+	self.customData = self.defaultTheme.themeDict; //copy defaults to use if we return early
+	NSString *urlStr = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomThemeURL];
+	if (nil == urlStr)
+		return;
+	NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
+	NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:nil];
+	if (nil == data)
+		return;
+	NSError *err=nil;
+	NSDictionary *custDict = [NSPropertyListSerialization propertyListWithData:data 
+																		options:NSPropertyListMutableContainers
+																		 format:nil error:&err];
+	if (nil == custDict) {
+		NSLog(@"bad custom theme: %@", [err localizedDescription]);
+		return;
+	}
+	//if we got here, we think we have a valid dictionary
+	//now we need to loop through and add appropriate stuff from secondary
+	NSDictionary *custColorDict = [custDict objectForKey:@"colors"];
+	for (NSString *aKey in [self.defaultTheme.themeColors allKeys]) {
+		NSString *val = [custColorDict objectForKey:aKey];
+		if (val)
+			[mc setObject:val forKey:aKey];
+	}
+	//if
+}
 @end
 
 

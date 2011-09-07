@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#define kPrefCustomThemeURL @"CustomThemeURL"
+
 @interface Theme : NSObject 
 -(UIColor*)colorForKey:(NSString*)key;
 -(NSDictionary*)themeColors;
 @property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) BOOL isCustom;
 @end
 
 typedef void (^ThemeChangedBlock)(Theme*);
