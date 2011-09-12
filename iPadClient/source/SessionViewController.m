@@ -103,7 +103,7 @@
     [super viewDidLoad];
 	[self loadKeyboard];
 	self.titleLabel.text = self.session.workspace.name;
-	
+/*	
 	CGRect rec = self.view.bounds;
 	rec.origin.y += 44;
 	rec.size.height -= 44;
@@ -116,21 +116,21 @@
 	[self.view addSubview:self.outerSplitController.view];
 	rec = self.outerSplitController.dividerView.frame;
 	rec.size.height -= 25;
-
+*/
 	CGFloat splitPos = [[_session settingForKey:@"splitPosition"] floatValue];
 	if (splitPos < 300 || splitPos > 1024)
 		splitPos = 512;
 	
 	// Calc splitViewController's view's frame:
-	rec = self.outerSplitController.view.bounds;
-//	rec.origin.y += 44;
-//	rec.size.height -= 44;
-//	self.innerSplitController.view.frame = rec;
+	CGRect rec = self.view.bounds;
+	rec.origin.y += 44;
+	rec.size.height -= 44;
+	self.innerSplitController.view.frame = rec;
 	self.innerSplitController.splitPosition = splitPos;
 	self.innerSplitController.allowsDraggingDivider = YES;
 	self.innerSplitController.dividerStyle = MGSplitViewDividerStylePaneSplitter;
 	self.innerSplitController.delegate = self;
-//	[self.view addSubview:self.innerSplitController.view];
+	[self.view addSubview:self.innerSplitController.view];
 	
 	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
 	self.innerSplitController.dividerView.lightColor = [theme colorForKey:@"SessionPaneSplitterStart"];

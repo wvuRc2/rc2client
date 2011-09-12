@@ -139,7 +139,7 @@ enum {
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
 {
-	return UIInterfaceOrientationIsLandscape(ior);;
+	return UIInterfaceOrientationIsLandscape(ior);
 }
 
 #pragma mark - actions
