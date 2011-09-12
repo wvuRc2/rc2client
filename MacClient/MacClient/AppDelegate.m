@@ -8,9 +8,12 @@
 
 #import "AppDelegate.h"
 #import "MacLoginController.h"
+#import "MacMainWindowController.h"
+#import "Rc2Server.h"
 
 @interface AppDelegate()
 @property (strong) MacLoginController *loginController;
+@property (readwrite, strong, nonatomic) MacMainWindowController *mainWindowController;
 -(void)handleSucessfulLogin;
 @end
 
@@ -19,6 +22,7 @@
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize managedObjectContext = __managedObjectContext;
+@synthesize mainWindowController = _mainWindowController;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -32,7 +36,8 @@
 
 -(void)handleSucessfulLogin
 {
-	
+	self.mainWindowController = [[MacMainWindowController alloc] init];
+	[self.mainWindowController.window makeKeyAndOrderFront:self];
 }
 
 /**

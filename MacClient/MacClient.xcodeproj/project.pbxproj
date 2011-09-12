@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0838B38A141E9095003264A8 /* PXSourceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B387141E9095003264A8 /* PXSourceList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0838B38E141E90C2003264A8 /* MacMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B38D141E90C2003264A8 /* MacMainWindowController.m */; };
+		0838B390141E90E0003264A8 /* MacMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0838B38F141E90E0003264A8 /* MacMainWindow.xib */; };
 		08447F6B1415B54F00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */; };
 		08FE88AC1415533300672474 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FE88AB1415533300672474 /* Cocoa.framework */; };
 		08FE88B61415533400672474 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08FE88B41415533400672474 /* InfoPlist.strings */; };
@@ -77,6 +80,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0838B386141E9095003264A8 /* PXSourceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceList.h; sourceTree = "<group>"; };
+		0838B387141E9095003264A8 /* PXSourceList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PXSourceList.m; sourceTree = "<group>"; };
+		0838B388141E9095003264A8 /* PXSourceListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceListDataSource.h; sourceTree = "<group>"; };
+		0838B389141E9095003264A8 /* PXSourceListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceListDelegate.h; sourceTree = "<group>"; };
+		0838B38C141E90C2003264A8 /* MacMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacMainWindowController.h; sourceTree = "<group>"; };
+		0838B38D141E90C2003264A8 /* MacMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacMainWindowController.m; sourceTree = "<group>"; };
+		0838B38F141E90E0003264A8 /* MacMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacMainWindow.xib; sourceTree = "<group>"; };
 		08447F6A1415B54F00A8DDF8 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
 		08FE88A71415533300672474 /* Rc².app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rc².app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08FE88AB1415533300672474 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -179,6 +189,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0838B385141E9095003264A8 /* PXSourceList */ = {
+			isa = PBXGroup;
+			children = (
+				0838B386141E9095003264A8 /* PXSourceList.h */,
+				0838B387141E9095003264A8 /* PXSourceList.m */,
+				0838B388141E9095003264A8 /* PXSourceListDataSource.h */,
+				0838B389141E9095003264A8 /* PXSourceListDelegate.h */,
+			);
+			path = PXSourceList;
+			sourceTree = "<group>";
+		};
 		08FE889C1415533300672474 = {
 			isa = PBXGroup;
 			children = (
@@ -233,8 +254,12 @@
 				08FE8A4314157E9B00672474 /* MacLoginController.h */,
 				08FE8A4414157E9B00672474 /* MacLoginController.m */,
 				08FE8A4614157EAF00672474 /* MacLoginController.xib */,
+				0838B38C141E90C2003264A8 /* MacMainWindowController.h */,
+				0838B38D141E90C2003264A8 /* MacMainWindowController.m */,
+				0838B38F141E90E0003264A8 /* MacMainWindow.xib */,
 				08FE8A501415A89700672474 /* EMKeychainItem.h */,
 				08FE8A511415A89700672474 /* EMKeychainItem.m */,
+				0838B385141E9095003264A8 /* PXSourceList */,
 			);
 			path = MacClient;
 			sourceTree = "<group>";
@@ -418,6 +443,7 @@
 				08FE8A4714157EAF00672474 /* MacLoginController.xib in Resources */,
 				08FE8A4E14159CA000672474 /* rc2.png in Resources */,
 				08FE8A4F14159CA000672474 /* rc2@2x.png in Resources */,
+				0838B390141E90E0003264A8 /* MacMainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +484,8 @@
 				08FE8A4514157E9B00672474 /* MacLoginController.m in Sources */,
 				08FE8A521415A89800672474 /* EMKeychainItem.m in Sources */,
 				08447F6B1415B54F00A8DDF8 /* Rc2.xcdatamodeld in Sources */,
+				0838B38A141E9095003264A8 /* PXSourceList.m in Sources */,
+				0838B38E141E90C2003264A8 /* MacMainWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

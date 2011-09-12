@@ -9,6 +9,7 @@
 #import "RCWorkspace.h"
 #import "Rc2Server.h"
 #import "RCFile.h"
+#import <Vyana/NSObject+BlockObservation.h>
 
 @interface RCWorkspace()
 @property (nonatomic, copy, readwrite) NSArray *files;
