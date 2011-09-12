@@ -135,6 +135,8 @@
 		self.holder4.alpha = 0;
 		self.holder1.frame = CGRectMake(20, 144, 460, 460);
 		self.holder2.frame = CGRectMake(544, 144, 460, 460);
+		self.holder1.scrollView.zoomScale = .75;
+		self.holder2.scrollView.zoomScale = .75;
 	}];
 }
 
@@ -149,6 +151,10 @@
 		self.holder2.frame = _oframe2;
 		self.holder3.frame = _oframe3;
 		self.holder4.frame = _oframe4;
+		self.holder1.scrollView.zoomScale = .5;
+		self.holder2.scrollView.zoomScale = .5;
+		self.holder3.scrollView.zoomScale = .5;
+		self.holder4.scrollView.zoomScale = .5;
 	}];
 }
 
