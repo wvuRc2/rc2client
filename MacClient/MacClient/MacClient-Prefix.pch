@@ -5,6 +5,7 @@
 #ifdef __OBJC__
 	#import <Cocoa/Cocoa.h>
 	#import <Vyana/Vyana.h>
+	#import <Vyana/NSObject+BlockObservation.h>
 	#import <WebKit/WebKit.h>
 	#import <SystemConfiguration/SystemConfiguration.h>
 	#import "JSON.h"
