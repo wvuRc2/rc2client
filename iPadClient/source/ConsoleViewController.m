@@ -9,6 +9,7 @@
 #import "ConsoleViewController.h"
 #import "RCSession.h"
 #import "RCSavedSession.h"
+#import "ThemeEngine.h"
 
 @interface ConsoleViewController() {
 	BOOL _didSetGraphUrl;
@@ -105,6 +106,16 @@
 	[self.webView stringByEvaluatingJavaScriptFromString:@"iR.clearConsole()"];
 }
 
+-(NSString*)themedStyleSheet
+{
+	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
+	return [NSString stringWithFormat:@"$(\"<style type='text/css'>#consoleOutputGenerated > table > tbody > tr:nth-child(even) {	background-color: %@; } "
+			"#consoleOutputGenerated > table > tbody > tr:nth-child(odd) {background-color: %@; } table.ir-mx th {background-color: %@} "
+			"</style>\").appendTo('head')",
+			[theme consoleValueForKey: @"outputEvenRowColor"], [theme consoleValueForKey: @"outputOddRowColor"],
+			[theme consoleValueForKey: @"outputHeaderColor"]];
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	if (!_didSetGraphUrl) {
@@ -120,6 +131,14 @@
 		if (f.size.width > self.view.frame.size.width)
 			f.size.width = self.view.frame.size.width - 20;
 		self.webView.frame = f;
+		//change the background
+		NSString *bgColor = [[ThemeEngine sharedInstance].currentTheme consoleValueForKey:@"background"];
+		if ([bgColor length] > 2) {
+			NSString *cmd = [NSString stringWithFormat:@"$('body').css('background-color', '%@')", bgColor];
+			[self.webView stringByEvaluatingJavaScriptFromString:cmd];
+		}
+		NSString *ss = [self themedStyleSheet];
+		[self.webView stringByEvaluatingJavaScriptFromString:ss];
 	}
 }
 

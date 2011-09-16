@@ -13,6 +13,7 @@
 @interface Theme : NSObject 
 -(UIColor*)colorForKey:(NSString*)key;
 -(NSDictionary*)themeColors;
+-(NSString*)consoleValueForKey:(NSString*)key;
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) BOOL isCustom;
 @end

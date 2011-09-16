@@ -32,6 +32,11 @@
 {
 	return [self.themeDict objectForKey:@"name"];
 }
+-(NSString*)consoleValueForKey:(NSString*)key
+{
+	return [[self.themeDict objectForKey:@"console"] objectForKey:key];
+}
+
 -(NSDictionary*)themeColors
 {
 	return [self.themeDict objectForKey:@"colors"];

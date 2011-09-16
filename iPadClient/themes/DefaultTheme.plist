@@ -6,6 +6,17 @@
 	<integer>21</integer>
 	<key>name</key>
 	<string>Default</string>
+	<key>console</key>
+	<dict>
+		<key>background</key>
+		<string>#f4edd1</string>
+		<key>outputOddRowColor</key>
+		<string>#FFDB87</string>
+		<key>outputEvenRowColor</key>
+		<string>#E2FF87</string>
+		<key>outputHeaderColor</key>
+		<string>#FFA532</string>
+	</dict>
 	<key>colors</key>
 	<dict>
 		<key>PriorityColors</key>
@@ -48,7 +59,6 @@
 		<string>#e1bf82</string>
 		<key>SessionPaneSplitterEnd</key>
 		<string>dbdf81</string>
-
 	</dict>
 </dict>
 </plist>

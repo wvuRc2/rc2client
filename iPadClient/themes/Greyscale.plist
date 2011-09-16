@@ -6,6 +6,17 @@
 	<integer>21</integer>
 	<key>name</key>
 	<string>Greyscale</string>
+	<key>console</key>
+	<dict>
+		<key>background</key>
+		<string>#ddd</string>
+		<key>outputOddRowColor</key>
+		<string>#eee</string>
+		<key>outputEvenRowColor</key>
+		<string>#ccc</string>
+		<key>outputHeaderColor</key>
+		<string>#cdcdcd</string>
+	</dict>
 	<key>colors</key>
 	<dict>
 		<key>PriorityColors</key>
