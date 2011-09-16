@@ -1,12 +1,13 @@
 body { 
 	background-color:#ccc;
 	font-family:Inconsolata, Menlo, "Courier New", Monaco, monospace;
+	font-size:100%;
 }
 
 #consoleOutputGenerated {
 	white-space: pre;
 	overflow:auto;
-	font-size:10pt;
+//	font-size:12pt;
 	height:600px;
 }
 
@@ -70,7 +71,7 @@ div.Rimg {
 
 #console {
   background-color: #ededed;
-  font-size: 11pt;
+  font-size: 110%;
   font-family: Inconsolata-dz, Inconsolata, Menlo, "Courier New", Monaco, monospace;
   border-style: groove;
   border-width: 1px;
@@ -122,12 +123,12 @@ table.doubleOutput span.dl {
   background: #ffbe49; }
 
 .logText {
-  font-size: smaller;
+  font-size: 80%;
   color: green;
   white-space: normal; }
 
 .statusText {
-  font-size: smaller;
+  font-size: 80%;
   white-space: normal;
   color: red; }
 
@@ -146,7 +147,7 @@ ul.tabs {
   height: 90%;
   display: block;
   font-family: monospace;
-  font-size: 1.0em; }
+}
 
 span.genImg {
   width: 120px;
@@ -211,8 +212,7 @@ a.closeBox {
 .ir-fn {
   width: 300px; }
 
-#fancyOutputControl {
-  font-size: 12px; }
+#fancyOutputControl { font-size: 120%; }
 
 .fancyOutput {
   border: 1px black solid;
@@ -272,11 +272,11 @@ table.ir-mx td {
   width: 240px; }
 
 .dialogErrorMsg {
-  font-size: smaller;
+  font-size: 80%;
   color: red; }
 
 #nameFileNote {
-  font-size: smaller;
+  font-size: 80%;
   color: green;
   display: block;
   font-style: italic;
@@ -333,7 +333,7 @@ table.ir-mx td {
 
 #histTable a {
   color: white;
-  font-size: 11pt;
+  font-size: 90%;
   font-family: Inconsolata-dz, Inconsolata, Menlo, "Courier New", Monaco, monospace;
   padding: 5px; }
 

@@ -702,14 +702,21 @@ iR.loadOpenFileTree = function() {
 	})
 }
 
-iR.resizeTextArea = function(ftr) {
-	var sz = parseFloat($('.editArea').css('font-size')) * ftr
-	$('.editArea').css("font-size", sz + "px");
-}
-
 iR.clearSavedSelection = function() {
 	this.selectionStart=0
 	this.selectionEnd=0
+}
+
+iR.increaseFontSize = function() {
+	var curSize = parseFloat($('body').css('font-size'))
+	if (curSize < 36)
+		$('body').css('font-size', curSize + 2)
+}
+
+iR.decreaseFontSize = function() {
+	var curSize = parseFloat($('body').css('font-size'))
+	if (curSize > 8)
+		$('body').css('font-size', curSize - 2)
 }
 
 iR.updateUserList = function(users) {

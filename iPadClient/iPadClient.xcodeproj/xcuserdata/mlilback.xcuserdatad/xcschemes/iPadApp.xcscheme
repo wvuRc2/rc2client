@@ -31,6 +31,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "08B65229134BE1BC001C6159"
+               BuildableName = "libVyana-ios.a"
+               BlueprintName = "Vyana-ios"
+               ReferencedContainer = "container:../../../../../svn-agilemonks/trunk/Vyana/Vyana.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "082DC02813EC99E4008EAA99"
                BuildableName = "Rc&#178;.app"
                BlueprintName = "iPadApp"

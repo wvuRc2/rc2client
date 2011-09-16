@@ -29,14 +29,6 @@
 	return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-	// Releases the view if it doesn't have a superview.
-	[super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -85,6 +77,27 @@
 	} else {
 		[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 	}
+}
+
+-(IBAction)doDecreaseFont:(id)sender
+{
+	[self.webView stringByEvaluatingJavaScriptFromString:@"iR.decreaseFontSize()"];
+}
+
+-(IBAction)doIncreaseFont:(id)sender
+{
+	[self.webView stringByEvaluatingJavaScriptFromString:@"iR.increaseFontSize()"];
+}
+
+-(IBAction)doActionSheet:(id)sender
+{
+	NSArray *actionItems = ARRAY(
+								 [AMActionItem actionItemWithName:@"Clear" target:self action:@selector(doClear:) userInfo:nil],
+								 [AMActionItem actionItemWithName:@"Decrease Font Size" target:self action:@selector(doDecreaseFont:) userInfo:nil],
+								 [AMActionItem actionItemWithName:@"Increase Font Size" target:self action:@selector(doIncreaseFont:) userInfo:nil]
+	);
+	UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Console Actions" actionItems:actionItems];
+	[sheet showFromBarButtonItem:sender animated:YES];
 }
 
 -(IBAction)doClear:(id)sender

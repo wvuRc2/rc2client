@@ -17,4 +17,5 @@
 
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 -(IBAction)doClear:(id)sender;
+-(IBAction)doActionSheet:(id)sender;
 @end
