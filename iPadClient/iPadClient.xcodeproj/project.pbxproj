@@ -22,6 +22,7 @@
 		082DC04713EC99E5008EAA99 /* SessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082DC04513EC99E5008EAA99 /* SessionViewController.xib */; };
 		082DC04F13EC9EB2008EAA99 /* KeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082DC04E13EC9EB2008EAA99 /* KeyboardView.m */; };
 		082DC05613ECA3AA008EAA99 /* KeyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 082DC05513ECA3AA008EAA99 /* KeyButton.m */; };
+		08317A101427E200009701C6 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08317A0F1427E200009701C6 /* libTestFlight.a */; };
 		08349EBE1403311500B629B4 /* rightSym.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08349EBD1403311500B629B4 /* rightSym.txt */; };
 		08349EC1140339F300B629B4 /* rightAlpha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08349EC0140339F300B629B4 /* rightAlpha.txt */; };
 		08349EC3140384D700B629B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08349EC2140384D700B629B4 /* QuartzCore.framework */; };
@@ -208,6 +209,7 @@
 		082DC04E13EC9EB2008EAA99 /* KeyboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = KeyboardView.m; path = source/KeyboardView.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		082DC05413ECA3AA008EAA99 /* KeyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = KeyButton.h; path = source/KeyButton.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		082DC05513ECA3AA008EAA99 /* KeyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = KeyButton.m; path = source/KeyButton.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		08317A0F1427E200009701C6 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = ../3rdParty/testflight/libTestFlight.a; sourceTree = "<group>"; };
 		08349EBD1403311500B629B4 /* rightSym.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rightSym.txt; path = resources/rightSym.txt; sourceTree = SOURCE_ROOT; };
 		08349EC0140339F300B629B4 /* rightAlpha.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rightAlpha.txt; path = resources/rightAlpha.txt; sourceTree = SOURCE_ROOT; };
 		08349EC2140384D700B629B4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -473,6 +475,7 @@
 				082DC02E13EC99E5008EAA99 /* UIKit.framework in Frameworks */,
 				082DC03013EC99E5008EAA99 /* Foundation.framework in Frameworks */,
 				082DC03213EC99E5008EAA99 /* CoreGraphics.framework in Frameworks */,
+				08317A101427E200009701C6 /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,6 +518,7 @@
 				08349F05140459C300B629B4 /* libz.dylib */,
 				08349EFD1404591200B629B4 /* SystemConfiguration.framework */,
 				08349ED3140434FB00B629B4 /* libVyana-ios.a */,
+				08317A0F1427E200009701C6 /* libTestFlight.a */,
 				082DC02D13EC99E5008EAA99 /* UIKit.framework */,
 				082DC02F13EC99E5008EAA99 /* Foundation.framework */,
 				08349EC2140384D700B629B4 /* QuartzCore.framework */,
@@ -1222,13 +1226,14 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../3rdparty/UnittWebSocketClient/bin/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
+					"\"$(SRCROOT)/../3rdParty/testflight\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-lUnittWebSocketClient",
 				);
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "14AC3E0C-3B5B-4B10-AF7B-99BCBD1CF4F9";
+				PROVISIONING_PROFILE = "89E9A380-5496-46A4-83E7-473B7053157C";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1238,7 +1243,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "source/rc2-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1251,13 +1256,14 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../3rdparty/UnittWebSocketClient/bin/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
+					"\"$(SRCROOT)/../3rdParty/testflight\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-lUnittWebSocketClient",
 				);
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "14AC3E0C-3B5B-4B10-AF7B-99BCBD1CF4F9";
+				PROVISIONING_PROFILE = "89E9A380-5496-46A4-83E7-473B7053157C";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1284,7 +1290,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "source/rc2-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1298,13 +1304,14 @@
 					"$(BUILD_DIR)/Vyana",
 					"$(inherited)",
 					"\"$(SRCROOT)/../3rdparty/UnittWebSocketClient/bin/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
+					"\"$(SRCROOT)/../3rdParty/testflight\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-lUnittWebSocketClient",
 				);
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "14AC3E0C-3B5B-4B10-AF7B-99BCBD1CF4F9";
+				PROVISIONING_PROFILE = "89E9A380-5496-46A4-83E7-473B7053157C";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

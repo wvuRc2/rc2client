@@ -16,6 +16,7 @@
 	#import <MessageUI/MessageUI.h>
 	#import "Vyana-ios/Vyana-ios.h"
 	#import "Vyana-ios/AMZeroingWeakRef.h"
+	#import "TestFlight.h"
 #endif
 
 #define TheApp [UIApplication sharedApplication]

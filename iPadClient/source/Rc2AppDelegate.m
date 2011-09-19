@@ -64,7 +64,7 @@
 	DBSession *session = [[[DBSession alloc] initWithConsumerKey:@"663yb1illxbs5rl" 
 												  consumerSecret:@"on576o50uxrjxhj"] autorelease];
 	[DBSession setSharedSession:session];
-	
+	[TestFlight takeOff:@"77af1fa93381361c61748e58fae9f4f9_Mjc0ODAyMDExLTA5LTE5IDE2OjUwOjU3LjYzOTg1Mw"];
 	return YES;
 }
 
