@@ -165,8 +165,10 @@
 {
 	[self.splitController didRotateFromInterfaceOrientation:oldOrient];	
 	UIDeviceOrientation curOrient = [[UIDevice currentDevice] orientation];
-	if (curOrient != oldOrient && curOrient != UIDeviceOrientationUnknown)
+	if (curOrient != oldOrient && curOrient != UIDeviceOrientationUnknown) {
 		[self.splitController toggleSplitOrientation:self];
+		self.keyboardView.isLandscape = UIDeviceOrientationIsLandscape(curOrient);
+	}
 	[self.splitController.view setNeedsLayout];
 }
 

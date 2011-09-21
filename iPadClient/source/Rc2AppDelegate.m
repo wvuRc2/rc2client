@@ -31,14 +31,16 @@
 @interface Rc2AppDelegate() {
 	NSPersistentStoreCoordinator *__psc;
 	NSManagedObjectModel *__mom;
+	NSInteger _curKeyFile;
 }
 @property (nonatomic, retain) LoginController *authController;
 @property (nonatomic, retain) UIView *messageListView;
 @property (nonatomic, retain) UIView *currentMasterView;
 @property (nonatomic, retain) DBRestClient *keyboardRestClient;
+-(void)downloadKeyboardFile;
 @end
 
-#define kCustomKeyboardDBPathTemplate @"/rc2shares/keyboards/custom%d-%d.txt"
+#define kCustomKeyboardDBPathTemplate @"/rc2shares/keyboards/custom%d-%d%@.txt"
 
 @implementation Rc2AppDelegate
 
@@ -163,17 +165,13 @@
 	[session release];
 	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
 	if (keylayout != eKeyboardLayout_Standard) {
-		NSString *path1 = [NSString stringWithFormat:kCustomKeyboardDBPathTemplate, keylayout, 1];
+		_curKeyFile=0;
 		//we need to attempt to copy custom keyboards from dropbox
 		if (nil == self.keyboardRestClient) {
 			self.keyboardRestClient = [[DBRestClient alloc] initWithSession:(id)[DBSession sharedSession]];
 			self.keyboardRestClient.delegate = (id)self;
-			NSString *pathUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomKey1URL];
-			[self.keyboardRestClient loadFile:path1 intoPath:pathUrl];
-		} else {
-			NSString *pathUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomKey1URL];
-			[self.keyboardRestClient loadFile:path1 intoPath:pathUrl];
 		}
+		[self downloadKeyboardFile];
 	} else {
 		[self completeSessionStartup2];
 	}
@@ -278,35 +276,44 @@
 
 #pragma mark - drop box
 
-- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
+-(void)downloadKeyboardFile
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
-	if ([destPath hasSuffix:@"1.txt"]) {
-		//need to load second file
-		NSString *path2 = [NSString stringWithFormat:kCustomKeyboardDBPathTemplate, keylayout, 2];
-		//we need to attempt to copy custom keyboards from dropbox
-		NSString *pathUrl = [defaults objectForKey:kPrefCustomKey2URL];
-		[self.keyboardRestClient loadFile:path2 intoPath:pathUrl];
-	} else {
-		NSString *path1 = [defaults objectForKey:kPrefCustomKey1URL];
-		NSString *path2 = [defaults objectForKey:kPrefCustomKey2URL];
-		//we should have 2 files saved on the filesystem. make sure they are there, and if not, null out the custom url paths
-		NSFileManager *fm = [NSFileManager defaultManager];
-		if (![fm fileExistsAtPath:path1] || ![fm fileExistsAtPath:path2]) {
-			[self resetKeyboardPaths];
-		} else {
-			NSLog(@"successfully downloaded custom keyboard layouts");
-		}
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self completeSessionStartup2];
-		});
+	NSInteger keyid = (_curKeyFile == 0 || _curKeyFile == 2) ? 1 : 2;
+	NSString *keyad = (_curKeyFile > 1) ? @"p" : @"";
+	NSString *path = [NSString stringWithFormat:kCustomKeyboardDBPathTemplate, keylayout, keyid, keyad];
+	_curKeyFile++;
+	//we need to attempt to copy custom keyboards from dropbox
+	NSString *baseDest = [defaults objectForKey:keyid == 1 ? kPrefCustomKey1URL : kPrefCustomKey2URL];
+	NSString *dest = [[baseDest stringByDeletingPathExtension] stringByAppendingFormat:@"%@.txt", keyad];
+	[self.keyboardRestClient loadFile:path intoPath:dest];
+}
+
+- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
+{
+	NSLog(@"saved file %@", destPath);
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	if (_curKeyFile < 4) {
+		[self downloadKeyboardFile];
+		return;
 	}
+	NSString *path1 = [defaults objectForKey:kPrefCustomKey1URL];
+	NSString *path2 = [defaults objectForKey:kPrefCustomKey2URL];
+	//we should have 2 files saved on the filesystem. if not, reset to default keyboard
+	NSFileManager *fm = [NSFileManager defaultManager];
+	if (![fm fileExistsAtPath:path1] || ![fm fileExistsAtPath:path2]) {
+		[self resetKeyboardPaths];
+	} else {
+		NSLog(@"successfully downloaded custom keyboard layouts");
+	}
+	[self completeSessionStartup2];
 }
 
 - (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error
 {
 	NSLog(@"keyboard import error: %@", [error localizedDescription]);
+	[self resetKeyboardPaths];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self completeSessionStartup2];
 	});

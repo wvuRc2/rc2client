@@ -32,6 +32,8 @@ enum {
 @property (nonatomic, retain) UIView *symKeyView;
 @property (nonatomic, retain) UIView *pAlphaKeyView;
 @property (nonatomic, retain) UIView *pSymKeyView;
+@property (nonatomic, assign) UIView *currentAlphaKeyView;
+@property (nonatomic, assign) UIView *currentSymKeyView;
 @property (nonatomic, retain) NSData *buttonTemplateData;
 @property (nonatomic, retain) KeyButton *layoutButton;
 @property (nonatomic, assign) KeyButton *shiftKey;
@@ -80,11 +82,15 @@ enum {
 	aView = [[UIView alloc] initWithFrame:vframe];
 	self.pAlphaKeyView = aView;
 	aView.opaque=NO;
+	aView.alpha = 0;
 	[aView release];
 	aView = [[UIView alloc] initWithFrame:vframe];
 	self.pSymKeyView = aView;
 	aView.opaque=NO;
+	aView.alpha = 0;
 	[aView release];
+	self.currentAlphaKeyView = self.alphaKeyView;
+	self.currentSymKeyView = self.symKeyView;
 
 	if (nil == self.buttonTemplateData) {
 		self.buttonTemplateData = [NSKeyedArchiver archivedDataWithRootObject:self.buttonTemplate];
@@ -92,10 +98,25 @@ enum {
 		self.buttonTemplate=nil;
 	}
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSFileManager *fm = [NSFileManager defaultManager];
 	[self loadKeyFile:[defaults objectForKey:kPrefCustomKey1URL] intoView:self.alphaKeyView];
 	[self loadKeyFile:[defaults objectForKey:kPrefCustomKey2URL] intoView:self.symKeyView];
 	[self addSubview:self.alphaKeyView];
 	[self addSubview:self.symKeyView];
+	NSString *ppath = [[[defaults objectForKey:kPrefCustomKey1URL] stringByDeletingPathExtension] stringByAppendingString:@"p.txt"];
+	if ([fm fileExistsAtPath:ppath]) {
+		[self loadKeyFile:ppath intoView:self.pAlphaKeyView];
+		[self addSubview:self.pAlphaKeyView];
+	} else {
+		self.pAlphaKeyView = self.alphaKeyView;
+	}
+	ppath = [[[defaults objectForKey:kPrefCustomKey2URL] stringByDeletingPathExtension] stringByAppendingString:@"p.txt"];
+	if ([fm fileExistsAtPath:ppath]) {
+		[self loadKeyFile:ppath intoView:self.pSymKeyView];
+		[self addSubview:self.pSymKeyView];
+	} else {
+		self.pSymKeyView = self.symKeyView;
+	}
 	
 	KeyButton *aButton = [NSKeyedUnarchiver unarchiveObjectWithData:self.buttonTemplateData];
 	aButton.frame = CGRectMake(18, _lastKeyRowYOrigin, 182, 51);
@@ -338,6 +359,22 @@ enum {
 	return UIGraphicsGetImageFromCurrentImageContext();
 }
 
+-(void)setIsLandscape:(BOOL)newOrient
+{
+	_isLandscape = newOrient;
+	self.currentAlphaKeyView.alpha = 0;
+	self.currentSymKeyView.alpha = 0;
+	if (newOrient) {
+		self.currentAlphaKeyView = self.alphaKeyView;
+		self.currentSymKeyView = self.symKeyView;
+	} else {
+		self.currentAlphaKeyView = self.pAlphaKeyView;
+		self.currentSymKeyView = self.pSymKeyView;
+	}
+	self.currentAlphaKeyView.alpha = 1;
+	self.currentSymKeyView.alpha = 1;
+}
+
 @synthesize currentLayout;
 @synthesize alphaKeyView;
 @synthesize symKeyView;
@@ -350,4 +387,6 @@ enum {
 @synthesize shiftKey;
 @synthesize pSymKeyView;
 @synthesize pAlphaKeyView;
+@synthesize currentSymKeyView;
+@synthesize currentAlphaKeyView;
 @end

@@ -83,7 +83,7 @@
 			return @"http://barney.stat.wvu.edu:8080/";
 		case eRc2Host_Harner:
 		default:
-			return @"http://harner.stat.wvu.edu:8080/";
+			return @"http://rc2.stat.wvu.edu:8080/";
 	}
 }
 
