@@ -24,6 +24,7 @@ enum {
 @interface KeyboardView() {
 	CGGradientRef _keyGradient;
 	CGGradientRef _KeyGradientPressed;
+	CGFloat _lastKeyRowYOrigin;
 }
 @property (nonatomic, assign) NSInteger currentLayout;
 @property (nonatomic, retain) UIView *alphaKeyView;
@@ -89,7 +90,7 @@ enum {
 	[self loadKeyFile:keyPath intoView:self.symKeyView];		
 	
 	KeyButton *aButton = [NSKeyedUnarchiver unarchiveObjectWithData:self.buttonTemplateData];
-	aButton.frame = CGRectMake(18, 289, 182, 51);
+	aButton.frame = CGRectMake(18, _lastKeyRowYOrigin, 182, 51);
 	self.layoutButton = aButton;
 	[aButton setTitle:kSymbolsLabel forState:UIControlStateNormal];
 	[aButton setBackgroundImage:[self imageForKey:@" " size:aButton.frame.size fontName:[self fontNameForTag:0] pressed:NO] 
@@ -162,6 +163,7 @@ enum {
 			frame.size = initFrame.size;
 		}
 		//move frame.orign.y to the the next row
+		_lastKeyRowYOrigin = frame.origin.y;
 		if (largestHeight < 60)
 			frame.origin.y += 6 + largestHeight;
 		else
@@ -169,6 +171,9 @@ enum {
 		frame.origin.x = initFrame.origin.x;
 		rowCnt++;
 	}
+	CGRect viewFrame = self.frame;
+	viewFrame.size.height = frame.origin.y + 11;
+	self.frame = viewFrame;
 }
 
 
