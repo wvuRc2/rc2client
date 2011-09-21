@@ -13,7 +13,6 @@
 
 @interface ConsoleViewController() {
 	BOOL _didSetGraphUrl;
-	BOOL _didLoadFromNib;
 }
 @end
 
@@ -37,19 +36,6 @@
 	[super viewDidLoad];
 	_didSetGraphUrl=NO;
 	self.webView.delegate = self;
-	if (!_didLoadFromNib) {
-		NSLog(@"self=%@, web=%@", NSStringFromCGRect(self.view.frame), NSStringFromCGRect(self.webView.frame));
-		CGRect f = self.webView.frame;
-//		if (f.origin.x < 10)
-//			f.origin.x = 10;
-		f.origin.x = 20;
-		f.size.width = self.view.frame.size.width - 40;
-	//	if (f.size.width > self.view.frame.size.width)
-	//		f.size.width = self.view.frame.size.width;
-		self.webView.frame = f;
-		NSLog(@"self=%@, web=%@", NSStringFromCGRect(self.view.frame), NSStringFromCGRect(self.webView.frame));
-		_didLoadFromNib = YES;
-	}
 }
 
 - (void)viewDidUnload

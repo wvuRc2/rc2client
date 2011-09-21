@@ -103,20 +103,6 @@
     [super viewDidLoad];
 	[self loadKeyboard];
 	self.titleLabel.text = self.session.workspace.name;
-/*	
-	CGRect rec = self.view.bounds;
-	rec.origin.y += 44;
-	rec.size.height -= 44;
-	self.outerSplitController.view.frame = rec;
-	self.outerSplitController.splitPosition = 600;
-	self.outerSplitController.allowsDraggingDivider = YES;
-	self.outerSplitController.dividerStyle = MGSplitViewDividerStylePaneSplitter;
-	self.outerSplitController.delegate = self;
-	self.outerSplitController.vertical = NO;
-	[self.view addSubview:self.outerSplitController.view];
-	rec = self.outerSplitController.dividerView.frame;
-	rec.size.height -= 25;
-*/
 	CGFloat splitPos = [[_session settingForKey:@"splitPosition"] floatValue];
 	if (splitPos < 300 || splitPos > 1024)
 		splitPos = 512;
@@ -125,24 +111,24 @@
 	CGRect rec = self.view.bounds;
 	rec.origin.y += 44;
 	rec.size.height -= 44;
-	self.innerSplitController.view.frame = rec;
-	self.innerSplitController.splitPosition = splitPos;
-	self.innerSplitController.allowsDraggingDivider = YES;
-	self.innerSplitController.dividerStyle = MGSplitViewDividerStylePaneSplitter;
-	self.innerSplitController.delegate = self;
-	[self.view addSubview:self.innerSplitController.view];
+	self.splitController.view.frame = rec;
+	self.splitController.splitPosition = splitPos;
+	self.splitController.allowsDraggingDivider = YES;
+	self.splitController.dividerStyle = MGSplitViewDividerStylePaneSplitter;
+	self.splitController.delegate = self;
+	[self.view addSubview:self.splitController.view];
 	
 	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
-	self.innerSplitController.dividerView.lightColor = [theme colorForKey:@"SessionPaneSplitterStart"];
-	self.innerSplitController.dividerView.darkColor = [theme colorForKey:@"SessionPaneSplitterEnd"];
+	self.splitController.dividerView.lightColor = [theme colorForKey:@"SessionPaneSplitterStart"];
+	self.splitController.dividerView.darkColor = [theme colorForKey:@"SessionPaneSplitterEnd"];
 	__block SessionViewController *blockSelf = self;
 	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
-		blockSelf.innerSplitController.dividerView.lightColor = [aTheme colorForKey:@"SessionPaneSplitterStart"];
-		blockSelf.innerSplitController.dividerView.darkColor = [aTheme colorForKey:@"SessionPaneSplitterEnd"];
+		blockSelf.splitController.dividerView.lightColor = [aTheme colorForKey:@"SessionPaneSplitterStart"];
+		blockSelf.splitController.dividerView.darkColor = [aTheme colorForKey:@"SessionPaneSplitterEnd"];
 	}];
 	self.themeToken = tn;
 	[tn release];
-	[self.innerSplitController.dividerView addShineLayer:self.innerSplitController.dividerView.layer bounds:self.innerSplitController.dividerView.bounds];
+	[self.splitController.dividerView addShineLayer:self.splitController.dividerView.layer bounds:self.splitController.dividerView.bounds];
 	
 	RCSavedSession *savedState = self.session.savedSessionState;
 	self.consoleController.session = self.session;
@@ -166,18 +152,22 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
 {
     // Return YES for supported orientations
-    return UIInterfaceOrientationIsLandscape(ior);
+//    return UIInterfaceOrientationIsLandscape(ior);
+	return YES;
 }
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-	[self.splitViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];;
+	[self.splitController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];;
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)oldOrient
 {
-	[self.splitViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];	
-	[self.splitViewController.view setNeedsLayout];
+	[self.splitController didRotateFromInterfaceOrientation:oldOrient];	
+	UIDeviceOrientation curOrient = [[UIDevice currentDevice] orientation];
+	if (curOrient != oldOrient && curOrient != UIDeviceOrientationUnknown)
+		[self.splitController toggleSplitOrientation:self];
+	[self.splitController.view setNeedsLayout];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
@@ -304,7 +294,7 @@
 
 -(IBAction)endSession:(id)sender
 {
-	[_session setSetting:[NSNumber numberWithFloat:self.innerSplitController.splitPosition] forKey:@"splitPosition"];
+	[_session setSetting:[NSNumber numberWithFloat:self.splitController.splitPosition] forKey:@"splitPosition"];
 	self.autoReconnect=NO;
 	[_session closeWebSocket];
 	[self saveSessionState];
@@ -461,7 +451,7 @@
 
 - (float)splitViewController:(MGSplitViewController *)svc constrainSplitPosition:(float)proposedPosition splitViewSize:(CGSize)viewSize;
 {
-	if (svc == self.innerSplitController) {
+	if (svc == self.splitController) {
 		if (proposedPosition < 300)
 			return 300;
 		if (proposedPosition > 900)
@@ -485,7 +475,7 @@
 @synthesize titleLabel;
 @synthesize button1;
 @synthesize keyboardView;
-@synthesize innerSplitController;
+@synthesize splitController;
 @synthesize editorController;
 @synthesize consoleController;
 @synthesize jsQuiteRExp;
@@ -496,6 +486,5 @@
 @synthesize reconnecting;
 @synthesize autoReconnect;
 @synthesize bottomController;
-@synthesize outerSplitController;
 @synthesize themeToken;
 @end

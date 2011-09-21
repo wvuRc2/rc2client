@@ -24,8 +24,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *button1;
 @property (nonatomic, assign) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet KeyboardView *keyboardView;
-@property (nonatomic, retain) IBOutlet MGSplitViewController *innerSplitController;
-@property (nonatomic, retain) IBOutlet MGSplitViewController *outerSplitController;
+@property (nonatomic, retain) IBOutlet MGSplitViewController *splitController;
 @property (nonatomic, retain) IBOutlet EditorViewController *editorController;
 @property (nonatomic, retain) IBOutlet ConsoleViewController *consoleController;
 @property (nonatomic, retain) IBOutlet BottomViewController *bottomController;
