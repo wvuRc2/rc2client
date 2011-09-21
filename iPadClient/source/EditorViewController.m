@@ -115,7 +115,6 @@
 												 name:UIKeyboardWillHideNotification object:nil];
 		self.docTitleLabel.text = @"Untitled Document";
 		_viewLoaded=YES;
-		self.executeButton.titleLabel.textColor = [UIColor whiteColor];
 	}
 }
 

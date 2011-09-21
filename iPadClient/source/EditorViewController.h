@@ -14,7 +14,7 @@
 
 @interface EditorViewController : UIViewController<KeyboardViewDelegate,UIPopoverControllerDelegate,UITextViewDelegate>
 @property (nonatomic, assign) IBOutlet UITextView *textView;
-@property (nonatomic, assign) IBOutlet UIButton *executeButton;
+@property (nonatomic, assign) IBOutlet UIBarButtonItem *executeButton;
 @property (nonatomic, assign) IBOutlet UIBarButtonItem *actionButtonItem;
 @property (nonatomic, assign) IBOutlet UILabel *docTitleLabel;
 @property (nonatomic, retain) RCFile *currentFile;
