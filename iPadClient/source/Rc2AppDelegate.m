@@ -18,6 +18,7 @@
 #import "ASIHTTPRequest.h"
 #import "MBProgressHUD.h"
 #import "DropboxSDK.h"
+#import "AppConstants.h"
 
 //hack for iOS 5.0 SDK bug
 @implementation UIImage(iOS5HackBugFix)
@@ -34,7 +35,10 @@
 @property (nonatomic, retain) LoginController *authController;
 @property (nonatomic, retain) UIView *messageListView;
 @property (nonatomic, retain) UIView *currentMasterView;
+@property (nonatomic, retain) DBRestClient *keyboardRestClient;
 @end
+
+#define kCustomKeyboardDBPathTemplate @"/rc2shares/keyboards/custom%d-%d.txt"
 
 @implementation Rc2AppDelegate
 
@@ -46,6 +50,7 @@
 @synthesize sessionController=_sessionController;
 @synthesize currentMasterView;
 @synthesize messageListView;
+@synthesize keyboardRestClient;
 
 #pragma mark - app delegate
 
@@ -129,13 +134,9 @@
 	}
 }
 
--(void)completeSessionStartup:(id)results
+-(void)completeSessionStartup2
 {
-	RCWorkspace *wspace = [Rc2Server sharedInstance].selectedWorkspace;
-	RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:results];
-	[Rc2Server sharedInstance].currentSession = session;
-	[session release];
-	SessionViewController *svc = [[SessionViewController alloc] initWithSession:session];
+	SessionViewController *svc = [[SessionViewController alloc] initWithSession:[Rc2Server sharedInstance].currentSession];
 	self.sessionController = svc;
 	[svc release];
 	[svc view];
@@ -144,11 +145,38 @@
 	RunAfterDelay(0.25, ^{
 		[self.splitController presentModalViewController:svc animated:YES];
 	});
+}
 
+-(void)completeSessionStartup:(id)results
+{
+	RCWorkspace *wspace = [Rc2Server sharedInstance].selectedWorkspace;
+	RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:results];
+	[Rc2Server sharedInstance].currentSession = session;
+	[session release];
+	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
+	if (keylayout != eKeyboardLayout_Standard) {
+		NSString *path1 = [NSString stringWithFormat:kCustomKeyboardDBPathTemplate, keylayout, 1];
+		//we need to attempt to copy custom keyboards from dropbox
+		if (nil == self.keyboardRestClient) {
+			self.keyboardRestClient = [[DBRestClient alloc] initWithSession:(id)[DBSession sharedSession]];
+			self.keyboardRestClient.delegate = (id)self;
+			NSString *pathUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomKey1URL];
+			[self.keyboardRestClient loadFile:path1 intoPath:pathUrl];
+		} else {
+			NSString *pathUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomKey1URL];
+			[self.keyboardRestClient loadFile:path1 intoPath:pathUrl];
+		}
+	} else {
+		[self completeSessionStartup2];
+	}
 }
 
 -(void)startSession
 {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *basePath = [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"customKeyboard"];
+	[defaults setObject:[basePath stringByAppendingString:@"1.txt"] forKey:kPrefCustomKey1URL];
+	[defaults setObject:[basePath stringByAppendingString:@"2.txt"] forKey:kPrefCustomKey2URL];
 	RCWorkspace *wspace = [Rc2Server sharedInstance].selectedWorkspace;
 	ZAssert(wspace, @"startSession called without a selected workspace");
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
@@ -234,6 +262,44 @@
 		}
 	}
 }
+
+#pragma mark - drop box
+
+- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
+	if ([destPath hasSuffix:@"1.txt"]) {
+		//need to load second file
+		NSString *path2 = [NSString stringWithFormat:kCustomKeyboardDBPathTemplate, keylayout, 2];
+		//we need to attempt to copy custom keyboards from dropbox
+		NSString *pathUrl = [defaults objectForKey:kPrefCustomKey2URL];
+		[self.keyboardRestClient loadFile:path2 intoPath:pathUrl];
+	} else {
+		NSString *path1 = [defaults objectForKey:kPrefCustomKey1URL];
+		NSString *path2 = [defaults objectForKey:kPrefCustomKey2URL];
+		//we should have 2 files saved on the filesystem. make sure they are there, and if not, null out the custom url paths
+		NSFileManager *fm = [NSFileManager defaultManager];
+		if (![fm fileExistsAtPath:path1] || ![fm fileExistsAtPath:path2]) {
+			[defaults removeObjectForKey:kPrefCustomKey1URL];
+			[defaults removeObjectForKey:kPrefCustomKey2URL];
+		} else {
+			NSLog(@"successfully downloaded custom keyboard layouts");
+		}
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self completeSessionStartup2];
+		});
+	}
+}
+
+- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error
+{
+	NSLog(@"keyboard import error: %@", [error localizedDescription]);
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self completeSessionStartup2];
+	});
+}
+
 
 #pragma mark - core data
 

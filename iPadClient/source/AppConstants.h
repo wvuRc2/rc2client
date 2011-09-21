@@ -10,6 +10,13 @@
 #define kPrefDynKey @"DynKeyboard"
 #define kPrefCustomKey1URL @"PrefCustomKey1URL"
 #define kPrefCustomKey2URL @"PrefCustomKey2URL"
+#define kPrefKeyboardLayout @"KeyboardLayout"
+
+typedef enum {
+	eKeyboardLayout_Standard=0,
+	eKeyboardLayout_Custom1,
+	eKeyboardLayout_Custom2
+} eKeyboardLayout;
 
 #define KeyboardPrefsChangedNotification @"KeyboardPrefsChangedNotification"
 

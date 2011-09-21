@@ -234,19 +234,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">innerSplitController</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="669732939"/>
-					</object>
-					<int key="connectionID">66</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">bottomController</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="970740413"/>
 					</object>
 					<int key="connectionID">67</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">splitController</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="669732939"/>
+					</object>
+					<int key="connectionID">69</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -457,7 +457,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">68</int>
+			<int key="maxID">69</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1078,8 +1078,8 @@
 							<string>button1</string>
 							<string>consoleController</string>
 							<string>editorController</string>
-							<string>innerSplitController</string>
 							<string>keyboardView</string>
+							<string>splitController</string>
 							<string>textField</string>
 							<string>textView</string>
 							<string>titleLabel</string>
@@ -1090,8 +1090,8 @@
 							<string>UIButton</string>
 							<string>ConsoleViewController</string>
 							<string>EditorViewController</string>
-							<string>MGSplitViewController</string>
 							<string>KeyboardView</string>
+							<string>MGSplitViewController</string>
 							<string>UITextField</string>
 							<string>UITextView</string>
 							<string>UILabel</string>
@@ -1105,8 +1105,8 @@
 							<string>button1</string>
 							<string>consoleController</string>
 							<string>editorController</string>
-							<string>innerSplitController</string>
 							<string>keyboardView</string>
+							<string>splitController</string>
 							<string>textField</string>
 							<string>textView</string>
 							<string>titleLabel</string>
@@ -1130,12 +1130,12 @@
 								<string key="candidateClassName">EditorViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">innerSplitController</string>
-								<string key="candidateClassName">MGSplitViewController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">keyboardView</string>
 								<string key="candidateClassName">KeyboardView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">splitController</string>
+								<string key="candidateClassName">MGSplitViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">textField</string>

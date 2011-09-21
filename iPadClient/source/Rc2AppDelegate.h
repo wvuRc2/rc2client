@@ -28,4 +28,6 @@
 -(void)startSession;
 -(IBAction)endSession:(id)sender;
 -(IBAction)flipMasterView:(UIView*)otherView;
+
+-(NSURL *)applicationDocumentsDirectory;
 @end

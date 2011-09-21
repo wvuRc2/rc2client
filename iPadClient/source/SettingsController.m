@@ -39,6 +39,7 @@ static const CGFloat kKeyboardHeight = 354;
 	self.dynKeyboardSwitch=nil;
 	self.keyUrl1Field=nil;
 	self.keyUrl2Field=nil;
+	self.keyboardPicker=nil;
 }
 
 -(void)dealloc
@@ -59,6 +60,7 @@ static const CGFloat kKeyboardHeight = 354;
 {
 	[self setKeyUrl1Field:nil];
 	[self setKeyUrl2Field:nil];
+    [self setKeyboardPicker:nil];
     [super viewDidUnload];
 	[self freeUpMemory];
 }
@@ -76,6 +78,8 @@ static const CGFloat kKeyboardHeight = 354;
 	self.dynKeyboardSwitch.on = [defaults boolForKey:kPrefDynKey];
 	self.keyUrl1Field.text = [defaults objectForKey:kPrefCustomKey1URL];
 	self.keyUrl2Field.text = [defaults objectForKey:kPrefCustomKey2URL];
+	[self.keyboardPicker selectRow:[defaults integerForKey:kPrefKeyboardLayout] inComponent:0 animated:NO];
+
 }
 
 #pragma mark - actions
@@ -157,6 +161,43 @@ static const CGFloat kKeyboardHeight = 354;
 	return NO;
 }
 
+#pragma mark - picker view
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+	return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+	return 3;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+	switch (row) {
+		case 0:
+		default:
+			return @"Standard";
+		case 1:
+			return @"Custom 1";
+		case 2:
+			return @"Custom 2";
+	}
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+	[[NSUserDefaults standardUserDefaults] setInteger:row forKey:kPrefKeyboardLayout];
+	[[NSNotificationCenter defaultCenter] postNotificationName:KeyboardPrefsChangedNotification 
+														object:[UIApplication sharedApplication].delegate];
+}
+
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
+{
+	return 44;
+}
+
 #pragma mark - table view
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -194,6 +235,7 @@ static const CGFloat kKeyboardHeight = 354;
 @synthesize leftyCell;
 @synthesize leftySwitch;
 @synthesize dynKeyboardSwitch;
+@synthesize keyboardPicker;
 @synthesize dynKeyCell;
 @synthesize keyUrl1Field;
 @synthesize keyUrl2Field;

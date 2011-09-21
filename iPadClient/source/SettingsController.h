@@ -13,6 +13,7 @@
 @property (nonatomic, retain) IBOutlet UITableViewCell *leftyCell;
 @property (nonatomic, retain) IBOutlet UISwitch *leftySwitch;
 @property (nonatomic, retain) IBOutlet UISwitch *dynKeyboardSwitch;
+@property (retain, nonatomic) IBOutlet UIPickerView *keyboardPicker;
 @property (retain, nonatomic) IBOutlet UITableViewCell *dynKeyCell;
 @property (retain, nonatomic) IBOutlet UITextField *keyUrl1Field;
 @property (retain, nonatomic) IBOutlet UITextField *keyUrl2Field;
