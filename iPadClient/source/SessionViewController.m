@@ -221,12 +221,7 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	if ([defaults boolForKey:kPrefLefty])
 		self.keyboardView.keyboardStyle = eKeyboardStyle_LeftHanded;
-	NSString *path1=nil, *path2=nil;
-	if ([[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout] > 0) {
-		path1 = [defaults objectForKey:kPrefCustomKey1URL];
-		path2 = [defaults objectForKey:kPrefCustomKey2URL];
-	}
-	[self.keyboardView layoutKeyboard:path1 secondary:path2];
+	[self.keyboardView layoutKeyboard];
 	self.editorController.textView.inputView = self.keyboardView;
 	self.keyboardView.textView = self.editorController.textView;
 	self.keyboardView.delegate = self.editorController;

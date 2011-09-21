@@ -13,6 +13,7 @@
 
 #import "KeyboardView.h"
 #import "KeyButton.h"
+#import "AppConstants.h"
 
 #define kSymbolsLabel @"!?@"
 
@@ -29,6 +30,8 @@ enum {
 @property (nonatomic, assign) NSInteger currentLayout;
 @property (nonatomic, retain) UIView *alphaKeyView;
 @property (nonatomic, retain) UIView *symKeyView;
+@property (nonatomic, retain) UIView *pAlphaKeyView;
+@property (nonatomic, retain) UIView *pSymKeyView;
 @property (nonatomic, retain) NSData *buttonTemplateData;
 @property (nonatomic, retain) KeyButton *layoutButton;
 @property (nonatomic, assign) KeyButton *shiftKey;
@@ -43,9 +46,14 @@ enum {
 
 @implementation KeyboardView
 @synthesize keyboardStyle=_keyStyle;
+@synthesize isLandscape=_isLandscape;
 
 -(void)dealloc
 {
+	self.alphaKeyView=nil;
+	self.symKeyView=nil;
+	self.pAlphaKeyView=nil;
+	self.pSymKeyView=nil;
 	[self flushGradients];
 	[super dealloc];
 }
@@ -53,9 +61,10 @@ enum {
 -(void)awakeFromNib
 {
 	[self cacheGradients];
+	self.isLandscape=YES;
 }
 
--(void)layoutKeyboard:(NSString*)keyPath1 secondary:(NSString*)keyPath2
+-(void)layoutKeyboard
 {
 	CGRect vframe = self.frame;
 	vframe.origin = CGPointZero;
@@ -68,26 +77,25 @@ enum {
 	aView.opaque=NO;
 	aView.alpha = 0;
 	[aView release];
+	aView = [[UIView alloc] initWithFrame:vframe];
+	self.pAlphaKeyView = aView;
+	aView.opaque=NO;
+	[aView release];
+	aView = [[UIView alloc] initWithFrame:vframe];
+	self.pSymKeyView = aView;
+	aView.opaque=NO;
+	[aView release];
 
 	if (nil == self.buttonTemplateData) {
 		self.buttonTemplateData = [NSKeyedArchiver archivedDataWithRootObject:self.buttonTemplate];
 		[self.buttonTemplate removeFromSuperview];
 		self.buttonTemplate=nil;
 	}
-	NSFileManager *fm = [NSFileManager defaultManager];
-	NSString *keyPath = [[NSBundle mainBundle] pathForResource:@"rightAlpha" ofType:@"txt"];
-	if ([fm fileExistsAtPath:keyPath1])
-		keyPath = keyPath1;
-	[self loadKeyFile:keyPath intoView:self.alphaKeyView];
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[self loadKeyFile:[defaults objectForKey:kPrefCustomKey1URL] intoView:self.alphaKeyView];
+	[self loadKeyFile:[defaults objectForKey:kPrefCustomKey2URL] intoView:self.symKeyView];
 	[self addSubview:self.alphaKeyView];
 	[self addSubview:self.symKeyView];
-	if ([fm fileExistsAtPath:keyPath2])
-		keyPath = keyPath2;
-	else if (self.keyboardStyle == eKeyboardStyle_LeftHanded)
-		keyPath = [[NSBundle mainBundle] pathForResource:@"leftSym" ofType:@"txt"];
-	else
-		keyPath = [[NSBundle mainBundle] pathForResource:@"rightSym" ofType:@"txt"];
-	[self loadKeyFile:keyPath intoView:self.symKeyView];		
 	
 	KeyButton *aButton = [NSKeyedUnarchiver unarchiveObjectWithData:self.buttonTemplateData];
 	aButton.frame = CGRectMake(18, _lastKeyRowYOrigin, 182, 51);
@@ -340,5 +348,6 @@ enum {
 @synthesize buttonTemplate;
 @synthesize shiftDown;
 @synthesize shiftKey;
-
+@synthesize pSymKeyView;
+@synthesize pAlphaKeyView;
 @end

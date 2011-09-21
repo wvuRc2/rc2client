@@ -19,12 +19,11 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UITextView *textView;
 @property (nonatomic, assign) id<KeyboardViewDelegate> delegate;
 @property (nonatomic, assign) eKeyboardStyle keyboardStyle;
+@property (nonatomic, assign) BOOL isLandscape;
 -(IBAction)doKeyPress:(id)sender;
 
 //should be called after setting the keyboard style
-//if null, uses builtin keyboards based on lefty pref.
-//to use a custom keyboard, change 1 or both paths
--(void)layoutKeyboard:(NSString*)keyPath1 secondary:(NSString*)keyPath2;
+-(void)layoutKeyboard;
 @end
 
 @protocol KeyboardViewDelegate <NSObject>

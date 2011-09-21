@@ -115,6 +115,14 @@
 
 #pragma mark - meat & potatoes
 
+-(void)resetKeyboardPaths
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSBundle *mb = [NSBundle mainBundle];
+	[defaults setObject:[mb pathForResource:@"rightAlpha" ofType:@"txt"] forKey:kPrefCustomKey1URL];
+	[defaults setObject:[mb pathForResource:@"rightSym" ofType:@"txt"] forKey:kPrefCustomKey2URL];		
+}
+
 -(IBAction)flipMasterView:(UIView*)otherView
 {
 	if (self.currentMasterView == self.navController.view) {
@@ -174,9 +182,14 @@
 -(void)startSession
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *basePath = [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"customKeyboard"];
-	[defaults setObject:[basePath stringByAppendingString:@"1.txt"] forKey:kPrefCustomKey1URL];
-	[defaults setObject:[basePath stringByAppendingString:@"2.txt"] forKey:kPrefCustomKey2URL];
+	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
+	if (eKeyboardLayout_Standard == keylayout) {
+		[self resetKeyboardPaths];
+	} else {
+		NSString *basePath = [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"customKeyboard"];
+		[defaults setObject:[basePath stringByAppendingString:@"1.txt"] forKey:kPrefCustomKey1URL];
+		[defaults setObject:[basePath stringByAppendingString:@"2.txt"] forKey:kPrefCustomKey2URL];
+	}
 	RCWorkspace *wspace = [Rc2Server sharedInstance].selectedWorkspace;
 	ZAssert(wspace, @"startSession called without a selected workspace");
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
@@ -281,8 +294,7 @@
 		//we should have 2 files saved on the filesystem. make sure they are there, and if not, null out the custom url paths
 		NSFileManager *fm = [NSFileManager defaultManager];
 		if (![fm fileExistsAtPath:path1] || ![fm fileExistsAtPath:path2]) {
-			[defaults removeObjectForKey:kPrefCustomKey1URL];
-			[defaults removeObjectForKey:kPrefCustomKey2URL];
+			[self resetKeyboardPaths];
 		} else {
 			NSLog(@"successfully downloaded custom keyboard layouts");
 		}
