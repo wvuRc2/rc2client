@@ -17,8 +17,6 @@
 
 #define kAlphaLabel @"abc"
 #define kSymbolsLabel @"!?@"
-#define kFrameHeightLandscape 357
-#define kFrameHeightPortrait 307
 #define kLayoutButtonWidthLandscape 182
 #define kLayoutButtonWidthPortrait 126
 #define kLayoutButtonBottomOffset 17
@@ -47,8 +45,8 @@ enum {
 	CGGradientRef _keyGradient;
 	CGGradientRef _KeyGradientPressed;
 	CGFloat _lastKeyRowYOrigin;
-	CGRect _landscapeFrame;
-	CGRect _portraitFrame;
+	CGFloat _landscapeKeyboardHeight;
+	CGFloat _portraitKeyboardHeight;
 }
 @property (nonatomic, assign) NSInteger currentLayout;
 @property (nonatomic, retain) UIView *alphaKeyView;
@@ -66,7 +64,8 @@ enum {
 -(IBAction)doLayoutKey:(id)sender;
 -(void)adjustFrame;
 -(NSString*)fontNameForTag:(NSInteger)tag;
--(CGRect)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView;
+//returns the height of the keyboard
+-(CGFloat)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView;
 -(UIImage*)imageForKey:(NSString*)keyStr size:(CGSize)sizes fontName:(NSString*)fontName pressed:(BOOL)pressed;
 @end
 
@@ -93,8 +92,6 @@ enum {
 -(void)layoutKeyboard
 {
 	CGRect vframe = self.frame;
-	_landscapeFrame = vframe;
-	_portraitFrame = vframe;
 	vframe.origin = CGPointZero;
 	UIView *aView = [[UIView alloc] initWithFrame:vframe];
 	self.alphaKeyView = aView;
@@ -124,13 +121,14 @@ enum {
 	}
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSFileManager *fm = [NSFileManager defaultManager];
-	[self loadKeyFile:[defaults objectForKey:kPrefCustomKey1URL] intoView:self.alphaKeyView];
+	_landscapeKeyboardHeight = [self loadKeyFile:[defaults objectForKey:kPrefCustomKey1URL] intoView:self.alphaKeyView];
 	[self loadKeyFile:[defaults objectForKey:kPrefCustomKey2URL] intoView:self.symKeyView];
+	_portraitKeyboardHeight = _landscapeKeyboardHeight; //default
 	[self addSubview:self.alphaKeyView];
 	[self addSubview:self.symKeyView];
 	NSString *ppath = [[[defaults objectForKey:kPrefCustomKey1URL] stringByDeletingPathExtension] stringByAppendingString:@"p.txt"];
 	if ([fm fileExistsAtPath:ppath]) {
-		_portraitFrame.size = [self loadKeyFile:ppath intoView:self.pAlphaKeyView].size;
+		_portraitKeyboardHeight = [self loadKeyFile:ppath intoView:self.pAlphaKeyView];
 	} else {
 		self.pAlphaKeyView = self.alphaKeyView;
 	}
@@ -153,10 +151,11 @@ enum {
 	[aButton addTarget:self action:@selector(doLayoutKey:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:aButton];
 	[self bringSubviewToFront:aButton];
+	NSLog(@"lh=%1f, ph=%1f", _landscapeKeyboardHeight, _portraitKeyboardHeight);
 	[self adjustFrame];
 }
 
--(CGRect)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView
+-(CGFloat)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView
 {
 	NSString *keydata = [NSString stringWithContentsOfFile:keyFilePath encoding:NSUTF8StringEncoding error:nil];
 	NSArray *rows = [keydata componentsSeparatedByString:@"\n\n"];
@@ -225,9 +224,7 @@ enum {
 		frame.origin.x = initFrame.origin.x;
 		rowCnt++;
 	}
-	CGRect viewFrame = self.frame;
-	viewFrame.size.height = frame.origin.y + kKeyViewYOffset;
-	return viewFrame;
+	return frame.origin.y + kKeyViewYOffset;
 }
 
 
@@ -410,8 +407,15 @@ enum {
 -(void)adjustFrame
 {
 	CGRect f = self.frame;
-	f.size.height = _isLandscape ? kFrameHeightLandscape : kFrameHeightPortrait;
+	f.size.height = _isLandscape ? _landscapeKeyboardHeight : _portraitKeyboardHeight;
 	self.frame = f;
+	//simulator doesn't have a displacement problem, but device does.
+#ifdef TARGET_OS_IPHONE
+	CGRect sf = self.superview.frame;
+	sf.origin.y = _isLandscape ? 768 - _landscapeKeyboardHeight : 1024 - _portraitKeyboardHeight;
+	sf.size.height = f.size.height;
+	self.superview.frame = sf;
+#endif
 	CGRect lf = self.layoutButton.frame;
 	lf.origin.y = f.size.height - kKeyButtonDefaultHeight - kLayoutButtonBottomOffset;
 	lf.size.width = _isLandscape ? kLayoutButtonWidthLandscape : kLayoutButtonWidthPortrait;
