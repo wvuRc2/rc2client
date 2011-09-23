@@ -17,6 +17,15 @@
 	#import "Vyana-ios/Vyana-ios.h"
 	#import "Vyana-ios/AMZeroingWeakRef.h"
 	#import "TestFlight.h"
+	#import "Vyana-ios/VyanaLog.h"
 #endif
 
 #define TheApp [UIApplication sharedApplication]
+
+#define RC2_LOG_CONTEXT 0x32635200
+#define Rc2LogLevel [[VyanaLogger sharedInstance] logLevelForKey:@"rc2"]
+
+#define Rc2LogError(frmt, ...)     SYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_ERROR,   RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)
+#define Rc2LogWarn(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_WARN,    RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)
+#define Rc2LogInfo(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_INFO,    RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)
+#define Rc2LogVerbose(frmt, ...)  ASYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_VERBOSE, RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)

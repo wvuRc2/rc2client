@@ -58,7 +58,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	// Override point for customization after application launch.
+	[[VyanaLogger sharedInstance] startLogging];
+	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
 	 
 	[self.window makeKeyAndVisible];
 	[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
@@ -71,7 +72,9 @@
 	DBSession *session = [[[DBSession alloc] initWithConsumerKey:@"663yb1illxbs5rl" 
 												  consumerSecret:@"on576o50uxrjxhj"] autorelease];
 	[DBSession setSharedSession:session];
+#ifndef TARGET_IPHONE_SIMULATOR
 	[TestFlight takeOff:@"77af1fa93381361c61748e58fae9f4f9_Mjc0ODAyMDExLTA5LTE5IDE2OjUwOjU3LjYzOTg1Mw"];
+#endif
 	return YES;
 }
 

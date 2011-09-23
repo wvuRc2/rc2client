@@ -26,6 +26,8 @@ enum {
 	CGGradientRef _keyGradient;
 	CGGradientRef _KeyGradientPressed;
 	CGFloat _lastKeyRowYOrigin;
+	CGRect _landscapeFrame;
+	CGRect _portraitFrame;
 }
 @property (nonatomic, assign) NSInteger currentLayout;
 @property (nonatomic, retain) UIView *alphaKeyView;
@@ -42,7 +44,7 @@ enum {
 -(void)flushGradients;
 -(IBAction)doLayoutKey:(id)sender;
 -(NSString*)fontNameForTag:(NSInteger)tag;
--(void)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView;
+-(CGRect)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView;
 -(UIImage*)imageForKey:(NSString*)keyStr size:(CGSize)sizes fontName:(NSString*)fontName pressed:(BOOL)pressed;
 @end
 
@@ -69,6 +71,8 @@ enum {
 -(void)layoutKeyboard
 {
 	CGRect vframe = self.frame;
+	_landscapeFrame = vframe;
+	_portraitFrame = vframe;
 	vframe.origin = CGPointZero;
 	UIView *aView = [[UIView alloc] initWithFrame:vframe];
 	self.alphaKeyView = aView;
@@ -82,7 +86,6 @@ enum {
 	aView = [[UIView alloc] initWithFrame:vframe];
 	self.pAlphaKeyView = aView;
 	aView.opaque=NO;
-	aView.alpha = 0;
 	[aView release];
 	aView = [[UIView alloc] initWithFrame:vframe];
 	self.pSymKeyView = aView;
@@ -105,15 +108,13 @@ enum {
 	[self addSubview:self.symKeyView];
 	NSString *ppath = [[[defaults objectForKey:kPrefCustomKey1URL] stringByDeletingPathExtension] stringByAppendingString:@"p.txt"];
 	if ([fm fileExistsAtPath:ppath]) {
-		[self loadKeyFile:ppath intoView:self.pAlphaKeyView];
-		[self addSubview:self.pAlphaKeyView];
+		_portraitFrame.size = [self loadKeyFile:ppath intoView:self.pAlphaKeyView].size;
 	} else {
 		self.pAlphaKeyView = self.alphaKeyView;
 	}
 	ppath = [[[defaults objectForKey:kPrefCustomKey2URL] stringByDeletingPathExtension] stringByAppendingString:@"p.txt"];
 	if ([fm fileExistsAtPath:ppath]) {
 		[self loadKeyFile:ppath intoView:self.pSymKeyView];
-		[self addSubview:self.pSymKeyView];
 	} else {
 		self.pSymKeyView = self.symKeyView;
 	}
@@ -121,6 +122,7 @@ enum {
 	KeyButton *aButton = [NSKeyedUnarchiver unarchiveObjectWithData:self.buttonTemplateData];
 	aButton.frame = CGRectMake(18, _lastKeyRowYOrigin, 182, 51);
 	self.layoutButton = aButton;
+	aButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
 	[aButton setTitle:kSymbolsLabel forState:UIControlStateNormal];
 	[aButton setBackgroundImage:[self imageForKey:@" " size:aButton.frame.size fontName:[self fontNameForTag:0] pressed:NO] 
 					   forState:UIControlStateNormal];
@@ -129,9 +131,10 @@ enum {
 	[aButton addTarget:self action:@selector(doLayoutKey:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:aButton];
 	[self bringSubviewToFront:aButton];
+	Rc2LogInfo(@"land=%@, port=%@", NSStringFromCGRect(_landscapeFrame), NSStringFromCGRect(_portraitFrame));
 }
 
--(void)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView
+-(CGRect)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView
 {
 	NSString *keydata = [NSString stringWithContentsOfFile:keyFilePath encoding:NSUTF8StringEncoding error:nil];
 	NSArray *rows = [keydata componentsSeparatedByString:@"\n\n"];
@@ -202,7 +205,8 @@ enum {
 	}
 	CGRect viewFrame = self.frame;
 	viewFrame.size.height = frame.origin.y + 11;
-	self.frame = viewFrame;
+	Rc2LogInfo(@"vf=%@", NSStringFromCGRect(viewFrame));
+	return viewFrame;
 }
 
 
@@ -361,18 +365,33 @@ enum {
 
 -(void)setIsLandscape:(BOOL)newOrient
 {
+	if (newOrient == _isLandscape)
+		return;
+	Rc2LogInfo(@"setting landscape:%@", newOrient?@"true":@"false");
 	_isLandscape = newOrient;
-	self.currentAlphaKeyView.alpha = 0;
-	self.currentSymKeyView.alpha = 0;
-	if (newOrient) {
-		self.currentAlphaKeyView = self.alphaKeyView;
-		self.currentSymKeyView = self.symKeyView;
-	} else {
-		self.currentAlphaKeyView = self.pAlphaKeyView;
-		self.currentSymKeyView = self.pSymKeyView;
+	UIView *targetView1 = _isLandscape ? self.alphaKeyView : self.pAlphaKeyView;
+	UIView *targetView2 = _isLandscape ? self.symKeyView : self.pSymKeyView;
+	if (self.currentAlphaKeyView != targetView1) {
+		[self.currentAlphaKeyView removeFromSuperview];
+		[self insertSubview:targetView1 belowSubview:self.layoutButton];
+		self.currentAlphaKeyView = targetView1;
 	}
-	self.currentAlphaKeyView.alpha = 1;
-	self.currentSymKeyView.alpha = 1;
+	if (self.currentSymKeyView != targetView2) {
+		[self.currentSymKeyView removeFromSuperview];
+		[self insertSubview:targetView2 belowSubview:self.layoutButton];
+		self.currentSymKeyView = targetView2;
+	}
+	//a hack to make sure the alpha is correct
+	self.currentLayout = !self.currentLayout;
+	[self doLayoutKey:self];
+	Rc2LogInfo(@"our frame is %@", NSStringFromCGRect(self.frame));
+	CGRect f = self.frame;
+	f.size.height = _isLandscape ? 357 : 307;
+	self.frame = f;
+	Rc2LogInfo(@"our frame is now %@", NSStringFromCGRect(self.frame));
+	f = self.layoutButton.frame;
+	f.size.width = _isLandscape ? 182 : 126;
+	self.layoutButton.frame = f;
 }
 
 @synthesize currentLayout;
