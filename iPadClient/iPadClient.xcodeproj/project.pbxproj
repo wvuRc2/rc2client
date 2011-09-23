@@ -116,6 +116,8 @@
 		08AE4EAE1414568700963C52 /* messageCellBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4EAD1414568700963C52 /* messageCellBG.png */; };
 		08AE4EB11414593800963C52 /* messageCellBGBottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4EAF1414593800963C52 /* messageCellBGBottom.png */; };
 		08AE4EB21414593800963C52 /* messageCellBGTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4EB01414593800963C52 /* messageCellBGTop.png */; };
+		08B44978142CFE9A0064005D /* rightAlphap.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08B44976142CFE9A0064005D /* rightAlphap.txt */; };
+		08B44979142CFE9A0064005D /* rightSymp.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08B44977142CFE9A0064005D /* rightSymp.txt */; };
 		08D55EDF140635CA00E9D981 /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EDE140635CA00E9D981 /* GradientButton.m */; };
 		08D55EE314063C9500E9D981 /* RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EE214063C9500E9D981 /* RCFile.m */; };
 		08D55EE7140641D900E9D981 /* FileDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EE5140641D900E9D981 /* FileDetailsCell.m */; };
@@ -346,6 +348,8 @@
 		08AE4EAD1414568700963C52 /* messageCellBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = messageCellBG.png; path = resources/messageCellBG.png; sourceTree = SOURCE_ROOT; };
 		08AE4EAF1414593800963C52 /* messageCellBGBottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = messageCellBGBottom.png; path = resources/messageCellBGBottom.png; sourceTree = SOURCE_ROOT; };
 		08AE4EB01414593800963C52 /* messageCellBGTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = messageCellBGTop.png; path = resources/messageCellBGTop.png; sourceTree = SOURCE_ROOT; };
+		08B44976142CFE9A0064005D /* rightAlphap.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rightAlphap.txt; path = resources/rightAlphap.txt; sourceTree = SOURCE_ROOT; };
+		08B44977142CFE9A0064005D /* rightSymp.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rightSymp.txt; path = resources/rightSymp.txt; sourceTree = SOURCE_ROOT; };
 		08D55EDD140635CA00E9D981 /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GradientButton.h; path = source/GradientButton.h; sourceTree = SOURCE_ROOT; };
 		08D55EDE140635CA00E9D981 /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GradientButton.m; path = source/GradientButton.m; sourceTree = SOURCE_ROOT; };
 		08D55EE114063C9500E9D981 /* RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCFile.h; path = ../SharedCode/rc2/model/RCFile.h; sourceTree = SOURCE_ROOT; };
@@ -565,6 +569,8 @@
 				08DD231F1412641B00217C1A /* leftSym.txt */,
 				08349EBD1403311500B629B4 /* rightSym.txt */,
 				08349EC0140339F300B629B4 /* rightAlpha.txt */,
+				08B44976142CFE9A0064005D /* rightAlphap.txt */,
+				08B44977142CFE9A0064005D /* rightSymp.txt */,
 				0860C54214103D2E00582C7D /* images */,
 				087CE9021402E86100C9F758 /* Icon72.png */,
 				08DD230A1411CDA500217C1A /* Default-Landscape.png */,
@@ -1036,6 +1042,8 @@
 				08447F741415DE8F00A8DDF8 /* themes in Resources */,
 				08447F791415E96C00A8DDF8 /* ThemePicker.xib in Resources */,
 				08447F8A1416D82D00A8DDF8 /* ThemeEngine.plist in Resources */,
+				08B44978142CFE9A0064005D /* rightAlphap.txt in Resources */,
+				08B44979142CFE9A0064005D /* rightSymp.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

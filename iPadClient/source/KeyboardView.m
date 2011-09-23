@@ -15,7 +15,28 @@
 #import "KeyButton.h"
 #import "AppConstants.h"
 
+#define kAlphaLabel @"abc"
 #define kSymbolsLabel @"!?@"
+#define kFrameHeightLandscape 357
+#define kFrameHeightPortrait 307
+#define kLayoutButtonWidthLandscape 182
+#define kLayoutButtonWidthPortrait 126
+#define kLayoutButtonBottomOffset 17
+#define kKeyButtonMargin 6
+#define kKeyButtonDefaultWidth 88
+#define kKeyButtonDefaultHeight 51
+#define kKeyViewYOffset 11
+#define kKeyButtonDefaultFrame CGRectMake(18, kKeyViewYOffset, kKeyButtonDefaultWidth, kKeyButtonDefaultHeight)
+
+#define kKeyCodeGets 0xea61
+#define kKeyCodeDelete 0xea64
+#define kKeyCodeShift 0xea65
+#define kKeyCodeLayoutSwap 0xea80
+#define kKeyCodeDismissKeyboard 0xea90
+#define kKeyCodeUpArrow 0xeb00
+#define kKeyCodeDownArrow 0xeb01
+#define kKeyCodeLeftArrow 0xeb02
+#define kKeyCodeRightArrow 0xeb03
 
 enum {
 	eKeyLayout_Alpha=0,
@@ -43,6 +64,7 @@ enum {
 -(void)cacheGradients;
 -(void)flushGradients;
 -(IBAction)doLayoutKey:(id)sender;
+-(void)adjustFrame;
 -(NSString*)fontNameForTag:(NSInteger)tag;
 -(CGRect)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView;
 -(UIImage*)imageForKey:(NSString*)keyStr size:(CGSize)sizes fontName:(NSString*)fontName pressed:(BOOL)pressed;
@@ -120,7 +142,7 @@ enum {
 	}
 	
 	KeyButton *aButton = [NSKeyedUnarchiver unarchiveObjectWithData:self.buttonTemplateData];
-	aButton.frame = CGRectMake(18, _lastKeyRowYOrigin, 182, 51);
+	aButton.frame = CGRectMake(18, _lastKeyRowYOrigin, kLayoutButtonWidthLandscape, kKeyButtonDefaultHeight);
 	self.layoutButton = aButton;
 	aButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
 	[aButton setTitle:kSymbolsLabel forState:UIControlStateNormal];
@@ -131,7 +153,7 @@ enum {
 	[aButton addTarget:self action:@selector(doLayoutKey:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:aButton];
 	[self bringSubviewToFront:aButton];
-	Rc2LogInfo(@"land=%@, port=%@", NSStringFromCGRect(_landscapeFrame), NSStringFromCGRect(_portraitFrame));
+	[self adjustFrame];
 }
 
 -(CGRect)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView
@@ -139,7 +161,7 @@ enum {
 	NSString *keydata = [NSString stringWithContentsOfFile:keyFilePath encoding:NSUTF8StringEncoding error:nil];
 	NSArray *rows = [keydata componentsSeparatedByString:@"\n\n"];
 	
-	CGRect frame = CGRectMake(18, 11, 88, 51);
+	CGRect frame = kKeyButtonDefaultFrame;
 	CGRect initFrame = frame;
 	
 	NSInteger rowCnt=0;
@@ -191,7 +213,7 @@ enum {
 			UIImage *pressImg = [self imageForKey:key size:frame.size fontName:fontName pressed:YES];
 			[aButton setBackgroundImage:regImg forState:UIControlStateNormal];
 			[aButton setBackgroundImage:pressImg forState:UIControlStateHighlighted];
-			frame.origin.x += frame.size.width + 6;
+			frame.origin.x += frame.size.width + kKeyButtonMargin;
 			frame.size = initFrame.size;
 		}
 		//move frame.orign.y to the the next row
@@ -199,13 +221,12 @@ enum {
 		if (largestHeight < 60)
 			frame.origin.y += 6 + largestHeight;
 		else
-			frame.origin.y += initFrame.size.height + 6;
+			frame.origin.y += initFrame.size.height + kKeyButtonMargin;
 		frame.origin.x = initFrame.origin.x;
 		rowCnt++;
 	}
 	CGRect viewFrame = self.frame;
-	viewFrame.size.height = frame.origin.y + 11;
-	Rc2LogInfo(@"vf=%@", NSStringFromCGRect(viewFrame));
+	viewFrame.size.height = frame.origin.y + kKeyViewYOffset;
 	return viewFrame;
 }
 
@@ -225,14 +246,14 @@ enum {
 -(IBAction)doLayoutKey:(id)sender
 {
 	if (self.currentLayout == eKeyLayout_Alpha) {
-		self.symKeyView.alpha = 1.0;
-		self.alphaKeyView.alpha = 0;
+		self.currentSymKeyView.alpha = 1.0;
+		self.currentAlphaKeyView.alpha = 0;
 		self.currentLayout = eKeyLayout_Symbols;
-		[self.layoutButton setTitle:@"abc" forState:UIControlStateNormal];
+		[self.layoutButton setTitle:kAlphaLabel forState:UIControlStateNormal];
 		[self.layoutButton setNeedsDisplay];
 	} else {
-		self.symKeyView.alpha = 0;
-		self.alphaKeyView.alpha = 1.0;
+		self.currentSymKeyView.alpha = 0;
+		self.currentAlphaKeyView.alpha = 1.0;
 		self.currentLayout = eKeyLayout_Alpha;
 		[self.layoutButton setTitle:kSymbolsLabel forState:UIControlStateNormal];
 		[self.layoutButton setNeedsDisplay];
@@ -254,34 +275,34 @@ enum {
 		str = self.shiftDown ? sender.representedText : [sender.representedText lowercaseString];
 	} else if ([sender tag] >= 1000) {
 		switch ([sender tag]) {
-			case 0xea61: // <-
+			case kKeyCodeGets:
 				str = @"<-";
 				break;
-			case 0xEA64: //delete
+			case kKeyCodeDelete:
 				if (rng.location > 0) {
 					self.textView.text = [curText stringByReplacingCharactersInRange:NSMakeRange(rng.location-1, 1) withString:@""];
 					self.textView.selectedRange = NSMakeRange(rng.location-1, 0);
 				}
 				break;
-			case 0xea65: //shift
+			case kKeyCodeShift:
 				[self toggleShift];
 				break;
-			case 0xea80: //switch keyboard
+			case kKeyCodeLayoutSwap:
 				sender.selected = !sender.selected;
 				self.currentLayout = sender.selected ? eKeyLayout_Alpha : eKeyLayout_Symbols;
 				break;
-			case 0xea90:
+			case kKeyCodeDismissKeyboard:
 				[self.textView resignFirstResponder];
 				break;
-			case 0xeb00: //up arrow
+			case kKeyCodeUpArrow:
 				break;
-			case 0xeb01: //down arrow
+			case kKeyCodeDownArrow:
 				break;
-			case 0xeb02: //left arrow
+			case kKeyCodeLeftArrow:
 				if (rng.location > 0)
 					self.textView.selectedRange = NSMakeRange(rng.location-1, 0);
 				break;
-			case 0xeb03: //right arrow
+			case kKeyCodeRightArrow:
 				if (rng.location < [curText length])
 					self.textView.selectedRange = NSMakeRange(rng.location+1, 0);
 				break;
@@ -367,7 +388,6 @@ enum {
 {
 	if (newOrient == _isLandscape)
 		return;
-	Rc2LogInfo(@"setting landscape:%@", newOrient?@"true":@"false");
 	_isLandscape = newOrient;
 	UIView *targetView1 = _isLandscape ? self.alphaKeyView : self.pAlphaKeyView;
 	UIView *targetView2 = _isLandscape ? self.symKeyView : self.pSymKeyView;
@@ -384,14 +404,18 @@ enum {
 	//a hack to make sure the alpha is correct
 	self.currentLayout = !self.currentLayout;
 	[self doLayoutKey:self];
-	Rc2LogInfo(@"our frame is %@", NSStringFromCGRect(self.frame));
+	[self adjustFrame];
+}
+
+-(void)adjustFrame
+{
 	CGRect f = self.frame;
-	f.size.height = _isLandscape ? 357 : 307;
+	f.size.height = _isLandscape ? kFrameHeightLandscape : kFrameHeightPortrait;
 	self.frame = f;
-	Rc2LogInfo(@"our frame is now %@", NSStringFromCGRect(self.frame));
-	f = self.layoutButton.frame;
-	f.size.width = _isLandscape ? 182 : 126;
-	self.layoutButton.frame = f;
+	CGRect lf = self.layoutButton.frame;
+	lf.origin.y = f.size.height - kKeyButtonDefaultHeight - kLayoutButtonBottomOffset;
+	lf.size.width = _isLandscape ? kLayoutButtonWidthLandscape : kLayoutButtonWidthPortrait;
+	self.layoutButton.frame = lf;
 }
 
 @synthesize currentLayout;
