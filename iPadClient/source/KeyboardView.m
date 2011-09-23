@@ -96,6 +96,7 @@ enum {
 	UIView *aView = [[UIView alloc] initWithFrame:vframe];
 	self.alphaKeyView = aView;
 	aView.opaque=NO;
+	aView.userInteractionEnabled=YES;
 	[aView release];
 	aView = [[UIView alloc] initWithFrame:vframe];
 	self.symKeyView = aView;
@@ -151,7 +152,6 @@ enum {
 	[aButton addTarget:self action:@selector(doLayoutKey:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:aButton];
 	[self bringSubviewToFront:aButton];
-	NSLog(@"lh=%1f, ph=%1f", _landscapeKeyboardHeight, _portraitKeyboardHeight);
 	[self adjustFrame];
 }
 
@@ -408,6 +408,8 @@ enum {
 {
 	CGRect f = self.frame;
 	f.size.height = _isLandscape ? _landscapeKeyboardHeight : _portraitKeyboardHeight;
+	if (f.size.height < 100) //we were getting zero at some point. this corrects that problem
+		f.size.height = 357;
 	self.frame = f;
 	//simulator doesn't have a displacement problem, but device does.
 #ifdef TARGET_OS_IPHONE
@@ -419,7 +421,7 @@ enum {
 	CGRect lf = self.layoutButton.frame;
 	lf.origin.y = f.size.height - kKeyButtonDefaultHeight - kLayoutButtonBottomOffset;
 	lf.size.width = _isLandscape ? kLayoutButtonWidthLandscape : kLayoutButtonWidthPortrait;
-	self.layoutButton.frame = lf;
+	self.layoutButton.frame = lf; 
 }
 
 @synthesize currentLayout;

@@ -159,12 +159,14 @@
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 	[self.splitController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];;
+	//FIXME: the interface rotation would look better if done here, but the split controller some how looses
+	// the splitter. until I muck around with that code, it just won't look so great.
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)oldOrient
 {
 	[self.splitController didRotateFromInterfaceOrientation:oldOrient];	
-	UIDeviceOrientation curOrient = [[UIDevice currentDevice] orientation];
+	UIInterfaceOrientation curOrient = [TheApp statusBarOrientation];
 	if (curOrient != oldOrient && curOrient != UIDeviceOrientationUnknown) {
 		[self.splitController toggleSplitOrientation:self];
 		self.keyboardView.isLandscape = UIDeviceOrientationIsLandscape(curOrient);
@@ -172,48 +174,7 @@
 	[self.splitController.view setNeedsLayout];
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
-										 duration:(NSTimeInterval)duration
-{
-	[self.splitViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
-
-
-- (void)willAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-	[self.splitViewController willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
-
-
-- (void)didAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-	[self.splitViewController didAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation];
-}
-
-
-- (void)willAnimateSecondHalfOfRotationFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation duration:(NSTimeInterval)duration
-{
-	[self.splitViewController willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
-}
-
 #pragma mark - meat & potatoes
-
--(NSString*)dowmloadKeyFile:(NSString*)urlStr
-{
-	if (nil == urlStr || ![urlStr hasPrefix:@"http://"])
-		return nil;
-	NSLog(@"fetching keyboard %@", urlStr);
-	NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
-	NSData *keyData = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:nil];
-	if (nil == keyData)
-		return nil;
-	//need to save the file somewhere, we'll use a contant name
-	NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:
-					  [NSString stringWithFormat:@"%1.1f.txt", [NSDate timeIntervalSinceReferenceDate]]];
-	if ([keyData writeToFile:path atomically:NO])
-		return path;
-	return nil;
-}
 
 -(void)loadKeyboard
 {
