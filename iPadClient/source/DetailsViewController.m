@@ -255,6 +255,7 @@ enum {
 -(void)postLoginSetup
 {
 	self.messagesButton.enabled=YES;
+	self.sessionButton.enabled = YES;
 	[self updateMessageIcon:NO];
 }
 
