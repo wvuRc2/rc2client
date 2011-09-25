@@ -333,7 +333,7 @@
 {
 	if (![self loadImageIntoCache:imgPath]) {
 		//FIXME: display alert
-		NSLog(@"image does not exist");
+		Rc2LogWarn(@"image does not exist: %@", imgPath);
 		return;
 	}
 	self.imgController = [[[ImageDisplayController alloc] init] autorelease];
@@ -396,7 +396,7 @@
 
 -(void)handleWebSocketError:(NSError*)error
 {
-	NSLog(@"web socket error: %@", [error localizedDescription]);
+	Rc2LogError(@"web socket error: %@", [error localizedDescription]);
 	if (self.reconnecting) {
 		[MBProgressHUD hideHUDForView:self.view animated:YES];
 		//FIXME: need to tell them reconnect failed and freeze interface

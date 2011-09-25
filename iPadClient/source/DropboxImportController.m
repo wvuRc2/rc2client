@@ -155,7 +155,7 @@
 		} else {
 			NSNumber *importable = [NSNumber numberWithBool:([ftype isEqualToString:@"R"] || [ftype isEqualToString:@"RnW"]|| 
 									   [ftype isEqualToString:@"txt"]) && item.totalBytes > 0];
-			NSLog(@"%@ is importable? %@", item.path.lastPathComponent, importable);
+			Rc2LogInfo(@"%@ is importable? %@", item.path.lastPathComponent, importable);
 			[a addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:[item.path lastPathComponent], @"name",
 						   (id)kCFBooleanFalse, @"isdir", item, @"metadata", importable, @"importable", nil]];
 		}

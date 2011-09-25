@@ -14,6 +14,7 @@
 #import "RCWorkspace.h"
 #import "RCFile.h"
 #import "RCMessage.h"
+#import "RC2RemoteLogger.h"
 
 #define kServerHostKey @"ServerHostKey"
 #define kUserAgent @"Rc2 iPadClient"
@@ -22,6 +23,7 @@
 @property (nonatomic, assign, readwrite) BOOL loggedIn;
 @property (nonatomic, copy, readwrite) NSString *currentLogin;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
+@property (nonatomic, retain) RC2RemoteLogger *remoteLogger;
 -(void)updateWorkspaceItems:(NSArray*)items;
 @end
 
@@ -32,6 +34,7 @@
 @synthesize selectedWorkspace=_selectedWorkspace;
 @synthesize currentSession=_currentSession;
 @synthesize currentLogin;
+@synthesize remoteLogger;
 
 +(Rc2Server*)sharedInstance
 {
@@ -54,6 +57,10 @@
 #if TARGET_IPHONE_SIMULATOR
 	self.serverHost = eRc2Host_Local;
 #endif
+	self.remoteLogger = [[RC2RemoteLogger alloc] init];
+	self.remoteLogger.apiKey = @"sf92j5t9fk2kfkegfd110lsm";
+	[[VyanaLogger sharedInstance] startLogging];
+	[DDLog addLogger:self.remoteLogger];
 	return self;
 }
 
@@ -63,7 +70,8 @@
 	self.workspaceItems=nil;
 	self.loggedIn=NO;
 	self.currentLogin=nil;
-	//FIXME:: need to send a logout request to server
+	self.remoteLogger.logHost=nil;
+	//FIXME: need to send a logout request to server
 }
 
 -(void)setServerHost:(NSInteger)sh
@@ -153,7 +161,7 @@
 		if (anItem.parentId) {
 			RCWorkspaceFolder *folder = [allWspaces objectForKey:anItem.parentId];
 			if (![folder isKindOfClass:[RCWorkspaceFolder class]]) {
-				NSLog(@"bad parent");
+				Rc2LogWarn(@"bad parent %@ for %@", anItem.parentId, anItem.wspaceId);
 			}
 			[folder addChild:anItem];
 		}
@@ -334,6 +342,11 @@
 		//success
 		self.loggedIn=YES;
 		self.currentLogin=user;
+		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
+														  [self baseUrl]]];
+		UIDevice *dev = [UIDevice currentDevice];
+		self.remoteLogger.clientIdent = [NSString stringWithFormat:@"%@/%@/%@/%@",
+										 [dev model], [dev systemName], [dev systemVersion], user];
 		[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
 		handler(YES, nil);
 	}

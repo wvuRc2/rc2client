@@ -172,7 +172,7 @@
 -(void)addBackgroundLayer:(CALayer*)parentLayer withKey:(NSString*)key frame:(CGRect)frame
 {
 	if (nil != [parentLayer firstSublayerWithName:kThemeBGLayerName]) {
-		NSLog(@"asked to add a bg when already has one");
+		Rc2LogWarn(@"asked to add a bg when already has one");
 		return;
 	}
     CAGradientLayer *gl = [CAGradientLayer layer];
@@ -235,7 +235,7 @@
 																		options:NSPropertyListMutableContainers
 																		 format:nil error:&err];
 	if (nil == custDict) {
-		NSLog(@"bad custom theme: %@", [err localizedDescription]);
+		Rc2LogWarn(@"bad custom theme: %@", [err localizedDescription]);
 		return;
 	}
 	[_colorCache removeAllObjects];

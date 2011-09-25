@@ -241,7 +241,7 @@
 	pc.printingItem = self.actionImage.image;
 	[pc presentFromRect:[sender frame] inView:[sender superview] animated:YES completionHandler:^(UIPrintInteractionController *printController, BOOL completed, NSError *error) {
 				   if (!completed && error)
-					   NSLog(@"print error: %@", [error localizedDescription]);
+					   Rc2LogError(@"print error: %@", [error localizedDescription]);
 			   }];
 }
 

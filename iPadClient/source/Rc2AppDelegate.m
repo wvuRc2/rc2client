@@ -154,7 +154,6 @@
 	[svc release];
 	[svc view];
 	[MBProgressHUD hideHUDForView:self.splitController.view animated:YES];
-	NSLog(@"should be opening session");
 	RunAfterDelay(0.25, ^{
 		[self.splitController presentModalViewController:svc animated:YES];
 	});
@@ -272,7 +271,7 @@
 		//save any changes
 		NSError *err=nil;
 		if (![moc save:&err]) {
-			NSLog(@"failed to save moc changes: %@", err);
+			Rc2LogError(@"failed to save moc changes: %@", err);
 		}
 	}
 }
@@ -295,7 +294,7 @@
 
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
 {
-	NSLog(@"saved file %@", destPath);
+	Rc2LogInfo(@"saved file %@", destPath);
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	if (_curKeyFile < 4) {
 		[self downloadKeyboardFile];
@@ -308,14 +307,14 @@
 	if (![fm fileExistsAtPath:path1] || ![fm fileExistsAtPath:path2]) {
 		[self resetKeyboardPaths];
 	} else {
-		NSLog(@"successfully downloaded custom keyboard layouts");
+		Rc2LogInfo(@"successfully downloaded custom keyboard layouts");
 	}
 	[self completeSessionStartup2];
 }
 
 - (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error
 {
-	NSLog(@"keyboard import error: %@", [error localizedDescription]);
+	Rc2LogInfo(@"keyboard import error: %@", [error localizedDescription]);
 	[self resetKeyboardPaths];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self completeSessionStartup2];
@@ -396,7 +395,7 @@
 			 
 			 If the persistent store is not accessible, there is typically something wrong with the file path. Often, a file URL is pointing into the application's resources directory instead of a writeable directory.
 			 */
-			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+			Rc2LogError(@"Unresolved error %@, %@", error, [error userInfo]);
 			abort();
 		}    
 	}

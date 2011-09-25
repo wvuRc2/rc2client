@@ -25,7 +25,7 @@
 
 -(NSString*)client
 {
-	return [self.jsonData objectForKey:@"client"];
+	return [self.jsonData objectForKey:@"clientIdent"];
 }
 
 -(NSNumber*)level
@@ -40,7 +40,7 @@
 
 -(NSString*)version
 {
-	return [self.jsonData objectForKey:@"client"];
+	return [self.jsonData objectForKey:@"versionStr"];
 }
 
 -(NSString*)message

@@ -10,7 +10,9 @@
 #import "LogMessage.h"
 
 @interface LogViewWindowController()
-@property (nonatomic, retain) WebSocket00 *websocket;
+@property (nonatomic, strong) WebSocket00 *websocket;
+@property (nonatomic, strong) NSTimer *periodicTimer;
+-(void)periodicTimerFired:(NSTimer*)timer;
 @end
 
 @implementation LogViewWindowController
@@ -33,6 +35,7 @@
 
 -(void)dealloc
 {
+	[self.periodicTimer invalidate];
 	[self.websocket close];
 }
 
@@ -41,18 +44,25 @@
 	[super windowDidLoad];
 	self.msgController.content = [NSMutableArray array];
 	[self startWebSocket];
+	self.periodicTimer = [NSTimer scheduledTimerWithTimeInterval:180 
+														  target:self 
+														selector:@selector(periodicTimerFired:) 
+														userInfo:nil 
+														 repeats:YES];
+	
 }
 
 -(void)windowWillClose:(NSNotification *)notification
 {
 	[NSApp terminate:self];
+	
 }
 
 #pragma mark - actions
 
 -(void)startWebSocket
 {
-	NSString *urlStr = @"ws://localhost:8080/iR/al";
+	NSString *urlStr = @"ws://barney.stat.wvu.edu:8080/iR/al";
 	self.websocket = [WebSocket00 webSocketWithURLString:urlStr delegate:self origin:nil 
 									 protocols:nil tlsSettings:nil verifyHandshake:YES];
 	self.websocket.timeout = -1;
@@ -133,6 +143,14 @@
 	}
 }
 
+#pragma mark - misc
+
+-(void)periodicTimerFired:(NSTimer*)timer
+{
+	NSDictionary *json = [NSDictionary dictionaryWithObject:@"echo" forKey:@"cmd"];
+	[self.websocket send:[[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding]];
+}
+
 #pragma mark - accessors
 
 -(void)setUseEndDate:(BOOL)use
@@ -155,4 +173,5 @@
 @synthesize contextSearch;
 @synthesize isLiveFeedMode;
 @synthesize websocket;
+@synthesize periodicTimer;
 @end
