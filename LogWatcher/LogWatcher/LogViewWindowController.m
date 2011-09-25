@@ -12,7 +12,10 @@
 @interface LogViewWindowController()
 @property (nonatomic, strong) WebSocket00 *websocket;
 @property (nonatomic, strong) NSTimer *periodicTimer;
+@property (nonatomic, strong) NSMenu *headerMenu;
+@property (nonatomic, copy) NSArray *allTableColumns;
 -(void)periodicTimerFired:(NSTimer*)timer;
+-(void)toggleColumnVisibility:(id)sender;
 @end
 
 @implementation LogViewWindowController
@@ -49,7 +52,19 @@
 														selector:@selector(periodicTimerFired:) 
 														userInfo:nil 
 														 repeats:YES];
-	
+	self.allTableColumns = self.logTable.tableColumns;
+	self.headerMenu = [[NSMenu alloc] initWithTitle:@""];
+	self.headerMenu.autoenablesItems=NO;
+	self.headerMenu.delegate = self;
+	for (NSTableColumn *col in self.logTable.tableColumns) {
+		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:[col.headerCell stringValue]
+													action:@selector(toggleColumnVisibility:) 
+											 keyEquivalent:@""];
+		mi.target = self;
+		mi.representedObject = col;
+		[self.headerMenu addItem:mi];
+	}
+	self.logTable.headerView.menu = self.headerMenu;
 }
 
 -(void)windowWillClose:(NSNotification *)notification
@@ -59,6 +74,12 @@
 }
 
 #pragma mark - actions
+
+-(void)toggleColumnVisibility:(id)sender
+{
+	NSTableColumn *col = [sender representedObject];
+	[col setHidden:![col isHidden]];
+}
 
 -(void)startWebSocket
 {
@@ -143,11 +164,23 @@
 	}
 }
 
+#pragma mark - menu delegate
+
+-(void)menuWillOpen:(NSMenu *)menu
+{
+	for (NSMenuItem *mi in menu.itemArray) {
+		NSTableColumn *col = [mi representedObject];
+		[mi setState:col.isHidden ? NSOffState : NSOnState];
+	}
+}
+
 #pragma mark - misc
 
 -(void)periodicTimerFired:(NSTimer*)timer
 {
-	NSDictionary *json = [NSDictionary dictionaryWithObject:@"echo" forKey:@"cmd"];
+	NSError *err;
+	NSDictionary *dict = [NSDictionary dictionaryWithObject:@"echo" forKey:@"cmd"];
+	NSData *json = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
 	[self.websocket send:[[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding]];
 }
 
@@ -174,4 +207,6 @@
 @synthesize isLiveFeedMode;
 @synthesize websocket;
 @synthesize periodicTimer;
+@synthesize headerMenu;
+@synthesize allTableColumns;
 @end

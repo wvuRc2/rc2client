@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "WebSocket00.h"
 
-@interface LogViewWindowController : NSWindowController<WebSocket00Delegate,NSWindowDelegate>
+@interface LogViewWindowController : NSWindowController<WebSocket00Delegate,NSWindowDelegate,NSMenuDelegate>
 @property (nonatomic, strong) IBOutlet NSTableView *logTable;
 @property (nonatomic, strong) IBOutlet NSArrayController *msgController;
 @property (nonatomic, strong) NSNumber *levelSearch;
