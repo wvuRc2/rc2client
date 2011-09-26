@@ -9,4 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
+@property (nonatomic, strong) IBOutlet NSWindow *loginWindow;
+@property (nonatomic, assign) NSInteger selectedServerIndex;
+
+-(IBAction)doLogin:(id)sender;
 @end

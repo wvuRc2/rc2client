@@ -17,9 +17,17 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	[self.loginWindow makeKeyAndOrderFront:self];
+}
+
+-(IBAction)doLogin:(id)sender
+{
+	[self.loginWindow orderOut:self];
 	self.mainWindowController = [[LogViewWindowController alloc] init];
 	[self.mainWindowController.window makeKeyAndOrderFront:self];
 }
 
 @synthesize mainWindowController;
+@synthesize loginWindow;
+@synthesize selectedServerIndex;
 @end
