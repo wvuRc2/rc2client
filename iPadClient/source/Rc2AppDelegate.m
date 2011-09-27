@@ -217,6 +217,7 @@
 	[self.splitController dismissModalViewControllerAnimated:YES];
 	[self.detailsController refreshDetails];
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"currentSessionWspaceId"];
+	self.sessionController=nil;
 }
 
 -(void)restoreLastSession

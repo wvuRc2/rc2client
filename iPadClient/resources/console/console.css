@@ -8,7 +8,7 @@ body {
 	white-space: pre;
 	overflow:auto;
 //	font-size:12pt;
-	height:600px;
+//	height:600px;
 }
 
 
@@ -89,6 +89,7 @@ div.Rimg {
 
 #consoleOutput {
 	width:100%;
+	overflow: scroll;
   margin-left: 8px;
   margin-right: 8px; }
 

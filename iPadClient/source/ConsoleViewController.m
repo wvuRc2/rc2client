@@ -36,7 +36,15 @@
 	[super viewDidLoad];
 	_didSetGraphUrl=NO;
 	self.webView.delegate = self;
-}
+/*	UIScrollView* sv = nil;
+	for(UIView* v in self.webView.subviews){
+		if([v isKindOfClass:[UIScrollView class]]) {
+			sv = (UIScrollView*) v;
+			sv.scrollEnabled = NO;
+			sv.bounces = NO;
+		}
+	}
+*/}
 
 - (void)viewDidUnload
 {
