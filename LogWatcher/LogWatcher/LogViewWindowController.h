@@ -20,6 +20,7 @@
 @property (nonatomic, assign) BOOL useStartDate;
 @property (nonatomic, assign) BOOL useEndDate;
 
+-(id)initWithServerName:(NSString*)serverName urlString:(NSString*)serverUrl;
 -(void)startWebSocket;
 - (IBAction)doSearch:(id)sender;
 - (IBAction)doLiveFeed:(id)sender;

@@ -41,7 +41,7 @@
 -(NSData*)messageToJSONData:(DDLogMessage*)msg
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObject:self.apiKey forKey:@"apikey"];
-	[dict setObject:[NSNumber numberWithInt:msg->logLevel] forKey:@"level"];
+	[dict setObject:[NSNumber numberWithInt:msg->logFlag] forKey:@"level"];
 	[dict setObject:[NSNumber numberWithInt:msg->logContext] forKey:@"context"];
 	[dict setObject:versionStr forKey:@"versionStr"];
 	[dict setObject:self.clientIdent forKey:@"clientident"];

@@ -57,7 +57,7 @@
 #if TARGET_IPHONE_SIMULATOR
 	self.serverHost = eRc2Host_Local;
 #endif
-	self.remoteLogger = [[RC2RemoteLogger alloc] init];
+	self.remoteLogger = [[[RC2RemoteLogger alloc] init] autorelease];
 	self.remoteLogger.apiKey = @"sf92j5t9fk2kfkegfd110lsm";
 	[[VyanaLogger sharedInstance] startLogging];
 	[DDLog addLogger:self.remoteLogger];
@@ -346,9 +346,10 @@
 														  [self baseUrl]]];
 		UIDevice *dev = [UIDevice currentDevice];
 		self.remoteLogger.clientIdent = [NSString stringWithFormat:@"%@/%@/%@/%@",
-										 [dev model], [dev systemName], [dev systemVersion], user];
+										 user, [dev systemName], [dev systemVersion], [dev model]];
 		[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
 		handler(YES, nil);
+		Rc2LogInfo(@"logged in");
 	}
 }
 

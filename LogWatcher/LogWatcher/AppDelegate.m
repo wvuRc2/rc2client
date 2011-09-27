@@ -23,7 +23,23 @@
 -(IBAction)doLogin:(id)sender
 {
 	[self.loginWindow orderOut:self];
-	self.mainWindowController = [[LogViewWindowController alloc] init];
+	NSString *urlStr=nil, *sname=nil;
+	switch (self.selectedServerIndex) {
+		case 1:
+			urlStr = @"ws://barney.stat.wvu.edu:8080/iR/al";
+			sname = @"barney";
+			break;
+		case 2:
+			urlStr = @"ws://localhost:8080/iR/al";
+			sname = @"local";
+			break;
+		case 0:
+		default:
+			sname = @"Rc2";
+			urlStr = @"ws://rc2.stat.wvu.edu:8080/iR/al";
+			break;
+	}
+	self.mainWindowController = [[LogViewWindowController alloc] initWithServerName:sname urlString:urlStr];
 	[self.mainWindowController.window makeKeyAndOrderFront:self];
 }
 

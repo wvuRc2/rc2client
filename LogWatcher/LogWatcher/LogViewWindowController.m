@@ -14,6 +14,8 @@
 @property (nonatomic, strong) NSTimer *periodicTimer;
 @property (nonatomic, strong) NSMenu *headerMenu;
 @property (nonatomic, copy) NSArray *allTableColumns;
+@property (nonatomic, strong) NSString *theURL;
+@property (nonatomic, copy) NSString *serverTitle;
 -(void)periodicTimerFired:(NSTimer*)timer;
 -(void)toggleColumnVisibility:(id)sender;
 @end
@@ -22,9 +24,11 @@
 @synthesize useEndDate=_useEndDate;
 @synthesize useStartDate=_useStartDate;
 
-- (id)init
+-(id)initWithServerName:(NSString*)serverName urlString:(NSString*)serverUrl
 {
 	if ((self = [super initWithWindowNibName:@"LogViewWindowController"])) {
+		self.theURL = serverUrl;
+		self.serverTitle = serverName;
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		self.isLiveFeedMode = YES;
 		self.useStartDate = [defaults boolForKey:@"UseStartDate"];
@@ -45,6 +49,7 @@
 - (void)windowDidLoad
 {
 	[super windowDidLoad];
+	self.window.title = [NSString stringWithFormat:@"Log Watcher: %@", self.serverTitle];
 	self.msgController.content = [NSMutableArray array];
 	[self startWebSocket];
 	self.periodicTimer = [NSTimer scheduledTimerWithTimeInterval:180 
@@ -83,8 +88,7 @@
 
 -(void)startWebSocket
 {
-	NSString *urlStr = @"ws://barney.stat.wvu.edu:8080/iR/al";
-	self.websocket = [WebSocket00 webSocketWithURLString:urlStr delegate:self origin:nil 
+	self.websocket = [WebSocket00 webSocketWithURLString:self.theURL delegate:self origin:nil 
 									 protocols:nil tlsSettings:nil verifyHandshake:YES];
 	self.websocket.timeout = -1;
 	[self.websocket open];
@@ -209,4 +213,6 @@
 @synthesize periodicTimer;
 @synthesize headerMenu;
 @synthesize allTableColumns;
+@synthesize theURL;
+@synthesize serverTitle;
 @end
