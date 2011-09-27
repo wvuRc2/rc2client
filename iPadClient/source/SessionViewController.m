@@ -35,6 +35,7 @@
 @property (nonatomic, retain) ImageDisplayController *imgController;
 @property (nonatomic, retain) id themeToken;
 @property (nonatomic, assign) BOOL reconnecting;
+@property (nonatomic, assign) BOOL showingProgress;
 @property (nonatomic, assign) BOOL autoReconnect;
 -(void)saveSessionState;
 -(NSString*)escapeForJS:(NSString*)str;
@@ -59,7 +60,7 @@
 		_session = [session retain];
 		_session.delegate = self;
 		NSError *err=nil;
-		self.autoReconnect=YES;
+		self.autoReconnect=NO;
 		NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
@@ -136,7 +137,12 @@
 	[self.editorController restoreSessionState:savedState];
 	[self.consoleController restoreSessionState:savedState];
 	[self cacheImagesReferencedInHTML:savedState.consoleHtml];
-	[self.session startWebSocket];
+	if (!self.session.socketOpen) {
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		hud.labelText = @"Connecting to server…";
+		self.showingProgress = YES;
+		[self.session startWebSocket];
+	}
 }
 
 - (void)viewDidUnload
@@ -289,10 +295,11 @@
 
 -(void)connectionOpened
 {
-	if (self.reconnecting) {
+	if (self.showingProgress)
 		[MBProgressHUD hideHUDForView:self.view animated:YES];
-		self.reconnecting=NO;
-	}
+	if (!self.reconnecting)
+		self.autoReconnect=YES;
+	self.reconnecting=NO;
 }
 
 -(void)connectionClosed
@@ -301,6 +308,7 @@
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 		hud.labelText = @"Reconnecting…";
 		self.reconnecting=YES;
+		self.showingProgress=YES;
 		[self.session startWebSocket];
 	}
 }
@@ -352,6 +360,7 @@
 {
 	NSString *cmd = [dict objectForKey:@"msg"];
 	NSString *js=nil;
+	Rc2LogInfo(@"processing ws command: %@", cmd);
 	if ([cmd isEqualToString:@"userid"]) {
 		js = [NSString stringWithFormat:@"iR.setUserid(%@)", [dict objectForKey:@"userid"]];
 	} else if ([cmd isEqualToString:@"echo"]) {
@@ -396,12 +405,23 @@
 -(void)handleWebSocketError:(NSError*)error
 {
 	Rc2LogError(@"web socket error: %@", [error localizedDescription]);
-	if (self.reconnecting) {
-		[MBProgressHUD hideHUDForView:self.view animated:YES];
-		//FIXME: need to tell them reconnect failed and freeze interface
-		self.reconnecting=NO;
-		self.autoReconnect=NO;
+	if (self.showingProgress) {
+		[MBProgressHUD hideHUDForView:self.view animated:NO];
+		NSString *msg = @"Failed to connect to server";
+		if (self.reconnecting) {
+			msg = @"Failed to reconnect to server";
+			self.reconnecting=NO;
+			self.autoReconnect=NO;
+		}
+		//error connecting
+		RunAfterDelay(0.5, ^{
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+			[alert showWithCompletionHandler: ^(UIAlertView *av, NSInteger idx) {
+				[(id)[UIApplication sharedApplication].delegate endSession:nil];
+			}];
+		});
 	}
+	self.showingProgress=NO;
 }
 
 #pragma mark - misc
@@ -449,4 +469,5 @@
 @synthesize autoReconnect;
 @synthesize bottomController;
 @synthesize themeToken;
+@synthesize showingProgress;
 @end

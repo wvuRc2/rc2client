@@ -45,6 +45,7 @@
 						<string key="NSFrame">{{20, 49}, {663, 43}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="86857718"/>
 						<string key="NSReuseIdentifierKey">_NS:120</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -76,13 +77,14 @@
 						<string key="NSFrame">{{179, 707}, {344, 21}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:120</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<string key="IBUIText">©2011 University of West Virginia. All Rights Reserved.</string>
+						<string key="IBUIText">©2011 West Virginia University. All Rights Reserved.</string>
 						<reference key="IBUITextColor" ref="319413788"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
@@ -328,7 +330,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<string key="IBUIText">©2011 University of West Virginia. All Rights Reserved.</string>
+						<string key="IBUIText">©2011 West Virginia University. All Rights Reserved.</string>
 						<reference key="IBUITextColor" ref="319413788"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>

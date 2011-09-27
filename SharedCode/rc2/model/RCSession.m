@@ -53,6 +53,8 @@
 
 -(void)startWebSocket
 {
+	if (_ws)
+		return;
 	NSString *baseUrl = [[Rc2Server sharedInstance] baseUrl];
 	NSString *urlStr = [baseUrl stringByReplacingOccurrencesOfString:@"http" withString:@"ws"];
 	urlStr = [urlStr stringByAppendingString:@"iR/ws"];
@@ -60,6 +62,15 @@
 									 protocols:nil tlsSettings:nil verifyHandshake:YES] retain];
 	_ws.timeout = -1;
 	[_ws open];
+	RunAfterDelay(10, ^{
+		if (!self.socketOpen) {
+			//failed to open after 10 seconds. treat as an error
+			[_ws close];
+			[_ws release];
+			_ws = nil;
+			[self.delegate handleWebSocketError:nil];
+		}
+	});
 }
 
 -(void)closeWebSocket
@@ -73,6 +84,7 @@
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"executeScript", @"cmd",
 						  script, @"script", nil];
+	Rc2LogInfo(@"executing script: %@", [script length] > 10 ? [[script substringToIndex:10] stringByAppendingString:@"..."] : script);
 	[_ws send:[dict JSONRepresentation]];
 }
 
