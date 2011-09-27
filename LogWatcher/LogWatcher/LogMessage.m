@@ -19,6 +19,11 @@
 	NSMutableDictionary *md = [dict mutableCopy];
 	NSTimeInterval secs = [[dict objectForKey:@"date"] doubleValue];
 	[md setObject:[NSDate dateWithTimeIntervalSince1970:secs] forKey:@"date"];
+	NSDictionary *contextMappings = [[NSUserDefaults standardUserDefaults] objectForKey:@"ContextMappings"];
+	NSString *val = [contextMappings objectForKey:[NSString stringWithFormat:@"%@", [md objectForKey:@"context"]]];
+	if (nil == val)
+		val = [[md objectForKey:@"context"] description];
+	[md setObject:val forKey:@"context"];
 	self.jsonData = md;
 	return self;
 }
@@ -33,7 +38,7 @@
 	return [self.jsonData objectForKey:@"level"];
 }
 
--(NSNumber*)context
+-(NSString*)context
 {
 	return [self.jsonData objectForKey:@"context"];
 }

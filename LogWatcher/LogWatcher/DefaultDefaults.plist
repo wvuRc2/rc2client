@@ -10,5 +10,12 @@
 	<string>&gt;=</string>
 	<key>EndOperator</key>
 	<string>&lt;</string>
+	<key>ContextMappings</key>
+	<dict>
+		<key>845369856</key>
+		<string>Rc2</string>
+		<key>2035699009</key>
+		<string>Vyana</string>
+	</dict>
 </dict>
 </plist>

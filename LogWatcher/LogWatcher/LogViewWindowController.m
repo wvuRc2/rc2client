@@ -9,6 +9,8 @@
 #import "LogViewWindowController.h"
 #import "LogMessage.h"
 
+#define kAppKey @"sf92j5t9fk2kfkegfd110lsm"
+
 @interface LogViewWindowController()
 @property (nonatomic, strong) WebSocket00 *websocket;
 @property (nonatomic, strong) NSTimer *periodicTimer;
@@ -74,7 +76,7 @@
 
 -(void)windowWillClose:(NSNotification *)notification
 {
-	[NSApp terminate:self];
+//	[NSApp terminate:self];
 	
 }
 
@@ -116,7 +118,7 @@
 		[dict setObject:self.contextSearch forKey:@"context"];
 		[dict setObject:[defaults objectForKey:@"ContextOperator"] forKey:@"context-op"];
 	}
-	[dict setObject:@"sf92j5t9fk2kfkegfd110lsm" forKey:@"apikey"];
+	[dict setObject:kAppKey forKey:@"apikey"];
 	NSError *err;
 	NSData *json = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
 	if (err) {
@@ -136,6 +138,12 @@
 -(void)didOpen
 {
 	NSLog(@"ws open");
+	//do an initial query
+	NSNumber *stime = [NSNumber numberWithLong:[[NSDate date] timeIntervalSince1970] - 300];
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"search", @"cmd", stime, @"start",
+						  @">=", @"start-op", kAppKey, @"apikey", nil];
+	NSData *json = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
+	[self.websocket send:[[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding]];
 }
 
 - (void) didClose: (NSError*) aError

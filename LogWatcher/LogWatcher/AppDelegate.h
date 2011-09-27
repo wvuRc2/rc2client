@@ -12,5 +12,6 @@
 @property (nonatomic, strong) IBOutlet NSWindow *loginWindow;
 @property (nonatomic, assign) NSInteger selectedServerIndex;
 
+-(IBAction)promptForLogin:(id)sender;
 -(IBAction)doLogin:(id)sender;
 @end

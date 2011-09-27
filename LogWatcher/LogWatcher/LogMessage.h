@@ -13,7 +13,7 @@
 
 @property (nonatomic, readonly) NSString *client;
 @property (nonatomic, readonly) NSNumber *level;
-@property (nonatomic, readonly) NSNumber *context;
+@property (nonatomic, readonly) NSString *context;
 @property (nonatomic, readonly) NSString *version;
 @property (nonatomic, readonly) NSString *message;
 @property (nonatomic, readonly) NSDate *date;

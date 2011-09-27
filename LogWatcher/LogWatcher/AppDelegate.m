@@ -17,6 +17,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	[self promptForLogin:nil];
+}
+
+-(IBAction)promptForLogin:(id)sender
+{
 	[self.loginWindow makeKeyAndOrderFront:self];
 }
 
