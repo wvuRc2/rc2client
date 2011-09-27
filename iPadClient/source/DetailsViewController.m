@@ -117,7 +117,6 @@ enum {
 			[blockSelf updateForNewTheme:theme];
 		}];
 		self.themeChangeNotice = tn;
-		[tn release];
 		Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 		self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
 		self.welcomeContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];

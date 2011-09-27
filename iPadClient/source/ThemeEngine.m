@@ -162,7 +162,7 @@
 	tn.block = tblock;
 	AMZeroingWeakRef *weakRef = [AMZeroingWeakRef refWithTarget:tn];
 	[_toNotify addObject:weakRef];
-	return tn;
+	return [tn autorelease];
 }
 
 #define kThemeBGLayerName @"themed bg"

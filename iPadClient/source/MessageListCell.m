@@ -63,7 +63,6 @@
 			[blockSelf.gl setColors:blockSelf.normalColors];
 	}];
 	self.themeChangeNotice = tn;
-	[tn release];
 	
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	self.normalColors = [NSArray arrayWithObjects:
@@ -75,7 +74,7 @@
 
 	
 	// Initialize the gradient layer
-    self.gl = [[CAGradientLayer alloc] init];
+    self.gl = [CAGradientLayer layer];
     // Set its bounds to be the same of its parent
 	CGRect r = self.bounds;
 	r.size.height += 200;

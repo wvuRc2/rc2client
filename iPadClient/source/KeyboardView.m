@@ -238,6 +238,7 @@ enum {
 	
 	CGContextRef c = UIGraphicsGetCurrentContext();
 	CGContextDrawLinearGradient(c, gradient, CGPointMake(0, 0), CGPointMake(0, rect.size.height), 0);
+	CGGradientRelease(gradient);
 }
 
 -(IBAction)doLayoutKey:(id)sender
@@ -325,6 +326,7 @@ enum {
 		0.514, 0.522, 0.140, 1.000 };
 	_keyGradient = CGGradientCreateWithColorComponents(cspace, components, locations, 2);
 	_KeyGradientPressed = CGGradientCreateWithColorComponents(cspace, componentsPressed, locations, 2);
+	CGColorSpaceRelease(cspace);
 }
 
 -(void)flushGradients

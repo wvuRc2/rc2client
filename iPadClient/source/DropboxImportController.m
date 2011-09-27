@@ -193,6 +193,7 @@
 													  cancelButtonTitle:@"OK"
 													  otherButtonTitles:nil];
 				[alert show];
+				[alert autorelease];
 			}
 			self.currentDownload=nil;
 		});

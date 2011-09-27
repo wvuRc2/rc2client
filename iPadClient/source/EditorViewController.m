@@ -134,6 +134,12 @@
 	return YES;
 }
 
+-(void)didReceiveMemoryWarning
+{
+	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
+}
+
+
 #pragma mark - meat & potatoes
 
 -(void)updateExecuteState
@@ -286,6 +292,7 @@
 												  cancelButtonTitle:@"OK"
 												  otherButtonTitles:nil];
 			[alert show];
+			[alert autorelease];
 		}
 	}];
 }
@@ -330,6 +337,7 @@
 		if (buttonIndex == 1)
 			[self userConfirmedDelete];
 	}];
+	[alert autorelease];
 }
 
 -(IBAction)presentDropboxImport:(id)sender
@@ -360,6 +368,7 @@
 											  cancelButtonTitle:@"OK"
 											  otherButtonTitles:nil];
 		[alert show];
+		[alert autorelease];
 		return;
 	}
 	if (nil == self.fileController) {

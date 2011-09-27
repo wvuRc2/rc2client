@@ -99,6 +99,11 @@
     return UIInterfaceOrientationIsLandscape(ior);
 }
 
+-(void)didReceiveMemoryWarning
+{
+	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
+}
+
 -(void)adjustLayout
 {
 	switch (self.whatUp.selectedSegmentIndex) {
@@ -218,9 +223,9 @@
 		NSString *printTitle = @"Print Image";
 		if (![UIPrintInteractionController isPrintingAvailable])
 			printTitle=nil;
-		self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:(id)self
+		self.actionSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:(id)self
 											  cancelButtonTitle:nil destructiveButtonTitle:nil
-											  otherButtonTitles:@"Email Image", @"Add to Photos", printTitle, nil];
+											  otherButtonTitles:@"Email Image", @"Add to Photos", printTitle, nil] autorelease];
 	}
 	self.actionImage = img;
 	_actionButton=button;
@@ -254,7 +259,7 @@
 
 -(IBAction)doPhotoLib:(id)sender
 {
-	ALAssetsLibrary *photos = [[ALAssetsLibrary alloc] init];
+	ALAssetsLibrary *photos = [[[ALAssetsLibrary alloc] init] autorelease];
 	NSDictionary *mdata = [NSDictionary dictionaryWithObjectsAndKeys:@"Rc2", AVMetadataCommonKeyCreator,
 						   @"Rc2 for iPad", AVMetadataCommonKeySoftware,
 						   @"©2011 West Virginia University", AVMetadataCommonKeyCopyrights,
@@ -273,7 +278,7 @@
 																			  cancelButtonTitle:@"OK"
 																			  otherButtonTitles:nil];
 										[alert show];
-										
+										[alert autorelease];
 									}];
 }
 

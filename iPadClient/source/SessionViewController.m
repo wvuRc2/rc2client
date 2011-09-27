@@ -127,7 +127,6 @@
 		blockSelf.splitController.dividerView.darkColor = [aTheme colorForKey:@"SessionPaneSplitterEnd"];
 	}];
 	self.themeToken = tn;
-	[tn release];
 	[self.splitController.dividerView addShineLayer:self.splitController.dividerView.layer bounds:self.splitController.dividerView.bounds];
 	
 	RCSavedSession *savedState = self.session.savedSessionState;
@@ -406,6 +405,11 @@
 }
 
 #pragma mark - misc
+
+-(void)didReceiveMemoryWarning
+{
+	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
+}
 
 - (float)splitViewController:(MGSplitViewController *)svc constrainSplitPosition:(float)proposedPosition splitViewSize:(CGSize)viewSize;
 {

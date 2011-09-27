@@ -128,6 +128,7 @@
 										  cancelButtonTitle:@"OK"
 										  otherButtonTitles:nil];
 	[alert show];
+	[alert autorelease];
 }
 
 #pragma mark - synthesizers

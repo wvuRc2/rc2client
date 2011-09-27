@@ -37,7 +37,6 @@
 		[blockSelf updateForNewTheme:theme];
 	}];
 	self.themeChangeNotice = tn;
-	[tn release];
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	self.normalColors = [NSArray arrayWithObjects:
 						 (id)[theme colorForKey:@"MasterCellStart"].CGColor,

@@ -54,6 +54,12 @@
 	return YES;
 }
 
+-(void)didReceiveMemoryWarning
+{
+	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
+}
+
+
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
 	NSURL *url = [[NSBundle mainBundle] URLForResource:@"console" withExtension:@"html" subdirectory:@"console"];
@@ -85,6 +91,7 @@
 	);
 	UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Console Actions" actionItems:actionItems];
 	[sheet showFromBarButtonItem:sender animated:YES];
+	[sheet autorelease];
 }
 
 -(IBAction)doClear:(id)sender

@@ -170,7 +170,7 @@
 		_curKeyFile=0;
 		//we need to attempt to copy custom keyboards from dropbox
 		if (nil == self.keyboardRestClient) {
-			self.keyboardRestClient = [[DBRestClient alloc] initWithSession:(id)[DBSession sharedSession]];
+			self.keyboardRestClient = [[[DBRestClient alloc] initWithSession:(id)[DBSession sharedSession]] autorelease];
 			self.keyboardRestClient.delegate = (id)self;
 		}
 		[self downloadKeyboardFile];
@@ -207,6 +207,7 @@
 												  cancelButtonTitle:@"OK"
 												  otherButtonTitles:nil];
 			[alert show];
+			[alert autorelease];
 		}
 	}];
 }

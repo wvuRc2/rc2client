@@ -87,9 +87,8 @@ static const CGFloat kKeyboardHeight = 354;
 	tf.delegate = self;
 	[bv addSubview:tf];
 
-	self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 16, 80, 20)];
+	self.dateLabel = [[[UILabel alloc] initWithFrame:CGRectMake(2, 16, 80, 20)] autorelease];
 	[bv addSubview:self.dateLabel];
-	[self.dateLabel release]; //retained by superview
 	self.dateLabel.textColor = [UIColor whiteColor];
 	self.dateLabel.opaque=NO;
 	self.dateLabel.font = [UIFont italicSystemFontOfSize:10.0];

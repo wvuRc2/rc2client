@@ -65,7 +65,6 @@
 			[blockSelf updateForTheme:theme];
 		}];
 		self.themeChangeNotice=tn;
-		[tn release];
 		_didLoad=YES;
 	}
 }

@@ -67,14 +67,11 @@
 												   frame:self.view.bounds];
 		self.view.backgroundColor = [theme colorForKey:@"MasterBackground"];
 		id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
-//			UIColor *newColor = [aTheme colorForKey:@"MasterBackground"];
-//			blockSelf.view.backgroundColor = newColor;
 			[[ThemeEngine sharedInstance] addBackgroundLayer:blockSelf.view.layer 
 													 withKey:@"MasterBackground"
 													   frame:blockSelf.view.bounds];
 		}];
 		self.themeChangeNotice = tn;
-		[tn release];
 		((AMTableView*)self.tableView).deselectOnTouchesOutsideCells=YES;
 		self.addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
 																		target:self
@@ -152,7 +149,7 @@
 		[prompt autorelease];		
 	};
 	[pv show];
-	
+	[pv autorelease];
 }
 
 #pragma mark - Table view data source
