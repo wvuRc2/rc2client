@@ -388,8 +388,8 @@
 														  userInfo:dict];
 	}
 	if (js) {
-		NSLog(@"executing: %@", js);
 		[self.consoleController.webView stringByEvaluatingJavaScriptFromString:js];
+		[self.consoleController.webView stringByEvaluatingJavaScriptFromString:@"scroll(0,document.body.scrollHeight)"];
 	}
 }
 
