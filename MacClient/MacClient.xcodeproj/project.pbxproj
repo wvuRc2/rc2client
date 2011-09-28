@@ -11,6 +11,7 @@
 		0838B38E141E90C2003264A8 /* MacMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B38D141E90C2003264A8 /* MacMainWindowController.m */; };
 		0838B390141E90E0003264A8 /* MacMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0838B38F141E90E0003264A8 /* MacMainWindow.xib */; };
 		08447F6B1415B54F00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */; };
+		08EE40EB1433AC2D004FDBB8 /* RC2RemoteLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */; };
 		08FE88AC1415533300672474 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FE88AB1415533300672474 /* Cocoa.framework */; };
 		08FE88B61415533400672474 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08FE88B41415533400672474 /* InfoPlist.strings */; };
 		08FE88B81415533400672474 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE88B71415533400672474 /* main.m */; };
@@ -37,12 +38,8 @@
 		08FE8A1A141574EE00672474 /* libWebSocketClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FE8A19141574EE00672474 /* libWebSocketClient.a */; };
 		08FE8A1D1415755000672474 /* Rc2Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A1C1415755000672474 /* Rc2Server.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08FE8A36141575F500672474 /* _RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A21141575F500672474 /* _RCFile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FE8A37141575F500672474 /* _RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A23141575F500672474 /* _RCMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FE8A38141575F500672474 /* _RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A25141575F500672474 /* _RCSavedSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08FE8A39141575F500672474 /* RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A27141575F500672474 /* RCFile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08FE8A3A141575F500672474 /* RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A29141575F500672474 /* RCImage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FE8A3B141575F500672474 /* RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A2B141575F500672474 /* RCMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FE8A3C141575F500672474 /* RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A2D141575F500672474 /* RCSavedSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08FE8A3D141575F500672474 /* RCSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A2F141575F500672474 /* RCSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08FE8A3E141575F500672474 /* RCWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A31141575F500672474 /* RCWorkspace.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08FE8A3F141575F500672474 /* RCWorkspaceFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A33141575F500672474 /* RCWorkspaceFolder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -88,6 +85,8 @@
 		0838B38D141E90C2003264A8 /* MacMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacMainWindowController.m; sourceTree = "<group>"; };
 		0838B38F141E90E0003264A8 /* MacMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacMainWindow.xib; sourceTree = "<group>"; };
 		08447F6A1415B54F00A8DDF8 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
+		08EE40E91433AC2C004FDBB8 /* RC2RemoteLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RC2RemoteLogger.h; path = ../../SharedCode/rc2/RC2RemoteLogger.h; sourceTree = "<group>"; };
+		08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RC2RemoteLogger.m; path = ../../SharedCode/rc2/RC2RemoteLogger.m; sourceTree = "<group>"; };
 		08FE88A71415533300672474 /* Rc².app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rc².app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08FE88AB1415533300672474 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		08FE88AE1415533300672474 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -141,18 +140,10 @@
 		08FE8A1C1415755000672474 /* Rc2Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rc2Server.m; path = ../SharedCode/rc2/Rc2Server.m; sourceTree = SOURCE_ROOT; };
 		08FE8A20141575F500672474 /* _RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCFile.h; path = ../SharedCode/rc2/model/generated/_RCFile.h; sourceTree = SOURCE_ROOT; };
 		08FE8A21141575F500672474 /* _RCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCFile.m; path = ../SharedCode/rc2/model/generated/_RCFile.m; sourceTree = SOURCE_ROOT; };
-		08FE8A22141575F500672474 /* _RCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCMessage.h; path = ../SharedCode/rc2/model/generated/_RCMessage.h; sourceTree = SOURCE_ROOT; };
-		08FE8A23141575F500672474 /* _RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCMessage.m; path = ../SharedCode/rc2/model/generated/_RCMessage.m; sourceTree = SOURCE_ROOT; };
-		08FE8A24141575F500672474 /* _RCSavedSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCSavedSession.h; path = ../SharedCode/rc2/model/generated/_RCSavedSession.h; sourceTree = SOURCE_ROOT; };
-		08FE8A25141575F500672474 /* _RCSavedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCSavedSession.m; path = ../SharedCode/rc2/model/generated/_RCSavedSession.m; sourceTree = SOURCE_ROOT; };
 		08FE8A26141575F500672474 /* RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCFile.h; path = ../SharedCode/rc2/model/RCFile.h; sourceTree = SOURCE_ROOT; };
 		08FE8A27141575F500672474 /* RCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCFile.m; path = ../SharedCode/rc2/model/RCFile.m; sourceTree = SOURCE_ROOT; };
 		08FE8A28141575F500672474 /* RCImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImage.h; path = ../SharedCode/rc2/model/RCImage.h; sourceTree = SOURCE_ROOT; };
 		08FE8A29141575F500672474 /* RCImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImage.m; path = ../SharedCode/rc2/model/RCImage.m; sourceTree = SOURCE_ROOT; };
-		08FE8A2A141575F500672474 /* RCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMessage.h; path = ../SharedCode/rc2/model/RCMessage.h; sourceTree = SOURCE_ROOT; };
-		08FE8A2B141575F500672474 /* RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMessage.m; path = ../SharedCode/rc2/model/RCMessage.m; sourceTree = SOURCE_ROOT; };
-		08FE8A2C141575F500672474 /* RCSavedSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSavedSession.h; path = ../SharedCode/rc2/model/RCSavedSession.h; sourceTree = SOURCE_ROOT; };
-		08FE8A2D141575F500672474 /* RCSavedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSavedSession.m; path = ../SharedCode/rc2/model/RCSavedSession.m; sourceTree = SOURCE_ROOT; };
 		08FE8A2E141575F500672474 /* RCSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSession.h; path = ../SharedCode/rc2/model/RCSession.h; sourceTree = SOURCE_ROOT; };
 		08FE8A2F141575F500672474 /* RCSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSession.m; path = ../SharedCode/rc2/model/RCSession.m; sourceTree = SOURCE_ROOT; };
 		08FE8A30141575F500672474 /* RCWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCWorkspace.h; path = ../SharedCode/rc2/model/RCWorkspace.h; sourceTree = SOURCE_ROOT; };
@@ -259,6 +250,8 @@
 				0838B38F141E90E0003264A8 /* MacMainWindow.xib */,
 				08FE8A501415A89700672474 /* EMKeychainItem.h */,
 				08FE8A511415A89700672474 /* EMKeychainItem.m */,
+				08EE40E91433AC2C004FDBB8 /* RC2RemoteLogger.h */,
+				08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */,
 				0838B385141E9095003264A8 /* PXSourceList */,
 			);
 			path = MacClient;
@@ -344,10 +337,6 @@
 				08FE8A27141575F500672474 /* RCFile.m */,
 				08FE8A28141575F500672474 /* RCImage.h */,
 				08FE8A29141575F500672474 /* RCImage.m */,
-				08FE8A2A141575F500672474 /* RCMessage.h */,
-				08FE8A2B141575F500672474 /* RCMessage.m */,
-				08FE8A2C141575F500672474 /* RCSavedSession.h */,
-				08FE8A2D141575F500672474 /* RCSavedSession.m */,
 				08FE8A2E141575F500672474 /* RCSession.h */,
 				08FE8A2F141575F500672474 /* RCSession.m */,
 				08FE8A30141575F500672474 /* RCWorkspace.h */,
@@ -366,10 +355,6 @@
 			children = (
 				08FE8A20141575F500672474 /* _RCFile.h */,
 				08FE8A21141575F500672474 /* _RCFile.m */,
-				08FE8A22141575F500672474 /* _RCMessage.h */,
-				08FE8A23141575F500672474 /* _RCMessage.m */,
-				08FE8A24141575F500672474 /* _RCSavedSession.h */,
-				08FE8A25141575F500672474 /* _RCSavedSession.m */,
 			);
 			path = generated;
 			sourceTree = "<group>";
@@ -471,12 +456,8 @@
 				08FE89F214156F1300672474 /* SBJsonWriter.m in Sources */,
 				08FE8A1D1415755000672474 /* Rc2Server.m in Sources */,
 				08FE8A36141575F500672474 /* _RCFile.m in Sources */,
-				08FE8A37141575F500672474 /* _RCMessage.m in Sources */,
-				08FE8A38141575F500672474 /* _RCSavedSession.m in Sources */,
 				08FE8A39141575F500672474 /* RCFile.m in Sources */,
 				08FE8A3A141575F500672474 /* RCImage.m in Sources */,
-				08FE8A3B141575F500672474 /* RCMessage.m in Sources */,
-				08FE8A3C141575F500672474 /* RCSavedSession.m in Sources */,
 				08FE8A3D141575F500672474 /* RCSession.m in Sources */,
 				08FE8A3E141575F500672474 /* RCWorkspace.m in Sources */,
 				08FE8A3F141575F500672474 /* RCWorkspaceFolder.m in Sources */,
@@ -486,6 +467,7 @@
 				08447F6B1415B54F00A8DDF8 /* Rc2.xcdatamodeld in Sources */,
 				0838B38A141E9095003264A8 /* PXSourceList.m in Sources */,
 				0838B38E141E90C2003264A8 /* MacMainWindowController.m in Sources */,
+				08EE40EB1433AC2D004FDBB8 /* RC2RemoteLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,7 +26,7 @@
 -(void)startWebSocket;
 -(void)closeWebSocket;
 
--(RCSavedSession*)savedSessionState;
+-(id)savedSessionState;
 
 -(void)executeScript:(NSString*)script;
 -(void)sendChatMessage:(NSString*)message;

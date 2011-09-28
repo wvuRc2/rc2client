@@ -42,13 +42,16 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 -(NSString*)baseUrl;
 
--(RCSavedSession*)savedSessionForWorkspace:(RCWorkspace*)workspace;
+-(id)savedSessionForWorkspace:(RCWorkspace*)workspace;
 
 -(void)selecteWorkspaceWithId:(NSNumber*)wspaceId;
 
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+#else
 -(void)syncMessages:(Rc2FetchCompletionHandler)hblock;
 -(void)markMessageRead:(RCMessage*)message;
 -(void)markMessageDeleted:(RCMessage*)message;
+#endif
 
 //results is tesponse dict from server with either workspace or error entry
 -(void)addWorkspace:(NSString*)name parent:(RCWorkspaceFolder*)parent folder:(BOOL)isFolder

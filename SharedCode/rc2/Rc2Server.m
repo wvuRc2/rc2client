@@ -13,8 +13,11 @@
 #import "RCWorkspaceFolder.h"
 #import "RCWorkspace.h"
 #import "RCFile.h"
-#import "RCMessage.h"
 #import "RC2RemoteLogger.h"
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+#else
+#import "RCMessage.h"
+#endif
 
 #define kServerHostKey @"ServerHostKey"
 #define kUserAgent @"Rc2 iPadClient"
@@ -57,8 +60,11 @@
 #if TARGET_IPHONE_SIMULATOR
 	self.serverHost = eRc2Host_Local;
 #endif
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+#else
 	self.remoteLogger = [[[RC2RemoteLogger alloc] init] autorelease];
 	self.remoteLogger.apiKey = @"sf92j5t9fk2kfkegfd110lsm";
+#endif
 	[[VyanaLogger sharedInstance] startLogging];
 	[DDLog addLogger:self.remoteLogger];
 	return self;
@@ -121,13 +127,17 @@
 	
 }
 
--(RCSavedSession*)savedSessionForWorkspace:(RCWorkspace*)workspace
+-(id)savedSessionForWorkspace:(RCWorkspace*)workspace
 {
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+	return nil;
+#else
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	NSArray *allSaved = [moc fetchObjectsArrayForEntityName:@"RCSavedSession" 
 											  withPredicate:@"wspaceId = %@ and login like %@",
 												 workspace.wspaceId, self.currentLogin];
 	return [allSaved firstObject];
+#endif
 }
 
 -(void)selecteWorkspaceWithId:(NSNumber*)wspaceId
@@ -174,13 +184,18 @@
 {
 	NSMutableArray *entries = [NSMutableArray arrayWithArray:[rsp objectForKey:@"entries"]];
 	//now we need to add any local files that haven't been sent to the server
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+#else
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	NSSet *newFiles = [moc fetchObjectsForEntityName:@"RCFile" withPredicate:@"fileId == 0 and wspaceId == %@",
 					   self.selectedWorkspace.wspaceId];
 	[entries addObjectsFromArray:[newFiles allObjects]];
+#endif
 	return entries;
 }
 
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+#else
 -(void)markMessageRead:(RCMessage*)message
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/message/%@/read", [self baseUrl], message.rcptmsgId]];
@@ -220,6 +235,7 @@
 	}];
 	[req startAsynchronous];
 }
+#endif
 
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
@@ -344,9 +360,12 @@
 		self.currentLogin=user;
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+#else
 		UIDevice *dev = [UIDevice currentDevice];
 		self.remoteLogger.clientIdent = [NSString stringWithFormat:@"%@/%@/%@/%@",
 										 user, [dev systemName], [dev systemVersion], [dev model]];
+#endif
 		[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
 		handler(YES, nil);
 		Rc2LogInfo(@"logged in");
