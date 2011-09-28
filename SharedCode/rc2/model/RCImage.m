@@ -21,7 +21,9 @@
 #ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
 	self.image = [[[NSImage alloc] initWithContentsOfFile:aPath] autorelease];
 #else
-	self.image = [UIImage imageWithContentsOfFile:aPath];
+	UIImage *img = [[UIImage alloc] initWithContentsOfFile:aPath];
+	self.image = img;
+	[img release];
 #endif
 	self.timestamp = [NSDate timeIntervalSinceReferenceDate];
 	return self;

@@ -58,7 +58,6 @@
 										<string key="NSFrame">{{0, 6}, {300, 21}}</string>
 										<reference key="NSSuperview" ref="323425324"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:120</string>
 										<object class="NSColor" key="IBUIBackgroundColor" id="202228777">
 											<int key="NSColorSpace">3</int>
@@ -186,16 +185,6 @@
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 				<bool key="IBUIHorizontal">YES</bool>
 			</object>
-			<object class="IBUIViewController" id="970740413">
-				<bool key="IBUIAutoresizesArchivedViewToFullSize">NO</bool>
-				<string key="IBUINibName">BottomViewController</string>
-				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
-					<int key="IBUIInterfaceOrientation">3</int>
-					<int key="interfaceOrientation">3</int>
-				</object>
-				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-				<bool key="IBUIHorizontal">YES</bool>
-			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -231,14 +220,6 @@
 						<reference key="destination" ref="1022916739"/>
 					</object>
 					<int key="connectionID">61</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">bottomController</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="970740413"/>
-					</object>
-					<int key="connectionID">67</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -386,12 +367,6 @@
 						<reference key="parent" ref="0"/>
 						<string key="objectName">editor</string>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">64</int>
-						<reference key="object" ref="970740413"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">chat</string>
-					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -417,8 +392,6 @@
 					<string>55.IBPluginDependency</string>
 					<string>58.CustomClassName</string>
 					<string>58.IBPluginDependency</string>
-					<string>64.CustomClassName</string>
-					<string>64.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -440,8 +413,6 @@
 					<string>ConsoleViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>EditorViewController</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>BottomViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
@@ -799,7 +770,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIBarButtonItem</string>
 							<string>UILabel</string>
-							<string>UIButton</string>
+							<string>UIBarButtonItem</string>
 							<string>UITextView</string>
 						</object>
 					</object>
@@ -824,7 +795,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">executeButton</string>
-								<string key="candidateClassName">UIButton</string>
+								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">textView</string>

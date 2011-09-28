@@ -84,15 +84,22 @@
 	return self;
 }
 
-- (void)dealloc
+-(void)freeMemory
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	self.themeToken=nil;
 	self.jsQuiteRExp=nil;
 	self.imgController=nil;
 	self.imgCachePath=nil;
 	self.imgCache=nil;
 	self.dloadQueue=nil;
+	self.editorController=nil;
+	self.consoleController=nil;
+}
+
+- (void)dealloc
+{
+	[self freeMemory];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[_session release];
     [super dealloc];
 }
@@ -148,8 +155,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-	self.imgController=nil;
-	self.themeToken=nil;
+	[self freeMemory];
 }
 
 #pragma mark - orientations & rotation
@@ -333,6 +339,7 @@
 		img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
 	[self.imgCache setObject:img forKey:imgPath];
 	[img release];
+	Rc2LogInfo(@"cached image %@", imgPath);
 	return YES;
 }
 
