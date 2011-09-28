@@ -105,6 +105,7 @@ enum {
 	//		   [blockSelf performSelectorOnMainThread:@selector(updateSelectedWorkspace:) withObject:sel waitUntilDone:NO];
 		   }
 		}];
+		self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 		self.loggedInToken =  [[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" 
 																		   task:^(id obj, NSDictionary *change) {
 			   [blockSelf performSelectorOnMainThread:@selector(updateLoginStatus) withObject:nil waitUntilDone:NO];
@@ -138,7 +139,7 @@ enum {
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
 {
-	return UIInterfaceOrientationIsLandscape(ior);
+	return YES;
 }
 
 #pragma mark - actions
@@ -179,6 +180,8 @@ enum {
 		self.messageController = [[[MessageController alloc] init] autorelease];
 		self.messageController.view.frame = self.welcomeContent.frame;
 		[self.messageController viewDidLoad];
+		self.messageController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+
 	}
 	[self updateMessageIcon:YES];
 	if (nil == self.welcomeContent.superview) {
@@ -480,4 +483,6 @@ enum {
 @synthesize currentView;
 @synthesize wspaceLabel;
 @synthesize themeChangeNotice;
+@synthesize toolbar;
+@synthesize wspaceToolbar;
 @end

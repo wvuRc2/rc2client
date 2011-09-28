@@ -339,7 +339,6 @@
 		img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
 	[self.imgCache setObject:img forKey:imgPath];
 	[img release];
-	Rc2LogInfo(@"cached image %@", imgPath);
 	return YES;
 }
 

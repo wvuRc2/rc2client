@@ -11,6 +11,7 @@
 #import "WorkspaceTableController.h"
 #import "SessionViewController.h"
 #import "DetailsViewController.h"
+#import "MGSplitViewController.h"
 #import "Rc2Server.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
@@ -61,6 +62,17 @@
 	[[VyanaLogger sharedInstance] startLogging];
 	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
 	 
+	self.detailsController = [[[DetailsViewController alloc] init] autorelease];
+	WorkspaceTableController *wtc = [[[WorkspaceTableController alloc] initWithNibName:@"WorkspaceTableController" bundle:nil] autorelease];
+	self.navController = [[UINavigationController alloc] initWithRootViewController:wtc];
+	wtc.navigationItem.title = @"Workspaces";
+	self.splitController = [[[MGSplitViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+	self.splitController.masterViewController = self.navController;
+	self.splitController.detailViewController = self.detailsController;
+	self.splitController.showsMasterInPortrait = YES;
+	[self.window addSubview:self.splitController.view];
+	self.window.rootViewController = self.splitController;
+	
 	[self.window makeKeyAndVisible];
 	[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
 		[(WorkspaceTableController*)self.navController.topViewController 
@@ -76,6 +88,17 @@
 	[TestFlight takeOff:@"77af1fa93381361c61748e58fae9f4f9_Mjc0ODAyMDExLTA5LTE5IDE2OjUwOjU3LjYzOTg1Mw"];
 #endif
 	return YES;
+}
+
+- (void)application:(UIApplication *)application didChangeStatusBarOrientation:(UIInterfaceOrientation)oldStatusBarOrientation;
+{
+	if (UIInterfaceOrientationIsLandscape(oldStatusBarOrientation)) {
+		//chnaging to portrait
+		self.splitController.splitPosition = 260;
+	} else {
+		//to landscape
+		self.splitController.splitPosition = 320;
+	}
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

@@ -10,13 +10,14 @@
 
 @class DetailsViewController;
 @class SessionViewController;
+@class MGSplitViewController;
 
 @interface Rc2AppDelegate : NSObject <UIApplicationDelegate> {
 
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UISplitViewController *splitController;
+@property (nonatomic, retain) IBOutlet MGSplitViewController *splitController;
 @property (nonatomic, retain) IBOutlet UINavigationController *navController;
 @property (nonatomic, retain) IBOutlet DetailsViewController *detailsController;
 @property (nonatomic, retain) SessionViewController *sessionController;

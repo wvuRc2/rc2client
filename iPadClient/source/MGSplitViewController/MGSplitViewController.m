@@ -231,7 +231,7 @@
 	// Little bit ugly looking, but it'll still work even if they change the status bar height in future.
 //	float statusBarHeight = MAX((fullScreenRect.size.width - appFrame.size.width), (fullScreenRect.size.height - appFrame.size.height));
 
-	return self.view.frame.size;
+//	return self.view.frame.size;
 	//mlilback - change to use view's frame instead of screen
 	CGRect fullScreenRect = self.view.frame;
 	// Initially assume portrait orientation.
@@ -240,8 +240,10 @@
 	
 	// Correct for orientation.
 	if (UIInterfaceOrientationIsLandscape(theOrientation)) {
-		width = height;
-		height = fullScreenRect.size.width;
+		if (height > width) {
+			width = height;
+			height = fullScreenRect.size.width;
+		}
 	}
 	
 	// Account for status bar, which always subtracts from the height (since it's always at the top of the screen).

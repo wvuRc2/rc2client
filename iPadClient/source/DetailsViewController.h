@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface DetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
+@property (nonatomic, assign) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, assign) IBOutlet UIToolbar *wspaceToolbar;
 @property (nonatomic, assign) IBOutlet UILabel *titleLabel;
 @property (nonatomic, assign) IBOutlet UILabel *wspaceLabel;
 @property (nonatomic, assign) IBOutlet UIBarButtonItem *loginButton;
