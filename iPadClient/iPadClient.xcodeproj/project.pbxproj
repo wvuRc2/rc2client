@@ -144,6 +144,15 @@
 		08DD23BA1412E10100217C1A /* importCheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DD23B91412E10100217C1A /* importCheck.png */; };
 		08DD23BD1413CC6B00217C1A /* _RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DD23BC1413CC6A00217C1A /* _RCMessage.m */; };
 		08DD23C01413CC7A00217C1A /* RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DD23BF1413CC7900217C1A /* RCMessage.m */; };
+		08EE41151436441F004FDBB8 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41031436441F004FDBB8 /* AsyncSocket.m */; };
+		08EE41161436441F004FDBB8 /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41051436441F004FDBB8 /* MutableQueue.m */; };
+		08EE41171436441F004FDBB8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41071436441F004FDBB8 /* NSData+Base64.m */; };
+		08EE41181436441F004FDBB8 /* WebSocket00.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE410A1436441F004FDBB8 /* WebSocket00.m */; };
+		08EE41191436441F004FDBB8 /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE410C1436441F004FDBB8 /* WebSocket07.m */; };
+		08EE411A1436441F004FDBB8 /* WebSocket08.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE410E1436441F004FDBB8 /* WebSocket08.m */; };
+		08EE411B1436441F004FDBB8 /* WebSocket10.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41101436441F004FDBB8 /* WebSocket10.m */; };
+		08EE411C1436441F004FDBB8 /* WebSocketFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41121436441F004FDBB8 /* WebSocketFragment.m */; };
+		08EE411D1436441F004FDBB8 /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41141436441F004FDBB8 /* WebSocketMessage.m */; };
 		08F566691407073E00229A39 /* _RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F566681407073E00229A39 /* _RCFile.m */; };
 		08FE88991414F92F00672474 /* BottomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE88971414F92F00672474 /* BottomViewController.m */; };
 		08FE889A1414F92F00672474 /* BottomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08FE88981414F92F00672474 /* BottomViewController.xib */; };
@@ -389,6 +398,25 @@
 		08DD23BC1413CC6A00217C1A /* _RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCMessage.m; path = ../SharedCode/rc2/model/generated/_RCMessage.m; sourceTree = SOURCE_ROOT; };
 		08DD23BE1413CC7900217C1A /* RCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMessage.h; path = ../SharedCode/rc2/model/RCMessage.h; sourceTree = SOURCE_ROOT; };
 		08DD23BF1413CC7900217C1A /* RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMessage.m; path = ../SharedCode/rc2/model/RCMessage.m; sourceTree = SOURCE_ROOT; };
+		08EE41021436441F004FDBB8 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
+		08EE41031436441F004FDBB8 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
+		08EE41041436441F004FDBB8 /* MutableQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableQueue.h; sourceTree = "<group>"; };
+		08EE41051436441F004FDBB8 /* MutableQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutableQueue.m; sourceTree = "<group>"; };
+		08EE41061436441F004FDBB8 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		08EE41071436441F004FDBB8 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		08EE41081436441F004FDBB8 /* UnittWebSocketClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UnittWebSocketClient-Prefix.pch"; sourceTree = "<group>"; };
+		08EE41091436441F004FDBB8 /* WebSocket00.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket00.h; sourceTree = "<group>"; };
+		08EE410A1436441F004FDBB8 /* WebSocket00.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocket00.m; sourceTree = "<group>"; };
+		08EE410B1436441F004FDBB8 /* WebSocket07.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket07.h; sourceTree = "<group>"; };
+		08EE410C1436441F004FDBB8 /* WebSocket07.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocket07.m; sourceTree = "<group>"; };
+		08EE410D1436441F004FDBB8 /* WebSocket08.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket08.h; sourceTree = "<group>"; };
+		08EE410E1436441F004FDBB8 /* WebSocket08.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocket08.m; sourceTree = "<group>"; };
+		08EE410F1436441F004FDBB8 /* WebSocket10.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket10.h; sourceTree = "<group>"; };
+		08EE41101436441F004FDBB8 /* WebSocket10.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocket10.m; sourceTree = "<group>"; };
+		08EE41111436441F004FDBB8 /* WebSocketFragment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketFragment.h; sourceTree = "<group>"; };
+		08EE41121436441F004FDBB8 /* WebSocketFragment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketFragment.m; sourceTree = "<group>"; };
+		08EE41131436441F004FDBB8 /* WebSocketMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketMessage.h; sourceTree = "<group>"; };
+		08EE41141436441F004FDBB8 /* WebSocketMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketMessage.m; sourceTree = "<group>"; };
 		08F566671407073E00229A39 /* _RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCFile.h; path = ../SharedCode/rc2/model/generated/_RCFile.h; sourceTree = SOURCE_ROOT; };
 		08F566681407073E00229A39 /* _RCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCFile.m; path = ../SharedCode/rc2/model/generated/_RCFile.m; sourceTree = SOURCE_ROOT; };
 		08FE88961414F92F00672474 /* BottomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomViewController.h; path = source/BottomViewController.h; sourceTree = SOURCE_ROOT; };
@@ -830,6 +858,7 @@
 		08DD23AE1412B65A00217C1A /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				08EE41011436441F004FDBB8 /* WebSocketClient */,
 				08349F411404709700B629B4 /* JSON */,
 				08DD232B1412B64600217C1A /* DropboxSDK */,
 				08661A261405AC170087BD34 /* MGSplitViewController */,
@@ -837,6 +866,33 @@
 			);
 			name = "3rd Party";
 			sourceTree = "<group>";
+		};
+		08EE41011436441F004FDBB8 /* WebSocketClient */ = {
+			isa = PBXGroup;
+			children = (
+				08EE41021436441F004FDBB8 /* AsyncSocket.h */,
+				08EE41031436441F004FDBB8 /* AsyncSocket.m */,
+				08EE41041436441F004FDBB8 /* MutableQueue.h */,
+				08EE41051436441F004FDBB8 /* MutableQueue.m */,
+				08EE41061436441F004FDBB8 /* NSData+Base64.h */,
+				08EE41071436441F004FDBB8 /* NSData+Base64.m */,
+				08EE41081436441F004FDBB8 /* UnittWebSocketClient-Prefix.pch */,
+				08EE41091436441F004FDBB8 /* WebSocket00.h */,
+				08EE410A1436441F004FDBB8 /* WebSocket00.m */,
+				08EE410B1436441F004FDBB8 /* WebSocket07.h */,
+				08EE410C1436441F004FDBB8 /* WebSocket07.m */,
+				08EE410D1436441F004FDBB8 /* WebSocket08.h */,
+				08EE410E1436441F004FDBB8 /* WebSocket08.m */,
+				08EE410F1436441F004FDBB8 /* WebSocket10.h */,
+				08EE41101436441F004FDBB8 /* WebSocket10.m */,
+				08EE41111436441F004FDBB8 /* WebSocketFragment.h */,
+				08EE41121436441F004FDBB8 /* WebSocketFragment.m */,
+				08EE41131436441F004FDBB8 /* WebSocketMessage.h */,
+				08EE41141436441F004FDBB8 /* WebSocketMessage.m */,
+			);
+			name = WebSocketClient;
+			path = ../SharedCode/WebSocketClient;
+			sourceTree = SOURCE_ROOT;
 		};
 		08F566661407073E00229A39 /* generated */ = {
 			isa = PBXGroup;
@@ -1161,6 +1217,15 @@
 				08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */,
 				08447F781415E96C00A8DDF8 /* ThemePicker.m in Sources */,
 				08A6FF4E142F8BA300E8AB4B /* RC2RemoteLogger.m in Sources */,
+				08EE41151436441F004FDBB8 /* AsyncSocket.m in Sources */,
+				08EE41161436441F004FDBB8 /* MutableQueue.m in Sources */,
+				08EE41171436441F004FDBB8 /* NSData+Base64.m in Sources */,
+				08EE41181436441F004FDBB8 /* WebSocket00.m in Sources */,
+				08EE41191436441F004FDBB8 /* WebSocket07.m in Sources */,
+				08EE411A1436441F004FDBB8 /* WebSocket08.m in Sources */,
+				08EE411B1436441F004FDBB8 /* WebSocket10.m in Sources */,
+				08EE411C1436441F004FDBB8 /* WebSocketFragment.m in Sources */,
+				08EE411D1436441F004FDBB8 /* WebSocketMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1251,19 +1316,14 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"/**",
-					"\"$(SRCROOT)/../3rdparty/UnittWebSocketClient/include\"",
 					"$(BUILT_PRODUCTS_DIR)",
 				);
 				INFOPLIST_FILE = "resources/rc2-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../3rdparty/UnittWebSocketClient/bin/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
 					"\"$(SRCROOT)/../3rdParty/testflight\"",
 				);
-				OTHER_LDFLAGS = (
-					"-all_load",
-					"-lUnittWebSocketClient",
-				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "5E26B131-177D-49A1-AAB6-08FA8AB70CF4";
 				WRAPPER_EXTENSION = app;
@@ -1281,19 +1341,14 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"/**",
-					"\"$(SRCROOT)/../3rdparty/UnittWebSocketClient/include\"",
 					"$(BUILT_PRODUCTS_DIR)",
 				);
 				INFOPLIST_FILE = "resources/rc2-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../3rdparty/UnittWebSocketClient/bin/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
 					"\"$(SRCROOT)/../3rdParty/testflight\"",
 				);
-				OTHER_LDFLAGS = (
-					"-all_load",
-					"-lUnittWebSocketClient",
-				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "5E26B131-177D-49A1-AAB6-08FA8AB70CF4";
 				VALIDATE_PRODUCT = YES;
@@ -1328,20 +1383,15 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"/**",
-					"\"$(SRCROOT)/../3rdparty/UnittWebSocketClient/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
 				);
 				INFOPLIST_FILE = "resources/rc2-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(BUILD_DIR)/Vyana",
 					"$(inherited)",
-					"\"$(SRCROOT)/../3rdparty/UnittWebSocketClient/bin/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
 					"\"$(SRCROOT)/../3rdParty/testflight\"",
 				);
-				OTHER_LDFLAGS = (
-					"-all_load",
-					"-lUnittWebSocketClient",
-				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "5E26B131-177D-49A1-AAB6-08FA8AB70CF4";
 				VALIDATE_PRODUCT = YES;
