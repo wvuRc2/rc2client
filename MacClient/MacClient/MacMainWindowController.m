@@ -32,6 +32,11 @@
 	return self;
 }
 
+-(void)dealloc
+{
+	NSLog(@"window gone");
+}
+
 - (void)windowDidLoad
 {
 	[super windowDidLoad];

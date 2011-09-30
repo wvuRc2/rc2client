@@ -11,54 +11,137 @@
 #import "MacMainWindowController.h"
 #import "Rc2Server.h"
 
-@interface AppDelegate()
+@interface AppDelegate() {
+	BOOL __haveMoc;
+	BOOL __firstLogin;
+}
 @property (strong) MacLoginController *loginController;
 @property (readwrite, strong, nonatomic) MacMainWindowController *mainWindowController;
+@property (nonatomic, strong) NSTimer *autosaveTimer;
+@property (nonatomic, readwrite) BOOL loggedIn;
 -(void)handleSucessfulLogin;
+-(NSManagedObjectContext*)managedObjectContext:(BOOL)create;
+-(void)autoSaveChanges;
+-(void)presentLoginPanel;
+-(void)windowWillClose:(NSNotification*)note;
 @end
 
 @implementation AppDelegate
 
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 @synthesize managedObjectModel = __managedObjectModel;
-@synthesize managedObjectContext = __managedObjectContext;
 @synthesize mainWindowController = _mainWindowController;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	__block __typeof__(self) blockSelf = self;
+	__firstLogin=YES;
+	[self presentLoginPanel];
+}
+
+//a timer runs while active that will autosave coredata changes periodically
+-(void)applicationWillBecomeActive:(NSNotification *)note
+{
+	self.autosaveTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(autoSaveChanges) userInfo:nil repeats:YES];
+}
+
+//invalidate autosave timer and do an autosave
+-(void)applicationWillResignActive:(NSNotification *)note
+{
+	[self.autosaveTimer invalidate];
+	self.autosaveTimer=nil;
+	[self autoSaveChanges];
+}
+
+-(BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
+{
+	return NO;
+}
+
+-(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
+{
+	if ([item action] == @selector(doLogOut:))
+		return self.loggedIn;
+	return YES;
+}
+
+-(void)windowWillClose:(NSNotification*)note
+{
+	if ([note object] == self.mainWindowController.window) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self doLogOut:nil];
+		});
+		[[NSNotificationCenter defaultCenter] removeObserver:self 
+														name:NSWindowWillCloseNotification 
+													  object:self.mainWindowController.window];
+	}
+}
+
+#pragma mark - actions
+
+-(IBAction)doLogOut:(id)sender
+{
+	[self.mainWindowController close];
+	self.loggedIn=NO;
+	[self presentLoginPanel];
+}
+
+#pragma mark - meat & potatoes
+
+-(void)presentLoginPanel
+{
+	__weak AppDelegate *blockSelf = self;
 	self.loginController = [[MacLoginController alloc] init];
 	[self.loginController promptForLoginWithCompletionBlock:^{
 		blockSelf.loginController=nil;
 		[blockSelf handleSucessfulLogin];
 	}];
+	if (__firstLogin && [[NSUserDefaults standardUserDefaults] boolForKey:@"AutoLogin"])
+		[self.loginController doLogin:self];
+	__firstLogin=NO;
 }
 
 -(void)handleSucessfulLogin
 {
+	self.loggedIn = YES;
 	self.mainWindowController = [[MacMainWindowController alloc] init];
 	[self.mainWindowController.window makeKeyAndOrderFront:self];
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(windowWillClose:) 
+												 name:NSWindowWillCloseNotification 
+											   object:self.mainWindowController.window];
 }
+
+-(void)autoSaveChanges
+{
+	if (![NSThread isMainThread]) {
+		Rc2LogError(@"autoSaveChanges called from background thread");
+		return;
+	}
+	NSManagedObjectContext *moc = [self managedObjectContext:NO];
+	if (moc.hasChanges) {
+		NSError *err=nil;
+		if (![moc save:&err]) {
+			NSLog(@"failed to save moc changes: %@", err);
+		}
+	}
+}
+
+#pragma mark - core data
 
 /**
 	Returns the directory the application uses to store the Core Data store file. This code uses a directory named "Rc²" in the user's Library directory.
  */
-- (NSURL *)applicationFilesDirectory {
-
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSURL *libraryURL = [[fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
-	return [libraryURL URLByAppendingPathComponent:@"Rc²"];
+- (NSURL *)applicationFilesDirectory
+{
+	return [NSURL fileURLWithPath:[NSApp thisApplicationsSupportFolder]];
 }
 
-/**
-	Creates if necessary and returns the managed object model for the application.
- */
-- (NSManagedObjectModel *)managedObjectModel {
-	if (__managedObjectModel) {
+-(NSManagedObjectModel *)managedObjectModel
+{
+	if (__managedObjectModel)
 		return __managedObjectModel;
-	}
 	
-	NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"MacClient" withExtension:@"momd"];
+	NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Rc2" withExtension:@"momd"];
 	__managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
 	return __managedObjectModel;
 }
@@ -66,14 +149,14 @@
 /**
 	Returns the persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. (The directory for the store is created, if necessary.)
  */
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-	if (__persistentStoreCoordinator) {
+-(NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
+	if (__persistentStoreCoordinator)
 		return __persistentStoreCoordinator;
-	}
 
 	NSManagedObjectModel *mom = [self managedObjectModel];
 	if (!mom) {
-		NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
+		Rc2LogError(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
 		return nil;
 	}
 
@@ -108,8 +191,11 @@
 	}
 	
 	NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"Rc².storedata"];
+	NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
+														forKey:NSMigratePersistentStoresAutomaticallyOption];
 	NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-	if (![coordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]) {
+	if (![coordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:options error:&error])
+	{
 		[[NSApplication sharedApplication] presentError:error];
 		return nil;
 	}
@@ -122,30 +208,28 @@
 	Returns the managed object context for the application (which is already
 	bound to the persistent store coordinator for the application.) 
  */
-- (NSManagedObjectContext *)managedObjectContext {
-	if (__managedObjectContext) {
-		return __managedObjectContext;
-	}
-
-	NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-	if (!coordinator) {
-		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-		[dict setValue:@"Failed to initialize the store" forKey:NSLocalizedDescriptionKey];
-		[dict setValue:@"There was an error building up the data file." forKey:NSLocalizedFailureReasonErrorKey];
-		NSError *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
-		[[NSApplication sharedApplication] presentError:error];
-		return nil;
-	}
-	__managedObjectContext = [[NSManagedObjectContext alloc] init];
-	[__managedObjectContext setPersistentStoreCoordinator:coordinator];
-
-	return __managedObjectContext;
+-(NSManagedObjectContext *)managedObjectContext
+{
+	return [self managedObjectContext:YES];
+}
+-(NSManagedObjectContext*)managedObjectContext:(BOOL)create
+{
+	NSManagedObjectContext *moc = [[[NSThread currentThread] threadDictionary] objectForKey:@"appMoc"];
+	if (moc || !create)
+		return moc;
+	//now we need to create a moc. this will require differences based on what thread we are on
+	moc = [[NSManagedObjectContext alloc] init];
+	[moc setPersistentStoreCoordinator: self.persistentStoreCoordinator];
+	[[[NSThread	currentThread] threadDictionary] setObject:moc forKey:@"appMoc"];
+	__haveMoc=YES;
+	return moc;
 }
 
 /**
 	Returns the NSUndoManager for the application. In this case, the manager returned is that of the managed object context for the application.
  */
-- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
+-(NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window
+{
 	return [[self managedObjectContext] undoManager];
 }
 
@@ -156,7 +240,7 @@
 	NSError *error = nil;
 	
 	if (![[self managedObjectContext] commitEditing]) {
-		NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
+		Rc2LogWarn(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
 	}
 
 	if (![[self managedObjectContext] save:&error]) {
@@ -168,12 +252,12 @@
 
 	// Save changes in the application's managed object context before the application terminates.
 
-	if (!__managedObjectContext) {
+	if (!__haveMoc) {
 		return NSTerminateNow;
 	}
 
 	if (![[self managedObjectContext] commitEditing]) {
-		NSLog(@"%@:%@ unable to commit editing to terminate", [self class], NSStringFromSelector(_cmd));
+		Rc2LogWarn(@"%@:%@ unable to commit editing to terminate", [self class], NSStringFromSelector(_cmd));
 		return NSTerminateCancel;
 	}
 
@@ -210,5 +294,9 @@
 	return NSTerminateNow;
 }
 
+#pragma mark - synthesizers
+
 @synthesize loginController;
+@synthesize autosaveTimer;
+@synthesize loggedIn;
 @end

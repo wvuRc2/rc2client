@@ -16,6 +16,9 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) MacMainWindowController *mainWindowController;
+@property (nonatomic, readonly) BOOL loggedIn;
+
+-(IBAction)doLogOut:(id)sender;
 
 - (IBAction)saveAction:(id)sender;
 

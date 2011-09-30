@@ -20,6 +20,7 @@
 		08EE413A14364CAF004FDBB8 /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE413114364CAF004FDBB8 /* WebSocketMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE414514364F81004FDBB8 /* WorkspaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE414314364F81004FDBB8 /* WorkspaceViewController.m */; };
 		08EE414614364F81004FDBB8 /* WorkspaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08EE414414364F81004FDBB8 /* WorkspaceViewController.xib */; };
+		08EE4148143673E9004FDBB8 /* DefaultDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08EE4147143673E9004FDBB8 /* DefaultDefaults.plist */; };
 		08FE88AC1415533300672474 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FE88AB1415533300672474 /* Cocoa.framework */; };
 		08FE88B61415533400672474 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08FE88B41415533400672474 /* InfoPlist.strings */; };
 		08FE88B81415533400672474 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE88B71415533400672474 /* main.m */; };
@@ -116,6 +117,7 @@
 		08EE414214364F81004FDBB8 /* WorkspaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkspaceViewController.h; sourceTree = "<group>"; };
 		08EE414314364F81004FDBB8 /* WorkspaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkspaceViewController.m; sourceTree = "<group>"; };
 		08EE414414364F81004FDBB8 /* WorkspaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WorkspaceViewController.xib; sourceTree = "<group>"; };
+		08EE4147143673E9004FDBB8 /* DefaultDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultDefaults.plist; sourceTree = "<group>"; };
 		08FE88A71415533300672474 /* Rc².app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rc².app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08FE88AB1415533300672474 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		08FE88AE1415533300672474 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -324,6 +326,7 @@
 				08FE88B71415533400672474 /* main.m */,
 				08FE88B91415533400672474 /* MacClient-Prefix.pch */,
 				08FE88BA1415533400672474 /* Credits.rtf */,
+				08EE4147143673E9004FDBB8 /* DefaultDefaults.plist */,
 			);
 			name = "Supporting Files";
 			path = MacClient;
@@ -489,6 +492,7 @@
 				08FE8A4F14159CA000672474 /* rc2@2x.png in Resources */,
 				0838B390141E90E0003264A8 /* MacMainWindow.xib in Resources */,
 				08EE414614364F81004FDBB8 /* WorkspaceViewController.xib in Resources */,
+				08EE4148143673E9004FDBB8 /* DefaultDefaults.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
