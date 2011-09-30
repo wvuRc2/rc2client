@@ -10,21 +10,24 @@
 #import "Rc2Server.h"
 #import "RCWorkspaceFolder.h"
 #import "RCWorkspace.h"
+#import "WorkspaceViewController.h"
 
 @interface MacMainWindowController()
 @property (strong) NSMutableDictionary *workspacesItem;
 @property (strong) id wsitemObserver;
+@property (strong) NSMutableDictionary *wspaceControllers;
 @end
 
 @implementation MacMainWindowController
 @synthesize mainSourceList=_mainSourceList;
 @synthesize workspacesItem=_workspacesItem;
 @synthesize wsitemObserver;
-
+@synthesize wspaceControllers;
 - (id)init
 {
 	if ((self = [super initWithWindowNibName:@"MacMainWindow"])) {
 		self.workspacesItem = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"WORKSPACES", @"name", nil];
+		self.wspaceControllers = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
@@ -43,6 +46,24 @@
 }
 
 #pragma mark - source list
+
+-(void)sourceListSelectionDidChange:(NSNotification *)notification
+{
+	id selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
+	if ([selItem isKindOfClass:[RCWorkspace class]]) {
+		RCWorkspace *selWspace = selItem;
+		WorkspaceViewController *rvc = [self.wspaceControllers objectForKey:selWspace.wspaceId];
+		if (nil == rvc) {
+			//need to load one
+			rvc = [[WorkspaceViewController alloc] initWithWorkspace:selWspace];
+			[self.wspaceControllers setObject:rvc forKey:selWspace.wspaceId];
+		}
+		[self.detailView removeAllSubviews];
+		[self.detailView addSubview:rvc.view];
+	} else {
+		[self.detailView removeAllSubviews];
+	}
+}
 
 -(NSUInteger)sourceList:(PXSourceList *)sourceList numberOfChildrenOfItem:(id)item
 {
@@ -89,4 +110,5 @@
 	return NO;
 }
 
+@synthesize detailView;
 @end

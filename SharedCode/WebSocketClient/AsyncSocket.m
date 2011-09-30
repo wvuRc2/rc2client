@@ -206,7 +206,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 	// and we can only read that amount.
 	// Otherwise, we're safe to read the entire length of the term.
 	
-	unsigned result = [term length];
+	unsigned result = (unsigned)[term length];
 	
 	// Shortcut when term is a single byte
 	if(result == 1) return result;
@@ -226,7 +226,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 		
 		if(memcmp(subBuffer, [term bytes], j) == 0)
 		{
-			result = [term length] - j;
+			result = (unsigned)([term length] - j);
 			break;
 		}
 		
@@ -235,7 +235,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 	}
 	
 	if(maxLength > 0)
-		return MIN(result, (maxLength - bytesDone));
+		return (unsigned)MIN(result, (maxLength - bytesDone));
 	else
 		return result;
 }
@@ -247,7 +247,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 - (unsigned)prebufferReadLengthForTerm
 {
 	if(maxLength > 0)
-		return MIN(READALL_CHUNKSIZE, (maxLength - bytesDone));
+		return (unsigned)MIN(READALL_CHUNKSIZE, (maxLength - bytesDone));
 	else
 		return READALL_CHUNKSIZE;
 }
@@ -527,7 +527,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 
 - (void)runLoopAddSource:(CFRunLoopSourceRef)source
 {
-	unsigned i, count = [theRunLoopModes count];
+	unsigned i, count = (unsigned)[theRunLoopModes count];
 	for(i = 0; i < count; i++)
 	{
 		CFStringRef runLoopMode = (CFStringRef)[theRunLoopModes objectAtIndex:i];
@@ -537,7 +537,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 
 - (void)runLoopRemoveSource:(CFRunLoopSourceRef)source
 {
-	unsigned i, count = [theRunLoopModes count];
+	unsigned i, count = (unsigned)[theRunLoopModes count];
 	for(i = 0; i < count; i++)
 	{
 		CFStringRef runLoopMode = (CFStringRef)[theRunLoopModes objectAtIndex:i];
@@ -547,7 +547,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 
 - (void)runLoopAddTimer:(NSTimer *)timer
 {
-	unsigned i, count = [theRunLoopModes count];
+	unsigned i, count = (unsigned)[theRunLoopModes count];
 	for(i = 0; i < count; i++)
 	{
 		CFStringRef runLoopMode = (CFStringRef)[theRunLoopModes objectAtIndex:i];
@@ -557,7 +557,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 
 - (void)runLoopRemoveTimer:(NSTimer *)timer
 {
-	unsigned i, count = [theRunLoopModes count];
+	unsigned i, count = (unsigned)[theRunLoopModes count];
 	for(i = 0; i < count; i++)		
 	{
 		CFStringRef runLoopMode = (CFStringRef)[theRunLoopModes objectAtIndex:i];
@@ -567,7 +567,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 
 - (void)runLoopUnscheduleReadStream
 {
-	unsigned i, count = [theRunLoopModes count];
+	unsigned i, count = (unsigned)[theRunLoopModes count];
 	for(i = 0; i < count; i++)
 	{
 		CFStringRef runLoopMode = (CFStringRef)[theRunLoopModes objectAtIndex:i];
@@ -578,7 +578,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 
 - (void)runLoopUnscheduleWriteStream
 {
-	unsigned i, count = [theRunLoopModes count];
+	unsigned i, count = (unsigned)[theRunLoopModes count];
 	for(i = 0; i < count; i++)
 	{
 		CFStringRef runLoopMode = (CFStringRef)[theRunLoopModes objectAtIndex:i];
@@ -2050,7 +2050,7 @@ Failed:;
     (void *)(&(pSockAddrV4->sin_addr)) :
     (void *)(&(pSockAddrV6->sin6_addr));
     
-	const char *pStr = inet_ntop (pSockAddr->sa_family, pAddr, addrBuf, sizeof(addrBuf));
+	const char *pStr = inet_ntop (pSockAddr->sa_family, pAddr, addrBuf, (socklen_t)sizeof(addrBuf));
 	if (pStr == NULL) [NSException raise: NSInternalInconsistencyException
 								  format: @"Cannot convert address to string."];
     
@@ -2393,7 +2393,7 @@ Failed:;
 				// We don't want to increase the buffer any more than this or we'll waste space.
 				// With prebuffering it's possible to read in a small chunk on the first read.
 				
-				unsigned buffInc = READALL_CHUNKSIZE - ([theCurrentRead->buffer length] - theCurrentRead->bytesDone);
+				unsigned buffInc = READALL_CHUNKSIZE - (unsigned)([theCurrentRead->buffer length] - theCurrentRead->bytesDone);
 				[theCurrentRead->buffer increaseLengthBy:buffInc];
 			}
             
@@ -2409,7 +2409,7 @@ Failed:;
 				{
 					unsigned maxToRead = [theCurrentRead readLengthForTerm];
 					
-					unsigned bufInc = maxToRead - ([theCurrentRead->buffer length] - theCurrentRead->bytesDone);
+					unsigned bufInc = maxToRead - (unsigned)([theCurrentRead->buffer length] - theCurrentRead->bytesDone);
 					[theCurrentRead->buffer increaseLengthBy:bufInc];
 				}
 				else
@@ -2417,7 +2417,7 @@ Failed:;
 					didPreBuffer = YES;
 					unsigned maxToRead = [theCurrentRead prebufferReadLengthForTerm];
 					
-					unsigned buffInc = maxToRead - ([theCurrentRead->buffer length] - theCurrentRead->bytesDone);
+					unsigned buffInc = maxToRead - (unsigned)([theCurrentRead->buffer length] - theCurrentRead->bytesDone);
 					[theCurrentRead->buffer increaseLengthBy:buffInc];
                     
 				}
@@ -2472,7 +2472,7 @@ Failed:;
 					else
 					{
 						// Search for the terminating sequence at the end of the buffer
-						int termlen = [theCurrentRead->term length];
+						int termlen = (unsigned)[theCurrentRead->term length];
 						if(theCurrentRead->bytesDone >= termlen)
 						{
 							const void *buf = [theCurrentRead->buffer bytes] + (theCurrentRead->bytesDone - termlen);

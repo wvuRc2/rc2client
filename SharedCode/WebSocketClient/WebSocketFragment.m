@@ -120,7 +120,7 @@
     int bufferLength = 14;
     if ([self.fragment length] < bufferLength)
     {
-        bufferLength = [self.fragment length];
+        bufferLength = (int)[self.fragment length];
     }
     unsigned char buffer[bufferLength];
     [self.fragment getBytes:&buffer length:bufferLength];
@@ -193,7 +193,7 @@
             }
             
             payloadStart = index;
-            payloadLength = dataLength;
+            payloadLength = (int)dataLength;
         }
     }
 }
@@ -249,8 +249,8 @@
     [temp appendBytes:maskBytes length:4];
     
     //payload data
-    payloadStart = [temp length];
-    payloadLength = fullPayloadLength;
+    payloadStart = (int)[temp length];
+    payloadLength = (int)fullPayloadLength;
     [temp appendData:[self mask:self.mask data:self.payloadData]];
     self.fragment = temp;
 }
@@ -269,11 +269,11 @@
     maskBytes[2] = (int)((aMask >> 8) & 0XFF);
     maskBytes[3] = (int)((aMask & 0XFF));
     unsigned char current;
-    int index = aRange.location;
-    int end = aRange.location + aRange.length;
+    int index = (int)aRange.location;
+    int end = (int)(aRange.location + aRange.length);
     if (end > [aData length])
     {
-        end = [aData length];
+        end = (int)[aData length];
     }
     int m = 0;
     NSRange range = NSMakeRange(index, 1);

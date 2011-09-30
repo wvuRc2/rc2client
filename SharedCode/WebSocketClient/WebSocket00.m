@@ -20,6 +20,7 @@
 
 #import "WebSocket00.h"
 
+int randFromRange(int min, int max);
 
 @interface WebSocket00(Private)
 - (void) dispatchFailure:(NSError*) aError;
@@ -111,7 +112,7 @@ enum
 - (NSData*) getMD5:(NSData*) aPlainText 
 {
     unsigned char result[16];
-    CC_MD5( aPlainText.bytes, [aPlainText length], result );
+    CC_MD5( aPlainText.bytes, (CC_LONG)[aPlainText length], result );
     return [NSData dataWithBytes:result length:16];
 }
 
@@ -199,10 +200,10 @@ int randFromRange(int min, int max)
     
     for (int i = 0; i < count; i++) 
     {
-        int split = randFromRange(1, [result length] - 1);
+        int split = randFromRange(1, (int)[result length] - 1);
         NSString* part1 = [result substringWithRange:NSMakeRange(0, split)];
         NSString* part2 = [result substringWithRange:NSMakeRange(split, [result length] - split)];
-        result = [NSString stringWithFormat:@"%@%c%@", part1, [letters characterAtIndex: randFromRange(0, [letters length])], part2];
+        result = [NSString stringWithFormat:@"%@%c%@", part1, [letters characterAtIndex: randFromRange(0, (int)[letters length])], part2];
     }
     
     return result;
@@ -213,7 +214,7 @@ int randFromRange(int min, int max)
     NSString* result = aString;
     for (int i = 0; i < aSpaces; i++) 
     {
-        int split = randFromRange(1, [result length] - 1);
+        int split = randFromRange(1, (int)[result length] - 1);
         NSString* part1 = [result substringWithRange:NSMakeRange(0, split)];
         NSString* part2 = [result substringWithRange:NSMakeRange(split, [result length] - split)];
         result = [NSString stringWithFormat:@"%@ %@", part1, part2];

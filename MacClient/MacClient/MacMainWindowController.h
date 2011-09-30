@@ -11,5 +11,5 @@
 
 @interface MacMainWindowController : NSWindowController<PXSourceListDataSource,PXSourceListDelegate>
 @property (strong) IBOutlet PXSourceList *mainSourceList;
-
+@property (strong) IBOutlet NSView *detailView;
 @end
