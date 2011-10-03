@@ -30,10 +30,7 @@ enum {
 	BOOL _didMsgCheck;
 	BOOL _didNibCheck;
 }
-@property (nonatomic, copy) NSArray *defaultToolbarButtons;
-@property (nonatomic, copy) NSArray *wspaceToolbarButtons;
-@property (nonatomic, retain) NSString *selWspaceToken;
-@property (nonatomic, retain) NSString *loggedInToken;
+@property (nonatomic, retain) NSMutableArray *kvoTokens;
 @property (nonatomic, retain) NSString *wspaceFilesToken;
 @property (nonatomic, retain) RCWorkspace *selectedWorkspace;
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;
@@ -66,17 +63,12 @@ enum {
 
 -(void)freeUpMemory
 {
-	self.defaultToolbarButtons=nil;
-	self.wspaceToolbarButtons=nil;
 	self.settingsController=nil;
 	self.dateFormatter=nil;
 	self.dateFormatter=nil;
-	if (self.selWspaceToken)
-		[[Rc2Server sharedInstance] removeObserverWithBlockToken:self.selWspaceToken];
-	if (self.loggedInToken)
-		[[Rc2Server sharedInstance] removeObserverWithBlockToken:self.loggedInToken];
-	self.selWspaceToken=nil;
-	self.loggedInToken=nil;
+	for (id aToken in self.kvoTokens)
+		[[Rc2Server sharedInstance] removeObserverWithBlockToken:aToken];
+	self.kvoTokens=nil;
     self.workspaceContent=nil;
     self.welcomeContent=nil;
 	self.actionSheet=nil;
@@ -96,23 +88,27 @@ enum {
 {
 	[super viewDidLoad];
 	if (!_didNibCheck) {
+		self.kvoTokens = [NSMutableArray array];
 		self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
 		[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
 		[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 		__block DetailsViewController *blockSelf = self;
-		self.selWspaceToken = [[Rc2Server sharedInstance] addObserverForKeyPath:@"selectedWorkspace" 
-																		   task:^(id obj, NSDictionary *change) {
+		id aToken = [[Rc2Server sharedInstance] addObserverForKeyPath:@"selectedWorkspace" 
+																		   task:^(id obj, NSDictionary *change)
+		{
 			RCWorkspace *sel = [obj selectedWorkspace];
-		   if (blockSelf.selectedWorkspace != sel) {
+			if (blockSelf.selectedWorkspace != sel) {
 				[blockSelf updateSelectedWorkspace:sel];
-	//		   [blockSelf performSelectorOnMainThread:@selector(updateSelectedWorkspace:) withObject:sel waitUntilDone:NO];
+	//			[blockSelf performSelectorOnMainThread:@selector(updateSelectedWorkspace:) withObject:sel waitUntilDone:NO];
 		   }
 		}];
+		[self.kvoTokens addObject:aToken];
 		self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-		self.loggedInToken =  [[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" 
+		aToken =  [[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" 
 																		   task:^(id obj, NSDictionary *change) {
 			   [blockSelf performSelectorOnMainThread:@selector(updateLoginStatus) withObject:nil waitUntilDone:NO];
 		}];
+		[self.kvoTokens addObject:aToken];
 		self.loginButton.possibleTitles = [NSSet setWithObjects:@"Login",@"Logout",nil];
 		self.loginButton.title = @"Login";
 		self.fileTableView.rowHeight = 52;
@@ -125,14 +121,6 @@ enum {
 		self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
 		self.welcomeContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
 		self.workspaceContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
-		UIBarButtonItem *sitem = [[UIBarButtonItem alloc] initWithTitle:@"Open Session" style:UIBarButtonItemStyleBordered 
-																 target:self action:@selector(doStartSession:)];
-		self.defaultToolbarButtons = self.toolbar.items;
-		NSMutableArray *ma = [self.toolbar.items mutableCopy];
-		[ma insertObject:sitem atIndex:1];
-		self.wspaceToolbarButtons = ma;
-		self.sessionButton = sitem;
-		[sitem release];
 		_didNibCheck=YES;
 	}
 }
@@ -141,8 +129,6 @@ enum {
 {
 	[super viewDidUnload];
 	[self freeUpMemory];
-	[[Rc2Server sharedInstance] removeObserverWithBlockToken:self.selWspaceToken];
-	[[Rc2Server sharedInstance] removeObserverWithBlockToken:self.loggedInToken];
 	self.fileTableView.allowsSelection = NO;
 	self.themeChangeNotice=nil;
 	_didMsgCheck = NO;
@@ -204,7 +190,7 @@ enum {
 
 	}
 	[self updateMessageIcon:YES];
-	if (nil == self.welcomeContent.superview) {
+	if (self.currentView == self.messageController.view) {
 		self.titleLabel.text = kDefaultTitleText;
 		[UIView transitionFromView:self.messageController.view
 							toView:self.welcomeContent
@@ -213,11 +199,12 @@ enum {
 						completion:^(BOOL finished) { self.messageController=nil; }];
 		self.currentView = self.welcomeContent;
 		self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+		[Rc2Server sharedInstance].selectedWorkspace=nil;
 	} else {
 		self.titleLabel.text = @"Message Center";
 		NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 		self.messageController.messages = [moc fetchObjectsForEntityName:@"RCMessage" withPredicate:nil sortKey:@"dateSent"];
-		[UIView transitionFromView:self.welcomeContent
+		[UIView transitionFromView:self.currentView
 							toView:self.messageController.view
 						  duration:0.7
 						   options:UIViewAnimationOptionTransitionFlipFromLeft
@@ -277,7 +264,6 @@ enum {
 -(void)postLoginSetup
 {
 	self.messagesButton.enabled=YES;
-	self.sessionButton.enabled = YES;
 	[self updateMessageIcon:NO];
 }
 
@@ -322,9 +308,7 @@ enum {
 //this is called when the workspace changes via KVO, i.e. the user touched one in the master view
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace
 {
-	//for now, we'll ignore that they selected a workspace
-	if (self.currentView != self.messageController.view)
-		[self updateSelectedWorkspace:wspace withLogout:NO];
+	[self updateSelectedWorkspace:wspace withLogout:NO];
 }
 
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace withLogout:(BOOL)doLogout
@@ -345,17 +329,15 @@ enum {
 							completion:^(BOOL finished) { if (doLogout) [blockSelf doLoginLogout:nil]; }];
 			self.currentView = self.welcomeContent;
 			self.titleLabel.text = kDefaultTitleText;
-			[self.toolbar setItems:self.defaultToolbarButtons animated:NO];
-		} else {
+/*		} else {
 			//they are must be in messages and we need to flip to a workspace
-			[UIView transitionFromView:self.messageController.view
+			[UIView transitionFromView:self.currentView
 								toView:self.workspaceContent
 							  duration:0.7
 							   options:UIViewAnimationOptionTransitionFlipFromRight
 							completion:^(BOOL finished) { }];
 			self.currentView = self.workspaceContent;
-			[self.toolbar setItems:self.wspaceToolbarButtons animated:NO];
-		}
+*/		}
 	} else {
 		self.titleLabel.text = wspace.name;
 		if (self.currentView != self.workspaceContent) {
@@ -366,7 +348,6 @@ enum {
 							completion:^(BOOL finished) {}];
 			self.currentView = self.workspaceContent;
 			self.workspaceContent.frame = self.welcomeContent.frame;
-			[self.toolbar setItems:self.wspaceToolbarButtons animated:NO];
 		}
 		self.wspaceFilesToken = [wspace addObserverForKeyPath:@"files" 
 														 task:^(id theWspace, NSDictionary *changes) {
@@ -374,6 +355,8 @@ enum {
 		}];
 		[wspace refreshFiles];
 	}
+	[self updateMessageIcon:NO];
+	self.sessionButton.enabled = self.currentView == self.workspaceContent;
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -431,25 +414,34 @@ enum {
 	if (![Rc2Server sharedInstance].loggedIn) {
 		[theButton setImage:[UIImage imageNamed:@"message-tbar"] forState:UIControlStateNormal];
 		[theButton setImage:[UIImage imageNamed:@"message-tbar-down"] forState:UIControlStateHighlighted];
-	} else if (!aboutToSwitch || (nil == self.welcomeContent.superview)) {
-		//we are showing messages but about to change
-		NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
-		NSInteger count = [moc countForEntityName:@"RCMessage" withPredicate:@"dateRead = nil"];
-		if (count < 1) {
-			[theButton setImage:[UIImage imageNamed:@"message-tbar"] forState:UIControlStateNormal];
-			[theButton setImage:[UIImage imageNamed:@"message-tbar-down"] forState:UIControlStateHighlighted];
+	} else if (aboutToSwitch) {
+		if (self.currentView == self.messageController.view) {
+			//we are showing messages but about to change
+			NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
+			NSInteger count = [moc countForEntityName:@"RCMessage" withPredicate:@"dateRead = nil"];
+			if (count < 1) {
+				[theButton setImage:[UIImage imageNamed:@"message-tbar"] forState:UIControlStateNormal];
+				[theButton setImage:[UIImage imageNamed:@"message-tbar-down"] forState:UIControlStateHighlighted];
+			} else {
+				if (count > 100)
+					count = 99;
+				UIImage *img = [self editMessageImage:[UIImage imageNamed:@"message-tbar-badged"] messageCount:count];
+				[theButton setImage:img forState:UIControlStateNormal];
+				img = [self editMessageImage:[UIImage imageNamed:@"message-tbar-badged-down"] messageCount:count];
+				[theButton setImage:img forState:UIControlStateHighlighted];
+			}
 		} else {
-			if (count > 100)
-				count = 99;
-			UIImage *img = [self editMessageImage:[UIImage imageNamed:@"message-tbar-badged"] messageCount:count];
-			[theButton setImage:img forState:UIControlStateNormal];
-			img = [self editMessageImage:[UIImage imageNamed:@"message-tbar-badged-down"] messageCount:count];
-			[theButton setImage:img forState:UIControlStateHighlighted];
+			[theButton setImage:[UIImage imageNamed:@"home-tbar"] forState:UIControlStateNormal];
+			[theButton setImage:[UIImage imageNamed:@"home-tbar-down"] forState:UIControlStateHighlighted];
 		}
 	} else {
-		//we are switching to message view
-		[theButton setImage:[UIImage imageNamed:@"home-tbar"] forState:UIControlStateNormal];
-		[theButton setImage:[UIImage imageNamed:@"home-tbar-down"] forState:UIControlStateHighlighted];
+		if (self.currentView == self.messageController.view) {
+			[theButton setImage:[UIImage imageNamed:@"home-tbar"] forState:UIControlStateNormal];
+			[theButton setImage:[UIImage imageNamed:@"home-tbar-down"] forState:UIControlStateHighlighted];
+		} else {
+			[theButton setImage:[UIImage imageNamed:@"message-tbar"] forState:UIControlStateNormal];
+			[theButton setImage:[UIImage imageNamed:@"message-tbar-down"] forState:UIControlStateHighlighted];
+		}
 	}
 }
 
@@ -489,8 +481,6 @@ enum {
 
 @synthesize dateFormatter;
 @synthesize titleLabel;
-@synthesize selWspaceToken;
-@synthesize loggedInToken;
 @synthesize wspaceFilesToken;
 @synthesize loginButton;
 @synthesize sessionButton;
@@ -506,6 +496,5 @@ enum {
 @synthesize currentView;
 @synthesize themeChangeNotice;
 @synthesize toolbar;
-@synthesize defaultToolbarButtons;
-@synthesize wspaceToolbarButtons;
+@synthesize kvoTokens;
 @end

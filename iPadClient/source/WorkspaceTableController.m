@@ -152,6 +152,13 @@
 	[pv autorelease];
 }
 
+-(void)clearSelection
+{
+	self.currentSelection.drawSelected = NO;
+	self.currentSelection = nil;
+	[self.tableView selectRowAtIndexPath:nil animated:NO scrollPosition:UITableViewScrollPositionNone];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

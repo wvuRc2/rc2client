@@ -79,6 +79,11 @@
 		[(WorkspaceTableController*)self.navController.topViewController 
 		 setWorkspaceItems:[[Rc2Server sharedInstance] workspaceItems]];
 	}];
+	[[Rc2Server sharedInstance] addObserverForKeyPath:@"selectedWorkspace" task:^(id obj, NSDictionary *change) {
+		if (nil == [[Rc2Server sharedInstance] selectedWorkspace]) {
+			[((WorkspaceTableController*)self.navController.topViewController) clearSelection];
+		}
+	}];
 	[(iAMApplication*)application sendDelegateEventNotifications];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self promptForLogin];

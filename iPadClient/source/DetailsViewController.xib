@@ -107,7 +107,7 @@
 							<object class="IBUIButton" id="309804506">
 								<reference key="NSNextResponder" ref="495449458"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{12, 6}, {44, 33}}</string>
+								<string key="NSFrame">{{508, 6}, {44, 33}}</string>
 								<reference key="NSSuperview" ref="495449458"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="154441039"/>
@@ -161,10 +161,11 @@
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<array class="NSMutableArray" key="IBUIItems">
-							<object class="IBUIBarButtonItem" id="170731574">
+							<object class="IBUIBarButtonItem" id="624392720">
+								<bool key="IBUIEnabled">NO</bool>
+								<string key="IBUITitle">Open Session</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<float key="IBUIWidth">44</float>
-								<reference key="IBUICustomView" ref="309804506"/>
+								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="495449458"/>
 							</object>
 							<object class="IBUIBarButtonItem" id="876414563">
@@ -172,11 +173,17 @@
 								<reference key="IBUIToolbar" ref="495449458"/>
 								<int key="IBUISystemItemIdentifier">5</int>
 							</object>
-							<object class="IBUIBarButtonItem" id="945674732">
-								<string key="IBUITitle">Logout</string>
+							<object class="IBUIBarButtonItem" id="170731574">
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<float key="IBUIWidth">44</float>
+								<reference key="IBUICustomView" ref="309804506"/>
+								<reference key="IBUIToolbar" ref="495449458"/>
+							</object>
+							<object class="IBUIBarButtonItem" id="1028939359">
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="495449458"/>
+								<int key="IBUISystemItemIdentifier">9</int>
 							</object>
 							<object class="IBUIBarButtonItem" id="94038168">
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -184,11 +191,11 @@
 								<reference key="IBUIToolbar" ref="495449458"/>
 								<int key="IBUISystemItemIdentifier">6</int>
 							</object>
-							<object class="IBUIBarButtonItem" id="1028939359">
+							<object class="IBUIBarButtonItem" id="945674732">
+								<string key="IBUITitle">Logout</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="495449458"/>
-								<int key="IBUISystemItemIdentifier">9</int>
 							</object>
 						</array>
 					</object>
@@ -385,6 +392,14 @@
 					<int key="connectionID">91</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">sessionButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="624392720"/>
+					</object>
+					<int key="connectionID">94</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">doLoginLogout:</string>
 						<reference key="source" ref="945674732"/>
@@ -433,6 +448,14 @@
 					</object>
 					<int key="connectionID">86</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">doStartSession:</string>
+						<reference key="source" ref="624392720"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">95</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -478,11 +501,12 @@
 						<int key="objectID">7</int>
 						<reference key="object" ref="495449458"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="945674732"/>
 							<reference ref="876414563"/>
 							<reference ref="1028939359"/>
-							<reference ref="94038168"/>
 							<reference ref="170731574"/>
+							<reference ref="94038168"/>
+							<reference ref="945674732"/>
+							<reference ref="624392720"/>
 						</array>
 						<reference key="parent" ref="766721923"/>
 					</object>
@@ -546,6 +570,11 @@
 						<reference key="object" ref="309804506"/>
 						<reference key="parent" ref="170731574"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">93</int>
+						<reference key="object" ref="624392720"/>
+						<reference key="parent" ref="495449458"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -568,12 +597,13 @@
 				<real value="0.0" key="83.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="84.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="93.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">92</int>
+			<int key="maxID">96</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -620,9 +650,6 @@
 						<string key="toolbar">UIToolbar</string>
 						<string key="welcomeContent">UIView</string>
 						<string key="workspaceContent">UIView</string>
-						<string key="wsLoginButton">UIBarButtonItem</string>
-						<string key="wspaceLabel">UILabel</string>
-						<string key="wspaceToolbar">UIToolbar</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="fileTableView">
@@ -664,18 +691,6 @@
 						<object class="IBToOneOutletInfo" key="workspaceContent">
 							<string key="name">workspaceContent</string>
 							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="wsLoginButton">
-							<string key="name">wsLoginButton</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="wspaceLabel">
-							<string key="name">wspaceLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="wspaceToolbar">
-							<string key="name">wspaceToolbar</string>
-							<string key="candidateClassName">UIToolbar</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
