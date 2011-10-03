@@ -30,6 +30,8 @@ enum {
 	BOOL _didMsgCheck;
 	BOOL _didNibCheck;
 }
+@property (nonatomic, copy) NSArray *defaultToolbarButtons;
+@property (nonatomic, copy) NSArray *wspaceToolbarButtons;
 @property (nonatomic, retain) NSString *selWspaceToken;
 @property (nonatomic, retain) NSString *loggedInToken;
 @property (nonatomic, retain) NSString *wspaceFilesToken;
@@ -64,6 +66,8 @@ enum {
 
 -(void)freeUpMemory
 {
+	self.defaultToolbarButtons=nil;
+	self.wspaceToolbarButtons=nil;
 	self.settingsController=nil;
 	self.dateFormatter=nil;
 	self.dateFormatter=nil;
@@ -75,7 +79,6 @@ enum {
 	self.loggedInToken=nil;
     self.workspaceContent=nil;
     self.welcomeContent=nil;
-	self.wsLoginButton=nil;
 	self.actionSheet=nil;
 	self.messageNavView=nil;
 	self.themeChangeNotice=nil;
@@ -122,6 +125,14 @@ enum {
 		self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
 		self.welcomeContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
 		self.workspaceContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+		UIBarButtonItem *sitem = [[UIBarButtonItem alloc] initWithTitle:@"Open Session" style:UIBarButtonItemStyleBordered 
+																 target:self action:@selector(doStartSession:)];
+		self.defaultToolbarButtons = self.toolbar.items;
+		NSMutableArray *ma = [self.toolbar.items mutableCopy];
+		[ma insertObject:sitem atIndex:1];
+		self.wspaceToolbarButtons = ma;
+		self.sessionButton = sitem;
+		[sitem release];
 		_didNibCheck=YES;
 	}
 }
@@ -140,6 +151,15 @@ enum {
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
 {
 	return YES;
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+	if (self.currentView == self.welcomeContent)
+		self.workspaceContent.frame = self.currentView.frame;
+	else
+		self.welcomeContent.frame = self.currentView.frame;
 }
 
 #pragma mark - actions
@@ -325,6 +345,7 @@ enum {
 							completion:^(BOOL finished) { if (doLogout) [blockSelf doLoginLogout:nil]; }];
 			self.currentView = self.welcomeContent;
 			self.titleLabel.text = kDefaultTitleText;
+			[self.toolbar setItems:self.defaultToolbarButtons animated:NO];
 		} else {
 			//they are must be in messages and we need to flip to a workspace
 			[UIView transitionFromView:self.messageController.view
@@ -333,9 +354,10 @@ enum {
 							   options:UIViewAnimationOptionTransitionFlipFromRight
 							completion:^(BOOL finished) { }];
 			self.currentView = self.workspaceContent;
+			[self.toolbar setItems:self.wspaceToolbarButtons animated:NO];
 		}
 	} else {
-		self.wspaceLabel.text = wspace.name;
+		self.titleLabel.text = wspace.name;
 		if (self.currentView != self.workspaceContent) {
 			[UIView transitionFromView:self.currentView
 								toView:self.workspaceContent
@@ -343,6 +365,8 @@ enum {
 							   options:UIViewAnimationOptionTransitionFlipFromLeft
 							completion:^(BOOL finished) {}];
 			self.currentView = self.workspaceContent;
+			self.workspaceContent.frame = self.welcomeContent.frame;
+			[self.toolbar setItems:self.wspaceToolbarButtons animated:NO];
 		}
 		self.wspaceFilesToken = [wspace addObserverForKeyPath:@"files" 
 														 task:^(id theWspace, NSDictionary *changes) {
@@ -469,7 +493,6 @@ enum {
 @synthesize loggedInToken;
 @synthesize wspaceFilesToken;
 @synthesize loginButton;
-@synthesize wsLoginButton;
 @synthesize sessionButton;
 @synthesize fileTableView;
 @synthesize workspaceContent;
@@ -481,8 +504,8 @@ enum {
 @synthesize messageNavView;
 @synthesize messageController;
 @synthesize currentView;
-@synthesize wspaceLabel;
 @synthesize themeChangeNotice;
 @synthesize toolbar;
-@synthesize wspaceToolbar;
+@synthesize defaultToolbarButtons;
+@synthesize wspaceToolbarButtons;
 @end

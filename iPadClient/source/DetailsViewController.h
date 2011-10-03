@@ -10,11 +10,8 @@
 
 @interface DetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 @property (nonatomic, assign) IBOutlet UIToolbar *toolbar;
-@property (nonatomic, assign) IBOutlet UIToolbar *wspaceToolbar;
 @property (nonatomic, assign) IBOutlet UILabel *titleLabel;
-@property (nonatomic, assign) IBOutlet UILabel *wspaceLabel;
 @property (nonatomic, assign) IBOutlet UIBarButtonItem *loginButton;
-@property (retain, nonatomic) IBOutlet UIBarButtonItem *wsLoginButton;
 @property (nonatomic, assign) IBOutlet UIBarButtonItem *sessionButton;
 @property (nonatomic, assign) IBOutlet UITableView *fileTableView;
 @property (nonatomic, assign) IBOutlet UILabel *msgCntLabel;
