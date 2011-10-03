@@ -61,6 +61,7 @@
 {
 	[[VyanaLogger sharedInstance] startLogging];
 	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
+	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 	 
 	self.detailsController = [[[DetailsViewController alloc] init] autorelease];
 	WorkspaceTableController *wtc = [[[WorkspaceTableController alloc] initWithNibName:@"WorkspaceTableController" bundle:nil] autorelease];
@@ -79,7 +80,9 @@
 		 setWorkspaceItems:[[Rc2Server sharedInstance] workspaceItems]];
 	}];
 	[(iAMApplication*)application sendDelegateEventNotifications];
-	[self promptForLogin];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self promptForLogin];
+	});
 
 	DBSession *session = [[[DBSession alloc] initWithConsumerKey:@"663yb1illxbs5rl" 
 												  consumerSecret:@"on576o50uxrjxhj"] autorelease];
@@ -271,15 +274,17 @@
 	[self.authController view];
 	CGSize sz = self.authController.view.frame.size;
 	[blockVC presentModalViewController:self.authController animated:YES];
-	self.authController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
+
+
+   self.authController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
 	| UIViewAutoresizingFlexibleBottomMargin;
 	CGRect r = self.authController.view.superview.frame;
 	r.size = sz;
 	self.authController.view.superview.frame = r;
-	CGPoint centerPt = CGPointZero;
-	centerPt.x = 512;
-	centerPt.y = 100 + floor(sz.height/2);
-	self.authController.view.superview.center = centerPt;
+
+	CGSize screenSize = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation) ? CGSizeMake(1024, 748) : CGSizeMake(768, 1004);
+	CGPoint pt = CGPointMake(screenSize.width/2, floor(screenSize.height/2));
+	self.authController.view.superview.center = pt;
 }
 
 - (void)dealloc

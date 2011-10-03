@@ -169,7 +169,7 @@
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-	[self.splitController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];;
+	[self.splitController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	//FIXME: the interface rotation would look better if done here, but the split controller some how looses
 	// the splitter. until I muck around with that code, it just won't look so great.
 }
@@ -177,12 +177,12 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)oldOrient
 {
 	[self.splitController didRotateFromInterfaceOrientation:oldOrient];	
-	UIInterfaceOrientation curOrient = [TheApp statusBarOrientation];
-	if (curOrient != oldOrient && curOrient != UIDeviceOrientationUnknown) {
-		[self.splitController toggleSplitOrientation:self];
-		self.keyboardView.isLandscape = UIDeviceOrientationIsLandscape(curOrient);
-	}
-	[self.splitController.view setNeedsLayout];
+//	UIInterfaceOrientation curOrient = [TheApp statusBarOrientation];
+//	if (curOrient != oldOrient && curOrient != UIDeviceOrientationUnknown) {
+//		[self.splitController toggleSplitOrientation:self];
+//		self.keyboardView.isLandscape = UIDeviceOrientationIsLandscape(curOrient);
+//	}
+//	[self.splitController.view setNeedsLayout];
 }
 
 #pragma mark - meat & potatoes

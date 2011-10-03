@@ -153,6 +153,7 @@
 		08EE411B1436441F004FDBB8 /* WebSocket10.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41101436441F004FDBB8 /* WebSocket10.m */; };
 		08EE411C1436441F004FDBB8 /* WebSocketFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41121436441F004FDBB8 /* WebSocketFragment.m */; };
 		08EE411D1436441F004FDBB8 /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41141436441F004FDBB8 /* WebSocketMessage.m */; };
+		08EE4159143A1ABC004FDBB8 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */; };
 		08F566691407073E00229A39 /* _RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F566681407073E00229A39 /* _RCFile.m */; };
 		08FE88991414F92F00672474 /* BottomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE88971414F92F00672474 /* BottomViewController.m */; };
 		08FE889A1414F92F00672474 /* BottomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08FE88981414F92F00672474 /* BottomViewController.xib */; };
@@ -417,6 +418,7 @@
 		08EE41121436441F004FDBB8 /* WebSocketFragment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketFragment.m; sourceTree = "<group>"; };
 		08EE41131436441F004FDBB8 /* WebSocketMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketMessage.h; sourceTree = "<group>"; };
 		08EE41141436441F004FDBB8 /* WebSocketMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketMessage.m; sourceTree = "<group>"; };
+		08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		08F566671407073E00229A39 /* _RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCFile.h; path = ../SharedCode/rc2/model/generated/_RCFile.h; sourceTree = SOURCE_ROOT; };
 		08F566681407073E00229A39 /* _RCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCFile.m; path = ../SharedCode/rc2/model/generated/_RCFile.m; sourceTree = SOURCE_ROOT; };
 		08FE88961414F92F00672474 /* BottomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomViewController.h; path = source/BottomViewController.h; sourceTree = SOURCE_ROOT; };
@@ -520,6 +522,7 @@
 		082DC01E13EC99E4008EAA99 = {
 			isa = PBXGroup;
 			children = (
+				08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */,
 				082D9D531408FF6E008F3CB0 /* notes.markdown */,
 				08447F661415B53B00A8DDF8 /* Rc2.xcdatamodeld */,
 				082DC03313EC99E5008EAA99 /* source */,
@@ -1106,6 +1109,7 @@
 				08447F8A1416D82D00A8DDF8 /* ThemeEngine.plist in Resources */,
 				08B44978142CFE9A0064005D /* rightAlphap.txt in Resources */,
 				08B44979142CFE9A0064005D /* rightSymp.txt in Resources */,
+				08EE4159143A1ABC004FDBB8 /* Default-Portrait~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

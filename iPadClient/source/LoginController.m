@@ -59,7 +59,19 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
 {
-	return UIInterfaceOrientationIsLandscape(ior);
+	return YES;
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)destOrientation duration:(NSTimeInterval)duration
+{
+	CGSize screenSize = UIInterfaceOrientationIsLandscape(destOrientation) ? CGSizeMake(1024, 748) : CGSizeMake(768, 1004);
+	CGPoint pt = CGPointMake(screenSize.width/2, floor(screenSize.height/2));
+	if (UIInterfaceOrientationIsLandscape(destOrientation)) {
+		pt = CGPointMake(screenSize.height/2, floor(screenSize.width/2));
+	}
+	[UIView animateWithDuration:duration animations:^{
+		self.view.superview.center = pt;
+	}];
 }
 
 #pragma mark - actions
