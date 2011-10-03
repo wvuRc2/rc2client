@@ -80,6 +80,8 @@ typedef enum _MGSplitViewDividerStyle {
 	2. Change their .cornerRadius
  */
 
+//hack by mlilback. need to call this to rejigger layout on session controller load
+- (void)layoutSubviewsForInterfaceOrientation:(UIInterfaceOrientation)theOrientation withAnimation:(BOOL)animate;
 @end
 
 

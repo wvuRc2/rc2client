@@ -493,7 +493,7 @@
 
 - (void)layoutSubviews
 {
-	[self layoutSubviewsForInterfaceOrientation:self.interfaceOrientation withAnimation:YES];
+	[self layoutSubviewsForInterfaceOrientation:TheApp.statusBarOrientation withAnimation:YES];
 }
 
 
@@ -848,7 +848,7 @@
 	// Check to see if delegate wishes to constrain the position.
 	float newPosn = posn;
 	BOOL constrained = NO;
-	CGSize fullSize = [self splitViewSizeForOrientation:self.interfaceOrientation];
+	CGSize fullSize = [self splitViewSizeForOrientation:TheApp.statusBarOrientation];
 	if (_delegate && [_delegate respondsToSelector:@selector(splitViewController:constrainSplitPosition:splitViewSize:)]) {
 		newPosn = [_delegate splitViewController:self constrainSplitPosition:newPosn splitViewSize:fullSize];
 		constrained = YES; // implicitly trust delegate's response.

@@ -13,9 +13,13 @@
 
 @interface ConsoleViewController : UIViewController<UIWebViewDelegate>
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
+@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, retain) RCSession *session;
 
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 -(IBAction)doClear:(id)sender;
 -(IBAction)doActionSheet:(id)sender;
+@end
+
+@interface ConsoleView : UIView
 @end

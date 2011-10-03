@@ -19,6 +19,7 @@
 @implementation ConsoleViewController
 @synthesize webView=_webView;
 @synthesize session=_session;
+@synthesize toolbar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,6 +53,7 @@
 	self.webView.delegate = nil;
 	self.webView=nil;
 	self.session=nil;
+	self.toolbar=nil;
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
@@ -154,5 +156,9 @@
 		[self.session.delegate displayImage:[[request URL] path]];
 	return NO;
 }
+
+@end
+
+@implementation ConsoleView
 
 @end

@@ -120,11 +120,15 @@
 	rec.origin.y += 44;
 	rec.size.height -= 44;
 	self.splitController.view.frame = rec;
+	self.splitController.showsMasterInPortrait = YES;
 	self.splitController.splitPosition = splitPos;
 	self.splitController.allowsDraggingDivider = YES;
 	self.splitController.dividerStyle = MGSplitViewDividerStylePaneSplitter;
 	self.splitController.delegate = self;
 	[self.view addSubview:self.splitController.view];
+	RunAfterDelay(0.4, ^{
+		[self.splitController layoutSubviewsForInterfaceOrientation:TheApp.statusBarOrientation withAnimation:NO];
+	});
 	
 	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
 	self.splitController.dividerView.lightColor = [theme colorForKey:@"SessionPaneSplitterStart"];
@@ -183,6 +187,8 @@
 //		self.keyboardView.isLandscape = UIDeviceOrientationIsLandscape(curOrient);
 //	}
 //	[self.splitController.view setNeedsLayout];
+	self.splitController.vertical = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
+	[self.splitController layoutSubviewsForInterfaceOrientation:TheApp.statusBarOrientation withAnimation:NO];
 }
 
 #pragma mark - meat & potatoes
@@ -439,17 +445,20 @@
 
 - (float)splitViewController:(MGSplitViewController *)svc constrainSplitPosition:(float)proposedPosition splitViewSize:(CGSize)viewSize;
 {
-	if (svc == self.splitController) {
-		if (proposedPosition < 300)
-			return 300;
-		if (proposedPosition > 900)
-			return 900;
+	CGFloat maxSize = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation) ? viewSize.width : viewSize.height;
+	if (maxSize - proposedPosition < 70) {
+		if (!UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation))
+			return maxSize - 70;
+		//need to hide toolbar
+		self.consoleController.toolbar.hidden=YES;
 	} else {
-		if (proposedPosition < 300)
-			return 300;
-		if (proposedPosition > 630)
-			return 630;
+		//need to show the toolbar again
+		self.consoleController.toolbar.hidden=NO;
 	}
+	if (proposedPosition > maxSize-10)
+		return maxSize-10;
+	if (proposedPosition < 260)
+		return 260;
 	return proposedPosition;
 }
 
