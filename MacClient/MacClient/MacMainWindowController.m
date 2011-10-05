@@ -18,6 +18,7 @@
 @property (strong) NSMutableDictionary *sessionsItem;
 @property (strong) NSMutableArray *kvoObservers;
 @property (strong) NSMutableDictionary *wspaceControllers;
+-(void)openSession:(BOOL)inNewWindow;
 @end
 
 #pragma mark -
@@ -32,6 +33,7 @@
 		self.workspacesItem = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"WORKSPACES", @"name", nil];
 		self.sessionsItem = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"SESSIONS", @"name", nil];
 		self.wspaceControllers = [[NSMutableDictionary alloc] init];
+		self.canAdd=YES;
 	}
 	return self;
 }
@@ -44,7 +46,7 @@
 - (void)windowDidLoad
 {
 	[super windowDidLoad];
-	__weak MacMainWindowController *blockRef = self;
+	__unsafe_unretained MacMainWindowController *blockRef = self;
 	[self.kvoObservers addObject:[AMKeyValueObserver observerWithObject:[Rc2Server sharedInstance] keyPath:@"workspaceItems" withOptions:0 
 				observerBlock:^(id obj, NSString *keyPath, NSDictionary *change)
 	{
@@ -93,11 +95,21 @@
 	return YES;
 }
 
-#pragma mark - actions
+#pragma mark - meat & potatos
 
--(IBAction)doNewWorksheetFolder:(id)sender
+-(void)openSession:(BOOL)inNewWindow
 {
 	
+}
+
+#pragma mark - actions
+
+-(IBAction)doAddWorkspace:(id)sender
+{
+}
+
+-(IBAction)doAddWorkspaceFolder:(id)sender
+{
 }
 
 -(IBAction)doRenameWorksheetFolder:(id)sender
@@ -107,12 +119,12 @@
 
 -(IBAction)doOpenSession:(id)sender
 {
-	
+	[self openSession:NO];
 }
 
 -(IBAction)doOpenSessionInNewWindow:(id)sender
 {
-	
+	[self openSession:YES];
 }
 
 
@@ -205,4 +217,6 @@
 @synthesize wspaceControllers;
 @synthesize workspacesItem;
 @synthesize sessionsItem;
+@synthesize canAdd;
+@synthesize addPopup;
 @end

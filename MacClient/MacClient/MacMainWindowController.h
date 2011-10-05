@@ -14,9 +14,13 @@
 @property (strong) IBOutlet NSView *detailView;
 @property (strong) IBOutlet NSMenu *wsheetContextMenu;
 @property (strong) IBOutlet NSMenu *wsheetFolderContextMenu;
+@property (strong) IBOutlet NSPopUpButton *addPopup;
+@property (nonatomic) BOOL canAdd;
 
 -(IBAction)doNewWorksheetFolder:(id)sender;
 -(IBAction)doRenameWorksheetFolder:(id)sender;
 -(IBAction)doOpenSession:(id)sender;
 -(IBAction)doOpenSessionInNewWindow:(id)sender;
+-(IBAction)doAddWorkspace:(id)sender;
+-(IBAction)doAddWorkspaceFolder:(id)sender;
 @end
