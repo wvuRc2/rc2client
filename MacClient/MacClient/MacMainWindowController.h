@@ -12,4 +12,11 @@
 @interface MacMainWindowController : NSWindowController<PXSourceListDataSource,PXSourceListDelegate>
 @property (strong) IBOutlet PXSourceList *mainSourceList;
 @property (strong) IBOutlet NSView *detailView;
+@property (strong) IBOutlet NSMenu *wsheetContextMenu;
+@property (strong) IBOutlet NSMenu *wsheetFolderContextMenu;
+
+-(IBAction)doNewWorksheetFolder:(id)sender;
+-(IBAction)doRenameWorksheetFolder:(id)sender;
+-(IBAction)doOpenSession:(id)sender;
+-(IBAction)doOpenSessionInNewWindow:(id)sender;
 @end

@@ -35,6 +35,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	__firstLogin=YES;
+	self.openSessions = [NSMutableArray array];
 	[self presentLoginPanel];
 }
 
@@ -299,4 +300,5 @@
 @synthesize loginController;
 @synthesize autosaveTimer;
 @synthesize loggedIn;
+@synthesize openSessions;
 @end

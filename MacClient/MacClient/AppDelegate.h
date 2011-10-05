@@ -17,6 +17,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) MacMainWindowController *mainWindowController;
 @property (nonatomic, readonly) BOOL loggedIn;
+@property (nonatomic, strong) NSMutableArray *openSessions;
 
 -(IBAction)doLogOut:(id)sender;
 
