@@ -287,8 +287,9 @@
 	r.size = sz;
 	self.authController.view.superview.frame = r;
 
-	CGSize screenSize = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation) ? CGSizeMake(1024, 748) : CGSizeMake(768, 1004);
-	CGPoint pt = CGPointMake(screenSize.width/2, floor(screenSize.height/2));
+	BOOL land = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
+	CGSize screenSize = land ? CGSizeMake(1024, 748) : CGSizeMake(768, 1004);
+	CGPoint pt = CGPointMake(screenSize.width/2, floor(screenSize.height/3));
 	self.authController.view.superview.center = pt;
 }
 

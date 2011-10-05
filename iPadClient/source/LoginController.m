@@ -65,9 +65,9 @@
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)destOrientation duration:(NSTimeInterval)duration
 {
 	CGSize screenSize = UIInterfaceOrientationIsLandscape(destOrientation) ? CGSizeMake(1024, 748) : CGSizeMake(768, 1004);
-	CGPoint pt = CGPointMake(screenSize.width/2, floor(screenSize.height/2));
+	CGPoint pt = CGPointMake(screenSize.width/1.5, floor(screenSize.height/2));
 	if (UIInterfaceOrientationIsLandscape(destOrientation)) {
-		pt = CGPointMake(screenSize.height/2, floor(screenSize.width/2));
+		pt = CGPointMake(screenSize.height/2, floor(screenSize.width/3));
 	}
 	[UIView animateWithDuration:duration animations:^{
 		self.view.superview.center = pt;
