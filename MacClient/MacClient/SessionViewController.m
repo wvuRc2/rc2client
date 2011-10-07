@@ -19,6 +19,11 @@
 	return self;
 }
 
+-(void)dealloc
+{
+	NSLog(@"svc dealloc'd");
+}
+
 @synthesize session;
 @end
 

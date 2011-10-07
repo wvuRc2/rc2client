@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSTimer *autosaveTimer;
 @property (nonatomic, readwrite) BOOL loggedIn;
 @property (nonatomic, strong) NSMutableSet *sessionControllers;
+@property (nonatomic, strong) NSMutableSet *windowControllers;
 -(void)handleSucessfulLogin;
 -(NSManagedObjectContext*)managedObjectContext:(BOOL)create;
 -(void)autoSaveChanges;
@@ -40,6 +41,7 @@
 	__firstLogin=YES;
 	self.openSessions = [NSMutableArray array];
 	self.sessionControllers = [NSMutableSet set];
+	self.windowControllers = [NSMutableSet set];
 	[self presentLoginPanel];
 }
 
@@ -86,11 +88,24 @@
 -(IBAction)doLogOut:(id)sender
 {
 	[self.mainWindowController close];
+	for (NSWindowController *wc in self.windowControllers)
+		[wc close];
+	[self.windowControllers removeAllObjects];
 	self.loggedIn=NO;
 	[self presentLoginPanel];
 }
 
 #pragma mark - meat & potatoes
+
+-(void)addWindowController:(NSWindowController*)controller
+{
+	[self.windowControllers addObject:controller];
+}
+
+-(void)removeWindowController:(NSWindowController*)controller
+{
+	[self.windowControllers removeObject:controller];
+}
 
 -(RCSession*)sessionForWorkspace:(RCWorkspace *)wspace
 {
@@ -125,7 +140,9 @@
 {
 	RCSession *session = svc.session;
 	[self.sessionControllers removeObject:svc];
+	[self willChangeValueForKey:@"openSessions"];
 	[self.openSessions removeObject:session];
+	[self didChangeValueForKey:@"openSessions"];
 }
 
 -(void)presentLoginPanel
@@ -342,4 +359,5 @@
 @synthesize loggedIn;
 @synthesize openSessions;
 @synthesize sessionControllers;
+@synthesize windowControllers;
 @end

@@ -27,6 +27,9 @@
 //closes both sessionviewcontroller and session
 -(void)closeSessionViewController:(SessionViewController*)svc;
 
+-(void)addWindowController:(NSWindowController*)controller;
+-(void)removeWindowController:(NSWindowController*)controller;
+
 -(IBAction)doLogOut:(id)sender;
 
 - (IBAction)saveAction:(id)sender;

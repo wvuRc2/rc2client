@@ -14,6 +14,7 @@
 #import "WorkspaceViewController.h"
 #import <Vyana/NSMenu+AMExtensions.h>
 #import "SessionViewController.h"
+#import "SessionWindowController.h"
 #import "AppDelegate.h"
 
 @interface MacMainWindowController()
@@ -38,6 +39,7 @@
 		self.workspacesItem = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"WORKSPACES", @"name", nil];
 		self.sessionsItem = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"SESSIONS", @"name", nil];
 		self.wspaceControllers = [[NSMutableDictionary alloc] init];
+		self.kvoObservers = [NSMutableArray array];
 		self.canAdd=YES;
 	}
 	return self;
@@ -60,7 +62,7 @@
 	[self.kvoObservers addObject:[AMKeyValueObserver observerWithObject:[NSApp delegate] keyPath:@"openSessions" withOptions:0 
 				observerBlock:^(id obj, NSString *keyPath, NSDictionary *change)
 	{
-	  [blockRef.mainSourceList reloadItem:blockRef.sessionsItem];
+	  [blockRef.mainSourceList reloadItem:blockRef.sessionsItem reloadChildren:YES];
 	}]];
 	[self.mainSourceList reloadData];
 }
@@ -139,13 +141,15 @@
 	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
 	RCSession *session = [appDel sessionForWorkspace:selWspace];
 	SessionViewController *svc = [appDel viewControllerForSession:session create:YES];
-	if (inNewWindow) {
-		//TODO: implement new window opening
+	if (inNewWindow && nil == svc.view.superview) {
+		SessionWindowController *swc = [[SessionWindowController alloc] initWithViewController:svc];
+		[swc.window makeKeyAndOrderFront:self];
+		[self.mainSourceList reloadItem:self.sessionsItem reloadChildren:YES];
 	} else {
 		self.detailView = svc.view;
+		[self.mainSourceList reloadItem:self.sessionsItem reloadChildren:YES];
+		[self.mainSourceList amSelectRow:[self.mainSourceList rowForItem:session] byExtendingSelection:NO];
 	}
-	[self.mainSourceList reloadItem:self.sessionsItem reloadChildren:YES];
-	[self.mainSourceList amSelectRow:[self.mainSourceList rowForItem:session] byExtendingSelection:NO];
 }
 
 #pragma mark - actions
@@ -176,6 +180,22 @@
 
 #pragma mark - source list
 
+-(NSIndexSet*)sourceList:(PXSourceList *)aSourceList selectionIndexesForProposedSelection:(NSIndexSet *)iset
+{
+	id item=nil;
+	if ([iset count] == 1)
+		item = [self.mainSourceList itemAtRow:[iset firstIndex]];
+	if ([item isKindOfClass:[RCSession class]]) {
+		SessionViewController *svc = [((AppDelegate*)[NSApp delegate]) viewControllerForSession:item create:YES];
+		if (svc.view.window) {
+			//bring it's window to the front
+			[svc.view.window makeKeyAndOrderFront:self];
+			return nil;
+		}
+	}
+	return iset;
+}
+
 -(void)sourceListSelectionDidChange:(NSNotification *)notification
 {
 	id selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
@@ -192,6 +212,9 @@
 		SessionViewController *svc = [((AppDelegate*)[NSApp delegate]) viewControllerForSession:selItem create:YES];
 		if (nil == svc.view.superview) {
 			self.detailView = svc.view;
+		} else if (svc.view.window) {
+			//bring it's window to the front
+			[svc.view.window makeKeyAndOrderFront:self];
 		} else {
 			//TODO: make multiple windows work
 			//if not currently displayed, must be in another window
@@ -263,9 +286,16 @@
 - (NSMenu*)sourceList:(PXSourceList*)aSourceList menuForEvent:(NSEvent*)theEvent item:(id)item
 {
 	NSMenu *menu=nil;
-	if ([item isKindOfClass:[RCWorkspace class]])
+	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
+	if ([item isKindOfClass:[RCWorkspace class]]) {
+		RCSession *session = [appDel sessionForWorkspace:item];
+		SessionViewController *svc = [appDel viewControllerForSession:session create:NO];
+		if (svc) {
+			if (svc.view.window && svc.view.window != self.window)
+				return nil; //it has its own window, no menu for you
+		}
 		menu = [self.wsheetContextMenu copy];
-	else if ([item isKindOfClass:[RCWorkspaceFolder class]] || item == self.workspacesItem)
+	} else if ([item isKindOfClass:[RCWorkspaceFolder class]] || item == self.workspacesItem)
 		menu = self.wsheetFolderContextMenu;
 	menu.representedObject = item;
 	return menu;
