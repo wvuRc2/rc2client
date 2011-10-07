@@ -10,7 +10,7 @@
 #import "MacLoginController.h"
 #import "MacMainWindowController.h"
 #import "Rc2Server.h"
-#import "SessionViewController.h"
+#import "MacSessionViewController.h"
 #import "RCSession.h"
 
 @interface AppDelegate() {
@@ -122,21 +122,21 @@
 	return s;
 }
 
--(SessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create
+-(MacSessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create
 {
-	for (SessionViewController *aController in self.sessionControllers) {
+	for (MacSessionViewController *aController in self.sessionControllers) {
 		if (aController.session == session)
 			return aController;
 	}
 	if (create) {
-		SessionViewController *svc = [[SessionViewController alloc] initWithSession:session];
+		MacSessionViewController *svc = [[MacSessionViewController alloc] initWithSession:session];
 		[self.sessionControllers addObject:svc];
 		return svc;
 	}
 	return nil;
 }
 
--(void)closeSessionViewController:(SessionViewController*)svc
+-(void)closeSessionViewController:(MacSessionViewController*)svc
 {
 	RCSession *session = svc.session;
 	[self.sessionControllers removeObject:svc];

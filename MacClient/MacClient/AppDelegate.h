@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class MacMainWindowController;
-@class SessionViewController;
+@class MacSessionViewController;
 @class RCSession;
 @class RCWorkspace;
 
@@ -23,9 +23,9 @@
 @property (nonatomic, strong) NSMutableArray *openSessions;
 
 -(RCSession*)sessionForWorkspace:(RCWorkspace*)wspace;
--(SessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create;
+-(MacSessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create;
 //closes both sessionviewcontroller and session
--(void)closeSessionViewController:(SessionViewController*)svc;
+-(void)closeSessionViewController:(MacSessionViewController*)svc;
 
 -(void)addWindowController:(NSWindowController*)controller;
 -(void)removeWindowController:(NSWindowController*)controller;

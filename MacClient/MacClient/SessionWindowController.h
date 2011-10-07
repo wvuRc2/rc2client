@@ -8,10 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SessionViewController;
+@class MacSessionViewController;
 
 @interface SessionWindowController : NSWindowController<NSWindowDelegate>
-@property (nonatomic, strong) SessionViewController *viewController;
-
-- (id)initWithViewController:(SessionViewController*)svc;
+@property (nonatomic, strong) MacSessionViewController *viewController;
+@property (nonatomic, strong) IBOutlet NSView *theView;
+- (id)initWithViewController:(MacSessionViewController*)svc;
 @end

@@ -122,7 +122,7 @@
 										<object class="NSOutlineView" id="333409693">
 											<reference key="NSNextResponder" ref="67158912"/>
 											<int key="NSvFlags">4352</int>
-											<string key="NSFrameSize">{198, 543}</string>
+											<string key="NSFrameSize">{198, 546}</string>
 											<reference key="NSSuperview" ref="67158912"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="927323187"/>
@@ -235,7 +235,7 @@
 											<float key="NSOutlineViewIndentationPerLevelKey">14</float>
 										</object>
 									</object>
-									<string key="NSFrame">{{1, 1}, {198, 543}}</string>
+									<string key="NSFrame">{{1, 1}, {198, 546}}</string>
 									<reference key="NSSuperview" ref="687560370"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="333409693"/>
@@ -270,7 +270,7 @@
 									<double key="NSPercent">0.99497487437185927</double>
 								</object>
 							</object>
-							<string key="NSFrame">{{0, 20}, {200, 545}}</string>
+							<string key="NSFrame">{{0, 20}, {200, 548}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="67158912"/>
@@ -322,6 +322,7 @@
 									<string key="NSFrame">{{503, 1}, {15, 561}}</string>
 									<reference key="NSSuperview" ref="669010861"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<string key="NSReuseIdentifierKey">_NS:26</string>
 									<bool key="NSEnabled">YES</bool>
 									<reference key="NSTarget" ref="669010861"/>

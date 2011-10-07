@@ -7,14 +7,14 @@
 //
 
 #import "SessionWindowController.h"
-#import "SessionViewController.h"
+#import "MacSessionViewController.h"
 #import "AppDelegate.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
 
 @implementation SessionWindowController
 
--(id)initWithViewController:(SessionViewController*)svc
+-(id)initWithViewController:(MacSessionViewController*)svc
 {
 	if ((self = [super initWithWindowNibName:@"SessionWindowController"])) {
 		self.viewController = svc;
@@ -35,9 +35,12 @@
 	[super windowDidLoad];
 	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
 	[appDel addWindowController:self];
-	self.window.contentView = self.viewController.view;
+	self.viewController.view.frame = self.theView.bounds;
+	[self.theView addSubview:self.viewController.view];
 	self.window.title = [NSString stringWithFormat:@"Session: %@", self.viewController.session.workspace.name];
+	[self.window setContentBorderThickness:24 forEdge:NSMinYEdge];
 }
 
 @synthesize viewController;
+@synthesize theView;
 @end

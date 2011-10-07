@@ -7,10 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MacClientAbstractViewController.h"
 
 @class RCWorkspace;
 
-@interface WorkspaceViewController : AMViewController
+@interface WorkspaceViewController : MacClientAbstractViewController
 @property (nonatomic, strong) RCWorkspace *workspace;
 -(id)initWithWorkspace:(RCWorkspace*)aWorkspace;
 @end

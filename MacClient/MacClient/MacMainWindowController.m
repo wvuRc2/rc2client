@@ -13,7 +13,7 @@
 #import "RCSession.h"
 #import "WorkspaceViewController.h"
 #import <Vyana/NSMenu+AMExtensions.h>
-#import "SessionViewController.h"
+#import "MacSessionViewController.h"
 #import "SessionWindowController.h"
 #import "AppDelegate.h"
 
@@ -100,7 +100,7 @@
 -(BOOL)windowShouldClose:(id)sender
 {
 	if ([self.detailView isKindOfClass:[SessionView class]]) {
-		SessionViewController *svc = (SessionViewController*)((AMControlledView*)self.detailView).viewController;
+		MacSessionViewController *svc = (MacSessionViewController*)((AMControlledView*)self.detailView).viewController;
 		//we want to close the session
 		self.detailView=nil;
 		[((AppDelegate*)[NSApp delegate]) closeSessionViewController:svc];
@@ -140,7 +140,7 @@
 	RCWorkspace *selWspace = selItem;
 	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
 	RCSession *session = [appDel sessionForWorkspace:selWspace];
-	SessionViewController *svc = [appDel viewControllerForSession:session create:YES];
+	MacSessionViewController *svc = [appDel viewControllerForSession:session create:YES];
 	if (inNewWindow && nil == svc.view.superview) {
 		SessionWindowController *swc = [[SessionWindowController alloc] initWithViewController:svc];
 		[swc.window makeKeyAndOrderFront:self];
@@ -186,7 +186,7 @@
 	if ([iset count] == 1)
 		item = [self.mainSourceList itemAtRow:[iset firstIndex]];
 	if ([item isKindOfClass:[RCSession class]]) {
-		SessionViewController *svc = [((AppDelegate*)[NSApp delegate]) viewControllerForSession:item create:YES];
+		MacSessionViewController *svc = [((AppDelegate*)[NSApp delegate]) viewControllerForSession:item create:YES];
 		if (svc.view.window) {
 			//bring it's window to the front
 			[svc.view.window makeKeyAndOrderFront:self];
@@ -209,7 +209,7 @@
 		}
 		self.detailView = rvc.view;
 	} else if ([selItem isKindOfClass:[RCSession class]]) {
-		SessionViewController *svc = [((AppDelegate*)[NSApp delegate]) viewControllerForSession:selItem create:YES];
+		MacSessionViewController *svc = [((AppDelegate*)[NSApp delegate]) viewControllerForSession:selItem create:YES];
 		if (nil == svc.view.superview) {
 			self.detailView = svc.view;
 		} else if (svc.view.window) {
@@ -289,7 +289,7 @@
 	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
 	if ([item isKindOfClass:[RCWorkspace class]]) {
 		RCSession *session = [appDel sessionForWorkspace:item];
-		SessionViewController *svc = [appDel viewControllerForSession:session create:NO];
+		MacSessionViewController *svc = [appDel viewControllerForSession:session create:NO];
 		if (svc) {
 			if (svc.view.window && svc.view.window != self.window)
 				return nil; //it has its own window, no menu for you
