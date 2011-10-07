@@ -9,6 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 @class MacMainWindowController;
+@class SessionViewController;
+@class RCSession;
+@class RCWorkspace;
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
@@ -18,6 +21,11 @@
 @property (readonly, strong, nonatomic) MacMainWindowController *mainWindowController;
 @property (nonatomic, readonly) BOOL loggedIn;
 @property (nonatomic, strong) NSMutableArray *openSessions;
+
+-(RCSession*)sessionForWorkspace:(RCWorkspace*)wspace;
+-(SessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create;
+//closes both sessionviewcontroller and session
+-(void)closeSessionViewController:(SessionViewController*)svc;
 
 -(IBAction)doLogOut:(id)sender;
 

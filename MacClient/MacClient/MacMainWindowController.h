@@ -9,15 +9,15 @@
 #import <Cocoa/Cocoa.h>
 #import "PXSourceList.h"
 
-@interface MacMainWindowController : NSWindowController<PXSourceListDataSource,PXSourceListDelegate>
+@interface MacMainWindowController : NSWindowController<NSWindowDelegate,PXSourceListDataSource,PXSourceListDelegate>
 @property (strong) IBOutlet PXSourceList *mainSourceList;
-@property (strong) IBOutlet NSView *detailView;
+@property (strong, nonatomic) IBOutlet NSView *detailView;
+@property (strong) IBOutlet NSScrollView *detailContainer;
 @property (strong) IBOutlet NSMenu *wsheetContextMenu;
 @property (strong) IBOutlet NSMenu *wsheetFolderContextMenu;
 @property (strong) IBOutlet NSPopUpButton *addPopup;
 @property (nonatomic) BOOL canAdd;
 
--(IBAction)doNewWorksheetFolder:(id)sender;
 -(IBAction)doRenameWorksheetFolder:(id)sender;
 -(IBAction)doOpenSession:(id)sender;
 -(IBAction)doOpenSessionInNewWindow:(id)sender;

@@ -10,20 +10,25 @@
 #import "Rc2Server.h"
 #import "RCWorkspaceFolder.h"
 #import "RCWorkspace.h"
+#import "RCSession.h"
 #import "WorkspaceViewController.h"
 #import <Vyana/NSMenu+AMExtensions.h>
+#import "SessionViewController.h"
+#import "AppDelegate.h"
 
 @interface MacMainWindowController()
 @property (strong) NSMutableDictionary *workspacesItem;
 @property (strong) NSMutableDictionary *sessionsItem;
 @property (strong) NSMutableArray *kvoObservers;
 @property (strong) NSMutableDictionary *wspaceControllers;
--(void)openSession:(BOOL)inNewWindow;
+-(void)openSession:(id)sender inNewWindow:(BOOL)inNewWindow;
+-(id)targetSessionListObjectForUIItem:(id)item;
 @end
 
 #pragma mark -
 
 @implementation MacMainWindowController
+@synthesize detailView=__detailView;
 
 #pragma mark - init/load
 
@@ -67,15 +72,10 @@
 	SEL action = [item action];
 	BOOL fromContextMenu = NO;
 	id selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
-	id menuItem = item;
-	if ([menuItem isKindOfClass:[NSMenuItem class]]) {
-		//we want to enable right clicking on an unselected object. this is how we tell if that is what is happening
-		id repObj = [[menuItem menu] representedObject];
-		//just in case the we ever put these menu items in the menu bar or somewhere else
-		if ([repObj isKindOfClass:[RCWorkspaceItem class]] || repObj == self.workspacesItem) {
-			selItem = repObj;
-			fromContextMenu=YES;
-		}
+	id slobject = [self targetSessionListObjectForUIItem:item];
+	if (slobject) {
+		selItem = slobject;
+		fromContextMenu = YES;
 	}
 	if (@selector(doRenameWorksheetFolder:) == action) {
 		if ([selItem isKindOfClass:[RCWorkspaceFolder class]]) return YES;
@@ -95,11 +95,57 @@
 	return YES;
 }
 
+-(BOOL)windowShouldClose:(id)sender
+{
+	if ([self.detailView isKindOfClass:[SessionView class]]) {
+		SessionViewController *svc = (SessionViewController*)((AMControlledView*)self.detailView).viewController;
+		//we want to close the session
+		self.detailView=nil;
+		[((AppDelegate*)[NSApp delegate]) closeSessionViewController:svc];
+		[self.mainSourceList reloadItem:self.sessionsItem reloadChildren:YES];
+		return NO;
+	} else if (self.detailView) {
+		self.detailView=nil;
+		return NO;
+	}
+	return YES;
+}
+
 #pragma mark - meat & potatos
 
--(void)openSession:(BOOL)inNewWindow
+-(id)targetSessionListObjectForUIItem:(id)item
 {
-	
+	id selItem = nil;
+	id menuItem = item;
+	if ([menuItem isKindOfClass:[NSMenuItem class]]) {
+		//we want to enable right clicking on an unselected object. this is how we tell if that is what is happening
+		id repObj = [[menuItem menu] representedObject];
+		//just in case the we ever put these menu items in the menu bar or somewhere else
+		if ([repObj isKindOfClass:[RCWorkspaceItem class]] || repObj == self.workspacesItem) {
+			selItem = repObj;
+		}
+	}
+	return selItem;
+}
+
+-(void)openSession:(id)sender inNewWindow:(BOOL)inNewWindow
+{
+	id selItem = [self targetSessionListObjectForUIItem:sender];
+	if (nil == selItem)
+		selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
+	ZAssert([selItem isKindOfClass:[RCWorkspace class]], @"invalid object passed to openSession:%@", 
+			NSStringFromClass([selItem class]));
+	RCWorkspace *selWspace = selItem;
+	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
+	RCSession *session = [appDel sessionForWorkspace:selWspace];
+	SessionViewController *svc = [appDel viewControllerForSession:session create:YES];
+	if (inNewWindow) {
+		//TODO: implement new window opening
+	} else {
+		self.detailView = svc.view;
+	}
+	[self.mainSourceList reloadItem:self.sessionsItem reloadChildren:YES];
+	[self.mainSourceList amSelectRow:[self.mainSourceList rowForItem:session] byExtendingSelection:NO];
 }
 
 #pragma mark - actions
@@ -119,12 +165,12 @@
 
 -(IBAction)doOpenSession:(id)sender
 {
-	[self openSession:NO];
+	[self openSession:sender inNewWindow:NO];
 }
 
 -(IBAction)doOpenSessionInNewWindow:(id)sender
 {
-	[self openSession:YES];
+	[self openSession:sender inNewWindow:YES];
 }
 
 
@@ -141,10 +187,18 @@
 			rvc = [[WorkspaceViewController alloc] initWithWorkspace:selWspace];
 			[self.wspaceControllers setObject:rvc forKey:selWspace.wspaceId];
 		}
-		[self.detailView removeAllSubviews];
-		[self.detailView addSubview:rvc.view];
+		self.detailView = rvc.view;
+	} else if ([selItem isKindOfClass:[RCSession class]]) {
+		SessionViewController *svc = [((AppDelegate*)[NSApp delegate]) viewControllerForSession:selItem create:YES];
+		if (nil == svc.view.superview) {
+			self.detailView = svc.view;
+		} else {
+			//TODO: make multiple windows work
+			//if not currently displayed, must be in another window
+			ZAssert(svc.view.superview == self.detailContainer, @"incorrect superview");
+		}
 	} else {
-		[self.detailView removeAllSubviews];
+		self.detailView=nil;
 	}
 }
 
@@ -154,7 +208,11 @@
 		return 2;
 	if (item == self.workspacesItem)
 		return [[Rc2Server sharedInstance].workspaceItems count];
-	if ([item isFolder])
+	if (item == self.sessionsItem) {
+		NSArray *sessions = [NSApp valueForKeyPath:@"delegate.openSessions"];
+		return [sessions count];
+	}
+	if ([item respondsToSelector:@selector(isFolder)] && [item isFolder])
 		return [[item children] count];
 	return 0;
 }
@@ -170,6 +228,8 @@
 		return [[Rc2Server sharedInstance].workspaceItems objectAtIndex:index];
 	if ([item isKindOfClass:[RCWorkspaceFolder class]])
 		return [[item children] objectAtIndex:index];
+	if (item == self.sessionsItem)
+		return [[NSApp valueForKeyPath:@"delegate.openSessions"] objectAtIndex:index];
 	return nil;
 }
 
@@ -179,6 +239,8 @@
 		return [item objectForKey:@"name"];
 	if ([item isKindOfClass:[RCWorkspaceItem class]])
 		return [item name];
+	if ([item isKindOfClass:[RCSession class]])
+		return [[item workspace] name];
 	return nil;
 }
 
@@ -192,6 +254,8 @@
 -(BOOL)sourceList:(PXSourceList *)aSourceList isGroupAlwaysExpanded:(id)group
 {
 	if (group == self.workspacesItem)
+		return YES;
+	if (group == self.sessionsItem)
 		return YES;
 	return NO;
 }
@@ -207,10 +271,26 @@
 	return menu;
 }
 
-#pragma mark -synthesizers
+#pragma mark - accessors & synthesizers
+
+-(void)setDetailView:(NSView *)aView
+{
+	if (__detailView == aView)
+		return;
+	if (__detailView == nil) {
+		__detailView = aView;
+		[self.detailContainer addSubview:aView];
+	} else if (aView == nil) {
+		[__detailView removeFromSuperview];
+		__detailView = nil;
+	} else {
+		aView.frame = __detailView.frame;
+		[self.detailContainer.animator replaceSubview:__detailView with:aView];
+		__detailView = aView;
+	}
+}
 
 @synthesize mainSourceList;
-@synthesize detailView;
 @synthesize wsheetContextMenu;
 @synthesize wsheetFolderContextMenu;
 @synthesize kvoObservers;
@@ -219,4 +299,5 @@
 @synthesize sessionsItem;
 @synthesize canAdd;
 @synthesize addPopup;
+@synthesize detailContainer;
 @end

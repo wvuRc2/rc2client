@@ -10,6 +10,8 @@
 #import "MacLoginController.h"
 #import "MacMainWindowController.h"
 #import "Rc2Server.h"
+#import "SessionViewController.h"
+#import "RCSession.h"
 
 @interface AppDelegate() {
 	BOOL __haveMoc;
@@ -19,6 +21,7 @@
 @property (readwrite, strong, nonatomic) MacMainWindowController *mainWindowController;
 @property (nonatomic, strong) NSTimer *autosaveTimer;
 @property (nonatomic, readwrite) BOOL loggedIn;
+@property (nonatomic, strong) NSMutableSet *sessionControllers;
 -(void)handleSucessfulLogin;
 -(NSManagedObjectContext*)managedObjectContext:(BOOL)create;
 -(void)autoSaveChanges;
@@ -36,6 +39,7 @@
 {
 	__firstLogin=YES;
 	self.openSessions = [NSMutableArray array];
+	self.sessionControllers = [NSMutableSet set];
 	[self presentLoginPanel];
 }
 
@@ -87,6 +91,42 @@
 }
 
 #pragma mark - meat & potatoes
+
+-(RCSession*)sessionForWorkspace:(RCWorkspace *)wspace
+{
+	for (RCSession *session in self.openSessions) {
+		if (session.workspace == wspace)
+			return session;
+	}
+	//TODO: need to implement limit on how many sessions can be open
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"readperm",
+																	[NSNumber numberWithBool:YES], @"writeperm",
+																	nil];
+	RCSession *s = [[RCSession alloc] initWithWorkspace:wspace serverResponse:dict];
+	[self.openSessions addObject:s];
+	return s;
+}
+
+-(SessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create
+{
+	for (SessionViewController *aController in self.sessionControllers) {
+		if (aController.session == session)
+			return aController;
+	}
+	if (create) {
+		SessionViewController *svc = [[SessionViewController alloc] initWithSession:session];
+		[self.sessionControllers addObject:svc];
+		return svc;
+	}
+	return nil;
+}
+
+-(void)closeSessionViewController:(SessionViewController*)svc
+{
+	RCSession *session = svc.session;
+	[self.sessionControllers removeObject:svc];
+	[self.openSessions removeObject:session];
+}
 
 -(void)presentLoginPanel
 {
@@ -301,4 +341,5 @@
 @synthesize autosaveTimer;
 @synthesize loggedIn;
 @synthesize openSessions;
+@synthesize sessionControllers;
 @end

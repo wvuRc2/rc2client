@@ -10,7 +10,7 @@
 
 @class RCWorkspace;
 
-@interface WorkspaceViewController : NSViewController
+@interface WorkspaceViewController : AMViewController
 @property (nonatomic, strong) RCWorkspace *workspace;
 -(id)initWithWorkspace:(RCWorkspace*)aWorkspace;
 @end
