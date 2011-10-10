@@ -15,6 +15,7 @@
 @property (strong) IBOutlet NSScrollView *detailContainer;
 @property (strong) IBOutlet NSMenu *wsheetContextMenu;
 @property (strong) IBOutlet NSMenu *wsheetFolderContextMenu;
+@property (strong) IBOutlet NSMenu *sessionContextMenu;
 @property (strong) IBOutlet NSPopUpButton *addPopup;
 @property (nonatomic) BOOL canAdd;
 
@@ -23,4 +24,6 @@
 -(IBAction)doOpenSessionInNewWindow:(id)sender;
 -(IBAction)doAddWorkspace:(id)sender;
 -(IBAction)doAddWorkspaceFolder:(id)sender;
+-(IBAction)doMoveSessionToNewWindow:(id)sender;
+-(IBAction)doCloseSession:(id)sender;
 @end

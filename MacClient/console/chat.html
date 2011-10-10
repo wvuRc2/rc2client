@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="console.css" type="txt/css" />
+	<script src="jquery-1.6.1.min.js"></script>
+	<script type="text/javascript">
+	function insertChat(user, str) {
+		var line = $("<div></div>").addClass("comment")
+		line.append($("<span></span>").addClass("speaker").text(user + ': '))
+		line.append($("<span></span>").addClass("content").text(str))
+		$('#chat').append(line)
+		$('#clearChat').removeAttr('disabled')
+	}
+	$(document).ready(function() {
+		$('#clearChat').click(function() {
+			$('#chat').empty();
+			$('#clearChat').attr('disabled', true);
+		})
+		$('#speak').click(function() {
+			insertChat('mlilback', $('#entry').val())
+			$('#entry').val('')
+		})
+	})
+	</script>
+	<style type="text/css">
+	body {background-color:white; }
+	.speaker {
+		color:#39A969;
+	}
+	#clearChat {
+		padding:4px;
+		margin-right:20px;
+		float:right;
+	}
+	</style>
+	<title>Chat</title>
+</head>
+<body>
+
+<!--<input type="text" id="entry">
+<button id="speak">Speak</button>
+<br>-->
+
+<button id="clearChat" disabled="true">Clear Chat</button>
+<div id="chat">
+</div>
+
+</body>
+</html>

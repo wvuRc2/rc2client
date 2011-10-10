@@ -13,7 +13,7 @@
 
 @interface MacSessionViewController : MacClientAbstractViewController
 @property (nonatomic, strong) RCSession *session;
-@property (nonatomic, strong) IBOutlet NSView *rootView;
+@property (nonatomic, strong) IBOutlet NSSplitView *splitView;
 
 -(id)initWithSession:(RCSession*)aSession;
 -(IBAction)makeBusy:(id)sender;

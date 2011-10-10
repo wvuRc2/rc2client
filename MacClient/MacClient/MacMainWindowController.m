@@ -177,6 +177,27 @@
 	[self openSession:sender inNewWindow:YES];
 }
 
+-(void)doCloseSession:(id)sender
+{
+	
+}
+
+-(IBAction)doMoveSessionToNewWindow:(id)sender
+{
+	id selItem = [self targetSessionListObjectForUIItem:sender];
+	if (nil == selItem)
+		selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
+	ZAssert([selItem isKindOfClass:[RCSession class]], @"invalid object passed to moveSessionToNewWindow:%@", 
+			NSStringFromClass([selItem class]));
+	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
+	MacSessionViewController *svc = [appDel viewControllerForSession:selItem create:NO];
+	if (self.detailView == svc.view) {
+		self.detailView=nil;
+		[self.mainSourceList selectRowIndexes:nil byExtendingSelection:NO];
+	}
+	SessionWindowController *swc = [[SessionWindowController alloc] initWithViewController:svc];
+	[swc.window makeKeyAndOrderFront:self];
+}
 
 #pragma mark - source list
 
@@ -295,8 +316,11 @@
 				return nil; //it has its own window, no menu for you
 		}
 		menu = [self.wsheetContextMenu copy];
-	} else if ([item isKindOfClass:[RCWorkspaceFolder class]] || item == self.workspacesItem)
+	} else if ([item isKindOfClass:[RCWorkspaceFolder class]] || item == self.workspacesItem) {
 		menu = self.wsheetFolderContextMenu;
+	} else if ([item isKindOfClass:[RCSession class]]) {
+		menu = self.sessionContextMenu;
+	}
 	menu.representedObject = item;
 	return menu;
 }
@@ -323,6 +347,7 @@
 @synthesize mainSourceList;
 @synthesize wsheetContextMenu;
 @synthesize wsheetFolderContextMenu;
+@synthesize sessionContextMenu;
 @synthesize kvoObservers;
 @synthesize wspaceControllers;
 @synthesize workspacesItem;

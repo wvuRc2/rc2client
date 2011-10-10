@@ -191,7 +191,6 @@
 													</object>
 													<int key="NSResizingMask">3</int>
 													<bool key="NSIsResizeable">YES</bool>
-													<bool key="NSIsEditable">YES</bool>
 													<reference key="NSTableView" ref="333409693"/>
 												</object>
 											</object>
@@ -439,6 +438,28 @@
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
+			<object class="NSMenu" id="778767779">
+				<string key="NSTitle"/>
+				<object class="NSMutableArray" key="NSMenuItems">
+					<bool key="EncodedWithXMLCoder">YES</bool>
+					<object class="NSMenuItem" id="1035291502">
+						<reference key="NSMenu" ref="778767779"/>
+						<string key="NSTitle">Close</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="556209797"/>
+						<reference key="NSMixedImage" ref="578400128"/>
+					</object>
+					<object class="NSMenuItem" id="154284513">
+						<reference key="NSMenu" ref="778767779"/>
+						<string key="NSTitle">Open in New Window</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="556209797"/>
+						<reference key="NSMixedImage" ref="578400128"/>
+					</object>
+				</object>
+			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -554,6 +575,30 @@
 						<reference key="destination" ref="669010861"/>
 					</object>
 					<int key="connectionID">72</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sessionContextMenu</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="778767779"/>
+					</object>
+					<int key="connectionID">77</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">doMoveSessionToNewWindow:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="154284513"/>
+					</object>
+					<int key="connectionID">78</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">doCloseSession:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1035291502"/>
+					</object>
+					<int key="connectionID">79</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -788,6 +833,26 @@
 						<reference key="object" ref="659989350"/>
 						<reference key="parent" ref="78626586"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">73</int>
+						<reference key="object" ref="778767779"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="1035291502"/>
+							<reference ref="154284513"/>
+						</object>
+						<reference key="parent" ref="1002"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">74</int>
+						<reference key="object" ref="1035291502"/>
+						<reference key="parent" ref="778767779"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">76</int>
+						<reference key="object" ref="154284513"/>
+						<reference key="parent" ref="778767779"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -823,6 +888,9 @@
 					<string>61.IBPluginDependency</string>
 					<string>67.IBPluginDependency</string>
 					<string>7.IBPluginDependency</string>
+					<string>73.IBPluginDependency</string>
+					<string>74.IBPluginDependency</string>
+					<string>76.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
@@ -857,6 +925,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -871,7 +942,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">72</int>
+			<int key="maxID">79</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -885,12 +956,16 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>doAddWorkspace:</string>
 							<string>doAddWorkspaceFolder:</string>
+							<string>doCloseSession:</string>
+							<string>doMoveSessionToNewWindow:</string>
 							<string>doOpenSession:</string>
 							<string>doOpenSessionInNewWindow:</string>
 							<string>doRenameWorksheetFolder:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -904,6 +979,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>doAddWorkspace:</string>
 							<string>doAddWorkspaceFolder:</string>
+							<string>doCloseSession:</string>
+							<string>doMoveSessionToNewWindow:</string>
 							<string>doOpenSession:</string>
 							<string>doOpenSessionInNewWindow:</string>
 							<string>doRenameWorksheetFolder:</string>
@@ -916,6 +993,14 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">doAddWorkspaceFolder:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">doCloseSession:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">doMoveSessionToNewWindow:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -940,6 +1025,7 @@
 							<string>detailContainer</string>
 							<string>detailView</string>
 							<string>mainSourceList</string>
+							<string>sessionContextMenu</string>
 							<string>wsheetContextMenu</string>
 							<string>wsheetFolderContextMenu</string>
 						</object>
@@ -949,6 +1035,7 @@
 							<string>NSScrollView</string>
 							<string>NSView</string>
 							<string>PXSourceList</string>
+							<string>NSMenu</string>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
 						</object>
@@ -961,6 +1048,7 @@
 							<string>detailContainer</string>
 							<string>detailView</string>
 							<string>mainSourceList</string>
+							<string>sessionContextMenu</string>
 							<string>wsheetContextMenu</string>
 							<string>wsheetFolderContextMenu</string>
 						</object>
@@ -981,6 +1069,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">mainSourceList</string>
 								<string key="candidateClassName">PXSourceList</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sessionContextMenu</string>
+								<string key="candidateClassName">NSMenu</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">wsheetContextMenu</string>

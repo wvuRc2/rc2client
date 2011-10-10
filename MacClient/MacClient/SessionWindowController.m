@@ -38,7 +38,6 @@
 	self.viewController.view.frame = self.theView.bounds;
 	[self.theView addSubview:self.viewController.view];
 	self.window.title = [NSString stringWithFormat:@"Session: %@", self.viewController.session.workspace.name];
-	[self.window setContentBorderThickness:24 forEdge:NSMinYEdge];
 }
 
 @synthesize viewController;

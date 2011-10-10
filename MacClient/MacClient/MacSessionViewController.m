@@ -7,8 +7,12 @@
 //
 
 #import "MacSessionViewController.h"
+#import "MCWebOutputController.h"
 
-@interface MacSessionViewController()
+@interface MacSessionViewController() {
+	BOOL __didInit;
+}
+@property (nonatomic, strong) MCWebOutputController *outputController;
 @end
 
 @implementation MacSessionViewController
@@ -25,7 +29,14 @@
 -(void)awakeFromNib
 {
 	[super awakeFromNib];
-	self.busy = NO;
+	if (!__didInit) {
+		self.outputController = [[MCWebOutputController alloc] init];
+		NSView *croot = [self.splitView.subviews objectAtIndex:1];
+		[croot addSubview:self.outputController.view];
+		self.outputController.view.frame = croot.bounds;
+		self.busy = NO;
+		__didInit=YES;
+	}
 }
 
 -(IBAction)makeBusy:(id)sender
@@ -35,7 +46,8 @@
 }
 
 @synthesize session;
-@synthesize rootView;
+@synthesize splitView;
+@synthesize outputController;
 @end
 
 @implementation SessionView
