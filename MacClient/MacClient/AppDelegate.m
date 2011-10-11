@@ -43,6 +43,10 @@
 	self.sessionControllers = [NSMutableSet set];
 	self.windowControllers = [NSMutableSet set];
 	[self presentLoginPanel];
+	NSString *fileCache = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:fileCache])
+		[[NSFileManager defaultManager] createDirectoryAtPath:fileCache withIntermediateDirectories:YES attributes:nil error:nil];
+
 }
 
 //a timer runs while active that will autosave coredata changes periodically

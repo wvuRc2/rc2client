@@ -64,7 +64,7 @@
 	{
 	  [blockRef.mainSourceList reloadItem:blockRef.sessionsItem reloadChildren:YES];
 	}]];
-	[self.mainSourceList reloadData];
+	[self.mainSourceList reloadData]; 
 }
 
 #pragma mark - standard shit
@@ -90,6 +90,11 @@
 	}
 	if (@selector(doOpenSession:) == action || @selector(doOpenSessionInNewWindow:) == action) {
 		if ([selItem isKindOfClass:[RCWorkspace class]]) return YES;
+		return NO;
+	}
+	if (@selector(doRefreshFileList:) == action) {
+		if ([selItem isKindOfClass:[RCWorkspace class]])
+			return YES;
 		return NO;
 	}
 	if (fromContextMenu)
@@ -153,6 +158,13 @@
 }
 
 #pragma mark - actions
+
+-(IBAction)doRefreshFileList:(id)sender
+{
+	id selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
+	if ([selItem respondsToSelector:@selector(doRefreshFileList:)])
+		[selItem doRefreshFileList:sender];
+}
 
 -(IBAction)doAddWorkspace:(id)sender
 {
