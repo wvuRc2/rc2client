@@ -10,6 +10,8 @@
 #import "Rc2Server.h"
 #import "RCFile.h"
 
+NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetchedNotification";
+
 @interface RCWorkspace()
 @property (nonatomic, copy, readwrite) NSArray *files;
 @property (assign) BOOL fetchingFiles;
@@ -37,8 +39,10 @@
 {
 	self.fetchingFiles=YES;
 	[[Rc2Server sharedInstance] fetchFileList:self completionHandler:^(BOOL success, id results) {
-		if (success && [results isKindOfClass:[NSArray class]])
+		if (success && [results isKindOfClass:[NSArray class]]) {
 			self.files = [RCFile filesFromJsonArray:results];
+			[[NSNotificationCenter defaultCenter] postNotificationName:RCWorkspaceFilesFetchedNotification object:self];
+		}
 		self.fetchingFiles=NO;
 	}];
 }

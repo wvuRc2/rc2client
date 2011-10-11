@@ -18,3 +18,7 @@
 -(void)addFile:(RCFile*)aFile;
 -(RCFile*)fileWithId:(NSNumber*)fileId;
 @end
+
+//notification posted when a workspace has (re)fetched its file contents
+// this is so the app can cache all files w/o observing every workspace
+extern NSString * const RCWorkspaceFilesFetchedNotification;

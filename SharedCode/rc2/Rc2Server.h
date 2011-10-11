@@ -28,6 +28,7 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 @interface Rc2Server : NSObject
 +(Rc2Server*)sharedInstance;
 
+@property (nonatomic, readonly) NSString *userAgentString;
 @property (nonatomic, assign) NSInteger serverHost;
 @property (nonatomic, assign, readonly) BOOL loggedIn;
 @property (nonatomic, copy, readonly) NSString *currentLogin;

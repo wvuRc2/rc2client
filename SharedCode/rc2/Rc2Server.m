@@ -80,6 +80,11 @@
 	//FIXME: need to send a logout request to server
 }
 
+-(NSString*)userAgentString
+{
+	return kUserAgent;
+}
+
 -(void)setServerHost:(NSInteger)sh
 {
 	if (self.serverHost >= eRc2Host_Harner && self.serverHost <= eRc2Host_Local) {
@@ -233,6 +238,7 @@
 	[req startAsynchronous];
 }
 #endif
+
 
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
