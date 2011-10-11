@@ -20,4 +20,10 @@
 -(void)updateWithDictionary:(NSDictionary*)dict;
 
 -(void)discardEdits;
+
+//on iOS, returns UIImage. on Mac returns NSImage
+-(id)fileIcon;
+
+//currently only implemented for Mac
+-(NSString*)fileContentsPath;
 @end

@@ -184,13 +184,10 @@
 {
 	NSMutableArray *entries = [NSMutableArray arrayWithArray:[rsp objectForKey:@"entries"]];
 	//now we need to add any local files that haven't been sent to the server
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-#else
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	NSSet *newFiles = [moc fetchObjectsForEntityName:@"RCFile" withPredicate:@"fileId == 0 and wspaceId == %@",
 					   self.selectedWorkspace.wspaceId];
 	[entries addObjectsFromArray:[newFiles allObjects]];
-#endif
 	return entries;
 }
 
@@ -240,7 +237,7 @@
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/ftree/%@", [self baseUrl],
-									   self.selectedWorkspace.wspaceId]];
+									   wspace.wspaceId]];
 	__block ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
 	req.userAgent = kUserAgent;
 	[req setCompletionBlock:^{

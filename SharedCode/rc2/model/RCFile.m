@@ -105,4 +105,34 @@
 	return [self.fileId integerValue] > 0;
 }
 
+-(id)fileIcon
+{
+	#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+		NSString *ext = [self.name pathExtension];
+		if ([ext isEqualToString:@"R"])
+			return [NSImage imageNamed:@"Rdoc"];
+		else if ([ext isEqualToString:@"RnW"])
+			return [NSImage imageNamed:@"RnW"];
+		NSImage *img = [[NSWorkspace sharedWorkspace] iconForFileType:ext];
+		[img setSize:NSMakeSize(48, 48)];
+		return img;
+	#else
+		NSString *imgName = @"doc";
+		if ([self.name hasSuffix:@".R"])
+			imgName = @"RDoc";
+		else if ([self.name hasSuffix:@".RnW"])
+			imgName = @"RnWDoc";
+		return [UIImage imageNamed:imgName];
+	#endif
+}
+
+-(NSString*)fileContentsPath
+{
+	NSString *filePath = [[NSString stringWithFormat:@"files/%@", self.fileId] stringByAppendingPathExtension:self.name.pathExtension];
+	NSString *fullPath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:filePath];
+	ZAssert([[NSFileManager defaultManager] fileExistsAtPath:[fullPath stringByDeletingLastPathComponent]], 
+		@"file cache directory doesn't exist");
+	return fullPath;
+}
+
 @end
