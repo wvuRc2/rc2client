@@ -7,26 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "PXSourceList.h"
 
 @class MacClientAbstractViewController;
+@class RCWorkspace;
 
-@interface MacMainWindowController : NSWindowController<NSWindowDelegate,PXSourceListDataSource,PXSourceListDelegate>
-@property (strong) IBOutlet PXSourceList *mainSourceList;
-@property (strong, nonatomic) IBOutlet AMControlledView *detailView;
+@interface MacMainWindowController : NSWindowController<NSWindowDelegate>
 @property (strong, nonatomic) MacClientAbstractViewController *detailController;
 @property (strong) IBOutlet AMControlledView *detailContainer;
-@property (strong) IBOutlet NSMenu *wsheetContextMenu;
-@property (strong) IBOutlet NSMenu *wsheetFolderContextMenu;
-@property (strong) IBOutlet NSMenu *sessionContextMenu;
-@property (strong) IBOutlet NSPopUpButton *addPopup;
-@property (nonatomic) BOOL canAdd;
 
--(IBAction)doRenameWorksheetFolder:(id)sender;
--(IBAction)doOpenSession:(id)sender;
--(IBAction)doOpenSessionInNewWindow:(id)sender;
--(IBAction)doAddWorkspace:(id)sender;
--(IBAction)doAddWorkspaceFolder:(id)sender;
--(IBAction)doMoveSessionToNewWindow:(id)sender;
--(IBAction)doCloseSession:(id)sender;
+-(void)openSession:(RCWorkspace*)wspace inNewWindow:(BOOL)inNewWindow;
+
+-(IBAction)doBackToMainView:(id)sender;
 @end
