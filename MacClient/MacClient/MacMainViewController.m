@@ -14,9 +14,11 @@
 #import "WorkspaceViewController.h"
 #import <Vyana/NSMenu+AMExtensions.h>
 #import "MacMainWindowController.h"
+#import "RCMacToolbarItem.h"
 
 @interface MacMainViewController() {
 	BOOL __didInit;
+	BOOL __setupAddMenu;
 }
 @property (strong) NSMutableDictionary *workspacesItem;
 @property (strong) NSMutableArray *kvoObservers;
@@ -48,6 +50,17 @@
 		}]];
 		[self.mainSourceList reloadData]; 
 		__didInit=YES;
+	}
+}
+
+-(void)viewWillMoveToSuperview:(NSView *)newSuperview
+{
+	if (!__setupAddMenu) {
+		NSToolbar *tbar = [NSApp valueForKeyPath:@"delegate.mainWindowController.window.toolbar"];
+		RCMacToolbarItem *ti = [tbar.items firstObjectWithValue:@"add" forKey:@"itemIdentifier"];
+		if (newSuperview)
+			[ti pushActionMenu:self.addMenu];
+		__setupAddMenu=YES;
 	}
 }
 
@@ -243,4 +256,5 @@
 @synthesize workspacesItem;
 @synthesize detailController;
 @synthesize detailContainer;
+@synthesize addMenu;
 @end

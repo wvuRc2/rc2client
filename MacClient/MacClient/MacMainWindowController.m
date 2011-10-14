@@ -80,6 +80,8 @@
 		contentView.animations = [NSDictionary dictionaryWithObject:anim forKey:@"subviews"];
 		svc.view.frame = self.mainViewController.view.frame;
 		[contentView.animator replaceSubview:self.mainViewController.view with:svc.view];
+//		NSToolbar *tbar = self.window.toolbar;
+//		[tbar insertItemWithItemIdentifier:@"back" atIndex:0];
 	}
 }
 

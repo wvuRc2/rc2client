@@ -21,6 +21,7 @@
 		08056E391448C6960002766D /* MacMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056E371448C6950002766D /* MacMainViewController.m */; };
 		08056E3A1448C6960002766D /* MacMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08056E381448C6950002766D /* MacMainViewController.xib */; };
 		08056E3C1448D59C0002766D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08056E3B1448D59B0002766D /* QuartzCore.framework */; };
+		08056E5C1448EC410002766D /* RCMacToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056E5B1448EC410002766D /* RCMacToolbarItem.m */; };
 		0838B38A141E9095003264A8 /* PXSourceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B387141E9095003264A8 /* PXSourceList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0838B38E141E90C2003264A8 /* MacMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B38D141E90C2003264A8 /* MacMainWindowController.m */; };
 		0838B390141E90E0003264A8 /* MacMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0838B38F141E90E0003264A8 /* MacMainWindow.xib */; };
@@ -116,6 +117,8 @@
 		08056E371448C6950002766D /* MacMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacMainViewController.m; sourceTree = "<group>"; };
 		08056E381448C6950002766D /* MacMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacMainViewController.xib; sourceTree = "<group>"; };
 		08056E3B1448D59B0002766D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		08056E5A1448EC410002766D /* RCMacToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMacToolbarItem.h; sourceTree = "<group>"; };
+		08056E5B1448EC410002766D /* RCMacToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMacToolbarItem.m; sourceTree = "<group>"; };
 		0838B386141E9095003264A8 /* PXSourceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceList.h; sourceTree = "<group>"; };
 		0838B387141E9095003264A8 /* PXSourceList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PXSourceList.m; sourceTree = "<group>"; };
 		0838B388141E9095003264A8 /* PXSourceListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceListDataSource.h; sourceTree = "<group>"; };
@@ -251,6 +254,8 @@
 				08FE8A511415A89700672474 /* EMKeychainItem.m */,
 				08EE40E91433AC2C004FDBB8 /* RC2RemoteLogger.h */,
 				08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */,
+				08056E5A1448EC410002766D /* RCMacToolbarItem.h */,
+				08056E5B1448EC410002766D /* RCMacToolbarItem.m */,
 			);
 			name = utility;
 			sourceTree = "<group>";
@@ -621,6 +626,7 @@
 				08056DDB143F9E760002766D /* MacClientAbstractViewController.m in Sources */,
 				08056DEE1443787F0002766D /* MCWebOutputController.m in Sources */,
 				08056E391448C6960002766D /* MacMainViewController.m in Sources */,
+				08056E5C1448EC410002766D /* RCMacToolbarItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

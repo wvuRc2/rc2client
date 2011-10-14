@@ -9,10 +9,12 @@
 #import "MacSessionViewController.h"
 #import "MCWebOutputController.h"
 #import "Rc2Server.h"
+#import "RCMacToolbarItem.h"
 
 @interface MacSessionViewController() {
 	BOOL __didInit;
 }
+@property (nonatomic, strong) NSMenu *addMenu;
 @property (nonatomic, strong) MCWebOutputController *outputController;
 -(void)prepareForSession;
 -(void)completeSessionStartup:(id)response;
@@ -42,8 +44,19 @@
 		self.busy = YES;
 		self.statusMessage = @"Connecting to server…";
 		[self prepareForSession];
+		self.addMenu = [[NSMenu alloc] initWithTitle:@""];
 		__didInit=YES;
 	}
+}
+
+-(void)viewWillMoveToSuperview:(NSView *)newSuperview
+{
+	NSToolbar *tbar = [NSApp valueForKeyPath:@"delegate.mainWindowController.window.toolbar"];
+	RCMacToolbarItem *ti = [tbar.items firstObjectWithValue:@"add" forKey:@"itemIdentifier"];
+	if (newSuperview)
+		[ti pushActionMenu:self.addMenu];
+	else
+		[ti popActionMenu:self.addMenu];
 }
 
 -(IBAction)makeBusy:(id)sender
@@ -121,6 +134,7 @@
 
 @synthesize splitView;
 @synthesize outputController;
+@synthesize addMenu;
 @end
 
 @implementation SessionView

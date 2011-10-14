@@ -19,6 +19,7 @@
 @property (strong, nonatomic) MacClientAbstractViewController *detailController;
 @property (strong) IBOutlet NSMenu *wsheetContextMenu;
 @property (strong) IBOutlet NSMenu *wsheetFolderContextMenu;
+@property (strong) IBOutlet NSMenu *addMenu;
 @property (readonly) RCWorkspace *selectedWorkspace; //not KVO compliant
 
 -(IBAction)doRenameWorksheetFolder:(id)sender;
