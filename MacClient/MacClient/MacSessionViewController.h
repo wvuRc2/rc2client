@@ -8,10 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MacClientAbstractViewController.h"
+#import "RCSession.h"
 
-@class RCSession;
-
-@interface MacSessionViewController : MacClientAbstractViewController
+@interface MacSessionViewController : MacClientAbstractViewController<RCSessionDelegate>
 @property (nonatomic, strong) RCSession *session;
 @property (nonatomic, strong) IBOutlet NSSplitView *splitView;
 

@@ -60,7 +60,10 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 -(void)saveFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)deleteFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
--(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock;
+
+-(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock; //prepares selected workspace
+-(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
+
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
 

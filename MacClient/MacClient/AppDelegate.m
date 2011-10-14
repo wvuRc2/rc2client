@@ -161,10 +161,7 @@
 			return session;
 	}
 	//TODO: need to implement limit on how many sessions can be open
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"readperm",
-																	[NSNumber numberWithBool:YES], @"writeperm",
-																	nil];
-	RCSession *s = [[RCSession alloc] initWithWorkspace:wspace serverResponse:dict];
+	RCSession *s = [[RCSession alloc] initWithWorkspace:wspace serverResponse:nil];
 	[self.openSessions addObject:s];
 	return s;
 }
@@ -186,6 +183,7 @@
 -(void)closeSessionViewController:(MacSessionViewController*)svc
 {
 	RCSession *session = svc.session;
+	[session closeWebSocket];
 	[self.sessionControllers removeObject:svc];
 	[self willChangeValueForKey:@"openSessions"];
 	[self.openSessions removeObject:session];

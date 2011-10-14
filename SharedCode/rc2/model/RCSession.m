@@ -21,6 +21,8 @@
 	WebSocket00 *_ws;
 }
 @property (nonatomic, assign, readwrite) BOOL socketOpen;
+@property (nonatomic, assign, readwrite) BOOL hasReadPerm;
+@property (nonatomic, assign, readwrite) BOOL hasWritePerm;
 @end
 
 @implementation RCSession
@@ -28,8 +30,8 @@
 @synthesize delegate=_delegate;
 @synthesize userid=_userid;
 @synthesize socketOpen=_socketOpen;
-@synthesize hasReadPerm=_haveReadPerm;
-@synthesize hasWritePerm=_haveWritePerm;
+@synthesize hasReadPerm;
+@synthesize hasWritePerm;
 
 - (id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp
 {
@@ -39,8 +41,8 @@
 		_settings = [[NSMutableDictionary alloc] init];
 		NSString *settingKey = [NSString stringWithFormat:@"session_%@", self.workspace.wspaceId];
 		[_settings setValuesForKeysWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:settingKey]];
-		_haveReadPerm = [[rsp objectForKey:@"readperm"] boolValue];
-		_haveWritePerm = [[rsp objectForKey:@"writeperm"] boolValue];
+		if (rsp)
+			[self updateWithServerResponse:rsp];
     }
     return self;
 }
@@ -49,9 +51,16 @@
 {
 	_delegate=nil; //assert in setDelegate: would cause crash
 	self.userid=nil;
+	[self closeWebSocket];
 	[_workspace release];
 	[_settings release];
 	[super dealloc];
+}
+
+-(void)updateWithServerResponse:(NSDictionary*)rsp
+{
+	self.hasReadPerm = [[rsp objectForKey:@"readperm"] boolValue];
+	self.hasWritePerm = [[rsp objectForKey:@"writeperm"] boolValue];
 }
 
 -(void)startWebSocket
@@ -61,6 +70,9 @@
 	NSString *baseUrl = [[Rc2Server sharedInstance] baseUrl];
 	NSString *urlStr = [baseUrl stringByReplacingOccurrencesOfString:@"http" withString:@"ws"];
 	urlStr = [urlStr stringByAppendingString:@"iR/ws"];
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+	urlStr = [urlStr stringByAppendingFormat:@"?wid=%@", self.workspace.wspaceId];
+#endif
 	_ws = [[WebSocket00 webSocketWithURLString:urlStr delegate:self origin:nil 
 									 protocols:nil tlsSettings:nil verifyHandshake:YES] retain];
 	_ws.timeout = -1;

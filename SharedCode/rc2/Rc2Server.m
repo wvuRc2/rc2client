@@ -327,8 +327,13 @@
 
 -(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock
 {
+	[self prepareWorkspace:self.selectedWorkspace completionHandler:hblock];
+}
+
+-(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
+{
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/use/%@", [self baseUrl],
-									   self.selectedWorkspace.wspaceId]];
+									   wspace.wspaceId]];
 	__block ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
 	req.userAgent = kUserAgent;
 	[req setCompletionBlock:^{

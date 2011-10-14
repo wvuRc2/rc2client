@@ -120,7 +120,8 @@ enum
 - (NSString*) getRequest: (NSString*) aRequestPath
 {
 	//mlilback hack to stick in cookies
-	NSArray *cks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+//	NSArray *cks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+	NSArray *cks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:url];
 	NSDictionary *cookies = [NSHTTPCookie requestHeaderFieldsWithCookies:cks];
 	NSString *cookieHeader = [cookies objectForKey:@"Cookie"];
 

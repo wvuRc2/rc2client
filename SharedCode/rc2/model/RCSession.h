@@ -23,6 +23,9 @@
 
 -(id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp;
 
+//to be called on mac client because rsp in the init message is fake and needs to be updated later
+-(void)updateWithServerResponse:(NSDictionary*)rsp;
+
 -(void)startWebSocket;
 -(void)closeWebSocket;
 
