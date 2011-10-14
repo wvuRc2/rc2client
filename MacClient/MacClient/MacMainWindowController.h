@@ -9,9 +9,12 @@
 #import <Cocoa/Cocoa.h>
 #import "PXSourceList.h"
 
+@class MacClientAbstractViewController;
+
 @interface MacMainWindowController : NSWindowController<NSWindowDelegate,PXSourceListDataSource,PXSourceListDelegate>
 @property (strong) IBOutlet PXSourceList *mainSourceList;
-@property (strong, nonatomic) IBOutlet NSView *detailView;
+@property (strong, nonatomic) IBOutlet AMControlledView *detailView;
+@property (strong, nonatomic) MacClientAbstractViewController *detailController;
 @property (strong) IBOutlet NSScrollView *detailContainer;
 @property (strong) IBOutlet NSMenu *wsheetContextMenu;
 @property (strong) IBOutlet NSMenu *wsheetFolderContextMenu;

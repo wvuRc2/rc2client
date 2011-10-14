@@ -151,7 +151,7 @@
 		[swc.window makeKeyAndOrderFront:self];
 		[self.mainSourceList reloadItem:self.sessionsItem reloadChildren:YES];
 	} else {
-		self.detailView = svc.view;
+		self.detailView = (AMControlledView*)svc.view;
 		[self.mainSourceList reloadItem:self.sessionsItem reloadChildren:YES];
 		[self.mainSourceList amSelectRow:[self.mainSourceList rowForItem:session] byExtendingSelection:NO];
 	}
@@ -240,11 +240,11 @@
 			rvc = [[WorkspaceViewController alloc] initWithWorkspace:selWspace];
 			[self.wspaceControllers setObject:rvc forKey:selWspace.wspaceId];
 		}
-		self.detailView = rvc.view;
+		self.detailView = (AMControlledView*)rvc.view;
 	} else if ([selItem isKindOfClass:[RCSession class]]) {
 		MacSessionViewController *svc = [((AppDelegate*)[NSApp delegate]) viewControllerForSession:selItem create:YES];
 		if (nil == svc.view.superview) {
-			self.detailView = svc.view;
+			self.detailView = (AMControlledView*)svc.view;
 		} else if (svc.view.window) {
 			//bring it's window to the front
 			[svc.view.window makeKeyAndOrderFront:self];
@@ -339,7 +339,7 @@
 
 #pragma mark - accessors & synthesizers
 
--(void)setDetailView:(NSView *)aView
+-(void)setDetailView:(AMControlledView *)aView
 {
 	if (__detailView == aView)
 		return;
@@ -350,10 +350,11 @@
 		[__detailView removeFromSuperview];
 		__detailView = nil;
 	} else {
-		aView.frame = __detailView.frame;
+		[aView setFrameSize:self.detailContainer.contentSize];
 		[self.detailContainer.animator replaceSubview:__detailView with:aView];
 		__detailView = aView;
 	}
+	self.detailController = (MacClientAbstractViewController*)aView.viewController;
 }
 
 @synthesize mainSourceList;
@@ -367,4 +368,5 @@
 @synthesize canAdd;
 @synthesize addPopup;
 @synthesize detailContainer;
+@synthesize detailController;
 @end
