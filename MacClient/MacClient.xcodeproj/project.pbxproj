@@ -17,6 +17,7 @@
 		08056DF21443866E0002766D /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08056DF11443866E0002766D /* console */; };
 		08056DF41444D2970002766D /* RnW.icns in Resources */ = {isa = PBXBuildFile; fileRef = 08056DF31444D2970002766D /* RnW.icns */; };
 		08056DF61444D2E20002766D /* Rdoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 08056DF51444D2E20002766D /* Rdoc.icns */; };
+		08056E221448BEBB0002766D /* RLogo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 08056E211448BEBB0002766D /* RLogo.icns */; };
 		0838B38A141E9095003264A8 /* PXSourceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B387141E9095003264A8 /* PXSourceList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0838B38E141E90C2003264A8 /* MacMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B38D141E90C2003264A8 /* MacMainWindowController.m */; };
 		0838B390141E90E0003264A8 /* MacMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0838B38F141E90E0003264A8 /* MacMainWindow.xib */; };
@@ -107,6 +108,7 @@
 		08056DF11443866E0002766D /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; path = console; sourceTree = SOURCE_ROOT; };
 		08056DF31444D2970002766D /* RnW.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = RnW.icns; path = resources/RnW.icns; sourceTree = SOURCE_ROOT; };
 		08056DF51444D2E20002766D /* Rdoc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rdoc.icns; path = resources/Rdoc.icns; sourceTree = SOURCE_ROOT; };
+		08056E211448BEBB0002766D /* RLogo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = RLogo.icns; path = resources/RLogo.icns; sourceTree = SOURCE_ROOT; };
 		0838B386141E9095003264A8 /* PXSourceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceList.h; sourceTree = "<group>"; };
 		0838B387141E9095003264A8 /* PXSourceList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PXSourceList.m; sourceTree = "<group>"; };
 		0838B388141E9095003264A8 /* PXSourceListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceListDataSource.h; sourceTree = "<group>"; };
@@ -460,6 +462,7 @@
 		08FE8A4B14159CA000672474 /* SharedImages */ = {
 			isa = PBXGroup;
 			children = (
+				08056E211448BEBB0002766D /* RLogo.icns */,
 				08056DF51444D2E20002766D /* Rdoc.icns */,
 				08056DF31444D2970002766D /* RnW.icns */,
 				08FE8A4C14159CA000672474 /* rc2.png */,
@@ -537,6 +540,7 @@
 				08056DF21443866E0002766D /* console in Resources */,
 				08056DF41444D2970002766D /* RnW.icns in Resources */,
 				08056DF61444D2E20002766D /* Rdoc.icns in Resources */,
+				08056E221448BEBB0002766D /* RLogo.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
