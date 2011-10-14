@@ -350,10 +350,15 @@
 		[__detailView removeFromSuperview];
 		__detailView = nil;
 	} else {
-		[aView setFrameSize:self.detailContainer.contentSize];
 		[self.detailContainer.animator replaceSubview:__detailView with:aView];
 		__detailView = aView;
 	}
+	//this adjustment makes no sense. the bounds/frames are correct in the xib as far
+	// as I can tell. However, nothing is placed right without these adjustments.
+	NSRect f = self.detailContainer.bounds;
+	f.size.height -= 40;
+	f.size.width -= 40;
+	aView.frame = f;
 	self.detailController = (MacClientAbstractViewController*)aView.viewController;
 }
 

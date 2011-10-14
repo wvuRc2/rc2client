@@ -15,7 +15,7 @@
 @property (strong) IBOutlet PXSourceList *mainSourceList;
 @property (strong, nonatomic) IBOutlet AMControlledView *detailView;
 @property (strong, nonatomic) MacClientAbstractViewController *detailController;
-@property (strong) IBOutlet NSScrollView *detailContainer;
+@property (strong) IBOutlet AMControlledView *detailContainer;
 @property (strong) IBOutlet NSMenu *wsheetContextMenu;
 @property (strong) IBOutlet NSMenu *wsheetFolderContextMenu;
 @property (strong) IBOutlet NSMenu *sessionContextMenu;
