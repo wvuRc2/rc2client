@@ -10,7 +10,7 @@
 
 @class MacSessionViewController;
 
-@interface SessionWindowController : NSWindowController<NSWindowDelegate>
+@interface RCMSessionWindowController : NSWindowController<NSWindowDelegate>
 @property (nonatomic, strong) MacSessionViewController *viewController;
 @property (nonatomic, strong) IBOutlet NSView *theView;
 - (id)initWithViewController:(MacSessionViewController*)svc;

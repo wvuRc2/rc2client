@@ -10,12 +10,20 @@
 #import "MacClientAbstractViewController.h"
 #import "RCSession.h"
 
-@interface MacSessionViewController : MacClientAbstractViewController<RCSessionDelegate>
+@class RCMTextView;
+
+@interface MacSessionViewController : MacClientAbstractViewController<RCSessionDelegate,NSSplitViewDelegate,NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, strong) RCSession *session;
-@property (nonatomic, strong) IBOutlet NSSplitView *splitView;
+@property (nonatomic, strong) IBOutlet NSSplitView *contentSplitView;
+@property (nonatomic, strong) IBOutlet NSTableView *fileTableView;
+@property (nonatomic, strong) IBOutlet NSView *fileContainerView;
+@property (nonatomic, strong) IBOutlet RCMTextView *editView;
+@property (nonatomic, strong) IBOutlet NSButton *executeButton;
 
 -(id)initWithSession:(RCSession*)aSession;
+-(IBAction)toggleFileList:(id)sender;
 -(IBAction)makeBusy:(id)sender;
+-(IBAction)executeScript:(id)sender;
 @end
 
 @interface SessionView : AMControlledView

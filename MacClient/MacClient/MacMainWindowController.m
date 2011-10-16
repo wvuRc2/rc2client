@@ -15,7 +15,7 @@
 #import "WorkspaceViewController.h"
 #import <Vyana/NSMenu+AMExtensions.h>
 #import "MacSessionViewController.h"
-#import "SessionWindowController.h"
+#import "RCMSessionWindowController.h"
 #import "AppDelegate.h"
 
 @interface MacMainWindowController()
@@ -69,7 +69,7 @@
 	RCSession *session = [appDel sessionForWorkspace:wspace];
 	MacSessionViewController *svc = [appDel viewControllerForSession:session create:YES];
 	if (inNewWindow && nil == svc.view.superview) {
-		SessionWindowController *swc = [[SessionWindowController alloc] initWithViewController:svc];
+		RCMSessionWindowController *swc = [[RCMSessionWindowController alloc] initWithViewController:svc];
 		[swc.window makeKeyAndOrderFront:self];
 	} else {
 		self.currentSessionController = svc;

@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		08056DB6143F60780002766D /* Vyana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08056DB5143F60780002766D /* Vyana.framework */; };
 		08056DB7143F60880002766D /* Vyana.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08056DB5143F60780002766D /* Vyana.framework */; };
-		08056DBD143F6F2D0002766D /* SessionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056DBC143F6F2D0002766D /* SessionWindowController.m */; };
-		08056DBF143F6F390002766D /* SessionWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08056DBE143F6F390002766D /* SessionWindowController.xib */; };
+		08056DBD143F6F2D0002766D /* RCMSessionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056DBC143F6F2D0002766D /* RCMSessionWindowController.m */; };
+		08056DBF143F6F390002766D /* RCMSessionWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08056DBE143F6F390002766D /* RCMSessionWindowController.xib */; };
 		08056DDB143F9E760002766D /* MacClientAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056DDA143F9E760002766D /* MacClientAbstractViewController.m */; };
 		08056DEE1443787F0002766D /* MCWebOutputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056DEC1443787F0002766D /* MCWebOutputController.m */; };
 		08056DEF1443787F0002766D /* MCWebOutputController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08056DED1443787F0002766D /* MCWebOutputController.xib */; };
@@ -28,6 +28,7 @@
 		08447F6B1415B54F00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */; };
 		088DF164143CDB1F00CF4844 /* MacSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088DF162143CDB1F00CF4844 /* MacSessionViewController.m */; };
 		088DF165143CDB1F00CF4844 /* MacSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */; };
+		08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5AF144B918B00F787E6 /* RCMTextView.m */; };
 		08EE40EB1433AC2D004FDBB8 /* RC2RemoteLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */; };
 		08EE413214364CAF004FDBB8 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE412014364CAF004FDBB8 /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE413314364CAF004FDBB8 /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE412214364CAF004FDBB8 /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -101,9 +102,9 @@
 
 /* Begin PBXFileReference section */
 		08056DB5143F60780002766D /* Vyana.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Vyana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		08056DBB143F6F2D0002766D /* SessionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionWindowController.h; sourceTree = "<group>"; };
-		08056DBC143F6F2D0002766D /* SessionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionWindowController.m; sourceTree = "<group>"; };
-		08056DBE143F6F390002766D /* SessionWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SessionWindowController.xib; sourceTree = "<group>"; };
+		08056DBB143F6F2D0002766D /* RCMSessionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMSessionWindowController.h; sourceTree = "<group>"; };
+		08056DBC143F6F2D0002766D /* RCMSessionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMSessionWindowController.m; sourceTree = "<group>"; };
+		08056DBE143F6F390002766D /* RCMSessionWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMSessionWindowController.xib; sourceTree = "<group>"; };
 		08056DD9143F9E760002766D /* MacClientAbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacClientAbstractViewController.h; sourceTree = "<group>"; };
 		08056DDA143F9E760002766D /* MacClientAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacClientAbstractViewController.m; sourceTree = "<group>"; };
 		08056DEB1443787F0002766D /* MCWebOutputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWebOutputController.h; sourceTree = "<group>"; };
@@ -130,6 +131,9 @@
 		088DF161143CDB1E00CF4844 /* MacSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacSessionViewController.h; sourceTree = "<group>"; };
 		088DF162143CDB1F00CF4844 /* MacSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacSessionViewController.m; sourceTree = "<group>"; };
 		088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacSessionViewController.xib; sourceTree = "<group>"; };
+		08ADF5AE144B918B00F787E6 /* RCMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMTextView.h; sourceTree = "<group>"; };
+		08ADF5AF144B918B00F787E6 /* RCMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMTextView.m; sourceTree = "<group>"; };
+		08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = MacClientNotes.rtf; path = MacClient/MacClientNotes.rtf; sourceTree = "<group>"; };
 		08EE40E91433AC2C004FDBB8 /* RC2RemoteLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RC2RemoteLogger.h; path = ../../SharedCode/rc2/RC2RemoteLogger.h; sourceTree = "<group>"; };
 		08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RC2RemoteLogger.m; path = ../../SharedCode/rc2/RC2RemoteLogger.m; sourceTree = "<group>"; };
 		08EE411F14364CAF004FDBB8 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
@@ -254,8 +258,6 @@
 				08FE8A511415A89700672474 /* EMKeychainItem.m */,
 				08EE40E91433AC2C004FDBB8 /* RC2RemoteLogger.h */,
 				08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */,
-				08056E5A1448EC410002766D /* RCMacToolbarItem.h */,
-				08056E5B1448EC410002766D /* RCMacToolbarItem.m */,
 			);
 			name = utility;
 			sourceTree = "<group>";
@@ -279,6 +281,17 @@
 				0838B389141E9095003264A8 /* PXSourceListDelegate.h */,
 			);
 			path = PXSourceList;
+			sourceTree = "<group>";
+		};
+		08ADF5B2144B919000F787E6 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				08056E5A1448EC410002766D /* RCMacToolbarItem.h */,
+				08056E5B1448EC410002766D /* RCMacToolbarItem.m */,
+				08ADF5AE144B918B00F787E6 /* RCMTextView.h */,
+				08ADF5AF144B918B00F787E6 /* RCMTextView.m */,
+			);
+			name = views;
 			sourceTree = "<group>";
 		};
 		08EE411E14364CAF004FDBB8 /* WebSocketClient */ = {
@@ -311,6 +324,7 @@
 		08FE889C1415533300672474 = {
 			isa = PBXGroup;
 			children = (
+				08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */,
 				08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */,
 				08FE88B11415533300672474 /* MacClient */,
 				08FE89C314156E9700672474 /* Shared Code */,
@@ -365,9 +379,9 @@
 				0838B38C141E90C2003264A8 /* MacMainWindowController.h */,
 				0838B38D141E90C2003264A8 /* MacMainWindowController.m */,
 				0838B38F141E90E0003264A8 /* MacMainWindow.xib */,
-				08056DBB143F6F2D0002766D /* SessionWindowController.h */,
-				08056DBC143F6F2D0002766D /* SessionWindowController.m */,
-				08056DBE143F6F390002766D /* SessionWindowController.xib */,
+				08056DBB143F6F2D0002766D /* RCMSessionWindowController.h */,
+				08056DBC143F6F2D0002766D /* RCMSessionWindowController.m */,
+				08056DBE143F6F390002766D /* RCMSessionWindowController.xib */,
 				08056E361448C6950002766D /* MacMainViewController.h */,
 				08056E371448C6950002766D /* MacMainViewController.m */,
 				08056E381448C6950002766D /* MacMainViewController.xib */,
@@ -382,6 +396,7 @@
 				08056DED1443787F0002766D /* MCWebOutputController.xib */,
 				08056E351448C6600002766D /* secondary controllers */,
 				08056E331448C6430002766D /* utility */,
+				08ADF5B2144B919000F787E6 /* views */,
 				0838B385141E9095003264A8 /* PXSourceList */,
 			);
 			path = MacClient;
@@ -568,7 +583,7 @@
 				08EE414614364F81004FDBB8 /* WorkspaceViewController.xib in Resources */,
 				08EE4148143673E9004FDBB8 /* DefaultDefaults.plist in Resources */,
 				088DF165143CDB1F00CF4844 /* MacSessionViewController.xib in Resources */,
-				08056DBF143F6F390002766D /* SessionWindowController.xib in Resources */,
+				08056DBF143F6F390002766D /* RCMSessionWindowController.xib in Resources */,
 				08056DEF1443787F0002766D /* MCWebOutputController.xib in Resources */,
 				08056DF21443866E0002766D /* console in Resources */,
 				08056DF41444D2970002766D /* RnW.icns in Resources */,
@@ -622,11 +637,12 @@
 				08EE413914364CAF004FDBB8 /* WebSocketFragment.m in Sources */,
 				08EE413A14364CAF004FDBB8 /* WebSocketMessage.m in Sources */,
 				088DF164143CDB1F00CF4844 /* MacSessionViewController.m in Sources */,
-				08056DBD143F6F2D0002766D /* SessionWindowController.m in Sources */,
+				08056DBD143F6F2D0002766D /* RCMSessionWindowController.m in Sources */,
 				08056DDB143F9E760002766D /* MacClientAbstractViewController.m in Sources */,
 				08056DEE1443787F0002766D /* MCWebOutputController.m in Sources */,
 				08056E391448C6960002766D /* MacMainViewController.m in Sources */,
 				08056E5C1448EC410002766D /* RCMacToolbarItem.m in Sources */,
+				08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

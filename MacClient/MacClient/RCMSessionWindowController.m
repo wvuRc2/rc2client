@@ -6,17 +6,17 @@
 //  Copyright (c) 2011 Agile Monks. All rights reserved.
 //
 
-#import "SessionWindowController.h"
+#import "RCMSessionWindowController.h"
 #import "MacSessionViewController.h"
 #import "AppDelegate.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
 
-@implementation SessionWindowController
+@implementation RCMSessionWindowController
 
 -(id)initWithViewController:(MacSessionViewController*)svc
 {
-	if ((self = [super initWithWindowNibName:@"SessionWindowController"])) {
+	if ((self = [super initWithWindowNibName:@"RCMSessionWindowController"])) {
 		self.viewController = svc;
 	}
 	
