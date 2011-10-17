@@ -34,7 +34,7 @@ iR.selectionStart = 0;
 iR.selectionEnd = 0;
 iR.userid = 0;
 iR.settings = {maxHistLen: 20}
-iR.graphFileUrl = '/img/graph.png';
+iR.graphFileUrl = 'graph.png';
 
 iR.StatTabArray = function StatTabArray() {
 	this.size = function() {
@@ -183,10 +183,22 @@ iR.consoleKeyUp = function(e) {
 	}
 }
 
+iR.previewImage = function(imgGroup) {
+	var elems = $(imgGroup).find("a").get()
+	Rc2.preview(imgGroup, elems);
+}
+
+iR.closeImagePreview = function(imgGroup) {
+	Rc2.closePreview(imgGroup);
+}
+
 iR.appendImages = function(imgArray) {
 	var ic = document.createElement('div')
 	var divname = 'img' + new Date().getTime()
 	ic.setAttribute('id', divname)
+	$(ic).addClass("imgGroup")
+	$(ic).mouseenter(function() {iR.previewImage(this); })
+	$(ic).mouseleave(function() {iR.closeImagePreview(this); })
 	for (var i=0; i < imgArray.length; i++) {
 		var ispan = document.createElement('span');
 		ispan.setAttribute('class', 'Rimg');

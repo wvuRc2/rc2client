@@ -8,6 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+@protocol MCWebOutputDelegate <NSObject>
+-(void)handleImageRequest:(NSURL*)url;
+-(void)previewImages:(NSArray*)imageUrls atPoint:(NSPoint)pt;
+@end
+
 @interface MCWebOutputController : AMViewController
 @property (nonatomic, strong) IBOutlet WebView *webView;
+@property (nonatomic, unsafe_unretained) IBOutlet id<MCWebOutputDelegate> delegate;
 @end

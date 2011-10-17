@@ -11,10 +11,12 @@
 @interface MCWebOutputController() {
 	BOOL __didInit;
 }
+@property (nonatomic, strong) NSPopover *imagePopover;
 -(void)loadContent;
 @end
 
 @implementation MCWebOutputController
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,6 +43,51 @@
 	}
 }
 
+-(void)previewImage:(DOMElement*)imgGroupElem images:(WebScriptObject*)images
+{
+	unsigned int idx=0;
+	NSMutableArray *imgArray = [NSMutableArray array];
+	NSPoint pt = NSZeroPoint;
+	do {
+		DOMHTMLAnchorElement *img = [images webScriptValueAtIndex:idx++];
+		if (idx == 1)
+			pt = NSMakePoint(img.offsetLeft, img.offsetTop);
+		if (![img isKindOfClass:[DOMHTMLAnchorElement class]])
+			break;
+		NSString *path = [img href];
+		NSInteger loc = [path indexOf:@"///"];
+		if (loc != NSNotFound)
+			path = [[path substringFromIndex:loc+2] lastPathComponent];
+		[imgArray addObject:path];
+	} while (YES);
+	[self.delegate previewImages:imgArray atPoint:pt];
+}
+
+-(void)closePreview:(DOMElement*)anchorElem
+{
+	[self.delegate previewImages:nil atPoint:NSZeroPoint];
+}
+
+#pragma mark - webscripting support
+
++(NSString*)webScriptNameForSelector:(SEL)sel
+{
+	if (sel == @selector(previewImage:images:))
+		return @"preview";
+	else if (sel == @selector(closePreview:))
+		return @"closePreview";
+	return nil;
+}
+
++(BOOL)isSelectorExcludedFromWebScript:(SEL)sel
+{
+	if (sel == @selector(previewImage:images:))
+		return NO;
+	else if (sel == @selector(closePreview:))
+		return NO;
+	return YES;
+}
+
 #pragma mark - webview delegate
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
@@ -57,11 +104,16 @@
 {
 	NSLog(@"Error loading web request:%@", error);
 }
-
+/*
 -(NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element 
    defaultMenuItems:(NSArray *)defaultMenuItems
 {
 	return nil; // disable contextual menu for the webView
+}
+*/
+-(void)webView:(WebView *)webView didClearWindowObject:(WebScriptObject *)windowObject forFrame:(WebFrame *)frame
+{
+	[windowObject setValue:self	forKey:@"Rc2"];
 }
 
 -(void)webView:(WebView *)webView 
@@ -80,7 +132,10 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 		{
 			[listener use];
 			return;
-		} //otherwise, fire off to external browser
+		} else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
+			[self.delegate handleImageRequest:[request URL]];
+		}
+		//otherwise, fire off to external browser
 		[[NSWorkspace sharedWorkspace] openURL:
 		 [actionInformation objectForKey:WebActionOriginalURLKey]];
 	}
@@ -89,4 +144,6 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 
 
 @synthesize webView;
+@synthesize delegate;
+@synthesize imagePopover;
 @end
