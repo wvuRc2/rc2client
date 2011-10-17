@@ -76,7 +76,7 @@
 -(void)setLocalEdits:(NSString *)edits
 {
 	[self willChangeValueForKey:@"localEdits"];
-	[self setPrimitiveLocalEdits:edits];
+	[self setPrimitiveLocalEdits:[[edits copy] autorelease]];
 	[self didChangeValueForKey:@"localEdits"];
 	if ([edits length] > 0)
 		self.localLastModified = [NSDate date];

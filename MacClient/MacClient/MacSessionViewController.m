@@ -22,12 +22,15 @@
 }
 @property (nonatomic, strong) NSMenu *addMenu;
 @property (nonatomic, strong) MCWebOutputController *outputController;
+@property (nonatomic, strong) RCFile *selectedFile;
+@property (nonatomic, copy) NSString *scratchString;
 -(void)prepareForSession;
 -(void)completeSessionStartup:(id)response;
 @end
 
 @implementation MacSessionViewController
 @synthesize session=__session;
+@synthesize selectedFile=__selFile;
 
 -(id)initWithSession:(RCSession*)aSession
 {
@@ -35,6 +38,7 @@
 	if (self) {
 		self.session = aSession;
 		self.session.delegate = self;
+		self.scratchString=@"";
 	}
 	return self;
 }
@@ -42,6 +46,7 @@
 -(void)dealloc
 {
 	self.contentSplitView.delegate=nil;
+	self.selectedFile=nil;
 }
 
 -(void)awakeFromNib
@@ -136,6 +141,11 @@
 
 #pragma mark - meat & potatos
 
+-(void)saveChanges
+{
+	self.selectedFile=nil;
+}
+
 -(void)completeSessionStartup:(id)response
 {
 	[self.session updateWithServerResponse:response];
@@ -205,6 +215,12 @@
 
 #pragma mark - table view
 
+-(void)tableViewSelectionDidChange:(NSNotification *)notification
+{
+	RCFile *file = [self.session.workspace.files objectAtIndexNoExceptions:[self.fileTableView selectedRow]];
+	self.selectedFile = file;
+}
+
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return self.session.workspace.files.count;
@@ -255,6 +271,23 @@
 	__session = session;
 }
 
+-(void)setSelectedFile:(RCFile *)selectedFile
+{
+	if (__selFile) {
+		if ([__selFile.fileContents isEqualToString:self.editView.string])
+			[__selFile setLocalEdits:@""];
+		else
+			[__selFile setLocalEdits:self.editView.string];
+	} else
+		self.scratchString = self.editView.string;
+	__selFile = selectedFile;
+	NSString *newTxt = self.scratchString;
+	if (selectedFile)
+		newTxt = selectedFile.currentContents;
+	NSMutableString *mstr = self.editView.textStorage.mutableString;
+	[mstr replaceCharactersInRange:NSMakeRange(0, mstr.length) withString:newTxt];
+}
+
 @synthesize contentSplitView;
 @synthesize fileTableView;
 @synthesize outputController;
@@ -262,6 +295,7 @@
 @synthesize fileContainerView;
 @synthesize editView;
 @synthesize executeButton;
+@synthesize scratchString;
 @end
 
 @implementation SessionView

@@ -26,6 +26,8 @@
 
 -(void)windowWillClose:(NSNotification *)note
 {
+	[self.window makeFirstResponder:nil];
+	[self.viewController saveChanges];
 	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
 	[appDel closeSessionViewController:self.viewController];
 	[appDel removeWindowController:self];

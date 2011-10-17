@@ -27,7 +27,7 @@
 @property (readwrite, strong, nonatomic) MacMainWindowController *mainWindowController;
 @property (nonatomic, strong) NSTimer *autosaveTimer;
 @property (nonatomic, readwrite) BOOL loggedIn;
-@property (nonatomic, strong) NSMutableSet *sessionControllers;
+//@property (nonatomic, strong) NSMutableSet *sessionControllers;
 @property (nonatomic, strong) NSMutableSet *windowControllers;
 //following is only used while operating in the __fileCacheQueue
 @property (nonatomic, strong) NSMutableSet *fileCacheWorkspacesInQueue;
@@ -49,7 +49,7 @@
 {
 	__firstLogin=YES;
 	self.openSessions = [NSMutableArray array];
-	self.sessionControllers = [NSMutableSet set];
+//	self.sessionControllers = [NSMutableSet set];
 	self.windowControllers = [NSMutableSet set];
 	[self presentLoginPanel];
 	NSString *fileCache = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
@@ -139,6 +139,7 @@
 					Rc2LogWarn(@"error fetching file %@ contents: %@", aFile.fileId, [err localizedDescription]);
 				} else {
 					[req.responseData writeToFile:fpath atomically:YES];
+					aFile.fileContents = [NSString stringWithUTF8Data:req.responseData];
 				}
 			}
 		}
@@ -170,13 +171,13 @@
 
 -(MacSessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create
 {
-	for (MacSessionViewController *aController in self.sessionControllers) {
-		if (aController.session == session)
-			return aController;
-	}
+//	for (MacSessionViewController *aController in self.sessionControllers) {
+//		if (aController.session == session)
+//			return aController;
+//	}
 	if (create) {
 		MacSessionViewController *svc = [[MacSessionViewController alloc] initWithSession:session];
-		[self.sessionControllers addObject:svc];
+//		[self.sessionControllers addObject:svc];
 		return svc;
 	}
 	return nil;
@@ -186,7 +187,7 @@
 {
 	RCSession *session = svc.session;
 	[session closeWebSocket];
-	[self.sessionControllers removeObject:svc];
+//	[self.sessionControllers removeObject:svc];
 	[self willChangeValueForKey:@"openSessions"];
 	[self.openSessions removeObject:session];
 	[self didChangeValueForKey:@"openSessions"];
@@ -277,8 +278,8 @@
 		return [NSArray arrayWithObjects:RCMToolbarItem_Back, RCMToolbarItem_Files,
 				RCMToolbarItem_Add, RCMToolbarItem_Remove, nil];
 	} else {
-		return [NSArray arrayWithObjects:RCMToolbarItem_Add, RCMToolbarItem_Remove, 
-				RCMToolbarItem_OpenSession, nil];
+		return [NSArray arrayWithObjects:RCMToolbarItem_Back,RCMToolbarItem_Add, RCMToolbarItem_Remove, 
+				RCMToolbarItem_OpenSession, RCMToolbarItem_Files, nil];
 	}
 }
 
@@ -404,10 +405,12 @@
 	}
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
-
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+	for (NSWindowController *wc in self.windowControllers)
+		[wc close];
+	
 	// Save changes in the application's managed object context before the application terminates.
-
 	if (!__haveMoc) {
 		return NSTerminateNow;
 	}
@@ -456,7 +459,7 @@
 @synthesize autosaveTimer;
 @synthesize loggedIn;
 @synthesize openSessions;
-@synthesize sessionControllers;
+//@synthesize sessionControllers;
 @synthesize windowControllers;
 @synthesize fileCacheWorkspacesInQueue;
 @end

@@ -47,7 +47,7 @@
 	self.mainViewController.view.frame = self.detailContainer.frame;
 	NSView *contentView = self.window.contentView;
 	[contentView replaceSubview:self.detailContainer with:self.mainViewController.view];
-	NSToolbar *tbar = [[NSToolbar alloc] initWithIdentifier:@"sessionwindow"];
+	NSToolbar *tbar = [[NSToolbar alloc] initWithIdentifier:@"mainwindow"];
 	[tbar setAllowsUserCustomization:NO];
 	[tbar setDisplayMode:NSToolbarDisplayModeIconOnly];
 	[tbar setSizeMode:NSToolbarSizeModeSmall];
@@ -78,6 +78,9 @@
 	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
 	RCSession *session = [appDel sessionForWorkspace:wspace];
 	MacSessionViewController *svc = [appDel viewControllerForSession:session create:YES];
+	//option key forces new window
+	if ([NSEvent modifierFlags] & NSAlternateKeyMask)
+		inNewWindow = YES;
 	if (inNewWindow && nil == svc.view.superview) {
 		RCMSessionWindowController *swc = [[RCMSessionWindowController alloc] initWithViewController:svc];
 		[swc.window makeKeyAndOrderFront:self];
