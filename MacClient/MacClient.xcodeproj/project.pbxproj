@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		08056DB6143F60780002766D /* Vyana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08056DB5143F60780002766D /* Vyana.framework */; };
-		08056DB7143F60880002766D /* Vyana.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08056DB5143F60780002766D /* Vyana.framework */; };
+		08056DB7143F60880002766D /* Vyana.framework in Copy Fworks */ = {isa = PBXBuildFile; fileRef = 08056DB5143F60780002766D /* Vyana.framework */; };
 		08056DBD143F6F2D0002766D /* RCMSessionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056DBC143F6F2D0002766D /* RCMSessionWindowController.m */; };
 		08056DBF143F6F390002766D /* RCMSessionWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08056DBE143F6F390002766D /* RCMSessionWindowController.xib */; };
 		08056DDB143F9E760002766D /* MacClientAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056DDA143F9E760002766D /* MacClientAbstractViewController.m */; };
@@ -81,24 +81,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		08FE8A4814159B2000672474 /* Copy Frameworks */ = {
+		08FE8A4A14159C1D00672474 /* Copy Fworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				08056DB7143F60880002766D /* Vyana.framework in Copy Fworks */,
 			);
-			name = "Copy Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		08FE8A4A14159C1D00672474 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 7;
-			files = (
-				08056DB7143F60880002766D /* Vyana.framework in CopyFiles */,
-			);
+			name = "Copy Fworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -551,8 +542,7 @@
 				08FE88A31415533300672474 /* Sources */,
 				08FE88A41415533300672474 /* Frameworks */,
 				08FE88A51415533300672474 /* Resources */,
-				08FE8A4814159B2000672474 /* Copy Frameworks */,
-				08FE8A4A14159C1D00672474 /* CopyFiles */,
+				08FE8A4A14159C1D00672474 /* Copy Fworks */,
 			);
 			buildRules = (
 			);
