@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">1938</string>
@@ -344,6 +344,15 @@
 									<bool key="NSIsSeparator">YES</bool>
 									<string key="NSTitle"/>
 									<string key="NSKeyEquiv"/>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="548863041">
+									<reference key="NSMenu" ref="789758025"/>
+									<string key="NSTitle">Show Fonts</string>
+									<string key="NSKeyEquiv">t</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
@@ -1160,6 +1169,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
+						<string key="label">orderFrontFontPanel:</string>
+						<reference key="source" ref="755631768"/>
+						<reference key="destination" ref="548863041"/>
+					</object>
+					<int key="connectionID">621</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
 						<string key="label">doLogOut:</string>
 						<reference key="source" ref="976324537"/>
 						<reference key="destination" ref="705341025"/>
@@ -1295,6 +1312,7 @@
 							<reference ref="507821607"/>
 							<reference ref="288088188"/>
 							<reference ref="82994268"/>
+							<reference ref="548863041"/>
 						</array>
 						<reference key="parent" ref="952259628"/>
 					</object>
@@ -1754,6 +1772,11 @@
 						<reference key="object" ref="530427481"/>
 						<reference key="parent" ref="1066737987"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">620</int>
+						<reference key="object" ref="548863041"/>
+						<reference key="parent" ref="789758025"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1838,6 +1861,7 @@
 				<string key="562.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="58.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="620.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="78.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1851,10 +1875,29 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">565</int>
+			<int key="maxID">621</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">AMControlledView</string>
+					<string key="superclassName">NSView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">viewController</string>
+						<string key="NS.object.0">NSViewController</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">viewController</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">viewController</string>
+							<string key="candidateClassName">NSViewController</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AMControlledView.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">AMViewController</string>
 					<string key="superclassName">NSViewController</string>
@@ -1915,13 +1958,11 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">MacMainWindowController</string>
-					<string key="superclassName">NSWindowController</string>
+					<string key="className">MacMainViewController</string>
+					<string key="superclassName">MacClientAbstractViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="doAddWorkspace:">id</string>
 						<string key="doAddWorkspaceFolder:">id</string>
-						<string key="doCloseSession:">id</string>
-						<string key="doMoveSessionToNewWindow:">id</string>
 						<string key="doOpenSession:">id</string>
 						<string key="doOpenSessionInNewWindow:">id</string>
 						<string key="doRenameWorksheetFolder:">id</string>
@@ -1933,14 +1974,6 @@
 						</object>
 						<object class="IBActionInfo" key="doAddWorkspaceFolder:">
 							<string key="name">doAddWorkspaceFolder:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="doCloseSession:">
-							<string key="name">doCloseSession:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="doMoveSessionToNewWindow:">
-							<string key="name">doMoveSessionToNewWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="doOpenSession:">
@@ -1957,34 +1990,29 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="addPopup">NSPopUpButton</string>
-						<string key="detailContainer">NSScrollView</string>
-						<string key="detailView">NSView</string>
+						<string key="addMenu">NSMenu</string>
+						<string key="detailContainer">AMControlledView</string>
+						<string key="detailView">AMControlledView</string>
 						<string key="mainSourceList">PXSourceList</string>
-						<string key="sessionContextMenu">NSMenu</string>
 						<string key="wsheetContextMenu">NSMenu</string>
 						<string key="wsheetFolderContextMenu">NSMenu</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="addPopup">
-							<string key="name">addPopup</string>
-							<string key="candidateClassName">NSPopUpButton</string>
+						<object class="IBToOneOutletInfo" key="addMenu">
+							<string key="name">addMenu</string>
+							<string key="candidateClassName">NSMenu</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="detailContainer">
 							<string key="name">detailContainer</string>
-							<string key="candidateClassName">NSScrollView</string>
+							<string key="candidateClassName">AMControlledView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="detailView">
 							<string key="name">detailView</string>
-							<string key="candidateClassName">NSView</string>
+							<string key="candidateClassName">AMControlledView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="mainSourceList">
 							<string key="name">mainSourceList</string>
 							<string key="candidateClassName">PXSourceList</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="sessionContextMenu">
-							<string key="name">sessionContextMenu</string>
-							<string key="candidateClassName">NSMenu</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="wsheetContextMenu">
 							<string key="name">wsheetContextMenu</string>
@@ -1997,7 +2025,7 @@
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MacMainWindowController.h</string>
+						<string key="minorKey">./Classes/MacMainViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -2079,6 +2107,17 @@
 						<object class="IBActionInfo" key="NS.object.0">
 							<string key="name">doRefreshFileList:</string>
 							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">filesTableView</string>
+						<string key="NS.object.0">NSTableView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">filesTableView</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">filesTableView</string>
+							<string key="candidateClassName">NSTableView</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

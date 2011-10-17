@@ -15,6 +15,8 @@ extern NSString * const RCMToolbarItem_Back;
 extern NSString * const RCMToolbarItem_Remove;
 extern NSString * const RCMToolbarItem_Add;
 
+#define kPref_FixedFont @"FixedFont"
+
 @interface RCMAppConstants : NSObject
 
 @end

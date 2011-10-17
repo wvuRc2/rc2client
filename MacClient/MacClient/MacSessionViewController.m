@@ -13,6 +13,7 @@
 #import "RCWorkspace.h"
 #import "RCFile.h"
 #import "RCMTextView.h"
+#import "RCMAppConstants.h"
 #import <Vyana/AMWindow.h>
 
 @interface MacSessionViewController() {
@@ -63,7 +64,6 @@
 		self.addMenu = [[NSMenu alloc] initWithTitle:@""];
 		//read this instead of hard-coding a value that chould change in the nib
 		__fileListWidth = self.contentSplitView.frame.origin.x;
-
 		__didInit=YES;
 	}
 }
@@ -284,8 +284,7 @@
 	NSString *newTxt = self.scratchString;
 	if (selectedFile)
 		newTxt = selectedFile.currentContents;
-	NSMutableString *mstr = self.editView.textStorage.mutableString;
-	[mstr replaceCharactersInRange:NSMakeRange(0, mstr.length) withString:newTxt];
+	[self.editView setString:newTxt];
 }
 
 @synthesize contentSplitView;

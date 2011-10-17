@@ -7,12 +7,37 @@
 //
 
 #import "RCMTextView.h"
+#import "RCMAppConstants.h"
 
 @interface RCMTextView()
 -(NSUInteger)findMatchingParen:(NSUInteger)closeLoc string:(NSString*)str;
 @end
 
 @implementation RCMTextView
+
+-(void)awakeFromNib
+{
+	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_FixedFont];
+	if (nil == fnt)
+		fnt = [NSFont userFixedPitchFontOfSize:12.0];
+	[self setFont:fnt];	
+}
+
+-(void)setString:(NSString *)string
+{
+	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_FixedFont];
+	if (nil == fnt)
+		fnt = [NSFont userFixedPitchFontOfSize:12.0];
+	[super setString:string];
+	[self.textStorage addAttribute:NSFontAttributeName value:fnt range:NSMakeRange(0, string.length)];
+}
+
+-(void)changeFont:(id)sender
+{
+	[super changeFont:sender];
+	[[NSUserDefaults standardUserDefaults] archiveObject:self.font forKey:kPref_FixedFont];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 -(void)insertText:(id)newText
 {

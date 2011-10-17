@@ -274,7 +274,7 @@
 															<string>WebURLsWithTitlesPboardType</string>
 															<string>public.url</string>
 														</set>
-														<string key="NSFrameSize">{198, 452}</string>
+														<string key="NSFrame">{{0, 319}, {198, 133}}</string>
 														<reference key="NSSuperview" ref="448343561"/>
 														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="19634567"/>
@@ -298,7 +298,7 @@
 															<int key="NSTCFlags">1</int>
 														</object>
 														<object class="NSTextViewSharedData" key="NSSharedData">
-															<int key="NSFlags">12039</int>
+															<int key="NSFlags">12067</int>
 															<int key="NSTextCheckingTypes">0</int>
 															<nil key="NSMarkedAttributes"/>
 															<reference key="NSBackgroundColor" ref="1049793273"/>
@@ -334,7 +334,6 @@
 														</object>
 														<int key="NSTVFlags">6</int>
 														<string key="NSMaxSize">{463, 10000000}</string>
-														<string key="NSMinize">{198, 133}</string>
 														<nil key="NSDelegate"/>
 													</object>
 												</array>
