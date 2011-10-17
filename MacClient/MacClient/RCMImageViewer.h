@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface RCMImageViewer : NSViewController
+@interface RCMImageViewer : AMViewController
 @property (nonatomic, strong) IBOutlet NSImageView *imageView;
 @property (nonatomic, strong) NSArray *imageArray;
 @property (nonatomic, strong) IBOutlet NSArrayController *imageArrayController;
