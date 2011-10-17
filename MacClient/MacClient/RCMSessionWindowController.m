@@ -9,6 +9,7 @@
 #import "RCMSessionWindowController.h"
 #import "MacSessionViewController.h"
 #import "AppDelegate.h"
+#import "RCMAppConstants.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
 
@@ -38,6 +39,14 @@
 	self.viewController.view.frame = self.theView.bounds;
 	[self.theView addSubview:self.viewController.view];
 	self.window.title = [NSString stringWithFormat:@"Session: %@", self.viewController.session.workspace.name];
+	NSToolbar *tbar = [[NSToolbar alloc] initWithIdentifier:@"sessionwindow"];
+	[tbar setAllowsUserCustomization:NO];
+	[tbar setDisplayMode:NSToolbarDisplayModeIconOnly];
+	[tbar setSizeMode:NSToolbarSizeModeSmall];
+	tbar.delegate = appDel;
+	self.window.toolbar = tbar;
+	NSInteger idx = [tbar.items indexOfObjectWithValue:RCMToolbarItem_Back usingSelector:@selector(itemIdentifier)];
+	[tbar removeItemAtIndex:idx];
 }
 
 @synthesize viewController;

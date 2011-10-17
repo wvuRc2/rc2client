@@ -7,6 +7,7 @@
 //
 
 #import "MacMainWindowController.h"
+#import "RCMAppConstants.h"
 #import "MacMainViewController.h"
 #import "Rc2Server.h"
 #import "RCWorkspaceFolder.h"
@@ -17,6 +18,7 @@
 #import "MacSessionViewController.h"
 #import "RCMSessionWindowController.h"
 #import "AppDelegate.h"
+#import "RCMacToolbarItem.h"
 
 @interface MacMainWindowController()
 @property (strong) NSMutableArray *kvoObservers;
@@ -45,6 +47,14 @@
 	self.mainViewController.view.frame = self.detailContainer.frame;
 	NSView *contentView = self.window.contentView;
 	[contentView replaceSubview:self.detailContainer with:self.mainViewController.view];
+	NSToolbar *tbar = [[NSToolbar alloc] initWithIdentifier:@"sessionwindow"];
+	[tbar setAllowsUserCustomization:NO];
+	[tbar setDisplayMode:NSToolbarDisplayModeIconOnly];
+	[tbar setSizeMode:NSToolbarSizeModeSmall];
+	tbar.delegate = [NSApp delegate];
+	self.window.toolbar = tbar;
+	RCMacToolbarItem *addItem = [tbar.items firstObjectWithValue:RCMToolbarItem_Add forKey:@"itemIdentifier"];
+	addItem.actionMenu = self.addToolbarMenu;
 }
 
 #pragma mark - standard shit
@@ -80,8 +90,6 @@
 		contentView.animations = [NSDictionary dictionaryWithObject:anim forKey:@"subviews"];
 		svc.view.frame = self.mainViewController.view.frame;
 		[contentView.animator replaceSubview:self.mainViewController.view with:svc.view];
-//		NSToolbar *tbar = self.window.toolbar;
-//		[tbar insertItemWithItemIdentifier:@"back" atIndex:0];
 	}
 }
 
@@ -138,4 +146,5 @@
 @synthesize detailContainer;
 @synthesize detailController;
 @synthesize currentSessionController;
+@synthesize addToolbarMenu;
 @end

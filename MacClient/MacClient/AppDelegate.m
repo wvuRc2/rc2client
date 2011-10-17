@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "RCMAppConstants.h"
 #import "MacLoginController.h"
 #import "MacMainWindowController.h"
 #import "Rc2Server.h"
@@ -14,6 +15,7 @@
 #import "RCSession.h"
 #import "RCWorkspace.h"
 #import "RCFile.h"
+#import "RCMacToolbarItem.h"
 #import "ASIHTTPRequest.h"
 
 @interface AppDelegate() {
@@ -226,6 +228,57 @@
 		if (![moc save:&err]) {
 			NSLog(@"failed to save moc changes: %@", err);
 		}
+	}
+}
+
+#pragma mark - toolbar delegate
+
+-(NSToolbarItem*)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier 
+	willBeInsertedIntoToolbar:(BOOL)flag
+{
+	RCMacToolbarItem *ti = [[RCMacToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+	if ([itemIdentifier isEqualToString:RCMToolbarItem_Add]) {
+		if ([[toolbar identifier] isEqualToString:@"sessionwindow"])
+			ti.toolTip = @"Add a file";
+		else
+			ti.toolTip = @"Add a workspace/folder";
+		ti.image = [NSImage imageNamed:NSImageNameAddTemplate];
+	} else if ([itemIdentifier isEqualToString:RCMToolbarItem_Remove]) {
+		if ([[toolbar identifier] isEqualToString:@"sessionwindow"])
+			ti.toolTip = @"Remove selected file";
+		else
+			ti.toolTip = @"Remove selected workspace/folder";
+		ti.image = [NSImage imageNamed:NSImageNameRemoveTemplate];
+	} else if ([itemIdentifier isEqualToString:RCMToolbarItem_Back]) {
+		ti.toolTip = @"Return to workspaces";
+		ti.action = @selector(doBackToMainView:);
+		ti.image = [NSImage imageNamed:NSImageNameLeftFacingTriangleTemplate];
+	} else if ([itemIdentifier isEqualToString:RCMToolbarItem_OpenSession]) {
+		ti.toolTip = @"Open session to the selected workspace. Option-click to open in a new window.";
+		ti.action = @selector(doOpenSession:);
+		ti.image = [NSImage imageNamed:@"RLogo"];
+	} else if ([itemIdentifier isEqualToString:RCMToolbarItem_Files]) {
+		ti.toolTip = @"Show/Hide file list";
+		ti.action = @selector(toggleFileList:);
+		ti.image = [NSImage imageNamed:NSImageNameListViewTemplate];
+	}
+	return ti;
+}
+
+-(NSArray*)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+{
+	return [NSArray arrayWithObjects:RCMToolbarItem_Files, RCMToolbarItem_OpenSession,
+			RCMToolbarItem_Back, RCMToolbarItem_Remove, RCMToolbarItem_Add, nil];
+}
+
+-(NSArray*)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
+{
+	if ([[toolbar identifier] isEqualToString:@"sessionwindow"]) {
+		return [NSArray arrayWithObjects:RCMToolbarItem_Back, RCMToolbarItem_Files,
+				RCMToolbarItem_Add, RCMToolbarItem_Remove, nil];
+	} else {
+		return [NSArray arrayWithObjects:RCMToolbarItem_Add, RCMToolbarItem_Remove, 
+				RCMToolbarItem_OpenSession, nil];
 	}
 }
 

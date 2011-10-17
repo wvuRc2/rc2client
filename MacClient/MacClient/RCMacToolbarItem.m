@@ -16,27 +16,46 @@
 @end
 
 @implementation RCMacToolbarItem
+@synthesize actionMenu=__actionMenu;
+@synthesize menuStack;
+
+-(void)imageSetup
+{
+	NSImage *timg = self.image;
+	__didImgResize = YES;
+	if (timg) {
+		[timg setSize:NSMakeSize(12, 12)];
+		NSImage *img = [[NSImage alloc] initWithSize:NSMakeSize(24, 24)];
+		[img lockFocus];
+		[timg drawInRect:NSMakeRect(6, 6, 16, 16) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+		[img unlockFocus];
+		[img setTemplate:YES];
+		[self setImage:img];
+	}
+}
+
 -(void)awakeFromNib
 {
 	[super awakeFromNib];
-	if (!__didImgResize) {
-		NSImage *timg = self.image;
-		if (timg) {
-			[timg setSize:NSMakeSize(12, 12)];
-			NSImage *img = [[NSImage alloc] initWithSize:NSMakeSize(24, 24)];
-			[img lockFocus];
-			[timg drawInRect:NSMakeRect(6, 6, 16, 16) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-			[img unlockFocus];
-			[img setTemplate:YES];
-			[self setImage:img];
-		}
-		if (self.actionMenu) {
-			self.target = self;
-			self.action = @selector(myAction:);
-			self.menuStack = [NSMutableArray array];
-		}
-		__didImgResize = YES;
+	if (!__didImgResize)
+		[self imageSetup];
+}
+
+-(void)setActionMenu:(NSMenu *)actionMenu
+{
+	__actionMenu = actionMenu;
+	if (actionMenu) {
+		self.target = self;
+		self.action = @selector(myAction:);
+		self.menuStack = [NSMutableArray array];
 	}
+}
+
+-(void)setImage:(NSImage *)image
+{
+	[super setImage:image];
+	if (!__didImgResize)
+		[self imageSetup];
 }
 
 -(void)pushActionMenu:(NSMenu*)menu
@@ -75,6 +94,4 @@
 	[NSMenu popUpContextMenu:menu withEvent:[NSApp currentEvent] forView:v withFont:[NSFont systemFontOfSize:11]];
 }
 
-@synthesize actionMenu;
-@synthesize menuStack;
 @end

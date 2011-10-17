@@ -29,6 +29,7 @@
 		088DF164143CDB1F00CF4844 /* MacSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088DF162143CDB1F00CF4844 /* MacSessionViewController.m */; };
 		088DF165143CDB1F00CF4844 /* MacSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */; };
 		08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5AF144B918B00F787E6 /* RCMTextView.m */; };
+		08ADF5BE144BA2ED00F787E6 /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */; };
 		08EE40EB1433AC2D004FDBB8 /* RC2RemoteLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */; };
 		08EE413214364CAF004FDBB8 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE412014364CAF004FDBB8 /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE413314364CAF004FDBB8 /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE412214364CAF004FDBB8 /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -134,6 +135,8 @@
 		08ADF5AE144B918B00F787E6 /* RCMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMTextView.h; sourceTree = "<group>"; };
 		08ADF5AF144B918B00F787E6 /* RCMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMTextView.m; sourceTree = "<group>"; };
 		08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = MacClientNotes.rtf; path = MacClient/MacClientNotes.rtf; sourceTree = "<group>"; };
+		08ADF5BC144BA2ED00F787E6 /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMAppConstants.h; sourceTree = "<group>"; };
+		08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMAppConstants.m; sourceTree = "<group>"; };
 		08EE40E91433AC2C004FDBB8 /* RC2RemoteLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RC2RemoteLogger.h; path = ../../SharedCode/rc2/RC2RemoteLogger.h; sourceTree = "<group>"; };
 		08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RC2RemoteLogger.m; path = ../../SharedCode/rc2/RC2RemoteLogger.m; sourceTree = "<group>"; };
 		08EE411F14364CAF004FDBB8 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
@@ -371,6 +374,8 @@
 		08FE88B11415533300672474 /* MacClient */ = {
 			isa = PBXGroup;
 			children = (
+				08ADF5BC144BA2ED00F787E6 /* RCMAppConstants.h */,
+				08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */,
 				08FE88BD1415533400672474 /* AppDelegate.h */,
 				08FE88BE1415533400672474 /* AppDelegate.m */,
 				08FE88C01415533400672474 /* MainMenu.xib */,
@@ -643,6 +648,7 @@
 				08056E391448C6960002766D /* MacMainViewController.m in Sources */,
 				08056E5C1448EC410002766D /* RCMacToolbarItem.m in Sources */,
 				08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */,
+				08ADF5BE144BA2ED00F787E6 /* RCMAppConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

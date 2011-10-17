@@ -14,7 +14,7 @@
 @interface MacMainWindowController : NSWindowController<NSWindowDelegate>
 @property (strong, nonatomic) MacClientAbstractViewController *detailController;
 @property (strong) IBOutlet AMControlledView *detailContainer;
-
+@property (strong) IBOutlet NSMenu *addToolbarMenu;
 -(void)openSession:(RCWorkspace*)wspace inNewWindow:(BOOL)inNewWindow;
 
 -(IBAction)doBackToMainView:(id)sender;
