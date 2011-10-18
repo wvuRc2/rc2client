@@ -36,6 +36,7 @@
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) RCMImageViewer *imageController;
 @property (nonatomic, strong) NSArray *currentImageGroup;
+@property (nonatomic, strong) NSNumber *fileIdJustImported;
 -(void)prepareForSession;
 -(void)completeSessionStartup:(id)response;
 -(NSString*)escapeForJS:(NSString*)str;
@@ -43,6 +44,7 @@
 -(void)cacheImages:(NSArray*)urls;
 -(void)cacheImagesReferencedInHTML:(NSString*)html;
 -(BOOL)loadImageIntoCache:(NSString*)imgPath;
+-(void)handleFileImport:(NSURL*)fileUrl;
 @end
 
 @implementation MacSessionViewController
@@ -99,6 +101,20 @@
 		self.imgCachePath = [cacheUrl path];
 		self.imgCache = [NSMutableDictionary dictionary];
 		self.dloadQueue = [[NSOperationQueue alloc] init];
+		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:RCWorkspaceFilesFetchedNotification 
+														  object:nil queue:nil usingBlock:^(NSNotification *note)
+		{
+			[self.fileTableView reloadData];
+			if (self.fileIdJustImported) {
+				NSUInteger idx = [self.session.workspace.files indexOfObjectWithValue:self.fileIdJustImported usingSelector:@selector(fileId)];
+				if (NSNotFound != idx) {
+					//TODO: we don't have the file contents yet, so selecting it and showing it does no good
+//					[self.fileTableView amSelectRow:idx byExtendingSelection:NO];
+				}
+				self.fileIdJustImported=nil;
+				[self tableViewSelectionDidChange:nil];
+			}
+		}]];
 		__didInit=YES;
 	}
 }
@@ -168,6 +184,17 @@
 	[self.session executeScript:self.editView.string];
 }
 
+-(IBAction)importFile:(id)sender
+{
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	[openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"R", @"RnW", @"txt", nil]];
+	[openPanel beginWithCompletionHandler:^(NSInteger result) {
+		if (NSFileHandlingPanelCancelButton == result)
+			return;
+		[self handleFileImport:[[openPanel URLs] firstObject]];
+	}];
+}
+
 -(IBAction)makeBusy:(id)sender
 {
 	self.busy = ! self.busy;
@@ -175,6 +202,21 @@
 }
 
 #pragma mark - meat & potatos
+
+-(void)handleFileImport:(NSURL*)fileUrl
+{
+	[[Rc2Server sharedInstance] importFile:fileUrl workspace:self.session.workspace completionHandler:^(BOOL success, RCFile *file)
+	{
+		if (success) {
+			//we have a new file
+			self.fileIdJustImported = file.fileId;
+			[self.session.workspace refreshFiles];
+			//TODO: we should really select the newly imported file
+		} else {
+			//FIXME: report error
+		}
+	}];
+}
 
 -(void)saveChanges
 {
@@ -492,6 +534,7 @@
 @synthesize imagePopover;
 @synthesize imageController;
 @synthesize currentImageGroup;
+@synthesize fileIdJustImported;
 @end
 
 @implementation SessionView

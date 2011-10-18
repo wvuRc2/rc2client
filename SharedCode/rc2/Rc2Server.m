@@ -25,6 +25,7 @@
 @interface Rc2Server()
 @property (nonatomic, assign, readwrite) BOOL loggedIn;
 @property (nonatomic, copy, readwrite) NSString *currentLogin;
+@property (nonatomic, retain) NSNumber *currentUserId;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
 @property (nonatomic, retain) RC2RemoteLogger *remoteLogger;
 -(void)updateWorkspaceItems:(NSArray*)items;
@@ -38,6 +39,7 @@
 @synthesize currentSession=_currentSession;
 @synthesize currentLogin;
 @synthesize remoteLogger;
+@synthesize currentUserId;
 
 +(Rc2Server*)sharedInstance
 {
@@ -185,9 +187,9 @@
 	self.workspaceItems = rootObjects;
 }
 
--(NSArray*)processFileListResponse:(NSDictionary*)rsp
+-(NSArray*)processFileListResponse:(NSArray*)inEntries
 {
-	NSMutableArray *entries = [NSMutableArray arrayWithArray:[rsp objectForKey:@"entries"]];
+	NSMutableArray *entries = [NSMutableArray arrayWithArray:inEntries];
 	//now we need to add any local files that haven't been sent to the server
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	NSSet *newFiles = [moc fetchObjectsForEntityName:@"RCFile" withPredicate:@"fileId == 0 and wspaceId == %@",
@@ -253,7 +255,7 @@
 			return;
 		}
 		NSDictionary *rsp = [respStr JSONValue];
-		NSArray *entries = [self processFileListResponse:rsp];
+		NSArray *entries = [self processFileListResponse:[rsp objectForKey:@"entries"]];
 		hblock(![[rsp objectForKey:@"status"] boolValue], entries);
 	}];
 	[req setFailedBlock:^{
@@ -325,6 +327,28 @@
 	[req startAsynchronous];
 }
 
+-(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/new", self.baseUrl]];
+	ASIFormDataRequest *req = [ASIFormDataRequest requestWithURL:url];
+	req.userAgent = kUserAgent;
+	[req setPostValue:[fileUrl lastPathComponent] forKey:@"name"];
+	[req setPostValue:self.currentUserId forKey:@"userid"];
+	[req setPostValue:[NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:nil] forKey:@"content"];
+	[req setCompletionBlock:^{
+		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+		NSDictionary *dict = [respStr JSONValue];
+		NSDictionary *fdata = [dict objectForKey:@"file"];
+		RCFile *rcfile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+		[rcfile updateWithDictionary:fdata];
+		hblock(YES, rcfile);
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, @"unknown error");
+	}];
+	[req startAsynchronous];
+}
+
 -(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock
 {
 	[self prepareWorkspace:self.selectedWorkspace completionHandler:hblock];
@@ -366,6 +390,7 @@
 		//success
 		self.loggedIn=YES;
 		self.currentLogin=user;
+		self.currentUserId = [rsp objectForKey:@"userid"];
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)

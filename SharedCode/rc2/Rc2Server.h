@@ -58,6 +58,8 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 -(void)addWorkspace:(NSString*)name parent:(RCWorkspaceFolder*)parent folder:(BOOL)isFolder
 	completionHandler:(Rc2FetchCompletionHandler)hblock;
 
+-(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
+
 -(void)saveFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)deleteFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
 

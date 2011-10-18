@@ -24,6 +24,7 @@
 -(IBAction)toggleFileList:(id)sender;
 -(IBAction)makeBusy:(id)sender;
 -(IBAction)executeScript:(id)sender;
+-(IBAction)importFile:(id)sender;
 -(void)saveChanges;
 @end
 
