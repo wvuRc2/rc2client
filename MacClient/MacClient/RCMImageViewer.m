@@ -7,7 +7,9 @@
 //
 
 #import "RCMImageViewer.h"
+#import "RCMImagePrintView.h"
 #import "RCImage.h"
+#import "RCWorkspace.h"
 
 @interface RCMImageViewer()
 @property (strong) id observerToken;
@@ -84,16 +86,9 @@
 	}
 }
 
--(BOOL)recognizeTwoFingerGestures
-{
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:@"AppleEnableSwipeNavigateWithScrolls"];
-}
-
 - (void)beginGestureWithEvent:(NSEvent *)event
 {
-//	if (![self recognizeTwoFingerGestures])
-//		return;
+	//TODO: technically, we need to figure out if swipe navigation is enabled in system prefs
 	
 	NSSet *touches = [event touchesMatchingPhase:NSTouchPhaseAny inView:nil];
 	
@@ -155,10 +150,19 @@
 	}
 }
 
+-(BOOL)shouldHandlePrintCommand:(id)sender
+{
+	RCMImagePrintView *printView = [[RCMImagePrintView alloc] initWithImages:self.imageArray];
+	NSPrintOperation *printOp = [NSPrintOperation printOperationWithView:printView];
+	printOp.jobTitle = self.workspace.name;
+	[printOp runOperation];
+	return NO;
+}
 
 @synthesize imageView;
 @synthesize imageArray;
 @synthesize imageArrayController;
 @synthesize displayedImageName;
 @synthesize observerToken;
+@synthesize workspace;
 @end

@@ -32,6 +32,7 @@
 		08ADF5BE144BA2ED00F787E6 /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */; };
 		08C6306F144CB00C008815E8 /* RCMImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C6306D144CB00C008815E8 /* RCMImageViewer.m */; };
 		08C63070144CB00C008815E8 /* RCMImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08C6306E144CB00C008815E8 /* RCMImageViewer.xib */; };
+		08C63096144E13C6008815E8 /* RCMImagePrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C63095144E13C6008815E8 /* RCMImagePrintView.m */; };
 		08EE40EB1433AC2D004FDBB8 /* RC2RemoteLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */; };
 		08EE413214364CAF004FDBB8 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE412014364CAF004FDBB8 /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE413314364CAF004FDBB8 /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE412214364CAF004FDBB8 /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -133,6 +134,8 @@
 		08C6306C144CB00C008815E8 /* RCMImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMImageViewer.h; sourceTree = "<group>"; };
 		08C6306D144CB00C008815E8 /* RCMImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMImageViewer.m; sourceTree = "<group>"; };
 		08C6306E144CB00C008815E8 /* RCMImageViewer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMImageViewer.xib; sourceTree = "<group>"; };
+		08C63094144E13C6008815E8 /* RCMImagePrintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMImagePrintView.h; sourceTree = "<group>"; };
+		08C63095144E13C6008815E8 /* RCMImagePrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMImagePrintView.m; sourceTree = "<group>"; };
 		08EE40E91433AC2C004FDBB8 /* RC2RemoteLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RC2RemoteLogger.h; path = ../../SharedCode/rc2/RC2RemoteLogger.h; sourceTree = "<group>"; };
 		08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RC2RemoteLogger.m; path = ../../SharedCode/rc2/RC2RemoteLogger.m; sourceTree = "<group>"; };
 		08EE411F14364CAF004FDBB8 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
@@ -292,6 +295,8 @@
 				08056E5B1448EC410002766D /* RCMacToolbarItem.m */,
 				08ADF5AE144B918B00F787E6 /* RCMTextView.h */,
 				08ADF5AF144B918B00F787E6 /* RCMTextView.m */,
+				08C63094144E13C6008815E8 /* RCMImagePrintView.h */,
+				08C63095144E13C6008815E8 /* RCMImagePrintView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -657,6 +662,7 @@
 				08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */,
 				08ADF5BE144BA2ED00F787E6 /* RCMAppConstants.m in Sources */,
 				08C6306F144CB00C008815E8 /* RCMImageViewer.m in Sources */,
+				08C63096144E13C6008815E8 /* RCMImagePrintView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

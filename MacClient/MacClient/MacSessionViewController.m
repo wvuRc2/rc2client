@@ -342,6 +342,29 @@
 	[self.outputController.webView stringByEvaluatingJavaScriptFromString:cmd];	
 }
 
+-(void)displayImage:(NSString*)imgPath
+{
+	if (nil == self.imageController)
+		self.imageController = [[RCMImageViewer alloc] init];
+	if (nil == self.imagePopover) {
+		self.imagePopover = [[NSPopover alloc] init];
+		self.imagePopover.behavior = NSPopoverBehaviorSemitransient;
+	}
+	self.imagePopover.contentViewController = self.imageController;
+	self.imageController.imageArray = self.currentImageGroup;
+	self.imageController.workspace = self.session.workspace;
+	NSRect r = NSMakeRect(__curImgPoint.x+16, self.outputController.webView.frame.size.height - __curImgPoint.y - 16, 1, 1);
+	[self.imagePopover showRelativeToRect:r ofView:self.outputController.webView preferredEdge:NSMaxXEdge];
+	[self.imageController displayImage:[imgPath lastPathComponent]];
+}
+
+#pragma mark - web output delegate
+
+-(void)executeConsoleCommand:(NSString*)command
+{
+	[self.session executeScript:command];
+}
+
 -(void)previewImages:(NSArray*)imageUrls atPoint:(NSPoint)pt
 {
 	if (nil == imageUrls) {
@@ -364,21 +387,6 @@
 {
 	//for now. we may want to handle multiple images at once
 	[self displayImage:[url path]];
-}
-
--(void)displayImage:(NSString*)imgPath
-{
-	if (nil == self.imageController)
-		self.imageController = [[RCMImageViewer alloc] init];
-	if (nil == self.imagePopover) {
-		self.imagePopover = [[NSPopover alloc] init];
-		self.imagePopover.behavior = NSPopoverBehaviorSemitransient;
-	}
-	self.imagePopover.contentViewController = self.imageController;
-	self.imageController.imageArray = self.currentImageGroup;
-	NSRect r = NSMakeRect(__curImgPoint.x+16, self.outputController.webView.frame.size.height - __curImgPoint.y - 16, 1, 1);
-	[self.imagePopover showRelativeToRect:r ofView:self.outputController.webView preferredEdge:NSMaxXEdge];
-	[self.imageController displayImage:[imgPath lastPathComponent]];
 }
 
 #pragma mark - text view delegate

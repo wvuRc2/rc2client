@@ -8,9 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class RCWorkspace;
+
 @interface RCMImageViewer : AMViewController
 @property (nonatomic, strong) IBOutlet NSImageView *imageView;
 @property (nonatomic, strong) NSArray *imageArray;
+@property (nonatomic, strong) RCWorkspace *workspace;
 @property (nonatomic, strong) IBOutlet NSArrayController *imageArrayController;
 @property (nonatomic, copy) NSString *displayedImageName;
 -(void)displayImage:(NSString*)path;

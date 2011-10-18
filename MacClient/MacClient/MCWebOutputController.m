@@ -16,7 +16,7 @@
 @end
 
 @implementation MCWebOutputController
-
+@synthesize inputText=__inputText;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -66,6 +66,29 @@
 -(void)closePreview:(DOMElement*)anchorElem
 {
 	[self.delegate previewImages:nil atPoint:NSZeroPoint];
+}
+
+-(IBAction)doExecuteQuery:(id)sender
+{
+	[self.delegate executeConsoleCommand:self.inputText];
+}
+
+#pragma mark - text field
+
+-(BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)command
+{
+	if (command == @selector(moveToBeginningOfDocument:)) {
+		return YES;
+	} else if (command == @selector(moveToEndOfDocument:)) {
+		return YES;
+	}
+	return NO;
+}
+
+-(void)controlTextDidChange:(NSNotification *)obj
+{
+	id fieldEditor = [[obj userInfo] objectForKey:@"NSFieldEditor"];
+	self.canExecute = [[fieldEditor string] length] > 0;
 }
 
 #pragma mark - webscripting support
@@ -142,8 +165,17 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	[listener ignore];
 }
 
+#pragma mark - synthesizers
+
+-(void)setInputText:(NSString *)inputText
+{
+	__inputText = inputText;
+	self.canExecute = [inputText length] > 0;
+}
 
 @synthesize webView;
 @synthesize delegate;
 @synthesize imagePopover;
+@synthesize consoleField;
+@synthesize canExecute;
 @end

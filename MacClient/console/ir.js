@@ -134,8 +134,10 @@ iR.userLeftSession = function(login, userid) {
 
 iR.echoInput = function(txt, username, userid) {
 	var html = '\n<span class="inputText">';
-//	if (userid != iR.userid)
-		html += '<span class="inputUser">' + username + ':</span> '
+	if (username) {
+		if (userid != iR.userid)
+			html += '<span class="inputUser">' + username + ':</span> '
+	}
 	html += txt + "</span>\n"
 	iR.appendConsoleText(html)
 }
