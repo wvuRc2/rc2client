@@ -14,6 +14,7 @@
 #import "RCWorkspace.h"
 #import "RCFile.h"
 #import "RCImage.h"
+#import "RCSavedSession.h"
 #import "RCMTextView.h"
 #import "RCMAppConstants.h"
 #import <Vyana/AMWindow.h>
@@ -124,6 +125,8 @@
 	NSToolbar *tbar = [NSApp valueForKeyPath:@"delegate.mainWindowController.window.toolbar"];
 	RCMacToolbarItem *ti = [tbar.items firstObjectWithValue:@"add" forKey:@"itemIdentifier"];
 	if (newSuperview) {
+		RCSavedSession *savedState = self.session.savedSessionState;
+		[self restoreSessionState:savedState];
 		[ti pushActionMenu:self.addMenu];
 	} else {
 		[ti popActionMenu:self.addMenu];
@@ -203,6 +206,26 @@
 
 #pragma mark - meat & potatos
 
+-(void)saveSessionState
+{
+	RCSavedSession *savedState = self.session.savedSessionState;
+	savedState.consoleHtml = [self.outputController.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];
+	savedState.currentFile = self.selectedFile;
+	if (nil == savedState.currentFile)
+		savedState.inputText = self.editView.string;
+}
+
+-(void)restoreSessionState:(RCSavedSession*)savedState
+{
+	[self.outputController restoreSessionState:savedState];
+	if (savedState.currentFile) {
+		self.selectedFile = savedState.currentFile;
+	} else if ([savedState.inputText length] > 0) {
+		self.editView.string = savedState.inputText;
+	}
+	[self cacheImagesReferencedInHTML:savedState.consoleHtml];
+}
+
 -(void)handleFileImport:(NSURL*)fileUrl
 {
 	[[Rc2Server sharedInstance] importFile:fileUrl workspace:self.session.workspace completionHandler:^(BOOL success, RCFile *file)
@@ -220,6 +243,7 @@
 
 -(void)saveChanges
 {
+	[self saveSessionState];
 	self.selectedFile=nil;
 }
 

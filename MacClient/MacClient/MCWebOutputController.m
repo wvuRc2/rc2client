@@ -7,6 +7,7 @@
 //
 
 #import "MCWebOutputController.h"
+#import "RCSavedSession.h"
 
 @interface MCWebOutputController() {
 	BOOL __didInit;
@@ -41,6 +42,19 @@
 	if (pageUrl) {
 		[[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:pageUrl]];
 	}
+}
+
+-(void)restoreSessionState:(RCSavedSession*)savedState
+{
+	NSURL *url = [[NSBundle mainBundle] URLForResource:@"console" withExtension:@"html" subdirectory:@"console"];
+	if ([savedState.consoleHtml length] > 0) {
+		NSString *content = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+		content = [content stringByReplacingOccurrencesOfString:@"<!--content-->" withString:savedState.consoleHtml];
+		[[self.webView mainFrame] loadHTMLString:content baseURL:[url URLByDeletingLastPathComponent]];
+	} else {
+		[[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:url]];
+	}
+	
 }
 
 -(void)previewImage:(DOMElement*)imgGroupElem images:(WebScriptObject*)images

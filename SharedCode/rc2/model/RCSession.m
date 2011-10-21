@@ -11,10 +11,7 @@
 #import "Rc2Server.h"
 #import "NSString+SBJSON.h"
 #import "NSObject+SBJSON.h"
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-#else
 #import "RCSavedSession.h"
-#endif
 
 @interface RCSession() {
 	NSMutableDictionary *_settings;
@@ -118,9 +115,6 @@
 
 -(id)savedSessionState
 {
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-	return nil;
-#else
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:self.workspace];
 	if (nil == savedState) {
@@ -129,7 +123,6 @@
 		savedState.wspaceId = self.workspace.wspaceId;
 	}
 	return savedState;
-#endif
 }
 
 #pragma mark - websocket delegate

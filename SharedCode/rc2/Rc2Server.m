@@ -136,15 +136,11 @@
 
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace
 {
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-	return nil;
-#else
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	NSArray *allSaved = [moc fetchObjectsArrayForEntityName:@"RCSavedSession" 
 											  withPredicate:@"wspaceId = %@ and login like %@",
 												 workspace.wspaceId, self.currentLogin];
 	return [allSaved firstObject];
-#endif
 }
 
 -(void)selecteWorkspaceWithId:(NSNumber*)wspaceId

@@ -756,4 +756,7 @@ iR.hideMenuIfDisplayed = function(linkRef) {
 }
 
 iR.doSetup = function() {
+	//restore handlers for any image groups
+	$(".imgGroup").mouseenter(function() {iR.previewImage(this); })
+	$(".imgGroup").mouseleave(function() {iR.closeImagePreview(this); })
 }

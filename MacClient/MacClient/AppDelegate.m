@@ -185,6 +185,7 @@
 
 -(void)closeSessionViewController:(MacSessionViewController*)svc
 {
+//	[svc saveSessionState];
 	RCSession *session = svc.session;
 	[session closeWebSocket];
 //	[self.sessionControllers removeObject:svc];
@@ -409,6 +410,7 @@
 {
 	for (NSWindowController *wc in self.windowControllers)
 		[wc close];
+	[self.mainWindowController close];
 	
 	// Save changes in the application's managed object context before the application terminates.
 	if (!__haveMoc) {

@@ -57,6 +57,16 @@
 	addItem.actionMenu = self.addToolbarMenu;
 }
 
+-(void)windowWillClose:(NSNotification *)note
+{
+	[self.window makeFirstResponder:nil];
+	if (self.currentSessionController) {
+		[self.currentSessionController saveChanges];
+		AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
+		[appDel closeSessionViewController:self.currentSessionController];
+	}
+}
+
 #pragma mark - standard shit
 
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item

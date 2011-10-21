@@ -68,13 +68,13 @@
 			<object class="NSWindowTemplate" id="1005">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 240}, {900, 600}}</string>
+				<string key="NSWindowRect">{{196, 240}, {1000, 600}}</string>
 				<int key="NSWTFlags">544735232</int>
 				<string key="NSWindowTitle">Rc²: R collaboration in the cloud</string>
 				<string key="NSWindowClass">AMWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
-				<string key="NSWindowContentMinSize">{900, 569}</string>
+				<string key="NSWindowContentMinSize">{1000, 569}</string>
 				<object class="NSView" key="NSWindowView" id="1006">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -95,7 +95,7 @@
 						<object class="NSTextField" id="389302438">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">290</int>
-							<string key="NSFrame">{{27, 1}, {937, 17}}</string>
+							<string key="NSFrame">{{27, 1}, {1037, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
@@ -136,7 +136,7 @@
 						<object class="NSCustomView" id="942362824">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">274</int>
-							<string key="NSFrame">{{0, 24}, {900, 576}}</string>
+							<string key="NSFrame">{{0, 24}, {1000, 576}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="418191732"/>
@@ -145,7 +145,7 @@
 							<string key="NSClassName">AMControlledView</string>
 						</object>
 					</array>
-					<string key="NSFrameSize">{900, 600}</string>
+					<string key="NSFrameSize">{1000, 600}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="942362824"/>
@@ -153,7 +153,7 @@
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1600, 878}}</string>
-				<string key="NSMinSize">{900, 591}</string>
+				<string key="NSMinSize">{1000, 591}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSAutorecalculatesContentBorderThicknessMinY">NO</bool>
 				<double key="NSContentBorderThicknessMinY">24</double>

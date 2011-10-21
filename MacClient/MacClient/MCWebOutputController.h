@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class RCSavedSession;
+
 @protocol MCWebOutputDelegate <NSObject>
 -(void)handleImageRequest:(NSURL*)url;
 -(void)previewImages:(NSArray*)imageUrls atPoint:(NSPoint)pt;
@@ -22,4 +24,6 @@
 @property (nonatomic) BOOL canExecute;
 
 -(IBAction)doExecuteQuery:(id)sender;
+
+-(void)restoreSessionState:(RCSavedSession*)savedState;
 @end

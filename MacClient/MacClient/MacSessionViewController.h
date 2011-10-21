@@ -26,6 +26,10 @@
 -(IBAction)executeScript:(id)sender;
 -(IBAction)importFile:(id)sender;
 -(void)saveChanges;
+
+-(void)saveSessionState;
+-(void)restoreSessionState:(RCSavedSession*)savedState;
+
 @end
 
 @interface SessionView : AMControlledView
