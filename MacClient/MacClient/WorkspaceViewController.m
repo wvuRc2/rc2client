@@ -12,7 +12,7 @@
 
 @interface WorkspaceViewController()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
-@property (nonatomic, strong) NSArray *sections;
+@property (nonatomic, copy) NSArray *sections;
 @end
 
 @implementation WorkspaceViewController
@@ -28,10 +28,19 @@
 	   {
 			[blockSelf.filesTableView reloadData];
 	   }]];
-		self.sections = ARRAY([NSMutableDictionary dictionaryWithObjectsAndKeys:@"Files", @"name", 
-							   [NSNumber numberWithBool:NO], @"expanded", nil],
-							  [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Sharing", @"name",
-							   [NSNumber numberWithBool:NO], @"expanded", nil]);
+		[self.kvoTokens addObject:[self.workspace addObserverForKeyPath:@"shares" task:^(id obj, NSDictionary *change)
+		{
+			[blockSelf.filesTableView reloadData];
+		}]];
+		[self.workspace refreshShares];
+		NSMutableArray *secs = [NSMutableArray array];
+		[secs addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"Files", @"name", 
+							   [NSNumber numberWithBool:NO], @"expanded", 
+							   @"files", @"childAttr", nil]];
+		if (!aWorkspace.sharedByOther)
+			[secs addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"Sharing", @"name",
+							   [NSNumber numberWithBool:NO], @"expanded", @"shares", @"childAttr", nil]];
+		self.sections = secs;
 	}
 	return self;
 }
@@ -73,6 +82,7 @@
 	view.parentTableView = tableView;
 	view.objectValue = [self.sections objectAtIndex:row];
 	view.expanded = [[view.objectValue valueForKey:@"expanded"] boolValue];
+	view.workspace = self.workspace;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[tableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:row]];
 	});
@@ -83,7 +93,6 @@
 {
 	NSDictionary *d = [self.sections objectAtIndex:row];
 	CGFloat h = [[d objectForKey:@"expanded"] boolValue] ? 140 : 29;
-	NSLog(@"returning %1f for row %ld", h, row);
 	return h;
 }
 

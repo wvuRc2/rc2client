@@ -10,10 +10,14 @@
 #import "RCWorkspaceItem.h"
 
 @class RCFile;
+@class RCWorkspaceShare;
 
 @interface RCWorkspace : RCWorkspaceItem
 @property (nonatomic, copy, readonly) NSArray *files;
+@property (nonatomic, strong) NSMutableArray *shares;
+@property (nonatomic, readonly) BOOL sharedByOther;
 -(void)refreshFiles;
+-(void)refreshShares;
 
 -(void)addFile:(RCFile*)aFile;
 -(RCFile*)fileWithId:(NSNumber*)fileId;

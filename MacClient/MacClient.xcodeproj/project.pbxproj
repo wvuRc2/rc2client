@@ -38,6 +38,7 @@
 		08A4063D1453272D00DBA662 /* baccord-center.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A4063A1453272D00DBA662 /* baccord-center.png */; };
 		08A4063E1453272D00DBA662 /* baccord-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A4063B1453272D00DBA662 /* baccord-left.png */; };
 		08A4063F1453272D00DBA662 /* baccord-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A4063C1453272D00DBA662 /* baccord-right.png */; };
+		08A4064214534C6500DBA662 /* RCWorkspaceShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4064114534C6500DBA662 /* RCWorkspaceShare.m */; };
 		08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5AF144B918B00F787E6 /* RCMTextView.m */; };
 		08ADF5BE144BA2ED00F787E6 /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */; };
 		08C6306F144CB00C008815E8 /* RCMImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C6306D144CB00C008815E8 /* RCMImageViewer.m */; };
@@ -149,6 +150,8 @@
 		08A4063A1453272D00DBA662 /* baccord-center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "baccord-center.png"; path = "resources/baccord-center.png"; sourceTree = SOURCE_ROOT; };
 		08A4063B1453272D00DBA662 /* baccord-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "baccord-left.png"; path = "resources/baccord-left.png"; sourceTree = SOURCE_ROOT; };
 		08A4063C1453272D00DBA662 /* baccord-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "baccord-right.png"; path = "resources/baccord-right.png"; sourceTree = SOURCE_ROOT; };
+		08A4064014534C6500DBA662 /* RCWorkspaceShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceShare.h; sourceTree = "<group>"; };
+		08A4064114534C6500DBA662 /* RCWorkspaceShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceShare.m; sourceTree = "<group>"; };
 		08ADF5AE144B918B00F787E6 /* RCMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMTextView.h; sourceTree = "<group>"; };
 		08ADF5AF144B918B00F787E6 /* RCMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMTextView.m; sourceTree = "<group>"; };
 		08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = MacClientNotes.rtf; path = MacClient/MacClientNotes.rtf; sourceTree = "<group>"; };
@@ -537,6 +540,8 @@
 				08FE8A33141575F500672474 /* RCWorkspaceFolder.m */,
 				08FE8A34141575F500672474 /* RCWorkspaceItem.h */,
 				08FE8A35141575F500672474 /* RCWorkspaceItem.m */,
+				08A4064014534C6500DBA662 /* RCWorkspaceShare.h */,
+				08A4064114534C6500DBA662 /* RCWorkspaceShare.m */,
 			);
 			name = model;
 			path = ../SharedCode/rc2/model;
@@ -709,6 +714,7 @@
 				08A406141451AEFE00DBA662 /* _RCSavedSession.m in Sources */,
 				08A406181451AF0900DBA662 /* RCSavedSession.m in Sources */,
 				08A40630145249A600DBA662 /* WorkspaceCellView.m in Sources */,
+				08A4064214534C6500DBA662 /* RCWorkspaceShare.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

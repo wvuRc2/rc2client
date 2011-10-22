@@ -7,11 +7,9 @@
 //
 
 #import "WorkspaceCellView.h"
+#import "RCWorkspace.h"
 
 @interface WorkspaceCellView()
-@property (nonatomic, strong) NSColor *topBorderColor;
-@property (nonatomic, strong) NSColor *topTopGradientColor;
-@property (nonatomic, strong) NSColor *topBottomGradientColor;
 @end
 
 @implementation WorkspaceCellView
@@ -21,27 +19,18 @@
 {
 	[self setWantsLayer:YES];
 	self.layer.cornerRadius = 6.0;
-	self.topBorderColor = [NSColor colorWithCalibratedRed:0.600 green:0.600 blue:0.600 alpha:1.000];
-	self.topTopGradientColor = [NSColor colorWithCalibratedRed:0.886 green:0.886 blue:0.886 alpha:1.000];
-	self.topBottomGradientColor = [NSColor colorWithCalibratedRed:0.784 green:0.784 blue:0.784 alpha:1.000];
 }
 
 -(void)drawRect:(NSRect)dirtyRect
 {
 	NSRect masterRect = NSInsetRect(dirtyRect, 4, 1);
-	NSRect borderRect = masterRect;
-	NSRect dr = borderRect;
+	NSRect dr = masterRect;
 	dr.origin.y = NSMaxY(dr) - 25;
 	dr.size.height = 25;
 	NSString *rightImgName = !self.expanded ? @"accord-rightExpanded" : @"accord-right";
 	NSDrawThreePartImage(dr, [NSImage imageNamed:@"accord-left"], [NSImage imageNamed:@"accord-center"], 
 						 [NSImage imageNamed:rightImgName], NO, NSCompositeSourceOver, 1.0, NO);
 	if (dirtyRect.size.height > 100) {
-		//draw the rest
-		dr = masterRect;
-		dr.size.height -= 25;
-		[[NSColor whiteColor] setFill];
-		NSRectFill(dr);
 		//draw the bottom
 		dr = masterRect;
 		dr.size.height = 25;
@@ -49,6 +38,51 @@
 							 [NSImage imageNamed:@"baccord-right"], NO, NSCompositeSourceOver, 1.0, NO);
 	}
 }
+
+#pragma mark - actions
+
+-(IBAction)addDetailItem:(id)sender
+{
+	
+}
+
+-(IBAction)removeDetailItem:(id)sender
+{
+	
+}
+
+#pragma mark - detail table
+
+-(NSArray*)contentArray
+{
+	return [self.workspace valueForKey:[self.objectValue objectForKey:@"childAttr"]];
+}
+
+-(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+	return [self.contentArray count];
+}
+
+-(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+	id obj = [self.contentArray objectAtIndex:row];
+	return [obj valueForKey:[tableColumn identifier]];
+}
+
+-(void)tableView:(NSTableView *)tableView setObjectValue:(id)object 
+  forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+	id obj = [self.contentArray objectAtIndex:row];
+	[obj setValue:object forKey:[tableColumn identifier]];
+}
+
+-(void)tableViewSelectionDidChange:(NSNotification *)note
+{
+	id oval = [self.contentArray objectAtIndexNoExceptions:[self.detailTableView selectedRow]];
+	self.detailItemSelected = oval != nil;
+}
+
+#pragma mark - accessors
 
 -(void)setParentTableView:(NSTableView *)parentTableView
 {
@@ -64,8 +98,7 @@
 	[self.parentTableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[self.parentTableView rowForView:self]]];
 }
 
-@synthesize topBorderColor;
-@synthesize topTopGradientColor;
-@synthesize topBottomGradientColor;
 @synthesize detailTableView;
+@synthesize detailItemSelected;
+@synthesize workspace;
 @end

@@ -12,6 +12,7 @@
 #import "NSString+SBJSON.h"
 #import "RCWorkspaceFolder.h"
 #import "RCWorkspace.h"
+#import "RCWorkspaceShare.h"
 #import "RCFile.h"
 #import "RC2RemoteLogger.h"
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
@@ -237,6 +238,37 @@
 }
 #endif
 
+-(void)updateWorkspace:(RCWorkspace*)wspace withShareArray:(NSArray*)rawShares
+{
+	//TODO: should this be merged instead of nuking all existing objects?
+	[wspace.shares removeAllObjects];
+	for (NSDictionary *dict in rawShares) {
+		RCWorkspaceShare *share = [[RCWorkspaceShare alloc] initWithDictionary:dict workspace:wspace];
+		[wspace.shares addObject:share];
+	}
+}
+
+-(void)fetchWorkspaceShares:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/share/%@", [self baseUrl],
+									   wspace.wspaceId]];
+	__block ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
+	req.userAgent = kUserAgent;
+	[req setCompletionBlock:^{
+		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
+			hblock(NO, @"server sent back invalid response");
+			return;
+		}
+		NSDictionary *rsp = [respStr JSONValue];
+		[self updateWorkspace:wspace withShareArray:[rsp objectForKey:@"shares"]];
+		hblock(![[rsp objectForKey:@"status"] boolValue], wspace.shares);
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+	}];
+	[req startAsynchronous];
+}
 
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {

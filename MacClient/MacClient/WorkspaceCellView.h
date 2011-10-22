@@ -8,8 +8,15 @@
 
 #import <AppKit/AppKit.h>
 
-@interface WorkspaceCellView : NSTableCellView
+@class RCWorkspace;
+
+@interface WorkspaceCellView : NSTableCellView<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, weak) NSTableView *parentTableView;
 @property (nonatomic, strong) IBOutlet NSTableView *detailTableView;
+@property (nonatomic, strong) RCWorkspace *workspace;
 @property (nonatomic) BOOL expanded;
+@property (nonatomic) BOOL detailItemSelected;
+
+-(IBAction)addDetailItem:(id)sender;
+-(IBAction)removeDetailItem:(id)sender;
 @end

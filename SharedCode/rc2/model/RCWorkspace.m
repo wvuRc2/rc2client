@@ -9,21 +9,29 @@
 #import "RCWorkspace.h"
 #import "Rc2Server.h"
 #import "RCFile.h"
+#import "RCWorkspaceShare.h"
 
 NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetchedNotification";
 
 @interface RCWorkspace()
 @property (nonatomic, copy, readwrite) NSArray *files;
+@property (nonatomic, readwrite) BOOL sharedByOther;
 @property (assign) BOOL fetchingFiles;
+@property (assign) BOOL fetchingShares;
 @end
 
 @implementation RCWorkspace
 @synthesize files=_files;
 @synthesize fetchingFiles;
+@synthesize fetchingShares;
+@synthesize shares;
+@synthesize sharedByOther;
 
 -(id)initWithDictionary:(NSDictionary*)dict
 {
 	if ((self = [super initWithDictionary:dict])) {
+		self.shares = [NSMutableArray array];
+		self.sharedByOther = [[dict objectForKey:@"shared"] boolValue];
 	}
 	return self;
 }
@@ -44,6 +52,16 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 			[[NSNotificationCenter defaultCenter] postNotificationName:RCWorkspaceFilesFetchedNotification object:self];
 		}
 		self.fetchingFiles=NO;
+	}];
+}
+
+-(void)refreshShares
+{
+	self.fetchingShares=YES;
+	[[Rc2Server sharedInstance] fetchWorkspaceShares:self completionHandler:^(BOOL success, id results) {
+		self.fetchingShares=NO;
+		[self willChangeValueForKey:@"shares"];
+		[self didChangeValueForKey:@"shares"];
 	}];
 }
 
