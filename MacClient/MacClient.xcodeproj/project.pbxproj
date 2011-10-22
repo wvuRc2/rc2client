@@ -30,6 +30,11 @@
 		088DF165143CDB1F00CF4844 /* MacSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */; };
 		08A406141451AEFE00DBA662 /* _RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A406131451AEFE00DBA662 /* _RCSavedSession.m */; };
 		08A406181451AF0900DBA662 /* RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A406171451AF0900DBA662 /* RCSavedSession.m */; };
+		08A40630145249A600DBA662 /* WorkspaceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4062F145249A600DBA662 /* WorkspaceCellView.m */; };
+		08A4063614525DC900DBA662 /* accord-center.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A4063214525DC900DBA662 /* accord-center.png */; };
+		08A4063714525DC900DBA662 /* accord-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A4063314525DC900DBA662 /* accord-left.png */; };
+		08A4063814525DC900DBA662 /* accord-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A4063414525DC900DBA662 /* accord-right.png */; };
+		08A4063914525DC900DBA662 /* accord-rightExpanded.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A4063514525DC900DBA662 /* accord-rightExpanded.png */; };
 		08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5AF144B918B00F787E6 /* RCMTextView.m */; };
 		08ADF5BE144BA2ED00F787E6 /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */; };
 		08C6306F144CB00C008815E8 /* RCMImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C6306D144CB00C008815E8 /* RCMImageViewer.m */; };
@@ -132,6 +137,12 @@
 		08A406131451AEFE00DBA662 /* _RCSavedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCSavedSession.m; sourceTree = "<group>"; };
 		08A406161451AF0900DBA662 /* RCSavedSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSavedSession.h; sourceTree = "<group>"; };
 		08A406171451AF0900DBA662 /* RCSavedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSavedSession.m; sourceTree = "<group>"; };
+		08A4062E145249A600DBA662 /* WorkspaceCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkspaceCellView.h; sourceTree = "<group>"; };
+		08A4062F145249A600DBA662 /* WorkspaceCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkspaceCellView.m; sourceTree = "<group>"; };
+		08A4063214525DC900DBA662 /* accord-center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accord-center.png"; path = "resources/accord-center.png"; sourceTree = SOURCE_ROOT; };
+		08A4063314525DC900DBA662 /* accord-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accord-left.png"; path = "resources/accord-left.png"; sourceTree = SOURCE_ROOT; };
+		08A4063414525DC900DBA662 /* accord-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accord-right.png"; path = "resources/accord-right.png"; sourceTree = SOURCE_ROOT; };
+		08A4063514525DC900DBA662 /* accord-rightExpanded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accord-rightExpanded.png"; path = "resources/accord-rightExpanded.png"; sourceTree = SOURCE_ROOT; };
 		08ADF5AE144B918B00F787E6 /* RCMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMTextView.h; sourceTree = "<group>"; };
 		08ADF5AF144B918B00F787E6 /* RCMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMTextView.m; sourceTree = "<group>"; };
 		08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = MacClientNotes.rtf; path = MacClient/MacClientNotes.rtf; sourceTree = "<group>"; };
@@ -303,6 +314,8 @@
 				08ADF5AF144B918B00F787E6 /* RCMTextView.m */,
 				08C63094144E13C6008815E8 /* RCMImagePrintView.h */,
 				08C63095144E13C6008815E8 /* RCMImagePrintView.m */,
+				08A4062E145249A600DBA662 /* WorkspaceCellView.h */,
+				08A4062F145249A600DBA662 /* WorkspaceCellView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -540,6 +553,10 @@
 				08056E211448BEBB0002766D /* RLogo.icns */,
 				08056DF51444D2E20002766D /* Rdoc.icns */,
 				08056DF31444D2970002766D /* RnW.icns */,
+				08A4063214525DC900DBA662 /* accord-center.png */,
+				08A4063314525DC900DBA662 /* accord-left.png */,
+				08A4063414525DC900DBA662 /* accord-right.png */,
+				08A4063514525DC900DBA662 /* accord-rightExpanded.png */,
 				08FE8A4C14159CA000672474 /* rc2.png */,
 				08FE8A4D14159CA000672474 /* rc2@2x.png */,
 			);
@@ -617,6 +634,10 @@
 				08056E221448BEBB0002766D /* RLogo.icns in Resources */,
 				08056E3A1448C6960002766D /* MacMainViewController.xib in Resources */,
 				08C63070144CB00C008815E8 /* RCMImageViewer.xib in Resources */,
+				08A4063614525DC900DBA662 /* accord-center.png in Resources */,
+				08A4063714525DC900DBA662 /* accord-left.png in Resources */,
+				08A4063814525DC900DBA662 /* accord-right.png in Resources */,
+				08A4063914525DC900DBA662 /* accord-rightExpanded.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,6 +696,7 @@
 				08C63096144E13C6008815E8 /* RCMImagePrintView.m in Sources */,
 				08A406141451AEFE00DBA662 /* _RCSavedSession.m in Sources */,
 				08A406181451AF0900DBA662 /* RCSavedSession.m in Sources */,
+				08A40630145249A600DBA662 /* WorkspaceCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,9 +8,11 @@
 
 #import "WorkspaceViewController.h"
 #import "RCWorkspace.h"
+#import "WorkspaceCellView.h"
 
 @interface WorkspaceViewController()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
+@property (nonatomic, strong) NSArray *sections;
 @end
 
 @implementation WorkspaceViewController
@@ -26,8 +28,17 @@
 	   {
 			[blockSelf.filesTableView reloadData];
 	   }]];
+		self.sections = ARRAY([NSMutableDictionary dictionaryWithObjectsAndKeys:@"Files", @"name", 
+							   [NSNumber numberWithBool:YES], @"expanded", nil],
+							  [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Sharing", @"name",
+							   [NSNumber numberWithBool:NO], @"expanded", nil]);
 	}
 	return self;
+}
+
+-(void)awakeFromNib
+{
+	[self.filesTableView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
 }
 
 #pragma mark - standard shit
@@ -52,16 +63,27 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	return [self.workspace.files count];
+	return [self.sections count];
 }
-
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+-(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	return [self.workspace.files objectAtIndex:row];
+	WorkspaceCellView *view = [tableView makeViewWithIdentifier:[tableColumn identifier] owner:nil];
+	view.tableView = tableView;
+	view.objectValue = [self.sections objectAtIndex:row];
+	view.expanded = ![[view.objectValue valueForKey:@"expanded"] boolValue];
+	return view;
 }
 
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
+{
+	NSDictionary *d = [self.sections objectAtIndex:row];
+	CGFloat h = [[d objectForKey:@"expanded"] boolValue] ? 120 : 29;
+	NSLog(@"returning %1f for row %ld", h, row);
+	return h;
+}
 
 @synthesize workspace;
 @synthesize filesTableView;
 @synthesize kvoTokens;
+@synthesize sections;
 @end
