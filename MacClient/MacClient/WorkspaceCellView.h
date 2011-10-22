@@ -9,6 +9,7 @@
 #import <AppKit/AppKit.h>
 
 @interface WorkspaceCellView : NSTableCellView
-@property (nonatomic, weak) NSTableView *tableView;
+@property (nonatomic, weak) NSTableView *parentTableView;
+@property (nonatomic, strong) IBOutlet NSTableView *detailTableView;
 @property (nonatomic) BOOL expanded;
 @end

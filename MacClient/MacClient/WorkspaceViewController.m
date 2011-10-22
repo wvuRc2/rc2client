@@ -29,7 +29,7 @@
 			[blockSelf.filesTableView reloadData];
 	   }]];
 		self.sections = ARRAY([NSMutableDictionary dictionaryWithObjectsAndKeys:@"Files", @"name", 
-							   [NSNumber numberWithBool:YES], @"expanded", nil],
+							   [NSNumber numberWithBool:NO], @"expanded", nil],
 							  [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Sharing", @"name",
 							   [NSNumber numberWithBool:NO], @"expanded", nil]);
 	}
@@ -39,6 +39,7 @@
 -(void)awakeFromNib
 {
 	[self.filesTableView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
+	[self.filesTableView reloadData];
 }
 
 #pragma mark - standard shit
@@ -67,17 +68,21 @@
 }
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	WorkspaceCellView *view = [tableView makeViewWithIdentifier:[tableColumn identifier] owner:nil];
-	view.tableView = tableView;
+	NSString *ident = row == 0 ? @"filecell" : @"sharecell";
+	WorkspaceCellView *view = [tableView makeViewWithIdentifier:ident owner:nil];
+	view.parentTableView = tableView;
 	view.objectValue = [self.sections objectAtIndex:row];
-	view.expanded = ![[view.objectValue valueForKey:@"expanded"] boolValue];
+	view.expanded = [[view.objectValue valueForKey:@"expanded"] boolValue];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[tableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:row]];
+	});
 	return view;
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
 	NSDictionary *d = [self.sections objectAtIndex:row];
-	CGFloat h = [[d objectForKey:@"expanded"] boolValue] ? 120 : 29;
+	CGFloat h = [[d objectForKey:@"expanded"] boolValue] ? 140 : 29;
 	NSLog(@"returning %1f for row %ld", h, row);
 	return h;
 }

@@ -16,7 +16,7 @@
 
 @implementation WorkspaceCellView
 @synthesize expanded=__expanded;
-
+@synthesize parentTableView=__parentTableView;
 -(void)awakeFromNib
 {
 	[self setWantsLayer:YES];
@@ -36,24 +36,36 @@
 	NSString *rightImgName = !self.expanded ? @"accord-rightExpanded" : @"accord-right";
 	NSDrawThreePartImage(dr, [NSImage imageNamed:@"accord-left"], [NSImage imageNamed:@"accord-center"], 
 						 [NSImage imageNamed:rightImgName], NO, NSCompositeSourceOver, 1.0, NO);
-	if (!self.expanded) {
+	if (dirtyRect.size.height > 100) {
 		//draw the rest
 		dr = masterRect;
 		dr.size.height -= 25;
 		[[NSColor whiteColor] setFill];
 		NSRectFill(dr);
+		//draw the bottom
+		dr = masterRect;
+		dr.size.height = 25;
+		NSDrawThreePartImage(dr, [NSImage imageNamed:@"baccord-left"], [NSImage imageNamed:@"baccord-center"], 
+							 [NSImage imageNamed:@"baccord-right"], NO, NSCompositeSourceOver, 1.0, NO);
 	}
+}
+
+-(void)setParentTableView:(NSTableView *)parentTableView
+{
+	__parentTableView = parentTableView;
+	[self.parentTableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[self.parentTableView rowForView:self]]];
 }
 
 -(void)setExpanded:(BOOL)expanded
 {
 	__expanded = expanded;
-	[self.tableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[self.tableView rowForView:self]]];
 	[self.objectValue setObject:[NSNumber numberWithBool:expanded] forKey:@"expanded"];
+	[self.detailTableView setHidden:!expanded];
+	[self.parentTableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[self.parentTableView rowForView:self]]];
 }
 
-@synthesize tableView;
 @synthesize topBorderColor;
 @synthesize topTopGradientColor;
 @synthesize topBottomGradientColor;
+@synthesize detailTableView;
 @end
