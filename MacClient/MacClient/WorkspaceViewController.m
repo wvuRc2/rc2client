@@ -13,6 +13,8 @@
 @interface WorkspaceViewController()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
 @property (nonatomic, copy) NSArray *sections;
+-(void)handleAddDetailItem:(WorkspaceCellView*)cellView;
+-(void)handleRemoveDetailItem:(WorkspaceCellView*)cellView;
 @end
 
 @implementation WorkspaceViewController
@@ -26,11 +28,11 @@
 		__unsafe_unretained WorkspaceViewController *blockSelf = self;
 		[self.kvoTokens addObject:[self.workspace addObserverForKeyPath:@"files" task:^(id obj, NSDictionary *change)
 	   {
-			[blockSelf.filesTableView reloadData];
+			[blockSelf.sectionsTableView reloadData];
 	   }]];
 		[self.kvoTokens addObject:[self.workspace addObserverForKeyPath:@"shares" task:^(id obj, NSDictionary *change)
 		{
-			[blockSelf.filesTableView reloadData];
+			[blockSelf.sectionsTableView reloadData];
 		}]];
 		[self.workspace refreshShares];
 		NSMutableArray *secs = [NSMutableArray array];
@@ -47,8 +49,8 @@
 
 -(void)awakeFromNib
 {
-	[self.filesTableView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
-	[self.filesTableView reloadData];
+	[self.sectionsTableView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
+	[self.sectionsTableView reloadData];
 }
 
 #pragma mark - standard shit
@@ -69,6 +71,24 @@
 
 }
 
+#pragma mark - meat & potatos
+
+-(void)handleAddDetailItem:(WorkspaceCellView*)cellView
+{
+	NSMutableDictionary *secDict = cellView.objectValue;
+	if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"shares"]) {
+		//handle adding a share
+	}
+}
+
+-(void)handleRemoveDetailItem:(WorkspaceCellView*)cellView
+{
+	NSMutableDictionary *secDict = cellView.objectValue;
+	if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"shares"]) {
+		//handle removing a share
+	}
+}
+
 #pragma mark - table view
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -83,6 +103,12 @@
 	view.objectValue = [self.sections objectAtIndex:row];
 	view.expanded = [[view.objectValue valueForKey:@"expanded"] boolValue];
 	view.workspace = self.workspace;
+	view.addDetailHander = ^(id cell) {
+		[self handleAddDetailItem:cell];
+	};
+	view.removeDetailHander = ^(id cell) {
+		[self handleRemoveDetailItem:cell];
+	};
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[tableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:row]];
 	});
@@ -92,12 +118,13 @@
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
 	NSDictionary *d = [self.sections objectAtIndex:row];
-	CGFloat h = [[d objectForKey:@"expanded"] boolValue] ? 140 : 29;
+	WorkspaceCellView *view = [tableView viewAtColumn:0 row:row makeIfNecessary:NO];
+	CGFloat h = [[d objectForKey:@"expanded"] boolValue] ? [view expandedHeight] : 27;
 	return h;
 }
 
 @synthesize workspace;
-@synthesize filesTableView;
+@synthesize sectionsTableView;
 @synthesize kvoTokens;
 @synthesize sections;
 @end

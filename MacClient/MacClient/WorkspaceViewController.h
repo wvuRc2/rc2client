@@ -13,7 +13,7 @@
 
 @interface WorkspaceViewController : MacClientAbstractViewController
 @property (nonatomic, strong) RCWorkspace *workspace;
-@property (nonatomic, strong) IBOutlet NSTableView *filesTableView;
+@property (nonatomic, strong) IBOutlet NSTableView *sectionsTableView;
 -(id)initWithWorkspace:(RCWorkspace*)aWorkspace;
 -(IBAction)doRefreshFileList:(id)sender;
 @end

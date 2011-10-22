@@ -15,10 +15,20 @@
 @implementation WorkspaceCellView
 @synthesize expanded=__expanded;
 @synthesize parentTableView=__parentTableView;
+
 -(void)awakeFromNib
 {
 	[self setWantsLayer:YES];
 	self.layer.cornerRadius = 6.0;
+}
+
+-(void)resizeSubviewsWithOldSize:(NSSize)oldSize
+{
+	[super resizeSubviewsWithOldSize:oldSize];
+	NSScrollView *sv = [self.detailTableView enclosingScrollView];
+	NSRect r = sv.frame;
+	r.size.height = self.frame.size.height - 48;
+	sv.frame = r;
 }
 
 -(void)drawRect:(NSRect)dirtyRect
@@ -43,17 +53,17 @@
 
 -(IBAction)addDetailItem:(id)sender
 {
-	
+	self.addDetailHander(self);
 }
 
 -(IBAction)removeDetailItem:(id)sender
 {
-	
+	self.removeDetailHander(self);
 }
 
 #pragma mark - detail table
 
--(NSArray*)contentArray
+-(NSMutableArray*)contentArray
 {
 	return [self.workspace valueForKey:[self.objectValue objectForKey:@"childAttr"]];
 }
@@ -84,6 +94,12 @@
 
 #pragma mark - accessors
 
+-(CGFloat)expandedHeight
+{
+	//figure out # of rows (min 3) and then add 48 for the surrounding chrome
+	return 48 + (19 * fmaxf(3,[self.contentArray count]+1));
+}
+
 -(void)setParentTableView:(NSTableView *)parentTableView
 {
 	__parentTableView = parentTableView;
@@ -101,4 +117,6 @@
 @synthesize detailTableView;
 @synthesize detailItemSelected;
 @synthesize workspace;
+@synthesize addDetailHander;
+@synthesize removeDetailHander;
 @end
