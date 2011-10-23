@@ -53,12 +53,12 @@
 
 -(IBAction)addDetailItem:(id)sender
 {
-	self.addDetailHander(self);
+	self.addDetailHander(self, sender);
 }
 
 -(IBAction)removeDetailItem:(id)sender
 {
-	self.removeDetailHander(self);
+	self.removeDetailHander(self, sender);
 }
 
 #pragma mark - detail table

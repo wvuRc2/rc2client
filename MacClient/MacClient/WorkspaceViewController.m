@@ -9,12 +9,15 @@
 #import "WorkspaceViewController.h"
 #import "RCWorkspace.h"
 #import "WorkspaceCellView.h"
+#import "RCMAddShareController.h"
 
 @interface WorkspaceViewController()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
 @property (nonatomic, copy) NSArray *sections;
--(void)handleAddDetailItem:(WorkspaceCellView*)cellView;
--(void)handleRemoveDetailItem:(WorkspaceCellView*)cellView;
+@property (nonatomic, strong) RCMAddShareController *addController;
+@property (nonatomic, strong) NSPopover *addPopover;
+-(void)handleAddDetailItem:(WorkspaceCellView*)cellView sender:(id)sender;
+-(void)handleRemoveDetailItem:(WorkspaceCellView*)cellView sender:(id)sender;
 @end
 
 @implementation WorkspaceViewController
@@ -73,15 +76,23 @@
 
 #pragma mark - meat & potatos
 
--(void)handleAddDetailItem:(WorkspaceCellView*)cellView
+-(void)handleAddDetailItem:(WorkspaceCellView*)cellView sender:(id)sender
 {
 	NSMutableDictionary *secDict = cellView.objectValue;
 	if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"shares"]) {
 		//handle adding a share
+		if (nil == self.addPopover) {
+			self.addController = [[RCMAddShareController alloc] init];
+			self.addController.workspace = self.workspace;
+			self.addPopover = [[NSPopover alloc] init];
+			self.addPopover.contentViewController = self.addController;
+			self.addPopover.behavior = NSPopoverBehaviorTransient;
+		}
+		[self.addPopover showRelativeToRect:[sender frame] ofView:sender preferredEdge:NSMinYEdge];
 	}
 }
 
--(void)handleRemoveDetailItem:(WorkspaceCellView*)cellView
+-(void)handleRemoveDetailItem:(WorkspaceCellView*)cellView sender:(id)sender
 {
 	NSMutableDictionary *secDict = cellView.objectValue;
 	if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"shares"]) {
@@ -103,11 +114,11 @@
 	view.objectValue = [self.sections objectAtIndex:row];
 	view.expanded = [[view.objectValue valueForKey:@"expanded"] boolValue];
 	view.workspace = self.workspace;
-	view.addDetailHander = ^(id cell) {
-		[self handleAddDetailItem:cell];
+	view.addDetailHander = ^(id cell, id sender) {
+		[self handleAddDetailItem:cell sender:sender];
 	};
-	view.removeDetailHander = ^(id cell) {
-		[self handleRemoveDetailItem:cell];
+	view.removeDetailHander = ^(id cell, id sender) {
+		[self handleRemoveDetailItem:cell sender:sender];
 	};
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[tableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:row]];
@@ -127,4 +138,6 @@
 @synthesize sectionsTableView;
 @synthesize kvoTokens;
 @synthesize sections;
+@synthesize addPopover;
+@synthesize addController;
 @end

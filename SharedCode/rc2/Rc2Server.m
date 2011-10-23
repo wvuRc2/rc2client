@@ -270,6 +270,15 @@
 	[req startAsynchronous];
 }
 
+-(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/share/search", [self baseUrl]]];
+	__block ASIFormDataRequest *req = [ASIFormDataRequest requestWithURL:url];
+	req.userAgent = kUserAgent;
+	[req setPostValue:sstring forKey:@"s"];
+	return req;
+}
+
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/ftree/%@", [self baseUrl],

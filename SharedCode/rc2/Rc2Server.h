@@ -14,6 +14,7 @@
 @class RCFile;
 @class RCSavedSession;
 @class RCMessage;
+@class ASIHTTPRequest;
 
 enum {
 	eRc2Host_Harner=0,
@@ -70,4 +71,5 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 -(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 -(void)fetchWorkspaceShares:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring;
 @end
