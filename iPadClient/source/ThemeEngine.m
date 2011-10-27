@@ -10,6 +10,7 @@
 #import "ASIHTTPRequest.h"
 #import "ASICacheDelegate.h"
 #import "Vyana-ios/CALayer+LayerDebugging.h"
+#import "Rc2Server.h"
 
 @interface Theme() {
 	@protected
@@ -119,11 +120,11 @@
 {
 	NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomThemeURL];
 	if (nil == url) {
-		self.customRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://loclhoast/index.html"]];
+		self.customRequest = [[Rc2Server sharedInstance] requestWithURL:[NSURL URLWithString:@"http://loclhoast/index.html"]];
 		[self setCurrentTheme:newTheme];
 		return;
 	}
-	self.customRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+	self.customRequest = [[Rc2Server sharedInstance] requestWithURL:[NSURL URLWithString:url]];
 	self.customRequest.cachePolicy = ASIDoNotReadFromCacheCachePolicy;
 	[self.customRequest setCompletionBlock:^{
 		[newTheme reloadTheme:self.customRequest.responseData];

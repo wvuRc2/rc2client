@@ -238,7 +238,7 @@
 		NSString *fname = [str lastPathComponent];
 		NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:fname];
 		NSURL *url = [NSURL URLWithString:str];
-		ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
+		ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithURL:url];
 		[req setDownloadDestinationPath: imgPath];
 		__block SessionViewController *blockSelf = self;
 		[req setCompletionBlock:^{

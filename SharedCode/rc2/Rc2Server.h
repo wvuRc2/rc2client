@@ -15,6 +15,7 @@
 @class RCSavedSession;
 @class RCMessage;
 @class ASIHTTPRequest;
+@class ASIFormDataRequest;
 
 enum {
 	eRc2Host_Harner=0,
@@ -36,6 +37,14 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 @property (nonatomic, copy, readonly) NSArray *workspaceItems;
 @property (nonatomic, retain) RCWorkspace *selectedWorkspace;
 @property (nonatomic, retain) RCSession *currentSession;
+
+//this method should be called on any request being sent to the rc2 server
+// it will set the user agent, appropriate security settings, and cookies
+-(void)commonRequestSetup:(ASIHTTPRequest*)request;
+
+//a convience method that calls commonRequestSetup
+-(ASIHTTPRequest*)requestWithURL:(NSURL*)url;
+-(ASIFormDataRequest*)postRequestWithURL:(NSURL*)url;
 
 -(void)loginAsUser:(NSString*)user password:(NSString*)password 
  completionHandler:(Rc2SessionCompletionHandler)hbock;
