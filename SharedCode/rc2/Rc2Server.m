@@ -23,6 +23,8 @@
 #define kServerHostKey @"ServerHostKey"
 #define kUserAgent @"Rc2 iPadClient"
 
+#pragma mark -
+
 @interface Rc2Server()
 @property (nonatomic, assign, readwrite) BOOL loggedIn;
 @property (nonatomic, copy, readwrite) NSString *currentLogin;
@@ -32,7 +34,12 @@
 -(void)updateWorkspaceItems:(NSArray*)items;
 @end
 
+#pragma mark -
+
 @implementation Rc2Server
+
+#pragma mark - synthesizers
+
 @synthesize serverHost=_serverHost;
 @synthesize loggedIn=_loggedIn;
 @synthesize workspaceItems=_workspaceItems;
@@ -41,6 +48,8 @@
 @synthesize currentLogin;
 @synthesize remoteLogger;
 @synthesize currentUserId;
+
+#pragma mark - init
 
 +(Rc2Server*)sharedInstance
 {
@@ -53,8 +62,6 @@
 	
 	return global;
 }
-
-#pragma mark - init
 
 -(id)init
 {
@@ -73,15 +80,7 @@
 	return self;
 }
 
--(void)logout
-{
-	self.selectedWorkspace=nil;
-	self.workspaceItems=nil;
-	self.loggedIn=NO;
-	self.currentLogin=nil;
-	self.remoteLogger.logHost=nil;
-	//FIXME: need to send a logout request to server
-}
+#pragma mark - basic functionality
 
 -(NSString*)userAgentString
 {
@@ -134,6 +133,8 @@
 	return req;
 }
 
+#pragma mark - workspaces
+
 -(void)addWorkspace:(NSString*)name parent:(RCWorkspaceFolder*)parent folder:(BOOL)isFolder
 	completionHandler:(Rc2FetchCompletionHandler)hblock
 {
@@ -159,6 +160,26 @@
 	
 }
 
+-(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/use/%@", [self baseUrl],
+									   wspace.wspaceId]];
+	__block ASIHTTPRequest *req = [self requestWithURL:url];
+	[req setCompletionBlock:^{
+		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
+			hblock(NO, @"server sent back invalid response");
+			return;
+		}
+		NSDictionary *rsp = [respStr JSONValue];
+		hblock(![[rsp objectForKey:@"status"] boolValue], rsp);
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+	}];
+	[req startAsynchronous];
+}
+
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace
 {
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
@@ -166,22 +187,6 @@
 											  withPredicate:@"wspaceId = %@ and login like %@",
 												 workspace.wspaceId, self.currentLogin];
 	return [allSaved firstObject];
-}
-
--(void)selecteWorkspaceWithId:(NSNumber*)wspaceId
-{
-	for (RCWorkspaceItem *item in self.workspaceItems) {
-		if ([item.wspaceId isEqualToNumber:wspaceId] && !item.isFolder) {
-			self.selectedWorkspace = (RCWorkspace*)item;
-			return;
-		} else if (item.isFolder) {
-			RCWorkspaceItem *ws = [(RCWorkspaceFolder*)item childWithId:wspaceId];
-			if (ws && !ws.isFolder) {
-				self.selectedWorkspace = (RCWorkspace*)ws;
-				return;
-			}
-		}
-	}
 }
 
 -(void)updateWorkspaceItems:(NSArray*)items
@@ -208,6 +213,31 @@
 	self.workspaceItems = rootObjects;
 }
 
+#pragma mark - workspaces (legacy iPad functionality)
+
+-(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock
+{
+	[self prepareWorkspace:self.selectedWorkspace completionHandler:hblock];
+}
+
+-(void)selecteWorkspaceWithId:(NSNumber*)wspaceId
+{
+	for (RCWorkspaceItem *item in self.workspaceItems) {
+		if ([item.wspaceId isEqualToNumber:wspaceId] && !item.isFolder) {
+			self.selectedWorkspace = (RCWorkspace*)item;
+			return;
+		} else if (item.isFolder) {
+			RCWorkspaceItem *ws = [(RCWorkspaceFolder*)item childWithId:wspaceId];
+			if (ws && !ws.isFolder) {
+				self.selectedWorkspace = (RCWorkspace*)ws;
+				return;
+			}
+		}
+	}
+}
+
+#pragma mark - files
+
 -(NSArray*)processFileListResponse:(NSArray*)inEntries
 {
 	NSMutableArray *entries = [NSMutableArray arrayWithArray:inEntries];
@@ -217,85 +247,6 @@
 					   self.selectedWorkspace.wspaceId];
 	[entries addObjectsFromArray:[newFiles allObjects]];
 	return entries;
-}
-
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-#else
--(void)markMessageRead:(RCMessage*)message
-{
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/message/%@/read", [self baseUrl], message.rcptmsgId]];
-	ASIHTTPRequest *req = [self rrequestWithURL:url];
-	req.requestMethod = @"PUT";
-	[req startAsynchronous];
-	message.dateRead = [NSDate date];
-}
-
--(void)markMessageDeleted:(RCMessage*)message
-{
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/message/%@", [self baseUrl], message.rcptmsgId]];
-	ASIHTTPRequest *req = [self requestWithURL:url];
-	req.requestMethod = @"DELETE";
-	[req startAsynchronous];
-}
-
--(void)syncMessages:(Rc2FetchCompletionHandler)hblock
-{
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/messages", [self baseUrl]]];
-	__block ASIHTTPRequest *req = [self requestWithURL:url];
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
-			hblock(NO, @"server sent back invalid response");
-			return;
-		}
-		NSDictionary *rsp = [respStr JSONValue];
-		[RCMessage syncFromJsonArray:[rsp objectForKey:@"messages"]];
-		hblock(![[rsp objectForKey:@"status"] boolValue], nil);
-	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
-}
-#endif
-
--(void)updateWorkspace:(RCWorkspace*)wspace withShareArray:(NSArray*)rawShares
-{
-	//TODO: should this be merged instead of nuking all existing objects?
-	[wspace.shares removeAllObjects];
-	for (NSDictionary *dict in rawShares) {
-		RCWorkspaceShare *share = [[RCWorkspaceShare alloc] initWithDictionary:dict workspace:wspace];
-		[wspace.shares addObject:share];
-	}
-}
-
--(void)fetchWorkspaceShares:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
-{
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/share/%@", [self baseUrl],
-									   wspace.wspaceId]];
-	__block ASIHTTPRequest *req = [self requestWithURL:url];
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
-			hblock(NO, @"server sent back invalid response");
-			return;
-		}
-		NSDictionary *rsp = [respStr JSONValue];
-		[self updateWorkspace:wspace withShareArray:[rsp objectForKey:@"shares"]];
-		hblock(![[rsp objectForKey:@"status"] boolValue], wspace.shares);
-	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
-}
-
--(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring
-{
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/share/search", [self baseUrl]]];
-	__block ASIFormDataRequest *req = [self postRequestWithURL:url];
-	[req setPostValue:sstring forKey:@"s"];
-	return req;
 }
 
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
@@ -400,14 +351,21 @@
 	[req startAsynchronous];
 }
 
--(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock
+#pragma mark - sharing
+
+-(void)updateWorkspace:(RCWorkspace*)wspace withShareArray:(NSArray*)rawShares
 {
-	[self prepareWorkspace:self.selectedWorkspace completionHandler:hblock];
+	//TODO: should this be merged instead of nuking all existing objects?
+	[wspace.shares removeAllObjects];
+	for (NSDictionary *dict in rawShares) {
+		RCWorkspaceShare *share = [[RCWorkspaceShare alloc] initWithDictionary:dict workspace:wspace];
+		[wspace.shares addObject:share];
+	}
 }
 
--(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
+-(void)fetchWorkspaceShares:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/use/%@", [self baseUrl],
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/share/%@", [self baseUrl],
 									   wspace.wspaceId]];
 	__block ASIHTTPRequest *req = [self requestWithURL:url];
 	[req setCompletionBlock:^{
@@ -417,13 +375,66 @@
 			return;
 		}
 		NSDictionary *rsp = [respStr JSONValue];
-		hblock(![[rsp objectForKey:@"status"] boolValue], rsp);
+		[self updateWorkspace:wspace withShareArray:[rsp objectForKey:@"shares"]];
+		hblock(![[rsp objectForKey:@"status"] boolValue], wspace.shares);
 	}];
 	[req setFailedBlock:^{
 		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
 	}];
 	[req startAsynchronous];
 }
+
+-(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/share/search", [self baseUrl]]];
+	__block ASIFormDataRequest *req = [self postRequestWithURL:url];
+	[req setPostValue:sstring forKey:@"s"];
+	return req;
+}
+
+#pragma mark - messages
+
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+#else
+-(void)markMessageRead:(RCMessage*)message
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/message/%@/read", [self baseUrl], message.rcptmsgId]];
+	ASIHTTPRequest *req = [self rrequestWithURL:url];
+	req.requestMethod = @"PUT";
+	[req startAsynchronous];
+	message.dateRead = [NSDate date];
+}
+
+-(void)markMessageDeleted:(RCMessage*)message
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/message/%@", [self baseUrl], message.rcptmsgId]];
+	ASIHTTPRequest *req = [self requestWithURL:url];
+	req.requestMethod = @"DELETE";
+	[req startAsynchronous];
+}
+
+-(void)syncMessages:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/messages", [self baseUrl]]];
+	__block ASIHTTPRequest *req = [self requestWithURL:url];
+	[req setCompletionBlock:^{
+		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
+			hblock(NO, @"server sent back invalid response");
+			return;
+		}
+		NSDictionary *rsp = [respStr JSONValue];
+		[RCMessage syncFromJsonArray:[rsp objectForKey:@"messages"]];
+		hblock(![[rsp objectForKey:@"status"] boolValue], nil);
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+	}];
+	[req startAsynchronous];
+}
+#endif
+
+#pragma mark - login/logout
 
 -(void)handleLoginResponse:(ASIHTTPRequest*)req forUser:(NSString*)user completionHandler:(Rc2SessionCompletionHandler)handler
 {
@@ -469,5 +480,16 @@
 	}];
 	[req startAsynchronous];
 }
+
+-(void)logout
+{
+	self.selectedWorkspace=nil;
+	self.workspaceItems=nil;
+	self.loggedIn=NO;
+	self.currentLogin=nil;
+	self.remoteLogger.logHost=nil;
+	//FIXME: need to send a logout request to server
+}
+
 
 @end
