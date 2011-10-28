@@ -99,7 +99,7 @@
 {
 	switch (self.serverHost) {
 		case eRc2Host_Local:
-			return @"http://localhost:8080/";
+			return @"https://localhost:8443/";
 		case eRc2Host_Barney:
 			return @"http://barney.stat.wvu.edu:8080/";
 		case eRc2Host_Harner:
