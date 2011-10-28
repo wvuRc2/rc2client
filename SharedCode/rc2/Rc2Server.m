@@ -28,6 +28,7 @@
 @interface Rc2Server()
 @property (nonatomic, assign, readwrite) BOOL loggedIn;
 @property (nonatomic, copy, readwrite) NSString *currentLogin;
+@property (nonatomic, readwrite) BOOL isAdmin;
 @property (nonatomic, retain) NSNumber *currentUserId;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
 @property (nonatomic, retain) RC2RemoteLogger *remoteLogger;
@@ -48,6 +49,7 @@
 @synthesize currentLogin;
 @synthesize remoteLogger;
 @synthesize currentUserId;
+@synthesize isAdmin;
 
 #pragma mark - init
 
@@ -115,6 +117,11 @@
 {
 	request.userAgent = self.userAgentString;
 	request.validatesSecureCertificate = NO;
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+	[request setFailedBlock:^{
+		[NSApp presentError:request.error];
+	}];
+#endif
 }
 
 //a convience method that calls commonRequestSetup
@@ -132,6 +139,19 @@
 	[self commonRequestSetup:req];
 	return req;
 }
+
+-(ASIHTTPRequest*)requestWithRelativeURL:(NSString*)urlString
+{
+	NSURL *url = [NSURL URLWithString:[self.baseUrl stringByAppendingString:urlString]];
+	return [self requestWithURL:url];
+}
+
+-(ASIFormDataRequest*)postRequestWithRelativeURL:(NSString*)urlString
+{
+	NSURL *url = [NSURL URLWithString:[self.baseUrl stringByAppendingString:urlString]];
+	return [self postRequestWithURL:url];
+}
+
 
 #pragma mark - workspaces
 
@@ -452,6 +472,7 @@
 		self.loggedIn=YES;
 		self.currentLogin=user;
 		self.currentUserId = [rsp objectForKey:@"userid"];
+		self.isAdmin = [[rsp objectForKey:@"isadmin"] boolValue];
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)

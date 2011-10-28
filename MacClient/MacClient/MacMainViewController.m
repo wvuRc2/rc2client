@@ -16,14 +16,19 @@
 #import "MacMainWindowController.h"
 #import "RCMacToolbarItem.h"
 
+#define kControllerClass @"controllerClass"
+
 @interface MacMainViewController() {
 	BOOL __didInit;
 	BOOL __setupAddMenu;
 }
+@property (strong )NSArray *rootItems;
 @property (strong) NSMutableDictionary *workspacesItem;
+@property (strong) NSMutableDictionary *adminItem;
 @property (strong) NSMutableArray *kvoObservers;
 @property (strong) NSMutableDictionary *wspaceControllers;
 -(void)openSession:(id)sender inNewWindow:(BOOL)inNewWindow;
+-(void)showSourceItem:(NSDictionary*)dict;
 @end
 
 @implementation MacMainViewController
@@ -33,6 +38,10 @@
 {
 	if (([super initWithNibName:@"MacMainViewController" bundle:nil])) {
 		self.workspacesItem = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"WORKSPACES", @"name", nil];
+		self.adminItem = [NSMutableDictionary dictionaryWithObject:@"ADMIN" forKey:@"name"];
+		NSArray *adminItems = ARRAY([NSMutableDictionary dictionaryWithObjectsAndKeys:@"Users", @"name",
+							   @"RCMUserAdminController", kControllerClass, nil]);
+		[self.adminItem setObject:adminItems forKey:@"children"];
 		self.wspaceControllers = [[NSMutableDictionary alloc] init];
 		self.kvoObservers = [NSMutableArray array];
 	}
@@ -42,6 +51,10 @@
 -(void)awakeFromNib
 {
 	if (!__didInit) {
+		if ([[Rc2Server sharedInstance] isAdmin])
+			self.rootItems = ARRAY(self.workspacesItem, self.adminItem);
+		else
+			self.rootItems = [NSArray arrayWithObject:self.workspacesItem];
 		__unsafe_unretained MacMainViewController *blockRef = self;
 		[self.kvoObservers addObject:[AMKeyValueObserver observerWithObject:[Rc2Server sharedInstance] keyPath:@"workspaceItems" withOptions:0 
 					observerBlock:^(id obj, NSString *keyPath, NSDictionary *change)
@@ -123,6 +136,19 @@
 		[selItem doRefreshFileList:sender];
 }
 
+#pragma mark - admin
+
+-(void)showSourceItem:(NSMutableDictionary*)dict
+{
+	MacClientAbstractViewController *controller = [dict objectForKey:@"controller"];
+	if (nil == controller) {
+		Class cl = NSClassFromString([dict objectForKey:kControllerClass]);
+		controller = [[cl alloc] init];
+		[dict setObject:controller forKey:@"controller"];
+	}
+	self.detailView = (AMControlledView*)controller.view;
+}
+
 #pragma mark - meat & potatos
 
 -(void)openSession:(id)sender inNewWindow:(BOOL)inNewWindow
@@ -150,6 +176,8 @@
 			[self.wspaceControllers setObject:rvc forKey:selWspace.wspaceId];
 		}
 		self.detailView = (AMControlledView*)rvc.view;
+	} else if ([selItem isKindOfClass:[NSDictionary class]] && [selItem objectForKey:kControllerClass]) {
+		[self showSourceItem:selItem];
 	} else {
 		self.detailView=nil;
 	}
@@ -158,9 +186,11 @@
 -(NSUInteger)sourceList:(PXSourceList *)sourceList numberOfChildrenOfItem:(id)item
 {
 	if (nil == item)
-		return 1;
+		return 2;
 	if (item == self.workspacesItem)
 		return [[Rc2Server sharedInstance].workspaceItems count];
+	if (item == self.adminItem)
+		return [[self.adminItem objectForKey:@"children"] count];
 	if ([item respondsToSelector:@selector(isFolder)] && [item isFolder])
 		return [[item children] count];
 	return 0;
@@ -169,10 +199,14 @@
 -(id)sourceList:(PXSourceList *)aSourceList child:(NSUInteger)index ofItem:(id)item
 {
 	if (nil == item) {
+		if (index == 1)
+			return self.adminItem;
 		return self.workspacesItem;
 	}
 	if (item == self.workspacesItem)
 		return [[Rc2Server sharedInstance].workspaceItems objectAtIndex:index];
+	if (item == self.adminItem)
+		return [[self.adminItem objectForKey:@"children"] objectAtIndex:index];
 	if ([item isKindOfClass:[RCWorkspaceFolder class]])
 		return [[item children] objectAtIndex:index];
 	return nil;
@@ -191,12 +225,12 @@
 {
 	if ([item isKindOfClass:[RCWorkspaceItem class]])
 		return [item isFolder];
-	return [item isKindOfClass:[NSDictionary class]];
+	return item == self.workspacesItem || item == self.adminItem;
 }
 
 -(BOOL)sourceList:(PXSourceList *)aSourceList isGroupAlwaysExpanded:(id)group
 {
-	if (group == self.workspacesItem)
+	if (group == self.workspacesItem || group == self.adminItem)
 		return YES;
 	return NO;
 }
@@ -254,7 +288,9 @@
 @synthesize kvoObservers;
 @synthesize wspaceControllers;
 @synthesize workspacesItem;
+@synthesize adminItem;
 @synthesize detailController;
 @synthesize detailContainer;
 @synthesize addMenu;
+@synthesize rootItems;
 @end

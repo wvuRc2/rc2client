@@ -45,7 +45,10 @@
 
 -(IBAction)addShareForUser:(id)sender
 {
-	
+	NSInteger row = [self.resultsTable rowForView:sender];
+	//first, remove from results
+	[self.resultsTable removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row] withAnimation:NSTableViewAnimationSlideUp|NSTableViewAnimationEffectFade];
+	[self.arrayController removeObjectAtArrangedObjectIndex:row];
 }
 
 -(IBAction)performSearch:(id)sender

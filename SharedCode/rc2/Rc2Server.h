@@ -34,6 +34,7 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 @property (nonatomic, assign) NSInteger serverHost;
 @property (nonatomic, assign, readonly) BOOL loggedIn;
 @property (nonatomic, copy, readonly) NSString *currentLogin;
+@property (nonatomic, readonly) BOOL isAdmin;
 @property (nonatomic, copy, readonly) NSArray *workspaceItems;
 @property (nonatomic, retain) RCWorkspace *selectedWorkspace;
 @property (nonatomic, retain) RCSession *currentSession;
@@ -45,6 +46,8 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 //a convience method that calls commonRequestSetup
 -(ASIHTTPRequest*)requestWithURL:(NSURL*)url;
 -(ASIFormDataRequest*)postRequestWithURL:(NSURL*)url;
+-(ASIHTTPRequest*)requestWithRelativeURL:(NSString*)urlString;
+-(ASIFormDataRequest*)postRequestWithRelativeURL:(NSString*)urlString;
 
 -(void)loginAsUser:(NSString*)user password:(NSString*)password 
  completionHandler:(Rc2SessionCompletionHandler)hbock;

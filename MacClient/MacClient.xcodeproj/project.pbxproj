@@ -28,6 +28,8 @@
 		08447F6B1415B54F00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */; };
 		088DF164143CDB1F00CF4844 /* MacSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088DF162143CDB1F00CF4844 /* MacSessionViewController.m */; };
 		088DF165143CDB1F00CF4844 /* MacSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */; };
+		089C0B2B145B101000DF9984 /* RCMUserAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 089C0B29145B101000DF9984 /* RCMUserAdminController.m */; };
+		089C0B2C145B101000DF9984 /* RCMUserAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 089C0B2A145B101000DF9984 /* RCMUserAdminController.xib */; };
 		08A406141451AEFE00DBA662 /* _RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A406131451AEFE00DBA662 /* _RCSavedSession.m */; };
 		08A406181451AF0900DBA662 /* RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A406171451AF0900DBA662 /* RCSavedSession.m */; };
 		08A40630145249A600DBA662 /* WorkspaceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4062F145249A600DBA662 /* WorkspaceCellView.m */; };
@@ -139,6 +141,9 @@
 		088DF161143CDB1E00CF4844 /* MacSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacSessionViewController.h; sourceTree = "<group>"; };
 		088DF162143CDB1F00CF4844 /* MacSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacSessionViewController.m; sourceTree = "<group>"; };
 		088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacSessionViewController.xib; sourceTree = "<group>"; };
+		089C0B28145B101000DF9984 /* RCMUserAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMUserAdminController.h; path = admin/RCMUserAdminController.h; sourceTree = "<group>"; };
+		089C0B29145B101000DF9984 /* RCMUserAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMUserAdminController.m; path = admin/RCMUserAdminController.m; sourceTree = "<group>"; };
+		089C0B2A145B101000DF9984 /* RCMUserAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RCMUserAdminController.xib; path = admin/RCMUserAdminController.xib; sourceTree = "<group>"; };
 		08A406121451AEFE00DBA662 /* _RCSavedSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCSavedSession.h; sourceTree = "<group>"; };
 		08A406131451AEFE00DBA662 /* _RCSavedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCSavedSession.m; sourceTree = "<group>"; };
 		08A406161451AF0900DBA662 /* RCSavedSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSavedSession.h; sourceTree = "<group>"; };
@@ -307,6 +312,9 @@
 				08A4064314538DC300DBA662 /* RCMAddShareController.h */,
 				08A4064414538DC300DBA662 /* RCMAddShareController.m */,
 				08A4064514538DC300DBA662 /* RCMAddShareController.xib */,
+				089C0B28145B101000DF9984 /* RCMUserAdminController.h */,
+				089C0B29145B101000DF9984 /* RCMUserAdminController.m */,
+				089C0B2A145B101000DF9984 /* RCMUserAdminController.xib */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -664,6 +672,7 @@
 				08A4063E1453272D00DBA662 /* baccord-left.png in Resources */,
 				08A4063F1453272D00DBA662 /* baccord-right.png in Resources */,
 				08A4064714538DC300DBA662 /* RCMAddShareController.xib in Resources */,
+				089C0B2C145B101000DF9984 /* RCMUserAdminController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -725,6 +734,7 @@
 				08A40630145249A600DBA662 /* WorkspaceCellView.m in Sources */,
 				08A4064214534C6500DBA662 /* RCWorkspaceShare.m in Sources */,
 				08A4064614538DC300DBA662 /* RCMAddShareController.m in Sources */,
+				089C0B2B145B101000DF9984 /* RCMUserAdminController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
