@@ -12,6 +12,7 @@
 @interface MCWebOutputController() {
 	BOOL __didInit;
 }
+@property (nonatomic) BOOL ignoreExecuteMessage;
 @property (nonatomic, strong) NSPopover *imagePopover;
 -(void)loadContent;
 @end
@@ -84,6 +85,17 @@
 
 -(IBAction)doExecuteQuery:(id)sender
 {
+	if (!self.ignoreExecuteMessage) {
+		[self.consoleField.window endEditing];
+		[self.delegate executeConsoleCommand:self.inputText];
+	}
+}
+
+-(IBAction)executeQueryViaButton:(id)sender
+{
+	self.ignoreExecuteMessage=YES;
+	[self.consoleField.window endEditing];
+	self.ignoreExecuteMessage=NO;
 	[self.delegate executeConsoleCommand:self.inputText];
 }
 
@@ -192,4 +204,5 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 @synthesize imagePopover;
 @synthesize consoleField;
 @synthesize canExecute;
+@synthesize ignoreExecuteMessage;
 @end

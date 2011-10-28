@@ -24,6 +24,7 @@
 @property (nonatomic) BOOL canExecute;
 
 -(IBAction)doExecuteQuery:(id)sender;
+-(IBAction)executeQueryViaButton:(id)sender;
 
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 @end
