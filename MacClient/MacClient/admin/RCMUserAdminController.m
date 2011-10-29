@@ -7,11 +7,16 @@
 //
 
 #import "RCMUserAdminController.h"
+#import "RCMEditUserController.h"
+#import "RCUser.h"
 #import "Rc2Server.h"
 #import "ASIFormDataRequest.h"
+#import <Vyana/AMBlockUtils.h>
+#import <Vyana/NSApplication+AMExtensions.h>
 
 @interface RCMUserAdminController()
 @property (nonatomic, copy) NSArray *users;
+@property (nonatomic, strong) RCMEditUserController *editController;
 @end
 
 @implementation RCMUserAdminController
@@ -45,7 +50,10 @@
 
 -(void)processSearchResults:(NSArray*)rsp
 {
-	self.users = rsp;
+	NSMutableArray *a = [NSMutableArray arrayWithCapacity:[rsp count]];
+	for (NSDictionary *dict in rsp)
+		[a addObject:[[RCUser alloc] initWithDictionary:dict]];
+	self.users = a;
 	[self.resultsTable reloadData];
 }
 
@@ -94,6 +102,24 @@
 	}
 }
 
+-(IBAction)dismissAddUser:(id)sender
+{
+	[NSApp endSheet:self.editController.window];
+}
+
+-(IBAction)addUser:(id)sender
+{
+	if (nil == self.editController) {
+		self.editController = [[RCMEditUserController alloc] init];
+		[self.editController window];
+	}
+	[NSApp beginSheet:self.editController.window modalForWindow:self.view.window 
+		completionHandler:^(NSInteger returnCode)
+	{
+		[self.editController.window orderOut:self];
+	}];
+}
+
 -(NSInteger)numberOfRowsInTableView:(NSTableView*)tableView
 {
 	return [self.users count];
@@ -101,7 +127,7 @@
 
 -(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	return [[self.users objectAtIndex:row] objectForKey:[tableColumn identifier]];
+	return [[self.users objectAtIndex:row] valueForKey:[tableColumn identifier]];
 }
 
 - (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
@@ -116,4 +142,5 @@
 @synthesize searchesNames;
 @synthesize searchesEmails;
 @synthesize searchesLogins;
+@synthesize editController;
 @end

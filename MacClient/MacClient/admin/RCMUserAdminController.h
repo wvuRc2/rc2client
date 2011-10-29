@@ -16,5 +16,7 @@
 @property (nonatomic) BOOL searchesEmails;
 
 -(IBAction)searchUsers:(id)sender;
+-(IBAction)addUser:(id)sender;
 -(IBAction)toggleSearchFilter:(id)sender;
+-(IBAction)dismissAddUser:(id)sender;
 @end
