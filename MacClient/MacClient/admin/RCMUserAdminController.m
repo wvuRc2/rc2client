@@ -113,6 +113,7 @@
 		self.editController = [[RCMEditUserController alloc] init];
 		[self.editController window];
 	}
+	self.editController.theUser = [[RCUser alloc] init];
 	[NSApp beginSheet:self.editController.window modalForWindow:self.view.window 
 		completionHandler:^(NSInteger returnCode)
 	{

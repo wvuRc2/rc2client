@@ -22,6 +22,13 @@
 @synthesize email=__email;
 @synthesize login=__login;
 
+-(id)init
+{
+	self = [super init];
+	self.origDict = [NSDictionary dictionary];
+	return self;
+}
+
 -(id)initWithDictionary:(NSDictionary*)dict
 {
 	self = [super init];
