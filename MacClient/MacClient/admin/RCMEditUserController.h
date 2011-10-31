@@ -17,6 +17,7 @@
 @property (nonatomic, copy) NSString *emailAddress;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *login;
+@property (nonatomic, assign) BOOL isValid;
 
 @property (nonatomic, strong) IBOutlet NSTextField *loginField;
 @property (nonatomic, strong) IBOutlet NSSecureTextField *pass1Field;

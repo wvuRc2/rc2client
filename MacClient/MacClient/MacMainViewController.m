@@ -39,7 +39,7 @@
 	if (([super initWithNibName:@"MacMainViewController" bundle:nil])) {
 		self.workspacesItem = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"WORKSPACES", @"name", nil];
 		self.adminItem = [NSMutableDictionary dictionaryWithObject:@"ADMIN" forKey:@"name"];
-		NSArray *adminItems = ARRAY([NSMutableDictionary dictionaryWithObjectsAndKeys:@"Users", @"name",
+		NSArray *adminItems = ARRAY([NSMutableDictionary dictionaryWithObjectsAndKeys:@"users", @"name",
 							   @"RCMUserAdminController", kControllerClass, nil]);
 		[self.adminItem setObject:adminItems forKey:@"children"];
 		self.wspaceControllers = [[NSMutableDictionary alloc] init];

@@ -102,6 +102,33 @@
 	}
 }
 
+-(void)completeAddUser:(RCUser*)user password:(NSString*)pass
+{
+	//send the new user command to the server
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"fd/admin/users/add"];
+	__block ASIFormDataRequest *request = req;
+	[req setPostValue:pass forKey:@"pass"];
+	[req setPostValue:user.email forKey:@"email"];
+	[req setPostValue:user.login forKey:@"login"];
+	[req setPostValue:user.name forKey:@"name"];
+	[req setCompletionBlock:^{
+		NSDictionary *rsp = [[NSString stringWithUTF8Data:[request responseData]] JSONValue];
+		if ([[rsp objectForKey:@"status"] intValue]) {
+			NSError *err = [NSError errorWithDomain:@"Rc2" code:1 userInfo:[NSDictionary dictionaryWithObject:[rsp objectForKey:@"error"] forKey:NSLocalizedDescriptionKey]];
+			[NSApp presentError:err];
+		} else {
+			//worked. add that user to our display
+			RCUser *newUser = [[RCUser alloc] initWithDictionary:[rsp objectForKey:@"user"]];
+			if (self.users)
+				self.users = [self.users arrayByAddingObject:newUser];
+			else
+				self.users = [NSArray arrayWithObject:newUser];
+			[self.resultsTable reloadData];
+		}
+	}];
+	[req startAsynchronous];
+}
+
 -(IBAction)dismissAddUser:(id)sender
 {
 	[NSApp endSheet:self.editController.window];
@@ -118,6 +145,8 @@
 		completionHandler:^(NSInteger returnCode)
 	{
 		[self.editController.window orderOut:self];
+		if (NSOKButton == returnCode)
+			[self completeAddUser:self.editController.theUser password:self.editController.pass1Field.stringValue];
 	}];
 }
 

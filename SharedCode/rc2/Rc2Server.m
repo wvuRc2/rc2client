@@ -142,12 +142,16 @@
 
 -(ASIHTTPRequest*)requestWithRelativeURL:(NSString*)urlString
 {
+	if ([urlString hasPrefix:@"/"])
+		urlString = [urlString substringFromIndex:1];
 	NSURL *url = [NSURL URLWithString:[self.baseUrl stringByAppendingString:urlString]];
 	return [self requestWithURL:url];
 }
 
 -(ASIFormDataRequest*)postRequestWithRelativeURL:(NSString*)urlString
 {
+	if ([urlString hasPrefix:@"/"])
+		urlString = [urlString substringFromIndex:1];
 	NSURL *url = [NSURL URLWithString:[self.baseUrl stringByAppendingString:urlString]];
 	return [self postRequestWithURL:url];
 }
