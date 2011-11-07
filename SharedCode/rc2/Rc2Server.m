@@ -423,7 +423,7 @@
 -(void)markMessageRead:(RCMessage*)message
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/message/%@/read", [self baseUrl], message.rcptmsgId]];
-	ASIHTTPRequest *req = [self rrequestWithURL:url];
+	ASIHTTPRequest *req = [self requestWithURL:url];
 	req.requestMethod = @"PUT";
 	[req startAsynchronous];
 	message.dateRead = [NSDate date];
