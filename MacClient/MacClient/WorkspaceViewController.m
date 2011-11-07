@@ -8,6 +8,7 @@
 
 #import "WorkspaceViewController.h"
 #import "RCWorkspace.h"
+#import "RCWorkspaceShare.h"
 #import "WorkspaceCellView.h"
 #import "RCMAddShareController.h"
 #import "ASIFormDataRequest.h"
@@ -18,6 +19,7 @@
 @property (nonatomic, copy) NSArray *sections;
 @property (nonatomic, strong) RCMAddShareController *addController;
 @property (nonatomic, strong) NSPopover *addPopover;
+@property (nonatomic, assign) BOOL ignoreSectionReloads;
 -(void)loadShares;
 -(void)handleAddDetailItem:(WorkspaceCellView*)cellView sender:(id)sender;
 -(void)handleRemoveDetailItem:(WorkspaceCellView*)cellView sender:(id)sender;
@@ -35,11 +37,13 @@
 		__unsafe_unretained WorkspaceViewController *blockSelf = self;
 		[self.kvoTokens addObject:[self.workspace addObserverForKeyPath:@"files" task:^(id obj, NSDictionary *change)
 	   {
-			[blockSelf.sectionsTableView reloadData];
+		   if (!blockSelf.ignoreSectionReloads)
+				[blockSelf.sectionsTableView reloadData];
 	   }]];
 		[self.kvoTokens addObject:[self.workspace addObserverForKeyPath:@"shares" task:^(id obj, NSDictionary *change)
 		{
-			[blockSelf.sectionsTableView reloadData];
+			if (!blockSelf.ignoreSectionReloads)
+				[blockSelf.sectionsTableView reloadData];
 		}]];
 		[self.workspace refreshShares];
 		NSMutableArray *secs = [NSMutableArray array];
@@ -90,9 +94,28 @@
 	[req setPostValue:userId forKey:@"userid"];
 	__unsafe_unretained WorkspaceViewController *blockSelf = self;
 	req.completionBlock = ^{
+		blockSelf.ignoreSectionReloads=YES;
 		[blockSelf.workspace refreshShares];
+		RunAfterDelay(0.1, ^{
+			blockSelf.ignoreSectionReloads=NO;
+		});
 	};
 	[req startAsynchronous];
+}
+
+-(void)handleRemoveShare:(RCWorkspaceShare*)share cellView:(WorkspaceCellView*)wcv
+{
+	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:
+							   [NSString stringWithFormat:@"fd/wspace/share/%@", share.shareId]];
+	req.requestMethod = @"DELETE";
+	[req startSynchronous];
+	if (req.responseStatusCode == 200) {
+		self.ignoreSectionReloads=YES;
+		[self.workspace refreshShares];
+		RunAfterDelay(0.1, ^{
+			self.ignoreSectionReloads=NO;
+		});
+	}
 }
 
 -(void)handleAddDetailItem:(WorkspaceCellView*)cellView sender:(id)sender
@@ -120,6 +143,8 @@
 	NSMutableDictionary *secDict = cellView.objectValue;
 	if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"shares"]) {
 		//handle removing a share
+		RCWorkspaceShare *share = [cellView selectedObject];
+		[self handleRemoveShare:share cellView:cellView];
 	}
 }
 
@@ -165,4 +190,5 @@
 @synthesize sections;
 @synthesize addPopover;
 @synthesize addController;
+@synthesize ignoreSectionReloads;
 @end

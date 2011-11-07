@@ -97,6 +97,13 @@
 
 #pragma mark - accessors
 
+-(id)selectedObject
+{
+	if (self.detailItemSelected)
+		return [self.contentArray objectAtIndex:[self.detailTableView selectedRow]];
+	return nil;
+}
+
 -(CGFloat)expandedHeight
 {
 	//figure out # of rows (min 3) and then add 48 for the surrounding chrome

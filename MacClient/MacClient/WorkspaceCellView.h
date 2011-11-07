@@ -23,6 +23,9 @@
 @property (nonatomic, copy) BasicBlock2Arg addDetailHander;
 @property (nonatomic, copy) BasicBlock2Arg removeDetailHander;
 
+//not KVO compliant
+-(id)selectedObject;
+
 -(CGFloat)expandedHeight;
 
 -(IBAction)addDetailItem:(id)sender;
