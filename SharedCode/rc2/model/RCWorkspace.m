@@ -10,6 +10,7 @@
 #import "Rc2Server.h"
 #import "RCFile.h"
 #import "RCWorkspaceShare.h"
+#import "ASIFormDataRequest.h"
 
 NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetchedNotification";
 
@@ -63,6 +64,16 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 		[self willChangeValueForKey:@"shares"];
 		[self didChangeValueForKey:@"shares"];
 	}];
+}
+
+-(void)updateShare:(RCWorkspaceShare*)share permission:(NSString*)perm
+{
+	//FIXME: buggy response from server, unlike from web client
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:
+						   [NSString stringWithFormat:@"/fd/wspace/share/%@/%@", perm, share.shareId]];
+	req.requestMethod = @"PUT";
+	[req setPostValue:share.shareId forKey:@"sid"];
+	[req startSynchronous];
 }
 
 -(NSArray*)files

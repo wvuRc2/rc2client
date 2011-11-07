@@ -21,6 +21,9 @@
 
 -(void)addFile:(RCFile*)aFile;
 -(RCFile*)fileWithId:(NSNumber*)fileId;
+
+//for workspaceshares to be updated
+-(void)updateShare:(RCWorkspaceShare*)share permission:(NSString*)perm;
 @end
 
 //notification posted when a workspace has (re)fetched its file contents

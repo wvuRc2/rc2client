@@ -7,8 +7,12 @@
 //
 
 #import "RCWorkspaceShare.h"
+#import "RCWorkspace.h"
 
 @implementation RCWorkspaceShare
+@synthesize canOpenFiles=__canOpenFiles;
+@synthesize canWriteFiles=__canWriteFiles;
+@synthesize requiresOwner=__requiresOwner;
 
 -(id)initWithDictionary:(NSDictionary*)dict workspace:(RCWorkspace*)wspace
 {
@@ -28,11 +32,26 @@
 	self.requiresOwner = [[dict objectForKey:@"requiresOwner"] boolValue];
 }
 
+-(void)setRequiresOwner:(BOOL)requiresOwner
+{
+	__requiresOwner = requiresOwner;
+	[self.workspace updateShare:self permission:@"rqperm"];
+}
+
+-(void)setCanOpenFiles:(BOOL)canOpenFiles
+{
+	__canOpenFiles = canOpenFiles;
+	[self.workspace updateShare:self permission:@"rdperm"];
+}
+
+-(void)setCanWriteFiles:(BOOL)canWriteFiles
+{
+	__canWriteFiles = canWriteFiles;
+	[self.workspace updateShare:self permission:@"wrperm"];
+}
+
 @synthesize shareId;
 @synthesize userId;
 @synthesize userName;
-@synthesize canOpenFiles;
-@synthesize canWriteFiles;
-@synthesize requiresOwner;
 @synthesize workspace;
 @end
