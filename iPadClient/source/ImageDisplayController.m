@@ -39,6 +39,7 @@
 @synthesize allImages;
 @synthesize actionSheet;
 @synthesize actionImage;
+@synthesize closeHandler;
 
 - (id)init
 {
@@ -295,7 +296,7 @@
 
 -(IBAction)close:(id)sender
 {
-	[self.parentViewController dismissModalViewControllerAnimated:YES];
+	self.closeHandler();
 }
 
 -(IBAction)whatUpDawg:(id)sender

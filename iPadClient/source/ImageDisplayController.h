@@ -18,6 +18,7 @@
 @property (nonatomic, retain) IBOutlet ImageHolderView *holder3;
 @property (nonatomic, retain) IBOutlet ImageHolderView *holder4;
 @property (nonatomic, copy) NSArray *allImages;
+@property (nonatomic, copy) BasicBlock closeHandler;
 
 -(IBAction)whatUpDawg:(id)sender;
 -(IBAction)close:(id)sender;

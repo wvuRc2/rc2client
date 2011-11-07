@@ -355,7 +355,8 @@
 		Rc2LogWarn(@"image does not exist: %@", imgPath);
 		return;
 	}
-	self.imgController = [[[ImageDisplayController alloc] init] autorelease];
+	if (nil == self.imgController)
+		self.imgController = [[[ImageDisplayController alloc] init] autorelease];
 	self.imgController.allImages = [[self.imgCache allValues] sortedArrayUsingComparator:^(RCImage *obj1, RCImage *obj2) {
 		if (obj1.timestamp > obj2.timestamp)
 			return NSOrderedAscending;
@@ -363,6 +364,10 @@
 			return NSOrderedDescending;
 		return [obj1.name caseInsensitiveCompare:obj2.name];
 	}];
+	__unsafe_unretained SessionViewController *blockSelf = self;
+	self.imgController.closeHandler = ^{
+		[blockSelf dismissModalViewControllerAnimated:YES];
+	};
 	[self presentModalViewController:self.imgController animated:YES];
 	[self.imgController loadImages];
 	[self.imgController loadImage1:[self.imgCache objectForKey:[imgPath lastPathComponent]]];
