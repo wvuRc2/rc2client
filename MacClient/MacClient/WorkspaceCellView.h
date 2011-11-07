@@ -10,6 +10,8 @@
 
 @class RCWorkspace;
 
+//object value must be set before workspace
+
 @interface WorkspaceCellView : NSTableCellView<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, weak) NSTableView *parentTableView;
 @property (nonatomic, strong) IBOutlet NSTableView *detailTableView;

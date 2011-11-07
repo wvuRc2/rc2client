@@ -10,14 +10,17 @@
 #import "RCWorkspace.h"
 
 @interface WorkspaceCellView()
+@property (nonatomic, strong) NSMutableSet *kvoTokens;
 @end
 
 @implementation WorkspaceCellView
 @synthesize expanded=__expanded;
 @synthesize parentTableView=__parentTableView;
+@synthesize workspace=__workspace;
 
 -(void)awakeFromNib
 {
+	self.kvoTokens = [NSMutableSet set];
 	[self setWantsLayer:YES];
 	self.layer.cornerRadius = 6.0;
 }
@@ -114,9 +117,20 @@
 	[self.parentTableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[self.parentTableView rowForView:self]]];
 }
 
+-(void)setWorkspace:(RCWorkspace *)workspace
+{
+	ZAssert(self.objectValue, @"no objectvalue set yet");
+	__workspace = workspace;
+	[self.kvoTokens addObject:[workspace addObserverForKeyPath:[self.objectValue objectForKey:@"childAttr"] 
+														  task:^(id obj, NSDictionary *change) 
+	{
+		[self.detailTableView reloadData];
+	}]];
+}
+
 @synthesize detailTableView;
 @synthesize detailItemSelected;
-@synthesize workspace;
 @synthesize addDetailHander;
 @synthesize removeDetailHander;
+@synthesize kvoTokens;
 @end

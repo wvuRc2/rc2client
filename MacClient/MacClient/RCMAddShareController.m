@@ -46,7 +46,8 @@
 -(IBAction)addShareForUser:(id)sender
 {
 	NSInteger row = [self.resultsTable rowForView:sender];
-	//first, remove from results
+	self.changeHandler([[self.arrayController.arrangedObjects objectAtIndex:row] objectForKey:@"id"]);
+	//remove from results
 	[self.resultsTable removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row] withAnimation:NSTableViewAnimationSlideUp|NSTableViewAnimationEffectFade];
 	[self.arrayController removeObjectAtArrangedObjectIndex:row];
 }
@@ -105,4 +106,5 @@
 @synthesize currentRequest;
 @synthesize requestLock;
 @synthesize workspace;
+@synthesize changeHandler;
 @end

@@ -10,14 +10,18 @@
 #import "RCWorkspace.h"
 #import "WorkspaceCellView.h"
 #import "RCMAddShareController.h"
+#import "ASIFormDataRequest.h"
+#import "Rc2Server.h"
 
 @interface WorkspaceViewController()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
 @property (nonatomic, copy) NSArray *sections;
 @property (nonatomic, strong) RCMAddShareController *addController;
 @property (nonatomic, strong) NSPopover *addPopover;
+-(void)loadShares;
 -(void)handleAddDetailItem:(WorkspaceCellView*)cellView sender:(id)sender;
 -(void)handleRemoveDetailItem:(WorkspaceCellView*)cellView sender:(id)sender;
+-(void)handleAddShare:(NSNumber*)userId cellView:(WorkspaceCellView*)wcv;
 @end
 
 @implementation WorkspaceViewController
@@ -40,11 +44,11 @@
 		[self.workspace refreshShares];
 		NSMutableArray *secs = [NSMutableArray array];
 		[secs addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"Files", @"name", 
-							   [NSNumber numberWithBool:NO], @"expanded", 
-							   @"files", @"childAttr", nil]];
+						 [NSNumber numberWithBool:NO], @"expanded", 
+						 @"files", @"childAttr", nil]];
 		if (!aWorkspace.sharedByOther)
 			[secs addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"Sharing", @"name",
-							   [NSNumber numberWithBool:NO], @"expanded", @"shares", @"childAttr", nil]];
+							 [NSNumber numberWithBool:NO], @"expanded", @"shares", @"childAttr", nil]];
 		self.sections = secs;
 	}
 	return self;
@@ -71,10 +75,25 @@
 
 -(IBAction)doRefreshFileList:(id)sender
 {
-
 }
 
 #pragma mark - meat & potatos
+
+-(void)loadShares
+{
+}
+
+-(void)handleAddShare:(NSNumber*)userId cellView:(WorkspaceCellView*)wcv
+{
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:
+							   [NSString stringWithFormat:@"fd/wspace/share/%@", self.workspace.wspaceId]];
+	[req setPostValue:userId forKey:@"userid"];
+	__unsafe_unretained WorkspaceViewController *blockSelf = self;
+	req.completionBlock = ^{
+		[blockSelf.workspace refreshShares];
+	};
+	[req startAsynchronous];
+}
 
 -(void)handleAddDetailItem:(WorkspaceCellView*)cellView sender:(id)sender
 {
@@ -82,11 +101,15 @@
 	if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"shares"]) {
 		//handle adding a share
 		if (nil == self.addPopover) {
+			__unsafe_unretained WorkspaceViewController *blockSelf = self;
 			self.addController = [[RCMAddShareController alloc] init];
 			self.addController.workspace = self.workspace;
 			self.addPopover = [[NSPopover alloc] init];
 			self.addPopover.contentViewController = self.addController;
 			self.addPopover.behavior = NSPopoverBehaviorTransient;
+			self.addController.changeHandler = ^(NSNumber *userId) {
+				[blockSelf handleAddShare:userId cellView:cellView];
+			};
 		}
 		[self.addPopover showRelativeToRect:[sender frame] ofView:sender preferredEdge:NSMinYEdge];
 	}
@@ -131,6 +154,8 @@
 	NSDictionary *d = [self.sections objectAtIndex:row];
 	WorkspaceCellView *view = [tableView viewAtColumn:0 row:row makeIfNecessary:NO];
 	CGFloat h = [[d objectForKey:@"expanded"] boolValue] ? [view expandedHeight] : 27;
+	if (0 == h)
+		h = 27;
 	return h;
 }
 
