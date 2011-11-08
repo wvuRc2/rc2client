@@ -15,8 +15,27 @@
 #define kLastUpKey @"@WhuuzUp"
 #define kAnimDuration 0.5
 
+#define k4upLandImg1Rect CGRectMake(166, 60, 320, 320)
+#define k4upLandImg2Rect CGRectMake(514, 60, 320, 320)
+#define k4upLandImg3Rect CGRectMake(166, 408, 320, 320)
+#define k4upLandImg4Rect CGRectMake(514, 408, 320, 320)
+
+#define k4upPortImg1Rect CGRectMake(50, 168, 320, 320)
+#define k4upPortImg2Rect CGRectMake(398, 168, 320, 320)
+#define k4upPortImg3Rect CGRectMake(50, 516, 320, 320)
+#define k4upPortImg4Rect CGRectMake(398, 516, 320, 320)
+
+#define k2upLandImg1Rect CGRectMake(20, 144, 460, 460)
+#define k2upLandImg2Rect CGRectMake(544, 144, 460, 460)
+
+#define k2upPortImg1Rect CGRectMake(154, 48, 460, 460)
+#define k2upPortImg2Rect CGRectMake(154, 526, 460, 460)
+
+#define k1upLandImg1Rect CGRectMake(212, 74, 600, 600)
+
+#define k1upPortImg1Rect CGRectMake(84, 193, 600, 600)
+
 @interface ImageDisplayController() {
-	CGRect _oframe1, _oframe2, _oframe3, _oframe4;
 	UIButton *_actionButton;
 }
 @property (nonatomic, retain) RCImage *actionImage;
@@ -25,6 +44,9 @@
 -(void)layoutAs2Up;
 -(void)layoutAs4Up;
 -(void)adjustLayout;
+-(void)adjustFramesFor1Up:(UIInterfaceOrientation)orient;
+-(void)adjustFramesFor2Up:(UIInterfaceOrientation)orient;
+-(void)adjustFramesFor4Up:(UIInterfaceOrientation)orient;
 -(IBAction)doEmail:(id)sender;
 -(IBAction)doPhotoLib:(id)sender;
 -(IBAction)doPrint:(id)sender;
@@ -77,10 +99,6 @@
 	self.holder2.delegate=self;
 	self.holder3.delegate=self;
 	self.holder4.delegate=self;
-	_oframe1 = self.holder1.frame;
-	_oframe2 = self.holder2.frame;
-	_oframe3 = self.holder3.frame;
-	_oframe4 = self.holder4.frame;
 	self.whatUp.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kLastUpKey];
 	[self adjustLayout];
 }
@@ -97,12 +115,30 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
 {
-    return UIInterfaceOrientationIsLandscape(ior);
+    return YES;
 }
 
 -(void)didReceiveMemoryWarning
 {
 	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	[UIView animateWithDuration:duration animations:^{
+		switch (self.whatUp.selectedSegmentIndex) {
+			case 0:
+			default:
+				[self adjustFramesFor1Up:toInterfaceOrientation];
+				break;
+			case 1:
+				[self adjustFramesFor2Up:toInterfaceOrientation];
+				break;
+			case 2:
+				[self adjustFramesFor4Up:toInterfaceOrientation];
+				break;
+		}
+	}];
 }
 
 -(void)adjustLayout
@@ -128,7 +164,7 @@
 		self.holder2.alpha = 0;
 		self.holder3.alpha = 0;
 		self.holder4.alpha = 0;
-		self.holder1.frame = CGRectMake(212, 74, 600, 600);
+		[self adjustFramesFor1Up:self.interfaceOrientation];
 	}];
 }
 
@@ -139,8 +175,7 @@
 		self.holder2.alpha = 1;
 		self.holder3.alpha = 0;
 		self.holder4.alpha = 0;
-		self.holder1.frame = CGRectMake(20, 144, 460, 460);
-		self.holder2.frame = CGRectMake(544, 144, 460, 460);
+		[self adjustFramesFor2Up:self.interfaceOrientation];
 		self.holder1.scrollView.zoomScale = .75;
 		self.holder2.scrollView.zoomScale = .75;
 	}];
@@ -153,15 +188,47 @@
 		self.holder2.alpha = 1;
 		self.holder3.alpha = 1;
 		self.holder4.alpha = 1;
-		self.holder1.frame = _oframe1;
-		self.holder2.frame = _oframe2;
-		self.holder3.frame = _oframe3;
-		self.holder4.frame = _oframe4;
+		[self adjustFramesFor4Up:self.interfaceOrientation];
 		self.holder1.scrollView.zoomScale = .5;
 		self.holder2.scrollView.zoomScale = .5;
 		self.holder3.scrollView.zoomScale = .5;
 		self.holder4.scrollView.zoomScale = .5;
 	}];
+}
+
+-(void)adjustFramesFor1Up:(UIInterfaceOrientation)orient
+{
+	if (UIInterfaceOrientationIsLandscape(orient)) {
+		self.holder1.frame = k1upLandImg1Rect;
+	} else {
+		self.holder1.frame = k1upPortImg1Rect;
+	}
+}
+
+-(void)adjustFramesFor2Up:(UIInterfaceOrientation)orient
+{
+	if (UIInterfaceOrientationIsLandscape(orient)) {
+		self.holder1.frame = k2upLandImg1Rect;
+		self.holder2.frame = k2upLandImg2Rect;
+	} else {
+		self.holder1.frame = k2upPortImg1Rect;
+		self.holder2.frame = k2upPortImg2Rect;
+	}
+}
+
+-(void)adjustFramesFor4Up:(UIInterfaceOrientation)orient
+{
+	if (UIInterfaceOrientationIsLandscape(orient)) {
+		self.holder1.frame = k4upLandImg1Rect;
+		self.holder2.frame = k4upLandImg2Rect;
+		self.holder3.frame = k4upLandImg3Rect;
+		self.holder4.frame = k4upLandImg4Rect;
+	} else {
+		self.holder1.frame = k4upPortImg1Rect;
+		self.holder2.frame = k4upPortImg2Rect;
+		self.holder3.frame = k4upPortImg3Rect;
+		self.holder4.frame = k4upPortImg4Rect;
+	}
 }
 
 -(void)loadImages

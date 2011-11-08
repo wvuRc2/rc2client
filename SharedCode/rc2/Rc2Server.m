@@ -101,6 +101,9 @@
 {
 	switch (self.serverHost) {
 		case eRc2Host_Local:
+#if TARGET_IPHONE_SIMULATOR
+			return @"http://localhost:8080/";
+#endif
 			return @"https://localhost:8443/";
 		case eRc2Host_Barney:
 			return @"http://barney.stat.wvu.edu:8080/";
