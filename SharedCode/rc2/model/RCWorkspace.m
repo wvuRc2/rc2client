@@ -68,7 +68,6 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 
 -(void)updateShare:(RCWorkspaceShare*)share permission:(NSString*)perm
 {
-	//FIXME: buggy response from server, unlike from web client
 	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:
 						   [NSString stringWithFormat:@"/fd/wspace/share/%@/%@", perm, share.shareId]];
 	req.requestMethod = @"PUT";
