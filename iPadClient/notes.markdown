@@ -18,6 +18,16 @@ on restore, need to check
 
 currentSessionWspaceId pref is saved when a session is open and the app goes to the background. this allows the app to restore the open session if it was quit while in the background
 
+## Sweave ##
+
+* Install mactex
+* Edit .bash_profile so PATH includes /usr/texbin
+* mkdir -p ~/Library/texmf/tex/latex
+* cd ~/Library/texmf/tex/latex
+* ln -s /Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/Sweave.sty Sweave.sty
+
+To execute, we need the full text sent to the server. We should show "executing sweave" in the output area while waiting on pdf.
+
 ## Major Tasks ##
 
 * Sweave
