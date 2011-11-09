@@ -18,8 +18,20 @@ on restore, need to check
 
 currentSessionWspaceId pref is saved when a session is open and the app goes to the background. this allows the app to restore the open session if it was quit while in the background
 
+## Major Tasks ##
+
+* Sweave
+* Admin installing R packages
+* clustering R servers
+* sass
+* Enforce permissions when shared
+* session user list, passing control around
+* background processing with notifications
+* workspace variable lists
+
 ## To Do ##
 
+* report errors back to users (R code)
 * when restoring and returning from a session, the current workspace is unselected
 * execute on symbol keyboard
 * need to prune image cache for images not refrerenced in any saved workspace. maybe an idle block if been running for x minutes?
