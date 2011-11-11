@@ -20,6 +20,9 @@
 @property (nonatomic, assign, readwrite) BOOL socketOpen;
 @property (nonatomic, assign, readwrite) BOOL hasReadPerm;
 @property (nonatomic, assign, readwrite) BOOL hasWritePerm;
+@property (nonatomic, strong) NSTimer *keepAliveTimer;
+@property (nonatomic, strong) NSDate *timeOfLastTraffic;
+-(void)keepAliveTimerFired:(NSTimer*)timer;
 @end
 
 @implementation RCSession
@@ -29,6 +32,8 @@
 @synthesize socketOpen=_socketOpen;
 @synthesize hasReadPerm;
 @synthesize hasWritePerm;
+@synthesize timeOfLastTraffic;
+@synthesize keepAliveTimer;
 
 - (id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp
 {
@@ -40,6 +45,7 @@
 		[_settings setValuesForKeysWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:settingKey]];
 		if (rsp)
 			[self updateWithServerResponse:rsp];
+		self.keepAliveTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(keepAliveTimerFired:) userInfo:nil repeats:YES];
     }
     return self;
 }
@@ -48,6 +54,9 @@
 {
 	_delegate=nil; //assert in setDelegate: would cause crash
 	self.userid=nil;
+	[self.keepAliveTimer invalidate];
+	self.keepAliveTimer=nil;
+	self.timeOfLastTraffic=nil;
 	[self closeWebSocket];
 	[_workspace release];
 	[_settings release];
@@ -98,6 +107,7 @@
 						  script, @"script", nil];
 	Rc2LogInfo(@"executing sweave: %@", fname);
 	[_ws send:[dict JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
 }
 
 -(void)executeScript:(NSString*)script
@@ -106,6 +116,7 @@
 						  script, @"script", nil];
 	Rc2LogInfo(@"executing script: %@", [script length] > 10 ? [[script substringToIndex:10] stringByAppendingString:@"..."] : script);
 	[_ws send:[dict JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
 }
 
 -(void)sendChatMessage:(NSString *)message
@@ -113,6 +124,7 @@
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"chat", @"cmd",
 						  message, @"message", nil];
 	[_ws send:[dict JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
 }
 
 -(void)setDelegate:(id<RCSessionDelegate>)del
@@ -131,6 +143,15 @@
 		savedState.wspaceId = self.workspace.wspaceId;
 	}
 	return savedState;
+}
+
+-(void)keepAliveTimerFired:(NSTimer*)timer
+{
+	if (self.socketOpen && fabs([self.timeOfLastTraffic timeIntervalSinceNow]) > 120) {
+		//send a dummy message that will be ignored
+		[_ws send:@"{cmd:\"keepAlive\"}"];
+		self.timeOfLastTraffic = [NSDate date];
+	}
 }
 
 #pragma mark - websocket delegate
@@ -163,6 +184,7 @@
 		self.userid = [dict objectForKey:@"userid"];
 	}
 	[self.delegate processWebSocketMessage:dict json:msg];
+	self.timeOfLastTraffic = [NSDate date];
 }
 
 #pragma mark - settings
