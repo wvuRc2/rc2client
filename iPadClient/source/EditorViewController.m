@@ -55,11 +55,6 @@
 	[super dealloc];
 }
 
--(IBAction)doExecute:(id)sender
-{
-	[[Rc2Server sharedInstance].currentSession executeScript:self.textView.text];
-}
-
 -(void)handkeKeyCode:(unichar)code
 {
 	switch (code) {
@@ -224,6 +219,11 @@
 }
 
 #pragma mark - actions
+
+-(IBAction)doExecute:(id)sender
+{
+	[[Rc2Server sharedInstance].currentSession executeScript:self.textView.text];
+}
 
 -(void)loadFile:(RCFile*)file
 {

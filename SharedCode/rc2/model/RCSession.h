@@ -32,6 +32,7 @@
 -(id)savedSessionState;
 
 -(void)executeScript:(NSString*)script;
+-(void)executeSweave:(NSString*)fname script:(NSString*)script;
 -(void)sendChatMessage:(NSString*)message;
 
 -(id)settingForKey:(NSString*)key;

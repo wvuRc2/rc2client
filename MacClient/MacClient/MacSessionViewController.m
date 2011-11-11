@@ -184,7 +184,12 @@
 
 -(IBAction)executeScript:(id)sender
 {
-	[self.session executeScript:self.editView.string];
+	//is the current file R or Rnw?
+	if ([self.selectedFile.name hasSuffix:@".Rnw"]) {
+		[self.session executeSweave:self.selectedFile.name script:self.editView.string];
+	} else {
+		[self.session executeScript:self.editView.string];
+	}
 }
 
 -(IBAction)importFile:(id)sender
@@ -394,6 +399,8 @@
 			js = [NSString stringWithFormat:@"iR.appendImages(%@)",
 				  [adjustedImages JSONRepresentation]];
 		}
+	} else if ([cmd isEqualToString:@"sweaveresults"]) {
+		js = [NSString stringWithFormat:@"iR.appendPdf('%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]]];
 	}
 	if (js) {
 		[self.outputController.webView stringByEvaluatingJavaScriptFromString:js];
@@ -451,8 +458,15 @@
 
 -(void)handleImageRequest:(NSURL*)url
 {
-	//for now. we may want to handle multiple images at once
-	[self displayImage:[url path]];
+	if ([url.path hasSuffix:@".pdf"]) {
+		//we want to show the pdf
+		NSString *path = url.path;
+		NSString *urlStr = [[[Rc2Server sharedInstance] baseUrl] stringByAppendingString:[path substringFromIndex:1]];
+		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:urlStr]];
+	} else {
+		//for now. we may want to handle multiple images at once
+		[self displayImage:[url path]];
+	}
 }
 
 #pragma mark - text view delegate

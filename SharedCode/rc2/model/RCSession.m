@@ -92,6 +92,14 @@
 	_ws=nil;
 }
 
+-(void)executeSweave:(NSString*)fname script:(NSString*)script
+{
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"sweave", @"cmd", fname, @"fname",
+						  script, @"script", nil];
+	Rc2LogInfo(@"executing sweave: %@", fname);
+	[_ws send:[dict JSONRepresentation]];
+}
+
 -(void)executeScript:(NSString*)script
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"executeScript", @"cmd",
