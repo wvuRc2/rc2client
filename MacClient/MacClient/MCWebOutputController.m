@@ -12,6 +12,8 @@
 @interface MCWebOutputController() {
 	BOOL __didInit;
 }
+@property (nonatomic, strong) NSMenuItem *clearMenuItem;
+@property (nonatomic, strong) NSMenuItem *saveAsMenuItem;
 @property (nonatomic) BOOL ignoreExecuteMessage;
 @property (nonatomic, strong) NSPopover *imagePopover;
 -(void)loadContent;
@@ -33,6 +35,8 @@
 {
 	if (!__didInit) {
 		[self loadContent];
+		self.clearMenuItem = [[NSMenuItem alloc] initWithTitle:@"Clear Output" action:@selector(doClear:) keyEquivalent:@""];
+		self.saveAsMenuItem = [[NSMenuItem alloc] initWithTitle:@"Save As…" action:@selector(saveSelectedPDF:) keyEquivalent:@""];
 		__didInit=YES;
 	}
 }
@@ -83,6 +87,8 @@
 	[self.delegate previewImages:nil atPoint:NSZeroPoint];
 }
 
+#pragma mark - actions
+
 -(IBAction)doExecuteQuery:(id)sender
 {
 	if (!self.ignoreExecuteMessage) {
@@ -97,6 +103,16 @@
 	[self.consoleField.window endEditing];
 	self.ignoreExecuteMessage=NO;
 	[self.delegate executeConsoleCommand:self.inputText];
+}
+
+-(IBAction)doClear:(id)sender
+{
+	[self.webView stringByEvaluatingJavaScriptFromString:@"iR.clearConsole()"];
+}
+
+-(IBAction)saveSelectedPDF:(id)sender
+{
+	
 }
 
 #pragma mark - text field
@@ -191,6 +207,29 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	[listener ignore];
 }
 
+- (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element 
+	defaultMenuItems:(NSArray *)defaultMenuItems
+{
+	NSMutableArray *items = [NSMutableArray arrayWithObject:self.clearMenuItem];
+	DOMNode *node = [element objectForKey:@"WebElementDOMNode"];
+	if (![node isKindOfClass:[DOMHTMLElement class]])
+		return items;
+	DOMHTMLElement *htmlElem = (DOMHTMLElement*)node;
+	NSLog(@"elem is %@ of class %@", htmlElem.idName, htmlElem);
+	if ([htmlElem isKindOfClass:[DOMHTMLImageElement class]]) {
+		DOMHTMLImageElement *imgElem = (DOMHTMLImageElement*)htmlElem;
+		if ([imgElem.src hasSuffix:@"pdf.png"]) {
+			//they are right-clicking on a pdf icon
+			[items addObject:[NSMenuItem separatorItem]];
+			NSMenuItem *mi = [self.saveAsMenuItem copy];
+			NSLog(@"par = %@", [(DOMHTMLAnchorElement*)imgElem.parentElement href]);
+			mi.representedObject = [(DOMHTMLAnchorElement*)imgElem.parentElement href];
+			[items addObject:mi];
+		}
+	}
+	return items;
+}
+
 #pragma mark - synthesizers
 
 -(void)setInputText:(NSString *)inputText
@@ -205,4 +244,6 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 @synthesize consoleField;
 @synthesize canExecute;
 @synthesize ignoreExecuteMessage;
+@synthesize clearMenuItem;
+@synthesize saveAsMenuItem;
 @end

@@ -24,7 +24,9 @@
 @property (nonatomic) BOOL canExecute;
 
 -(IBAction)doExecuteQuery:(id)sender;
+-(IBAction)doClear:(id)sender;
 -(IBAction)executeQueryViaButton:(id)sender;
+-(IBAction)saveSelectedPDF:(id)sender;
 
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 @end
