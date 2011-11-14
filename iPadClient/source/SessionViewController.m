@@ -428,6 +428,8 @@
 	} else if ([cmd isEqualToString:@"chat"]) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:kChatMessageNotification object:nil 
 														  userInfo:dict];
+	} else if ([cmd isEqualToString:@"sweaveresults"]) {
+		js = [NSString stringWithFormat:@"iR.appendPdf('%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]]];
 	}
 	if (js) {
 		[self.consoleController.webView stringByEvaluatingJavaScriptFromString:js];

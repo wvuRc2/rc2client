@@ -222,7 +222,10 @@
 
 -(IBAction)doExecute:(id)sender
 {
-	[[Rc2Server sharedInstance].currentSession executeScript:self.textView.text];
+	if ([self.currentFile.name hasSuffix:@".Rnw"])
+		[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:self.textView.text];
+	else
+		[[Rc2Server sharedInstance].currentSession executeScript:self.textView.text];
 }
 
 -(void)loadFile:(RCFile*)file
