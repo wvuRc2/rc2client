@@ -73,6 +73,15 @@ enum {
 @synthesize keyboardStyle=_keyStyle;
 @synthesize isLandscape=_isLandscape;
 
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+	if ((self = [super initWithCoder:aDecoder])) {
+		self.isLandscape = [aDecoder decodeBoolForKey:@"RC2IsLandscape"];
+		self.keyboardStyle = [aDecoder decodeIntegerForKey:@"RC2KeyboardStyle"];
+	}
+	return self;
+}
+
 -(void)dealloc
 {
 	self.alphaKeyView=nil;
@@ -87,6 +96,13 @@ enum {
 {
 	[self cacheGradients];
 	self.isLandscape=YES;
+}
+
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+	[super encodeWithCoder:aCoder];
+	[aCoder encodeInteger:self.keyboardStyle forKey:@"RC2KeyboardStyle"];
+	[aCoder encodeBool:self.isLandscape forKey:@"RC2IsLandscape"];
 }
 
 -(void)layoutKeyboard
@@ -267,8 +283,9 @@ enum {
 -(IBAction)doKeyPress:(KeyButton*)sender
 {
 	NSString *str=nil;
+	BOOL isConsole = [self.consoleField isFirstResponder];
 	NSRange rng = self.textView.selectedRange;
-	NSString *curText = self.textView.text;
+	NSString *curText = isConsole ? self.consoleField.text : self.textView.text;
 	if ([sender tag] == 0) {
 		str = self.shiftDown ? sender.representedText : [sender.representedText lowercaseString];
 	} else if ([sender tag] >= 1000) {
@@ -277,7 +294,9 @@ enum {
 				str = @"<-";
 				break;
 			case kKeyCodeDelete:
-				if (rng.location > 0) {
+				if (isConsole) {
+					self.consoleField.text = [curText substringToIndex:curText.length-2];
+				} else if (rng.location > 0) {
 					self.textView.text = [curText stringByReplacingCharactersInRange:NSMakeRange(rng.location-1, 1) withString:@""];
 					self.textView.selectedRange = NSMakeRange(rng.location-1, 0);
 				}
@@ -290,29 +309,35 @@ enum {
 				self.currentLayout = sender.selected ? eKeyLayout_Alpha : eKeyLayout_Symbols;
 				break;
 			case kKeyCodeDismissKeyboard:
-				[self.textView resignFirstResponder];
+				if (isConsole)
+					[self.consoleField resignFirstResponder];
+				else
+					[self.textView resignFirstResponder];
 				break;
 			case kKeyCodeUpArrow:
 				break;
 			case kKeyCodeDownArrow:
 				break;
 			case kKeyCodeLeftArrow:
-				if (rng.location > 0)
+				if (!isConsole && rng.location > 0)
 					self.textView.selectedRange = NSMakeRange(rng.location-1, 0);
 				break;
 			case kKeyCodeRightArrow:
-				if (rng.location < [curText length])
+				if (!isConsole && rng.location < [curText length])
 					self.textView.selectedRange = NSMakeRange(rng.location+1, 0);
 				break;
 			default:
-				[self.delegate handkeKeyCode:(unichar)[sender tag]];
+				[self.delegate handleKeyCode:(unichar)[sender tag]];
 				break;
 		}
 	} else {
 		str = [NSString stringWithFormat:@"%c", [sender tag]];
 	}
 	if (str) {
-		[self.textView setText:[curText stringByReplacingCharactersInRange:rng withString:str]];
+		if (isConsole)
+			self.consoleField.text = [curText stringByAppendingString:str];
+		else
+			[self.textView setText:[curText stringByReplacingCharactersInRange:rng withString:str]];
 	}
 }
 
@@ -440,4 +465,5 @@ enum {
 @synthesize pAlphaKeyView;
 @synthesize currentSymKeyView;
 @synthesize currentAlphaKeyView;
+@synthesize consoleField;
 @end

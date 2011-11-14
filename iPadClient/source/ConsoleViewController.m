@@ -10,6 +10,7 @@
 #import "RCSession.h"
 #import "RCSavedSession.h"
 #import "ThemeEngine.h"
+#import "Rc2Server.h"
 
 @interface ConsoleViewController() {
 	BOOL _didSetGraphUrl;
@@ -20,6 +21,8 @@
 @synthesize webView=_webView;
 @synthesize session=_session;
 @synthesize toolbar;
+@synthesize textField;
+@synthesize executeButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -82,6 +85,14 @@
 	}
 }
 
+#pragma mark - actions
+
+-(IBAction)doExecute:(id)sender
+{
+	[self.textField resignFirstResponder];
+	[[Rc2Server sharedInstance].currentSession executeScript:self.textField.text];
+}
+
 -(IBAction)doDecreaseFont:(id)sender
 {
 	[self.webView stringByEvaluatingJavaScriptFromString:@"iR.decreaseFontSize()"];
@@ -118,6 +129,24 @@
 			[theme consoleValueForKey: @"outputEvenRowColor"], [theme consoleValueForKey: @"outputOddRowColor"],
 			[theme consoleValueForKey: @"outputHeaderColor"]];
 }
+
+#pragma mark - textfield delegate
+
+- (BOOL)textField:(UITextField *)aTextField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+	NSInteger cnt = aTextField.text.length - range.length + string.length;
+	self.executeButton.enabled = cnt > 0;
+	return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)aTextField
+{
+	[self.textField resignFirstResponder];
+	[self doExecute:aTextField];
+	return NO;
+}
+
+#pragma mark - webview delegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {

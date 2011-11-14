@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "MGSplitViewController.h"
 #import "RCSession.h"
+#import "KeyboardView.h"
 
 @class EditorViewController;
 @class ConsoleViewController;
 @class BottomViewController;
-@class KeyboardView;
 
-@interface SessionViewController : UIViewController<MGSplitViewControllerDelegate,RCSessionDelegate> {
+@interface SessionViewController : UIViewController<MGSplitViewControllerDelegate,RCSessionDelegate,KeyboardViewDelegate> {
 	IBOutlet UITextField *textField;
 	IBOutlet UITextView *textView;
 }

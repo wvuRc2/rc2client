@@ -55,7 +55,7 @@
 	[super dealloc];
 }
 
--(void)handkeKeyCode:(unichar)code
+-(void)handleKeyCode:(unichar)code
 {
 	switch (code) {
 		case 0xeaa0: //execute

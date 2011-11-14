@@ -14,11 +14,14 @@
 @interface ConsoleViewController : UIViewController<UIWebViewDelegate>
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
 @property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, retain) IBOutlet UITextField *textField;
+@property (nonatomic, retain) IBOutlet UIButton *executeButton;
 @property (nonatomic, retain) RCSession *session;
 
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 -(IBAction)doClear:(id)sender;
 -(IBAction)doActionSheet:(id)sender;
+-(IBAction)doExecute:(id)sender;
 @end
 
 @interface ConsoleView : UIView

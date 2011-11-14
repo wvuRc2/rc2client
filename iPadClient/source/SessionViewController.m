@@ -204,7 +204,23 @@
 	[self.keyboardView layoutKeyboard];
 	self.editorController.textView.inputView = self.keyboardView;
 	self.keyboardView.textView = self.editorController.textView;
-	self.keyboardView.delegate = self.editorController;
+	self.keyboardView.delegate = self;
+	self.keyboardView.consoleField = self.consoleController.textField;
+	self.consoleController.textField.inputView = self.keyboardView;
+}
+
+-(void)handleKeyCode:(unichar)code
+{
+	if ([self.editorController.textView isFirstResponder])
+		[self.editorController handleKeyCode:code];
+	else if ([self.consoleController.textField isFirstResponder]) {
+		switch (code) {
+			case 0xeaa0: //execute
+				[self.consoleController.textField resignFirstResponder];
+				[self.consoleController doExecute:self];
+				break;
+		}
+	}
 }
 
 -(NSString*)escapeForJS:(NSString*)str
@@ -451,6 +467,8 @@
 - (float)splitViewController:(MGSplitViewController *)svc constrainSplitPosition:(float)proposedPosition splitViewSize:(CGSize)viewSize;
 {
 	CGFloat maxSize = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation) ? viewSize.width : viewSize.height;
+	if (maxSize - proposedPosition < 150)
+		return maxSize-150;
 	if (maxSize - proposedPosition < 70) {
 		if (!UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation))
 			return maxSize - 70;

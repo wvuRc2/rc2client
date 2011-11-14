@@ -17,6 +17,7 @@ typedef enum {
 }
 @property (nonatomic, retain) IBOutlet UIView *buttonTemplate;
 @property (nonatomic, retain) IBOutlet UITextView *textView;
+@property (nonatomic, retain) IBOutlet UITextField *consoleField;
 @property (nonatomic, assign) id<KeyboardViewDelegate> delegate;
 @property (nonatomic, assign) eKeyboardStyle keyboardStyle;
 @property (nonatomic, assign) BOOL isLandscape;
@@ -27,5 +28,5 @@ typedef enum {
 @end
 
 @protocol KeyboardViewDelegate <NSObject>
--(void)handkeKeyCode:(unichar)code;
+-(void)handleKeyCode:(unichar)code;
 @end

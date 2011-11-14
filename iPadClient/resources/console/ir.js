@@ -183,6 +183,30 @@ iR.consoleKeyUp = function(e) {
 	}
 }
 
+iR.appendPdf = function(pdfurl) {
+	try {
+		var ic = document.createElement('div')
+		var divname = 'pdf' + new Date().getTime()
+		ic.setAttribute('id', divname)
+		var anchorElem = document.createElement("a");
+		anchorElem.setAttribute("href", pdfurl);
+		var elem = document.createElement('img');
+		elem.setAttribute('src', 'pdf.png');
+		elem.setAttribute('height', 32);
+		elem.setAttribute('width', 32);
+		anchorElem.appendChild(elem);
+		anchorElem.setAttribute('class', 'genImg');
+		anchorElem.setAttribute('href', 'rc2img://' + pdfurl)
+		ic.appendChild(anchorElem)
+		var outdiv = document.getElementById('consoleOutputGenerated');
+		outdiv.appendChild(ic)
+		outdiv.scrollTop = outdiv.scrollHeight;
+	} catch (e) {
+		iR.appendConsoleText("iR error " + e)
+		return e
+	}
+}
+
 iR.appendImages = function(imgArray) {
 	var ic = document.createElement('div')
 	var divname = 'img' + new Date().getTime()
