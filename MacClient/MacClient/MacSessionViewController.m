@@ -400,7 +400,9 @@
 				  [adjustedImages JSONRepresentation]];
 		}
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {
-		js = [NSString stringWithFormat:@"iR.appendPdf('%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]]];
+		NSNumber *fileid = [dict objectForKey:@"fileId"];
+		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@)", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid];
+		[self.session.workspace updateFileId:fileid];
 	}
 	if (js) {
 		[self.outputController.webView stringByEvaluatingJavaScriptFromString:js];
@@ -458,11 +460,12 @@
 
 -(void)handleImageRequest:(NSURL*)url
 {
-	if ([url.path hasSuffix:@".pdf"]) {
+	if ([url.absoluteString hasSuffix:@".pdf"]) {
 		//we want to show the pdf
-		NSString *path = url.path;
-		NSString *urlStr = [[[Rc2Server sharedInstance] baseUrl] stringByAppendingString:[path substringFromIndex:1]];
-		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:urlStr]];
+		NSString *path = [url.absoluteString stringByDeletingPathExtension];
+		path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
+		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[path integerValue]]];
+		[[NSWorkspace sharedWorkspace] openFile:file.fileContentsPath];
 	} else {
 		//for now. we may want to handle multiple images at once
 		[self displayImage:[url path]];

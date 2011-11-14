@@ -75,6 +75,12 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 	[req startSynchronous];
 }
 
+-(void)updateFileId:(NSNumber*)fileId
+{
+	//FIXME: for now, we're just refreshing them all
+	[self refreshFiles];
+}
+
 -(NSArray*)files
 {
 	if (nil == _files && !self.fetchingFiles)

@@ -22,6 +22,9 @@
 -(void)addFile:(RCFile*)aFile;
 -(RCFile*)fileWithId:(NSNumber*)fileId;
 
+//for others to tell the workspace that a file was added or updated
+-(void)updateFileId:(NSNumber*)fileId;
+
 //for workspaceshares to be updated
 -(void)updateShare:(RCWorkspaceShare*)share permission:(NSString*)perm;
 @end
