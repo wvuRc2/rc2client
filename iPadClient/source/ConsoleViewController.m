@@ -181,11 +181,16 @@
 		return YES;
 	if ([[request.URL scheme] isEqualToString:@"rc2"])
 		[self.session.delegate performConsoleAction:[[request.URL absoluteString] substringFromIndex:6]];
-	else if ([[[request URL] scheme] isEqualToString:@"rc2img"])
-		[self.session.delegate displayImage:[[request URL] path]];
+	else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
+		NSString *path = [request.URL path];
+		if ([request.URL.absoluteString hasSuffix:@".pdf"]) {
+			path = request.URL.absoluteString;
+			path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
+		}
+		[self.session.delegate displayImage:path];
+	}
 	return NO;
 }
-
 @end
 
 @implementation ConsoleView

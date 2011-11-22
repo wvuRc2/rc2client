@@ -231,6 +231,10 @@
 -(void)loadFile:(RCFile*)file
 {
 	[self.filePopover dismissPopoverAnimated:YES];
+	if (!file.isTextFile) {
+		//FIXME: need to do something else when file is not a text file. Likely a pdf file.
+		return;
+	}
 	if (file.contentsLoaded) {
 		[self loadFileData:file];
 	} else {

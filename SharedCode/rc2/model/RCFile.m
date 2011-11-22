@@ -86,6 +86,14 @@
 
 #pragma mark - accessors
 
+-(BOOL)isTextFile
+{
+	NSString *ext = self.name.pathExtension;
+	if ([ext isEqualToString:@"R"] || [ext isEqualToString:@"Rnw"] || [ext isEqualToString:@"txt"])
+		return YES;
+	return NO;
+}
+
 -(BOOL)contentsLoaded
 {
 	return nil != self.fileContents;

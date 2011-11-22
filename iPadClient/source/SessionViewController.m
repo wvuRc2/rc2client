@@ -41,6 +41,8 @@
 -(NSString*)escapeForJS:(NSString*)str;
 -(NSArray*)adjustImageArray:(NSArray*)inArray;
 -(void)cacheImages:(NSArray*)urls;
+-(void)displayPdfFile:(RCFile*)file;
+-(void)loadAndDisplayPdfFile:(RCFile*)file;
 -(void)appRestored:(NSNotification*)note;
 -(void)appEnteringBackground:(NSNotification*)note;
 -(void)cacheImagesReferencedInHTML:(NSString*)html;
@@ -283,6 +285,50 @@
 	return outArray;
 }
 
+-(void)displayPdfFile:(RCFile*)file
+{
+	//display in document controller
+	UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:[file fileContentsPath]]];
+	dic.delegate = self;
+	[dic presentPreviewAnimated:YES];	
+}
+
+-(void)loadAndDisplayPdfFile:(RCFile*)file
+{
+	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	//figure out where file should be stored
+	NSString *path = [file fileContentsPath];
+	NSURL *url = [NSURL fileURLWithPath:path];
+	if ([fm fileExistsAtPath:path]) {
+		NSError *err=nil;
+		//the file exists. we need to compare last mod date
+		NSDate *lastMod = [[fm attributesOfItemAtPath:path error:&err] fileModificationDate];
+		if (lastMod)
+		{
+			if ([lastMod timeIntervalSinceReferenceDate] > [file.lastModified timeIntervalSinceReferenceDate])
+			{
+				//ok to use it
+				[self displayPdfFile:file];
+				return;
+			}
+		}
+		[fm removeItemAtURL:url error:nil];
+		return;
+	}
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	hud.labelText = [NSString stringWithFormat:@"Downloading %@…", file.name];
+	self.showingProgress = YES;
+	hud.mode = MBProgressHUDModeDeterminate;
+	
+	[[Rc2Server sharedInstance] fetchBinaryFileContents:file toPath:path progress:[hud valueForKey:@"indicator"]
+									  completionHandler:^(BOOL success, id results) 
+	{
+		[MBProgressHUD hideHUDForView:self.view animated:NO];
+		if (success)
+			[self displayPdfFile:file];
+	}];
+}
+
 -(IBAction)endSession:(id)sender
 {
 	[_session setSetting:[NSNumber numberWithFloat:self.splitController.splitPosition] forKey:@"splitPosition"];
@@ -366,6 +412,17 @@
 
 -(void)displayImage:(NSString*)imgPath
 {
+	if ([imgPath hasSuffix:@".pdf"]) {
+		//we want to show the pdf
+		NSString *path = [imgPath stringByDeletingPathExtension];
+		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[path integerValue]]];
+		if (file.contentsLoaded)
+			[self displayPdfFile:file];
+		else
+			[self loadAndDisplayPdfFile:file];
+		return;
+	}
+
 	if (![self loadImageIntoCache:imgPath]) {
 		//FIXME: display alert
 		Rc2LogWarn(@"image does not exist: %@", imgPath);
@@ -429,7 +486,9 @@
 		[[NSNotificationCenter defaultCenter] postNotificationName:kChatMessageNotification object:nil 
 														  userInfo:dict];
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {
-		js = [NSString stringWithFormat:@"iR.appendPdf('%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]]];
+		NSNumber *fileid = [dict objectForKey:@"fileId"];
+		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@)", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid];
+		[self.session.workspace updateFileId:fileid];
 	}
 	if (js) {
 		[self.consoleController.webView stringByEvaluatingJavaScriptFromString:js];
@@ -464,6 +523,11 @@
 -(void)didReceiveMemoryWarning
 {
 	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
+}
+
+- (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller
+{
+	return self;
 }
 
 - (float)splitViewController:(MGSplitViewController *)svc constrainSplitPosition:(float)proposedPosition splitViewSize:(CGSize)viewSize;

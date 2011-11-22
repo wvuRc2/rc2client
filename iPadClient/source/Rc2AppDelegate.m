@@ -99,6 +99,12 @@
 #ifndef TARGET_IPHONE_SIMULATOR
 	[TestFlight takeOff:@"77af1fa93381361c61748e58fae9f4f9_Mjc0ODAyMDExLTA5LTE5IDE2OjUwOjU3LjYzOTg1Mw"];
 #endif
+	
+	//make sure file cache folder exists
+	NSString *cachePath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:cachePath])
+		[[NSFileManager defaultManager] createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil];
+	
 	return YES;
 }
 

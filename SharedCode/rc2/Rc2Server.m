@@ -297,8 +297,32 @@
 	[req startAsynchronous];
 }
 
+-(void)fetchBinaryFileContents:(RCFile*)file toPath:(NSString*)destPath progress:(id)progressView
+			 completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
+									   file.fileId]];
+	__block ASIHTTPRequest *req = [self requestWithURL:url];
+	req.downloadDestinationPath = destPath;
+	req.downloadProgressDelegate = progressView;
+	[req setCompletionBlock:^{
+		hblock(YES, @"");
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+	}];
+	[req startAsynchronous];
+}
+
 -(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock
 {
+	ZAssert(file.isTextFile, @"can only fetch contents of a text file");
+	if (!file.isTextFile) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			hblock(NO, @"file is not a text file");
+		});
+		return;
+	}
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
 									   file.fileId]];
 	__block ASIHTTPRequest *req = [self requestWithURL:url];

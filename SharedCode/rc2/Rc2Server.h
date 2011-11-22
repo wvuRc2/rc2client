@@ -81,6 +81,8 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(void)fetchBinaryFileContents:(RCFile*)file toPath:(NSString*)destPath progress:(id)progressView
+			 completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 -(void)fetchWorkspaceShares:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring;
