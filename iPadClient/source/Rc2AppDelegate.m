@@ -73,6 +73,10 @@
 	self.splitController.showsMasterInPortrait = YES;
 	[self.window addSubview:self.splitController.view];
 	self.window.rootViewController = self.splitController;
+	if (UIInterfaceOrientationIsLandscape([TheApp statusBarOrientation]))
+		self.splitController.splitPosition = 320;
+	else
+		self.splitController.splitPosition = 260;
 	
 	[self.window makeKeyAndVisible];
 	[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
