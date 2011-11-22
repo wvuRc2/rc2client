@@ -421,7 +421,7 @@
 		08EE41121436441F004FDBB8 /* WebSocketFragment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketFragment.m; sourceTree = "<group>"; };
 		08EE41131436441F004FDBB8 /* WebSocketMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketMessage.h; sourceTree = "<group>"; };
 		08EE41141436441F004FDBB8 /* WebSocketMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketMessage.m; sourceTree = "<group>"; };
-		08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = SOURCE_ROOT; };
 		08F566671407073E00229A39 /* _RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCFile.h; path = ../SharedCode/rc2/model/generated/_RCFile.h; sourceTree = SOURCE_ROOT; };
 		08F566681407073E00229A39 /* _RCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCFile.m; path = ../SharedCode/rc2/model/generated/_RCFile.m; sourceTree = SOURCE_ROOT; };
 		08FE88961414F92F00672474 /* BottomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomViewController.h; path = source/BottomViewController.h; sourceTree = SOURCE_ROOT; };
@@ -525,7 +525,6 @@
 		082DC01E13EC99E4008EAA99 = {
 			isa = PBXGroup;
 			children = (
-				08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */,
 				082D9D531408FF6E008F3CB0 /* notes.markdown */,
 				08447F661415B53B00A8DDF8 /* Rc2.xcdatamodeld */,
 				082DC03313EC99E5008EAA99 /* source */,
@@ -612,6 +611,7 @@
 				08B44977142CFE9A0064005D /* rightSymp.txt */,
 				0860C54214103D2E00582C7D /* images */,
 				087CE9021402E86100C9F758 /* Icon72.png */,
+				08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */,
 				08DD230A1411CDA500217C1A /* Default-Landscape.png */,
 				082DC03513EC99E5008EAA99 /* rc2-Info.plist */,
 				082DC03613EC99E5008EAA99 /* InfoPlist.strings */,
