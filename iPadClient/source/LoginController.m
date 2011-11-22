@@ -68,7 +68,6 @@
 {
 	if (self.useridField.text.length < 2) {
 		[UIAlertView showAlertWithTitle:@"Invalid Login" message:@"Logins must be at least 2 characters in length"];
-		//FIXME: inform user
 		return;
 	}
 	self.useridField.enabled = NO;
