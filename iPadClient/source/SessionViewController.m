@@ -129,6 +129,7 @@
 	self.splitController.delegate = self;
 	[self.view addSubview:self.splitController.view];
 	RunAfterDelay(0.4, ^{
+		self.splitController.vertical = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
 		[self.splitController layoutSubviewsForInterfaceOrientation:TheApp.statusBarOrientation withAnimation:NO];
 	});
 	

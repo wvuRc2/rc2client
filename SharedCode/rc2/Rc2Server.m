@@ -528,7 +528,10 @@
 		[[Rc2Server sharedInstance] handleLoginResponse:req forUser:user completionHandler:hblock];
 	}];
 	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+		NSString *msg = [NSString stringWithFormat:@"server returned %d", req.responseStatusCode];
+		if (req.responseStatusCode == 0)
+			msg = @"Server not responding";
+		hblock(NO, msg);
 	}];
 	[req startAsynchronous];
 }
