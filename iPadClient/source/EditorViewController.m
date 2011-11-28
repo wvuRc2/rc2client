@@ -30,7 +30,7 @@
 @property (nonatomic, retain) UIActionSheet *actionSheet;
 -(void)keyboardVisible:(NSNotification*)note;
 -(void)keyboardHiding:(NSNotification*)note;
--(void)updateExecuteState;
+-(void)updateDocumentState;
 -(void)doDropBoxImport;
 @end
 
@@ -94,6 +94,7 @@
 	self.textView.frame = _oldTextFrame;
 	[UIView commitAnimations]; 
 	self.currentFile.localEdits = self.textView.text;
+	[self updateDocumentState];
 }
 
 #pragma mark - View lifecycle
@@ -137,9 +138,11 @@
 
 #pragma mark - meat & potatoes
 
--(void)updateExecuteState
+-(void)updateDocumentState
 {
+	RCSession *session = [Rc2Server sharedInstance].currentSession;
 	self.executeButton.enabled = self.textView.text.length > 0;
+	self.syncButtonItem.enabled = session.hasWritePerm && self.currentFile.locallyModified;
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
@@ -149,7 +152,7 @@
 	} else if ([savedState.inputText length] > 0) {
 		self.textView.text = savedState.inputText;
 	}
-	[self updateExecuteState];
+	[self updateDocumentState];
 }
 
 -(void)loadFileData:(RCFile*)file
@@ -160,7 +163,7 @@
 	self.currentFile = file;
 	self.docTitleLabel.text = file.name;
 	self.textView.text = file.currentContents;
-	[self updateExecuteState];
+	[self updateDocumentState];
 }
 
 -(void)userConfirmedDelete
@@ -255,7 +258,7 @@
 	self.docTitleLabel.text = @"Untitled Document";
 	self.textView.text = @"";
 	self.currentFile=nil;
-	[self updateExecuteState];
+	[self updateDocumentState];
 }
 
 -(IBAction)doActionMenu:(id)sender
@@ -289,7 +292,11 @@
 
 -(IBAction)doSaveFile:(id)sender
 {
+	UIView *rootView = self.view.superview;
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
+	hud.labelText = @"Saving…";
 	[[Rc2Server sharedInstance] saveFile:self.currentFile completionHandler:^(BOOL success, id results) {
+		[MBProgressHUD hideHUDForView:rootView animated:YES];
 		if (success) {
 			[self.fileController.tableView reloadData];
 		} else {
@@ -301,6 +308,7 @@
 			[alert show];
 			[alert autorelease];
 		}
+		[self updateDocumentState];
 	}];
 }
 
@@ -308,7 +316,7 @@
 {
 	[self.currentFile discardEdits];
 	self.textView.text = self.currentFile.fileContents;
-	[self updateExecuteState];
+	[self updateDocumentState];
 }
 
 -(IBAction)doNewFile:(id)sender
@@ -421,7 +429,7 @@
 
 - (void)textViewDidChange:(UITextView *)tview
 {
-	[self updateExecuteState];
+	[self updateDocumentState];
 }
 
 #pragma mark - synthesizers
@@ -437,4 +445,5 @@
 @synthesize importController;
 @synthesize dropboxCache;
 @synthesize actionSheet;
+@synthesize syncButtonItem;
 @end

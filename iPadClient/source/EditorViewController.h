@@ -15,6 +15,7 @@
 @interface EditorViewController : UIViewController<KeyboardViewDelegate,UIPopoverControllerDelegate,UITextViewDelegate>
 @property (nonatomic, assign) IBOutlet UITextView *textView;
 @property (nonatomic, assign) IBOutlet UIBarButtonItem *executeButton;
+@property (nonatomic, assign) IBOutlet UIBarButtonItem *syncButtonItem;
 @property (nonatomic, assign) IBOutlet UIBarButtonItem *actionButtonItem;
 @property (nonatomic, assign) IBOutlet UILabel *docTitleLabel;
 @property (nonatomic, retain) RCFile *currentFile;
@@ -27,6 +28,7 @@
 -(IBAction)doNewFile:(id)sender;
 -(IBAction)doRevertFile:(id)sender;
 -(IBAction)presentDropboxImport:(id)sender;
+-(IBAction)doSaveFile:(id)sender;
 
 -(void)loadFile:(RCFile*)file;
 -(void)restoreSessionState:(RCSavedSession*)savedState;

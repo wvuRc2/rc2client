@@ -370,9 +370,10 @@
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		NSDictionary *dict = [respStr JSONValue];
+		NSString *oldContents = file.localEdits;
 		[file updateWithDictionary:[dict objectForKey:@"file"]];
-		file.fileContents = file.localEdits;
-		file.localEdits = @"";
+		file.fileContents = oldContents;
+		file.localEdits = nil;
 		hblock(YES, file);
 	}];
 	[req setFailedBlock:^{

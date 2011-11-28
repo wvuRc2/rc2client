@@ -75,6 +75,8 @@
 
 -(void)setLocalEdits:(NSString *)edits
 {
+	if ([edits isEqualToString:self.fileContents])
+		edits = nil;
 	[self willChangeValueForKey:@"localEdits"];
 	[self setPrimitiveLocalEdits:[[edits copy] autorelease]];
 	[self didChangeValueForKey:@"localEdits"];
@@ -82,6 +84,13 @@
 		self.localLastModified = [NSDate date];
 	else
 		self.localLastModified = nil;
+}
+
+-(void)setFileContents:(NSString *)ftext
+{
+	[self willChangeValueForKey:@"localEdits"];
+	[self setPrimitiveLocalEdits:[[ftext copy] autorelease]];
+	[self didChangeValueForKey:@"localEdits"];
 }
 
 #pragma mark - accessors
@@ -111,6 +120,11 @@
 -(BOOL)existsOnServer
 {
 	return [self.fileId integerValue] > 0;
+}
+
+-(BOOL)locallyModified
+{
+	return self.localEdits.length > 0;
 }
 
 -(id)fileIcon
