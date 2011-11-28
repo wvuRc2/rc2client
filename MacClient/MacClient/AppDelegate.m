@@ -17,6 +17,7 @@
 #import "RCFile.h"
 #import "RCMacToolbarItem.h"
 #import "ASIHTTPRequest.h"
+#import "BBEdit.h"
 
 @interface AppDelegate() {
 	dispatch_queue_t __fileCacheQueue;
@@ -27,6 +28,7 @@
 @property (readwrite, strong, nonatomic) MacMainWindowController *mainWindowController;
 @property (nonatomic, strong) NSTimer *autosaveTimer;
 @property (nonatomic, readwrite) BOOL loggedIn;
+@property (nonatomic, retain) BBEditApplication *bbedit;
 //@property (nonatomic, strong) NSMutableSet *sessionControllers;
 @property (nonatomic, strong) NSMutableSet *windowControllers;
 //following is only used while operating in the __fileCacheQueue
@@ -216,6 +218,16 @@
 											 selector:@selector(windowWillClose:) 
 												 name:NSWindowWillCloseNotification 
 											   object:self.mainWindowController.window];
+}
+
+-(void)displayTextInExternalEditor:(NSString*)text
+{
+	if (nil == self.bbedit)
+		self.bbedit = [SBApplication applicationWithBundleIdentifier:@"com.barebones.bbedit"];
+	BBEditTextDocument *doc = [[[self.bbedit classForScriptingClass:@"text document"] alloc] init];
+	[self.bbedit.textDocuments addObject:doc];
+	doc.contents = text;
+	[self.bbedit activate];
 }
 
 -(void)autoSaveChanges
@@ -464,4 +476,5 @@
 //@synthesize sessionControllers;
 @synthesize windowControllers;
 @synthesize fileCacheWorkspacesInQueue;
+@synthesize bbedit;
 @end

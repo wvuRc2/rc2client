@@ -33,5 +33,5 @@
 -(IBAction)doLogOut:(id)sender;
 
 - (IBAction)saveAction:(id)sender;
-
+-(void)displayTextInExternalEditor:(NSString*)text;
 @end

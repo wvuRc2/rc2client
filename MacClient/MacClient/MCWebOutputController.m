@@ -8,6 +8,7 @@
 
 #import "MCWebOutputController.h"
 #import "RCSavedSession.h"
+#import "AppDelegate.h"
 
 @interface MCWebOutputController() {
 	BOOL __didInit;
@@ -16,7 +17,9 @@
 @property (nonatomic, strong) NSMenuItem *saveAsMenuItem;
 @property (nonatomic) BOOL ignoreExecuteMessage;
 @property (nonatomic, strong) NSPopover *imagePopover;
+@property (nonatomic, strong) NSMenuItem *viewSourceMenuItem;
 -(void)loadContent;
+-(void)viewSource:(id)sender;
 @end
 
 @implementation MCWebOutputController
@@ -37,8 +40,15 @@
 		[self loadContent];
 		self.clearMenuItem = [[NSMenuItem alloc] initWithTitle:@"Clear Output" action:@selector(doClear:) keyEquivalent:@""];
 		self.saveAsMenuItem = [[NSMenuItem alloc] initWithTitle:@"Save As…" action:@selector(saveSelectedPDF:) keyEquivalent:@""];
+		self.viewSourceMenuItem = [[NSMenuItem alloc] initWithTitle:@"View Source" action:@selector(viewSource:) keyEquivalent:@""];
 		__didInit=YES;
 	}
+}
+
+-(void)viewSource:(id)sender
+{
+	AppDelegate *del = (AppDelegate*)[NSApp delegate];
+	[del displayTextInExternalEditor:self.webView.mainFrameDocument.body.innerHTML];
 }
 
 -(void)loadContent
@@ -211,6 +221,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	defaultMenuItems:(NSArray *)defaultMenuItems
 {
 	NSMutableArray *items = [NSMutableArray arrayWithObject:self.clearMenuItem];
+	[items addObject:[self.viewSourceMenuItem copy]];
 	DOMNode *node = [element objectForKey:@"WebElementDOMNode"];
 	if (![node isKindOfClass:[DOMHTMLElement class]])
 		return items;
@@ -246,4 +257,5 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 @synthesize ignoreExecuteMessage;
 @synthesize clearMenuItem;
 @synthesize saveAsMenuItem;
+@synthesize viewSourceMenuItem;
 @end

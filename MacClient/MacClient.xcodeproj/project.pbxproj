@@ -49,6 +49,10 @@
 		08A4064714538DC300DBA662 /* RCMAddShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08A4064514538DC300DBA662 /* RCMAddShareController.xib */; };
 		08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5AF144B918B00F787E6 /* RCMTextView.m */; };
 		08ADF5BE144BA2ED00F787E6 /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */; };
+		08BD99601474467F004EF624 /* RCMPDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD995E1474467F004EF624 /* RCMPDFViewController.m */; };
+		08BD99611474467F004EF624 /* RCMPDFViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08BD995F1474467F004EF624 /* RCMPDFViewController.xib */; };
+		08BD99DB14842C9F004EF624 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD99DA14842C9F004EF624 /* Quartz.framework */; };
+		08BD99DE148439D1004EF624 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD99DD148439D1004EF624 /* ScriptingBridge.framework */; };
 		08C6306F144CB00C008815E8 /* RCMImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C6306D144CB00C008815E8 /* RCMImageViewer.m */; };
 		08C63070144CB00C008815E8 /* RCMImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08C6306E144CB00C008815E8 /* RCMImageViewer.xib */; };
 		08C63096144E13C6008815E8 /* RCMImagePrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C63095144E13C6008815E8 /* RCMImagePrintView.m */; };
@@ -178,6 +182,11 @@
 		08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = MacClientNotes.rtf; path = MacClient/MacClientNotes.rtf; sourceTree = "<group>"; };
 		08ADF5BC144BA2ED00F787E6 /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMAppConstants.h; sourceTree = "<group>"; };
 		08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMAppConstants.m; sourceTree = "<group>"; };
+		08BD995D1474467F004EF624 /* RCMPDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMPDFViewController.h; sourceTree = "<group>"; };
+		08BD995E1474467F004EF624 /* RCMPDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMPDFViewController.m; sourceTree = "<group>"; };
+		08BD995F1474467F004EF624 /* RCMPDFViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMPDFViewController.xib; sourceTree = "<group>"; };
+		08BD99DA14842C9F004EF624 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		08BD99DD148439D1004EF624 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		08C6306C144CB00C008815E8 /* RCMImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMImageViewer.h; sourceTree = "<group>"; };
 		08C6306D144CB00C008815E8 /* RCMImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMImageViewer.m; sourceTree = "<group>"; };
 		08C6306E144CB00C008815E8 /* RCMImageViewer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMImageViewer.xib; sourceTree = "<group>"; };
@@ -287,6 +296,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08BD99DE148439D1004EF624 /* ScriptingBridge.framework in Frameworks */,
+				08BD99DB14842C9F004EF624 /* Quartz.framework in Frameworks */,
 				08056E3C1448D59C0002766D /* QuartzCore.framework in Frameworks */,
 				08056DB6143F60780002766D /* Vyana.framework in Frameworks */,
 				08FE8A541415A9F300672474 /* Security.framework in Frameworks */,
@@ -331,6 +342,9 @@
 				089C0B39145B426100DF9984 /* RCMEditUserController.h */,
 				089C0B3A145B426100DF9984 /* RCMEditUserController.m */,
 				089C0B3C145B427300DF9984 /* RCMEditUserController.xib */,
+				08BD995D1474467F004EF624 /* RCMPDFViewController.h */,
+				08BD995E1474467F004EF624 /* RCMPDFViewController.m */,
+				08BD995F1474467F004EF624 /* RCMPDFViewController.xib */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -404,6 +418,8 @@
 		08FE889C1415533300672474 = {
 			isa = PBXGroup;
 			children = (
+				08BD99DD148439D1004EF624 /* ScriptingBridge.framework */,
+				08BD99DA14842C9F004EF624 /* Quartz.framework */,
 				08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */,
 				08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */,
 				08FE88B11415533300672474 /* MacClient */,
@@ -692,6 +708,7 @@
 				08A4064714538DC300DBA662 /* RCMAddShareController.xib in Resources */,
 				089C0B2C145B101000DF9984 /* RCMUserAdminController.xib in Resources */,
 				089C0B3D145B427300DF9984 /* RCMEditUserController.xib in Resources */,
+				08BD99611474467F004EF624 /* RCMPDFViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,6 +774,7 @@
 				089C0B3B145B426100DF9984 /* RCMEditUserController.m in Sources */,
 				089C0B40145B431600DF9984 /* RCUser.m in Sources */,
 				088EABA2145C6F7E0033C249 /* PasswordVerifier.m in Sources */,
+				08BD99601474467F004EF624 /* RCMPDFViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
