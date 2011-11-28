@@ -292,7 +292,7 @@
 {
 	//display in document controller
 	UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:[file fileContentsPath]]];
-	dic.delegate = self;
+	dic.delegate = (id)self;
 	[dic presentPreviewAnimated:YES];	
 }
 
