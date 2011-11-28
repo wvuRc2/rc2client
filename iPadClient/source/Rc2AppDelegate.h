@@ -11,6 +11,7 @@
 @class DetailsViewController;
 @class SessionViewController;
 @class MGSplitViewController;
+@class RCFile;
 
 @interface Rc2AppDelegate : NSObject <UIApplicationDelegate> {
 
@@ -26,7 +27,7 @@
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 -(void)promptForLogin;
--(void)startSession;
+-(void)startSession:(RCFile*)initialFile;
 -(IBAction)endSession:(id)sender;
 -(IBAction)flipMasterView:(UIView*)otherView;
 

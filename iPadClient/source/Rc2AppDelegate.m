@@ -200,12 +200,13 @@
 	});
 }
 
--(void)completeSessionStartup:(id)results
+-(void)completeSessionStartup:(id)results selectedFile:(RCFile*)selFile
 {
 	RCWorkspace *wspace = [Rc2Server sharedInstance].selectedWorkspace;
 	RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:results];
 	[Rc2Server sharedInstance].currentSession = session;
 	[session release];
+	session.initialFileSelection = selFile;
 	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
 	if (keylayout != eKeyboardLayout_Standard) {
 		_curKeyFile=0;
@@ -220,7 +221,7 @@
 	}
 }
 
--(void)startSession
+-(void)startSession:(RCFile*)initialFile
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
@@ -239,7 +240,11 @@
 	hud.labelText = restoring ? @"Restoring session…" : @"Loading…";
 	[[Rc2Server sharedInstance] prepareWorkspace:^(BOOL success, id response) {
 		if (success) {
-			[self performSelector:@selector(completeSessionStartup:) withObject:response afterDelay:0.1];
+			double delayInSeconds = 0.1;
+			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+			dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+				[self completeSessionStartup:response selectedFile:initialFile];
+			});
 		} else {
 			[MBProgressHUD hideHUDForView:self.splitController.view animated:YES];
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Server Error"
@@ -267,7 +272,7 @@
 	if (wspaceId) {
 		[[Rc2Server sharedInstance] selecteWorkspaceWithId:wspaceId];
 		if ([Rc2Server sharedInstance].selectedWorkspace)
-			[self startSession];
+			[self startSession:nil];
 	}
 }
 

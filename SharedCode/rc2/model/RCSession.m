@@ -34,6 +34,7 @@
 @synthesize hasWritePerm;
 @synthesize timeOfLastTraffic;
 @synthesize keepAliveTimer;
+@synthesize initialFileSelection;
 
 - (id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp
 {

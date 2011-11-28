@@ -149,6 +149,8 @@
 	[self.consoleController view]; //force loading
 	[self.editorController view];
 	[self.editorController restoreSessionState:savedState];
+	if (self.session.initialFileSelection)
+		[self.editorController loadFile:self.session.initialFileSelection];
 	[self.consoleController restoreSessionState:savedState];
 	[self cacheImagesReferencedInHTML:savedState.consoleHtml];
 	if (!self.session.socketOpen) {

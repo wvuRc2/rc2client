@@ -39,6 +39,7 @@ enum {
 @property (nonatomic, retain) MessageController *messageController;
 @property (nonatomic, assign) UIView *currentView;
 @property (nonatomic, retain) id themeChangeNotice;
+@property (nonatomic, retain) NSIndexPath *selectedIndex;
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace;
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace withLogout:(BOOL)doLogout;
 -(void)updateLoginStatus;
@@ -112,6 +113,7 @@ enum {
 		self.loginButton.possibleTitles = [NSSet setWithObjects:@"Login",@"Logout",nil];
 		self.loginButton.title = @"Login";
 		self.fileTableView.rowHeight = 52;
+		self.fileTableView.allowsSelection = YES;
 		self.currentView = self.welcomeContent;
 		id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
 			[blockSelf updateForNewTheme:theme];
@@ -161,7 +163,10 @@ enum {
 -(IBAction)doStartSession:(id)sender
 {
 	Rc2AppDelegate *del = [[UIApplication sharedApplication] delegate];
-	[del startSession];
+	RCFile *selFile=nil;
+	if (self.selectedIndex)
+		selFile = [self.selectedWorkspace.files objectAtIndex:self.selectedIndex.row];
+	[del startSession:selFile];
 }
 
 -(IBAction)doLogoutFromWSPage:(id)sender
@@ -469,7 +474,13 @@ enum {
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return NO;
+	if ([indexPath isEqual:self.selectedIndex]) {
+		if (self.selectedIndex)
+			[tableView deselectRowAtIndexPath:self.selectedIndex animated:YES];
+		self.selectedIndex=nil;
+	} else
+		self.selectedIndex = indexPath;
+	return self.selectedIndex;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -497,4 +508,5 @@ enum {
 @synthesize themeChangeNotice;
 @synthesize toolbar;
 @synthesize kvoTokens;
+@synthesize selectedIndex;
 @end
