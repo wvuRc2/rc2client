@@ -194,6 +194,7 @@
 //	[self.splitController.view setNeedsLayout];
 	self.splitController.vertical = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
 	[self.splitController layoutSubviewsForInterfaceOrientation:TheApp.statusBarOrientation withAnimation:NO];
+	[self.keyboardView setIsLandscape:UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation)];
 }
 
 #pragma mark - meat & potatoes

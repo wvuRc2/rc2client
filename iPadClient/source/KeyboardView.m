@@ -95,7 +95,7 @@ enum {
 -(void)awakeFromNib
 {
 	[self cacheGradients];
-	self.isLandscape=YES;
+	self.isLandscape=UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder
