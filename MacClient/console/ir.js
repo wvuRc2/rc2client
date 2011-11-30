@@ -276,17 +276,30 @@ iR.clearConsole = function() {
 	div.innerHTML = ''
 }
 
+iR.toggleMatrix = function(mid) {
+	var table = $("#mx" + mid)
+	var tbody = table.find("tbody")
+	var img = table.find("thead img").first()
+	if (img.attr("src").endsWith('toggleOpen.png')) {
+		img.attr("src", 'toggleClosed.png');
+		tbody.fadeOut(700, function() { table.hide(); table.show();	})
+	} else {
+		img.attr("src", 'toggleOpen.png');
+		tbody.fadeIn(700)
+	}
+}
+
 iR.toggleDataFrame = function(dfid) {
 	var tbody = jQuery("#df" + dfid)
 	var imgdiv = jQuery("#dfl" + dfid)
 	var img = jQuery("img", imgdiv)[0]
-	if (img.src.endsWith('/img/toggleOpen.png')) {
-		img.src = '/img/toggleClosed.png';
+	if (img.src.endsWith('toggleOpen.png')) {
+		img.src = 'toggleClosed.png';
 		tbody.fadeOut(700, function() {
 			imgdiv.find('span').css('visibility', 'visible')
 		})
 	} else {
-		img.src = '/img/toggleOpen.png';
+		img.src = 'toggleOpen.png';
 		imgdiv.find('span').css('visibility', 'hidden')
 		tbody.fadeIn(700)
 	}
@@ -332,12 +345,13 @@ iR.formatMatrix = function(theMatrix) {
 	var numRows = theMatrix['rows']
 	var numCols = theMatrix['cols']
 	var data = theMatrix['data']
-	var html = '<table class="ir-expvec ir-mx">'
+	var uid = uniqueID().toString().trim()
+	var html = '<table class="ir-expvec ir-mx" id="mx' + uid + '">'
 	var haveRowHeaders = theMatrix.hasOwnProperty("rownames")
 	var haveColHeaders = theMatrix.hasOwnProperty("colnames") && theMatrix['colnames'].length == numCols
 	if (haveColHeaders) {
 		html += '<thead><tr>'
-		if (haveRowHeaders) html += '<th>&nbsp;</th>'
+		if (haveRowHeaders) html += '<th><img src="toggleOpen.png" width="10" heigh="10" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'
 		for (var i=0; i < numCols; i++)
 			html += '<th>' + theMatrix['colnames'][i] + '</th>'
 		html += '</tr></thead>\n'
@@ -353,6 +367,9 @@ iR.formatMatrix = function(theMatrix) {
 		html += '<td>' + data[i] + '</td>'
 	}
 	html == '</tr>\n</tbody></table>'
+	//FIXME: we need to set the widths of the thead cells to what they initially are. probably best to set a timer
+	// following is not working
+	setTimeout(function() {$("#mx" + uid).width($("#mx" + uid).width) }, 100)
 	return html
 }
 
@@ -364,7 +381,7 @@ iR.formatDataFrame = function(theFrame) {
 	var dfid = 'df' + id
 	var html = '<table class="ir-expvec ir-df" id="' + dfid + '">'
 	var headRow = '<thead><tr>'
-	var capt = '<div class="ir-df-label" id="dfl' + id + '"><img src="/img/toggleOpen.png" width="10" heigh="10" onclick="iR.toggleDataFrame(\'' + id + '\')"><span style="visibility:hidden">'
+	var capt = '<div class="ir-df-label" id="dfl' + id + '"><img src="toggleOpen.png" width="10" heigh="10" onclick="iR.toggleDataFrame(\'' + id + '\')"><span style="visibility:hidden">'
 	if (rowTitles) headRow += '<th>&nbsp;</th>'
 	for (var i=0; i < colTitles.length; i++) {
 		headRow += '<th class="ir-df-ch">' + colTitles[i] + '</th>'
@@ -436,7 +453,6 @@ iR.formatComplex = function(dataArray) {
 }
 
 iR.appendComplexResults = function(dataArray) {
-	console.log(dataArray)
 	var outdiv = document.getElementById('consoleOutputGenerated');
 	var html = iR.formatComplex(dataArray)
 	var newElem = jQuery(html)
@@ -784,4 +800,8 @@ iR.doSetup = function() {
 	//restore handlers for any image groups
 	$(".imgGroup").mouseenter(function() {iR.previewImage(this); })
 	$(".imgGroup").mouseleave(function() {iR.closeImagePreview(this); })
+	$(window).error(function (msg, url, line) {
+		iR.appendConsoleText("<p>msg:" + msg + "</p>")
+		Rc2.handleError(msg + '; line=' + line)
+	});
 }

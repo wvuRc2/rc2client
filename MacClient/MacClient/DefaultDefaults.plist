@@ -4,5 +4,7 @@
 <dict>
 	<key>AutoLogin</key>
 	<false/>
+	<key>WebKitDeveloperExtras</key>
+	<true/>
 </dict>
 </plist>

@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSMenuItem *viewSourceMenuItem;
 -(void)loadContent;
 -(void)viewSource:(id)sender;
+-(void)jserror:(id)err;
 @end
 
 @implementation MCWebOutputController
@@ -97,6 +98,11 @@
 	[self.delegate previewImages:nil atPoint:NSZeroPoint];
 }
 
+-(void)jserror:(id)err
+{
+	NSLog(@"err=%@", err);
+}
+
 #pragma mark - actions
 
 -(IBAction)doExecuteQuery:(id)sender
@@ -151,6 +157,8 @@
 		return @"preview";
 	else if (sel == @selector(closePreview:))
 		return @"closePreview";
+	else if (sel == @selector(jserror:))
+		return @"handleError";
 	return nil;
 }
 
@@ -159,6 +167,8 @@
 	if (sel == @selector(previewImage:images:))
 		return NO;
 	else if (sel == @selector(closePreview:))
+		return NO;
+	else if (sel == @selector(jserror:))
 		return NO;
 	return YES;
 }
@@ -222,6 +232,10 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 {
 	NSMutableArray *items = [NSMutableArray arrayWithObject:self.clearMenuItem];
 	[items addObject:[self.viewSourceMenuItem copy]];
+	for (NSMenuItem *mi in defaultMenuItems) {
+		if (mi.tag == 2024)
+			[items addObject:mi];
+	}
 	DOMNode *node = [element objectForKey:@"WebElementDOMNode"];
 	if (![node isKindOfClass:[DOMHTMLElement class]])
 		return items;

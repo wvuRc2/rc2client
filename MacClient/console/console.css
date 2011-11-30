@@ -233,7 +233,9 @@ table.ir-expvec td {
   text-align: right; }
 
 table.ir-expvec th {
-  text-align: left; }
+	text-align: left; 
+	vertical-align:top;
+}
 
 td.ir-expvecnest {
   text-align: left !important; }
