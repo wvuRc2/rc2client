@@ -266,13 +266,13 @@ iR.toggleDataFrame = function(dfid) {
 	var tbody = jQuery("#df" + dfid)
 	var imgdiv = jQuery("#dfl" + dfid)
 	var img = jQuery("img", imgdiv)[0]
-	if (img.src.endsWith('/img/toggleOpen.png')) {
-		img.src = '/img/toggleClosed.png';
+	if (img.src.endsWith('toggleOpen.png')) {
+		img.src = 'toggleClosed.png';
 		tbody.fadeOut(700, function() {
 			imgdiv.find('span').css('visibility', 'visible')
 		})
 	} else {
-		img.src = '/img/toggleOpen.png';
+		img.src = 'toggleOpen.png';
 		imgdiv.find('span').css('visibility', 'hidden')
 		tbody.fadeIn(700)
 	}
@@ -350,7 +350,7 @@ iR.formatDataFrame = function(theFrame) {
 	var dfid = 'df' + id
 	var html = '<table class="ir-expvec ir-df" id="' + dfid + '">'
 	var headRow = '<thead><tr>'
-	var capt = '<div class="ir-df-label" id="dfl' + id + '"><img src="/img/toggleOpen.png" width="10" heigh="10" onclick="iR.toggleDataFrame(\'' + id + '\')"><span style="visibility:hidden">'
+	var capt = '<div class="ir-df-label" id="dfl' + id + '"><img src="toggleOpen.png" width="10" heigh="10" onclick="iR.toggleDataFrame(\'' + id + '\')"><span style="visibility:hidden">'
 	if (rowTitles) headRow += '<th>&nbsp;</th>'
 	for (var i=0; i < colTitles.length; i++) {
 		headRow += '<th class="ir-df-ch">' + colTitles[i] + '</th>'
