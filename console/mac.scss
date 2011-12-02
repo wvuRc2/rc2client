@@ -1,0 +1,7 @@
+@function is_ios() {
+	@return false
+}
+@function is_mac() {
+	@return true
+}
+@import "console";

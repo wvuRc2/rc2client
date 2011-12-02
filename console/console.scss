@@ -3,8 +3,13 @@ body {
 	font-family:Inconsolata, Menlo, "Courier New", Monaco, monospace;
 	font-size:100%;
 	margin-right: 0px;
-	margin-left: 0px;
-	overflow-x: hidden;
+	@if is_mac() {
+		margin-left:4px;
+	}
+	@if is_ios() {
+		margin-left:0px;
+		overflow-x: hidden;
+	}
 }
 
 #consoleOutputGenerated {
@@ -356,7 +361,9 @@ table.ir-mx td {
 #nameFile {
   width: 360px; }
 
-.pdf { margin-top:4px;}
+.pdf {
+	margin-top:4px;
+}
 
 .pdf img {
 	margin-bottom:-2px;

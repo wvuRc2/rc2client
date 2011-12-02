@@ -993,10 +993,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 082DC04A13EC99E5008EAA99 /* Build configuration list for PBXNativeTarget "iPadApp" */;
 			buildPhases = (
+				08A6FF51142F93F700E8AB4B /* increment build number */,
 				082DC02513EC99E4008EAA99 /* Sources */,
 				082DC02613EC99E4008EAA99 /* Frameworks */,
-				08A6FF51142F93F700E8AB4B /* increment build number */,
 				082DC02713EC99E4008EAA99 /* Resources */,
+				08DFFDA414896B9A008D1399 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1134,6 +1135,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/bash\nif [[ ${CONFIGURATION} == \"Archive\" ]]; then\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" resources/rc2-Info.plist)\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" resources/rc2-Info.plist\nfi\n";
+		};
+		08DFFDA414896B9A008D1399 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/ruby;
+			shellScript = "require 'rubygems'\nrequire 'sass'\nsrcdir = ENV[\"SRCROOT\"]\nlibdir = \"#{srcdir}/../console/\"\nbuilddir = ENV[\"TARGET_BUILD_DIR\"]\nwrapper = ENV[\"WRAPPER_NAME\"]\n\nsass = Sass::Engine.for_file(\"#{libdir}/ipad.scss\", {:load_paths => [libdir]})\noutput = sass.render\nFile.open(\"#{builddir}/#{wrapper}/console/console.css\", \"w\") do |os|\nos.puts(output)\nend\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

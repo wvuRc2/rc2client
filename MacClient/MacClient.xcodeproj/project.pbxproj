@@ -639,6 +639,7 @@
 				08FE88A41415533300672474 /* Frameworks */,
 				08FE88A51415533300672474 /* Resources */,
 				08FE8A4A14159C1D00672474 /* Copy Fworks */,
+				08DFFD9B14893ED3008D1399 /* compile css */,
 			);
 			buildRules = (
 			);
@@ -713,6 +714,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		08DFFD9B14893ED3008D1399 /* compile css */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "compile css";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/ruby;
+			shellScript = "require 'rubygems'\nrequire 'sass'\nsrcdir = ENV[\"SRCROOT\"]\nsrcdir = \"#{srcdir}/../console\"\nbuilddir = ENV[\"TARGET_BUILD_DIR\"]\nwrapper = ENV[\"WRAPPER_NAME\"]\n\nsass = Sass::Engine.for_file(\"#{srcdir}/mac.scss\", {:load_paths => [srcdir]})\noutput = sass.render\nFile.open(\"#{builddir}/#{wrapper}/Contents/Resources/console/console.css\", \"w\") do |os|\n\tos.puts(output)\nend\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		08FE88A31415533300672474 /* Sources */ = {
