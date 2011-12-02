@@ -20,7 +20,6 @@
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) MacMainWindowController *mainWindowController;
 @property (nonatomic, readonly) BOOL loggedIn;
-@property (nonatomic, strong) NSMutableArray *openSessions;
 
 -(RCSession*)sessionForWorkspace:(RCWorkspace*)wspace;
 -(MacSessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create;
@@ -29,6 +28,8 @@
 
 -(void)addWindowController:(NSWindowController*)controller;
 -(void)removeWindowController:(NSWindowController*)controller;
+
+-(void)showViewController:(AMViewController*)controller;
 
 -(IBAction)doLogOut:(id)sender;
 

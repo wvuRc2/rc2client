@@ -47,6 +47,7 @@
 	self.mainViewController.view.frame = self.detailContainer.frame;
 	NSView *contentView = self.window.contentView;
 	[contentView replaceSubview:self.detailContainer with:self.mainViewController.view];
+	self.navController = [[AMMacNavController alloc] initWithRootViewController:self.mainViewController];
 	NSToolbar *tbar = [[NSToolbar alloc] initWithIdentifier:@"mainwindow"];
 	[tbar setAllowsUserCustomization:NO];
 	[tbar setDisplayMode:NSToolbarDisplayModeIconOnly];
@@ -96,13 +97,7 @@
 		[swc.window makeKeyAndOrderFront:self];
 	} else {
 		self.currentSessionController = svc;
-		NSView *contentView = self.window.contentView;
-		CATransition *anim = [CATransition animation];
-		anim.type = kCATransitionMoveIn;
-		anim.subtype = kCATransitionFromRight;
-		contentView.animations = [NSDictionary dictionaryWithObject:anim forKey:@"subviews"];
-		svc.view.frame = self.mainViewController.view.frame;
-		[contentView.animator replaceSubview:self.mainViewController.view with:svc.view];
+		[self.navController pushViewController:svc animated:YES];
 	}
 }
 
@@ -110,15 +105,10 @@
 
 -(IBAction)doBackToMainView:(id)sender
 {
-	if (self.currentSessionController) {
-		NSView *contentView = self.window.contentView;
-		CATransition *anim = [CATransition animation];
-		anim.type = kCATransitionMoveIn;
-		anim.subtype = kCATransitionFromLeft;
-		contentView.animations = [NSDictionary dictionaryWithObject:anim forKey:@"subviews"];
-		self.mainViewController.view.frame = self.currentSessionController.view.frame;
-		[contentView.animator replaceSubview:self.currentSessionController.view with:self.mainViewController.view];
-		self.currentSessionController=nil;
+	if (self.navController.canPopViewController) {
+		if (self.navController.topViewController == self.currentSessionController)
+			self.currentSessionController=nil;
+		[self.navController popViewControllerAnimated:YES];
 	}
 }
 
@@ -160,4 +150,5 @@
 @synthesize detailController;
 @synthesize currentSessionController;
 @synthesize addToolbarMenu;
+@synthesize navController;
 @end

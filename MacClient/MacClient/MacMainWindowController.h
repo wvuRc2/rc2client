@@ -12,6 +12,7 @@
 @class RCWorkspace;
 
 @interface MacMainWindowController : NSWindowController<NSWindowDelegate>
+@property (strong, nonatomic) AMMacNavController *navController;
 @property (strong, nonatomic) MacClientAbstractViewController *detailController;
 @property (strong) IBOutlet AMControlledView *detailContainer;
 @property (strong) IBOutlet NSMenu *addToolbarMenu;

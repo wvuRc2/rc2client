@@ -33,6 +33,7 @@
 @property (nonatomic, strong) NSMutableSet *windowControllers;
 //following is only used while operating in the __fileCacheQueue
 @property (nonatomic, strong) NSMutableSet *fileCacheWorkspacesInQueue;
+@property (nonatomic, strong) RCSession *currentSession;
 -(void)handleSucessfulLogin;
 -(NSManagedObjectContext*)managedObjectContext:(BOOL)create;
 -(void)autoSaveChanges;
@@ -50,8 +51,6 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	__firstLogin=YES;
-	self.openSessions = [NSMutableArray array];
-//	self.sessionControllers = [NSMutableSet set];
 	self.windowControllers = [NSMutableSet set];
 	[self presentLoginPanel];
 	NSString *fileCache = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
@@ -161,25 +160,17 @@
 
 -(RCSession*)sessionForWorkspace:(RCWorkspace *)wspace
 {
-	for (RCSession *session in self.openSessions) {
-		if (session.workspace == wspace)
-			return session;
-	}
+	if (self.currentSession.workspace == wspace)
+		return self.currentSession;
 	//TODO: need to implement limit on how many sessions can be open
-	RCSession *s = [[RCSession alloc] initWithWorkspace:wspace serverResponse:nil];
-	[self.openSessions addObject:s];
-	return s;
+	self.currentSession = [[RCSession alloc] initWithWorkspace:wspace serverResponse:nil];
+	return self.currentSession;
 }
 
 -(MacSessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create
 {
-//	for (MacSessionViewController *aController in self.sessionControllers) {
-//		if (aController.session == session)
-//			return aController;
-//	}
 	if (create) {
 		MacSessionViewController *svc = [[MacSessionViewController alloc] initWithSession:session];
-//		[self.sessionControllers addObject:svc];
 		return svc;
 	}
 	return nil;
@@ -187,13 +178,14 @@
 
 -(void)closeSessionViewController:(MacSessionViewController*)svc
 {
-//	[svc saveSessionState];
 	RCSession *session = svc.session;
 	[session closeWebSocket];
-//	[self.sessionControllers removeObject:svc];
-	[self willChangeValueForKey:@"openSessions"];
-	[self.openSessions removeObject:session];
-	[self didChangeValueForKey:@"openSessions"];
+	self.currentSession=nil;
+}
+
+-(void)showViewController:(AMViewController*)controller
+{
+	[self.mainWindowController.navController pushViewController:controller animated:YES];
 }
 
 -(void)presentLoginPanel
@@ -472,7 +464,7 @@
 @synthesize loginController;
 @synthesize autosaveTimer;
 @synthesize loggedIn;
-@synthesize openSessions;
+@synthesize currentSession;
 //@synthesize sessionControllers;
 @synthesize windowControllers;
 @synthesize fileCacheWorkspacesInQueue;

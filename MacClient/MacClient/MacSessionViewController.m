@@ -9,6 +9,7 @@
 #import "MacSessionViewController.h"
 #import "MCWebOutputController.h"
 #import "RCMImageViewer.h"
+#import "RCMPDFViewController.h"
 #import "Rc2Server.h"
 #import "RCMacToolbarItem.h"
 #import "RCWorkspace.h"
@@ -19,12 +20,15 @@
 #import "RCMAppConstants.h"
 #import <Vyana/AMWindow.h>
 #import "ASIHTTPRequest.h"
+#import "AppDelegate.h"
 
 @interface MacSessionViewController() {
 	CGFloat __fileListWidth;
 	NSPoint __curImgPoint;
 	BOOL __didInit;
 	BOOL __movingFileList;
+	BOOL __didFirstLoad;
+	BOOL __didFirstWindow;
 }
 @property (nonatomic, retain) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, retain) NSString *imgCachePath;
@@ -122,27 +126,35 @@
 
 -(void)viewWillMoveToSuperview:(NSView *)newSuperview
 {
-	NSToolbar *tbar = [NSApp valueForKeyPath:@"delegate.mainWindowController.window.toolbar"];
-	RCMacToolbarItem *ti = [tbar.items firstObjectWithValue:@"add" forKey:@"itemIdentifier"];
-	if (newSuperview) {
-		RCSavedSession *savedState = self.session.savedSessionState;
-		[self restoreSessionState:savedState];
-		[ti pushActionMenu:self.addMenu];
-	} else {
-		[ti popActionMenu:self.addMenu];
+	if (!__didFirstLoad) {
+		NSToolbar *tbar = [NSApp valueForKeyPath:@"delegate.mainWindowController.window.toolbar"];
+		RCMacToolbarItem *ti = [tbar.items firstObjectWithValue:@"add" forKey:@"itemIdentifier"];
+		if (newSuperview) {
+			RCSavedSession *savedState = self.session.savedSessionState;
+			[self restoreSessionState:savedState];
+			[ti pushActionMenu:self.addMenu];
+		} else {
+			[ti popActionMenu:self.addMenu];
+		}
+		__didFirstLoad=YES;
+	} else if (newSuperview == nil) {
+		[self saveSessionState];
 	}
 }
 
 -(void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
-	if ([newWindow isKindOfClass:[AMWindow class]] && 
-		[[newWindow valueForKey:@"windowController"] class] == NSClassFromString(@"RCMSessionWindowController"))
-	{
-		if (self.fileContainerView.frame.origin.x < 0)
-			[self toggleFileList:nil];
-	} else {
-		if (self.fileContainerView.frame.origin.x >= 0)
-			[self toggleFileList:nil];
+	if (!__didFirstWindow) {
+		if ([newWindow isKindOfClass:[AMWindow class]] && 
+			[[newWindow valueForKey:@"windowController"] class] == NSClassFromString(@"RCMSessionWindowController"))
+		{
+			if (self.fileContainerView.frame.origin.x < 0)
+				[self toggleFileList:nil];
+		} else {
+			if (self.fileContainerView.frame.origin.x >= 0)
+				[self toggleFileList:nil];
+		}
+		__didFirstWindow=YES;
 	}
 }
 
@@ -466,7 +478,11 @@
 		NSString *path = [url.absoluteString stringByDeletingPathExtension];
 		path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
 		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[path integerValue]]];
-		[[NSWorkspace sharedWorkspace] openFile:file.fileContentsPath];
+		RCMPDFViewController *pvc = [[RCMPDFViewController alloc] init];
+		[pvc view]; //load from nib
+		[pvc loadPdf:file.fileContentsPath];
+		[(AppDelegate*)[NSApp delegate] showViewController:pvc];
+//		[[NSWorkspace sharedWorkspace] openFile:file.fileContentsPath];
 	} else {
 		//for now. we may want to handle multiple images at once
 		[self displayImage:[url path]];
