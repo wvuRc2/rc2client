@@ -177,12 +177,6 @@
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
-	//change the background
-	NSString *bgColor = @"#fbc1b5";
-	if ([bgColor length] > 2) {
-		NSString *cmd = [NSString stringWithFormat:@"$('body').css('background-color', '%@')", bgColor];
-		[self.webView stringByEvaluatingJavaScriptFromString:cmd];
-	}
 }
 
 - (void)webView:(WebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
