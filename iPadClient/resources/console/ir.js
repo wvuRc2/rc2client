@@ -134,8 +134,10 @@ iR.userLeftSession = function(login, userid) {
 
 iR.echoInput = function(txt, username, userid) {
 	var html = '\n<span class="inputText">';
-//	if (userid != iR.userid)
-		html += '<span class="inputUser">' + username + ':</span> '
+	if (username) {
+//		if (userid != iR.userid)
+			html += '<span class="inputUser">' + username + ':</span> '
+	}
 	html += txt + "</span>\n"
 	iR.appendConsoleText(html)
 }
@@ -183,11 +185,12 @@ iR.consoleKeyUp = function(e) {
 	}
 }
 
-iR.appendPdf = function(pdfurl, fileId) {
+iR.appendPdf = function(pdfurl, fileId, filename) {
 	try {
 		var ic = document.createElement('div')
 		var divname = 'pdf' + new Date().getTime()
 		ic.setAttribute('id', divname)
+		ic.setAttribute('class', 'pdf')
 		var anchorElem = document.createElement("a");
 		anchorElem.setAttribute("href", pdfurl);
 		var elem = document.createElement('img');
@@ -199,6 +202,9 @@ iR.appendPdf = function(pdfurl, fileId) {
 		anchorElem.setAttribute('class', 'genImg');
 		anchorElem.setAttribute('href', 'rc2img://' + fileId + ".pdf")
 		ic.appendChild(anchorElem)
+		var span = document.createElement("span");
+		span.innerHTML = filename
+		ic.appendChild(span)
 		var outdiv = document.getElementById('consoleOutputGenerated');
 		outdiv.appendChild(ic)
 		outdiv.scrollTop = outdiv.scrollHeight;
@@ -262,6 +268,19 @@ iR.clearConsole = function() {
 	div.innerHTML = ''
 }
 
+iR.toggleMatrix = function(mid) {
+	var table = $("#mx" + mid)
+	var tbody = table.find("tbody")
+	var img = table.find("thead img").first()
+	if (img.attr("src").endsWith('toggleOpen.png')) {
+		img.attr("src", 'toggleClosed.png');
+		tbody.fadeOut(700, function() { table.hide(); table.show();	})
+	} else {
+		img.attr("src", 'toggleOpen.png');
+		tbody.fadeIn(700)
+	}
+}
+
 iR.toggleDataFrame = function(dfid) {
 	var tbody = jQuery("#df" + dfid)
 	var imgdiv = jQuery("#dfl" + dfid)
@@ -318,12 +337,13 @@ iR.formatMatrix = function(theMatrix) {
 	var numRows = theMatrix['rows']
 	var numCols = theMatrix['cols']
 	var data = theMatrix['data']
-	var html = '<table class="ir-expvec ir-mx">'
+	var uid = uniqueID().toString().trim()
+	var html = '<table class="ir-expvec ir-mx" id="mx' + uid + '">'
 	var haveRowHeaders = theMatrix.hasOwnProperty("rownames")
 	var haveColHeaders = theMatrix.hasOwnProperty("colnames") && theMatrix['colnames'].length == numCols
 	if (haveColHeaders) {
 		html += '<thead><tr>'
-		if (haveRowHeaders) html += '<th>&nbsp;</th>'
+		if (haveRowHeaders) html += '<th><img src="toggleOpen.png" width="10" heigh="10" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'
 		for (var i=0; i < numCols; i++)
 			html += '<th>' + theMatrix['colnames'][i] + '</th>'
 		html += '</tr></thead>\n'
@@ -339,6 +359,9 @@ iR.formatMatrix = function(theMatrix) {
 		html += '<td>' + data[i] + '</td>'
 	}
 	html == '</tr>\n</tbody></table>'
+	//FIXME: we need to set the widths of the thead cells to what they initially are. probably best to set a timer
+	// following is not working
+	setTimeout(function() {$("#mx" + uid).width($("#mx" + uid).width) }, 100)
 	return html
 }
 
@@ -422,7 +445,6 @@ iR.formatComplex = function(dataArray) {
 }
 
 iR.appendComplexResults = function(dataArray) {
-	console.log(dataArray)
 	var outdiv = document.getElementById('consoleOutputGenerated');
 	var html = iR.formatComplex(dataArray)
 	var newElem = jQuery(html)

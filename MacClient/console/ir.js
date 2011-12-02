@@ -194,11 +194,12 @@ iR.closeImagePreview = function(imgGroup) {
 	Rc2.closePreview(imgGroup);
 }
 
-iR.appendPdf = function(pdfurl, fileId) {
+iR.appendPdf = function(pdfurl, fileId, filename) {
 	try {
 		var ic = document.createElement('div')
 		var divname = 'pdf' + new Date().getTime()
 		ic.setAttribute('id', divname)
+		ic.setAttribute('class', 'pdf')
 		var anchorElem = document.createElement("a");
 		anchorElem.setAttribute("href", pdfurl);
 		var elem = document.createElement('img');
@@ -210,6 +211,9 @@ iR.appendPdf = function(pdfurl, fileId) {
 		anchorElem.setAttribute('class', 'genImg');
 		anchorElem.setAttribute('href', 'rc2img://' + fileId + ".pdf")
 		ic.appendChild(anchorElem)
+		var span = document.createElement("span");
+		span.innerHTML = filename
+		ic.appendChild(span)
 		var outdiv = document.getElementById('consoleOutputGenerated');
 		outdiv.appendChild(ic)
 		outdiv.scrollTop = outdiv.scrollHeight;

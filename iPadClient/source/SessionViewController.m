@@ -79,9 +79,12 @@
 		self.imgCachePath = [cacheUrl path];
 		self.imgCache = [NSMutableDictionary dictionary];
 		self.dloadQueue = [[[NSOperationQueue alloc] init] autorelease];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appRestored:) name: UIApplicationWillEnterForegroundNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnteringBackground:) name:  UIApplicationDidEnterBackgroundNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardPrefsChanged:) name:  KeyboardPrefsChangedNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appRestored:) 
+													 name: UIApplicationWillEnterForegroundNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnteringBackground:) 
+													 name: UIApplicationDidEnterBackgroundNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardPrefsChanged:) 
+													 name: KeyboardPrefsChangedNotification object:nil];
 	}
 	return self;
 }
@@ -142,7 +145,8 @@
 		blockSelf.splitController.dividerView.darkColor = [aTheme colorForKey:@"SessionPaneSplitterEnd"];
 	}];
 	self.themeToken = tn;
-	[self.splitController.dividerView addShineLayer:self.splitController.dividerView.layer bounds:self.splitController.dividerView.bounds];
+	[self.splitController.dividerView addShineLayer:self.splitController.dividerView.layer 
+											 bounds:self.splitController.dividerView.bounds];
 	
 	RCSavedSession *savedState = self.session.savedSessionState;
 	self.consoleController.session = self.session;
@@ -232,7 +236,8 @@
 -(NSString*)escapeForJS:(NSString*)str
 {
 	if ([str isKindOfClass:[NSString class]])
-		return [self.jsQuiteRExp stringByReplacingMatchesInString:str options:0 range:NSMakeRange(0, [str length]) withTemplate:@"\\'"];
+		return [self.jsQuiteRExp stringByReplacingMatchesInString:str options:0 range:NSMakeRange(0, [str length]) 
+													 withTemplate:@"\\'"];
 	return [str description];
 }
 
@@ -242,7 +247,8 @@
 	if (nil == html)
 		return;
 	NSError *err=nil;
-	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///iR/images/([^\\.]+\\.png)" options:0 error:&err];
+	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///iR/images/([^\\.]+\\.png)" 
+																		   options:0 error:&err];
 	ZAssert(nil == err, @"error compiling regex: %@", [err localizedDescription]);
 	__block SessionViewController *blockSelf = self;
 	[regex enumerateMatchesInString:html options:0 range:NSMakeRange(0, [html length]) 
@@ -292,7 +298,8 @@
 -(void)displayPdfFile:(RCFile*)file
 {
 	//display in document controller
-	UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:[file fileContentsPath]]];
+	UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:
+											[NSURL fileURLWithPath:[file fileContentsPath]]];
 	dic.delegate = (id)self;
 	[dic presentPreviewAnimated:YES];	
 }
@@ -347,7 +354,8 @@
 -(void)saveSessionState
 {
 	RCSavedSession *savedState = _session.savedSessionState;
-	savedState.consoleHtml = [self.consoleController.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];
+	savedState.consoleHtml = [self.consoleController.webView stringByEvaluatingJavaScriptFromString:
+							  @"$('#consoleOutputGenerated').html()"];
 	savedState.currentFile = self.editorController.currentFile;
 	if (nil == savedState.currentFile)
 		savedState.inputText = self.editorController.textView.text;
@@ -491,7 +499,8 @@
 														  userInfo:dict];
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {
 		NSNumber *fileid = [dict objectForKey:@"fileId"];
-		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@)", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid];
+		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@, '%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid,
+			  [self escapeForJS:[[dict objectForKey:@"pdfurl"] lastPathComponent]]];
 		[self.session.workspace updateFileId:fileid];
 	}
 	if (js) {
@@ -513,7 +522,8 @@
 		}
 		//error connecting
 		RunAfterDelay(0.5, ^{
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil 
+												  cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
 			[alert showWithCompletionHandler: ^(UIAlertView *av, NSInteger idx) {
 				[(id)[UIApplication sharedApplication].delegate endSession:nil];
 			}];
@@ -534,7 +544,8 @@
 	return self;
 }
 
-- (float)splitViewController:(MGSplitViewController *)svc constrainSplitPosition:(float)proposedPosition splitViewSize:(CGSize)viewSize;
+- (float)splitViewController:(MGSplitViewController *)svc constrainSplitPosition:(float)proposedPosition 
+			   splitViewSize:(CGSize)viewSize;
 {
 	CGFloat maxSize = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation) ? viewSize.width : viewSize.height;
 	if (maxSize - proposedPosition < 150)

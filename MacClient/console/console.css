@@ -355,3 +355,12 @@ table.ir-mx td {
 
 #nameFile {
   width: 360px; }
+
+.pdf {
+	margin-top:4px;
+}
+
+.pdf img {
+	margin-bottom:-2px;
+	margin-right:4px;
+}

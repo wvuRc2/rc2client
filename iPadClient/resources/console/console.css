@@ -2,6 +2,9 @@ body {
 	background-color:#ccc;
 	font-family:Inconsolata, Menlo, "Courier New", Monaco, monospace;
 	font-size:100%;
+	margin-right: 0px;
+	margin-left: 0px;
+	overflow-x: hidden;
 }
 
 #consoleOutputGenerated {
@@ -21,11 +24,6 @@ body {
   position: relative;
   text-align: center;
   zoom: 1; }
-
-body {
-  margin-right: 0px;
-  margin-left: 0px;
-  overflow-x: hidden; }
 
 /*
 	ffd524 outer
@@ -235,7 +233,9 @@ table.ir-expvec td {
   text-align: right; }
 
 table.ir-expvec th {
-  text-align: left; }
+	text-align: left; 
+	vertical-align:top;
+}
 
 td.ir-expvecnest {
   text-align: left !important; }
@@ -355,3 +355,10 @@ table.ir-mx td {
 
 #nameFile {
   width: 360px; }
+
+.pdf { margin-top:4px;}
+
+.pdf img {
+	margin-bottom:-2px;
+	margin-right:4px;
+}
