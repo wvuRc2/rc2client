@@ -34,7 +34,8 @@ iR.selectionStart = 0;
 iR.selectionEnd = 0;
 iR.userid = 0;
 iR.settings = {maxHistLen: 20}
-iR.graphFileUrl = '/img/graph.png';
+iR.isiPad = navigator.userAgent.match(/iPad/i) != null;
+iR.graphFileUrl = 'graph.png';
 
 iR.StatTabArray = function StatTabArray() {
 	this.size = function() {
@@ -185,6 +186,15 @@ iR.consoleKeyUp = function(e) {
 	}
 }
 
+iR.previewImage = function(imgGroup) {
+	var elems = $(imgGroup).find("a").get()
+	Rc2.preview(imgGroup, elems);
+}
+
+iR.closeImagePreview = function(imgGroup) {
+	Rc2.closePreview(imgGroup);
+}
+
 iR.appendPdf = function(pdfurl, fileId, filename) {
 	try {
 		var ic = document.createElement('div')
@@ -218,6 +228,11 @@ iR.appendImages = function(imgArray) {
 	var ic = document.createElement('div')
 	var divname = 'img' + new Date().getTime()
 	ic.setAttribute('id', divname)
+	if (!iR.isiPad) {
+		$(ic).addClass("imgGroup")
+		$(ic).mouseenter(function() {iR.previewImage(this); })
+		$(ic).mouseleave(function() {iR.closeImagePreview(this); })
+	}
 	for (var i=0; i < imgArray.length; i++) {
 		var ispan = document.createElement('span');
 		ispan.setAttribute('class', 'Rimg');
@@ -235,7 +250,7 @@ iR.appendImages = function(imgArray) {
 	var outdiv = document.getElementById('consoleOutputGenerated');
 	outdiv.appendChild(ic)
 	outdiv.scrollTop = outdiv.scrollHeight;
-	$('#' + divname + " a.genImg").lightBox({fixedNavigation:true});
+//	$('#' + divname + " a.genImg").lightBox({fixedNavigation:true});
 }
 
 iR.restoreConsoleHTML = function(html) {
@@ -789,4 +804,14 @@ iR.hideMenuIfDisplayed = function(linkRef) {
 }
 
 iR.doSetup = function() {
+	if (iR.isiPad) {
+	} else {
+		//restore handlers for any image groups
+		$(".imgGroup").mouseenter(function() {iR.previewImage(this); })
+		$(".imgGroup").mouseleave(function() {iR.closeImagePreview(this); })
+		$(window).error(function (msg, url, line) {
+			iR.appendConsoleText("<p>msg:" + msg + "</p>")
+			Rc2.handleError(msg + '; line=' + line)
+		});
+	}
 }

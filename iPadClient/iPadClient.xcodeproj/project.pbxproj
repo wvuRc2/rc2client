@@ -65,6 +65,8 @@
 		08349F611404C38100B629B4 /* WorkspaceTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08349F601404C38000B629B4 /* WorkspaceTableCell.m */; };
 		08349F631404C3FA00B629B4 /* WorkspaceTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08349F621404C3FA00B629B4 /* WorkspaceTableCell.xib */; };
 		08349F651404CDB800B629B4 /* workspaceHi.png in Resources */ = {isa = PBXBuildFile; fileRef = 08349F641404CDB800B629B4 /* workspaceHi.png */; };
+		083A6D6C1489764A00A29A52 /* console.html in copy console files */ = {isa = PBXBuildFile; fileRef = 08DFFDAD14897392008D1399 /* console.html */; };
+		083A6D6D1489765900A29A52 /* jquery-1.6.1.min.js in copy console files */ = {isa = PBXBuildFile; fileRef = 08DFFDAF14897392008D1399 /* jquery-1.6.1.min.js */; };
 		08447F681415B53B00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F661415B53B00A8DDF8 /* Rc2.xcdatamodeld */; };
 		08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */; };
 		08447F741415DE8F00A8DDF8 /* themes in Resources */ = {isa = PBXBuildFile; fileRef = 08447F731415DE8F00A8DDF8 /* themes */; };
@@ -145,6 +147,7 @@
 		08DD23BA1412E10100217C1A /* importCheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DD23B91412E10100217C1A /* importCheck.png */; };
 		08DD23BD1413CC6B00217C1A /* _RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DD23BC1413CC6A00217C1A /* _RCMessage.m */; };
 		08DD23C01413CC7A00217C1A /* RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DD23BF1413CC7900217C1A /* RCMessage.m */; };
+		08DFFDB114897392008D1399 /* ir.js in copy console files */ = {isa = PBXBuildFile; fileRef = 08DFFDAE14897392008D1399 /* ir.js */; };
 		08EE41151436441F004FDBB8 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41031436441F004FDBB8 /* AsyncSocket.m */; };
 		08EE41161436441F004FDBB8 /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41051436441F004FDBB8 /* MutableQueue.m */; };
 		08EE41171436441F004FDBB8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41071436441F004FDBB8 /* NSData+Base64.m */; };
@@ -196,6 +199,22 @@
 		08FE899B141563CC00672474 /* db_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FE8990141563CC00672474 /* db_logo.png */; };
 		08FE899C141563CC00672474 /* db_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FE8991141563CC00672474 /* db_logo@2x.png */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		08DFFDAC1489737C008D1399 /* copy console files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = console;
+			dstSubfolderSpec = 7;
+			files = (
+				083A6D6D1489765900A29A52 /* jquery-1.6.1.min.js in copy console files */,
+				083A6D6C1489764A00A29A52 /* console.html in copy console files */,
+				08DFFDB114897392008D1399 /* ir.js in copy console files */,
+			);
+			name = "copy console files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		082D9D531408FF6E008F3CB0 /* notes.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notes.markdown; sourceTree = "<group>"; };
@@ -402,6 +421,9 @@
 		08DD23BC1413CC6A00217C1A /* _RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCMessage.m; path = ../SharedCode/rc2/model/generated/_RCMessage.m; sourceTree = SOURCE_ROOT; };
 		08DD23BE1413CC7900217C1A /* RCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMessage.h; path = ../SharedCode/rc2/model/RCMessage.h; sourceTree = SOURCE_ROOT; };
 		08DD23BF1413CC7900217C1A /* RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMessage.m; path = ../SharedCode/rc2/model/RCMessage.m; sourceTree = SOURCE_ROOT; };
+		08DFFDAD14897392008D1399 /* console.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = console.html; path = ../console/common/console.html; sourceTree = SOURCE_ROOT; };
+		08DFFDAE14897392008D1399 /* ir.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = ir.js; path = ../console/common/ir.js; sourceTree = SOURCE_ROOT; };
+		08DFFDAF14897392008D1399 /* jquery-1.6.1.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "jquery-1.6.1.min.js"; path = "../console/common/jquery-1.6.1.min.js"; sourceTree = SOURCE_ROOT; };
 		08EE41021436441F004FDBB8 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
 		08EE41031436441F004FDBB8 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
 		08EE41041436441F004FDBB8 /* MutableQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableQueue.h; sourceTree = "<group>"; };
@@ -600,6 +622,7 @@
 		082DC03413EC99E5008EAA99 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				08DFFDB3148973F2008D1399 /* shared console */,
 				0853230F1405CCC00045D207 /* console */,
 				08447F731415DE8F00A8DDF8 /* themes */,
 				08447F891416D82D00A8DDF8 /* ThemeEngine.plist */,
@@ -875,6 +898,16 @@
 			name = "3rd Party";
 			sourceTree = "<group>";
 		};
+		08DFFDB3148973F2008D1399 /* shared console */ = {
+			isa = PBXGroup;
+			children = (
+				08DFFDAD14897392008D1399 /* console.html */,
+				08DFFDAE14897392008D1399 /* ir.js */,
+				08DFFDAF14897392008D1399 /* jquery-1.6.1.min.js */,
+			);
+			name = "shared console";
+			sourceTree = "<group>";
+		};
 		08EE41011436441F004FDBB8 /* WebSocketClient */ = {
 			isa = PBXGroup;
 			children = (
@@ -998,6 +1031,7 @@
 				082DC02613EC99E4008EAA99 /* Frameworks */,
 				082DC02713EC99E4008EAA99 /* Resources */,
 				08DFFDA414896B9A008D1399 /* ShellScript */,
+				08DFFDAC1489737C008D1399 /* copy console files */,
 			);
 			buildRules = (
 			);
