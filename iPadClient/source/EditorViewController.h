@@ -30,6 +30,7 @@
 -(IBAction)presentDropboxImport:(id)sender;
 -(IBAction)doSaveFile:(id)sender;
 
--(void)loadFile:(RCFile*)file;
+-(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress;
+-(void)loadFile:(RCFile*)file; //shows progress
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 @end

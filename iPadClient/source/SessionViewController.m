@@ -154,14 +154,18 @@
 	[self.editorController view];
 	[self.editorController restoreSessionState:savedState];
 	if (self.session.initialFileSelection)
-		[self.editorController loadFile:self.session.initialFileSelection];
+		[self.editorController loadFile:self.session.initialFileSelection showProgress:NO];
 	[self.consoleController restoreSessionState:savedState];
 	[self cacheImagesReferencedInHTML:savedState.consoleHtml];
 	if (!self.session.socketOpen) {
-		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-		hud.labelText = @"Connecting to server…";
-		self.showingProgress = YES;
-		[self.session startWebSocket];
+		RunAfterDelay(0.2, ^{
+			MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+			hud.labelText = @"Connecting to server…";
+			self.showingProgress = YES;
+			RunAfterDelay(0.1, ^{
+				[self.session startWebSocket];
+			});
+		});
 	}
 }
 
@@ -381,8 +385,10 @@
 
 -(void)connectionOpened
 {
-	if (self.showingProgress)
+	NSLog(@"connection opened");
+	if (self.showingProgress) {
 		[MBProgressHUD hideHUDForView:self.view animated:YES];
+	}
 	if (!self.reconnecting)
 		self.autoReconnect=YES;
 	self.reconnecting=NO;

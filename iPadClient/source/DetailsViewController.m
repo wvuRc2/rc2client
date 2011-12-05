@@ -27,6 +27,7 @@ enum {
 
 @interface DetailsViewController() {
 	NSInteger _whatsVisible;
+	NSTimeInterval _lastTapTime;
 	BOOL _didMsgCheck;
 	BOOL _didNibCheck;
 }
@@ -475,11 +476,17 @@ enum {
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if ([indexPath isEqual:self.selectedIndex]) {
+		if (self.selectedIndex && [NSDate timeIntervalSinceReferenceDate] - _lastTapTime < 0.4) {
+			//count it as a double tap
+			[self doStartSession:self];
+			return indexPath;
+		}
 		if (self.selectedIndex)
 			[tableView deselectRowAtIndexPath:self.selectedIndex animated:YES];
 		self.selectedIndex=nil;
 	} else
 		self.selectedIndex = indexPath;
+	_lastTapTime = [NSDate timeIntervalSinceReferenceDate];
 	return self.selectedIndex;
 }
 

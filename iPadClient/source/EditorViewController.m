@@ -233,6 +233,11 @@
 
 -(void)loadFile:(RCFile*)file
 {
+	[self loadFile:file showProgress:YES];	
+}
+
+-(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress
+{
 	[self.filePopover dismissPopoverAnimated:YES];
 	if (!file.isTextFile) {
 		//FIXME: need to do something else when file is not a text file. Likely a pdf file.
@@ -243,12 +248,15 @@
 	} else {
 		//need to load with a progress HUD
 		UIView *rootView = self.view.superview;
-		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
+		MBProgressHUD *hud = nil;
+		if (showProgress)
+			hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
 		hud.labelText = @"Loading…";
 		[[Rc2Server sharedInstance] fetchFileContents:file completionHandler:^(BOOL success, id results) {
 			file.fileContents = results;
 			[self loadFileData:file];
-			[MBProgressHUD hideHUDForView:rootView animated:YES];
+			if (showProgress)
+				[MBProgressHUD hideHUDForView:rootView animated:YES];
 		}];
 	}
 }

@@ -438,8 +438,8 @@ iR.formatMatrix = function(theMatrix) {
 		var headrow2 =$("<tr>")
 		headrow2.appendTo(thead2)
 		if (haveRowHeaders) {
-			headrow.append($('<th><img src="toggleOpen.png" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'))
-			headrow2.append($('<th><img src="toggleClosed.png" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'))
+			headrow.append($('<th><img src="toggleOpen.png" class="toggleImg" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'))
+			headrow2.append($('<th><img src="toggleClosed.png" class="toggleImg" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'))
 		}
 		for (var i=0; i < numCols; i++) {
 			headrow.append('<th>' + theMatrix['colnames'][i] + '</th>')
