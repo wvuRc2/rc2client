@@ -282,7 +282,7 @@ iR.clearConsole = function() {
 	var div = document.getElementById('consoleOutputGenerated');
 	div.innerHTML = ''
 }
-
+/*
 iR.toggleMatrix = function(mid) {
 	var table = $("#mx" + mid)
 	var tbody = table.find("tbody")
@@ -294,6 +294,40 @@ iR.toggleMatrix = function(mid) {
 		img.attr("src", 'toggleOpen.png');
 		tbody.fadeIn(700)
 	}
+} */
+
+iR.toggleMatrix = function(mid) {
+	var table1 = $("#mx" + mid)
+	var table2 = $("#mx" + mid + "h")
+	if (table1.css('opacity') == "0") {
+		table1.insertAfter(table2)
+		table2.appendTo($('#dump'))
+		table1.css('opacity', 1)
+		table2.css('opacity', 0)
+	} else {
+		table2.insertAfter(table1)
+		table1.appendTo($('#dump'))
+		table1.css('opacity', 0)
+		table2.css('opacity', 1)
+	}
+/*	if (table1.css('opacity') == "0") {
+		var tmp = table2
+		table2 = table1
+		table1 = tmp
+	}
+	wrap.height(table2.outerHeight())
+	wrap.width(table2.outerWidth())
+	var dstHeight = table2.outerHeight()
+	var dstWidth = table2.outerWidth()
+	var dstOverflow=table2.css("overflow")
+	var dstArray = table2.add(wrap)
+	dstArray.height(table1.height())
+	dstArray.width(table1.width())
+	table1.fadeTo(600, 0)
+	table2.fadeTo(400, 1)
+	table2.css('overflow', 'hidden')
+	dstArray.animate({height:dstHeight, width:dstWidth}, {duration:1000})
+ */
 }
 
 iR.toggleDataFrame = function(dfid) {
@@ -312,8 +346,7 @@ iR.toggleDataFrame = function(dfid) {
 	}
 }
 
-iR.arrayRowsToTableRows = function(dataArray) {
-	var txt = ''
+iR.arrayRowsToTableRows = function(dataArray, tableElem) {
 	var maxlen=0
 	var isDF=false
 	//this works for simple, not complex. if any decendent is a data frame, we need to limit to two columns
@@ -332,39 +365,87 @@ iR.arrayRowsToTableRows = function(dataArray) {
 	if (isDF)
 		numCols = 1
 	var i=0
+	var tbody = tableElem.find("tbody")
+	var curRow = $("<tr>")
 	for (i=0; i < dataArray.length; i++) {
 		if (i % numCols == 0) {
-			if (i > 0) txt += "</tr>\n"
-			txt += "<tr>"
+			if (i > 0) curRow.appendTo(tbody)
+			curRow = $("<tr>")
 		}
 		if (dataArray[i].substring || dataArray[i].toFixed)
-			txt += "<td>" + dataArray[i] + "</td>"
+			curRow.append($("<td>" + dataArray[i] + "</td>"))
 		else
-			txt += "<td>" + iR.formatComplex(dataArray[i]) + "</td>"
+			curRow.append($("<td>").append(iR.formatComplex(dataArray[i])))
 	}
 	while (i++ % numCols > 0)
-		txt += '<td>&nbsp;</td>'
-	txt += "</tr>\n"
-	return txt
+		curRow.append($("<td>&nbsp;</td>"))
+	tbody.append(curRow)
 }
 
+/*
+ iR.formatMatrix = function(theMatrix) {
+ var numRows = theMatrix['rows']
+ var numCols = theMatrix['cols']
+ var data = theMatrix['data']
+ var uid = uniqueID().toString().trim()
+ var html = '<table class="ir-expvec ir-mx" id="mx' + uid + '">'
+ var haveRowHeaders = theMatrix.hasOwnProperty("rownames")
+ var haveColHeaders = theMatrix.hasOwnProperty("colnames") && theMatrix['colnames'].length == numCols
+ if (haveColHeaders) {
+ html += '<thead><tr>'
+ if (haveRowHeaders) html += '<th><img src="toggleOpen.png" width="10" heigh="10" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'
+ for (var i=0; i < numCols; i++)
+ html += '<th>' + theMatrix['colnames'][i] + '</th>'
+ html += '</tr></thead>\n'
+ }
+ html += '<tbody>'
+ var rowNum=0
+ for (var i=0; i < data.length; i++) {
+ if (i % numCols == 0) {
+ if (i > 0) html += '</tr>\n'
+ html += '<tr>'
+ if (haveRowHeaders) html += '<th>' + theMatrix['rownames'][rowNum++] + '</th>'
+ }
+ html += '<td>' + data[i] + '</td>'
+ }
+ html == '</tr>\n</tbody></table>'
+ //FIXME: we need to set the widths of the thead cells to what they initially are. probably best to set a timer
+ // following is not working
+ setTimeout(function() {$("#mx" + uid).width($("#mx" + uid).width) }, 100)
+ return $(html)
+ }
+*/
 iR.formatMatrix = function(theMatrix) {
 	var numRows = theMatrix['rows']
 	var numCols = theMatrix['cols']
 	var data = theMatrix['data']
 	var uid = uniqueID().toString().trim()
-	var html = '<table class="ir-expvec ir-mx" id="mx' + uid + '">'
+	var table1 = $('<table class="ir-expvec ir-mx" id="mx' + uid + '"></table>')
+	var table2 = $('<table class="ir-expvec ir-mx" id="mx' + uid + 'h" style="opacity=0;"></table>')
 	var haveRowHeaders = theMatrix.hasOwnProperty("rownames")
 	var haveColHeaders = theMatrix.hasOwnProperty("colnames") && theMatrix['colnames'].length == numCols
 	if (haveColHeaders) {
-		html += '<thead><tr>'
-		if (haveRowHeaders) html += '<th><img src="toggleOpen.png" width="10" heigh="10" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'
-		for (var i=0; i < numCols; i++)
-			html += '<th>' + theMatrix['colnames'][i] + '</th>'
-		html += '</tr></thead>\n'
+		var thead = $("<thead>")
+		var headrow = $("<tr>")
+		headrow.appendTo(thead)
+		var thead2 = $("<thead>")
+		var headrow2 =$("<tr>")
+		headrow2.appendTo(thead2)
+		if (haveRowHeaders) {
+			headrow.append($('<th><img src="toggleOpen.png" width="10" heigh="10" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'))
+			headrow2.append($('<th><img src="toggleClosed.png" width="10" heigh="10" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'))
+		}
+		for (var i=0; i < numCols; i++) {
+			headrow.append('<th>' + theMatrix['colnames'][i] + '</th>')
+			headrow2.append('<th>' + theMatrix['colnames'][i] + '</th>')
+		}
+		table1.append(thead)
+		table2.append(thead2)
 	}
-	html += '<tbody>'
+	var tbody=$('<tbody></tbody>')
+	table1.append(tbody)
 	var rowNum=0
+	var html = ''
 	for (var i=0; i < data.length; i++) {
 		if (i % numCols == 0) {
 			if (i > 0) html += '</tr>\n'
@@ -373,11 +454,21 @@ iR.formatMatrix = function(theMatrix) {
 		}
 		html += '<td>' + data[i] + '</td>'
 	}
-	html == '</tr>\n</tbody></table>'
-	//FIXME: we need to set the widths of the thead cells to what they initially are. probably best to set a timer
-	// following is not working
-	setTimeout(function() {$("#mx" + uid).width($("#mx" + uid).width) }, 100)
-	return html
+	html += '</tr>'
+	tbody.append(html)
+	if (haveColHeaders) {
+		var wrap = $('<div id="mx' + uid + 'w" style="position:relative;margin-bottom:8px;"></div>');
+		wrap.append(table1)
+		table2.css('opacity', 0)
+		table2.appendTo($("#dump"))
+		setTimeout(function() {
+			wrap.css("min-width", table1.outerWidth()+10)
+			wrap.width(table1.outerWidth())
+			table2.css("min-width", table1.outerWidth()+10)
+		}, 100)
+		return wrap
+	}
+	return table1
 }
 
 iR.formatDataFrame = function(theFrame) {
@@ -407,49 +498,52 @@ iR.formatDataFrame = function(theFrame) {
 		html += '</tr>\n'
 	}
 	html += '</tbody></table>\n'
-	return html
+	return $(html)
 }
 
 iR.formatHash = function(theHash) {
+	var table = $('<table class="ir-expvec"><tbody></tbody></table>')
 	if (theHash['type'] == 'dataframe')
 		return iR.formatDataFrame(theHash)
-	var html = ''
+	var tbody = table.find("tbody")
 	for (key in theHash) {
 		if (theHash.hasOwnProperty(key)) {
 			//it is a value to output
+			var row = $("<tr>")
+			row.appendTo(tbody)
+			row.append($("<th>").append(key))
+			var cell = $('<td class="ir-expvectnest">')
 			var val = theHash[key]
-			html += "<tr><th>" + key + '</th><td class="ir-expvecnest">'
-			html += iR.formatList(val)
-			html += "</td></tr>\n"
+			cell.append(iR.formatList(val))
+			row.append(cell)
 		}
 	}
-	return html
+	return table
 }
 
 iR.formatList = function(theList) {
-	var html = '<table class="ir-expvec">'
+	var table = $('<table class="ir-expvec"><tbody></tbody></table>')
 	if (theList.substring) {
-			//it is a string, not a list. assume already wrapped appropriately
-			return theList
+		return theList
 	} else if (theList.toFixed) {
-		//a number. not a list
-		return "<td>" + theList + "</td>";
+		return $("<td>" + theList + "</td>")
 	} else if (theList instanceof Array) {
-		//it is an array
-		if (theList.length == 1 && (theList[0].substring || theList[0].toFixed))
+		if (theList.length == 1 && (theList[0].substring || theList[0].toFixed)) {
 			return theList[0].toString()
-		html += iR.arrayRowsToTableRows(theList)
+		} else {
+			iR.arrayRowsToTableRows(theList, table)
+			return table
+		}
 	} else {
-		//it is a hash
 		if (theList['type'] == 'matrix') {
 			return iR.formatMatrix(theList)
 		} else if (theList['type'] == 'dataframe') {
 			return iR.formatDataFrame(theList)
 		}
-		html += iR.formatHash(theList)
+		//it is a hash
+		return iR.formatHash(theList)
 	}
-	html += '</table>'
-	return html
+	return table
 }
 
 iR.formatComplex = function(dataArray) {
@@ -460,28 +554,24 @@ iR.formatComplex = function(dataArray) {
 }
 
 iR.appendComplexResults = function(dataArray) {
-	var outdiv = document.getElementById('consoleOutputGenerated');
-	var html = iR.formatComplex(dataArray)
-	var newElem = jQuery(html)
+	var newElem = iR.formatComplex(dataArray)
 	newElem.addClass("ir-rt-root");
-	newElem.appendTo(jQuery("#consoleOutputGenerated"))
+	newElem.appendTo($("#consoleOutputGenerated"))
 	//all the nested tables are now marked as such
-	jQuery(".ir-expvec", newElem).addClass("subtable")
+	$(".ir-expvec", newElem).addClass("subtable")
 	//set all dataframe labels to be the width of their table
-	jQuery(".ir-df-label").each(function(idx) {
-			jQuery(this).css('width', jQuery(this).next(".ir-df").css('width'));
+	$(".ir-df-label").each(function(idx) {
+			$(this).css('width', $(this).next(".ir-df").css('width'))
 	});
-	outdiv.scrollTop = outdiv.scrollHeight;
+	$("#consoleOutputGenerated").scrollTop(document.getElementById("consoleOutputGenerated").scrollHeight)
 }
 
 iR.appendResults = function(dataArray) {
-	var txt = '<table class="ir-expvec">'
 	if (typeof dataArray[0] != "string")
 		return this.appendNumericResults(dataArray)
-	txt += iR.arrayRowsToTableRows(dataArray)
-	txt += "</table>"
-	var outdiv = document.getElementById('consoleOutputGenerated');
-	outdiv.innerHTML += txt
+	var table = $('<table class="ir-expvec"><tbody></tbody></table>')
+	iR.arrayRowsToTableRows(dataArray, table)
+	table.appendTo($('#consoleOutputGenerated'))
 }
 
 //eventually this should align the decimal places. for now, we just do it as strings
