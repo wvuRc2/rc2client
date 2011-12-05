@@ -282,6 +282,12 @@ iR.clearConsole = function() {
 	var div = document.getElementById('consoleOutputGenerated');
 	div.innerHTML = ''
 }
+
+iR.checkForDump = function() {
+	if ($("#dump").length < 1) {
+		$('#consoleOutputGenerated').prepend($('<div id="dump" style="width:1px;height:1px;"></div>'))
+	}
+}
 /*
 iR.toggleMatrix = function(mid) {
 	var table = $("#mx" + mid)
@@ -409,17 +415,17 @@ iR.arrayRowsToTableRows = function(dataArray, tableElem) {
  html += '<td>' + data[i] + '</td>'
  }
  html == '</tr>\n</tbody></table>'
- //FIXME: we need to set the widths of the thead cells to what they initially are. probably best to set a timer
- // following is not working
- setTimeout(function() {$("#mx" + uid).width($("#mx" + uid).width) }, 100)
  return $(html)
  }
 */
 iR.formatMatrix = function(theMatrix) {
+	iR.checkForDump()
 	var numRows = theMatrix['rows']
 	var numCols = theMatrix['cols']
 	var data = theMatrix['data']
 	var uid = uniqueID().toString().trim()
+	while ($('mx' + uid).length > 0)
+		uid = uniqueID().toString().trim()
 	var table1 = $('<table class="ir-expvec ir-mx" id="mx' + uid + '"></table>')
 	var table2 = $('<table class="ir-expvec ir-mx" id="mx' + uid + 'h" style="opacity=0;"></table>')
 	var haveRowHeaders = theMatrix.hasOwnProperty("rownames")
@@ -432,8 +438,8 @@ iR.formatMatrix = function(theMatrix) {
 		var headrow2 =$("<tr>")
 		headrow2.appendTo(thead2)
 		if (haveRowHeaders) {
-			headrow.append($('<th><img src="toggleOpen.png" width="10" heigh="10" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'))
-			headrow2.append($('<th><img src="toggleClosed.png" width="10" heigh="10" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'))
+			headrow.append($('<th><img src="toggleOpen.png" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'))
+			headrow2.append($('<th><img src="toggleClosed.png" onclick="iR.toggleMatrix(\'' + uid + '\');return false">&nbsp;</th>'))
 		}
 		for (var i=0; i < numCols; i++) {
 			headrow.append('<th>' + theMatrix['colnames'][i] + '</th>')
@@ -900,7 +906,7 @@ iR.doSetup = function() {
 		$(".imgGroup").mouseenter(function() {iR.previewImage(this); })
 		$(".imgGroup").mouseleave(function() {iR.closeImagePreview(this); })
 		$(window).error(function (msg, url, line) {
-			iR.appendConsoleText("<p>msg:" + msg + "</p>")
+			//iR.appendConsoleText("<p>msg:" + msg + "</p>")
 			Rc2.handleError(msg + '; line=' + line)
 		});
 	}
