@@ -11,6 +11,7 @@
 #import "RCWorkspaceShare.h"
 #import "WorkspaceCellView.h"
 #import "RCMAddShareController.h"
+#import "MacMainWindowController.h"
 #import "ASIFormDataRequest.h"
 #import "Rc2Server.h"
 
@@ -79,6 +80,14 @@
 
 -(IBAction)doRefreshFileList:(id)sender
 {
+}
+
+-(IBAction)fileListDoubleClicked:(id)sender
+{
+	WorkspaceCellView *wcv = sender;
+	RCFile *file = wcv.selectedObject;
+	MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
+	[mainwc openSession:self.workspace file:file inNewWindow:NO];
 }
 
 #pragma mark - meat & potatos
@@ -168,6 +177,9 @@
 	view.removeDetailHander = ^(id cell, id sender) {
 		[self handleRemoveDetailItem:cell sender:sender];
 	};
+	view.doubleClickHandler = ^(id cell) {
+		[self fileListDoubleClicked:cell];	
+	};
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[tableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:row]];
 	});
@@ -191,4 +203,5 @@
 @synthesize addPopover;
 @synthesize addController;
 @synthesize ignoreSectionReloads;
+@synthesize selectedFile;
 @end

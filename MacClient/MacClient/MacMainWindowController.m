@@ -86,8 +86,14 @@
 
 -(void)openSession:(RCWorkspace*)wspace inNewWindow:(BOOL)inNewWindow
 {
+	[self openSession:wspace file:nil inNewWindow:inNewWindow];
+}
+
+-(void)openSession:(RCWorkspace*)wspace file:(RCFile*)initialFile inNewWindow:(BOOL)inNewWindow
+{
 	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
 	RCSession *session = [appDel sessionForWorkspace:wspace];
+	session.initialFileSelection = initialFile;
 	MacSessionViewController *svc = [appDel viewControllerForSession:session create:YES];
 	//option key forces new window
 	if ([NSEvent modifierFlags] & NSAlternateKeyMask)

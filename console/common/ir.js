@@ -124,27 +124,27 @@ iR.setUserid = function(userid) {
 }
 
 iR.userJoinedSession = function(login, userid) {
-	var html = '<span class="statusText">[' + iR.currentTimestamp() + '] ' + login + ' has joined the session</span>\n'
+	var html = '<div class="sessionMsg"><span class="statusText">[' + iR.currentTimestamp() + '] ' + login + ' has joined the session</span></div>'
 	iR.appendConsoleText(html)
 }
 
 iR.userLeftSession = function(login, userid) {
-	var html = '<span class="statusText">[' + iR.currentTimestamp() + '] ' + login + ' has left the session</span>\n'
+	var html = '<div class="sessionMsg"><span class="statusText">[' + iR.currentTimestamp() + '] ' + login + ' has left the session</span></div>'
 	iR.appendConsoleText(html)
 }
 
 iR.echoInput = function(txt, username, userid) {
-	var html = '\n<span class="inputText">';
+	var html = '<div class="sessionMsg"><span class="inputText">';
 	if (username) {
 //		if (userid != iR.userid)
 			html += '<span class="inputUser">' + username + ':</span> '
 	}
-	html += txt + "</span>\n"
+	html += txt + '</span></div>'
 	iR.appendConsoleText(html)
 }
 
 iR.displayError = function(msg) {
-	var html = '\n<span class="serverError">' + msg + '</span>\n'
+	var html = '<div class="sessionMsg"><span class="serverError">' + msg + '</span></div>'
 	iR.appendConsoleText(html)
 }
 

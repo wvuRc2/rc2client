@@ -18,16 +18,16 @@
 @property (nonatomic, strong) RCWorkspace *workspace;
 @property (nonatomic) BOOL expanded;
 @property (nonatomic) BOOL detailItemSelected;
+@property (nonatomic, retain, readonly) id selectedObject;
 @property (nonatomic, readonly) NSMutableArray *contentArray;
 //the argument will be the workspacecellview, sender
 @property (nonatomic, copy) BasicBlock2Arg addDetailHander;
 @property (nonatomic, copy) BasicBlock2Arg removeDetailHander;
-
-//not KVO compliant
--(id)selectedObject;
+@property (nonatomic, copy) BasicBlock1Arg doubleClickHandler;
 
 -(CGFloat)expandedHeight;
 
 -(IBAction)addDetailItem:(id)sender;
 -(IBAction)removeDetailItem:(id)sender;
+-(IBAction)doubleClick:(id)sender;
 @end

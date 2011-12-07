@@ -11,18 +11,22 @@
 
 @interface WorkspaceCellView()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
+@property (nonatomic, retain, readwrite) id selectedObject;
 @end
 
 @implementation WorkspaceCellView
 @synthesize expanded=__expanded;
 @synthesize parentTableView=__parentTableView;
 @synthesize workspace=__workspace;
+@synthesize selectedObject;
 
 -(void)awakeFromNib
 {
 	self.kvoTokens = [NSMutableSet set];
 	[self setWantsLayer:YES];
 	self.layer.cornerRadius = 6.0;
+	self.detailTableView.target = self;
+	[self.detailTableView setDoubleAction:@selector(doubleClick:)];
 }
 
 -(void)resizeSubviewsWithOldSize:(NSSize)oldSize
@@ -64,6 +68,11 @@
 	self.removeDetailHander(self, sender);
 }
 
+-(IBAction)doubleClick:(id)sender
+{
+	self.doubleClickHandler(self);
+}
+
 #pragma mark - detail table
 
 -(NSMutableArray*)contentArray
@@ -93,16 +102,10 @@
 {
 	id oval = [self.contentArray objectAtIndexNoExceptions:[self.detailTableView selectedRow]];
 	self.detailItemSelected = oval != nil;
+	self.selectedObject = oval;
 }
 
 #pragma mark - accessors
-
--(id)selectedObject
-{
-	if (self.detailItemSelected)
-		return [self.contentArray objectAtIndex:[self.detailTableView selectedRow]];
-	return nil;
-}
 
 -(CGFloat)expandedHeight
 {
@@ -139,5 +142,6 @@
 @synthesize detailItemSelected;
 @synthesize addDetailHander;
 @synthesize removeDetailHander;
+@synthesize doubleClickHandler;
 @synthesize kvoTokens;
 @end

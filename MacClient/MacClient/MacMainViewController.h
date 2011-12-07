@@ -28,4 +28,5 @@
 -(IBAction)doAddWorkspace:(id)sender;
 -(IBAction)doAddWorkspaceFolder:(id)sender;
 
+-(IBAction)sourceListDoubleClicked:(id)sender;
 @end

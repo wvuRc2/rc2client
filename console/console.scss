@@ -124,19 +124,23 @@ table.doubleOutput span.dl {
   width: 3px;
   background: #ffbe49; }
 
+.sessionMsg {
+  margin-bottom:4px;
+  white-space: normal;
+}
+
 .logText {
   font-size: 80%;
   color: green;
   white-space: normal; }
 
 .statusText {
-  font-size: 80%;
-  white-space: normal;
-  color: red; }
+  padding:2px;
+  background-color:#16c285
+}
 
 .inputText {
   padding:2px;
-  color: blue;
   background-color: #87FFA6; }
 
 .serverError {

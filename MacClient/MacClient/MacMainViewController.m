@@ -136,6 +136,13 @@
 		[selItem doRefreshFileList:sender];
 }
 
+-(IBAction)sourceListDoubleClicked:(id)sender
+{
+	RunAfterDelay(0.5, ^{
+		[self doOpenSession:sender];
+	});
+}
+
 #pragma mark - admin
 
 -(void)showSourceItem:(NSMutableDictionary*)dict

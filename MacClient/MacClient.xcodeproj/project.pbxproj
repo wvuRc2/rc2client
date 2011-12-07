@@ -236,7 +236,7 @@
 		08EE414314364F81004FDBB8 /* WorkspaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkspaceViewController.m; sourceTree = "<group>"; };
 		08EE414414364F81004FDBB8 /* WorkspaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WorkspaceViewController.xib; sourceTree = "<group>"; };
 		08EE4147143673E9004FDBB8 /* DefaultDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultDefaults.plist; sourceTree = "<group>"; };
-		08FE88A71415533300672474 /* Rc².app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rc².app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		08FE88A71415533300672474 /* Rc2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rc2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08FE88AB1415533300672474 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		08FE88AE1415533300672474 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		08FE88AF1415533300672474 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -461,7 +461,7 @@
 		08FE88A81415533300672474 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				08FE88A71415533300672474 /* Rc².app */,
+				08FE88A71415533300672474 /* Rc2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -679,7 +679,7 @@
 			);
 			name = MacClient;
 			productName = MacClient;
-			productReference = 08FE88A71415533300672474 /* Rc².app */;
+			productReference = 08FE88A71415533300672474 /* Rc2.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -922,7 +922,7 @@
 					"$(inherited)",
 				);
 				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "Rc²";
+				PRODUCT_NAME = Rc2;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -945,7 +945,7 @@
 					"$(inherited)",
 				);
 				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "Rc²";
+				PRODUCT_NAME = Rc2;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};

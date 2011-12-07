@@ -43,7 +43,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="1005">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSScrollView" id="871321042">
@@ -59,6 +59,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrameSize">{519, 508}</string>
 										<reference key="NSSuperview" ref="43867645"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="432882455"/>
 										<string key="NSReuseIdentifierKey">_NS:1828</string>
 										<bool key="NSEnabled">YES</bool>
@@ -158,6 +159,7 @@
 								</array>
 								<string key="NSFrameSize">{519, 508}</string>
 								<reference key="NSSuperview" ref="871321042"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="496457167"/>
 								<string key="NSReuseIdentifierKey">_NS:1826</string>
 								<reference key="NSDocView" ref="496457167"/>
@@ -169,6 +171,7 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{224, 17}, {15, 102}}</string>
 								<reference key="NSSuperview" ref="871321042"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="761960052"/>
 								<string key="NSReuseIdentifierKey">_NS:1845</string>
 								<reference key="NSTarget" ref="871321042"/>
@@ -180,6 +183,8 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{1, 119}, {223, 15}}</string>
 								<reference key="NSSuperview" ref="871321042"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:1847</string>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="871321042"/>
@@ -189,6 +194,7 @@
 						</array>
 						<string key="NSFrame">{{20, 20}, {519, 508}}</string>
 						<reference key="NSSuperview" ref="1005"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="43867645"/>
 						<string key="NSReuseIdentifierKey">_NS:1824</string>
 						<int key="NSsFlags">133680</int>
@@ -202,6 +208,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{17, 536}, {415, 29}}</string>
 						<reference key="NSSuperview" ref="1005"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="871321042"/>
 						<string key="NSReuseIdentifierKey">_NS:3944</string>
 						<bool key="NSEnabled">YES</bool>
@@ -227,6 +234,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{559, 585}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="250850144"/>
 				<string key="NSClassName">AMControlledView</string>
 			</object>
@@ -349,7 +358,7 @@
 													<int key="NSvFlags">256</int>
 													<string key="NSFrameSize">{506, 76}</string>
 													<reference key="NSSuperview" ref="844985565"/>
-													<reference key="NSNextKeyView" ref="857359755"/>
+													<reference key="NSNextKeyView" ref="215660170"/>
 													<string key="NSReuseIdentifierKey">_NS:1828</string>
 													<bool key="NSEnabled">YES</bool>
 													<object class="NSTableHeaderView" key="NSHeaderView" id="114457444">
@@ -533,7 +542,7 @@
 									</array>
 									<string key="NSFrame">{{4, 25}, {508, 94}}</string>
 									<reference key="NSSuperview" ref="432882455"/>
-									<reference key="NSNextKeyView" ref="844985565"/>
+									<reference key="NSNextKeyView" ref="857359755"/>
 									<string key="NSReuseIdentifierKey">_NS:1824</string>
 									<int key="NSsFlags">133682</int>
 									<reference key="NSVScroller" ref="9207776"/>
@@ -610,7 +619,7 @@
 													<int key="NSvFlags">256</int>
 													<string key="NSFrameSize">{506, 76}</string>
 													<reference key="NSSuperview" ref="898845613"/>
-													<reference key="NSNextKeyView" ref="117738386"/>
+													<reference key="NSNextKeyView" ref="393539502"/>
 													<string key="NSReuseIdentifierKey">_NS:1828</string>
 													<bool key="NSEnabled">YES</bool>
 													<object class="NSTableHeaderView" key="NSHeaderView" id="681503957">
@@ -830,7 +839,7 @@
 									</array>
 									<string key="NSFrame">{{4, 25}, {508, 94}}</string>
 									<reference key="NSSuperview" ref="911690621"/>
-									<reference key="NSNextKeyView" ref="898845613"/>
+									<reference key="NSNextKeyView" ref="117738386"/>
 									<string key="NSReuseIdentifierKey">_NS:1824</string>
 									<int key="NSsFlags">133682</int>
 									<reference key="NSVScroller" ref="319306584"/>
@@ -1520,7 +1529,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">121</int>
+			<int key="maxID">124</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1564,11 +1573,16 @@
 					<string key="superclassName">NSTableCellView</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addDetailItem:">id</string>
+						<string key="doubleClick:">id</string>
 						<string key="removeDetailItem:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="addDetailItem:">
 							<string key="name">addDetailItem:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doubleClick:">
+							<string key="name">doubleClick:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="removeDetailItem:">
@@ -1595,25 +1609,28 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">WorkspaceViewController</string>
 					<string key="superclassName">MacClientAbstractViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">doRefreshFileList:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">doRefreshFileList:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="doRefreshFileList:">id</string>
+						<string key="fileListDoubleClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="doRefreshFileList:">
 							<string key="name">doRefreshFileList:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+						<object class="IBActionInfo" key="fileListDoubleClicked:">
+							<string key="name">fileListDoubleClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">filesTableView</string>
+						<string key="NS.key.0">sectionsTableView</string>
 						<string key="NS.object.0">NSTableView</string>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">filesTableView</string>
+						<string key="NS.key.0">sectionsTableView</string>
 						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">filesTableView</string>
+							<string key="name">sectionsTableView</string>
 							<string key="candidateClassName">NSTableView</string>
 						</object>
 					</object>

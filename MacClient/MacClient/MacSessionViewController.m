@@ -50,6 +50,7 @@
 -(void)cacheImagesReferencedInHTML:(NSString*)html;
 -(BOOL)loadImageIntoCache:(NSString*)imgPath;
 -(void)handleFileImport:(NSURL*)fileUrl;
+-(BOOL)fileListVisible;
 @end
 
 @implementation MacSessionViewController
@@ -154,6 +155,7 @@
 			if (self.fileContainerView.frame.origin.x >= 0)
 				[self toggleFileList:nil];
 		}
+		self.selectedFile = self.session.initialFileSelection;
 		__didFirstWindow=YES;
 	}
 }
@@ -161,6 +163,24 @@
 -(void)viewDidMoveToWindow
 {
 	[self.view.window makeFirstResponder:self.editView];
+}
+
+-(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
+{
+	SEL action = [item action];
+	if (action == @selector(toggleFileList:)) {
+		if ([(id)item isKindOfClass:[NSMenuItem class]]) {
+			//adjust the title
+			[(NSMenuItem*)item setTitle:self.fileListVisible ? @"Hide File List" : @"Show File List"];
+		}
+		return YES;
+	}
+	return NO;
+}
+
+-(BOOL)fileListVisible
+{
+	return self.fileContainerView.frame.origin.x >= 0;
 }
 
 #pragma mark - actions

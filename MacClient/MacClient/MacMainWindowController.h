@@ -10,12 +10,15 @@
 
 @class MacClientAbstractViewController;
 @class RCWorkspace;
+@class RCFile;
 
 @interface MacMainWindowController : NSWindowController<NSWindowDelegate>
 @property (strong, nonatomic) AMMacNavController *navController;
 @property (strong, nonatomic) MacClientAbstractViewController *detailController;
 @property (strong) IBOutlet AMControlledView *detailContainer;
 @property (strong) IBOutlet NSMenu *addToolbarMenu;
+
+-(void)openSession:(RCWorkspace*)wspace file:(RCFile*)initialFile inNewWindow:(BOOL)inNewWindow;
 -(void)openSession:(RCWorkspace*)wspace inNewWindow:(BOOL)inNewWindow;
 
 -(IBAction)doBackToMainView:(id)sender;
