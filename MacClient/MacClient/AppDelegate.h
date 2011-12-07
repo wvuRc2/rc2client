@@ -12,6 +12,7 @@
 @class MacSessionViewController;
 @class RCSession;
 @class RCWorkspace;
+@class RCFile;
 
 @interface AppDelegate : NSObject <NSApplicationDelegate,NSToolbarDelegate>
 
@@ -31,6 +32,7 @@
 -(void)removeWindowController:(NSWindowController*)controller;
 
 -(void)showViewController:(AMViewController*)controller;
+-(void)displayPdfFile:(RCFile*)file;
 
 -(IBAction)doLogOut:(id)sender;
 

@@ -451,6 +451,11 @@ enum {
 	}
 }
 
+- (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller
+{
+	return self.view.window.rootViewController;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -478,7 +483,15 @@ enum {
 	if ([indexPath isEqual:self.selectedIndex]) {
 		if (self.selectedIndex && [NSDate timeIntervalSinceReferenceDate] - _lastTapTime < 0.4) {
 			//count it as a double tap
-			[self doStartSession:self];
+			RCFile *selFile = [self.selectedWorkspace.files objectAtIndex:self.selectedIndex.row];
+			if ([selFile.name hasSuffix:@".pdf"]) {
+				UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:
+														[NSURL fileURLWithPath:[selFile fileContentsPath]]];
+				dic.delegate = (id)self;
+				[dic presentPreviewAnimated:YES];	
+			} else {
+				[self doStartSession:self];
+			}
 			return indexPath;
 		}
 		if (self.selectedIndex)

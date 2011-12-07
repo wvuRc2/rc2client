@@ -610,10 +610,14 @@
 	} else
 		self.scratchString = self.editView.string;
 	__selFile = selectedFile;
-	NSString *newTxt = self.scratchString;
-	if (selectedFile)
-		newTxt = selectedFile.currentContents;
-	[self.editView setString:newTxt];
+	if ([selectedFile.name hasSuffix:@".pdf"]) {
+		[(AppDelegate*)[NSApp delegate] displayPdfFile:selectedFile];
+	} else {
+		NSString *newTxt = self.scratchString;
+		if (selectedFile)
+			newTxt = selectedFile.currentContents;
+		[self.editView setString:newTxt];
+	}
 }
 
 @synthesize contentSplitView;

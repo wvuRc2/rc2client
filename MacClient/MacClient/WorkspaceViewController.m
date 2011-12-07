@@ -12,7 +12,6 @@
 #import "WorkspaceCellView.h"
 #import "RCMAddShareController.h"
 #import "MacMainWindowController.h"
-#import "RCMPDFViewController.h"
 #import "ASIFormDataRequest.h"
 #import "AppDelegate.h"
 #import "Rc2Server.h"
@@ -153,10 +152,7 @@
 {
 	RCFile *file = cellView.selectedObject;
 	if (!file.isTextFile) {
-		RCMPDFViewController *pvc = [[RCMPDFViewController alloc] init];
-		[pvc view]; //load from nib
-		[pvc loadPdf:file.fileContentsPath];
-		[(AppDelegate*)[NSApp delegate] showViewController:pvc];
+		[(AppDelegate*)[NSApp delegate] displayPdfFile:file];
 		
 	} else {
 		MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];

@@ -12,6 +12,7 @@
 #import "MacMainWindowController.h"
 #import "Rc2Server.h"
 #import "MacSessionViewController.h"
+#import "RCMPDFViewController.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
 #import "RCFile.h"
@@ -193,6 +194,14 @@
 	RCSession *session = svc.session;
 	[session closeWebSocket];
 	self.currentSession=nil;
+}
+
+-(void)displayPdfFile:(RCFile*)file
+{
+	RCMPDFViewController *pvc = [[RCMPDFViewController alloc] init];
+	[pvc view]; //load from nib
+	[pvc loadPdf:file.fileContentsPath];
+	[self showViewController:pvc];
 }
 
 -(void)showViewController:(AMViewController*)controller
