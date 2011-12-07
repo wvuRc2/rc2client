@@ -63,6 +63,7 @@ enum {
 -(void)flushGradients;
 -(IBAction)doLayoutKey:(id)sender;
 -(void)adjustFrame;
+-(void)adjustKeysForCurrentOrientation;
 -(NSString*)fontNameForTag:(NSInteger)tag;
 //returns the height of the keyboard
 -(CGFloat)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView;
@@ -168,7 +169,8 @@ enum {
 	[aButton addTarget:self action:@selector(doLayoutKey:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:aButton];
 	[self bringSubviewToFront:aButton];
-	[self adjustFrame];
+	[self adjustKeysForCurrentOrientation];
+//	[self adjustFrame];
 }
 
 -(CGFloat)loadKeyFile:(NSString*)keyFilePath intoView:(UIView*)theView
@@ -413,6 +415,11 @@ enum {
 	if (newOrient == _isLandscape)
 		return;
 	_isLandscape = newOrient;
+	[self adjustKeysForCurrentOrientation];
+}
+
+-(void)adjustKeysForCurrentOrientation
+{
 	UIView *targetView1 = _isLandscape ? self.alphaKeyView : self.pAlphaKeyView;
 	UIView *targetView2 = _isLandscape ? self.symKeyView : self.pSymKeyView;
 	if (self.currentAlphaKeyView != targetView1) {

@@ -386,7 +386,6 @@
 
 -(void)connectionOpened
 {
-	NSLog(@"connection opened");
 	if (self.showingProgress) {
 		[MBProgressHUD hideHUDForView:self.view animated:YES];
 	}
