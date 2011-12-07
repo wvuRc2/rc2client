@@ -9,9 +9,15 @@
 #import <AppKit/AppKit.h>
 
 @class RCWorkspace;
+@class WorkspaceCellView;
+
+@protocol WorkspaceCellViewDelegate <NSObject>
+-(void)workspaceCell:(WorkspaceCellView*)cellView addDetail:(id)sender;
+-(void)workspaceCell:(WorkspaceCellView*)cellView removeDetail:(id)sender;
+-(void)workspaceCell:(WorkspaceCellView*)cellView doubleClick:(id)sender;
+@end
 
 //object value must be set before workspace
-
 @interface WorkspaceCellView : NSTableCellView<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, weak) NSTableView *parentTableView;
 @property (nonatomic, strong) IBOutlet NSTableView *detailTableView;
@@ -20,10 +26,7 @@
 @property (nonatomic) BOOL detailItemSelected;
 @property (nonatomic, retain, readonly) id selectedObject;
 @property (nonatomic, readonly) NSMutableArray *contentArray;
-//the argument will be the workspacecellview, sender
-@property (nonatomic, copy) BasicBlock2Arg addDetailHander;
-@property (nonatomic, copy) BasicBlock2Arg removeDetailHander;
-@property (nonatomic, copy) BasicBlock1Arg doubleClickHandler;
+@property (nonatomic, unsafe_unretained) id<WorkspaceCellViewDelegate> cellDelegate;
 
 -(CGFloat)expandedHeight;
 

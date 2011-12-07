@@ -22,8 +22,6 @@
 @property (nonatomic, strong) NSPopover *addPopover;
 @property (nonatomic, assign) BOOL ignoreSectionReloads;
 -(void)loadShares;
--(void)handleAddDetailItem:(WorkspaceCellView*)cellView sender:(id)sender;
--(void)handleRemoveDetailItem:(WorkspaceCellView*)cellView sender:(id)sender;
 -(void)handleAddShare:(NSNumber*)userId cellView:(WorkspaceCellView*)wcv;
 @end
 
@@ -82,14 +80,6 @@
 {
 }
 
--(IBAction)fileListDoubleClicked:(id)sender
-{
-	WorkspaceCellView *wcv = sender;
-	RCFile *file = wcv.selectedObject;
-	MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
-	[mainwc openSession:self.workspace file:file inNewWindow:NO];
-}
-
 #pragma mark - meat & potatos
 
 -(void)loadShares
@@ -126,8 +116,7 @@
 		});
 	}
 }
-
--(void)handleAddDetailItem:(WorkspaceCellView*)cellView sender:(id)sender
+-(void)workspaceCell:(WorkspaceCellView*)cellView addDetail:(id)sender
 {
 	NSMutableDictionary *secDict = cellView.objectValue;
 	if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"shares"]) {
@@ -147,7 +136,7 @@
 	}
 }
 
--(void)handleRemoveDetailItem:(WorkspaceCellView*)cellView sender:(id)sender
+-(void)workspaceCell:(WorkspaceCellView*)cellView removeDetail:(id)sender
 {
 	NSMutableDictionary *secDict = cellView.objectValue;
 	if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"shares"]) {
@@ -155,6 +144,13 @@
 		RCWorkspaceShare *share = [cellView selectedObject];
 		[self handleRemoveShare:share cellView:cellView];
 	}
+}
+
+-(void)workspaceCell:(WorkspaceCellView*)cellView doubleClick:(id)sender
+{
+	RCFile *file = cellView.selectedObject;
+	MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
+	[mainwc openSession:self.workspace file:file inNewWindow:NO];
 }
 
 #pragma mark - table view
@@ -171,15 +167,7 @@
 	view.objectValue = [self.sections objectAtIndex:row];
 	view.expanded = [[view.objectValue valueForKey:@"expanded"] boolValue];
 	view.workspace = self.workspace;
-	view.addDetailHander = ^(id cell, id sender) {
-		[self handleAddDetailItem:cell sender:sender];
-	};
-	view.removeDetailHander = ^(id cell, id sender) {
-		[self handleRemoveDetailItem:cell sender:sender];
-	};
-	view.doubleClickHandler = ^(id cell) {
-		[self fileListDoubleClicked:cell];	
-	};
+	view.cellDelegate = self;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[tableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:row]];
 	});

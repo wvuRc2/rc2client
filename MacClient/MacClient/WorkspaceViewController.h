@@ -8,11 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MacClientAbstractViewController.h"
+#import "WorkspaceCellView.h"
 
 @class RCWorkspace;
 @class RCFile;
 
-@interface WorkspaceViewController : MacClientAbstractViewController
+@interface WorkspaceViewController : MacClientAbstractViewController<WorkspaceCellViewDelegate>
 @property (nonatomic, strong) RCWorkspace *workspace;
 @property (nonatomic, strong) IBOutlet NSTableView *sectionsTableView;
 @property (nonatomic, strong) RCFile *selectedFile;
@@ -20,5 +21,4 @@
 -(id)initWithWorkspace:(RCWorkspace*)aWorkspace;
 -(IBAction)doRefreshFileList:(id)sender;
 
--(IBAction)fileListDoubleClicked:(id)sender;
 @end

@@ -60,17 +60,17 @@
 
 -(IBAction)addDetailItem:(id)sender
 {
-	self.addDetailHander(self, sender);
+	[self.cellDelegate workspaceCell:self addDetail:sender];
 }
 
 -(IBAction)removeDetailItem:(id)sender
 {
-	self.removeDetailHander(self, sender);
+	[self.cellDelegate workspaceCell:self removeDetail:sender];
 }
 
 -(IBAction)doubleClick:(id)sender
 {
-	self.doubleClickHandler(self);
+	[self.cellDelegate workspaceCell:self doubleClick:sender];
 }
 
 #pragma mark - detail table
@@ -140,8 +140,6 @@
 
 @synthesize detailTableView;
 @synthesize detailItemSelected;
-@synthesize addDetailHander;
-@synthesize removeDetailHander;
-@synthesize doubleClickHandler;
 @synthesize kvoTokens;
+@synthesize cellDelegate;
 @end
