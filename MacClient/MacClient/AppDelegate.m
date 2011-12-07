@@ -28,6 +28,7 @@
 @property (readwrite, strong, nonatomic) MacMainWindowController *mainWindowController;
 @property (nonatomic, strong) NSTimer *autosaveTimer;
 @property (nonatomic, readwrite) BOOL loggedIn;
+@property (nonatomic, readwrite) BOOL isFullScreen;
 @property (nonatomic, retain) BBEditApplication *bbedit;
 //@property (nonatomic, strong) NSMutableSet *sessionControllers;
 @property (nonatomic, strong) NSMutableSet *windowControllers;
@@ -58,7 +59,18 @@
 		[[NSFileManager defaultManager] createDirectoryAtPath:fileCache withIntermediateDirectories:YES attributes:nil error:nil];
 	__fileCacheQueue = dispatch_queue_create("wvu.edu.stat.Rc2.fileCache", NULL);
 	self.fileCacheWorkspacesInQueue = [NSMutableSet set];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFileCache:) name:RCWorkspaceFilesFetchedNotification object:nil];
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver:self selector:@selector(updateFileCache:) name:RCWorkspaceFilesFetchedNotification object:nil];
+	[self storeNotificationToken:[nc addObserverForName:NSWindowDidEnterFullScreenNotification object:nil queue:nil 
+											 usingBlock:^(NSNotification *note)
+	{
+	  	self.isFullScreen = YES;
+	}]];
+	[self storeNotificationToken:[nc addObserverForName:NSWindowDidExitFullScreenNotification object:nil queue:nil 
+											 usingBlock:^(NSNotification *note)
+	{
+		self.isFullScreen = NO;
+	}]];
 }
 
 //a timer runs while active that will autosave coredata changes periodically
@@ -469,4 +481,5 @@
 @synthesize windowControllers;
 @synthesize fileCacheWorkspacesInQueue;
 @synthesize bbedit;
+@synthesize isFullScreen;
 @end

@@ -29,6 +29,7 @@
 	BOOL __movingFileList;
 	BOOL __didFirstLoad;
 	BOOL __didFirstWindow;
+	BOOL __toggledFileViewOnFullScreen;
 }
 @property (nonatomic, retain) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, retain) NSString *imgCachePath;
@@ -42,6 +43,7 @@
 @property (nonatomic, strong) RCMImageViewer *imageController;
 @property (nonatomic, strong) NSArray *currentImageGroup;
 @property (nonatomic, strong) NSNumber *fileIdJustImported;
+@property (nonatomic, strong) id fullscreenToken;
 -(void)prepareForSession;
 -(void)completeSessionStartup:(id)response;
 -(NSString*)escapeForJS:(NSString*)str;
@@ -121,6 +123,19 @@
 				[self tableViewSelectionDidChange:nil];
 			}
 		}]];
+		__block __unsafe_unretained MacSessionViewController *blockSelf = self;
+		self.fullscreenToken = [[NSApp delegate] addObserverForKeyPath:@"isFullScreen" task:^(id obj, NSDictionary *change)
+		{
+			if ([obj isFullScreen]) {
+				if (!blockSelf.fileListVisible) {
+					[blockSelf toggleFileList:blockSelf];
+					blockSelf->__toggledFileViewOnFullScreen = YES;
+				}
+			} else if (blockSelf->__toggledFileViewOnFullScreen && blockSelf.fileListVisible) {
+				[blockSelf toggleFileList:blockSelf];
+				blockSelf->__toggledFileViewOnFullScreen = NO;
+			}
+		}];
 		__didInit=YES;
 	}
 }
@@ -618,6 +633,7 @@
 @synthesize imageController;
 @synthesize currentImageGroup;
 @synthesize fileIdJustImported;
+@synthesize fullscreenToken;
 @end
 
 @implementation SessionView

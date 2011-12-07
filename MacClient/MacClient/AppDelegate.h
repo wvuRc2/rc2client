@@ -20,6 +20,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) MacMainWindowController *mainWindowController;
 @property (nonatomic, readonly) BOOL loggedIn;
+@property (nonatomic, readonly) BOOL isFullScreen;
 
 -(RCSession*)sessionForWorkspace:(RCWorkspace*)wspace;
 -(MacSessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create;
