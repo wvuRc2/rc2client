@@ -143,11 +143,16 @@ iR.echoInput = function(txt, username, userid) {
 	iR.appendConsoleText(html)
 }
 
+iR.displayError = function(msg) {
+	var html = '\n<span class="serverError">' + msg + '</span>\n'
+	iR.appendConsoleText(html)
+}
+
 iR.cmdHistoryScrollUp = function() {
 	if (iR.cmdHistory.length > 1) {
-		var nxtIdx = iR.cmdIdx;
+		var nxtIdx = iR.cmdIdx
 		if (nxtIdx < 0) {
-			nxtIdx = iR.cmdHistory.length - 1;
+			nxtIdx = iR.cmdHistory.length - 1
 		}
 		document.getElementById('consoleTextField').value = iR.cmdHistory[nxtIdx];
 		iR.cmdIdx = nxtIdx-1;

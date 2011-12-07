@@ -287,7 +287,8 @@
 -(NSString*)escapeForJS:(NSString*)str
 {
 	if ([str isKindOfClass:[NSString class]])
-		return [self.jsQuiteRExp stringByReplacingMatchesInString:str options:0 range:NSMakeRange(0, [str length]) withTemplate:@"\\'"];
+		return [str stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
+//		return [self.jsQuiteRExp stringByReplacingMatchesInString:str options:0 range:NSMakeRange(0, [str length]) withTemplate:@"\\'"];
 	return [str description];
 }
 
@@ -387,6 +388,10 @@
 			  [self escapeForJS:[dict objectForKey:@"script"]],
 			  [self escapeForJS:[dict objectForKey:@"username"]],
 			  [self escapeForJS:[dict objectForKey:@"user"]]];
+	} else if ([cmd isEqualToString:@"error"]) {
+		NSString *errmsg = [[dict objectForKey:@"error"] stringByTrimmingWhitespace];
+		errmsg = [self escapeForJS:errmsg];
+		js = [NSString stringWithFormat:@"iR.displayError('%@')", errmsg];
 	} else if ([cmd isEqualToString:@"join"]) {
 		js = [NSString stringWithFormat:@"iR.userJoinedSession('%@', '%@')", 
 			  [self escapeForJS:[dict objectForKey:@"user"]],
