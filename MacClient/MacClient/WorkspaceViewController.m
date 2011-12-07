@@ -12,8 +12,11 @@
 #import "WorkspaceCellView.h"
 #import "RCMAddShareController.h"
 #import "MacMainWindowController.h"
+#import "RCMPDFViewController.h"
 #import "ASIFormDataRequest.h"
+#import "AppDelegate.h"
 #import "Rc2Server.h"
+#import "RCFile.h"
 
 @interface WorkspaceViewController()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
@@ -149,8 +152,16 @@
 -(void)workspaceCell:(WorkspaceCellView*)cellView doubleClick:(id)sender
 {
 	RCFile *file = cellView.selectedObject;
-	MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
-	[mainwc openSession:self.workspace file:file inNewWindow:NO];
+	if (!file.isTextFile) {
+		RCMPDFViewController *pvc = [[RCMPDFViewController alloc] init];
+		[pvc view]; //load from nib
+		[pvc loadPdf:file.fileContentsPath];
+		[(AppDelegate*)[NSApp delegate] showViewController:pvc];
+		
+	} else {
+		MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
+		[mainwc openSession:self.workspace file:file inNewWindow:NO];
+	}
 }
 
 #pragma mark - table view

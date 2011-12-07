@@ -511,7 +511,7 @@
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {
 		NSNumber *fileid = [dict objectForKey:@"fileId"];
 		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@, '%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid,
-			  [self escapeForJS:[[dict objectForKey:@"pdfurl"] lastPathComponent]]];
+			  [self escapeForJS:[dict objectForKey:@"filename"]]];
 		[self.session.workspace updateFileId:fileid];
 	}
 	if (js) {
