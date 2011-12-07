@@ -451,11 +451,6 @@ enum {
 	}
 }
 
-- (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller
-{
-	return self.view.window.rootViewController;
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -485,10 +480,7 @@ enum {
 			//count it as a double tap
 			RCFile *selFile = [self.selectedWorkspace.files objectAtIndex:self.selectedIndex.row];
 			if ([selFile.name hasSuffix:@".pdf"]) {
-				UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:
-														[NSURL fileURLWithPath:[selFile fileContentsPath]]];
-				dic.delegate = (id)self;
-				[dic presentPreviewAnimated:YES];	
+				[(Rc2AppDelegate*)TheApp.delegate displayPdfFile:selFile];
 			} else {
 				[self doStartSession:self];
 			}

@@ -8,6 +8,7 @@
 
 #import "EditorViewController.h"
 #import "Rc2Server.h"
+#import "Rc2AppDelegate.h"
 #import "RCSession.h"
 #import "RCFile.h"
 #import "RCWorkspace.h"
@@ -239,7 +240,10 @@
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress
 {
 	[self.filePopover dismissPopoverAnimated:YES];
-	if (!file.isTextFile) {
+	if ([file.name hasSuffix:@".pdf"]) {
+		[(Rc2AppDelegate*)TheApp.delegate displayPdfFile:file];
+		return;
+	} else if (!file.isTextFile) {
 		//FIXME: need to do something else when file is not a text file. Likely a pdf file.
 		return;
 	}

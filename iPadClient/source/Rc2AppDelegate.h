@@ -30,6 +30,7 @@
 -(void)startSession:(RCFile*)initialFile;
 -(IBAction)endSession:(id)sender;
 -(IBAction)flipMasterView:(UIView*)otherView;
+-(void)displayPdfFile:(RCFile*)file;
 
 -(NSURL *)applicationDocumentsDirectory;
 @end

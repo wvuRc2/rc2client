@@ -16,6 +16,7 @@
 #import "RCSession.h"
 #import "RCWorkspace.h"
 #import "RCSavedSession.h"
+#import "RCFile.h"
 #import "ASIHTTPRequest.h"
 #import "MBProgressHUD.h"
 #import "DropboxSDK.h"
@@ -326,6 +327,25 @@
 		}
 	}
 }
+
+#pragma mark - pdf display
+
+-(void)displayPdfFile:(RCFile*)file
+{
+	ZAssert([file.name hasSuffix:@".pdf"], @"non-pdf file pased to displayPdf:");
+	UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:
+											[NSURL fileURLWithPath:[file fileContentsPath]]];
+	dic.delegate = (id)self;
+	[dic presentPreviewAnimated:YES];	
+}
+
+- (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller
+{
+	if (self.sessionController)
+		return self.sessionController;
+	return self.window.rootViewController;
+}
+
 
 #pragma mark - drop box
 
