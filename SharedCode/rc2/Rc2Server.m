@@ -65,6 +65,16 @@
 	return global;
 }
 
++(NSArray*)acceptableTextFileSuffixes
+{
+	static NSArray *fileExts=nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		fileExts = [[NSMutableArray alloc] initWithObjects:@"txt", @"R", @"Rnw", @"csv", @"tsv", @"tab", nil];
+	});
+	return fileExts;
+}
+
 -(id)init
 {
 	self = [super init];
@@ -388,7 +398,7 @@
 	ASIFormDataRequest *req = [self postRequestWithURL:url];
 	[req setPostValue:[fileUrl lastPathComponent] forKey:@"name"];
 	[req setPostValue:self.currentUserId forKey:@"userid"];
-	[req setPostValue:[NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:nil] forKey:@"content"];
+	[req setFile:fileUrl.path forKey:@"content"];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		NSDictionary *dict = [respStr JSONValue];

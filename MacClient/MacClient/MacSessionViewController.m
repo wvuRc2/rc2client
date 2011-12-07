@@ -207,7 +207,7 @@
 -(IBAction)importFile:(id)sender
 {
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-	[openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"R", @"RnW", @"txt", nil]];
+	[openPanel setAllowedFileTypes:[Rc2Server acceptableTextFileSuffixes]];
 	[openPanel beginWithCompletionHandler:^(NSInteger result) {
 		if (NSFileHandlingPanelCancelButton == result)
 			return;
