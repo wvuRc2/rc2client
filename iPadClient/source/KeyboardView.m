@@ -441,22 +441,28 @@ enum {
 -(void)adjustFrame
 {
 	CGRect f = self.frame;
+	NSLog(@"our frame is %@", NSStringFromCGRect(f));
+	NSLog(@"super frame is %@", NSStringFromCGRect(self.superview.frame));
 	f.size.height = _isLandscape ? _landscapeKeyboardHeight : _portraitKeyboardHeight;
 	if (f.size.height < 100) //we were getting zero at some point. this corrects that problem
 		f.size.height = 357;
 	self.frame = f;
 	//simulator doesn't have a displacement problem, but device does.
+/* //i think this was fixed in ios 5
 #ifdef TARGET_OS_IPHONE
 	CGRect sf = self.superview.frame;
 	sf.origin.y = _isLandscape ? 768 - _landscapeKeyboardHeight : 1024 - _portraitKeyboardHeight;
 	sf.size.height = f.size.height;
 	self.superview.frame = sf;
 #endif
+ */
 	CGRect lf = self.layoutButton.frame;
 	lf.origin.y = f.size.height - kKeyButtonDefaultHeight - kLayoutButtonBottomOffset;
 	lf.size.width = _isLandscape ? kLayoutButtonWidthLandscape : kLayoutButtonWidthPortrait;
 	self.layoutButton.frame = lf; 
 }
+
+#pragma mark - synthesizers
 
 @synthesize currentLayout;
 @synthesize alphaKeyView;
