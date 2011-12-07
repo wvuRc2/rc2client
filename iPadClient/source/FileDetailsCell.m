@@ -46,8 +46,10 @@
 	NSString *imgName = @"doc";
 	if ([file.name hasSuffix:@".R"])
 		imgName = @"RDoc";
-	else if ([file.name hasSuffix:@".RnW"])
+	else if ([file.name hasSuffix:@".Rnw"])
 		imgName = @"RnWDoc";
+	else if ([file.name hasSuffix:@".pdf"])
+		imgName = @"console/pdf";
 	self.imgView.image = [UIImage imageNamed:imgName];
 }
 
