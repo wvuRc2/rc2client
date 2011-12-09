@@ -158,6 +158,8 @@
 	}
 	self.currentFile = file;
 	self.docTitleLabel.text = file.name;
+	if (file.currentContents.length < 1)
+		NSLog(@"why is there an empty file?");
 	self.textView.text = file.currentContents;
 	[self updateDocumentState];
 }

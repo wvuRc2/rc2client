@@ -77,6 +77,8 @@
 {
 	if ([edits isEqualToString:self.fileContents])
 		edits = nil;
+	if (edits && edits.length < 1)
+		NSLog(@"why are we saving local edits of length < 1?");
 	[self willChangeValueForKey:@"localEdits"];
 	[self setPrimitiveLocalEdits:[edits copy]];
 	[self didChangeValueForKey:@"localEdits"];
