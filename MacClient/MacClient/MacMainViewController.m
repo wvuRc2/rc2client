@@ -93,7 +93,8 @@
 		return NO;
 	}
 	if (@selector(doOpenSession:) == action || @selector(doOpenSessionInNewWindow:) == action) {
-		if ([selItem isKindOfClass:[RCWorkspace class]]) return YES;
+		if ([selItem isKindOfClass:[RCWorkspace class]] && nil != self.view.superview) 
+			return YES;
 		return NO;
 	}
 	if (@selector(doRefreshFileList:) == action) {

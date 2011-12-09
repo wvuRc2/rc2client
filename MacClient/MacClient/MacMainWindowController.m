@@ -77,7 +77,7 @@
 		if (self.mainViewController.view.superview == nil) return YES;
 		return NO;
 	} else if (@selector(doOpenSession:) == action || @selector(doOpenSessionInNewWindow:) == action) {
-		return nil != self.mainViewController.selectedWorkspace;
+		return nil != self.mainViewController.selectedWorkspace && nil != self.mainViewController.view.superview;
 	}
 	return YES;
 }

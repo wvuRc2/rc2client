@@ -281,7 +281,7 @@
 		ti.action = @selector(doBackToMainView:);
 		ti.image = [NSImage imageNamed:NSImageNameLeftFacingTriangleTemplate];
 	} else if ([itemIdentifier isEqualToString:RCMToolbarItem_OpenSession]) {
-		ti.toolTip = @"Open session to the selected workspace. Option-click to open in a new window.";
+		ti.toolTip = @"Open session to the selected workspace.";
 		ti.action = @selector(doOpenSession:);
 		ti.image = [NSImage imageNamed:@"RLogo"];
 	} else if ([itemIdentifier isEqualToString:RCMToolbarItem_Files]) {
