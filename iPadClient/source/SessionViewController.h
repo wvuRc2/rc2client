@@ -21,12 +21,12 @@
 }
 -(id)initWithSession:(RCSession*)session;
 
-@property (nonatomic, retain) IBOutlet UIButton *button1;
-@property (nonatomic, assign) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet KeyboardView *keyboardView;
-@property (nonatomic, retain) IBOutlet MGSplitViewController *splitController;
-@property (nonatomic, retain) IBOutlet EditorViewController *editorController;
-@property (nonatomic, retain) IBOutlet ConsoleViewController *consoleController;
-@property (nonatomic, retain) IBOutlet BottomViewController *bottomController;
-@property (nonatomic, readonly) RCSession *session;
+@property (nonatomic, strong) IBOutlet UIButton *button1;
+@property (nonatomic, strong) IBOutlet UILabel *titleLabel;
+@property (nonatomic, strong) IBOutlet KeyboardView *keyboardView;
+@property (nonatomic, strong) IBOutlet MGSplitViewController *splitController;
+@property (nonatomic, strong) IBOutlet EditorViewController *editorController;
+@property (nonatomic, strong) IBOutlet ConsoleViewController *consoleController;
+@property (nonatomic, strong) IBOutlet BottomViewController *bottomController;
+@property (weak, nonatomic, readonly) RCSession *session;
 @end

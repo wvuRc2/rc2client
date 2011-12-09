@@ -78,7 +78,7 @@
 	if ([edits isEqualToString:self.fileContents])
 		edits = nil;
 	[self willChangeValueForKey:@"localEdits"];
-	[self setPrimitiveLocalEdits:[[edits copy] autorelease]];
+	[self setPrimitiveLocalEdits:[edits copy]];
 	[self didChangeValueForKey:@"localEdits"];
 	if ([edits length] > 0)
 		self.localLastModified = [NSDate date];
@@ -89,7 +89,7 @@
 -(void)setFileContents:(NSString *)ftext
 {
 	[self willChangeValueForKey:@"localEdits"];
-	[self setPrimitiveLocalEdits:[[ftext copy] autorelease]];
+	[self setPrimitiveLocalEdits:[ftext copy]];
 	[self didChangeValueForKey:@"localEdits"];
 }
 

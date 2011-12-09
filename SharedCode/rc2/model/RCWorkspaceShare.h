@@ -12,11 +12,7 @@
 
 @interface RCWorkspaceShare : NSObject
 @property (nonatomic, strong) NSNumber *shareId;
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-@property (nonatomic, weak) RCWorkspace *workspace;
-#else
-@property (nonatomic, assign) RCWorkspace *workspace;
-#endif
+@property (nonatomic, strong) RCWorkspace *workspace;
 @property (nonatomic, strong) NSNumber *userId;
 @property (nonatomic, copy) NSString *userName;
 @property (nonatomic) BOOL canOpenFiles;

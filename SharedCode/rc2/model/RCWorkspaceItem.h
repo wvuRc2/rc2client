@@ -15,9 +15,9 @@
 
 -(id)initWithDictionary:(NSDictionary*)dict;
 
-@property (nonatomic, retain) NSNumber *wspaceId;
+@property (nonatomic, strong) NSNumber *wspaceId;
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, retain) NSNumber *parentId;
+@property (nonatomic, strong) NSNumber *parentId;
 @property (nonatomic, readonly) BOOL isFolder;
 
 -(NSComparisonResult)compareWithItem:(RCWorkspaceItem*)anItem;

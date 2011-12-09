@@ -15,10 +15,10 @@
 @class RCFile;
 
 @interface RCSession : NSObject<WebSocket00Delegate>
-@property (nonatomic, retain, readonly) RCWorkspace *workspace;
-@property (nonatomic, assign) id<RCSessionDelegate> delegate;
-@property (nonatomic, retain) NSNumber *userid;
-@property (nonatomic, retain) RCFile *initialFileSelection;
+@property (nonatomic, strong, readonly) RCWorkspace *workspace;
+@property (nonatomic, unsafe_unretained) id<RCSessionDelegate> delegate;
+@property (nonatomic, strong) NSNumber *userid;
+@property (nonatomic, strong) RCFile *initialFileSelection;
 @property (nonatomic, assign, readonly) BOOL socketOpen;
 @property (nonatomic, assign, readonly) BOOL hasReadPerm;
 @property (nonatomic, assign, readonly) BOOL hasWritePerm;

@@ -30,11 +30,6 @@
 	return self;
 }
 
--(void)dealloc
-{
-	self.loginCompleteHandler=nil;
-	[super dealloc];
-}
 
 #pragma mark - View lifecycle
 
@@ -76,7 +71,7 @@
 	self.hostControl.enabled = NO;
 	[self.busyWheel startAnimating];
 	[Rc2Server sharedInstance].serverHost = self.hostControl.selectedSegmentIndex;
-	__block LoginController *blockSelf = self;
+	__weak LoginController *blockSelf = self;
 	[[Rc2Server sharedInstance] loginAsUser:self.useridField.text 
 								   password:self.passwordField.text 
 						  completionHandler:^(BOOL success, NSString *message) {
@@ -128,7 +123,6 @@
 										  cancelButtonTitle:@"OK"
 										  otherButtonTitles:nil];
 	[alert show];
-	[alert autorelease];
 }
 
 #pragma mark - synthesizers

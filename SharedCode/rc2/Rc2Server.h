@@ -32,14 +32,14 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 +(NSArray*)acceptableTextFileSuffixes;
 
-@property (nonatomic, readonly) NSString *userAgentString;
+@property (weak, nonatomic, readonly) NSString *userAgentString;
 @property (nonatomic, assign) NSInteger serverHost;
 @property (nonatomic, assign, readonly) BOOL loggedIn;
 @property (nonatomic, copy, readonly) NSString *currentLogin;
 @property (nonatomic, readonly) BOOL isAdmin;
 @property (nonatomic, copy, readonly) NSArray *workspaceItems;
-@property (nonatomic, retain) RCWorkspace *selectedWorkspace;
-@property (nonatomic, retain) RCSession *currentSession;
+@property (nonatomic, strong) RCWorkspace *selectedWorkspace;
+@property (nonatomic, strong) RCSession *currentSession;
 
 //this method should be called on any request being sent to the rc2 server
 // it will set the user agent, appropriate security settings, and cookies

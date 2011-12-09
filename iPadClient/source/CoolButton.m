@@ -37,7 +37,7 @@
 
 -(void) buildView
 {
-    self.innerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)] autorelease];
+    self.innerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
     [self.innerView setUserInteractionEnabled:false];
     
     [self addTarget:self action:@selector(addHighlight) forControlEvents:UIControlEventTouchDown];
@@ -66,8 +66,7 @@
 
 - (void)setButtonColor:(UIColor *)value
 {
-	[_buttonColor autorelease];
-    _buttonColor = [value retain];
+    _buttonColor = value;
     [self.innerView setBackgroundColor:[self buttonColor]];
 }
 
@@ -120,10 +119,7 @@
 
 -(void)dealloc
 {
-    self.innerView = nil;
-    self.highlightLayer = nil;
     self.buttonColor = nil;
-    [super dealloc];
 }
 
 @end

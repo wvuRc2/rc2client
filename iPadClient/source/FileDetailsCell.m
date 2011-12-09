@@ -17,11 +17,6 @@
 @synthesize localLastModLabel;
 @synthesize dateFormatter;
 
--(void)dealloc
-{
-	self.dateFormatter=nil;
-	[super dealloc];
-}
 
 -(CGFloat)rowHeight
 {

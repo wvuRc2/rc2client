@@ -16,12 +16,12 @@
 #import "RCSession.h"
 
 @interface DropboxImportController()
-@property (nonatomic, retain) DBRestClient *restClient;
-@property (nonatomic, retain) DBMetadata *metaData;
+@property (nonatomic, strong) DBRestClient *restClient;
+@property (nonatomic, strong) DBMetadata *metaData;
 @property (nonatomic, copy) NSArray *entries;
-@property (nonatomic, retain) NSMutableDictionary *currentDownload;
-@property (nonatomic, retain) MBProgressHUD *currentProgress;
-@property (nonatomic, retain) RCFile *lastFileImported;
+@property (nonatomic, strong) NSMutableDictionary *currentDownload;
+@property (nonatomic, strong) MBProgressHUD *currentProgress;
+@property (nonatomic, strong) RCFile *lastFileImported;
 -(void)freeMemory;
 -(IBAction)userDone:(id)sender;
 -(IBAction)importFile:(id)sender;
@@ -40,9 +40,7 @@
 
 -(void)dealloc
 {
-	self.thePath=nil;
 	[self freeMemory];
-	[super dealloc];
 }
 
 -(void)freeMemory
@@ -66,7 +64,6 @@
 																					target:self
 																				action:@selector(userDone:)];
 	self.navigationItem.rightBarButtonItem = doneButton;
-	[doneButton release];
 
 	if (nil == self.thePath) {
 		self.thePath = @"/";
@@ -77,7 +74,7 @@
 	//load our data
 	self.entries = [self.dropboxCache objectForKey:self.thePath];
 	if (nil == self.entries) {
-		self.restClient = [[[DBRestClient alloc] initWithSession:(id)[DBSession sharedSession]] autorelease];
+		self.restClient = [[DBRestClient alloc] initWithSession:(id)[DBSession sharedSession]];
 		self.restClient.delegate = (id)self;
 		[self.restClient loadMetadata:self.thePath];
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -136,7 +133,7 @@
 	NSMutableDictionary *item = [self.entries objectAtIndex:indexPath.row];
 	if ([[item objectForKey:@"isdir"] boolValue]) {
 		//need to push next item on the stack
-		DropboxImportController *dfc = [[[DropboxImportController alloc] init] autorelease];
+		DropboxImportController *dfc = [[DropboxImportController alloc] init];
 		dfc.thePath = [[item objectForKey:@"metadata"] path];
 		dfc.dropboxCache = self.dropboxCache;
 		[self.navigationController pushViewController:dfc animated:YES];
@@ -193,7 +190,6 @@
 													  cancelButtonTitle:@"OK"
 													  otherButtonTitles:nil];
 				[alert show];
-				[alert autorelease];
 			}
 			self.currentDownload=nil;
 		});

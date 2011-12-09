@@ -17,10 +17,10 @@ static const CGFloat kKeyboardHeight = 354;
 @interface ImageHolderView() {
 	CGFloat _animationDistance;
 }
-@property (nonatomic, assign) UIView *barView;
-@property (nonatomic, assign) UIButton *actionButton;
-@property (nonatomic, assign) UILabel *dateLabel;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) UIView *barView;
+@property (nonatomic, strong) UIButton *actionButton;
+@property (nonatomic, strong) UILabel *dateLabel;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @end
 
 @implementation ImageHolderView
@@ -37,11 +37,6 @@ static const CGFloat kKeyboardHeight = 354;
 -(void)dealloc
 {
 	self.image=nil;
-	self.imageView=nil;
-	self.scrollView=nil;
-	self.nameField=nil;
-	self.dateFormatter=nil;
-	[super dealloc];
 }
 
 -(void)awakeFromNib
@@ -54,7 +49,6 @@ static const CGFloat kKeyboardHeight = 354;
 	frame.origin.x = 20;
 	UIScrollView *sv = [[UIScrollView alloc] initWithFrame:frame];
 	self.scrollView = sv;
-	[sv release];
 	[self addSubview:sv];
 	sv.delegate = self;
 	sv.minimumZoomScale = 0.25;
@@ -66,7 +60,6 @@ static const CGFloat kKeyboardHeight = 354;
 	UIImageView *iv = [[UIImageView alloc] initWithFrame:frame];
 	[sv addSubview:iv];
 	self.imageView = iv;
-	[iv release];
 	iv.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	iv.contentMode=UIViewContentModeCenter;
 
@@ -75,25 +68,23 @@ static const CGFloat kKeyboardHeight = 354;
 	UIView *bv = [[UIView alloc] initWithFrame:barRect];
 	[self addSubview:bv];
 	self.barView = bv;
-	[bv release];
 	bv.backgroundColor = [UIColor blackColor];
 	bv.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	
 	UITextField *tf = [[UITextField alloc] initWithFrame:CGRectMake((barRect.size.width - 200)/2, 8, 200, 32)];
 	self.nameField = tf;
-	[tf release];
 	tf.textAlignment = UITextAlignmentCenter;
 	tf.textColor = [UIColor whiteColor];
 	tf.delegate = self;
 	[bv addSubview:tf];
 
-	self.dateLabel = [[[UILabel alloc] initWithFrame:CGRectMake(2, 16, 80, 20)] autorelease];
+	self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 16, 80, 20)];
 	[bv addSubview:self.dateLabel];
 	self.dateLabel.textColor = [UIColor whiteColor];
 	self.dateLabel.opaque=NO;
 	self.dateLabel.font = [UIFont italicSystemFontOfSize:10.0];
 	self.dateLabel.backgroundColor = [UIColor clearColor];
-	self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	self.dateFormatter = [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 	
@@ -188,8 +179,7 @@ static const CGFloat kKeyboardHeight = 354;
 {
 	if (img == _image)
 		return;
-	[_image release];
-	_image = [img retain];
+	_image = img;
 	self.imageView.image = [img image];
 	self.nameField.text = [img.name stringByDeletingPathExtension];
 	self.dateLabel.text = [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:img.timestamp]];

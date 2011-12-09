@@ -27,7 +27,7 @@
 
 
 
-@property (nonatomic, retain) NSString *fileContents;
+@property (nonatomic, strong) NSString *fileContents;
 
 
 //- (BOOL)validateFileContents:(id*)value_ error:(NSError**)error_;
@@ -35,7 +35,7 @@
 
 
 
-@property (nonatomic, retain) NSNumber *fileId;
+@property (nonatomic, strong) NSNumber *fileId;
 
 
 @property int fileIdValue;
@@ -47,7 +47,7 @@
 
 
 
-@property (nonatomic, retain) NSDate *lastModified;
+@property (nonatomic, strong) NSDate *lastModified;
 
 
 //- (BOOL)validateLastModified:(id*)value_ error:(NSError**)error_;
@@ -55,7 +55,7 @@
 
 
 
-@property (nonatomic, retain) NSString *localEdits;
+@property (nonatomic, strong) NSString *localEdits;
 
 
 //- (BOOL)validateLocalEdits:(id*)value_ error:(NSError**)error_;
@@ -63,7 +63,7 @@
 
 
 
-@property (nonatomic, retain) NSDate *localLastModified;
+@property (nonatomic, strong) NSDate *localLastModified;
 
 
 //- (BOOL)validateLocalLastModified:(id*)value_ error:(NSError**)error_;
@@ -71,7 +71,7 @@
 
 
 
-@property (nonatomic, retain) NSString *name;
+@property (nonatomic, strong) NSString *name;
 
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
@@ -79,7 +79,7 @@
 
 
 
-@property (nonatomic, retain) NSString *sizeString;
+@property (nonatomic, strong) NSString *sizeString;
 
 
 //- (BOOL)validateSizeString:(id*)value_ error:(NSError**)error_;
@@ -87,7 +87,7 @@
 
 
 
-@property (nonatomic, retain) NSNumber *wspaceId;
+@property (nonatomic, strong) NSNumber *wspaceId;
 
 
 @property int wspaceIdValue;
@@ -100,7 +100,7 @@
 
 
 
-@property (nonatomic, retain) NSSet* savedSessionsRefererencedBy;
+@property (nonatomic, strong) NSSet* savedSessionsRefererencedBy;
 
 - (NSMutableSet*)savedSessionsRefererencedBySet;
 

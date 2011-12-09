@@ -34,7 +34,7 @@
 	if (!_isInited) {
 		NSURL *url = [[NSBundle mainBundle] URLForResource:@"chat" withExtension:@"html" subdirectory:@"console"];
 		[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-		__block BottomViewController *blockSelf = self;
+		__weak BottomViewController *blockSelf = self;
 		[[NSNotificationCenter defaultCenter] addObserverForName:kChatMessageNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
 				NSString *str = [NSString stringWithFormat:@"insertChat('%@', '%@')",
 								 [note.userInfo objectForKey:@"user"],

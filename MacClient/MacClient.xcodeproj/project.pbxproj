@@ -91,14 +91,14 @@
 		08FE89F214156F1300672474 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE89EC14156F1300672474 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08FE89F414156FFE00672474 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FE89F314156FFE00672474 /* SystemConfiguration.framework */; };
 		08FE89F61415728200672474 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FE89F51415728200672474 /* libz.dylib */; };
-		08FE8A1D1415755000672474 /* Rc2Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A1C1415755000672474 /* Rc2Server.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FE8A36141575F500672474 /* _RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A21141575F500672474 /* _RCFile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FE8A39141575F500672474 /* RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A27141575F500672474 /* RCFile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FE8A3A141575F500672474 /* RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A29141575F500672474 /* RCImage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FE8A3D141575F500672474 /* RCSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A2F141575F500672474 /* RCSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FE8A3E141575F500672474 /* RCWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A31141575F500672474 /* RCWorkspace.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FE8A3F141575F500672474 /* RCWorkspaceFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A33141575F500672474 /* RCWorkspaceFolder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FE8A40141575F500672474 /* RCWorkspaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A35141575F500672474 /* RCWorkspaceItem.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08FE8A1D1415755000672474 /* Rc2Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A1C1415755000672474 /* Rc2Server.m */; };
+		08FE8A36141575F500672474 /* _RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A21141575F500672474 /* _RCFile.m */; };
+		08FE8A39141575F500672474 /* RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A27141575F500672474 /* RCFile.m */; };
+		08FE8A3A141575F500672474 /* RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A29141575F500672474 /* RCImage.m */; };
+		08FE8A3D141575F500672474 /* RCSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A2F141575F500672474 /* RCSession.m */; };
+		08FE8A3E141575F500672474 /* RCWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A31141575F500672474 /* RCWorkspace.m */; };
+		08FE8A3F141575F500672474 /* RCWorkspaceFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A33141575F500672474 /* RCWorkspaceFolder.m */; };
+		08FE8A40141575F500672474 /* RCWorkspaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A35141575F500672474 /* RCWorkspaceItem.m */; };
 		08FE8A4514157E9B00672474 /* MacLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE8A4414157E9B00672474 /* MacLoginController.m */; };
 		08FE8A4714157EAF00672474 /* MacLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08FE8A4614157EAF00672474 /* MacLoginController.xib */; };
 		08FE8A4E14159CA000672474 /* rc2.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FE8A4C14159CA000672474 /* rc2.png */; };
@@ -666,6 +666,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 08FE88C81415533400672474 /* Build configuration list for PBXNativeTarget "MacClient" */;
 			buildPhases = (
+				0829453214928FAD00E593C7 /* generate model files */,
 				08FE88A31415533300672474 /* Sources */,
 				08FE88A41415533300672474 /* Frameworks */,
 				08FE88A51415533300672474 /* Resources */,
@@ -748,6 +749,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0829453214928FAD00E593C7 /* generate model files */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "generate model files";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if test \"${SRCROOT}/../SharedCode/rc2/model/generated\" -ot \"${SRCROOT}/../Rc2.xcdatamodeld\"\nthen\n/usr/bin/mogenerator -m \"${SRCROOT}/../Rc2.xcdatamodeld/Rc2.xcdatamodel\" --template-path \"${SRCROOT}/../modeltemplates\" -M \"${SRCROOT}/../SharedCode/rc2/model/generated\" -H \"${SRCROOT}/../SharedCode/rc2/model\" --use-pbx-vars --template-var arc=true\nfi\n";
+		};
 		08DFFD9B14893ED3008D1399 /* compile css */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;

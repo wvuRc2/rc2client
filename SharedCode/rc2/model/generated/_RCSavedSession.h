@@ -23,7 +23,7 @@
 
 
 
-@property (nonatomic, retain) NSString *consoleHtml;
+@property (nonatomic, strong) NSString *consoleHtml;
 
 
 //- (BOOL)validateConsoleHtml:(id*)value_ error:(NSError**)error_;
@@ -31,7 +31,7 @@
 
 
 
-@property (nonatomic, retain) NSString *inputText;
+@property (nonatomic, strong) NSString *inputText;
 
 
 //- (BOOL)validateInputText:(id*)value_ error:(NSError**)error_;
@@ -39,7 +39,7 @@
 
 
 
-@property (nonatomic, retain) NSString *login;
+@property (nonatomic, strong) NSString *login;
 
 
 //- (BOOL)validateLogin:(id*)value_ error:(NSError**)error_;
@@ -47,7 +47,7 @@
 
 
 
-@property (nonatomic, retain) NSNumber *wspaceId;
+@property (nonatomic, strong) NSNumber *wspaceId;
 
 
 @property int wspaceIdValue;
@@ -60,7 +60,7 @@
 
 
 
-@property (nonatomic, retain) RCFile* currentFile;
+@property (nonatomic, strong) RCFile* currentFile;
 
 //- (BOOL)validateCurrentFile:(id*)value_ error:(NSError**)error_;
 

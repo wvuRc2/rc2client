@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface LoginController : UIViewController<UITextFieldDelegate>
-@property (nonatomic, assign) IBOutlet UITextField *useridField;
-@property (nonatomic, assign) IBOutlet UITextField *passwordField;
-@property (nonatomic, assign) IBOutlet UIButton *loginButton;
-@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *busyWheel;
-@property (nonatomic, assign) IBOutlet UISegmentedControl *hostControl;
+@property (nonatomic, strong) IBOutlet UITextField *useridField;
+@property (nonatomic, strong) IBOutlet UITextField *passwordField;
+@property (nonatomic, strong) IBOutlet UIButton *loginButton;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *busyWheel;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *hostControl;
 @property (nonatomic, copy) BasicBlock loginCompleteHandler;
 
 -(IBAction)doLogin:(id)sender;

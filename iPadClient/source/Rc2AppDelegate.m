@@ -35,10 +35,10 @@
 	NSManagedObjectModel *__mom;
 	NSInteger _curKeyFile;
 }
-@property (nonatomic, retain) LoginController *authController;
-@property (nonatomic, retain) UIView *messageListView;
-@property (nonatomic, retain) UIView *currentMasterView;
-@property (nonatomic, retain) DBRestClient *keyboardRestClient;
+@property (nonatomic, strong) LoginController *authController;
+@property (nonatomic, strong) UIView *messageListView;
+@property (nonatomic, strong) UIView *currentMasterView;
+@property (nonatomic, strong) DBRestClient *keyboardRestClient;
 -(void)downloadKeyboardFile;
 @end
 
@@ -64,11 +64,11 @@
 	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 	 
-	self.detailsController = [[[DetailsViewController alloc] init] autorelease];
-	WorkspaceTableController *wtc = [[[WorkspaceTableController alloc] initWithNibName:@"WorkspaceTableController" bundle:nil] autorelease];
+	self.detailsController = [[DetailsViewController alloc] init];
+	WorkspaceTableController *wtc = [[WorkspaceTableController alloc] initWithNibName:@"WorkspaceTableController" bundle:nil];
 	self.navController = [[UINavigationController alloc] initWithRootViewController:wtc];
 	wtc.navigationItem.title = @"Workspaces";
-	self.splitController = [[[MGSplitViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+	self.splitController = [[MGSplitViewController alloc] initWithNibName:nil bundle:nil];
 	self.splitController.masterViewController = self.navController;
 	self.splitController.detailViewController = self.detailsController;
 	self.splitController.showsMasterInPortrait = YES;
@@ -94,8 +94,8 @@
 		[self promptForLogin];
 	});
 
-	DBSession *session = [[[DBSession alloc] initWithConsumerKey:@"663yb1illxbs5rl" 
-												  consumerSecret:@"on576o50uxrjxhj"] autorelease];
+	DBSession *session = [[DBSession alloc] initWithConsumerKey:@"663yb1illxbs5rl" 
+												  consumerSecret:@"on576o50uxrjxhj"];
 	[DBSession setSharedSession:session];
 #ifndef TARGET_IPHONE_SIMULATOR
 	[TestFlight takeOff:@"77af1fa93381361c61748e58fae9f4f9_Mjc0ODAyMDExLTA5LTE5IDE2OjUwOjU3LjYzOTg1Mw"];
@@ -193,7 +193,6 @@
 {
 	SessionViewController *svc = [[SessionViewController alloc] initWithSession:[Rc2Server sharedInstance].currentSession];
 	self.sessionController = svc;
-	[svc release];
 	[svc view];
 	[MBProgressHUD hideHUDForView:self.splitController.view animated:YES];
 	RunAfterDelay(0.25, ^{
@@ -206,14 +205,13 @@
 	RCWorkspace *wspace = [Rc2Server sharedInstance].selectedWorkspace;
 	RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:results];
 	[Rc2Server sharedInstance].currentSession = session;
-	[session release];
 	session.initialFileSelection = selFile;
 	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
 	if (keylayout != eKeyboardLayout_Standard) {
 		_curKeyFile=0;
 		//we need to attempt to copy custom keyboards from dropbox
 		if (nil == self.keyboardRestClient) {
-			self.keyboardRestClient = [[[DBRestClient alloc] initWithSession:(id)[DBSession sharedSession]] autorelease];
+			self.keyboardRestClient = [[DBRestClient alloc] initWithSession:(id)[DBSession sharedSession]];
 			self.keyboardRestClient.delegate = (id)self;
 		}
 		[self downloadKeyboardFile];
@@ -254,7 +252,6 @@
 												  cancelButtonTitle:@"OK"
 												  otherButtonTitles:nil];
 			[alert show];
-			[alert autorelease];
 		}
 	}];
 }
@@ -279,13 +276,14 @@
 
 -(void)promptForLogin
 {
-	self.authController = [[[LoginController alloc] init] autorelease];
-	__block UIViewController *blockVC = self.window.rootViewController;
+	self.authController = [[LoginController alloc] init];
+	__weak UIViewController *blockVC = self.window.rootViewController;
+	__unsafe_unretained Rc2AppDelegate *blockSelf = self;
 	self.authController.loginCompleteHandler = ^ {
 		[blockVC dismissModalViewControllerAnimated:YES];
 		Rc2AppDelegate *del = ((Rc2AppDelegate*)[[UIApplication sharedApplication] delegate]);
 		del.authController=nil;
-		[(WorkspaceTableController*)self.navController.topViewController 
+		[(WorkspaceTableController*)blockSelf.navController.topViewController 
 							setWorkspaceItems:[[Rc2Server sharedInstance] workspaceItems]];
 		if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentSessionWspaceId"]) {
 			[del restoreLastSession];
@@ -309,11 +307,6 @@
 	self.authController.view.superview.center = pt;
 }
 
-- (void)dealloc
-{
-	[_window release];
-	[super dealloc];
-}
 
 //this is called even when swithing to background or will terminate is about to happen.
 -(void)eventLoopComplete:(UIEvent*)event
@@ -413,7 +406,7 @@
 	if (moc)
 		return moc;
 	//now we need to create a moc. this will require differences based on what thread we are on
-	moc = [[[NSManagedObjectContext alloc] init] autorelease];
+	moc = [[NSManagedObjectContext alloc] init];
 	[moc setPersistentStoreCoordinator: self.persistentStoreCoordinator];
 	[[[NSThread	currentThread] threadDictionary] setObject:moc forKey:@"appMoc"];
 	return moc;

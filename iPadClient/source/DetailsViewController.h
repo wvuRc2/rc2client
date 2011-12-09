@@ -9,16 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @interface DetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
-@property (nonatomic, assign) IBOutlet UIToolbar *toolbar;
-@property (nonatomic, assign) IBOutlet UILabel *titleLabel;
-@property (nonatomic, assign) IBOutlet UIBarButtonItem *loginButton;
-@property (nonatomic, assign) IBOutlet UIBarButtonItem *sessionButton;
-@property (nonatomic, assign) IBOutlet UITableView *fileTableView;
-@property (nonatomic, assign) IBOutlet UILabel *msgCntLabel;
-@property (nonatomic, assign) IBOutlet UIBarButtonItem *messagesButton;
-@property (retain, nonatomic) IBOutlet UIView *workspaceContent;
-@property (retain, nonatomic) IBOutlet UIView *welcomeContent;
-@property (retain, nonatomic) IBOutlet UIView *messageNavView;
+@property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, strong) IBOutlet UILabel *titleLabel;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *loginButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *sessionButton;
+@property (nonatomic, strong) IBOutlet UITableView *fileTableView;
+@property (nonatomic, strong) IBOutlet UILabel *msgCntLabel;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *messagesButton;
+@property (strong, nonatomic) IBOutlet UIView *workspaceContent;
+@property (strong, nonatomic) IBOutlet UIView *welcomeContent;
+@property (strong, nonatomic) IBOutlet UIView *messageNavView;
 
 -(IBAction)doLogoutFromWSPage:(id)sender;
 -(IBAction)doLoginLogout:(id)sender;

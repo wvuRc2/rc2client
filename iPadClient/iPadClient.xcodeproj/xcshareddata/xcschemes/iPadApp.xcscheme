@@ -9,7 +9,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "cd $SRCROOT&#10;/usr/bin/mogenerator -m ../Rc2.xcdatamodeld/Rc2.xcdatamodel -M ../SharedCode/rc2/model/generated -H ../SharedCode/rc2/model">
+               scriptText = "cd $SRCROOT&#10;/usr/bin/mogenerator -m ../Rc2.xcdatamodeld/Rc2.xcdatamodel -M ../SharedCode/rc2/model/generated -H ../SharedCode/rc2/model --template-var arc=true">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"

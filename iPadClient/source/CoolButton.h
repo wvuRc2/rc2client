@@ -15,10 +15,8 @@
     CALayer *_highlightLayer;
 }
 
-@property (nonatomic, retain)UIColor *buttonColor;
-@property (nonatomic, retain)UIView *innerView;
-@property (nonatomic, retain)CALayer *highlightLayer;
-
-- (void)setButtonColor:(UIColor *)buttonColor;
+@property (nonatomic, strong) UIColor *buttonColor;
+@property (nonatomic, strong) UIView *innerView;
+@property (nonatomic, strong) CALayer *highlightLayer;
 
 @end

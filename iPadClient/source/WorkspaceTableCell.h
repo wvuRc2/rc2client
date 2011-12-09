@@ -9,8 +9,8 @@
 @class RCWorkspaceItem;
 
 @interface WorkspaceTableCell : iAMTableViewCell
-@property (nonatomic, assign) IBOutlet UIImageView *imageView;
-@property (nonatomic, assign) IBOutlet UILabel *label;
-@property (nonatomic, retain) RCWorkspaceItem *item;
+@property (nonatomic, strong) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) IBOutlet UILabel *label;
+@property (nonatomic, strong) RCWorkspaceItem *item;
 @property (nonatomic, assign) BOOL drawSelected;
 @end

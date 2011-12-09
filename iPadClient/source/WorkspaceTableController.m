@@ -16,10 +16,10 @@
 @interface WorkspaceTableController() {
 	BOOL _didInitialLoad;
 }
-@property (nonatomic, retain) id loggedInToken;
-@property (nonatomic, retain) UIActionSheet *addSheet;
-@property (nonatomic, retain) WorkspaceTableCell *currentSelection;
-@property (nonatomic, retain) id themeChangeNotice;
+@property (nonatomic, strong) id loggedInToken;
+@property (nonatomic, strong) UIActionSheet *addSheet;
+@property (nonatomic, strong) WorkspaceTableCell *currentSelection;
+@property (nonatomic, strong) id themeChangeNotice;
 -(void)handleAddWorkspaceResponse:(BOOL)success results:(NSDictionary*)results;
 @end
 
@@ -50,7 +50,6 @@
 -(void)dealloc
 {
 	[self freeMemory];
-	[super dealloc];
 }
 
 #pragma mark - View lifecycle
@@ -60,7 +59,7 @@
 	[super viewDidLoad];
 	if (!_didInitialLoad) {
 		_didInitialLoad=YES;
-		__block WorkspaceTableController *blockSelf = self;
+		__block __weak WorkspaceTableController *blockSelf = self;
 		Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 		[[ThemeEngine sharedInstance] addBackgroundLayer:self.view.layer 
 												 withKey:@"MasterBackground"
@@ -73,9 +72,9 @@
 		}];
 		self.themeChangeNotice = tn;
 		((AMTableView*)self.tableView).deselectOnTouchesOutsideCells=YES;
-		self.addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+		self.addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
 																		target:self
-																		action:@selector(doAdd:)] autorelease];
+																		action:@selector(doAdd:)];
 		self.toolbarItems = ARRAY(self.addButton);
 		self.navigationController.toolbarHidden=NO;
 		[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
@@ -99,9 +98,9 @@
 - (IBAction)doAdd:(id)sender
 {
 	if (nil == self.addSheet) {
-		self.addSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:(id)self cancelButtonTitle:nil
+		self.addSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:(id)self cancelButtonTitle:nil
 									   destructiveButtonTitle:nil 
-											otherButtonTitles:@"Add Workspace", @"Add Folder",nil] autorelease];
+											otherButtonTitles:@"Add Workspace", @"Add Folder",nil];
 	}
 	[self.addSheet showFromBarButtonItem:self.addButton animated:YES];
 }
@@ -120,7 +119,6 @@
 											  cancelButtonTitle:@"OK"
 											  otherButtonTitles:nil];
 		[alert show];
-		[alert release];
 		return;
 	}
 	RCWorkspaceItem *wspace = [RCWorkspaceItem workspaceItemWithDictionary:[results objectForKey:@"wspace"]];
@@ -146,10 +144,8 @@
 									   [self handleAddWorkspaceResponse:success results:results];
 								   }];
 		}
-		[prompt autorelease];		
 	};
 	[pv show];
-	[pv autorelease];
 }
 
 -(void)clearSelection
@@ -211,7 +207,6 @@
 		tc.parentItem = wsitem;
 		tc.navigationItem.title = wsitem.name;
 		[self.navigationController pushViewController:tc animated:YES];
-		[tc release];
 	} else {
 		RCWorkspace *wspace = (RCWorkspace*)wsitem;
 		[Rc2Server sharedInstance].selectedWorkspace = wspace;
@@ -231,7 +226,6 @@
 {
 	if (_workspaceItems == items)
 		return;
-	[_workspaceItems release];
 	_workspaceItems = [items copy];
 	[self.tableView reloadData];
 }

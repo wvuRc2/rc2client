@@ -49,15 +49,15 @@ enum {
 	CGFloat _portraitKeyboardHeight;
 }
 @property (nonatomic, assign) NSInteger currentLayout;
-@property (nonatomic, retain) UIView *alphaKeyView;
-@property (nonatomic, retain) UIView *symKeyView;
-@property (nonatomic, retain) UIView *pAlphaKeyView;
-@property (nonatomic, retain) UIView *pSymKeyView;
-@property (nonatomic, assign) UIView *currentAlphaKeyView;
-@property (nonatomic, assign) UIView *currentSymKeyView;
-@property (nonatomic, retain) NSData *buttonTemplateData;
-@property (nonatomic, retain) KeyButton *layoutButton;
-@property (nonatomic, assign) KeyButton *shiftKey;
+@property (nonatomic, strong) UIView *alphaKeyView;
+@property (nonatomic, strong) UIView *symKeyView;
+@property (nonatomic, strong) UIView *pAlphaKeyView;
+@property (nonatomic, strong) UIView *pSymKeyView;
+@property (nonatomic, strong) UIView *currentAlphaKeyView;
+@property (nonatomic, strong) UIView *currentSymKeyView;
+@property (nonatomic, strong) NSData *buttonTemplateData;
+@property (nonatomic, strong) KeyButton *layoutButton;
+@property (nonatomic, strong) KeyButton *shiftKey;
 @property (nonatomic, assign) BOOL shiftDown;
 -(void)cacheGradients;
 -(void)flushGradients;
@@ -85,12 +85,7 @@ enum {
 
 -(void)dealloc
 {
-	self.alphaKeyView=nil;
-	self.symKeyView=nil;
-	self.pAlphaKeyView=nil;
-	self.pSymKeyView=nil;
 	[self flushGradients];
-	[super dealloc];
 }
 
 -(void)awakeFromNib
@@ -114,21 +109,17 @@ enum {
 	self.alphaKeyView = aView;
 	aView.opaque=NO;
 	aView.userInteractionEnabled=YES;
-	[aView release];
 	aView = [[UIView alloc] initWithFrame:vframe];
 	self.symKeyView = aView;
 	aView.opaque=NO;
 	aView.alpha = 0;
-	[aView release];
 	aView = [[UIView alloc] initWithFrame:vframe];
 	self.pAlphaKeyView = aView;
 	aView.opaque=NO;
-	[aView release];
 	aView = [[UIView alloc] initWithFrame:vframe];
 	self.pSymKeyView = aView;
 	aView.opaque=NO;
 	aView.alpha = 0;
-	[aView release];
 	self.currentAlphaKeyView = self.alphaKeyView;
 	self.currentSymKeyView = self.symKeyView;
 

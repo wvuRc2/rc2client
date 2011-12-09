@@ -27,7 +27,7 @@
 
 
 
-@property (nonatomic, retain) NSString *body;
+@property (nonatomic, strong) NSString *body;
 
 
 //- (BOOL)validateBody:(id*)value_ error:(NSError**)error_;
@@ -35,7 +35,7 @@
 
 
 
-@property (nonatomic, retain) NSDate *dateRead;
+@property (nonatomic, strong) NSDate *dateRead;
 
 
 //- (BOOL)validateDateRead:(id*)value_ error:(NSError**)error_;
@@ -43,7 +43,7 @@
 
 
 
-@property (nonatomic, retain) NSDate *dateSent;
+@property (nonatomic, strong) NSDate *dateSent;
 
 
 //- (BOOL)validateDateSent:(id*)value_ error:(NSError**)error_;
@@ -51,7 +51,7 @@
 
 
 
-@property (nonatomic, retain) NSNumber *messageId;
+@property (nonatomic, strong) NSNumber *messageId;
 
 
 @property int messageIdValue;
@@ -63,7 +63,7 @@
 
 
 
-@property (nonatomic, retain) NSNumber *priority;
+@property (nonatomic, strong) NSNumber *priority;
 
 
 @property short priorityValue;
@@ -75,7 +75,7 @@
 
 
 
-@property (nonatomic, retain) NSNumber *rcptmsgId;
+@property (nonatomic, strong) NSNumber *rcptmsgId;
 
 
 @property int rcptmsgIdValue;
@@ -87,7 +87,7 @@
 
 
 
-@property (nonatomic, retain) NSString *sender;
+@property (nonatomic, strong) NSString *sender;
 
 
 //- (BOOL)validateSender:(id*)value_ error:(NSError**)error_;
@@ -95,7 +95,7 @@
 
 
 
-@property (nonatomic, retain) NSString *subject;
+@property (nonatomic, strong) NSString *subject;
 
 
 //- (BOOL)validateSubject:(id*)value_ error:(NSError**)error_;
@@ -103,7 +103,7 @@
 
 
 
-@property (nonatomic, retain) NSNumber *version;
+@property (nonatomic, strong) NSNumber *version;
 
 
 @property int versionValue;

@@ -29,9 +29,9 @@
 @property (nonatomic, assign, readwrite) BOOL loggedIn;
 @property (nonatomic, copy, readwrite) NSString *currentLogin;
 @property (nonatomic, readwrite) BOOL isAdmin;
-@property (nonatomic, retain) NSNumber *currentUserId;
+@property (nonatomic, strong) NSNumber *currentUserId;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
-@property (nonatomic, retain) RC2RemoteLogger *remoteLogger;
+@property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
 -(void)updateWorkspaceItems:(NSArray*)items;
 @end
 
@@ -84,7 +84,7 @@
 #endif
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 #else
-	self.remoteLogger = [[[RC2RemoteLogger alloc] init] autorelease];
+	self.remoteLogger = [[RC2RemoteLogger alloc] init];
 	self.remoteLogger.apiKey = @"sf92j5t9fk2kfkegfd110lsm";
 #endif
 	[[VyanaLogger sharedInstance] startLogging];
@@ -131,8 +131,9 @@
 	request.userAgent = self.userAgentString;
 	request.validatesSecureCertificate = NO;
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+	__block __weak NSError *error = request.error;
 	[request setFailedBlock:^{
-		[NSApp presentError:request.error];
+		[NSApp presentError:error];
 	}];
 #endif
 }
@@ -176,7 +177,7 @@
 	completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspaces", [self baseUrl]]];
-	__block ASIFormDataRequest *req = [self postRequestWithURL:url];
+	__block __weak ASIFormDataRequest *req = [self postRequestWithURL:url];
 	[req setPostValue:name forKey:@"newname"];
 	if (isFolder)
 		[req setPostValue:@"f" forKey:@"newtype"];
@@ -201,7 +202,7 @@
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/use/%@", [self baseUrl],
 									   wspace.wspaceId]];
-	__block ASIHTTPRequest *req = [self requestWithURL:url];
+	__block __weak ASIHTTPRequest *req = [self requestWithURL:url];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
@@ -290,7 +291,7 @@
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/ftree/%@", [self baseUrl],
 									   wspace.wspaceId]];
-	__block ASIHTTPRequest *req = [self requestWithURL:url];
+	__block __weak ASIHTTPRequest *req = [self requestWithURL:url];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
@@ -312,7 +313,7 @@
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
 									   file.fileId]];
-	__block ASIHTTPRequest *req = [self requestWithURL:url];
+	__block __weak ASIHTTPRequest *req = [self requestWithURL:url];
 	req.downloadDestinationPath = destPath;
 	req.downloadProgressDelegate = progressView;
 	[req setCompletionBlock:^{
@@ -335,7 +336,7 @@
 	}
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
 									   file.fileId]];
-	__block ASIHTTPRequest *req = [self requestWithURL:url];
+	__block __weak ASIHTTPRequest *req = [self requestWithURL:url];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		hblock(YES, respStr);
@@ -350,7 +351,7 @@
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
 									   file.fileId]];
-	__block ASIHTTPRequest *req = [self requestWithURL:url];
+	__block __weak ASIHTTPRequest *req = [self requestWithURL:url];
 	req.requestMethod = @"DELETE";
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
@@ -374,7 +375,7 @@
 		url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl], file.fileId]];
 	else
 		url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/new", [self baseUrl]]];
-	__block ASIFormDataRequest *req = [self postRequestWithURL:url];
+	__block __weak ASIFormDataRequest *req = [self postRequestWithURL:url];
 	[req setPostValue:file.localEdits forKey:@"content"];
 	[req setPostValue:file.name forKey:@"name"];
 	[req setCompletionBlock:^{
@@ -395,7 +396,7 @@
 -(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/new", self.baseUrl]];
-	ASIFormDataRequest *req = [self postRequestWithURL:url];
+	__block __weak ASIFormDataRequest *req = [self postRequestWithURL:url];
 	[req setPostValue:[fileUrl lastPathComponent] forKey:@"name"];
 	[req setPostValue:self.currentUserId forKey:@"userid"];
 	[req setFile:fileUrl.path forKey:@"content"];
@@ -429,7 +430,7 @@
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/share/%@", [self baseUrl],
 									   wspace.wspaceId]];
-	__block ASIHTTPRequest *req = [self requestWithURL:url];
+	__block __weak ASIHTTPRequest *req = [self requestWithURL:url];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
@@ -478,7 +479,7 @@
 -(void)syncMessages:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/messages", [self baseUrl]]];
-	__block ASIHTTPRequest *req = [self requestWithURL:url];
+	__block __weak ASIHTTPRequest *req = [self requestWithURL:url];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
@@ -532,7 +533,7 @@
 -(void)loginAsUser:(NSString*)user password:(NSString*)password completionHandler:(Rc2SessionCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/login", [self baseUrl]]];
-	__block ASIFormDataRequest *req = [self postRequestWithURL:url];
+	__block __weak ASIFormDataRequest *req = [self postRequestWithURL:url];
 	[req setPostValue:user forKey:@"login"];
 	[req setPostValue:password forKey:@"password"];
 	[req setCompletionBlock:^{

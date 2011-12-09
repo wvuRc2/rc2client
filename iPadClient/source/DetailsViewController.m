@@ -31,16 +31,16 @@ enum {
 	BOOL _didMsgCheck;
 	BOOL _didNibCheck;
 }
-@property (nonatomic, retain) NSMutableArray *kvoTokens;
-@property (nonatomic, retain) NSString *wspaceFilesToken;
-@property (nonatomic, retain) RCWorkspace *selectedWorkspace;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
-@property (nonatomic, retain) UIActionSheet *actionSheet;
-@property (nonatomic, retain) SettingsController *settingsController;
-@property (nonatomic, retain) MessageController *messageController;
-@property (nonatomic, assign) UIView *currentView;
-@property (nonatomic, retain) id themeChangeNotice;
-@property (nonatomic, retain) NSIndexPath *selectedIndex;
+@property (nonatomic, strong) NSMutableArray *kvoTokens;
+@property (nonatomic, strong) NSString *wspaceFilesToken;
+@property (nonatomic, strong) RCWorkspace *selectedWorkspace;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) UIActionSheet *actionSheet;
+@property (nonatomic, strong) SettingsController *settingsController;
+@property (nonatomic, strong) MessageController *messageController;
+@property (nonatomic, strong) UIView *currentView;
+@property (nonatomic, strong) id themeChangeNotice;
+@property (nonatomic, strong) NSIndexPath *selectedIndex;
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace;
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace withLogout:(BOOL)doLogout;
 -(void)updateLoginStatus;
@@ -81,7 +81,6 @@ enum {
 -(void)dealloc
 {
 	[self freeUpMemory];
-	[super dealloc];
 }
 
 #pragma mark - View lifecycle
@@ -91,10 +90,10 @@ enum {
 	[super viewDidLoad];
 	if (!_didNibCheck) {
 		self.kvoTokens = [NSMutableArray array];
-		self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+		self.dateFormatter = [[NSDateFormatter alloc] init];
 		[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
 		[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-		__block DetailsViewController *blockSelf = self;
+		__block __weak DetailsViewController *blockSelf = self;
 		id aToken = [[Rc2Server sharedInstance] addObserverForKeyPath:@"selectedWorkspace" 
 																		   task:^(id obj, NSDictionary *change)
 		{
@@ -156,7 +155,7 @@ enum {
 -(IBAction)doActionMenu:(id)sender
 {
 	if (nil == self.actionSheet) {
-		self.actionSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Settings",@"Theme",nil] autorelease];
+		self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Settings",@"Theme",nil];
 	}
 	[self.actionSheet showFromBarButtonItem:sender animated:YES];	
 }
@@ -189,7 +188,7 @@ enum {
 {
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	if (nil == self.messageController) {
-		self.messageController = [[[MessageController alloc] init] autorelease];
+		self.messageController = [[MessageController alloc] init];
 		self.messageController.view.frame = self.welcomeContent.frame;
 		[self.messageController viewDidLoad];
 		self.messageController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
@@ -227,7 +226,6 @@ enum {
 	if (nil == self.settingsController) {
 		SettingsController *fc = [[SettingsController alloc] init];
 		self.settingsController = fc;
-		[fc release];
 	}
 	self.settingsController.modalPresentationStyle = UIModalPresentationPageSheet;
 	[self.settingsController view];
@@ -246,7 +244,7 @@ enum {
 
 -(void)displayThemes
 {
-	ThemePicker *picker = [[[ThemePicker alloc] init] autorelease];
+	ThemePicker *picker = [[ThemePicker alloc] init];
 	picker.modalPresentationStyle = UIModalPresentationPageSheet;
 	[picker view];
 	CGSize sz = picker.view.frame.size;
@@ -324,7 +322,7 @@ enum {
 		self.wspaceFilesToken=nil;
 	}
 	self.selectedWorkspace = wspace;
-	__block DetailsViewController *blockSelf = self;
+	__block __weak DetailsViewController *blockSelf = self;
 	if (nil == wspace) {
 		if (self.currentView == self.workspaceContent) {
 			//need to switch back to welcome

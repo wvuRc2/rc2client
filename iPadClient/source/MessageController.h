@@ -9,9 +9,9 @@
 @interface MessageController : NSObject
 -(id)init;
 
-@property (nonatomic, retain) IBOutlet UIView *view;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) IBOutlet UIView *view;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UIImageView *imageView;
 @property (nonatomic, copy) NSArray *messages;
 -(IBAction)doDone:(id)sender;
 -(IBAction)doDeleteMessage:(id)sender;

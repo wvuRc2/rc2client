@@ -14,7 +14,7 @@
 @property (nonatomic, readonly) BOOL contentsLoaded; //not KVO compliant
 @property (nonatomic, readonly) BOOL existsOnServer; //not KVO compliant
 @property (nonatomic, readonly) BOOL locallyModified; //not KVO compliant
-@property (nonatomic, readonly) NSString *currentContents; //not KVO compliant
+@property (weak, nonatomic, readonly) NSString *currentContents; //not KVO compliant
 
 //parses an array of dictionaries sent from the server
 +(NSArray*)filesFromJsonArray:(NSArray*)inArray;

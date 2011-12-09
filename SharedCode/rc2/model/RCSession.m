@@ -40,7 +40,7 @@
 {
     self = [super init];
     if (self) {
-        _workspace = [wspace retain];
+        _workspace = wspace;
 		_settings = [[NSMutableDictionary alloc] init];
 		NSString *settingKey = [NSString stringWithFormat:@"session_%@", self.workspace.wspaceId];
 		[_settings setValuesForKeysWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:settingKey]];
@@ -54,14 +54,8 @@
 -(void)dealloc
 {
 	_delegate=nil; //assert in setDelegate: would cause crash
-	self.userid=nil;
 	[self.keepAliveTimer invalidate];
-	self.keepAliveTimer=nil;
-	self.timeOfLastTraffic=nil;
 	[self closeWebSocket];
-	[_workspace release];
-	[_settings release];
-	[super dealloc];
 }
 
 -(void)updateWithServerResponse:(NSDictionary*)rsp
@@ -80,15 +74,14 @@
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 	urlStr = [urlStr stringByAppendingFormat:@"?wid=%@", self.workspace.wspaceId];
 #endif
-	_ws = [[WebSocket00 webSocketWithURLString:urlStr delegate:self origin:nil 
-									 protocols:nil tlsSettings:nil verifyHandshake:YES] retain];
+	_ws = [WebSocket00 webSocketWithURLString:urlStr delegate:self origin:nil 
+									 protocols:nil tlsSettings:nil verifyHandshake:YES];
 	_ws.timeout = -1;
 	[_ws open];
 	RunAfterDelay(10, ^{
 		if (!self.socketOpen) {
 			//failed to open after 10 seconds. treat as an error
 			[_ws close];
-			[_ws release];
 			_ws = nil;
 			[self.delegate handleWebSocketError:nil];
 		}
@@ -98,7 +91,6 @@
 -(void)closeWebSocket
 {
 	[_ws close];
-	[_ws release];
 	_ws=nil;
 }
 

@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface BottomViewController : UIViewController
-@property (nonatomic, assign) IBOutlet UIWebView *webView;
-@property (nonatomic, assign) IBOutlet UITextField *textField;
+@property (nonatomic, strong) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) IBOutlet UITextField *textField;
 @end

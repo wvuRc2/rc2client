@@ -12,11 +12,11 @@
 @class RCImage;
 
 @interface ImageDisplayController : UIViewController<MFMailComposeViewControllerDelegate>
-@property (nonatomic, assign) IBOutlet UISegmentedControl *whatUp;
-@property (nonatomic, retain) IBOutlet ImageHolderView *holder1;
-@property (nonatomic, retain) IBOutlet ImageHolderView *holder2;
-@property (nonatomic, retain) IBOutlet ImageHolderView *holder3;
-@property (nonatomic, retain) IBOutlet ImageHolderView *holder4;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *whatUp;
+@property (nonatomic, strong) IBOutlet ImageHolderView *holder1;
+@property (nonatomic, strong) IBOutlet ImageHolderView *holder2;
+@property (nonatomic, strong) IBOutlet ImageHolderView *holder3;
+@property (nonatomic, strong) IBOutlet ImageHolderView *holder4;
 @property (nonatomic, copy) NSArray *allImages;
 @property (nonatomic, copy) BasicBlock closeHandler;
 

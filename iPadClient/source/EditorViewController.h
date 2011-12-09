@@ -13,12 +13,12 @@
 @class RCSavedSession;
 
 @interface EditorViewController : UIViewController<KeyboardViewDelegate,UIPopoverControllerDelegate,UITextViewDelegate>
-@property (nonatomic, assign) IBOutlet UITextView *textView;
-@property (nonatomic, assign) IBOutlet UIBarButtonItem *executeButton;
-@property (nonatomic, assign) IBOutlet UIBarButtonItem *syncButtonItem;
-@property (nonatomic, assign) IBOutlet UIBarButtonItem *actionButtonItem;
-@property (nonatomic, assign) IBOutlet UILabel *docTitleLabel;
-@property (nonatomic, retain) RCFile *currentFile;
+@property (nonatomic, strong) IBOutlet UITextView *textView;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *executeButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *syncButtonItem;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *actionButtonItem;
+@property (nonatomic, strong) IBOutlet UILabel *docTitleLabel;
+@property (nonatomic, strong) RCFile *currentFile;
 
 -(IBAction)doExecute:(id)sender;
 -(IBAction)doShowFiles:(id)sender;

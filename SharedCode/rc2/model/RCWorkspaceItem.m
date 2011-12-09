@@ -18,7 +18,7 @@
 	if ([[dict objectForKey:@"isDir"] boolValue])
 		cl = [RCWorkspaceFolder class];
 	RCWorkspaceItem *item = [[cl alloc] initWithDictionary:dict];
-	return [item autorelease];
+	return item;
 }
 
 -(id)initWithDictionary:(NSDictionary*)dict
@@ -34,13 +34,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	self.wspaceId=nil;
-	self.parentId=nil;
-	self.name=nil;
-	[super dealloc];
-}
 
 -(BOOL)isFolder { return NO; }
 

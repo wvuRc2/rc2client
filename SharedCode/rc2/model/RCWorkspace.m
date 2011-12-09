@@ -41,7 +41,6 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 {
 	self.files=nil;
 	[self removeAllBlockObservers];
-	[super dealloc];
 }
 
 -(void)refreshFiles
@@ -92,7 +91,6 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 {
 	if ([anArray isEqual:_files])
 		return;
-	[_files release];
 	_files = [anArray copy];
 }
 

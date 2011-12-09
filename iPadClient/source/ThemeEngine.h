@@ -14,7 +14,7 @@
 -(UIColor*)colorForKey:(NSString*)key;
 -(NSDictionary*)themeColors;
 -(NSString*)consoleValueForKey:(NSString*)key;
-@property (nonatomic, readonly) NSString *name;
+@property (weak, nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) BOOL isCustom;
 @end
 
@@ -22,8 +22,8 @@ typedef void (^ThemeChangedBlock)(Theme*);
 
 
 @interface ThemeEngine : NSObject
-@property (nonatomic, retain) Theme *currentTheme;
-@property (readonly) NSArray *allThemes;
+@property (nonatomic, strong) Theme *currentTheme;
+@property (weak, readonly) NSArray *allThemes;
 +(ThemeEngine*)sharedInstance;
 //an object will be returned. releasing that object will unregister the block
 -(id)registerThemeChangeBlock:(ThemeChangedBlock)tblock;

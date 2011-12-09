@@ -21,13 +21,12 @@
 	//any messages in unTouched have been deleted
 	for (RCMessage *oldMsg in unTouched)
 		[moc deleteObject:oldMsg];
-	[unTouched release];
 	[moc save:nil];
 }
 
 -(NSDate*)marksCheapAssDateParserCauseCocoaSux:(NSString*)str
 {
-	NSDateComponents *dc = [[[NSDateComponents alloc] init] autorelease];
+	NSDateComponents *dc = [[NSDateComponents alloc] init];
 	[dc setYear:[[str substringWithRange:NSMakeRange(0, 4)] intValue]];
 	[dc setMonth:[[str substringWithRange:NSMakeRange(5, 2)] intValue]];
 	[dc setDay:[[str substringWithRange:NSMakeRange(8, 2)] intValue]];

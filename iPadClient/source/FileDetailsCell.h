@@ -11,13 +11,13 @@
 @class RCFile;
 
 @interface FileDetailsCell : iAMTableViewCell
-@property (nonatomic, assign) IBOutlet UILabel *nameLabel;
-@property (nonatomic, assign) IBOutlet UILabel *sizeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *lastModLabel;
-@property (nonatomic, assign) IBOutlet UILabel *localLastModLabel;
-@property (nonatomic, assign) IBOutlet UIImageView *imgView;
+@property (nonatomic, strong) IBOutlet UILabel *nameLabel;
+@property (nonatomic, strong) IBOutlet UILabel *sizeLabel;
+@property (nonatomic, strong) IBOutlet UILabel *lastModLabel;
+@property (nonatomic, strong) IBOutlet UILabel *localLastModLabel;
+@property (nonatomic, strong) IBOutlet UIImageView *imgView;
 
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 -(void)showValuesForFile:(RCFile*)file;
 @end

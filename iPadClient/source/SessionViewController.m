@@ -28,12 +28,12 @@
 @interface SessionViewController() {
 	RCSession *_session;
 }
-@property (nonatomic, retain) NSRegularExpression *jsQuiteRExp;
-@property (nonatomic, retain) NSString *imgCachePath;
-@property (nonatomic, retain) NSOperationQueue *dloadQueue;
-@property (nonatomic, retain) NSMutableDictionary *imgCache;
-@property (nonatomic, retain) ImageDisplayController *imgController;
-@property (nonatomic, retain) id themeToken;
+@property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
+@property (nonatomic, strong) NSString *imgCachePath;
+@property (nonatomic, strong) NSOperationQueue *dloadQueue;
+@property (nonatomic, strong) NSMutableDictionary *imgCache;
+@property (nonatomic, strong) ImageDisplayController *imgController;
+@property (nonatomic, strong) id themeToken;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL showingProgress;
 @property (nonatomic, assign) BOOL autoReconnect;
@@ -59,11 +59,11 @@
 {
 	self = [super initWithNibName:@"SessionViewController" bundle:nil];
 	if (self) {
-		_session = [session retain];
+		_session = session;
 		_session.delegate = self;
 		NSError *err=nil;
 		self.autoReconnect=NO;
-		NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+		NSFileManager *fm = [[NSFileManager alloc] init];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
 		NSURL *cacheUrl = [fm URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask
@@ -78,7 +78,7 @@
 		}
 		self.imgCachePath = [cacheUrl path];
 		self.imgCache = [NSMutableDictionary dictionary];
-		self.dloadQueue = [[[NSOperationQueue alloc] init] autorelease];
+		self.dloadQueue = [[NSOperationQueue alloc] init];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appRestored:) 
 													 name: UIApplicationWillEnterForegroundNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnteringBackground:) 
@@ -105,8 +105,6 @@
 {
 	[self freeMemory];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[_session release];
-    [super dealloc];
 }
 
 #pragma mark - View lifecycle
@@ -139,7 +137,7 @@
 	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
 	self.splitController.dividerView.lightColor = [theme colorForKey:@"SessionPaneSplitterStart"];
 	self.splitController.dividerView.darkColor = [theme colorForKey:@"SessionPaneSplitterEnd"];
-	__block SessionViewController *blockSelf = self;
+	__weak SessionViewController *blockSelf = self;
 	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
 		blockSelf.splitController.dividerView.lightColor = [aTheme colorForKey:@"SessionPaneSplitterStart"];
 		blockSelf.splitController.dividerView.darkColor = [aTheme colorForKey:@"SessionPaneSplitterEnd"];
@@ -255,7 +253,7 @@
 	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///iR/images/([^\\.]+\\.png)" 
 																		   options:0 error:&err];
 	ZAssert(nil == err, @"error compiling regex: %@", [err localizedDescription]);
-	__block SessionViewController *blockSelf = self;
+	__weak SessionViewController *blockSelf = self;
 	[regex enumerateMatchesInString:html options:0 range:NSMakeRange(0, [html length]) 
 						 usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) 
 						{
@@ -273,14 +271,13 @@
 		NSURL *url = [NSURL URLWithString:str];
 		ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithURL:url];
 		[req setDownloadDestinationPath: imgPath];
-		__block SessionViewController *blockSelf = self;
+		__weak SessionViewController *blockSelf = self;
 		[req setCompletionBlock:^{
 			RCImage *img = [[RCImage alloc] initWithPath:imgPath];
 			img.name = [fname stringbyRemovingPercentEscapes];
 			if ([img.name indexOf:@"#"] != NSNotFound)
 				img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
 			[blockSelf.imgCache setObject:img forKey:fname];
-			[img release];
 		}];
 		[self.dloadQueue addOperation:req];
 	}
@@ -311,7 +308,7 @@
 
 -(void)loadAndDisplayPdfFile:(RCFile*)file
 {
-	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSFileManager *fm = [[NSFileManager alloc] init];
 	//figure out where file should be stored
 	NSString *path = [file fileContentsPath];
 	NSURL *url = [NSURL fileURLWithPath:path];
@@ -424,7 +421,6 @@
 	if ([img.name indexOf:@"#"] != NSNotFound)
 		img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
 	[self.imgCache setObject:img forKey:imgPath];
-	[img release];
 	return YES;
 }
 
@@ -447,7 +443,7 @@
 		return;
 	}
 	if (nil == self.imgController)
-		self.imgController = [[[ImageDisplayController alloc] init] autorelease];
+		self.imgController = [[ImageDisplayController alloc] init];
 	self.imgController.allImages = [[self.imgCache allValues] sortedArrayUsingComparator:^(RCImage *obj1, RCImage *obj2) {
 		if (obj1.timestamp > obj2.timestamp)
 			return NSOrderedAscending;

@@ -23,12 +23,12 @@
 	CGFloat _oldHeight;
 	BOOL _viewLoaded;
 }
-@property (nonatomic, retain) SessionFilesController *fileController;
-@property (nonatomic, retain) UIPopoverController *filePopover;
-@property (nonatomic, retain) NSMutableArray *currentActionItems;
-@property (nonatomic, retain) UINavigationController *importController;
-@property (nonatomic, retain) NSMutableDictionary *dropboxCache;
-@property (nonatomic, retain) UIActionSheet *actionSheet;
+@property (nonatomic, strong) SessionFilesController *fileController;
+@property (nonatomic, strong) UIPopoverController *filePopover;
+@property (nonatomic, strong) NSMutableArray *currentActionItems;
+@property (nonatomic, strong) UINavigationController *importController;
+@property (nonatomic, strong) NSMutableDictionary *dropboxCache;
+@property (nonatomic, strong) UIActionSheet *actionSheet;
 -(void)keyboardVisible:(NSNotification*)note;
 -(void)keyboardHiding:(NSNotification*)note;
 -(void)updateDocumentState;
@@ -49,11 +49,6 @@
 -(void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	self.filePopover=nil;
-	self.importController=nil;
-	self.fileController=nil;
-	self.currentActionItems=nil;
-	[super dealloc];
 }
 
 -(void)handleKeyCode:(unichar)code
@@ -202,8 +197,7 @@
 	[self.dropboxCache removeAllObjects];
 	DropboxImportController *dc = [[DropboxImportController alloc] init];
 	dc.dropboxCache = self.dropboxCache;
-	self.importController = [[[UINavigationController alloc] initWithRootViewController:dc] autorelease];
-	[dc release];
+	self.importController = [[UINavigationController alloc] initWithRootViewController:dc];
 	self.importController.modalPresentationStyle = UIModalPresentationFormSheet;
 	self.importController.view.frame = CGRectMake(0, 0, 400, 600);
 	self.importController.delegate = (id)self;
@@ -296,7 +290,7 @@
 		[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Revert File" target:nil action:@selector(doRevertFile:) userInfo:nil]];
 	}
 	[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Clear Editor" target:nil action:@selector(doClear:) userInfo:nil]];
-	self.actionSheet = [[[UIActionSheet alloc] initWithTitle:@"Editor Actions" delegate:(id)self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil] autorelease];
+	self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Editor Actions" delegate:(id)self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
 	for (AMActionItem *action in self.currentActionItems)
 		[self.actionSheet addButtonWithTitle:action.title];
 	[self.actionSheet showFromBarButtonItem:sender animated:YES];
@@ -318,7 +312,6 @@
 												  cancelButtonTitle:@"OK"
 												  otherButtonTitles:nil];
 			[alert show];
-			[alert autorelease];
 		}
 		[self updateDocumentState];
 	}];
@@ -333,7 +326,7 @@
 
 -(IBAction)doNewFile:(id)sender
 {
-	AMPromptView *prompt = [[[AMPromptView alloc] initWithPrompt:@"New File Name:" acceptTitle:@"Create" cancelTitle:@"Cancel" delegate:nil] autorelease];
+	AMPromptView *prompt = [[AMPromptView alloc] initWithPrompt:@"New File Name:" acceptTitle:@"Create" cancelTitle:@"Cancel" delegate:nil];
 	prompt.completionHandler = ^(AMPromptView *pv, NSString *str) {
 		if ([str length] > 0) {
 			[(UIPopoverController*)self.parentViewController dismissPopoverAnimated:YES];
@@ -348,7 +341,6 @@
 			[[[Rc2Server sharedInstance] currentSession].workspace addFile:file];
 			[self performSelectorOnMainThread:@selector(loadFile:) withObject:file waitUntilDone:NO];
 		}
-		[prompt cancelButtonIndex]; //something so the block retains the promptview
 	};
 	[prompt show];
 }
@@ -364,7 +356,6 @@
 		if (buttonIndex == 1)
 			[self userConfirmedDelete];
 	}];
-	[alert autorelease];
 }
 
 -(IBAction)presentDropboxImport:(id)sender
@@ -372,7 +363,7 @@
 	if ([[DBSession sharedSession] isLinked]) {
 		[self doDropBoxImport];
 	} else {
-		DBLoginController* controller = [[DBLoginController new] autorelease];
+		DBLoginController* controller = [DBLoginController new];
 		controller.delegate = (id)self;
 		[controller presentFromController:self];
 	}
@@ -395,17 +386,14 @@
 											  cancelButtonTitle:@"OK"
 											  otherButtonTitles:nil];
 		[alert show];
-		[alert autorelease];
 		return;
 	}
 	if (nil == self.fileController) {
 		SessionFilesController *fc = [[SessionFilesController alloc] init];
 		self.fileController = fc;
-		[fc release];
 		fc.delegate = (id)self;
 		UIPopoverController *pc = [[UIPopoverController alloc] initWithContentViewController:fc];
 		self.filePopover = pc;
-		[pc release];
 		pc.delegate=self;
 	}
 	[self.fileController.tableView reloadData];
@@ -435,7 +423,12 @@
 	if (buttonIndex < 0)
 		return;
 	AMActionItem *action = [self.currentActionItems objectAtIndex:buttonIndex];
+	//ARC needs to know the selector to properly use retain/release. we know this isn't returning anything, so
+	// there is no need to worry
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 	[self performSelector:action.action withObject:self.actionButtonItem];
+#pragma clang diagnostic pop
 	self.actionSheet=nil;
 }
 

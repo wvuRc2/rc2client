@@ -15,10 +15,10 @@ typedef enum {
 
 @interface KeyboardView : UIView {
 }
-@property (nonatomic, retain) IBOutlet UIView *buttonTemplate;
-@property (nonatomic, retain) IBOutlet UITextView *textView;
-@property (nonatomic, retain) IBOutlet UITextField *consoleField;
-@property (nonatomic, assign) id<KeyboardViewDelegate> delegate;
+@property (nonatomic, strong) IBOutlet UIView *buttonTemplate;
+@property (nonatomic, strong) IBOutlet UITextView *textView;
+@property (nonatomic, strong) IBOutlet UITextField *consoleField;
+@property (nonatomic, unsafe_unretained) id<KeyboardViewDelegate> delegate;
 @property (nonatomic, assign) eKeyboardStyle keyboardStyle;
 @property (nonatomic, assign) BOOL isLandscape;
 -(IBAction)doKeyPress:(id)sender;

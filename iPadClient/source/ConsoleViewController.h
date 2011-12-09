@@ -12,11 +12,11 @@
 @class RCSavedSession;
 
 @interface ConsoleViewController : UIViewController<UIWebViewDelegate>
-@property (nonatomic, retain) IBOutlet UIWebView *webView;
-@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
-@property (nonatomic, retain) IBOutlet UITextField *textField;
-@property (nonatomic, retain) IBOutlet UIButton *executeButton;
-@property (nonatomic, retain) RCSession *session;
+@property (nonatomic, strong) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, strong) IBOutlet UITextField *textField;
+@property (nonatomic, strong) IBOutlet UIButton *executeButton;
+@property (nonatomic, strong) RCSession *session;
 
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 -(IBAction)doClear:(id)sender;

@@ -12,7 +12,7 @@
 
 
 @interface ThemePicker()
-@property (nonatomic, retain) AMTextFieldFloater *floater;
+@property (nonatomic, strong) AMTextFieldFloater *floater;
 @end
 
 @implementation ThemePicker
@@ -36,7 +36,7 @@
 	NSInteger idx = [allthemes indexOfObject:curTheme];
 	[self.picker selectRow:idx inComponent:0 animated:NO];
 	self.customUrlField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomThemeURL];
-	self.floater = [[[AMTextFieldFloater alloc] initWithRootView:self.view] autorelease];
+	self.floater = [[AMTextFieldFloater alloc] initWithRootView:self.view];
 	self.customUrlField.delegate = self.floater;
 }
 
@@ -52,13 +52,6 @@
 	return YES;
 }
 
-- (void)dealloc
-{
-	self.picker=nil;
-	self.floater=nil;
-	[customUrlField release];
-	[super dealloc];
-}
 
 - (IBAction)doCancel:(id)sender
 {

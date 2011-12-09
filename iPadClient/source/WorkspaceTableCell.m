@@ -13,10 +13,10 @@
 @interface WorkspaceTableCell() {
 	CALayer *_bgLayer;
 }
-@property (nonatomic, retain) NSArray *normalColors;
-@property (nonatomic, retain) NSArray *selectedColors;
-@property (nonatomic, assign) CAGradientLayer *gl;
-@property (nonatomic, retain) id themeChangeNotice;
+@property (nonatomic, strong) NSArray *normalColors;
+@property (nonatomic, strong) NSArray *selectedColors;
+@property (nonatomic, strong) CAGradientLayer *gl;
+@property (nonatomic, strong) id themeChangeNotice;
 -(void)updateForNewTheme:(Theme*)theme;
 @end
 
@@ -32,7 +32,7 @@
 
 -(void)awakeFromNib
 {
-	__block WorkspaceTableCell *blockSelf = self;
+	__weak WorkspaceTableCell *blockSelf = self;
 	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
 		[blockSelf updateForNewTheme:theme];
 	}];
@@ -90,11 +90,7 @@
 
 -(void)dealloc
 {
-	self.normalColors=nil;
-	self.selectedColors=nil;
 	self.item=nil;
-	self.themeChangeNotice=nil;
-	[super dealloc];
 }
 
 -(void)setDrawSelected:(BOOL)seld
@@ -110,8 +106,7 @@
 {
 	if (anItem == _item)
 		return;
-	[_item release];
-	_item = [anItem retain];
+	_item = anItem;
 	label.text = anItem.name;
 	
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];

@@ -112,7 +112,6 @@
 	);
 	UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Console Actions" actionItems:actionItems];
 	[sheet showFromBarButtonItem:sender animated:YES];
-	[sheet autorelease];
 }
 
 -(IBAction)doClear:(id)sender

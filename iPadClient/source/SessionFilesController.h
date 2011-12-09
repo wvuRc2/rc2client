@@ -11,9 +11,9 @@
 @class RCFile;
 
 @interface SessionFilesController : UIViewController 
-@property (nonatomic, assign) IBOutlet AMTableView *tableView;
-@property (nonatomic, assign) id delegate;
-@property (retain, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, strong) IBOutlet AMTableView *tableView;
+@property (nonatomic, unsafe_unretained) id delegate;
+@property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
 
 -(void)reloadData;
 -(IBAction)doNewFile:(id)sender;

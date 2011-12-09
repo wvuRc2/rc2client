@@ -45,7 +45,6 @@ static const CGFloat kKeyboardHeight = 354;
 -(void)dealloc
 {
 	[self freeUpMemory];
-	[super dealloc];
 }
 
 #pragma mark - View lifecycle

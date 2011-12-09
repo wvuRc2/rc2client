@@ -17,14 +17,14 @@
 
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet MGSplitViewController *splitController;
-@property (nonatomic, retain) IBOutlet UINavigationController *navController;
-@property (nonatomic, retain) IBOutlet DetailsViewController *detailsController;
-@property (nonatomic, retain) SessionViewController *sessionController;
-@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
-@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, strong) IBOutlet UIWindow *window;
+@property (nonatomic, strong) IBOutlet MGSplitViewController *splitController;
+@property (nonatomic, strong) IBOutlet UINavigationController *navController;
+@property (nonatomic, strong) IBOutlet DetailsViewController *detailsController;
+@property (nonatomic, strong) SessionViewController *sessionController;
+@property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 -(void)promptForLogin;
 -(void)startSession:(RCFile*)initialFile;

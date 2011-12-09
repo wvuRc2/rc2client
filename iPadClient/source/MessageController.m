@@ -19,10 +19,10 @@
 @property (nonatomic, assign) NSInteger selRowIdx;
 @property (nonatomic, assign) NSInteger extraHeight;
 @property (nonatomic, assign) NSInteger defaultHeight;
-@property (nonatomic, assign) MessageListCell *currentSelection;
-@property (nonatomic, retain) UIColor *selectedBG;
-@property (nonatomic, retain) UIColor *normalBG;
-@property (nonatomic, retain) id themeChangeNotice;
+@property (nonatomic, strong) MessageListCell *currentSelection;
+@property (nonatomic, strong) UIColor *selectedBG;
+@property (nonatomic, strong) UIColor *normalBG;
+@property (nonatomic, strong) id themeChangeNotice;
 -(void)setSelectedCell:(MessageListCell*)newSelCell deselectedCell:(MessageListCell*)oldSelectedCell;
 -(void)updateForTheme:(Theme*)theme;
 @end
@@ -39,15 +39,6 @@
 	return self;
 }
 
--(void)dealloc
-{
-	self.selectedBG=nil;
-	self.normalBG=nil;
-	self.flagImages=nil;
-	self.messages=nil;
-	self.themeChangeNotice=nil;
-	[super dealloc];
-}
 
 -(void)viewDidLoad
 {
@@ -58,9 +49,8 @@
 			[self.tableView deselectRowAtIndexPath:ip animated:NO];
 		UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, 40)];
 		self.tableView.tableHeaderView = v;
-		[v release];
 		[self updateForTheme:theme];
-		__block MessageController *blockSelf = self;
+		__weak MessageController *blockSelf = self;
 		id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
 			[blockSelf updateForTheme:theme];
 		}];

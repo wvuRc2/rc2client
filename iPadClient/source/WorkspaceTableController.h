@@ -11,9 +11,9 @@
 @class RCWorkspaceItem;
 
 @interface WorkspaceTableController : UITableViewController
-@property (nonatomic, retain) RCWorkspaceItem *parentItem;
+@property (nonatomic, strong) RCWorkspaceItem *parentItem;
 @property (nonatomic, copy) NSArray *workspaceItems;
-@property (retain, nonatomic) IBOutlet UIBarButtonItem *addButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *addButton;
 - (IBAction)doAdd:(id)sender;
 -(void)clearSelection;
 @end

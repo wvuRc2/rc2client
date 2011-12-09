@@ -23,17 +23,12 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[_children release];
-	[super dealloc];
-}
 
 -(BOOL)isFolder { return YES; }
 
 -(NSArray*)children
 {
-	return [[_children copy] autorelease];
+	return [_children copy];
 }
 
 -(void)addChild:(RCWorkspaceItem *)aChild

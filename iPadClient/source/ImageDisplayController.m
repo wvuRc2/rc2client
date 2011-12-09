@@ -38,8 +38,8 @@
 @interface ImageDisplayController() {
 	UIButton *_actionButton;
 }
-@property (nonatomic, retain) RCImage *actionImage;
-@property (nonatomic, retain) UIActionSheet *actionSheet;
+@property (nonatomic, strong) RCImage *actionImage;
+@property (nonatomic, strong) UIActionSheet *actionSheet;
 -(void)layoutAs1Up;
 -(void)layoutAs2Up;
 -(void)layoutAs4Up;
@@ -72,16 +72,6 @@
 	return self;
 }
 
--(void)dealloc
-{
-	self.holder1=nil;
-	self.holder2=nil;
-	self.holder3=nil;
-	self.holder4=nil;
-	self.actionSheet=nil;
-	self.actionImage=nil;
-	[super dealloc];
-}
 
 #pragma mark - View lifecycle
 
@@ -291,9 +281,9 @@
 		NSString *printTitle = @"Print Image";
 		if (![UIPrintInteractionController isPrintingAvailable])
 			printTitle=nil;
-		self.actionSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:(id)self
+		self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:(id)self
 											  cancelButtonTitle:nil destructiveButtonTitle:nil
-											  otherButtonTitles:@"Email Image", @"Add to Photos", printTitle, nil] autorelease];
+											  otherButtonTitles:@"Email Image", @"Add to Photos", printTitle, nil];
 	}
 	self.actionImage = img;
 	_actionButton=button;
@@ -327,7 +317,7 @@
 
 -(IBAction)doPhotoLib:(id)sender
 {
-	ALAssetsLibrary *photos = [[[ALAssetsLibrary alloc] init] autorelease];
+	ALAssetsLibrary *photos = [[ALAssetsLibrary alloc] init];
 	NSDictionary *mdata = [NSDictionary dictionaryWithObjectsAndKeys:@"Rc2", AVMetadataCommonKeyCreator,
 						   @"Rc2 for iPad", AVMetadataCommonKeySoftware,
 						   @"©2011 West Virginia University", AVMetadataCommonKeyCopyrights,
@@ -346,7 +336,6 @@
 																			  cancelButtonTitle:@"OK"
 																			  otherButtonTitles:nil];
 										[alert show];
-										[alert autorelease];
 									}];
 }
 
@@ -358,7 +347,6 @@
 					 mimeType:@"image/png" 
 					 fileName:self.actionImage.name];
 	[self presentModalViewController:picker animated:YES];
-	[picker release];
 }
 
 -(IBAction)close:(id)sender

@@ -15,7 +15,7 @@
 #ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
 @property (nonatomic, retain) NSImage *image;
 #else
-@property (nonatomic, retain) UIImage *image;
+@property (nonatomic, strong) UIImage *image;
 #endif
 
 -(id)initWithPath:(NSString*)aPath;

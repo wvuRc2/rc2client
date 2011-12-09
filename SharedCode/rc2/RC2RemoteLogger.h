@@ -7,7 +7,7 @@
 //
 
 @interface RC2RemoteLogger : DDAbstractLogger<DDLogger>
-@property (nonatomic, retain) NSURL *logHost;
-@property (nonatomic, retain) NSString *apiKey;
-@property (nonatomic, retain) NSString *clientIdent;
+@property (nonatomic, strong) NSURL *logHost;
+@property (nonatomic, strong) NSString *apiKey;
+@property (nonatomic, strong) NSString *clientIdent;
 @end

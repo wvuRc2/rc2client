@@ -16,7 +16,7 @@
 	@protected
 	NSMutableDictionary *_colorCache;
 }
-@property (nonatomic, retain) NSDictionary *themeDict;
+@property (nonatomic, strong) NSDictionary *themeDict;
 @end
 
 @implementation Theme
@@ -59,8 +59,8 @@
 @end
 
 @interface CustomTheme : Theme
-@property (nonatomic, retain) Theme *defaultTheme;
-@property (nonatomic, retain) NSDictionary *customData;
+@property (nonatomic, strong) Theme *defaultTheme;
+@property (nonatomic, strong) NSDictionary *customData;
 -(void)reloadTheme:(NSData*)data;
 @end
 
@@ -75,7 +75,7 @@
 	Theme *_defaultTheme;
 	NSDictionary *_teDict;
 }
-@property (nonatomic, retain) ASIHTTPRequest *customRequest;
+@property (nonatomic, strong) ASIHTTPRequest *customRequest;
 -(NSArray*)allColorKeys;
 @end
 
@@ -99,12 +99,10 @@
 					global->_defaultTheme = t;
 				}
 				[a addObject:t];
-				[t release];
 			}
 		}
 		CustomTheme *custom = [[CustomTheme alloc] initWithDictionary:nil];
 		[a addObject:custom];
-		[custom release];
 		custom.defaultTheme = global->_defaultTheme;
 		global->_allThemes = [a copy];
 		global->_toNotify = [[NSMutableSet alloc] init];
@@ -127,8 +125,9 @@
 	self.customRequest = [[Rc2Server sharedInstance] requestWithURL:[NSURL URLWithString:url]];
 	self.customRequest.cachePolicy = ASIDoNotReadFromCacheCachePolicy;
 	[self.customRequest setCompletionBlock:^{
-		[newTheme reloadTheme:self.customRequest.responseData];
-		[self setCurrentTheme:newTheme];
+		ThemeEngine *te = [ThemeEngine sharedInstance];
+		[newTheme reloadTheme:te.customRequest.responseData];
+		[te setCurrentTheme:newTheme];
 	}];
 	[self.customRequest startAsynchronous];
 }
@@ -163,7 +162,7 @@
 	tn.block = tblock;
 	AMZeroingWeakRef *weakRef = [AMZeroingWeakRef refWithTarget:tn];
 	[_toNotify addObject:weakRef];
-	return [tn autorelease];
+	return tn;
 }
 
 #define kThemeBGLayerName @"themed bg"
@@ -200,7 +199,7 @@
 -(void)loadTEDict
 {
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"ThemeEngine" ofType:@"plist"];
-	_teDict = [[NSDictionary dictionaryWithContentsOfFile:path] retain];
+	_teDict = [NSDictionary dictionaryWithContentsOfFile:path];
 	ZAssert(_teDict, @"failed to load ThemeEngine.plist");
 }
 
@@ -225,7 +224,7 @@
 {
 	//setup the base we'll be trying to add to
 	NSMutableDictionary *md = [NSMutableDictionary dictionary];
-	NSMutableDictionary *mc = [[self.defaultTheme.themeColors mutableCopy] autorelease];
+	NSMutableDictionary *mc = [self.defaultTheme.themeColors mutableCopy];
 	[md setObject:mc forKey:@"colors"];
 	self.themeDict = md;
 	if ([_colorCache count] > 40)

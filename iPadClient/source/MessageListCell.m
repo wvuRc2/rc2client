@@ -13,12 +13,12 @@
 @interface MessageListCell() {
 	CGSize _origSize;
 }
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
-@property (nonatomic, retain) RCMessage *theMessage;
-@property (nonatomic, retain) CAGradientLayer *gl;
-@property (nonatomic, retain) NSArray *normalColors;
-@property (nonatomic, retain) NSArray *selectedColors;
-@property (nonatomic, retain) id themeChangeNotice;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) RCMessage *theMessage;
+@property (nonatomic, strong) CAGradientLayer *gl;
+@property (nonatomic, strong) NSArray *normalColors;
+@property (nonatomic, strong) NSArray *selectedColors;
+@property (nonatomic, strong) id themeChangeNotice;
 @end
 
 @implementation MessageListCell
@@ -28,28 +28,17 @@
 @synthesize selectedColors;
 @synthesize themeChangeNotice;
 
--(void)dealloc
-{
-	self.gl=nil;
-	self.selectedColors=nil;
-	self.normalColors=nil;
-	self.theMessage=nil;
-	self.dateFormatter=nil;
-	self.priorityImages=nil;
-	self.themeChangeNotice=nil;
-	[super dealloc];
-}
 
 
 
 -(void)awakeFromNib
 {
-	self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	self.dateFormatter = [[NSDateFormatter alloc] init];
 	self.dateFormatter.timeStyle = NSDateFormatterShortStyle;
 	self.dateFormatter.dateStyle = NSDateFormatterShortStyle;
 	_origSize = self.frame.size;
 
-	__block MessageListCell *blockSelf = self;
+	__weak MessageListCell *blockSelf = self;
 	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
 		blockSelf.normalColors = [NSArray arrayWithObjects:
 							 (id)[aTheme colorForKey:@"MessageCellStart"].CGColor,

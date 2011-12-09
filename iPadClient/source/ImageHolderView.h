@@ -10,11 +10,11 @@
 @class RCImage;
 
 @interface ImageHolderView : UIView<UIScrollViewDelegate,UITextFieldDelegate>
-@property (nonatomic, retain) RCImage *image;
-@property (nonatomic, retain) UIImageView *imageView;
-@property (nonatomic, retain) UIScrollView *scrollView;
-@property (nonatomic, retain) UITextField *nameField;
-@property (nonatomic, retain) id delegate;
+@property (nonatomic, strong) RCImage *image;
+@property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UITextField *nameField;
+@property (nonatomic, strong) id delegate;
 
 -(IBAction)doActionMenu:(id)sender;
 @end

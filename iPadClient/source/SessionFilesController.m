@@ -14,8 +14,8 @@
 #import "FileDetailsCell.h"
 
 @interface SessionFilesController()
-@property (nonatomic, retain) NSArray *files;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSArray *files;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 -(void)handleDoubleTap;
 @end
 
@@ -33,38 +33,31 @@
 	return self;
 }
 
--(void)dealloc
-{
-	self.files=nil;
-	self.dateFormatter=nil;
-	self.toolbar=nil;
-	[super dealloc];
-}
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	self.dateFormatter = [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 	self.contentSizeForViewInPopover = CGSizeMake(320, 520);
 	self.tableView.rowHeight = 52;
-	__block SessionFilesController *blockSelf = self;
+	__weak SessionFilesController *blockSelf = self;
 	self.tableView.doubleTapHandler = ^(AMTableView *tv) {
 		[blockSelf handleDoubleTap];
 	};
 	self.files = [[Rc2Server sharedInstance] currentSession].workspace.files;
 	//add dropbox item to toolbar
-	UISegmentedControl *button = [[[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObject:@""]] autorelease];
+	UISegmentedControl *button = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObject:@""]];
 	button.momentary = YES;
 	button.segmentedControlStyle = UISegmentedControlStyleBar;
 	button.selectedSegmentIndex = UISegmentedControlNoSegment;
 	[button setImage:[UIImage imageNamed:@"dropboxIcon"] forSegmentAtIndex:0];
 	button.tintColor = [UIColor clearColor];
 	[button addTarget:self action:@selector(doDropboxImport:) forControlEvents:UIControlEventValueChanged];
-	UIBarButtonItem *barButton = [[[UIBarButtonItem alloc] initWithCustomView:button] autorelease];
+	UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
 	barButton.target = self;
 	barButton.action = @selector(doDropboxImport:);
 //	self.toolbar.tintColor = [UIColor clearColor];
