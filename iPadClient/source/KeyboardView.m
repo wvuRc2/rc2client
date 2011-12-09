@@ -9,6 +9,11 @@
 /*
  	symbols/ABC button is (18, 275, 182, 60)
 	 shift button is (18, 209, 88, 60)
+ 
+ 	There is some nasty hackery going on with the superview.frame. It is intially set incorrectly in portrait when run on an iPad,
+ 	not simulator. Also, every third rotation to the y position is 6 pixels higher, going from 423, 429, 435, to 441.
+ 	When it reaches 441, it displays incorrectly, but not the other times. So we watch for a value of 441 and set that to 
+ 	be the frame. Very skanky and would love to figure out why this happens.
  */
 
 #import "KeyboardView.h"
@@ -92,6 +97,19 @@ enum {
 {
 	[self cacheGradients];
 	self.isLandscape=UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
+}
+
+-(void)didMoveToWindow
+{
+#ifdef TARGET_OS_IPHONE
+	if (!_isLandscape && self.window != nil) {
+		RunAfterDelay(0.1, ^{
+			CGRect f = self.superview.frame;
+			f.origin.y = 717;
+			self.superview.frame = f;
+		});
+	}
+#endif
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder
@@ -439,14 +457,19 @@ enum {
 		f.size.height = 357;
 	self.frame = f;
 	//simulator doesn't have a displacement problem, but device does.
-/* //i think this was fixed in ios 5
+ //i think this was fixed in ios 5
 #ifdef TARGET_OS_IPHONE
 	CGRect sf = self.superview.frame;
-	sf.origin.y = _isLandscape ? 768 - _landscapeKeyboardHeight : 1024 - _portraitKeyboardHeight;
-	sf.size.height = f.size.height;
-	self.superview.frame = sf;
+	if (!CGRectEqualToRect(sf, CGRectZero)) {
+		if (_isLandscape && sf.origin.y == 441) {
+			sf.origin.y = 441;
+		} else 
+			sf.origin.y = _isLandscape ? 768 - _landscapeKeyboardHeight : 1024 - _portraitKeyboardHeight;
+		sf.size.height = f.size.height;
+		self.superview.frame = sf;
+		NSLog(@"set super frame to %@\n", NSStringFromCGRect(self.superview.frame));
+	}
 #endif
- */
 	CGRect lf = self.layoutButton.frame;
 	lf.origin.y = f.size.height - kKeyButtonDefaultHeight - kLayoutButtonBottomOffset;
 	lf.size.width = _isLandscape ? kLayoutButtonWidthLandscape : kLayoutButtonWidthPortrait;
