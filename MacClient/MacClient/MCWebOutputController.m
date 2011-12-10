@@ -211,6 +211,9 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 		{
 			[listener use];
 			return;
+		} else if ([[[request URL] absoluteString] hasPrefix: @"http://rc2.stat.wvu.edu/"]) {
+			[listener use];
+			return;
 		} else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
 			[self.delegate handleImageRequest:[request URL]];
 		}
@@ -227,7 +230,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	NSMutableArray *items = [NSMutableArray arrayWithObject:self.clearMenuItem];
 	[items addObject:[self.viewSourceMenuItem copy]];
 	for (NSMenuItem *mi in defaultMenuItems) {
-		if (mi.tag == 2024)
+		if (mi.tag == 2024 || mi.tag == WebMenuItemTagGoBack || mi.tag == WebMenuItemTagGoForward)
 			[items addObject:mi];
 	}
 	DOMNode *node = [element objectForKey:@"WebElementDOMNode"];

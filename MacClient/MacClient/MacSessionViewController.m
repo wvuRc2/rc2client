@@ -439,7 +439,11 @@
 		js = [NSString stringWithFormat:@"iR.updateUserList(JSON.parse('%@'))", 
 			  [[[dict objectForKey:@"data"] objectForKey:@"users"] JSONRepresentation]];
 	} else if ([cmd isEqualToString:@"results"]) {
-		if ([dict objectForKey:@"complexResults"]) {
+		if ([dict objectForKey:@"helpPath"]) {
+			NSString *helpPath = [dict objectForKey:@"helpPath"];
+			NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://rc2.stat.wvu.edu/Rdocs/%@.html", helpPath]];
+			[self.outputController.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:helpUrl]];
+		} else if ([dict objectForKey:@"complexResults"]) {
 			js = [NSString stringWithFormat:@"iR.appendComplexResults(%@)",
 				  [self escapeForJS:[dict objectForKey:@"json"]]];
 		} else if ([dict objectForKey:@"json"]) {
