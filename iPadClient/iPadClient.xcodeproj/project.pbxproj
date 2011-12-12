@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0829453F1496AA9800E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */; };
+		082945421496AAA000E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945411496AAA000E593C7 /* _RCWorkspaceCache.m */; };
 		082D9D5714097AEF008F3CB0 /* RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D9D5614097AEF008F3CB0 /* RCSavedSession.m */; };
 		082D9D5A14097AFA008F3CB0 /* _RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D9D5914097AFA008F3CB0 /* _RCSavedSession.m */; };
 		082D9D72140B4F73008F3CB0 /* shift.png in Resources */ = {isa = PBXBuildFile; fileRef = 082D9D71140B4F72008F3CB0 /* shift.png */; };
@@ -217,6 +219,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0829453D1496AA9800E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
+		0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceCache.m; sourceTree = "<group>"; };
+		082945401496AAA000E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCWorkspaceCache.h; path = ../SharedCode/rc2/model/generated/_RCWorkspaceCache.h; sourceTree = SOURCE_ROOT; };
+		082945411496AAA000E593C7 /* _RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCWorkspaceCache.m; path = ../SharedCode/rc2/model/generated/_RCWorkspaceCache.m; sourceTree = SOURCE_ROOT; };
 		082D9D531408FF6E008F3CB0 /* notes.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notes.markdown; sourceTree = "<group>"; };
 		082D9D5514097AEF008F3CB0 /* RCSavedSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSavedSession.h; path = ../SharedCode/rc2/model/RCSavedSession.h; sourceTree = SOURCE_ROOT; };
 		082D9D5614097AEF008F3CB0 /* RCSavedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSavedSession.m; path = ../SharedCode/rc2/model/RCSavedSession.m; sourceTree = SOURCE_ROOT; };
@@ -715,6 +721,8 @@
 				082D9D5614097AEF008F3CB0 /* RCSavedSession.m */,
 				089C0B121458E51800DF9984 /* RCWorkspaceShare.h */,
 				089C0B131458E51800DF9984 /* RCWorkspaceShare.m */,
+				0829453D1496AA9800E593C7 /* RCWorkspaceCache.h */,
+				0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */,
 				08F566661407073E00229A39 /* generated */,
 			);
 			name = model;
@@ -944,6 +952,8 @@
 				08F566681407073E00229A39 /* _RCFile.m */,
 				082D9D5814097AFA008F3CB0 /* _RCSavedSession.h */,
 				082D9D5914097AFA008F3CB0 /* _RCSavedSession.m */,
+				082945401496AAA000E593C7 /* _RCWorkspaceCache.h */,
+				082945411496AAA000E593C7 /* _RCWorkspaceCache.m */,
 			);
 			name = generated;
 			path = source/model/generated;
@@ -1300,6 +1310,8 @@
 				08EE411C1436441F004FDBB8 /* WebSocketFragment.m in Sources */,
 				08EE411D1436441F004FDBB8 /* WebSocketMessage.m in Sources */,
 				089C0B141458E51800DF9984 /* RCWorkspaceShare.m in Sources */,
+				0829453F1496AA9800E593C7 /* RCWorkspaceCache.m in Sources */,
+				082945421496AAA000E593C7 /* _RCWorkspaceCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

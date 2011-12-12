@@ -15,6 +15,7 @@
 
 
 
+
 @interface RCFileID : NSManagedObjectID {}
 @end
 
@@ -51,6 +52,14 @@
 
 
 //- (BOOL)validateLastModified:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, strong) NSData *localAttributes;
+
+
+//- (BOOL)validateLocalAttributes:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -143,6 +152,12 @@
 
 - (NSDate*)primitiveLastModified;
 - (void)setPrimitiveLastModified:(NSDate*)value;
+
+
+
+
+- (NSData*)primitiveLocalAttributes;
+- (void)setPrimitiveLocalAttributes:(NSData*)value;
 
 
 

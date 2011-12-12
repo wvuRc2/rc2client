@@ -15,6 +15,7 @@
 -(void)workspaceCell:(WorkspaceCellView*)cellView addDetail:(id)sender;
 -(void)workspaceCell:(WorkspaceCellView*)cellView removeDetail:(id)sender;
 -(void)workspaceCell:(WorkspaceCellView*)cellView doubleClick:(id)sender;
+-(void)workspaceCell:(WorkspaceCellView *)cellView setExpanded:(BOOL)expanded;
 @end
 
 //object value must be set before workspace

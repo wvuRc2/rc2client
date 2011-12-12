@@ -130,6 +130,7 @@
 	[self.objectValue setObject:[NSNumber numberWithBool:expanded] forKey:@"expanded"];
 	[self.detailTableView setHidden:!expanded];
 	[self.parentTableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[self.parentTableView rowForView:self]]];
+	[self.cellDelegate workspaceCell:self setExpanded:__expanded];
 }
 
 -(void)setWorkspace:(RCWorkspace *)workspace

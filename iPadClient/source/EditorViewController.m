@@ -166,7 +166,8 @@
 
 -(void)userConfirmedDelete
 {
-	[[Rc2Server sharedInstance] deleteFile:self.currentFile completionHandler:^(BOOL success, id results) {
+	RCWorkspace *wspace = [[Rc2Server sharedInstance] selectedWorkspace];
+	[[Rc2Server sharedInstance] deleteFile:self.currentFile workspace:wspace completionHandler:^(BOOL success, id results) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSManagedObjectContext *moc = self.currentFile.managedObjectContext;
 			[moc deleteObject:self.currentFile];

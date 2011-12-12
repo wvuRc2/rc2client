@@ -9,6 +9,7 @@
 #import "WorkspaceViewController.h"
 #import "RCWorkspace.h"
 #import "RCWorkspaceShare.h"
+#import "RCWorkspaceCache.h"
 #import "WorkspaceCellView.h"
 #import "RCMAddShareController.h"
 #import "MacMainWindowController.h"
@@ -47,13 +48,15 @@
 				[blockSelf.sectionsTableView reloadData];
 		}]];
 		[self.workspace refreshShares];
+		RCWorkspaceCache *cache = self.workspace.cache;
 		NSMutableArray *secs = [NSMutableArray array];
 		[secs addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"Files", @"name", 
-						 [NSNumber numberWithBool:NO], @"expanded", 
-						 @"files", @"childAttr", nil]];
+						 [NSNumber numberWithBool:[cache boolPropertyForKey:@"WVC_FilesExpanded"]], @"expanded", 
+						 @"WVC_FilesExpanded", @"expandedKey", @"files", @"childAttr", nil]];
 		if (!aWorkspace.sharedByOther)
 			[secs addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"Sharing", @"name",
-							 [NSNumber numberWithBool:NO], @"expanded", @"shares", @"childAttr", nil]];
+							 [NSNumber numberWithBool:[cache boolPropertyForKey:@"WVC_SharesExpanded"]], @"expanded", 
+							 @"WVC_SharesExpanded", @"expandedKey", @"shares", @"childAttr", nil]];
 		self.sections = secs;
 	}
 	return self;
@@ -195,6 +198,12 @@
 		MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
 		[mainwc openSession:self.workspace file:file inNewWindow:NO];
 	}
+}
+
+-(void)workspaceCell:(WorkspaceCellView *)cellView setExpanded:(BOOL)expanded
+{
+	NSString *cacheKey = [cellView.objectValue objectForKey:@"expandedKey"];
+	[self.workspace.cache setBoolProperty:expanded forKey:cacheKey];
 }
 
 #pragma mark - table view

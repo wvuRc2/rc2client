@@ -10,6 +10,7 @@
 #import "Rc2Server.h"
 #import "RCFile.h"
 #import "RCWorkspaceShare.h"
+#import "RCWorkspaceCache.h"
 #import "ASIFormDataRequest.h"
 
 NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetchedNotification";
@@ -17,6 +18,7 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 @interface RCWorkspace()
 @property (nonatomic, copy, readwrite) NSArray *files;
 @property (nonatomic, readwrite) BOOL sharedByOther;
+@property (nonatomic, strong) RCWorkspaceCache *myCache;
 @property (assign) BOOL fetchingFiles;
 @property (assign) BOOL fetchingShares;
 @end
@@ -27,6 +29,7 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 @synthesize fetchingShares;
 @synthesize shares;
 @synthesize sharedByOther;
+@synthesize myCache;
 
 -(id)initWithDictionary:(NSDictionary*)dict
 {
@@ -39,8 +42,22 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 
 - (void)dealloc
 {
-	self.files=nil;
 	[self removeAllBlockObservers];
+}
+
+-(RCWorkspaceCache*)cache
+{
+	if (nil == self.myCache) {
+		NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
+		RCWorkspaceCache *cache = [[moc fetchObjectsForEntityName:@"WorkspaceCache" 
+													withPredicate:@"wspaceId = %@", self.wspaceId] anyObject];
+		if (nil == cache) {
+			cache = [RCWorkspaceCache insertInManagedObjectContext:moc];
+			cache.wspaceId = self.wspaceId;
+		}
+		self.myCache = cache;
+	}
+	return self.myCache;
 }
 
 -(void)refreshFiles

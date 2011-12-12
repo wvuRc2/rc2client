@@ -84,6 +84,13 @@
 
 
 
+@dynamic localAttributes;
+
+
+
+
+
+
 @dynamic localEdits;
 
 

@@ -357,11 +357,6 @@
 	[req startAsynchronous];
 }
 
--(void)deleteFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock
-{
-	[self deleteFile:file workspace:self.selectedWorkspace completionHandler:hblock];
-}
-
 -(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],

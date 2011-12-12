@@ -11,11 +11,13 @@
 
 @class RCFile;
 @class RCWorkspaceShare;
+@class RCWorkspaceCache;
 
 @interface RCWorkspace : RCWorkspaceItem
 @property (nonatomic, copy, readonly) NSArray *files;
 @property (nonatomic, strong) NSMutableArray *shares;
 @property (nonatomic, readonly) BOOL sharedByOther;
+@property (nonatomic, readonly) RCWorkspaceCache *cache;
 -(void)refreshFiles;
 -(void)refreshShares;
 

@@ -390,8 +390,16 @@
 	NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
 														forKey:NSMigratePersistentStoresAutomaticallyOption];
 	NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
+LOADFILE:
 	if (![coordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:options error:&error])
 	{
+		if (([error code] >= NSPersistentStoreIncompatibleVersionHashError) &&
+			([error code] <= NSEntityMigrationPolicyError))
+		{
+			//migration failed. we'll just nuke the store and try again
+			[[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+			goto LOADFILE;
+		}
 		[[NSApplication sharedApplication] presentError:error];
 		return nil;
 	}

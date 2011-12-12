@@ -9,6 +9,7 @@
 #import "RCFile.h"
 
 @interface RCFile()
+@property (nonatomic, strong) NSMutableDictionary *attrCache;
 @end
 
 @implementation RCFile
@@ -38,7 +39,7 @@
 	//flush contents if file has been updated
 	//FIXME: what is the proper handling here?
 	self.lastModified = lm;
-	if ([lm timeIntervalSince1970] > [self.localLastModified timeIntervalSince1970]) {
+	if (!self.isInserted && [lm timeIntervalSince1970] > [self.localLastModified timeIntervalSince1970]) {
 		self.fileContents=nil;
 		self.lastModified = lm;
 		//FIXME: we are dumping uer's local edits. we should probably ask them something
@@ -97,8 +98,33 @@
 
 #pragma mark - accessors
 
+-(NSMutableDictionary*)localAttrs
+{
+	if (nil == self.attrCache) {
+		NSData *data = self.localAttributes;
+		if (data) {
+			//read from plist
+			self.attrCache = [NSPropertyListSerialization propertyListWithData:data
+																	   options:NSPropertyListMutableContainers 
+																		format:nil 
+																		 error:nil];
+		}
+		if (nil == self.attrCache)
+			self.attrCache = [NSMutableDictionary dictionary];
+	}
+	return self.attrCache;
+}
+
+-(void)setLocalAttrs:(NSMutableDictionary *)attrs
+{
+	self.attrCache = [attrs mutableCopy];
+	self.localAttributes = [NSPropertyListSerialization dataWithPropertyList:attrs format:NSPropertyListXMLFormat_v1_0 
+																	 options:0 error:nil];
+}
+
 -(BOOL)isTextFile
 {
+	//FIXME: shouldn't this use the global array from Rc2Server?
 	NSString *ext = self.name.pathExtension;
 	if ([ext isEqualToString:@"R"] || [ext isEqualToString:@"Rnw"] || [ext isEqualToString:@"txt"])
 		return YES;
@@ -159,4 +185,5 @@
 	return fullPath;
 }
 
+@synthesize attrCache;
 @end
