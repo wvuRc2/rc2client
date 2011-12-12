@@ -186,7 +186,8 @@
 	[self.dropboxCache removeAllObjects];
 	[self.fileController reloadData];
 	if (lastImport) {
-		[self loadFileData:lastImport];
+		if (lastImport.isTextFile)
+			[self loadFileData:lastImport];
 		self.fileController=nil;
 		self.filePopover=nil;
 	}

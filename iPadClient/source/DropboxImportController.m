@@ -143,6 +143,7 @@
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata
 {
 	self.metaData = metadata;
+	NSArray *fileTypes = [Rc2Server acceptableImportFileSuffixes];
 	NSMutableArray *a = [NSMutableArray array];
 	for (DBMetadata *item in self.metaData.contents) {
 		NSString *ftype = [item.path pathExtension];
@@ -150,8 +151,7 @@
 			[a addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:[item.path lastPathComponent], @"name",
 						   (id)kCFBooleanTrue, @"isdir", item, @"metadata", nil]];
 		} else {
-			NSNumber *importable = [NSNumber numberWithBool:([ftype isEqualToString:@"R"] || [ftype isEqualToString:@"Rnw"]|| 
-									   [ftype isEqualToString:@"txt"]) && item.totalBytes > 0];
+			NSNumber *importable = [NSNumber numberWithBool:([fileTypes containsObject:ftype]) && item.totalBytes > 0];
 			Rc2LogInfo(@"%@ is importable? %@", item.path.lastPathComponent, importable);
 			[a addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:[item.path lastPathComponent], @"name",
 						   (id)kCFBooleanFalse, @"isdir", item, @"metadata", importable, @"importable", nil]];
@@ -165,34 +165,30 @@
 
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
 {
-	//now we need to create and add this file
-	NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
-	RCFile *file = [RCFile insertInManagedObjectContext:moc];
-	file.name = [destPath lastPathComponent];
-	NSStringEncoding enc=0;
-	file.localEdits = [NSString stringWithContentsOfFile:destPath usedEncoding:&enc error:nil];
-	ZAssert([file.localEdits length] > 0, @"empty file from dropbox");
-	[[[Rc2Server sharedInstance] currentSession].workspace addFile:file];
+	RCWorkspace *wspace = [[Rc2Server sharedInstance] currentSession].workspace;
 	self.currentProgress.mode = MBProgressHUDModeIndeterminate;
 	self.currentProgress.labelText = @"Uploading to Rc²…";
-	[[Rc2Server sharedInstance] saveFile:file completionHandler:^(BOOL success, id results){
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[MBProgressHUD hideHUDForView:self.view animated:YES];
-			self.currentProgress=nil;
-			if (success) {
-				[self.currentDownload setObject:[NSNumber numberWithBool:YES] forKey:@"imported"];
-				[self.fileTable reloadData];
-				self.lastFileImported = file;
-			} else {
-				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Error"
-																message:results
-															   delegate:nil
-													  cancelButtonTitle:@"OK"
-													  otherButtonTitles:nil];
-				[alert show];
-			}
-			self.currentDownload=nil;
-		});
+	[[Rc2Server sharedInstance] importFile:[NSURL fileURLWithPath:destPath] 
+								 workspace:wspace 
+						 completionHandler:^(BOOL ok, id results)
+	{
+		[MBProgressHUD hideHUDForView:self.view animated:YES];
+		self.currentProgress=nil;
+		if (ok) {
+			[self.currentDownload setObject:[NSNumber numberWithBool:YES] forKey:@"imported"];
+			[wspace addFile:results];
+			[self.fileTable reloadData];
+			self.lastFileImported = results;
+			[[NSFileManager defaultManager] moveItemAtPath:destPath toPath:[results fileContentsPath] error:nil];
+		} else {
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Error"
+															message:results
+														   delegate:nil
+												  cancelButtonTitle:@"OK"
+												  otherButtonTitles:nil];
+			[alert show];
+		}
+		self.currentDownload=nil;
 	}];
 }
 

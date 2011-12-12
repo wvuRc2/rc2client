@@ -31,10 +31,10 @@
 @end
 
 @interface Rc2AppDelegate() {
-	NSPersistentStoreCoordinator *__psc;
 	NSManagedObjectModel *__mom;
 	NSInteger _curKeyFile;
 }
+@property (nonatomic, strong) NSPersistentStoreCoordinator *myPsc;
 @property (nonatomic, strong) LoginController *authController;
 @property (nonatomic, strong) UIView *messageListView;
 @property (nonatomic, strong) UIView *currentMasterView;
@@ -423,9 +423,10 @@
 
 -(NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
+	NSPersistentStoreCoordinator *psc = self.myPsc;
 	@synchronized(self) {
-		if (__psc)
-			return __psc;
+		if (psc)
+			return psc;
 		
 		NSURL *storeURL = [[self applicationDocumentsDirectory] 
 						   URLByAppendingPathComponent:@"Rc2.sqlite"];
@@ -434,9 +435,9 @@
 															forKey:NSMigratePersistentStoresAutomaticallyOption];
 		NSError *error = nil;
 	LOADFILE:
-		__psc = [[NSPersistentStoreCoordinator alloc] 
+		psc = [[NSPersistentStoreCoordinator alloc] 
 										initWithManagedObjectModel:[self managedObjectModel]];
-		if (![__psc addPersistentStoreWithType:NSSQLiteStoreType 
+		if (![psc addPersistentStoreWithType:NSSQLiteStoreType 
 														configuration:nil URL:storeURL options:options error:&error])
 		{
 			if (([error code] >= NSPersistentStoreIncompatibleVersionHashError) &&
@@ -461,10 +462,11 @@
 			 */
 			Rc2LogError(@"Unresolved error %@, %@", error, [error userInfo]);
 			abort();
-		}    
+		}
+		self.myPsc = psc;
 	}
-	return __psc;
+	return psc;
 }
 
-
+@synthesize myPsc;
 @end
