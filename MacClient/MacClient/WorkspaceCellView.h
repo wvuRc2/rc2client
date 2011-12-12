@@ -30,6 +30,8 @@
 
 -(CGFloat)expandedHeight;
 
+-(void)reloadData;
+
 -(IBAction)addDetailItem:(id)sender;
 -(IBAction)removeDetailItem:(id)sender;
 -(IBAction)doubleClick:(id)sender;

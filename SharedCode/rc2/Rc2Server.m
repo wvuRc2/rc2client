@@ -75,6 +75,16 @@
 	return fileExts;
 }
 
++(NSArray*)acceptableImportFileSuffixes
+{
+	static NSArray *fileExts=nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		fileExts = [[NSMutableArray alloc] initWithObjects:@"txt", @"R", @"Rnw", @"csv", @"tsv", @"tab", @"pdf", nil];
+	});
+	return fileExts;
+}
+
 -(id)init
 {
 	self = [super init];
@@ -336,7 +346,7 @@
 	}
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
 									   file.fileId]];
-	__block __weak ASIHTTPRequest *req = [self requestWithURL:url];
+	__weak ASIHTTPRequest *req = [self requestWithURL:url];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		hblock(YES, respStr);
@@ -349,16 +359,21 @@
 
 -(void)deleteFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock
 {
+	[self deleteFile:file workspace:self.selectedWorkspace completionHandler:hblock];
+}
+
+-(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock
+{
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
 									   file.fileId]];
-	__block __weak ASIHTTPRequest *req = [self requestWithURL:url];
+	__weak ASIHTTPRequest *req = [self requestWithURL:url];
 	req.requestMethod = @"DELETE";
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		NSDictionary *rsp = [respStr JSONValue];
-		if ([[rsp objectForKey:@"status"] boolValue]) {
+		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
 			//we need to update anything holding that file in memory
-			[self.selectedWorkspace refreshFiles];
+			[workspace refreshFiles];
 		}
 		hblock(![[rsp objectForKey:@"status"] boolValue], rsp);
 	}];

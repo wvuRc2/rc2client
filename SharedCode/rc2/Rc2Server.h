@@ -31,6 +31,7 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 +(Rc2Server*)sharedInstance;
 
 +(NSArray*)acceptableTextFileSuffixes;
++(NSArray*)acceptableImportFileSuffixes;
 
 @property (weak, nonatomic, readonly) NSString *userAgentString;
 @property (nonatomic, assign) NSInteger serverHost;
@@ -76,7 +77,9 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 -(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 -(void)saveFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
--(void)deleteFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock;
+//deprecated version
+-(void)deleteFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock __attribute__ ((deprecated));
 
 -(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock; //prepares selected workspace
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;

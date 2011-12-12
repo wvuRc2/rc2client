@@ -242,8 +242,8 @@
 -(IBAction)importFile:(id)sender
 {
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-	[openPanel setAllowedFileTypes:[Rc2Server acceptableTextFileSuffixes]];
-	[openPanel beginWithCompletionHandler:^(NSInteger result) {
+	[openPanel setAllowedFileTypes:[Rc2Server acceptableImportFileSuffixes]];
+	[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
 		if (NSFileHandlingPanelCancelButton == result)
 			return;
 		[self handleFileImport:[[openPanel URLs] firstObject]];
@@ -280,17 +280,19 @@
 
 -(void)handleFileImport:(NSURL*)fileUrl
 {
-	[[Rc2Server sharedInstance] importFile:fileUrl workspace:self.session.workspace completionHandler:^(BOOL success, RCFile *file)
-	{
-		if (success) {
-			//we have a new file
+	[(AppDelegate*)[TheApp delegate] handleFileImport:fileUrl
+											workspace:self.session.workspace 
+									completionHandler:^(RCFile *file)
+	 {
+		if (file) {
 			self.fileIdJustImported = file.fileId;
 			[self.session.workspace refreshFiles];
-			//TODO: we should really select the newly imported file
 		} else {
-			//FIXME: report error
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[NSAlert displayAlertWithTitle:@"Upload failed" details:@"An unknown error occurred."];
+			});
 		}
-	}];
+	 }];
 }
 
 -(void)saveChanges

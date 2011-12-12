@@ -72,6 +72,8 @@
 	SEL action = [item action];
 	if (action == @selector(doRefreshFileList:)) {
 		return YES;
+	} else if (action == @selector(importFile:)) {
+		return YES;
 	}
 	return NO;
 }
@@ -80,6 +82,31 @@
 
 -(IBAction)doRefreshFileList:(id)sender
 {
+}
+
+-(IBAction)importFile:(id)sender
+{
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	[openPanel setAllowedFileTypes:[Rc2Server acceptableImportFileSuffixes]];
+	[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
+		if (NSFileHandlingPanelCancelButton == result)
+			return;
+		[(AppDelegate*)[TheApp delegate] handleFileImport:[[openPanel URLs] firstObject] 
+												  workspace:self.workspace 
+										completionHandler:^(RCFile *file)
+		{
+			if (file) {
+				//need to refresh display??
+				[self.workspace refreshFiles];
+				id wcv = [self tableView:self.sectionsTableView viewForTableColumn:nil row:0];
+				[wcv reloadData];
+			} else {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[NSAlert displayAlertWithTitle:@"Upload failed" details:@"An unknown error occurred."];
+				});
+			}
+		}];
+	}];
 }
 
 #pragma mark - meat & potatos
@@ -135,6 +162,8 @@
 			};
 		}
 		[self.addPopover showRelativeToRect:[sender frame] ofView:sender preferredEdge:NSMinYEdge];
+	} else if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"files"]) {
+		[self importFile:sender];
 	}
 }
 
@@ -145,6 +174,14 @@
 		//handle removing a share
 		RCWorkspaceShare *share = [cellView selectedObject];
 		[self handleRemoveShare:share cellView:cellView];
+	} else if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"files"]) {
+		RCFile *file = cellView.selectedObject;
+		[[Rc2Server sharedInstance] deleteFile:file workspace:self.workspace completionHandler:^(BOOL success, id results) {
+			if (success) 
+				[cellView reloadData];
+			else
+				[NSAlert displayAlertWithTitle:@"Error" details:@"An unknown error occurred while deleting the selcted file."];
+		}];
 	}
 }
 

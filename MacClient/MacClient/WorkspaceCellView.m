@@ -73,6 +73,11 @@
 	[self.cellDelegate workspaceCell:self doubleClick:sender];
 }
 
+-(void)reloadData
+{
+	[self.detailTableView reloadData];
+}
+
 #pragma mark - detail table
 
 -(NSMutableArray*)contentArray
