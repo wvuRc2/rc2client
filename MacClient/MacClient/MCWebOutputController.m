@@ -11,10 +11,12 @@
 #import "AppDelegate.h"
 
 @interface MCWebOutputController() {
-	BOOL __didInit;
+	CGFloat __buttonBarHeight, __buttonBarHeightPlusBuffer;
+	BOOL __didInit, __doingLoadHack, __loadHackComplete;
 }
 @property (nonatomic, strong) NSMenuItem *clearMenuItem;
 @property (nonatomic, strong) NSMenuItem *saveAsMenuItem;
+@property (nonatomic, copy) NSString *lastContent;
 @property (nonatomic) BOOL ignoreExecuteMessage;
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) NSMenuItem *viewSourceMenuItem;
@@ -38,6 +40,15 @@
 -(void)awakeFromNib
 {
 	if (!__didInit) {
+		__buttonBarHeight = self.buttonBar.frame.size.height;
+		__buttonBarHeightPlusBuffer = NSMaxY(self.buttonBar.frame) - NSMaxY(self.webView.frame);
+		NSRect wframe = self.webView.frame;
+		wframe.size.height += __buttonBarHeight;
+		self.webView.frame = wframe;
+		NSRect bframe = self.buttonBar.frame;
+		bframe.size.height = 0;
+		[self.buttonBar setFrame:bframe];
+		[[WebPreferences standardPreferences] setUsesPageCache:YES];
 		[self loadContent];
 		self.clearMenuItem = [[NSMenuItem alloc] initWithTitle:@"Clear Output" action:@selector(doClear:) keyEquivalent:@""];
 		self.saveAsMenuItem = [[NSMenuItem alloc] initWithTitle:@"Save As…" action:@selector(saveSelectedPDF:) keyEquivalent:@""];
@@ -60,17 +71,21 @@
 	}
 }
 
--(void)restoreSessionState:(RCSavedSession*)savedState
+-(void)insertSavedContent:(NSString*)contentHtml
 {
 	NSURL *url = [[NSBundle mainBundle] URLForResource:@"console" withExtension:@"html" subdirectory:@"console"];
-	if ([savedState.consoleHtml length] > 0) {
+	if ([contentHtml length] > 0) {
 		NSString *content = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-		content = [content stringByReplacingOccurrencesOfString:@"<!--content-->" withString:savedState.consoleHtml];
+		content = [content stringByReplacingOccurrencesOfString:@"<!--content-->" withString:contentHtml];
 		[[self.webView mainFrame] loadHTMLString:content baseURL:[url URLByDeletingLastPathComponent]];
 	} else {
 		[[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:url]];
 	}
-	
+}
+
+-(void)restoreSessionState:(RCSavedSession*)savedState
+{
+	[self insertSavedContent:savedState.consoleHtml];
 }
 
 -(void)previewImage:(DOMElement*)imgGroupElem images:(WebScriptObject*)images
@@ -131,6 +146,11 @@
 	
 }
 
+-(IBAction)goBack:(id)sender
+{
+	[self.webView goBack:sender];
+}
+
 #pragma mark - text field
 
 -(BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)command
@@ -139,6 +159,8 @@
 		return YES;
 	} else if (command == @selector(moveToEndOfDocument:)) {
 		return YES;
+	} else if (command == @selector(insertNewline:)) {
+		[self doExecuteQuery:self];
 	}
 	return NO;
 }
@@ -177,19 +199,48 @@
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
+	BOOL isOurContent = [[[[frame DOMDocument] documentElement] getAttribute:@"rc2"] isEqualToString:@"rc2"];
+	if (self.lastContent && isOurContent) {
+		DOMHTMLElement *doc = (DOMHTMLElement*)[[frame DOMDocument] documentElement];
+		if (doc.innerText.length < 1) {
+			doc.innerHTML = self.lastContent;
+			self.lastContent=nil;
+		}
+	}
+	[NSAnimationContext beginGrouping];
+	if (!isOurContent) {
+		if (self.buttonBar.frame.size.height < 1) {
+			NSRect bframe = self.buttonBar.frame;
+			bframe.size.height = __buttonBarHeight;
+			[[self.buttonBar animator] setFrame:bframe];
+			NSRect wframe = self.webView.frame;
+			wframe.size.height -= __buttonBarHeightPlusBuffer;
+			[[self.webView animator] setFrame:wframe];
+		}
+	} else if (self.buttonBar.frame.size.height > 0) {
+		NSRect bframe = self.buttonBar.frame;
+		bframe.size.height = 0;
+		[[self.buttonBar animator] setFrame:bframe];
+		NSRect wframe = self.webView.frame;
+		wframe.size.height += __buttonBarHeightPlusBuffer;
+		[[self.webView animator] setFrame:wframe];
+	}
+	[NSAnimationContext endGrouping];
 }
 
 - (void)webView:(WebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
 {
 	NSLog(@"Error loading web request:%@", error);
 }
-/*
--(NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element 
-   defaultMenuItems:(NSArray *)defaultMenuItems
+
+-(void)webView:(WebView *)sender willCloseFrame:(WebFrame *)frame
 {
-	return nil; // disable contextual menu for the webView
+	DOMHTMLElement *doc = (DOMHTMLElement*)[[frame DOMDocument] documentElement];
+	if ([[[[frame DOMDocument] documentElement] getAttribute:@"rc2"] isEqualToString:@"rc2"]) {
+		self.lastContent = [doc innerHTML];
+	}
 }
-*/
+
 -(void)webView:(WebView *)webView didClearWindowObject:(WebScriptObject *)windowObject forFrame:(WebFrame *)frame
 {
 	[windowObject setValue:self	forKey:@"Rc2"];
@@ -201,7 +252,7 @@ decidePolicyForNavigationAction:(NSDictionary *)actionInformation
 decisionListener:(id < WebPolicyDecisionListener >)listener
 {
 	int navType = [[actionInformation objectForKey:WebActionNavigationTypeKey] intValue];
-	if (WebNavigationTypeOther == navType) {
+	if (WebNavigationTypeOther == navType || WebNavigationTypeBackForward == navType) {
 		[listener use];
 		return;
 	} else if (WebNavigationTypeLinkClicked == navType) {
@@ -237,7 +288,6 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	if (![node isKindOfClass:[DOMHTMLElement class]])
 		return items;
 	DOMHTMLElement *htmlElem = (DOMHTMLElement*)node;
-	NSLog(@"elem is %@ of class %@", htmlElem.idName, htmlElem);
 	if ([htmlElem isKindOfClass:[DOMHTMLImageElement class]]) {
 		DOMHTMLImageElement *imgElem = (DOMHTMLImageElement*)htmlElem;
 		if ([imgElem.src hasSuffix:@"pdf.png"]) {
@@ -269,4 +319,6 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 @synthesize clearMenuItem;
 @synthesize saveAsMenuItem;
 @synthesize viewSourceMenuItem;
+@synthesize buttonBar;
+@synthesize lastContent;
 @end

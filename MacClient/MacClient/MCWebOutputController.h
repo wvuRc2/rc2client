@@ -20,6 +20,7 @@
 @property (nonatomic, strong) IBOutlet WebView *webView;
 @property (nonatomic, unsafe_unretained) IBOutlet id<MCWebOutputDelegate> delegate;
 @property (nonatomic, strong) IBOutlet NSTextField *consoleField;
+@property (nonatomic, strong) IBOutlet NSView *buttonBar;
 @property (nonatomic, copy) NSString *inputText;
 @property (nonatomic) BOOL canExecute;
 
@@ -27,6 +28,7 @@
 -(IBAction)doClear:(id)sender;
 -(IBAction)executeQueryViaButton:(id)sender;
 -(IBAction)saveSelectedPDF:(id)sender;
+-(IBAction)goBack:(id)sender;
 
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 @end
