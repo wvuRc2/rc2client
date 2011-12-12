@@ -118,8 +118,11 @@
 -(void)setLocalAttrs:(NSMutableDictionary *)attrs
 {
 	self.attrCache = [attrs mutableCopy];
+	NSError *err=nil;
 	self.localAttributes = [NSPropertyListSerialization dataWithPropertyList:attrs format:NSPropertyListXMLFormat_v1_0 
-																	 options:0 error:nil];
+																	 options:0 error:&err];
+	if (err)
+		NSLog(@"got error saving local attrs: %@", err);
 }
 
 -(BOOL)isTextFile

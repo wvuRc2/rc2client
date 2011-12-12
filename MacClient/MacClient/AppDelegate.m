@@ -213,7 +213,7 @@
 {
 	RCMPDFViewController *pvc = [[RCMPDFViewController alloc] init];
 	[pvc view]; //load from nib
-	[pvc loadPdf:file.fileContentsPath];
+	[pvc loadPdfFile:file];
 	[self showViewController:pvc];
 }
 

@@ -261,6 +261,24 @@
 	self.workspaceItems = rootObjects;
 }
 
+-(void)enumerateWorkspaceItemArray:(NSArray*)items stop:(BOOL*)stop block:(void (^)(RCWorkspace *wspace, BOOL *stop))block
+{
+	for (id item in items) {
+		if ([item isFolder])
+			[self enumerateWorkspaceItemArray:[(RCWorkspaceFolder*)item children] stop:stop block:block];
+		else
+			block(item, stop);
+		if (stop)
+			return;
+	}
+}
+
+-(void)enumerateWorkspacesWithBlock:(void (^)(RCWorkspace *wspace, BOOL *stop))block
+{
+	BOOL stop=NO;
+	[self enumerateWorkspaceItemArray:self.workspaceItems stop:&stop block:block];
+}
+
 #pragma mark - workspaces (legacy iPad functionality)
 
 -(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock
@@ -285,6 +303,18 @@
 }
 
 #pragma mark - files
+
+-(RCWorkspace*)workspaceForFile:(RCFile*)file
+{
+	__block RCWorkspace *theWspace=nil;
+	[self enumerateWorkspacesWithBlock:^(RCWorkspace *wspace, BOOL *stop) {
+		if ([wspace fileWithId:file.fileId]) {
+			theWspace = wspace;
+			*stop = YES;
+		}
+	}];
+	return theWspace;
+}
 
 -(NSArray*)processFileListResponse:(NSArray*)inEntries
 {

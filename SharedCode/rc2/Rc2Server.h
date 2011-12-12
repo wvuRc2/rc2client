@@ -63,6 +63,9 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 -(void)selecteWorkspaceWithId:(NSNumber*)wspaceId;
 
+//this will call block with every workspace, no matter how many folders it is nested in
+-(void)enumerateWorkspacesWithBlock:(void (^)(RCWorkspace *wspace, BOOL *stop))block;
+
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 #else
 -(void)syncMessages:(Rc2FetchCompletionHandler)hblock;
@@ -78,6 +81,8 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 -(void)saveFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock;
+
+-(RCWorkspace*)workspaceForFile:(RCFile*)file;
 
 -(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock; //prepares selected workspace
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
