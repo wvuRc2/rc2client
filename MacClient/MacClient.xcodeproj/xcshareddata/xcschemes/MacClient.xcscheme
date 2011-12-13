@@ -69,12 +69,13 @@
             ReferencedContainer = "container:MacClient.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "NSBindingDebugLogLevel=1"
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "NSBindingDebugLogLevel"
+            value = "1"
             isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
          <AdditionalOption
             key = "NSZombieEnabled"
