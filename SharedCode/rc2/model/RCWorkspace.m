@@ -30,6 +30,7 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 @synthesize shares;
 @synthesize sharedByOther;
 @synthesize myCache;
+@synthesize updateFileContentsOnNextFetch;
 
 -(id)initWithDictionary:(NSDictionary*)dict
 {
@@ -71,6 +72,11 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 	[[Rc2Server sharedInstance] fetchFileList:self completionHandler:^(BOOL success, id results) {
 		if (success && [results isKindOfClass:[NSArray class]]) {
 			self.files = [RCFile filesFromJsonArray:results];
+			if (self.updateFileContentsOnNextFetch) {
+				for (RCFile *file in self.files)
+					[file updateContentsFromServer];
+				self.updateFileContentsOnNextFetch=NO;
+			}
 			block();
 			[[NSNotificationCenter defaultCenter] postNotificationName:RCWorkspaceFilesFetchedNotification object:self];
 		}

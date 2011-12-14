@@ -7,8 +7,10 @@
 //
 
 #import "RCFile.h"
+#import "Rc2Server.h"
 
 @interface RCFile()
+@property (nonatomic, readwrite) BOOL locallyModified;
 @property (nonatomic, strong) NSMutableDictionary *attrCache;
 @end
 
@@ -45,8 +47,23 @@
 		//FIXME: we are dumping uer's local edits. we should probably ask them something
 		self.localEdits=nil;
 	}
+	if (!self.isTextFile)
+		[self discardEdits];
 	if ([self.fileId integerValue] < 1)
 		self.fileId = [dict objectForKey:@"id"];
+}
+
+-(void)updateContentsFromServer
+{
+	if (self.isTextFile && nil == self.fileContents) {
+		NSLog(@"fetching content for %@", self.name);
+		[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id results) {
+			if (success)
+				self.fileContents = results;
+			else
+				NSLog(@"error fetching content");
+		}];
+	}
 }
 
 -(void)discardEdits
@@ -59,12 +76,21 @@
 
 -(void)awakeFromInsert
 {
+	[super awakeFromInsert];
 	if (nil == self.lastModified)
 		self.lastModified = [NSDate date];
 	if (nil == self.sizeString)
 		self.sizeString = @"0 bytes";
 	if (nil == self.name)
 		self.name = @"untitled.R";
+}
+
+-(void)awakeFromFetch
+{
+	[super awakeFromFetch];
+	if (!self.isTextFile)
+		self.localEdits=nil;
+	self.locallyModified = self.localEdits.length > 0;
 }
 
 -(void)willSave
@@ -74,8 +100,18 @@
 		self.localEdits=nil;
 }
 
+-(void)didSave
+{
+	[super didSave];
+	self.locallyModified = self.localEdits.length > 0;
+}
+
+
+
 -(void)setLocalEdits:(NSString *)edits
 {
+	if (!self.isTextFile)
+		return;
 	if ([edits isEqualToString:self.fileContents])
 		edits = nil;
 	if (edits && edits.length < 1)
@@ -87,13 +123,18 @@
 		self.localLastModified = [NSDate date];
 	else
 		self.localLastModified = nil;
+	self.locallyModified = self.localEdits.length > 0;
 }
 
 -(void)setFileContents:(NSString *)ftext
 {
-	[self willChangeValueForKey:@"localEdits"];
-	[self setPrimitiveLocalEdits:[ftext copy]];
-	[self didChangeValueForKey:@"localEdits"];
+	if (!self.isTextFile)
+		return;
+	[self willChangeValueForKey:@"fileContents"];
+	[self setPrimitiveFileContents:[ftext copy]];
+	[self didChangeValueForKey:@"fileContents"];
+	self.localEdits = ftext; //will clear them if the same
+	self.locallyModified = self.localEdits.length > 0;
 }
 
 #pragma mark - accessors
@@ -153,11 +194,6 @@
 	return [self.fileId integerValue] > 0;
 }
 
--(BOOL)locallyModified
-{
-	return self.localEdits.length > 0;
-}
-
 -(id)fileIcon
 {
 	#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
@@ -189,4 +225,5 @@
 }
 
 @synthesize attrCache;
+@synthesize locallyModified;
 @end

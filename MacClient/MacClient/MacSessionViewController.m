@@ -22,6 +22,7 @@
 #import <Vyana/AMWindow.h>
 #import "ASIHTTPRequest.h"
 #import "AppDelegate.h"
+#import "RCMSessionFileCellView.h"
 
 @interface MacSessionViewController() {
 	CGFloat __fileListWidth;
@@ -69,6 +70,8 @@
 		self.session = aSession;
 		self.session.delegate = self;
 		self.scratchString=@"";
+		for (RCFile *file in self.session.workspace.files)
+			[file updateContentsFromServer];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
 	}
@@ -192,6 +195,8 @@
 		return YES;
 	} else if (action == @selector(importFile:) || action == @selector(createNewFile:)) {
 		return self.session.hasWritePerm;
+	} else if (action == @selector(saveFileEdits:)) {
+		return self.selectedFile.isTextFile && ![self.editView.string isEqualToString:self.selectedFile.currentContents];
 	}
 	return NO;
 }
@@ -269,6 +274,12 @@
 		//have the block keep a reference of nfc until complete
 		[nfc fileName];
 	}];
+}
+
+-(IBAction)saveFileEdits:(id)sender
+{
+	if (self.selectedFile.isTextFile)
+		[self.selectedFile setLocalEdits:self.editView.string];
 }
 
 #pragma mark - meat & potatos
@@ -600,11 +611,12 @@
 	return self.session.workspace.files.count;
 }
 
--(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn 
-	row:(NSInteger)row
+-(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	RCFile *file = [self.session.workspace.files objectAtIndexNoExceptions:row];
-	return file.name;
+	RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
+	view.objectValue = file;
+	return view;
 }
 
 #pragma mark - split view

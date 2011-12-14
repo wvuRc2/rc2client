@@ -13,7 +13,7 @@
 @property (nonatomic, readonly) BOOL isTextFile;
 @property (nonatomic, readonly) BOOL contentsLoaded; //not KVO compliant
 @property (nonatomic, readonly) BOOL existsOnServer; //not KVO compliant
-@property (nonatomic, readonly) BOOL locallyModified; //not KVO compliant
+@property (nonatomic, readonly) BOOL locallyModified;
 @property (weak, nonatomic, readonly) NSString *currentContents; //not KVO compliant
 @property (nonatomic, strong) NSMutableDictionary *localAttrs;
 
@@ -23,6 +23,7 @@
 -(void)updateWithDictionary:(NSDictionary*)dict;
 
 -(void)discardEdits;
+-(void)updateContentsFromServer; //fetches file contents if they are nil and is a text file
 
 //on iOS, returns UIImage. on Mac returns NSImage
 -(id)fileIcon;

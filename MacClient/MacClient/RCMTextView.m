@@ -25,6 +25,8 @@
 
 -(void)setString:(NSString *)string
 {
+	if (nil == string)
+		string = @"";
 	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_FixedFont];
 	if (nil == fnt)
 		fnt = [NSFont userFixedPitchFontOfSize:12.0];

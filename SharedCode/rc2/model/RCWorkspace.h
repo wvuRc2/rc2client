@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSMutableArray *shares;
 @property (nonatomic, readonly) BOOL sharedByOther;
 @property (nonatomic, readonly) RCWorkspaceCache *cache;
+@property (nonatomic) BOOL updateFileContentsOnNextFetch; //if set to YES, will async grab contents of any empty or modified files
 
 -(void)refreshFiles;
 -(void)refreshFilesPerformingBlockBeforeNotification:(BasicBlock)block;

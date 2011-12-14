@@ -30,6 +30,9 @@
 		0838B38E141E90C2003264A8 /* MacMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B38D141E90C2003264A8 /* MacMainWindowController.m */; };
 		0838B390141E90E0003264A8 /* MacMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0838B38F141E90E0003264A8 /* MacMainWindow.xib */; };
 		08447F6B1415B54F00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */; };
+		0861760A14994EAB00450EE9 /* syncArrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 0861760914994EAB00450EE9 /* syncArrows.png */; };
+		086176111499531700450EE9 /* RCMSessionFileCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 086176101499531700450EE9 /* RCMSessionFileCellView.m */; };
+		08617613149955CF00450EE9 /* syncArrowsSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 08617612149955CF00450EE9 /* syncArrowsSelected.png */; };
 		088DF164143CDB1F00CF4844 /* MacSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088DF162143CDB1F00CF4844 /* MacSessionViewController.m */; };
 		088DF165143CDB1F00CF4844 /* MacSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */; };
 		088EABA2145C6F7E0033C249 /* PasswordVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 088EABA1145C6F7E0033C249 /* PasswordVerifier.m */; };
@@ -173,6 +176,10 @@
 		0838B38D141E90C2003264A8 /* MacMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacMainWindowController.m; sourceTree = "<group>"; };
 		0838B38F141E90E0003264A8 /* MacMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacMainWindow.xib; sourceTree = "<group>"; };
 		08447F6A1415B54F00A8DDF8 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
+		0861760914994EAB00450EE9 /* syncArrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrows.png; path = resources/syncArrows.png; sourceTree = SOURCE_ROOT; };
+		0861760F1499531700450EE9 /* RCMSessionFileCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMSessionFileCellView.h; sourceTree = "<group>"; };
+		086176101499531700450EE9 /* RCMSessionFileCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMSessionFileCellView.m; sourceTree = "<group>"; };
+		08617612149955CF00450EE9 /* syncArrowsSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrowsSelected.png; path = resources/syncArrowsSelected.png; sourceTree = SOURCE_ROOT; };
 		088DF161143CDB1E00CF4844 /* MacSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacSessionViewController.h; sourceTree = "<group>"; };
 		088DF162143CDB1F00CF4844 /* MacSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacSessionViewController.m; sourceTree = "<group>"; };
 		088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacSessionViewController.xib; sourceTree = "<group>"; };
@@ -415,6 +422,8 @@
 				08C63095144E13C6008815E8 /* RCMImagePrintView.m */,
 				08A4062E145249A600DBA662 /* WorkspaceCellView.h */,
 				08A4062F145249A600DBA662 /* WorkspaceCellView.m */,
+				0861760F1499531700450EE9 /* RCMSessionFileCellView.h */,
+				086176101499531700450EE9 /* RCMSessionFileCellView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -663,6 +672,8 @@
 				08056E211448BEBB0002766D /* RLogo.icns */,
 				08056DF51444D2E20002766D /* Rdoc.icns */,
 				08056DF31444D2970002766D /* RnW.icns */,
+				0861760914994EAB00450EE9 /* syncArrows.png */,
+				08617612149955CF00450EE9 /* syncArrowsSelected.png */,
 				08A4063214525DC900DBA662 /* accord-center.png */,
 				08A4063314525DC900DBA662 /* accord-left.png */,
 				08A4063414525DC900DBA662 /* accord-right.png */,
@@ -762,6 +773,8 @@
 				089C0B3D145B427300DF9984 /* RCMEditUserController.xib in Resources */,
 				08BD99611474467F004EF624 /* RCMPDFViewController.xib in Resources */,
 				0829456314993D1200E593C7 /* MCNewFileController.xib in Resources */,
+				0861760A14994EAB00450EE9 /* syncArrows.png in Resources */,
+				08617613149955CF00450EE9 /* syncArrowsSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -862,6 +875,7 @@
 				082945391496AA7700E593C7 /* _RCWorkspaceCache.m in Sources */,
 				0829453C1496AA8300E593C7 /* RCWorkspaceCache.m in Sources */,
 				0829456114993CF600E593C7 /* MCNewFileController.m in Sources */,
+				086176111499531700450EE9 /* RCMSessionFileCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -32,6 +32,7 @@
 @property (nonatomic, strong) NSNumber *currentUserId;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
 @property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
+@property (nonatomic, strong) NSOperationQueue *requestQueue;
 -(void)updateWorkspaceItems:(NSArray*)items;
 @end
 
@@ -50,6 +51,7 @@
 @synthesize remoteLogger;
 @synthesize currentUserId;
 @synthesize isAdmin;
+@synthesize requestQueue;
 
 #pragma mark - init
 
@@ -99,6 +101,8 @@
 #endif
 	[[VyanaLogger sharedInstance] startLogging];
 	[DDLog addLogger:self.remoteLogger];
+	self.requestQueue = [[NSOperationQueue alloc] init];
+	self.requestQueue.maxConcurrentOperationCount = 4;
 	return self;
 }
 
@@ -362,7 +366,7 @@
 	[req setFailedBlock:^{
 		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
 	}];
-	[req startAsynchronous];
+	[self.requestQueue addOperation:req];
 }
 
 -(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock
@@ -384,7 +388,7 @@
 	[req setFailedBlock:^{
 		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
 	}];
-	[req startAsynchronous];
+	[self.requestQueue addOperation:req];
 }
 
 -(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock

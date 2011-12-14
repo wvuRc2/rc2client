@@ -201,10 +201,19 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="482453569">
+								<object class="NSMenuItem" id="628738305">
 									<reference key="NSMenu" ref="720053764"/>
 									<string key="NSTitle">New File…</string>
 									<string key="NSKeyEquiv">n</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="301783604">
+									<reference key="NSMenu" ref="720053764"/>
+									<string key="NSTitle">Save Edits</string>
+									<string key="NSKeyEquiv">s</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
@@ -1245,9 +1254,17 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">createNewFile:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="482453569"/>
+						<reference key="destination" ref="628738305"/>
 					</object>
 					<int key="connectionID">635</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">saveFileEdits:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="301783604"/>
+					</object>
+					<int key="connectionID">637</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1349,7 +1366,8 @@
 							<reference ref="65468794"/>
 							<reference ref="770009470"/>
 							<reference ref="423135847"/>
-							<reference ref="482453569"/>
+							<reference ref="628738305"/>
+							<reference ref="301783604"/>
 						</array>
 						<reference key="parent" ref="379814623"/>
 					</object>
@@ -1892,7 +1910,12 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">634</int>
-						<reference key="object" ref="482453569"/>
+						<reference key="object" ref="628738305"/>
+						<reference key="parent" ref="720053764"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">636</int>
+						<reference key="object" ref="301783604"/>
 						<reference key="parent" ref="720053764"/>
 					</object>
 				</array>
@@ -1986,6 +2009,7 @@
 				<string key="631.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="632.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="634.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="636.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="78.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1999,7 +2023,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">635</int>
+			<int key="maxID">637</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2161,12 +2185,18 @@
 					<string key="className">MacSessionViewController</string>
 					<string key="superclassName">MacClientAbstractViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="createNewFile:">id</string>
 						<string key="executeScript:">id</string>
 						<string key="importFile:">id</string>
 						<string key="makeBusy:">id</string>
+						<string key="saveFileEdits:">id</string>
 						<string key="toggleFileList:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="createNewFile:">
+							<string key="name">createNewFile:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="executeScript:">
 							<string key="name">executeScript:</string>
 							<string key="candidateClassName">id</string>
@@ -2177,6 +2207,10 @@
 						</object>
 						<object class="IBActionInfo" key="makeBusy:">
 							<string key="name">makeBusy:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="saveFileEdits:">
+							<string key="name">saveFileEdits:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleFileList:">

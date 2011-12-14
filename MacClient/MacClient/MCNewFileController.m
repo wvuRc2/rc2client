@@ -43,6 +43,7 @@
 -(IBAction)cancel:(id)sender
 {
 	self.completionHandler(nil);
+	[self close];
 }
 
 
