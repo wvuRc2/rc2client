@@ -62,10 +62,16 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 
 -(void)refreshFiles
 {
+	[self refreshFilesPerformingBlockBeforeNotification:^{}];
+}
+
+-(void)refreshFilesPerformingBlockBeforeNotification:(BasicBlock)block
+{
 	self.fetchingFiles=YES;
 	[[Rc2Server sharedInstance] fetchFileList:self completionHandler:^(BOOL success, id results) {
 		if (success && [results isKindOfClass:[NSArray class]]) {
 			self.files = [RCFile filesFromJsonArray:results];
+			block();
 			[[NSNotificationCenter defaultCenter] postNotificationName:RCWorkspaceFilesFetchedNotification object:self];
 		}
 		self.fetchingFiles=NO;

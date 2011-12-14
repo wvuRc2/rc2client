@@ -18,7 +18,9 @@
 @property (nonatomic, strong) NSMutableArray *shares;
 @property (nonatomic, readonly) BOOL sharedByOther;
 @property (nonatomic, readonly) RCWorkspaceCache *cache;
+
 -(void)refreshFiles;
+-(void)refreshFilesPerformingBlockBeforeNotification:(BasicBlock)block;
 -(void)refreshShares;
 
 -(void)addFile:(RCFile*)aFile;

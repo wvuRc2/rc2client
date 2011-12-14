@@ -116,8 +116,7 @@
 			if (self.fileIdJustImported) {
 				NSUInteger idx = [self.session.workspace.files indexOfObjectWithValue:self.fileIdJustImported usingSelector:@selector(fileId)];
 				if (NSNotFound != idx) {
-					//TODO: we don't have the file contents yet, so selecting it and showing it does no good
-//					[self.fileTableView amSelectRow:idx byExtendingSelection:NO];
+					[self.fileTableView amSelectRow:idx byExtendingSelection:NO];
 				}
 				self.fileIdJustImported=nil;
 				[self tableViewSelectionDidChange:nil];
@@ -188,6 +187,8 @@
 			//adjust the title
 			[(NSMenuItem*)item setTitle:self.fileListVisible ? @"Hide File List" : @"Show File List"];
 		}
+		return YES;
+	} else if (action == @selector(importFile:)) {
 		return YES;
 	}
 	return NO;
@@ -286,7 +287,12 @@
 	 {
 		if (file) {
 			self.fileIdJustImported = file.fileId;
-			[self.session.workspace refreshFiles];
+			[self.session.workspace refreshFilesPerformingBlockBeforeNotification:^{
+				if (file.isTextFile) {
+					file.fileContents = [NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:nil];
+				}
+			}];
+			[self.fileTableView reloadData];
 		} else {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[NSAlert displayAlertWithTitle:@"Upload failed" details:@"An unknown error occurred."];
@@ -524,10 +530,11 @@
 		NSString *path = [url.absoluteString stringByDeletingPathExtension];
 		path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
 		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[path integerValue]]];
-		RCMPDFViewController *pvc = [[RCMPDFViewController alloc] init];
-		[pvc view]; //load from nib
-		[pvc loadPdf:file.fileContentsPath];
-		[(AppDelegate*)[NSApp delegate] showViewController:pvc];
+		[self.outputController.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:file.fileContentsPath]]];
+//		RCMPDFViewController *pvc = [[RCMPDFViewController alloc] init];
+//		[pvc view]; //load from nib
+//		[pvc loadPdf:file.fileContentsPath];
+//		[(AppDelegate*)[NSApp delegate] showViewController:pvc];
 	} else {
 		//for now. we may want to handle multiple images at once
 		[self displayImage:[url path]];
