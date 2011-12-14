@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 #import "Rc2Server.h"
 #import "RCFile.h"
+#import "RCMAppConstants.h"
 
 @interface WorkspaceViewController()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
@@ -114,6 +115,17 @@
 
 #pragma mark - meat & potatos
 
+-(void)deleteFile:(WorkspaceCellView*)cellView
+{
+	RCFile *file = cellView.selectedObject;
+	[[Rc2Server sharedInstance] deleteFile:file workspace:self.workspace completionHandler:^(BOOL success, id results) {
+		if (success) 
+			[cellView reloadData];
+		else
+			[NSAlert displayAlertWithTitle:@"Error" details:@"An unknown error occurred while deleting the selcted file."];
+	}];
+}
+
 -(void)loadShares
 {
 }
@@ -173,18 +185,29 @@
 -(void)workspaceCell:(WorkspaceCellView*)cellView removeDetail:(id)sender
 {
 	NSMutableDictionary *secDict = cellView.objectValue;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"shares"]) {
 		//handle removing a share
 		RCWorkspaceShare *share = [cellView selectedObject];
 		[self handleRemoveShare:share cellView:cellView];
 	} else if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"files"]) {
-		RCFile *file = cellView.selectedObject;
-		[[Rc2Server sharedInstance] deleteFile:file workspace:self.workspace completionHandler:^(BOOL success, id results) {
-			if (success) 
-				[cellView reloadData];
-			else
-				[NSAlert displayAlertWithTitle:@"Error" details:@"An unknown error occurred while deleting the selcted file."];
-		}];
+		if ([defaults boolForKey:kPref_SupressDeleteFileWarning]) {
+			[self deleteFile:cellView];
+		} else {
+			RCFile *file = cellView.selectedObject;
+			NSAlert *alert = [[NSAlert alloc] init];
+			alert.messageText = @"Are you sure you want to delete this file?";
+			alert.informativeText = [NSString stringWithFormat:@"The file \"%@\" will be removed from the server. This action can not be undone.", file.name];
+			alert.showsSuppressionButton = YES;
+			[alert addButtonWithTitle:@"OK"];
+			[alert addButtonWithTitle:@"Cancel"];
+			[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *theAlert, NSInteger returnCode) {
+				if (alert.suppressionButton.state == NSOnState)
+					[defaults setBool:YES forKey:kPref_SupressDeleteFileWarning];
+				if (returnCode == NSAlertFirstButtonReturn)
+					[self deleteFile:cellView];
+			}];
+		}
 	}
 }
 

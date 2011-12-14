@@ -16,7 +16,9 @@ extern NSString * const RCMToolbarItem_Remove;
 extern NSString * const RCMToolbarItem_Add;
 
 #define kPref_FixedFont @"FixedFont"
+#define kPref_SupressDeleteFileWarning @"SupressDeleteFileWarning"
 
 @interface RCMAppConstants : NSObject
-
+//array of all preference keys that should be removed when users chooses to reset all warnings
++(NSArray*)alertSupressionKeys;
 @end

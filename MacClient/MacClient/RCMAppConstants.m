@@ -14,7 +14,14 @@ NSString * const RCMToolbarItem_Back = @"RCMToolbarItem_Back";
 NSString * const RCMToolbarItem_Remove = @"RCMToolbarItem_Remove";
 NSString * const RCMToolbarItem_Add = @"RCMToolbarItem_Add";
 
-
 @implementation RCMAppConstants
-
++(NSArray*)alertSupressionKeys
+{
+	static NSArray *supressKeys;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		supressKeys = ARRAY(kPref_SupressDeleteFileWarning);
+	});
+	return supressKeys;
+}
 @end
