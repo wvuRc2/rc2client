@@ -11,8 +11,7 @@
 #import "AppDelegate.h"
 
 @interface MCWebOutputController() {
-	CGFloat __buttonBarHeight, __buttonBarHeightPlusBuffer;
-	BOOL __didInit, __doingLoadHack, __loadHackComplete;
+	BOOL __didInit;
 }
 @property (nonatomic, strong) NSMenuItem *clearMenuItem;
 @property (nonatomic, strong) NSMenuItem *saveAsMenuItem;
@@ -40,19 +39,12 @@
 -(void)awakeFromNib
 {
 	if (!__didInit) {
-		__buttonBarHeight = self.buttonBar.frame.size.height;
-		__buttonBarHeightPlusBuffer = NSMaxY(self.buttonBar.frame) - NSMaxY(self.webView.frame);
-		NSRect wframe = self.webView.frame;
-		wframe.size.height += __buttonBarHeight;
-		self.webView.frame = wframe;
-		NSRect bframe = self.buttonBar.frame;
-		bframe.size.height = 0;
-		[self.buttonBar setFrame:bframe];
 		[[WebPreferences standardPreferences] setUsesPageCache:YES];
 		[self loadContent];
 		self.clearMenuItem = [[NSMenuItem alloc] initWithTitle:@"Clear Output" action:@selector(doClear:) keyEquivalent:@""];
 		self.saveAsMenuItem = [[NSMenuItem alloc] initWithTitle:@"Save As…" action:@selector(saveSelectedPDF:) keyEquivalent:@""];
 		self.viewSourceMenuItem = [[NSMenuItem alloc] initWithTitle:@"View Source" action:@selector(viewSource:) keyEquivalent:@""];
+		self.consoleVisible = YES;
 		__didInit=YES;
 	}
 }
@@ -146,6 +138,12 @@
 	
 }
 
+-(IBAction)openInWebBrowser:(id)sender
+{
+	NSURL *url = self.webView.mainFrame.dataSource.request.URL;
+	[[NSWorkspace sharedWorkspace] openURL:url];
+}
+
 -(IBAction)goBack:(id)sender
 {
 	[self.webView goBack:sender];
@@ -200,6 +198,7 @@
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
 	BOOL isOurContent = [[[[frame DOMDocument] documentElement] getAttribute:@"rc2"] isEqualToString:@"rc2"];
+	self.consoleVisible = isOurContent;
 	if (self.lastContent && isOurContent) {
 		DOMHTMLElement *doc = (DOMHTMLElement*)[[frame DOMDocument] documentElement];
 		if (doc.innerText.length < 1) {
@@ -207,25 +206,6 @@
 			self.lastContent=nil;
 		}
 	}
-	[NSAnimationContext beginGrouping];
-	if (!isOurContent) {
-		if (self.buttonBar.frame.size.height < 1) {
-			NSRect bframe = self.buttonBar.frame;
-			bframe.size.height = __buttonBarHeight;
-			[[self.buttonBar animator] setFrame:bframe];
-			NSRect wframe = self.webView.frame;
-			wframe.size.height -= __buttonBarHeightPlusBuffer;
-			[[self.webView animator] setFrame:wframe];
-		}
-	} else if (self.buttonBar.frame.size.height > 0) {
-		NSRect bframe = self.buttonBar.frame;
-		bframe.size.height = 0;
-		[[self.buttonBar animator] setFrame:bframe];
-		NSRect wframe = self.webView.frame;
-		wframe.size.height += __buttonBarHeightPlusBuffer;
-		[[self.webView animator] setFrame:wframe];
-	}
-	[NSAnimationContext endGrouping];
 }
 
 - (void)webView:(WebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
@@ -319,6 +299,6 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 @synthesize clearMenuItem;
 @synthesize saveAsMenuItem;
 @synthesize viewSourceMenuItem;
-@synthesize buttonBar;
 @synthesize lastContent;
+@synthesize consoleVisible;
 @end
