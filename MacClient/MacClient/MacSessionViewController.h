@@ -25,6 +25,7 @@
 -(IBAction)makeBusy:(id)sender;
 -(IBAction)executeScript:(id)sender;
 -(IBAction)importFile:(id)sender;
+-(IBAction)createNewFile:(id)sender;
 -(void)saveChanges;
 
 -(void)saveSessionState;

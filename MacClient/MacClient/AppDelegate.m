@@ -74,6 +74,18 @@
 	}]];
 }
 
+-(BOOL)application:(NSApplication *)app openFile:(NSString *)filename
+{
+	NSLog(@"importing %@", filename);
+	return YES;
+}
+
+-(void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+	NSLog(@"got files:%@", filenames);
+	[sender replyToOpenOrPrint:NSApplicationDelegateReplySuccess];
+}
+
 //a timer runs while active that will autosave coredata changes periodically
 -(void)applicationWillBecomeActive:(NSNotification *)note
 {

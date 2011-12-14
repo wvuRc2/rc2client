@@ -24,6 +24,8 @@
 		08056E5C1448EC410002766D /* RCMacToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056E5B1448EC410002766D /* RCMacToolbarItem.m */; };
 		082945391496AA7700E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945381496AA7700E593C7 /* _RCWorkspaceCache.m */; };
 		0829453C1496AA8300E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453B1496AA8300E593C7 /* RCWorkspaceCache.m */; };
+		0829456114993CF600E593C7 /* MCNewFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829456014993CF600E593C7 /* MCNewFileController.m */; };
+		0829456314993D1200E593C7 /* MCNewFileController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0829456214993D1200E593C7 /* MCNewFileController.xib */; };
 		0838B38A141E9095003264A8 /* PXSourceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B387141E9095003264A8 /* PXSourceList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0838B38E141E90C2003264A8 /* MacMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B38D141E90C2003264A8 /* MacMainWindowController.m */; };
 		0838B390141E90E0003264A8 /* MacMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0838B38F141E90E0003264A8 /* MacMainWindow.xib */; };
@@ -160,6 +162,9 @@
 		082945381496AA7700E593C7 /* _RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCWorkspaceCache.m; sourceTree = "<group>"; };
 		0829453A1496AA8300E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
 		0829453B1496AA8300E593C7 /* RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceCache.m; sourceTree = "<group>"; };
+		0829455F14993CF600E593C7 /* MCNewFileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNewFileController.h; sourceTree = "<group>"; };
+		0829456014993CF600E593C7 /* MCNewFileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCNewFileController.m; sourceTree = "<group>"; };
+		0829456214993D1200E593C7 /* MCNewFileController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCNewFileController.xib; sourceTree = "<group>"; };
 		0838B386141E9095003264A8 /* PXSourceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceList.h; sourceTree = "<group>"; };
 		0838B387141E9095003264A8 /* PXSourceList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PXSourceList.m; sourceTree = "<group>"; };
 		0838B388141E9095003264A8 /* PXSourceListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceListDataSource.h; sourceTree = "<group>"; };
@@ -370,6 +375,9 @@
 				08BD995D1474467F004EF624 /* RCMPDFViewController.h */,
 				08BD995E1474467F004EF624 /* RCMPDFViewController.m */,
 				08BD995F1474467F004EF624 /* RCMPDFViewController.xib */,
+				0829455F14993CF600E593C7 /* MCNewFileController.h */,
+				0829456014993CF600E593C7 /* MCNewFileController.m */,
+				0829456214993D1200E593C7 /* MCNewFileController.xib */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -753,6 +761,7 @@
 				089C0B2C145B101000DF9984 /* RCMUserAdminController.xib in Resources */,
 				089C0B3D145B427300DF9984 /* RCMEditUserController.xib in Resources */,
 				08BD99611474467F004EF624 /* RCMPDFViewController.xib in Resources */,
+				0829456314993D1200E593C7 /* MCNewFileController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -852,6 +861,7 @@
 				08BD99601474467F004EF624 /* RCMPDFViewController.m in Sources */,
 				082945391496AA7700E593C7 /* _RCWorkspaceCache.m in Sources */,
 				0829453C1496AA8300E593C7 /* RCWorkspaceCache.m in Sources */,
+				0829456114993CF600E593C7 /* MCNewFileController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

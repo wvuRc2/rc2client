@@ -17,6 +17,7 @@
 #import "RCImage.h"
 #import "RCSavedSession.h"
 #import "RCMTextView.h"
+#import "MCNewFileController.h"
 #import "RCMAppConstants.h"
 #import <Vyana/AMWindow.h>
 #import "ASIHTTPRequest.h"
@@ -52,6 +53,7 @@
 -(void)cacheImagesReferencedInHTML:(NSString*)html;
 -(BOOL)loadImageIntoCache:(NSString*)imgPath;
 -(void)handleFileImport:(NSURL*)fileUrl;
+-(void)handleNewFile:(NSString*)fileName;
 -(BOOL)fileListVisible;
 @end
 
@@ -188,8 +190,8 @@
 			[(NSMenuItem*)item setTitle:self.fileListVisible ? @"Hide File List" : @"Show File List"];
 		}
 		return YES;
-	} else if (action == @selector(importFile:)) {
-		return YES;
+	} else if (action == @selector(importFile:) || action == @selector(createNewFile:)) {
+		return self.session.hasWritePerm;
 	}
 	return NO;
 }
@@ -257,6 +259,18 @@
 	self.statusMessage = @"hoo boy";
 }
 
+-(IBAction)createNewFile:(id)sender
+{
+	MCNewFileController *nfc = [[MCNewFileController alloc] init];
+	nfc.completionHandler = ^(NSString *fname) {
+		[self handleNewFile:fname];
+	};
+	[NSApp beginSheet:nfc.window modalForWindow:self.view.window completionHandler:^(NSInteger idx) {
+		//have the block keep a reference of nfc until complete
+		[nfc fileName];
+	}];
+}
+
 #pragma mark - meat & potatos
 
 -(void)saveSessionState
@@ -277,6 +291,24 @@
 		self.editView.string = savedState.inputText;
 	}
 	[self cacheImagesReferencedInHTML:savedState.consoleHtml];
+}
+
+-(void)handleNewFile:(NSString*)fileName
+{
+	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
+	RCFile *file = [RCFile insertInManagedObjectContext:moc];
+	file.name = fileName;
+	file.fileContents = @"";
+	[[[Rc2Server sharedInstance] currentSession].workspace addFile:file];
+	[[Rc2Server sharedInstance] saveFile:file completionHandler:^(BOOL success, RCFile *newFile) {
+		if (success) {
+			self.fileIdJustImported = newFile.fileId;
+			[self.session.workspace refreshFiles];
+			[self.fileTableView reloadData];
+		} else {
+			//FIXME: handle error
+		}
+	}];
 }
 
 -(void)handleFileImport:(NSURL*)fileUrl
