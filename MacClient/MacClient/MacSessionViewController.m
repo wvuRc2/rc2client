@@ -312,13 +312,18 @@
 	file.name = fileName;
 	file.fileContents = @"";
 	[[[Rc2Server sharedInstance] currentSession].workspace addFile:file];
+	self.statusMessage = [NSString stringWithFormat:@"Sending %@ to server…", file.name];
+	self.busy=YES;
 	[[Rc2Server sharedInstance] saveFile:file completionHandler:^(BOOL success, RCFile *newFile) {
+		self.busy=NO;
 		if (success) {
 			self.fileIdJustImported = newFile.fileId;
 			[self.session.workspace refreshFiles];
 			[self.fileTableView reloadData];
+			self.statusMessage = [NSString stringWithFormat:@"File created on server"];
 		} else {
-			//FIXME: handle error
+			Rc2LogWarn(@"failed to create file on server: %@", newFile.name);
+			self.statusMessage = [NSString stringWithFormat:@"Unknown error creating file on server"];
 		}
 	}];
 }
@@ -362,6 +367,7 @@
 			[self.fileTableView reloadData];
 			self.statusMessage = [NSString stringWithFormat:@"%@ successfully saved to server", theFile.name];
 		} else {
+			Rc2LogWarn(@"error syncing file to server:%@", theFile.name);
 			self.statusMessage = [NSString stringWithFormat:@"Unknown error while saving %@ to server", theFile.name];
 		}
 	}];
@@ -381,7 +387,7 @@
 				[self completeSessionStartup:response];
 			});
 		} else {
-			//TODO: better error handling
+			Rc2LogWarn(@"error preparing workspace:%@", response);
 			self.statusMessage = [NSString stringWithFormat:@"Error preparing workspace: (%@)", response];
 		}
 	}];

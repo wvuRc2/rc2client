@@ -77,7 +77,7 @@
 		[blockSelf.requestLock unlock];
 	}];
 	[self.currentRequest setFailedBlock:^{
-		//FIXME: do something
+		Rc2LogWarn(@"error seing add share request");
 	}];
 	[self.currentRequest startAsynchronous];
 	[self.requestLock unlock];
