@@ -10,5 +10,16 @@
 
 @implementation MacClientAbstractViewController
 @synthesize busy;
-@synthesize statusMessage;
+@synthesize statusMessage=_statusMessage;
+
+-(void)setStatusMessage:(NSString *)statusMessage
+{
+	_statusMessage = [statusMessage copy];
+	if (statusMessage) {
+		RunAfterDelay(3, ^{
+			if ([statusMessage isEqualToString:_statusMessage])
+				self.statusMessage=nil;
+		});
+	}
+}
 @end

@@ -10,6 +10,7 @@
 
 @interface RCMSessionFileCellView : NSTableCellView
 @property (nonatomic, strong) IBOutlet NSButton *syncButton;
+@property (nonatomic, copy) BasicBlock1Arg syncFileBlock; //argument will be the RCFile object
 
 -(IBAction)syncFile:(id)sender;
 @end

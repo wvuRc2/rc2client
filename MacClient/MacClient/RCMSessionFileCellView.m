@@ -17,7 +17,7 @@
 
 -(IBAction)syncFile:(id)sender
 {
-	
+	self.syncFileBlock(self.objectValue);
 }
 
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
@@ -50,4 +50,5 @@
 
 @synthesize syncButton;
 @synthesize syncEnabledToken;
+@synthesize syncFileBlock;
 @end

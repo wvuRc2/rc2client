@@ -56,6 +56,7 @@
 -(void)handleFileImport:(NSURL*)fileUrl;
 -(void)handleNewFile:(NSString*)fileName;
 -(BOOL)fileListVisible;
+-(void)syncFile:(RCFile*)file;
 @end
 
 @implementation MacSessionViewController
@@ -350,6 +351,22 @@
 	self.selectedFile=nil;
 }
 
+-(void)syncFile:(RCFile*)file
+{
+	ZAssert(file.isTextFile, @"asked to sync non-text file");
+	self.statusMessage = [NSString stringWithFormat:@"Saving %@ to server…", file.name];
+	self.busy=YES;
+	[[Rc2Server sharedInstance] saveFile:file completionHandler:^(BOOL success, RCFile *theFile) {
+		self.busy=NO;
+		if (success) {
+			[self.fileTableView reloadData];
+			self.statusMessage = [NSString stringWithFormat:@"%@ successfully saved to server", theFile.name];
+		} else {
+			self.statusMessage = [NSString stringWithFormat:@"Unknown error while saving %@ to server", theFile.name];
+		}
+	}];
+}
+
 -(void)completeSessionStartup:(id)response
 {
 	[self.session updateWithServerResponse:response];
@@ -616,6 +633,9 @@
 	RCFile *file = [self.session.workspace.files objectAtIndexNoExceptions:row];
 	RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
 	view.objectValue = file;
+	view.syncFileBlock = ^(RCFile *theFile) {
+		[self syncFile:theFile];
+	};
 	return view;
 }
 
