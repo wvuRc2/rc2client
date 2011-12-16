@@ -287,7 +287,7 @@
 -(void)saveSessionState
 {
 	RCSavedSession *savedState = self.session.savedSessionState;
-	savedState.consoleHtml = [self.outputController.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];
+	[self.outputController saveSessionState:savedState];
 	savedState.currentFile = self.selectedFile;
 	if (nil == savedState.currentFile)
 		savedState.inputText = self.editView.string;

@@ -201,7 +201,7 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="628738305">
+								<object class="NSMenuItem" id="263600753">
 									<reference key="NSMenu" ref="720053764"/>
 									<string key="NSTitle">New File…</string>
 									<string key="NSKeyEquiv">n</string>
@@ -210,7 +210,7 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="301783604">
+								<object class="NSMenuItem" id="793332476">
 									<reference key="NSMenu" ref="720053764"/>
 									<string key="NSTitle">Save Edits</string>
 									<string key="NSKeyEquiv">s</string>
@@ -772,6 +772,34 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
+								<object class="NSMenuItem" id="450720317">
+									<reference key="NSMenu" ref="1066737987"/>
+									<string key="NSTitle">Previous Command</string>
+									<string key="NSKeyEquiv"></string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="612110508">
+									<reference key="NSMenu" ref="1066737987"/>
+									<string key="NSTitle">Next Command</string>
+									<string key="NSKeyEquiv"></string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="503436787">
+									<reference key="NSMenu" ref="1066737987"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
 								<object class="NSMenuItem" id="828910064">
 									<reference key="NSMenu" ref="1066737987"/>
 									<string key="NSTitle">Refresh File List</string>
@@ -1254,7 +1282,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">createNewFile:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="628738305"/>
+						<reference key="destination" ref="263600753"/>
 					</object>
 					<int key="connectionID">635</int>
 				</object>
@@ -1262,9 +1290,25 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">saveFileEdits:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="301783604"/>
+						<reference key="destination" ref="793332476"/>
 					</object>
 					<int key="connectionID">637</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">loadNextCommand:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="612110508"/>
+					</object>
+					<int key="connectionID">641</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">loadPreviousCommand:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="450720317"/>
+					</object>
+					<int key="connectionID">642</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1366,8 +1410,8 @@
 							<reference ref="65468794"/>
 							<reference ref="770009470"/>
 							<reference ref="423135847"/>
-							<reference ref="628738305"/>
-							<reference ref="301783604"/>
+							<reference ref="263600753"/>
+							<reference ref="793332476"/>
 						</array>
 						<reference key="parent" ref="379814623"/>
 					</object>
@@ -1860,6 +1904,9 @@
 							<reference ref="87321973"/>
 							<reference ref="828910064"/>
 							<reference ref="99282308"/>
+							<reference ref="503436787"/>
+							<reference ref="450720317"/>
+							<reference ref="612110508"/>
 						</array>
 						<reference key="parent" ref="778227331"/>
 					</object>
@@ -1910,13 +1957,28 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">634</int>
-						<reference key="object" ref="628738305"/>
+						<reference key="object" ref="263600753"/>
 						<reference key="parent" ref="720053764"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">636</int>
-						<reference key="object" ref="301783604"/>
+						<reference key="object" ref="793332476"/>
 						<reference key="parent" ref="720053764"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">638</int>
+						<reference key="object" ref="503436787"/>
+						<reference key="parent" ref="1066737987"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">639</int>
+						<reference key="object" ref="450720317"/>
+						<reference key="parent" ref="1066737987"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">640</int>
+						<reference key="object" ref="612110508"/>
+						<reference key="parent" ref="1066737987"/>
 					</object>
 				</array>
 			</object>
@@ -2010,6 +2072,9 @@
 				<string key="632.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="634.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="636.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="638.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="639.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="640.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="78.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2023,7 +2088,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">637</int>
+			<int key="maxID">642</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2095,6 +2160,77 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AppDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">MCWebOutputController</string>
+					<string key="superclassName">AMViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="doClear:">id</string>
+						<string key="doExecuteQuery:">id</string>
+						<string key="executeQueryViaButton:">id</string>
+						<string key="goBack:">id</string>
+						<string key="loadNextCommand:">id</string>
+						<string key="loadPreviousCommand:">id</string>
+						<string key="openInWebBrowser:">id</string>
+						<string key="saveSelectedPDF:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="doClear:">
+							<string key="name">doClear:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doExecuteQuery:">
+							<string key="name">doExecuteQuery:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="executeQueryViaButton:">
+							<string key="name">executeQueryViaButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="goBack:">
+							<string key="name">goBack:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="loadNextCommand:">
+							<string key="name">loadNextCommand:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="loadPreviousCommand:">
+							<string key="name">loadPreviousCommand:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="openInWebBrowser:">
+							<string key="name">openInWebBrowser:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="saveSelectedPDF:">
+							<string key="name">saveSelectedPDF:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="consoleField">NSTextField</string>
+						<string key="delegate">id</string>
+						<string key="webView">WebView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="consoleField">
+							<string key="name">consoleField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="delegate">
+							<string key="name">delegate</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="webView">
+							<string key="name">webView</string>
+							<string key="candidateClassName">WebView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MCWebOutputController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
