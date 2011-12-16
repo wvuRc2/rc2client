@@ -296,7 +296,7 @@
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
 	[self.outputController restoreSessionState:savedState];
-	if (savedState.currentFile) {
+	if (savedState.currentFile.isTextFile) {
 		self.selectedFile = savedState.currentFile;
 	} else if ([savedState.inputText length] > 0) {
 		self.editView.string = savedState.inputText;
