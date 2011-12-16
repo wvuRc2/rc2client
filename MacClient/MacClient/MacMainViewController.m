@@ -139,6 +139,7 @@
 
 -(IBAction)sourceListDoubleClicked:(id)sender
 {
+	//FIXME: need to handle if an item is not selected
 	RunAfterDelay(0.5, ^{
 		[self doOpenSession:sender];
 	});

@@ -18,6 +18,7 @@ extern NSString * const RCMToolbarItem_Add;
 #define kPref_FixedFont @"FixedFont"
 #define kPref_SupressDeleteFileWarning @"SupressDeleteFileWarning"
 #define kPref_CommandHistoryMaxLen @"CommandHistoryMaxLen"
+#define kPref_NumImagesVisible @"NumImagesVisible"
 
 @interface RCMAppConstants : NSObject
 //array of all preference keys that should be removed when users chooses to reset all warnings

@@ -35,6 +35,10 @@
 		08617613149955CF00450EE9 /* syncArrowsSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 08617612149955CF00450EE9 /* syncArrowsSelected.png */; };
 		08617616149BC5E600450EE9 /* RCMConsoleTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 08617615149BC5E600450EE9 /* RCMConsoleTextField.m */; };
 		08617618149BCD8C00450EE9 /* history.png in Resources */ = {isa = PBXBuildFile; fileRef = 08617617149BCD8C00450EE9 /* history.png */; };
+		0861761C149BE19900450EE9 /* RCMMultiImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0861761A149BE19800450EE9 /* RCMMultiImageController.m */; };
+		0861761D149BE19900450EE9 /* RCMMultiImageController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0861761B149BE19800450EE9 /* RCMMultiImageController.xib */; };
+		08617621149BE37A00450EE9 /* RCMImageDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0861761F149BE37A00450EE9 /* RCMImageDetailController.m */; };
+		08617622149BE37A00450EE9 /* RCMImageDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08617620149BE37A00450EE9 /* RCMImageDetailController.xib */; };
 		088DF164143CDB1F00CF4844 /* MacSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088DF162143CDB1F00CF4844 /* MacSessionViewController.m */; };
 		088DF165143CDB1F00CF4844 /* MacSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */; };
 		088EABA2145C6F7E0033C249 /* PasswordVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 088EABA1145C6F7E0033C249 /* PasswordVerifier.m */; };
@@ -185,6 +189,12 @@
 		08617614149BC5E600450EE9 /* RCMConsoleTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMConsoleTextField.h; sourceTree = "<group>"; };
 		08617615149BC5E600450EE9 /* RCMConsoleTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMConsoleTextField.m; sourceTree = "<group>"; };
 		08617617149BCD8C00450EE9 /* history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = history.png; path = resources/history.png; sourceTree = SOURCE_ROOT; };
+		08617619149BE19800450EE9 /* RCMMultiImageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMMultiImageController.h; sourceTree = "<group>"; };
+		0861761A149BE19800450EE9 /* RCMMultiImageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMMultiImageController.m; sourceTree = "<group>"; };
+		0861761B149BE19800450EE9 /* RCMMultiImageController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMMultiImageController.xib; sourceTree = "<group>"; };
+		0861761E149BE37A00450EE9 /* RCMImageDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMImageDetailController.h; sourceTree = "<group>"; };
+		0861761F149BE37A00450EE9 /* RCMImageDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMImageDetailController.m; sourceTree = "<group>"; };
+		08617620149BE37A00450EE9 /* RCMImageDetailController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMImageDetailController.xib; sourceTree = "<group>"; };
 		088DF161143CDB1E00CF4844 /* MacSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacSessionViewController.h; sourceTree = "<group>"; };
 		088DF162143CDB1F00CF4844 /* MacSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacSessionViewController.m; sourceTree = "<group>"; };
 		088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacSessionViewController.xib; sourceTree = "<group>"; };
@@ -375,6 +385,12 @@
 				08C6306C144CB00C008815E8 /* RCMImageViewer.h */,
 				08C6306D144CB00C008815E8 /* RCMImageViewer.m */,
 				08C6306E144CB00C008815E8 /* RCMImageViewer.xib */,
+				08617619149BE19800450EE9 /* RCMMultiImageController.h */,
+				0861761A149BE19800450EE9 /* RCMMultiImageController.m */,
+				0861761B149BE19800450EE9 /* RCMMultiImageController.xib */,
+				0861761E149BE37A00450EE9 /* RCMImageDetailController.h */,
+				0861761F149BE37A00450EE9 /* RCMImageDetailController.m */,
+				08617620149BE37A00450EE9 /* RCMImageDetailController.xib */,
 				08A4064314538DC300DBA662 /* RCMAddShareController.h */,
 				08A4064414538DC300DBA662 /* RCMAddShareController.m */,
 				08A4064514538DC300DBA662 /* RCMAddShareController.xib */,
@@ -784,6 +800,8 @@
 				0861760A14994EAB00450EE9 /* syncArrows.png in Resources */,
 				08617613149955CF00450EE9 /* syncArrowsSelected.png in Resources */,
 				08617618149BCD8C00450EE9 /* history.png in Resources */,
+				0861761D149BE19900450EE9 /* RCMMultiImageController.xib in Resources */,
+				08617622149BE37A00450EE9 /* RCMImageDetailController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -886,6 +904,8 @@
 				0829456114993CF600E593C7 /* MCNewFileController.m in Sources */,
 				086176111499531700450EE9 /* RCMSessionFileCellView.m in Sources */,
 				08617616149BC5E600450EE9 /* RCMConsoleTextField.m in Sources */,
+				0861761C149BE19900450EE9 /* RCMMultiImageController.m in Sources */,
+				08617621149BE37A00450EE9 /* RCMImageDetailController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

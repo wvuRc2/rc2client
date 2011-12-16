@@ -9,6 +9,7 @@
 #import "MacSessionViewController.h"
 #import "MCWebOutputController.h"
 #import "RCMImageViewer.h"
+#import "RCMMultiImageController.h"
 #import "RCMPDFViewController.h"
 #import "Rc2Server.h"
 #import "RCMacToolbarItem.h"
@@ -281,6 +282,18 @@
 {
 	if (self.selectedFile.isTextFile)
 		[self.selectedFile setLocalEdits:self.editView.string];
+}
+
+-(IBAction)showImageDetails:(id)sender
+{
+	[self.imagePopover close];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		RCMMultiImageController	*ivc = [[RCMMultiImageController alloc] init];
+		[ivc view];
+		ivc.availableImages = self.imgCache.allValues;
+		AppDelegate *del = [TheApp delegate];
+		[del showViewController:ivc];
+	});
 }
 
 #pragma mark - meat & potatos
@@ -556,9 +569,13 @@
 		self.imagePopover = [[NSPopover alloc] init];
 		self.imagePopover.behavior = NSPopoverBehaviorSemitransient;
 	}
+	__unsafe_unretained MacSessionViewController *blockSelf = self;
 	self.imagePopover.contentViewController = self.imageController;
 	self.imageController.imageArray = self.currentImageGroup;
 	self.imageController.workspace = self.session.workspace;
+	self.imageController.detailsBlock = ^{
+		[blockSelf showImageDetails:nil];	
+	};
 	NSRect r = NSMakeRect(__curImgPoint.x+16, self.outputController.webView.frame.size.height - __curImgPoint.y - 16, 1, 1);
 	[self.imagePopover showRelativeToRect:r ofView:self.outputController.webView preferredEdge:NSMaxXEdge];
 	[self.imageController displayImage:[imgPath lastPathComponent]];

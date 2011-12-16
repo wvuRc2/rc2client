@@ -71,6 +71,12 @@
 		[self.imageArrayController selectNext:self];
 }
 
+-(IBAction)showImageDetails:(id)sender
+{
+	self.detailsBlock();
+}
+
+
 #define kSwipeMinimumLength 0.3
 
 @synthesize twoFingersTouches;
@@ -165,4 +171,5 @@
 @synthesize displayedImageName;
 @synthesize observerToken;
 @synthesize workspace;
+@synthesize detailsBlock;
 @end

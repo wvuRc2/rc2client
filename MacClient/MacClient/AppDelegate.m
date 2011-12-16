@@ -72,6 +72,7 @@
 	{
 		self.isFullScreen = NO;
 	}]];
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
 }
 
 -(BOOL)application:(NSApplication *)app openFile:(NSString *)filename

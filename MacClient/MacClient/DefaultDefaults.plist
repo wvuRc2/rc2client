@@ -6,5 +6,9 @@
 	<false/>
 	<key>WebKitDeveloperExtras</key>
 	<true/>
+	<key>NumImagesVisible</key>
+	<integer>1</integer>
+	<key>CommandHistoryMaxLen</key>
+	<integer>10</integer>
 </dict>
 </plist>

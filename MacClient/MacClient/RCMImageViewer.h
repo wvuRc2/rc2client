@@ -16,7 +16,9 @@
 @property (nonatomic, strong) RCWorkspace *workspace;
 @property (nonatomic, strong) IBOutlet NSArrayController *imageArrayController;
 @property (nonatomic, copy) NSString *displayedImageName;
+@property (nonatomic, copy) BasicBlock detailsBlock;
 -(void)displayImage:(NSString*)path;
 
 -(IBAction)saveImageAs:(id)sender;
+-(IBAction)showImageDetails:(id)sender;
 @end
