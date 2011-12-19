@@ -8,6 +8,7 @@
 
 #import "RCMMultiImageController.h"
 #import "RCMImageDetailController.h"
+#import "RCMImagePrintView.h"
 #import "RCMAppConstants.h"
 #import "RCImage.h"
 
@@ -34,37 +35,16 @@
 -(void)awakeFromNib
 {
 	self.numberImagesVisible = [[NSUserDefaults standardUserDefaults] integerForKey:kPref_NumImagesVisible];
-/*	[self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.layoutControl 
-														  attribute:NSLayoutAttributeCenterX
-														  relatedBy:NSLayoutRelationEqual 
-															 toItem:self.view
-														  attribute:NSLayoutAttributeCenterX
-														 multiplier:1.0 
-														   constant:0]];
-
-	NSDictionary *objDict = [NSDictionary dictionaryWithObjectsAndKeys:self.frame1, @"frame1", self.frame2, @"frame2",
-							 self.frame3, @"frame3", self.frame4, @"frame4", nil];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[frame1(>=100)]-[frame2(==frame1)]-|" options:0 metrics:nil views:objDict]];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[frame3(>=100)]-[frame4(==frame3)]-|" options:0 metrics:nil views:objDict]];
-*/
-	self.view.wantsLayer = YES;
-	self.view.layer.borderColor = [NSColor redColor].cgColorRef;
-	self.view.layer.borderWidth = 1.0;
 }
+
+-(BOOL)acceptsFirstResponder { return YES; }
 
 -(void)viewDidMoveToWindow
 {
 	if (nil == self.view.window) {
 		[[NSUserDefaults standardUserDefaults] setInteger:self.numberImagesVisible forKey:kPref_NumImagesVisible];
 	} else {
-/*		[self.view.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.view
-															  attribute:NSLayoutAttributeWidth
-															  relatedBy:NSLayoutRelationEqual 
-																 toItem:self.view.superview
-															  attribute:NSLayoutAttributeWidth
-															 multiplier:1.0 
-															   constant:0]];
-*/		self.imageView1.view.frame = self.frame1.bounds;
+		self.imageView1.view.frame = self.frame1.bounds;
 		[self.frame1 addSubview:self.imageView1.view];
 		self.imageView2.view.frame = self.frame2.bounds;
 		[self.frame2 addSubview:self.imageView2.view];
@@ -72,6 +52,7 @@
 		[self.frame3 addSubview:self.imageView3.view];
 		self.imageView4.view.frame = self.frame4.bounds;
 		[self.frame4 addSubview:self.imageView4.view];
+		[self.view.window makeFirstResponder:self];
 	}
 }
 
@@ -86,6 +67,26 @@
 	[self layoutSubviews];
 	_doingResize = NO;
 }
+
+-(void)print:(id)sender
+{
+	//figure out which images to print. only what's visible
+	NSMutableOrderedSet *a = [[NSMutableOrderedSet alloc] init];
+	[a addObject:self.imageView1.selectedImage];
+	if (self.numberImagesVisible > 1) {
+		[a addObject:self.imageView2.selectedImage];
+		if (self.numberImagesVisible > 2) {
+			[a addObject:self.imageView3.selectedImage];
+			[a addObject:self.imageView4.selectedImage];
+		}
+	}
+	RCMImagePrintView *printView = [[RCMImagePrintView alloc] initWithImages:[a array]];
+	NSPrintOperation *printOp = [NSPrintOperation printOperationWithView:printView];
+	printOp.jobTitle = @"Rc2 images";
+	[printOp runOperation];
+}
+
+#pragma mark - custom resizing
 
 -(void)layoutSubviews
 {
@@ -153,6 +154,8 @@
 	NSRect f2 = NSMakeRect(f4.origin.x, f1.origin.y, boxSize.width, boxSize.height);
 	[self resizeFrames:f1 frame2:f2 frame3:f3 frame4:f4];
 }
+
+#pragma mark - settors
 
 -(void)setDisplayedImages:(NSArray*)imgs
 {
