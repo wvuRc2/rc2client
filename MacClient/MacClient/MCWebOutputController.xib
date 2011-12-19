@@ -652,6 +652,7 @@
 							<reference ref="538141926"/>
 						</array>
 						<reference key="parent" ref="1005"/>
+						<string key="objectName">clear button</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">31</int>
@@ -665,6 +666,7 @@
 							<reference ref="648359090"/>
 						</array>
 						<reference key="parent" ref="1005"/>
+						<string key="objectName">back button</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">29</int>
@@ -678,6 +680,7 @@
 							<reference ref="61522151"/>
 						</array>
 						<reference key="parent" ref="1005"/>
+						<string key="objectName">safari button</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">37</int>

@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface RCMTextPrintView : NSView
+@interface RCMTextPrintView : NSTextView
 @property (nonatomic, copy) NSAttributedString *textContent;
 @property (nonatomic, copy) NSString *jobName;
 @end

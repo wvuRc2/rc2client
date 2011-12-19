@@ -17,7 +17,7 @@
 	_statusMessage = [statusMessage copy];
 	if (statusMessage) {
 		RunAfterDelay(3, ^{
-			if ([statusMessage isEqualToString:_statusMessage])
+			if ([statusMessage isEqualToString:_statusMessage] && !self.busy)
 				self.statusMessage=nil;
 		});
 	}

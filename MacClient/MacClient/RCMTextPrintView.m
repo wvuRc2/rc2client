@@ -17,21 +17,22 @@
 -(id)init
 {
 	self = [super initWithFrame:[NSPrintInfo sharedPrintInfo].imageablePageBounds];
-	self.textView = [[NSTextView alloc] initWithFrame:self.bounds];
-	[self addSubview:self.textView];
-	[self.textView setVerticallyResizable:YES];
-	[self.textView setHorizontallyResizable:NO];
+//	self.textView = [[NSTextView alloc] initWithFrame:NSInsetRect(self.bounds, 2, 2)];
+//	[self addSubview:self.textView];
+	[self setVerticallyResizable:YES];
+	[self setHorizontallyResizable:NO];
 	return self;
 }
 
 -(NSAttributedString*)textContent
 {
-	return self.textView.attributedString;
+	return self.attributedString;
 }
 
 -(void)setTextContent:(NSAttributedString *)textContent
 {
-	[self.textView.textStorage setAttributedString:textContent];
+	[self.textStorage setAttributedString:textContent];
+	[self sizeToFit];
 }
 
 @synthesize jobName;

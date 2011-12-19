@@ -20,7 +20,10 @@
 	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_FixedFont];
 	if (nil == fnt)
 		fnt = [NSFont userFixedPitchFontOfSize:12.0];
-	[self setFont:fnt];	
+	[self setFont:fnt];
+	[self.textContainer setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+	[self.textContainer setWidthTracksTextView:NO];
+	[self setHorizontallyResizable:YES];
 }
 
 -(void)print:(id)sender

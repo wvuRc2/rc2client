@@ -97,9 +97,11 @@
 		[croot addSubview:self.outputController.view];
 		self.outputController.view.frame = croot.bounds;
 		self.outputController.delegate = (id)self;
-		self.busy = YES;
-		self.statusMessage = @"Connecting to server…";
-		[self prepareForSession];
+		if (!self.session.socketOpen) {
+			self.busy = YES;
+			self.statusMessage = @"Connecting to server…";
+			[self prepareForSession];
+		}
 		self.addMenu = [[NSMenu alloc] initWithTitle:@""];
 		//read this instead of hard-coding a value that chould change in the nib
 		__fileListWidth = self.contentSplitView.frame.origin.x;
@@ -259,12 +261,6 @@
 			return;
 		[self handleFileImport:[[openPanel URLs] firstObject]];
 	}];
-}
-
--(IBAction)makeBusy:(id)sender
-{
-	self.busy = ! self.busy;
-	self.statusMessage = @"hoo boy";
 }
 
 -(IBAction)createNewFile:(id)sender
@@ -532,6 +528,9 @@
 			NSString *helpPath = [dict objectForKey:@"helpPath"];
 			NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://rc2.stat.wvu.edu/Rdocs/%@.html", helpPath]];
 			[self.outputController.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:helpUrl]];
+			js = [NSString stringWithFormat:@"iR.appendHelpCommand('%@', '%@')", 
+				  [self escapeForJS:[dict objectForKey:@"helpTopic"]],
+				  [self escapeForJS:helpUrl.absoluteString]];
 		} else if ([dict objectForKey:@"complexResults"]) {
 			js = [NSString stringWithFormat:@"iR.appendComplexResults(%@)",
 				  [self escapeForJS:[dict objectForKey:@"json"]]];
@@ -650,6 +649,7 @@
 	printView.jobName = job;
 	NSPrintOperation *printOp = [NSPrintOperation printOperationWithView:printView];
 	printOp.jobTitle = job;
+	[printOp.printInfo setVerticalPagination:NSAutoPagination];
 	[printOp runOperation];
 }
 
