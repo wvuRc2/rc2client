@@ -30,6 +30,7 @@
 		0838B38E141E90C2003264A8 /* MacMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B38D141E90C2003264A8 /* MacMainWindowController.m */; };
 		0838B390141E90E0003264A8 /* MacMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0838B38F141E90E0003264A8 /* MacMainWindow.xib */; };
 		08447F6B1415B54F00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */; };
+		08566749149FCC3600BD85E5 /* RCMTextPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08566748149FCC3600BD85E5 /* RCMTextPrintView.m */; };
 		0861760A14994EAB00450EE9 /* syncArrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 0861760914994EAB00450EE9 /* syncArrows.png */; };
 		086176111499531700450EE9 /* RCMSessionFileCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 086176101499531700450EE9 /* RCMSessionFileCellView.m */; };
 		08617613149955CF00450EE9 /* syncArrowsSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 08617612149955CF00450EE9 /* syncArrowsSelected.png */; };
@@ -182,6 +183,8 @@
 		0838B38D141E90C2003264A8 /* MacMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacMainWindowController.m; sourceTree = "<group>"; };
 		0838B38F141E90E0003264A8 /* MacMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacMainWindow.xib; sourceTree = "<group>"; };
 		08447F6A1415B54F00A8DDF8 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
+		08566747149FCC3600BD85E5 /* RCMTextPrintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMTextPrintView.h; sourceTree = "<group>"; };
+		08566748149FCC3600BD85E5 /* RCMTextPrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMTextPrintView.m; sourceTree = "<group>"; };
 		0861760914994EAB00450EE9 /* syncArrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrows.png; path = resources/syncArrows.png; sourceTree = SOURCE_ROOT; };
 		0861760F1499531700450EE9 /* RCMSessionFileCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMSessionFileCellView.h; sourceTree = "<group>"; };
 		086176101499531700450EE9 /* RCMSessionFileCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMSessionFileCellView.m; sourceTree = "<group>"; };
@@ -447,6 +450,8 @@
 				086176101499531700450EE9 /* RCMSessionFileCellView.m */,
 				08617614149BC5E600450EE9 /* RCMConsoleTextField.h */,
 				08617615149BC5E600450EE9 /* RCMConsoleTextField.m */,
+				08566747149FCC3600BD85E5 /* RCMTextPrintView.h */,
+				08566748149FCC3600BD85E5 /* RCMTextPrintView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -906,6 +911,7 @@
 				08617616149BC5E600450EE9 /* RCMConsoleTextField.m in Sources */,
 				0861761C149BE19900450EE9 /* RCMMultiImageController.m in Sources */,
 				08617621149BE37A00450EE9 /* RCMImageDetailController.m in Sources */,
+				08566749149FCC3600BD85E5 /* RCMTextPrintView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

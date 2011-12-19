@@ -23,6 +23,16 @@
 	[self setFont:fnt];	
 }
 
+-(void)print:(id)sender
+{
+	id del = self.delegate;
+	if ([del respondsToSelector:@selector(handleTextViewPrint:)]) {
+		[del handleTextViewPrint:sender];
+		return;
+	}
+	[super print:sender];
+}
+
 -(void)setString:(NSString *)string
 {
 	if (nil == string)

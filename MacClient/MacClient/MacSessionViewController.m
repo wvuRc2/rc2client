@@ -11,6 +11,7 @@
 #import "RCMImageViewer.h"
 #import "RCMMultiImageController.h"
 #import "RCMPDFViewController.h"
+#import "RCMTextPrintView.h"
 #import "Rc2Server.h"
 #import "RCMacToolbarItem.h"
 #import "RCWorkspace.h"
@@ -637,6 +638,19 @@
 		}
 	}
 	return NO;
+}
+
+-(void)handleTextViewPrint:(id)sender
+{
+	NSString *job = @"Untitled";
+	if (self.selectedFile)
+		job = self.selectedFile.name;
+	RCMTextPrintView *printView = [[RCMTextPrintView alloc] init];
+	printView.textContent = self.editView.attributedString;
+	printView.jobName = job;
+	NSPrintOperation *printOp = [NSPrintOperation printOperationWithView:printView];
+	printOp.jobTitle = job;
+	[printOp runOperation];
 }
 
 #pragma mark - table view

@@ -8,6 +8,10 @@
 
 #import <AppKit/AppKit.h>
 
+@protocol RCMTextViewDelegate <NSTextViewDelegate>
+-(void)handleTextViewPrint:(id)sender;
+@end
+
 @interface RCMTextView : NSTextView
 
 @end
