@@ -18,11 +18,6 @@
 	return self;
 }
 
--(void)awakeFromNib
-{
-	NSLog(@"awake");
-}
-
 @synthesize imageView;
 @synthesize filePopUp;
 @synthesize availableImages;

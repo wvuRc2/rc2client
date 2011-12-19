@@ -45,7 +45,7 @@
 					<object class="NSPopUpButton" id="636079044">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">270</int>
-						<string key="NSFrame">{{0, 423}, {306, 26}}</string>
+						<string key="NSFrame">{{0, 423}, {406, 26}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="533762901"/>
@@ -135,7 +135,6 @@
 						<string key="NSFrameSize">{492, 413}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:2141</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSImageCell" key="NSCell" id="915817770">
