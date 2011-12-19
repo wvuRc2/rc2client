@@ -178,6 +178,12 @@
 
 -(IBAction)goBack:(id)sender
 {
+	if (!self.webView.canGoBack) {
+		//somehow our content got lost. we need to reload it
+		[self.webView setMaintainsBackForwardList:NO];
+		[self loadContent];
+		return;
+	}
 	[self.webView goBack:sender];
 }
 
@@ -310,6 +316,8 @@
 			self.lastContent=nil;
 		}
 	}
+	if (nil == self.webView.backForwardList)
+		[self.webView setMaintainsBackForwardList:YES];
 }
 
 - (void)webView:(WebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WebFrame *)frame

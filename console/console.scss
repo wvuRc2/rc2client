@@ -139,10 +139,13 @@ table.doubleOutput span.dl {
   background-color:#16c285
 }
 
-.helpText {
+.helpMsg {
   padding:2px;
-  background-color:#0ab652
+  color:#0ab652;
+  text-decoration: none !important;
 }
+
+.helpMsg a { text-decoration: none !important; }
 
 .inputText {
   padding:2px;

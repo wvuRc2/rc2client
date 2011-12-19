@@ -145,7 +145,7 @@ iR.echoInput = function(txt, username, userid) {
 
 iR.appendHelpCommand = function(topic, pageUrl) {
 	if (topic.length > 0) {
-		iR.appendConsoleText('<div class="helpMsg"><a href="' + pageUrl + '">' + topic + '</a></div>')
+		iR.appendConsoleText('<div class="helpMsg"><a href="' + pageUrl + '">HELP: ' + topic + '</a></div>')
 	}
 }
 
