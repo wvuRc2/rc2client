@@ -293,6 +293,7 @@
 		ivc.availableImages = self.imgCache.allValues;
 		AppDelegate *del = [TheApp delegate];
 		[del showViewController:ivc];
+		[ivc setDisplayedImages: self.currentImageGroup];
 	});
 }
 

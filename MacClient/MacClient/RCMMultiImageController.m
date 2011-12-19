@@ -50,7 +50,6 @@
 	self.view.wantsLayer = YES;
 	self.view.layer.borderColor = [NSColor redColor].cgColorRef;
 	self.view.layer.borderWidth = 1.0;
-	self.numberImagesVisible = 4;
 }
 
 -(void)viewDidMoveToWindow
@@ -73,7 +72,6 @@
 		[self.frame3 addSubview:self.imageView3.view];
 		self.imageView4.view.frame = self.frame4.bounds;
 		[self.frame4 addSubview:self.imageView4.view];
-		self.numberImagesVisible = 4;
 	}
 }
 
@@ -136,7 +134,9 @@
 	boxSize.height = boxSize.width;
 	NSRect f1 = NSMakeRect(centerX - boxSize.width - 10, centerY - (boxSize.height/2), boxSize.width, boxSize.width);
 	NSRect f2 = NSMakeRect(NSMaxX(f1) + 20, f1.origin.y, boxSize.width, boxSize.width);
-	[self resizeFrames:f1 frame2:f2 frame3:f1 frame4:f2];	
+	[self resizeFrames:f1 frame2:f2 frame3:f1 frame4:f2];
+	[self.frame3.animator setHidden:YES];
+	[self.frame4.animator setHidden:YES];
 }
 
 -(void)layout4up
@@ -152,6 +152,23 @@
 	NSRect f1 = NSMakeRect(startX, NSMaxY(f3) + 20, boxSize.width, boxSize.height);
 	NSRect f2 = NSMakeRect(f4.origin.x, f1.origin.y, boxSize.width, boxSize.height);
 	[self resizeFrames:f1 frame2:f2 frame3:f3 frame4:f4];
+}
+
+-(void)setDisplayedImages:(NSArray*)imgs
+{
+	NSInteger num = 1;
+	self.imageView1.selectedImage = [imgs objectAtIndex:0]; //always have at least 1
+	if (imgs.count > 1) {
+		num = 2;
+		self.imageView2.selectedImage = [imgs objectAtIndex:1];
+		if (imgs.count > 2) {
+			num = 4;
+			self.imageView3.selectedImage = [imgs objectAtIndex:2];
+			if (imgs.count > 3)
+				self.imageView4.selectedImage = [imgs objectAtIndex:3];
+		}
+	}
+	self.numberImagesVisible = num;
 }
 
 -(void)setAvailableImages:(NSArray *)imgs
@@ -172,6 +189,12 @@
 {
 	_numberImagesVisible = num;
 	[NSAnimationContext beginGrouping];
+	//not sure why, but when displaying 2up sometimes the second is hidden. this hack fixes that problem.
+	[[NSAnimationContext currentContext] setCompletionHandler:^{
+		[self.frame2 setHidden:_numberImagesVisible < 2];
+		[self.frame3 setHidden:_numberImagesVisible < 4];
+		[self.frame4 setHidden:_numberImagesVisible < 4];
+	}];
 	[self layoutSubviews];
 	[self.frame2.animator setHidden:num < 2];
 	[self.frame3.animator setHidden:num < 4];
