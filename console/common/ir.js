@@ -143,6 +143,12 @@ iR.echoInput = function(txt, username, userid) {
 	iR.appendConsoleText(html)
 }
 
+iR.appendHelpCommand = function(topic, pageUrl) {
+	if (topic.length > 0) {
+		iR.appendConsoleText('<div class="helpMsg"><a href="' + pageUrl + '">' + topic + '</a></div>')
+	}
+}
+
 iR.displayError = function(msg) {
 	var html = '<div class="sessionMsg"><span class="serverError">' + msg + '</span></div>'
 	iR.appendConsoleText(html)

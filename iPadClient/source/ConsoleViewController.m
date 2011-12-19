@@ -15,6 +15,7 @@
 @interface ConsoleViewController() {
 	BOOL _didSetGraphUrl;
 }
+@property (nonatomic, strong) NSString *lastPageContent;
 @end
 
 @implementation ConsoleViewController
@@ -23,6 +24,8 @@
 @synthesize toolbar;
 @synthesize textField;
 @synthesize executeButton;
+@synthesize backButton;
+@synthesize lastPageContent;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -72,17 +75,21 @@
 	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
 }
 
-
--(void)restoreSessionState:(RCSavedSession*)savedState
+-(void)insertSavedContent:(NSString*)contentHtml
 {
 	NSURL *url = [[NSBundle mainBundle] URLForResource:@"console" withExtension:@"html" subdirectory:@"console"];
-	if ([savedState.consoleHtml length] > 0) {
+	if ([contentHtml length] > 0) {
 		NSString *content = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-		content = [content stringByReplacingOccurrencesOfString:@"<!--content-->" withString:savedState.consoleHtml];
+		content = [content stringByReplacingOccurrencesOfString:@"<!--content-->" withString:contentHtml];
 		[self.webView loadHTMLString:content baseURL:[url URLByDeletingLastPathComponent]];
 	} else {
 		[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 	}
+}
+
+-(void)restoreSessionState:(RCSavedSession*)savedState
+{
+	[self insertSavedContent:savedState.consoleHtml];
 }
 
 #pragma mark - actions
@@ -117,6 +124,16 @@
 -(IBAction)doClear:(id)sender
 {
 	[self.webView stringByEvaluatingJavaScriptFromString:@"iR.clearConsole()"];
+}
+
+-(IBAction)doBack:(id)sender
+{
+	if (self.webView.canGoBack)
+		[self.webView goBack];
+	else if (self.lastPageContent) {
+		[self insertSavedContent:self.lastPageContent];
+		self.lastPageContent=nil;
+	}
 }
 
 -(NSString*)themedStyleSheet
@@ -171,6 +188,7 @@
 		NSString *ss = [self themedStyleSheet];
 		[self.webView stringByEvaluatingJavaScriptFromString:ss];
 	}
+	self.backButton.enabled = [self.webView.request.URL.scheme hasPrefix:@"http"];
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request 
@@ -187,6 +205,9 @@
 			path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
 		}
 		[self.session.delegate displayImage:path];
+	} else if ([[[request URL] absoluteString] hasPrefix:@"http://rc2.stat.wvu.edu/"]) {
+		self.lastPageContent = [self.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];
+		return YES;
 	}
 	return NO;
 }
