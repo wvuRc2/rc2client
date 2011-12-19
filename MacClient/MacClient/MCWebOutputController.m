@@ -322,7 +322,7 @@
 
 - (void)webView:(WebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
 {
-	NSLog(@"Error loading web request:%@", error);
+	Rc2LogWarn(@"Error loading web request:%@", error);
 }
 
 -(void)webView:(WebView *)sender willCloseFrame:(WebFrame *)frame

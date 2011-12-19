@@ -78,6 +78,9 @@
 		return YES;
 	} else if (action == @selector(importFile:)) {
 		return YES;
+	} else if (action == @selector(exportFile:)) {
+		id wcv = [self.sectionsTableView viewAtColumn:0 row:0 makeIfNecessary:NO];
+		return [wcv selectedObject] != nil;
 	}
 	return NO;
 }
@@ -86,6 +89,28 @@
 
 -(IBAction)doRefreshFileList:(id)sender
 {
+}
+
+-(IBAction)exportFile:(id)sender
+{
+	id wcv = [self.sectionsTableView viewAtColumn:0 row:0 makeIfNecessary:NO];
+	RCFile *file = [wcv selectedObject];
+	NSSavePanel *savePanel = [NSSavePanel savePanel];
+	[savePanel setNameFieldStringValue:file.name];
+	[savePanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
+		NSError *err=nil;
+		if (file.isTextFile) {
+			[file.currentContents writeToURL:savePanel.URL atomically:YES encoding:NSUTF8StringEncoding error:&err];
+		} else {
+			[[NSFileManager defaultManager] copyItemAtURL:[NSURL fileURLWithPath:file.fileContentsPath] 
+													toURL:savePanel.URL 
+													error:&err];
+		}
+		if (err) {
+			//FIXME: report error to user
+			Rc2LogWarn(@"error exporting file:%@", err);
+		}
+	}];
 }
 
 -(IBAction)importFile:(id)sender

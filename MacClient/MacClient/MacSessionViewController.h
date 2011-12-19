@@ -24,6 +24,7 @@
 -(IBAction)toggleFileList:(id)sender;
 -(IBAction)executeScript:(id)sender;
 -(IBAction)importFile:(id)sender;
+-(IBAction)exportFile:(id)sender;
 -(IBAction)createNewFile:(id)sender;
 -(IBAction)saveFileEdits:(id)sender;
 -(void)saveChanges;

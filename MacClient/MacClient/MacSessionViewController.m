@@ -198,6 +198,8 @@
 			[(NSMenuItem*)item setTitle:self.fileListVisible ? @"Hide File List" : @"Show File List"];
 		}
 		return YES;
+	} else if (action == @selector(exportFile:)) {
+		return self.selectedFile != nil;
 	} else if (action == @selector(importFile:) || action == @selector(createNewFile:)) {
 		return self.session.hasWritePerm;
 	} else if (action == @selector(saveFileEdits:)) {
@@ -250,6 +252,26 @@
 	} else {
 		[self.session executeScript:self.editView.string];
 	}
+}
+
+-(IBAction)exportFile:(id)sender
+{
+	NSSavePanel *savePanel = [NSSavePanel savePanel];
+	[savePanel setNameFieldStringValue:self.selectedFile.name];
+	[savePanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
+		NSError *err=nil;
+		if (self.selectedFile.isTextFile) {
+			[self.selectedFile.currentContents writeToURL:savePanel.URL atomically:YES encoding:NSUTF8StringEncoding error:&err];
+		} else {
+			[[NSFileManager defaultManager] copyItemAtURL:[NSURL fileURLWithPath:self.selectedFile.fileContentsPath] 
+													toURL:savePanel.URL 
+													error:&err];
+		}
+		if (err) {
+			//FIXME: report error to user
+			Rc2LogWarn(@"error exporting file:%@", err);
+		}
+	}];
 }
 
 -(IBAction)importFile:(id)sender

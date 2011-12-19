@@ -20,5 +20,7 @@
 
 -(id)initWithWorkspace:(RCWorkspace*)aWorkspace;
 -(IBAction)doRefreshFileList:(id)sender;
+-(IBAction)exportFile:(id)sender;
+-(IBAction)importFile:(id)sender;
 
 @end
