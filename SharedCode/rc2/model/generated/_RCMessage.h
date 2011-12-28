@@ -1,33 +1,9 @@
-//
-//  _RCMessage.h
-//
-//  Created by Mark Lilback
-//  Copyright (c) 2011 . All rights reserved.
-//
-
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to RCMessage.h instead.
 
 #import <CoreData/CoreData.h>
 
 
-extern const struct RCMessageAttributes {
-	__unsafe_unretained NSString *body;
-	__unsafe_unretained NSString *dateRead;
-	__unsafe_unretained NSString *dateSent;
-	__unsafe_unretained NSString *messageId;
-	__unsafe_unretained NSString *priority;
-	__unsafe_unretained NSString *rcptmsgId;
-	__unsafe_unretained NSString *sender;
-	__unsafe_unretained NSString *subject;
-	__unsafe_unretained NSString *version;
-} RCMessageAttributes;
-
-extern const struct RCMessageRelationships {
-} RCMessageRelationships;
-
-extern const struct RCMessageFetchedProperties {
-} RCMessageFetchedProperties;
 
 
 
@@ -50,10 +26,12 @@ extern const struct RCMessageFetchedProperties {
 
 
 
+
 @property (nonatomic, strong) NSString *body;
 
 
 //- (BOOL)validateBody:(id*)value_ error:(NSError**)error_;
+
 
 
 
@@ -64,10 +42,12 @@ extern const struct RCMessageFetchedProperties {
 
 
 
+
 @property (nonatomic, strong) NSDate *dateSent;
 
 
 //- (BOOL)validateDateSent:(id*)value_ error:(NSError**)error_;
+
 
 
 
@@ -82,6 +62,7 @@ extern const struct RCMessageFetchedProperties {
 
 
 
+
 @property (nonatomic, strong) NSNumber *priority;
 
 
@@ -90,6 +71,7 @@ extern const struct RCMessageFetchedProperties {
 - (void)setPriorityValue:(short)value_;
 
 //- (BOOL)validatePriority:(id*)value_ error:(NSError**)error_;
+
 
 
 
@@ -104,6 +86,7 @@ extern const struct RCMessageFetchedProperties {
 
 
 
+
 @property (nonatomic, strong) NSString *sender;
 
 
@@ -111,10 +94,12 @@ extern const struct RCMessageFetchedProperties {
 
 
 
+
 @property (nonatomic, strong) NSString *subject;
 
 
 //- (BOOL)validateSubject:(id*)value_ error:(NSError**)error_;
+
 
 
 

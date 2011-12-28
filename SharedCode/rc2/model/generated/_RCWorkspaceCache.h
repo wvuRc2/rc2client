@@ -1,26 +1,9 @@
-//
-//  _RCWorkspaceCache.h
-//
-//  Created by Mark Lilback
-//  Copyright (c) 2011 . All rights reserved.
-//
-
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to RCWorkspaceCache.h instead.
 
 #import <CoreData/CoreData.h>
 
 
-extern const struct RCWorkspaceCacheAttributes {
-	__unsafe_unretained NSString *localAttributes;
-	__unsafe_unretained NSString *wspaceId;
-} RCWorkspaceCacheAttributes;
-
-extern const struct RCWorkspaceCacheRelationships {
-} RCWorkspaceCacheRelationships;
-
-extern const struct RCWorkspaceCacheFetchedProperties {
-} RCWorkspaceCacheFetchedProperties;
 
 
 
@@ -36,10 +19,12 @@ extern const struct RCWorkspaceCacheFetchedProperties {
 
 
 
+
 @property (nonatomic, strong) NSData *localAttributes;
 
 
 //- (BOOL)validateLocalAttributes:(id*)value_ error:(NSError**)error_;
+
 
 
 

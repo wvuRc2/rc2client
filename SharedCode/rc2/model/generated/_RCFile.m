@@ -1,33 +1,7 @@
-//
-//  _RCFile.m
-//
-//  Created by Mark Lilback
-//  Copyright (c) 2011 . All rights reserved.
-//
-
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to RCFile.m instead.
 
 #import "_RCFile.h"
-
-const struct RCFileAttributes RCFileAttributes = {
-	.fileContents = @"fileContents",
-	.fileId = @"fileId",
-	.lastModified = @"lastModified",
-	.localAttributes = @"localAttributes",
-	.localEdits = @"localEdits",
-	.localLastModified = @"localLastModified",
-	.name = @"name",
-	.sizeString = @"sizeString",
-	.wspaceId = @"wspaceId",
-};
-
-const struct RCFileRelationships RCFileRelationships = {
-	.savedSessionsRefererencedBy = @"savedSessionsRefererencedBy",
-};
-
-const struct RCFileFetchedProperties RCFileFetchedProperties = {
-};
 
 @implementation RCFileID
 @end
@@ -176,9 +150,7 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 	
 - (NSMutableSet*)savedSessionsRefererencedBySet {
 	[self willAccessValueForKey:@"savedSessionsRefererencedBy"];
-  
 	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"savedSessionsRefererencedBy"];
-  
 	[self didAccessValueForKey:@"savedSessionsRefererencedBy"];
 	return result;
 }

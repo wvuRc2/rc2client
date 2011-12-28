@@ -1,29 +1,7 @@
-//
-//  _RCSavedSession.m
-//
-//  Created by Mark Lilback
-//  Copyright (c) 2011 . All rights reserved.
-//
-
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to RCSavedSession.m instead.
 
 #import "_RCSavedSession.h"
-
-const struct RCSavedSessionAttributes RCSavedSessionAttributes = {
-	.cmdHistoryData = @"cmdHistoryData",
-	.consoleHtml = @"consoleHtml",
-	.inputText = @"inputText",
-	.login = @"login",
-	.wspaceId = @"wspaceId",
-};
-
-const struct RCSavedSessionRelationships RCSavedSessionRelationships = {
-	.currentFile = @"currentFile",
-};
-
-const struct RCSavedSessionFetchedProperties RCSavedSessionFetchedProperties = {
-};
 
 @implementation RCSavedSessionID
 @end

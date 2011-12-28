@@ -40,6 +40,7 @@
 	if (lastLogin) {
 		self.useridField.text = lastLogin;
 		[self loadPasswordForLogin:lastLogin];
+		[self.useridField becomeFirstResponder];
 	}
 	self.hostControl.selectedSegmentIndex = [[Rc2Server sharedInstance] serverHost];
 	[(IPadButton*)self.loginButton setIsLightStyle:YES];
@@ -74,15 +75,16 @@
 	__weak LoginController *blockSelf = self;
 	[[Rc2Server sharedInstance] loginAsUser:self.useridField.text 
 								   password:self.passwordField.text 
-						  completionHandler:^(BOOL success, NSString *message) {
-							  [blockSelf.busyWheel stopAnimating];
-							  if (success) {
-								  blockSelf.loginCompleteHandler();
-								  [blockSelf saveLoginInfo];
-							  } else {
-								  [blockSelf reportError:message];
-							  }
-						  }];
+						  completionHandler:^(BOOL success, NSString *message)
+	{
+		[blockSelf.busyWheel stopAnimating];
+		if (success) {
+			blockSelf.loginCompleteHandler();
+			[blockSelf saveLoginInfo];
+		} else {
+			[blockSelf reportError:message];
+		}
+	}];
 }
 
 #pragma mark - text delegate

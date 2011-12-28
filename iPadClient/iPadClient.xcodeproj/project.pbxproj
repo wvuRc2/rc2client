@@ -366,6 +366,7 @@
 		088A76FA140C3468003D6A3F /* revert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = revert.png; path = resources/revert.png; sourceTree = SOURCE_ROOT; };
 		088A76FC140C373D003D6A3F /* buttonLightPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonLightPressed.png; path = resources/buttonLightPressed.png; sourceTree = SOURCE_ROOT; };
 		088A7700140C3833003D6A3F /* buttonLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonLight.png; path = resources/buttonLight.png; sourceTree = SOURCE_ROOT; };
+		088AC24314ABA1210094D134 /* Rc².entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Rc².entitlements"; sourceTree = "<group>"; };
 		089C0B121458E51800DF9984 /* RCWorkspaceShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceShare.h; sourceTree = "<group>"; };
 		089C0B131458E51800DF9984 /* RCWorkspaceShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceShare.m; sourceTree = "<group>"; };
 		08A6FF4C142F8BA300E8AB4B /* RC2RemoteLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RC2RemoteLogger.h; path = ../SharedCode/rc2/RC2RemoteLogger.h; sourceTree = SOURCE_ROOT; };
@@ -553,6 +554,7 @@
 		082DC01E13EC99E4008EAA99 = {
 			isa = PBXGroup;
 			children = (
+				088AC24314ABA1210094D134 /* Rc².entitlements */,
 				082D9D531408FF6E008F3CB0 /* notes.markdown */,
 				08447F661415B53B00A8DDF8 /* Rc2.xcdatamodeld */,
 				082DC03313EC99E5008EAA99 /* source */,
@@ -1395,6 +1397,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1423,6 +1426,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
 				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1467,6 +1471,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
 				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
