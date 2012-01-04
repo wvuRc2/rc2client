@@ -261,8 +261,23 @@
 	mfi.workspace = self.workspace;
 	mfi.replaceExisting = replace;
 	mfi.fileUrls = files;
-	//TODO: need to show that we are busy and then have a completion block to show that we are no longer busy
+	AMProgressWindowController *pwc = [[AMProgressWindowController alloc] init];
+	pwc.progressMessage = @"Importing files…";
+	pwc.indeterminate = NO;
+	pwc.percentComplete = 0;
+	__weak MultiFileImporter *weakMfi = mfi;
+	NSString *perToken = [mfi addObserverForKeyPath:@"currentFileName" task:^(id obj, NSDictionary *change) {
+		pwc.progressMessage = [NSString stringWithFormat:@"Importing %@", [obj valueForKey:@"currentFileName"]];
+		pwc.percentComplete = (1.0 - (weakMfi.countOfFilesRemaining / (CGFloat)weakMfi.fileUrls.count)) * 100.0;
+	}];
+	[mfi setCompletionBlock:^{
+		[weakMfi removeObserverWithBlockToken:perToken];
+		[pwc.window orderOut:nil];
+	}];
 	[[NSOperationQueue mainQueue] addOperation:mfi];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[NSApp beginSheet:pwc.window modalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+	});
 }
 
 #pragma mark - table view

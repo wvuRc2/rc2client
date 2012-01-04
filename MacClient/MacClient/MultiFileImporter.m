@@ -48,6 +48,7 @@ enum {
 	}
 	self.currentFileName = destFileName;
 	//we need to synchronously upload the file using the name destfileName
+	[NSThread sleepForTimeInterval:2.0];
 }
 
 -(void)importNextFile
@@ -78,9 +79,11 @@ enum {
 	[self didChangeValueForKey:@"isExecuting"];
 	if (self.isCancelled)
 		[self markAsComplete];
-	else
-		[self importNextFile];
-	
+	else {
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+			[self importNextFile];
+		});
+	}
 }
 
 -(void)markAsComplete
