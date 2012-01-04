@@ -104,6 +104,8 @@
 {
 	[super didSave];
 	self.locallyModified = self.localEdits.length > 0;
+	if (self.fileContents)
+		[self.fileContents writeToFile:self.fileContentsPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
 
@@ -186,6 +188,16 @@
 		return @"";
 	if ([self.localEdits length] > 0)
 		return self.localEdits;
+	if (nil == self.fileContents) {
+		//we need to load our file contents. first, see if they exist on the file system
+		NSString *cacheContents = [NSString stringWithContentsOfFile:self.fileContentsPath encoding:NSUTF8StringEncoding error:nil];
+		if (nil == cacheContents) {
+			//load synchronously from server
+			cacheContents = [[Rc2Server sharedInstance] fetchFileContentsSynchronously:self];
+		}
+		self.fileContents = cacheContents;
+		return cacheContents;
+	}
 	return self.fileContents;
 }
 

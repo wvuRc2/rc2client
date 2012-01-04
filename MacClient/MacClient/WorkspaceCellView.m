@@ -8,6 +8,7 @@
 
 #import "WorkspaceCellView.h"
 #import "RCWorkspace.h"
+#import "RCFile.h"
 
 @interface WorkspaceCellView()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
@@ -27,6 +28,7 @@
 	self.layer.cornerRadius = 6.0;
 	self.detailTableView.target = self;
 	[self.detailTableView setDoubleAction:@selector(doubleClick:)];
+	[self.detailTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 }
 
 -(void)resizeSubviewsWithOldSize:(NSSize)oldSize
@@ -108,6 +110,20 @@
 	id oval = [self.contentArray objectAtIndexNoExceptions:[self.detailTableView selectedRow]];
 	self.detailItemSelected = oval != nil;
 	self.selectedObject = oval;
+}
+
+- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
+{
+	//only support dragging of files
+	if (![[self.objectValue objectForKey:@"childAttr"] isEqualToString:@"files"])
+		return NO;
+	NSArray *objs = [self.contentArray objectsAtIndexes:rowIndexes];
+	NSMutableArray *pitems = [NSMutableArray arrayWithCapacity:objs.count];
+	for (RCFile *file in objs) {
+		[pitems addObject:[NSURL fileURLWithPath:file.fileContentsPath]];
+	}
+	[pboard writeObjects:pitems];
+	return YES;
 }
 
 #pragma mark - accessors

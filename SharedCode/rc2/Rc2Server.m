@@ -373,6 +373,19 @@
 	[self.requestQueue addOperation:req];
 }
 
+-(NSString*)fetchFileContentsSynchronously:(RCFile*)file
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
+									   file.fileId]];
+	ASIHTTPRequest *theReq = [self requestWithURL:url];
+	[theReq startSynchronous];
+	if (theReq.error) {
+		Rc2LogWarn(@"error fetching file synchronously:%@", theReq.error);
+		return nil;
+	}
+	return theReq.responseString;
+}
+
 -(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	ZAssert(file.isTextFile, @"can only fetch contents of a text file");
