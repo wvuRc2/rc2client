@@ -132,6 +132,15 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 	return nil;
 }
 
+-(RCFile*)fileWithName:(NSString*)fileName
+{
+	for (RCFile *aFile in self.files) {
+		if ([fileName isEqualToString:aFile.name])
+			return aFile;
+	}
+	return nil;
+}
+
 -(void)addFile:(RCFile *)aFile
 {
 	if ([_files containsObject:aFile])

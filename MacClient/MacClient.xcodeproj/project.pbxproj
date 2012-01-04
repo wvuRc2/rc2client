@@ -22,6 +22,7 @@
 		08056E3A1448C6960002766D /* MacMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08056E381448C6950002766D /* MacMainViewController.xib */; };
 		08056E3C1448D59C0002766D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08056E3B1448D59B0002766D /* QuartzCore.framework */; };
 		08056E5C1448EC410002766D /* RCMacToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056E5B1448EC410002766D /* RCMacToolbarItem.m */; };
+		0809BF2514B50086009CEC57 /* MultiFileImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF2414B50086009CEC57 /* MultiFileImporter.m */; };
 		082945391496AA7700E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945381496AA7700E593C7 /* _RCWorkspaceCache.m */; };
 		0829453C1496AA8300E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453B1496AA8300E593C7 /* RCWorkspaceCache.m */; };
 		0829456114993CF600E593C7 /* MCNewFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829456014993CF600E593C7 /* MCNewFileController.m */; };
@@ -168,6 +169,8 @@
 		08056E3B1448D59B0002766D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		08056E5A1448EC410002766D /* RCMacToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMacToolbarItem.h; sourceTree = "<group>"; };
 		08056E5B1448EC410002766D /* RCMacToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMacToolbarItem.m; sourceTree = "<group>"; };
+		0809BF2314B50086009CEC57 /* MultiFileImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiFileImporter.h; sourceTree = "<group>"; };
+		0809BF2414B50086009CEC57 /* MultiFileImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFileImporter.m; sourceTree = "<group>"; };
 		082945371496AA7700E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCWorkspaceCache.h; sourceTree = "<group>"; };
 		082945381496AA7700E593C7 /* _RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCWorkspaceCache.m; sourceTree = "<group>"; };
 		0829453A1496AA8300E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
@@ -375,6 +378,8 @@
 				08EE40EA1433AC2C004FDBB8 /* RC2RemoteLogger.m */,
 				088EABA0145C6F7E0033C249 /* PasswordVerifier.h */,
 				088EABA1145C6F7E0033C249 /* PasswordVerifier.m */,
+				0809BF2314B50086009CEC57 /* MultiFileImporter.h */,
+				0809BF2414B50086009CEC57 /* MultiFileImporter.m */,
 			);
 			name = utility;
 			sourceTree = "<group>";
@@ -912,6 +917,7 @@
 				0861761C149BE19900450EE9 /* RCMMultiImageController.m in Sources */,
 				08617621149BE37A00450EE9 /* RCMImageDetailController.m in Sources */,
 				08566749149FCC3600BD85E5 /* RCMTextPrintView.m in Sources */,
+				0809BF2514B50086009CEC57 /* MultiFileImporter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

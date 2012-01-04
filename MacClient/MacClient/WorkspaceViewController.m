@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 #import "Rc2Server.h"
 #import "RCFile.h"
+#import "MultiFileImporter.h"
 #import "RCMAppConstants.h"
 
 @interface WorkspaceViewController()
@@ -254,6 +255,16 @@
 	[self.workspace.cache setBoolProperty:expanded forKey:cacheKey];
 }
 
+-(void)workspaceCell:(WorkspaceCellView *)cellView handleDroppedFiles:(NSArray*)files replaceExisting:(BOOL)replace
+{
+	MultiFileImporter *mfi = [[MultiFileImporter alloc] init];
+	mfi.workspace = self.workspace;
+	mfi.replaceExisting = replace;
+	mfi.fileUrls = files;
+	//TODO: need to show that we are busy and then have a completion block to show that we are no longer busy
+	[[NSOperationQueue mainQueue] addOperation:mfi];
+}
+
 #pragma mark - table view
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -267,6 +278,7 @@
 	view.parentTableView = tableView;
 	view.objectValue = [self.sections objectAtIndex:row];
 	view.expanded = [[view.objectValue valueForKey:@"expanded"] boolValue];
+	view.acceptsFileDragAndDrop = [[view.objectValue valueForKey:@"childAttr"] isEqualToString:@"files"];
 	view.workspace = self.workspace;
 	view.cellDelegate = self;
 	dispatch_async(dispatch_get_main_queue(), ^{

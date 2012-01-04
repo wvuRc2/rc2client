@@ -52,6 +52,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	[[VyanaLogger sharedInstance] startLogging];
+	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
+
 	__firstLogin=YES;
 	self.windowControllers = [NSMutableSet set];
 	[self presentLoginPanel];

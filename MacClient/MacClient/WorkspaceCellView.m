@@ -9,6 +9,7 @@
 #import "WorkspaceCellView.h"
 #import "RCWorkspace.h"
 #import "RCFile.h"
+#import "Rc2Server.h"
 
 @interface WorkspaceCellView()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
@@ -19,6 +20,7 @@
 @synthesize expanded=__expanded;
 @synthesize parentTableView=__parentTableView;
 @synthesize workspace=__workspace;
+@synthesize acceptsFileDragAndDrop=__acceptsFileDragAndDrop;
 @synthesize selectedObject;
 
 -(void)awakeFromNib
@@ -28,7 +30,6 @@
 	self.layer.cornerRadius = 6.0;
 	self.detailTableView.target = self;
 	[self.detailTableView setDoubleAction:@selector(doubleClick:)];
-	[self.detailTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 }
 
 -(void)resizeSubviewsWithOldSize:(NSSize)oldSize
@@ -80,6 +81,8 @@
 	[self.detailTableView reloadData];
 }
 
+#pragma mark - files
+
 #pragma mark - detail table
 
 -(NSMutableArray*)contentArray
@@ -115,7 +118,7 @@
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
 	//only support dragging of files
-	if (![[self.objectValue objectForKey:@"childAttr"] isEqualToString:@"files"])
+	if (!self.acceptsFileDragAndDrop)
 		return NO;
 	NSArray *objs = [self.contentArray objectsAtIndexes:rowIndexes];
 	NSMutableArray *pitems = [NSMutableArray arrayWithCapacity:objs.count];
@@ -123,6 +126,61 @@
 		[pitems addObject:[NSURL fileURLWithPath:file.fileContentsPath]];
 	}
 	[pboard writeObjects:pitems];
+	return YES;
+}
+
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation
+{
+	if (!self.acceptsFileDragAndDrop)
+		return NSDragOperationNone;
+	static NSDictionary *readOptions=nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		readOptions = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSPasteboardURLReadingFileURLsOnlyKey,
+					   ARRAY((id)kUTTypePlainText,(id)kUTTypePDF), NSPasteboardURLReadingContentsConformToTypesKey,
+					   nil];
+	});
+	NSArray *urls = [[info draggingPasteboard] readObjectsForClasses:ARRAY([NSURL class]) options:readOptions];
+	if ([urls count] > 0) {
+		NSArray *ftypes = [Rc2Server acceptableImportFileSuffixes];
+		for (NSURL *url in urls) {
+			if (![ftypes containsObject:[url pathExtension]])
+				return NSDragOperationNone;
+		}
+		return NSDragOperationCopy;
+	}
+	return NSDragOperationNone;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation
+{
+	//our validate method already confirmed they are acceptable file types
+	NSArray *urls = [[info draggingPasteboard] readObjectsForClasses:ARRAY([NSURL class]) options:nil];
+	//look for duplicate names
+	NSArray *existingNames = [self.contentArray valueForKey:@"name"];
+	BOOL promptForAction=NO;
+	for (NSURL *url in urls) {
+		if ([existingNames containsObject:url.lastPathComponent])
+			promptForAction = YES;
+	}
+	if (promptForAction) {
+		//need to prompt them to replace or use unique names
+		NSAlert *alert = [[NSAlert alloc] init];
+		alert.messageText = @"Replace existing files?";
+		alert.informativeText = @"One or more files already exist with the same name as the dropped file(s).";
+		[alert addButtonWithTitle:@"Replace"];
+		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
+		NSButton *uniqButton = [alert addButtonWithTitle:@"Create Unique Names"];
+		[uniqButton setKeyEquivalent:@"u"];
+		[uniqButton setKeyEquivalentModifierMask:NSCommandKeyMask];
+		[alert beginSheetModalForWindow:tableView.window completionHandler:^(NSAlert *theAlert, NSInteger btxIdx) {
+			if (NSAlertSecondButtonReturn != btxIdx) {
+				[self.cellDelegate workspaceCell:self handleDroppedFiles:urls replaceExisting:btxIdx == NSAlertFirstButtonReturn];
+			}
+		}];
+	} else {
+		[self.cellDelegate workspaceCell:self handleDroppedFiles:urls replaceExisting:YES];
+	}
 	return YES;
 }
 
@@ -158,6 +216,16 @@
 	{
 		[self.detailTableView reloadData];
 	}]];
+}
+
+-(void)setAcceptsFileDragAndDrop:(BOOL)accept
+{
+	__acceptsFileDragAndDrop = accept;
+	if (accept) {
+		[self.detailTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+		[self.detailTableView setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleNone];
+		[self.detailTableView registerForDraggedTypes:ARRAY((id)kUTTypeFileURL)];
+	}
 }
 
 @synthesize detailTableView;
