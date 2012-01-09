@@ -8,14 +8,14 @@
 
 #import "Rc2Server.h"
 #import "ASIFormDataRequest.h"
-#import "NSObject+SBJSON.h"
-#import "NSString+SBJSON.h"
 #import "RCWorkspaceFolder.h"
 #import "RCWorkspace.h"
 #import "RCWorkspaceShare.h"
 #import "RCFile.h"
 #import "RC2RemoteLogger.h"
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+#import "NSObject+SBJSON.h"
+#import "NSString+SBJSON.h"
 #else
 #import "RCMessage.h"
 #endif

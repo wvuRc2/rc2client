@@ -19,7 +19,6 @@
 #import "RCFile.h"
 #import "ASIHTTPRequest.h"
 #import "MBProgressHUD.h"
-#import "DropboxSDK.h"
 #import "AppConstants.h"
 
 //hack for iOS 5.0 SDK bug
@@ -94,8 +93,9 @@
 		[self promptForLogin];
 	});
 
-	DBSession *session = [[DBSession alloc] initWithConsumerKey:@"663yb1illxbs5rl" 
-												  consumerSecret:@"on576o50uxrjxhj"];
+	DBSession *session = [[DBSession alloc] initWithAppKey:@"663yb1illxbs5rl" 
+												  appSecret:@"on576o50uxrjxhj"
+													  root:kDBRootDropbox];
 	[DBSession setSharedSession:session];
 #ifndef TARGET_IPHONE_SIMULATOR
 	[TestFlight takeOff:@"77af1fa93381361c61748e58fae9f4f9_Mjc0ODAyMDExLTA5LTE5IDE2OjUwOjU3LjYzOTg1Mw"];
@@ -107,6 +107,19 @@
 		[[NSFileManager defaultManager] createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil];
 	
 	return YES;
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+	if ([[DBSession sharedSession] handleOpenURL:url]) {
+		if ([[DBSession sharedSession] isLinked]) {
+			NSLog(@"dropbox linked");
+			if (self.dropboxCompletionBlock)
+				self.dropboxCompletionBlock();
+		}
+		return YES;
+	}
+	return NO;
 }
 
 - (void)application:(UIApplication *)application didChangeStatusBarOrientation:(UIInterfaceOrientation)oldStatusBarOrientation;
@@ -469,4 +482,5 @@
 }
 
 @synthesize myPsc;
+@synthesize dropboxCompletionBlock;
 @end

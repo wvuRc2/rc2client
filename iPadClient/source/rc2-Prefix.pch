@@ -16,6 +16,8 @@
 	#import <MessageUI/MessageUI.h>
 	#import "Vyana-ios/Vyana-ios.h"
 	#import "Vyana-ios/AMZeroingWeakRef.h"
+	#import <DropboxSDK/DropboxSDK.h>
+	#import <DropboxSDK/JSON.h>
 	#import "TestFlight.h"
 	#import "Vyana-ios/VyanaLog.h"
 #endif

@@ -15,7 +15,6 @@
 #import "RCSavedSession.h"
 #import "SessionFilesController.h"
 #import "MBProgressHUD.h"
-#import "DropboxSDK.h"
 #import "DropboxImportController.h"
 
 @interface EditorViewController() {
@@ -364,14 +363,20 @@
 
 -(IBAction)presentDropboxImport:(id)sender
 {
+	Rc2AppDelegate *del = [TheApp delegate];
 	if ([[DBSession sharedSession] isLinked]) {
+		del.dropboxCompletionBlock = nil;
 		[self doDropBoxImport];
 	} else {
-		DBLoginController* controller = [DBLoginController new];
-		controller.delegate = (id)self;
-		[controller presentFromController:self];
+		//we need to prompt the user to link to us. we need to let the app delegate know
+		//to call this object/action on a successful link
+		__weak EditorViewController *blockSelf = self;
+		del.dropboxCompletionBlock = ^{
+			if (blockSelf.view.window)
+				[blockSelf presentDropboxImport:blockSelf];
+		};
+		[[DBSession sharedSession] link];
 	}
-	
 }
 
 -(IBAction)doShowFiles:(id)sender
@@ -407,15 +412,6 @@
 }
 
 #pragma mark - delegate methods
-
-- (void)loginControllerDidLogin:(DBLoginController*)controller
-{
-	[self performSelector:@selector(doDropBoxImport) withObject:nil afterDelay:0.2];
-}
-
-- (void)loginControllerDidCancel:(DBLoginController*)controller
-{
-}
 
 -(void)dismissSessionsFilesController
 {

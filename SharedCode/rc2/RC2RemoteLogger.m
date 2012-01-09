@@ -8,7 +8,9 @@
 
 #import "RC2RemoteLogger.h"
 #import "ASIFormDataRequest.h"
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 #import "NSObject+SBJSON.h"
+#endif
 
 @interface RC2RemoteLogger() {
 	NSString *versionStr;
