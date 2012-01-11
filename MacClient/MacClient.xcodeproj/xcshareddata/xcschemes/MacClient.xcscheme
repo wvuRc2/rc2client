@@ -15,7 +15,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "08AD678213DB3A8200687B3D"
                BuildableName = "Vyana.framework"
-               BlueprintName = "Vyana Lion"
+               BlueprintName = "Vyana"
                ReferencedContainer = "container:../../../../../svn-agilemonks/trunk/Vyana/Vyana.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

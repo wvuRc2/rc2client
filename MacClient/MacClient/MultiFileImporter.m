@@ -47,7 +47,7 @@ enum {
 		}
 	}
 	self.currentFileName = destFileName;
-	//we need to synchronously upload the file using the name destfileName
+	//TODO: we need to synchronously upload the file using the name destfileName
 	[NSThread sleepForTimeInterval:2.0];
 }
 

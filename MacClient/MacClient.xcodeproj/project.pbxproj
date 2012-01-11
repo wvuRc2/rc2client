@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		08056DB6143F60780002766D /* Vyana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08056DB5143F60780002766D /* Vyana.framework */; };
 		08056DB7143F60880002766D /* Vyana.framework in Copy Fworks */ = {isa = PBXBuildFile; fileRef = 08056DB5143F60780002766D /* Vyana.framework */; };
-		08056DBD143F6F2D0002766D /* RCMSessionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056DBC143F6F2D0002766D /* RCMSessionWindowController.m */; };
-		08056DBF143F6F390002766D /* RCMSessionWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08056DBE143F6F390002766D /* RCMSessionWindowController.xib */; };
 		08056DDB143F9E760002766D /* MacClientAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056DDA143F9E760002766D /* MacClientAbstractViewController.m */; };
 		08056DEE1443787F0002766D /* MCWebOutputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056DEC1443787F0002766D /* MCWebOutputController.m */; };
 		08056DEF1443787F0002766D /* MCWebOutputController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08056DED1443787F0002766D /* MCWebOutputController.xib */; };
@@ -151,9 +149,6 @@
 
 /* Begin PBXFileReference section */
 		08056DB5143F60780002766D /* Vyana.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Vyana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		08056DBB143F6F2D0002766D /* RCMSessionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMSessionWindowController.h; sourceTree = "<group>"; };
-		08056DBC143F6F2D0002766D /* RCMSessionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMSessionWindowController.m; sourceTree = "<group>"; };
-		08056DBE143F6F390002766D /* RCMSessionWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMSessionWindowController.xib; sourceTree = "<group>"; };
 		08056DD9143F9E760002766D /* MacClientAbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacClientAbstractViewController.h; sourceTree = "<group>"; };
 		08056DDA143F9E760002766D /* MacClientAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacClientAbstractViewController.m; sourceTree = "<group>"; };
 		08056DEB1443787F0002766D /* MCWebOutputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWebOutputController.h; sourceTree = "<group>"; };
@@ -467,9 +462,6 @@
 				0838B38C141E90C2003264A8 /* MacMainWindowController.h */,
 				0838B38D141E90C2003264A8 /* MacMainWindowController.m */,
 				0838B38F141E90E0003264A8 /* MacMainWindow.xib */,
-				08056DBB143F6F2D0002766D /* RCMSessionWindowController.h */,
-				08056DBC143F6F2D0002766D /* RCMSessionWindowController.m */,
-				08056DBE143F6F390002766D /* RCMSessionWindowController.xib */,
 			);
 			name = windows;
 			sourceTree = "<group>";
@@ -787,7 +779,6 @@
 				08EE414614364F81004FDBB8 /* WorkspaceViewController.xib in Resources */,
 				08EE4148143673E9004FDBB8 /* DefaultDefaults.plist in Resources */,
 				088DF165143CDB1F00CF4844 /* MacSessionViewController.xib in Resources */,
-				08056DBF143F6F390002766D /* RCMSessionWindowController.xib in Resources */,
 				08056DEF1443787F0002766D /* MCWebOutputController.xib in Resources */,
 				08056DF21443866E0002766D /* console in Resources */,
 				08056DF41444D2970002766D /* RnW.icns in Resources */,
@@ -890,7 +881,6 @@
 				08EE413914364CAF004FDBB8 /* WebSocketFragment.m in Sources */,
 				08EE413A14364CAF004FDBB8 /* WebSocketMessage.m in Sources */,
 				088DF164143CDB1F00CF4844 /* MacSessionViewController.m in Sources */,
-				08056DBD143F6F2D0002766D /* RCMSessionWindowController.m in Sources */,
 				08056DDB143F9E760002766D /* MacClientAbstractViewController.m in Sources */,
 				08056DEE1443787F0002766D /* MCWebOutputController.m in Sources */,
 				08056E391448C6960002766D /* MacMainViewController.m in Sources */,

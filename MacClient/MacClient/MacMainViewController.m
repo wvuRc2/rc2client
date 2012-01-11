@@ -17,9 +17,11 @@
 #import "RCMacToolbarItem.h"
 
 #define kControllerClass @"controllerClass"
+#define kLastSelectedPathKey @"MainViewLastSelectedSrcItem"
 
 @interface MacMainViewController() {
 	BOOL __didInit;
+	BOOL __observingWindowClose;
 	BOOL __setupAddMenu;
 }
 @property (strong )NSArray *rootItems;
@@ -29,6 +31,7 @@
 @property (strong) NSMutableDictionary *wspaceControllers;
 -(void)openSession:(id)sender inNewWindow:(BOOL)inNewWindow;
 -(void)showSourceItem:(NSDictionary*)dict;
+-(void)windowAboutToClose:(NSNotification*)note;
 @end
 
 @implementation MacMainViewController
@@ -62,6 +65,9 @@
 			[blockRef.mainSourceList reloadData];
 		}]];
 		[self.mainSourceList reloadData]; 
+		//reload the last selected path
+		NSIndexPath *lastPath = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kLastSelectedPathKey];
+		[self.mainSourceList selectItemAtIndexPath:lastPath];
 		__didInit=YES;
 	}
 }
@@ -74,6 +80,18 @@
 		if (newSuperview)
 			[ti pushActionMenu:self.addMenu];
 		__setupAddMenu=YES;
+	}
+}
+
+-(void)viewDidMoveToWindow
+{
+	if (self.view.window && !__observingWindowClose) {
+		//we want to register for when the window closes so we can save state
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+												 selector:@selector(windowAboutToClose:) 
+													 name:NSWindowWillCloseNotification 
+												   object:self.view.window];
+		__observingWindowClose=YES;
 	}
 }
 
@@ -170,6 +188,13 @@
 	[mainwc openSession:selWspace inNewWindow:inNewWindow];
 }
 
+-(void)windowAboutToClose:(NSNotification*)note
+{
+	//save the selected index path to user defaults
+	NSIndexPath *path = [self.mainSourceList indexPathForSelectedItem];
+	[[NSUserDefaults standardUserDefaults] archiveObject:path forKey:kLastSelectedPathKey];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 #pragma mark - source list
 
@@ -217,7 +242,7 @@
 	if (item == self.adminItem)
 		return [[self.adminItem objectForKey:@"children"] objectAtIndex:index];
 	if ([item isKindOfClass:[RCWorkspaceFolder class]])
-		return [[item children] objectAtIndex:index];
+		return [[item children] objectAtIndexNoExceptions:index];
 	return nil;
 }
 

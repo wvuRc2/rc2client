@@ -272,6 +272,7 @@
 	}];
 	[mfi setCompletionBlock:^{
 		[weakMfi removeObserverWithBlockToken:perToken];
+		[NSApp endSheet:pwc.window];
 		[pwc.window orderOut:nil];
 	}];
 	[[NSOperationQueue mainQueue] addOperation:mfi];

@@ -170,15 +170,8 @@
 -(void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
 	if (!__didFirstWindow) {
-		if ([newWindow isKindOfClass:[AMWindow class]] && 
-			[[newWindow valueForKey:@"windowController"] class] == NSClassFromString(@"RCMSessionWindowController"))
-		{
-			if (self.fileContainerView.frame.origin.x < 0)
-				[self toggleFileList:nil];
-		} else {
-			if (self.fileContainerView.frame.origin.x >= 0)
-				[self toggleFileList:nil];
-		}
+		if (self.fileContainerView.frame.origin.x >= 0)
+			[self toggleFileList:nil];
 		self.selectedFile = self.session.initialFileSelection;
 		__didFirstWindow=YES;
 	}

@@ -16,7 +16,6 @@
 #import "WorkspaceViewController.h"
 #import <Vyana/NSMenu+AMExtensions.h>
 #import "MacSessionViewController.h"
-#import "RCMSessionWindowController.h"
 #import "AppDelegate.h"
 #import "RCMacToolbarItem.h"
 
@@ -95,16 +94,8 @@
 	RCSession *session = [appDel sessionForWorkspace:wspace];
 	session.initialFileSelection = initialFile;
 	MacSessionViewController *svc = [appDel viewControllerForSession:session create:YES];
-	//option key forces new window
-	if ([NSEvent modifierFlags] & NSAlternateKeyMask)
-		inNewWindow = YES;
-	if (inNewWindow && nil == svc.view.superview) {
-		RCMSessionWindowController *swc = [[RCMSessionWindowController alloc] initWithViewController:svc];
-		[swc.window makeKeyAndOrderFront:self];
-	} else {
-		self.currentSessionController = svc;
-		[self.navController pushViewController:svc animated:YES];
-	}
+	self.currentSessionController = svc;
+	[self.navController pushViewController:svc animated:YES];
 }
 
 #pragma mark - actions
