@@ -433,6 +433,11 @@
 
 -(void)saveFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock
 {
+	[self saveFile:file workspace:self.selectedWorkspace completionHandler:hblock];
+}
+
+-(void)saveFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock
+{
 	NSURL *url=nil;
 	if (file.existsOnServer)
 		url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl], file.fileId]];
@@ -442,13 +447,14 @@
 	__weak ASIFormDataRequest *req = theReq;
 	[req setPostValue:file.localEdits forKey:@"content"];
 	[req setPostValue:file.name forKey:@"name"];
+	[req setPostValue:workspace.wspaceId forKey:@"wspaceid"];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		NSDictionary *dict = [respStr JSONValue];
 		NSString *oldContents = file.localEdits;
 		[file updateWithDictionary:[dict objectForKey:@"file"]];
 		file.fileContents = oldContents;
-		file.localEdits = nil;
+		[file discardEdits];
 		hblock(YES, file);
 	}];
 	[req setFailedBlock:^{
@@ -464,6 +470,7 @@
 	__weak ASIFormDataRequest *req = theReq;
 	[req setPostValue:[fileUrl lastPathComponent] forKey:@"name"];
 	[req setPostValue:self.currentUserId forKey:@"userid"];
+	[req setPostValue:wspace.wspaceId forKey:@"wspaceid"];
 	[req setFile:fileUrl.path forKey:@"content"];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
@@ -486,6 +493,7 @@
 	ASIFormDataRequest *req = [self postRequestWithURL:url];
 	[req setPostValue:filename forKey:@"name"];
 	[req setPostValue:self.currentUserId forKey:@"userid"];
+	[req setPostValue:workspace.wspaceId forKey:@"wspaceid"];
 	[req setFile:fileUrl.path forKey:@"content"];
 	[req startSynchronous];
 	if (req.error) {
@@ -500,6 +508,28 @@
 	[rcfile updateWithDictionary:fdata];
 	[workspace addFile:rcfile];
 	return rcfile;
+}
+
+//synchronously update the content of a file
+-(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace  
+			error:(NSError *__autoreleasing *)outError
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl], file.fileId]];
+	ASIFormDataRequest *req = [self postRequestWithURL:url];
+	[req setFile:contentsFileUrl.path forKey:@"content"];
+	[req startSynchronous];
+	if (req.error) {
+		if (outError)
+			*outError = req.error;
+		return NO;
+	}
+	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+	NSDictionary *dict = [respStr JSONValue];
+	[file discardEdits];
+	[file updateWithDictionary:[dict objectForKey:@"file"]];
+	if (file.isTextFile)
+		file.fileContents = [NSString stringWithContentsOfURL:contentsFileUrl encoding:NSUTF8StringEncoding error:nil];
+	return YES;
 }
 
 #pragma mark - sharing

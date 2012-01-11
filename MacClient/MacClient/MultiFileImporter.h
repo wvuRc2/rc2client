@@ -15,6 +15,7 @@
 @property (assign) BOOL replaceExisting;
 @property (nonatomic, copy) NSArray *fileUrls;
 @property (nonatomic, readonly) NSInteger countOfFilesRemaining;
+@property (nonatomic, strong) NSError *lastError; //on an error, this is set and the import process stops
 //while executing, someone can observe this to know what the current file being uploaded is.
 @property (nonatomic, copy) NSString *currentFileName;
 @end

@@ -335,12 +335,13 @@
 {
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	RCFile *file = [RCFile insertInManagedObjectContext:moc];
+	RCWorkspace *wspace = self.session.workspace;
 	file.name = fileName;
 	file.fileContents = @"";
-	[[[Rc2Server sharedInstance] currentSession].workspace addFile:file];
+	[wspace addFile:file];
 	self.statusMessage = [NSString stringWithFormat:@"Sending %@ to server…", file.name];
 	self.busy=YES;
-	[[Rc2Server sharedInstance] saveFile:file completionHandler:^(BOOL success, RCFile *newFile) {
+	[[Rc2Server sharedInstance] saveFile:file workspace:wspace completionHandler:^(BOOL success, RCFile *newFile) {
 		self.busy=NO;
 		if (success) {
 			self.fileIdJustImported = newFile.fileId;
@@ -387,7 +388,7 @@
 	ZAssert(file.isTextFile, @"asked to sync non-text file");
 	self.statusMessage = [NSString stringWithFormat:@"Saving %@ to server…", file.name];
 	self.busy=YES;
-	[[Rc2Server sharedInstance] saveFile:file completionHandler:^(BOOL success, RCFile *theFile) {
+	[[Rc2Server sharedInstance] saveFile:file workspace:self.session.workspace completionHandler:^(BOOL success, RCFile *theFile) {
 		self.busy=NO;
 		if (success) {
 			[self.fileTableView reloadData];
@@ -734,7 +735,7 @@
 {
 	if (__selFile) {
 		if ([__selFile.fileContents isEqualToString:self.editView.string])
-			[__selFile setLocalEdits:@""];
+			[__selFile setLocalEdits:nil];
 		else
 			[__selFile setLocalEdits:self.editView.string];
 	} else

@@ -271,9 +271,15 @@
 		pwc.percentComplete = (1.0 - (weakMfi.countOfFilesRemaining / (CGFloat)weakMfi.fileUrls.count)) * 100.0;
 	}];
 	[mfi setCompletionBlock:^{
-		[weakMfi removeObserverWithBlockToken:perToken];
-		[NSApp endSheet:pwc.window];
-		[pwc.window orderOut:nil];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[weakMfi removeObserverWithBlockToken:perToken];
+			[NSApp endSheet:pwc.window];
+			[pwc.window orderOut:nil];
+			if (weakMfi.lastError) { 
+				[self presentError:weakMfi.lastError modalForWindow:self.view.window delegate:nil didPresentSelector:nil contextInfo:nil];
+			}
+			[self.workspace refreshFiles];
+		});
 	}];
 	[[NSOperationQueue mainQueue] addOperation:mfi];
 	dispatch_async(dispatch_get_main_queue(), ^{

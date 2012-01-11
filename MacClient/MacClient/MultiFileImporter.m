@@ -29,10 +29,10 @@ enum {
 {
 	NSString *destFileName = fileUrl.lastPathComponent;
 	RCFile *existingFile = [self.workspace fileWithName:fileUrl.lastPathComponent];
+	BOOL replaceThisFile = NO;
 	if (existingFile) {
 		if (self.replaceExisting) {
-			//FIXME: need to do something special here
-			return;
+			replaceThisFile = YES;
 		} else {
 			//need to generate a unique file name
 			NSInteger i=1;
@@ -47,8 +47,17 @@ enum {
 		}
 	}
 	self.currentFileName = destFileName;
-	//TODO: we need to synchronously upload the file using the name destfileName
-	[NSThread sleepForTimeInterval:2.0];
+	//synchronously upload the file using the name destfileName
+	NSError *err=nil;
+	if (replaceThisFile) {
+		if (![[Rc2Server sharedInstance] updateFile:existingFile withContents:fileUrl workspace:self.workspace error:&err])
+			self.lastError = err;
+	} else {
+		[[Rc2Server sharedInstance] importFile:fileUrl name:destFileName workspace:self.workspace error:&err];
+		if (err)
+			self.lastError = err;
+	}
+	[NSThread sleepForTimeInterval:0.3];
 }
 
 -(void)importNextFile
@@ -62,7 +71,7 @@ enum {
 	[self importFile:theUrl];
 	Rc2LogInfo(@"MFI imported %@", self.currentFileName);
 	//finish up
-	if ([self.filesRemaining count] > 0) {
+	if (nil == self.lastError && [self.filesRemaining count] > 0) {
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 			[self importNextFile];
 		});
@@ -84,6 +93,11 @@ enum {
 			[self importNextFile];
 		});
 	}
+}
+
+-(void)dealloc
+{
+	NSLog(@"mfi dealloc'd");
 }
 
 -(void)markAsComplete
@@ -118,4 +132,5 @@ enum {
 @synthesize replaceExisting;
 @synthesize workspace;
 @synthesize currentFileName;
+@synthesize lastError;
 @end

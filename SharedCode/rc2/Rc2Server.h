@@ -88,13 +88,17 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 -(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
--(void)saveFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(void)saveFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock __attribute__((deprecated));
+-(void)saveFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 -(RCWorkspace*)workspaceForFile:(RCFile*)file;
 
 //synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
 -(RCFile*)importFile:(NSURL*)fileUrl name:(NSString*)filename workspace:(RCWorkspace*)workspace error:(NSError *__autoreleasing *)outError;
+//synchronously update the content of a file
+-(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace  
+			error:(NSError *__autoreleasing *)outError;
 
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
