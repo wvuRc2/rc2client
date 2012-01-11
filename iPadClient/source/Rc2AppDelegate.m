@@ -281,7 +281,7 @@
 {
 	NSNumber *wspaceId = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentSessionWspaceId"];
 	if (wspaceId) {
-		[[Rc2Server sharedInstance] selecteWorkspaceWithId:wspaceId];
+		[[Rc2Server sharedInstance] selectWorkspaceWithId:wspaceId];
 		if ([Rc2Server sharedInstance].selectedWorkspace)
 			[self startSession:nil];
 	}

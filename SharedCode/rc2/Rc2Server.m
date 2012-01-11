@@ -292,7 +292,7 @@
 	[self prepareWorkspace:self.selectedWorkspace completionHandler:hblock];
 }
 
--(void)selecteWorkspaceWithId:(NSNumber*)wspaceId
+-(void)selectWorkspaceWithId:(NSNumber*)wspaceId
 {
 	for (RCWorkspaceItem *item in self.workspaceItems) {
 		if ([item.wspaceId isEqualToNumber:wspaceId] && !item.isFolder) {
@@ -477,6 +477,29 @@
 		hblock(NO, @"unknown error");
 	}];
 	[req startAsynchronous];
+}
+
+//synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
+-(RCFile*)importFile:(NSURL*)fileUrl name:(NSString*)filename workspace:(RCWorkspace*)workspace error:(NSError *__autoreleasing *)outError
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/new", self.baseUrl]];
+	ASIFormDataRequest *req = [self postRequestWithURL:url];
+	[req setPostValue:filename forKey:@"name"];
+	[req setPostValue:self.currentUserId forKey:@"userid"];
+	[req setFile:fileUrl.path forKey:@"content"];
+	[req startSynchronous];
+	if (req.error) {
+		if (outError)
+			*outError = req.error;
+		return nil;
+	}
+	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+	NSDictionary *dict = [respStr JSONValue];
+	NSDictionary *fdata = [dict objectForKey:@"file"];
+	RCFile *rcfile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+	[rcfile updateWithDictionary:fdata];
+	[workspace addFile:rcfile];
+	return rcfile;
 }
 
 #pragma mark - sharing
