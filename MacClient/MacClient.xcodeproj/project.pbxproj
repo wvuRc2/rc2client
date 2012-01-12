@@ -822,7 +822,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if test \"${SRCROOT}/../SharedCode/rc2/model/generated\" -ot \"${SRCROOT}/../Rc2.xcdatamodeld\"\nthen\n/usr/bin/mogenerator -m \"${SRCROOT}/../Rc2.xcdatamodeld/v2.xcdatamodel\" --template-path \"${SRCROOT}/../modeltemplates\" -M \"${SRCROOT}/../SharedCode/rc2/model/generated\" -H \"${SRCROOT}/../SharedCode/rc2/model\" --use-pbx-vars --template-var arc=true\nfi\n";
+			shellScript = "if test \"${SRCROOT}/../SharedCode/rc2/model/generated\" -ot \"${SRCROOT}/../Rc2.xcdatamodeld\"\nthen\nFNAME=`/usr/libexec/PlistBuddy -c \"Print _XCCurrentVersionName\" ${SRCROOT}/../Rc2.xcdatamodeld/.xccurrentversion`\n/usr/bin/mogenerator -m \"${SRCROOT}/../Rc2.xcdatamodeld/$FNAME\" --template-path \"${SRCROOT}/../modeltemplates\" -M \"${SRCROOT}/../SharedCode/rc2/model/generated\" -H \"${SRCROOT}/../SharedCode/rc2/model\" --use-pbx-vars --template-var arc=true\nfi\n";
 		};
 		08DFFD9B14893ED3008D1399 /* compile css */ = {
 			isa = PBXShellScriptBuildPhase;
