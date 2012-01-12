@@ -238,9 +238,9 @@
 		return self.workspacesItem;
 	}
 	if (item == self.workspacesItem)
-		return [[Rc2Server sharedInstance].workspaceItems objectAtIndex:index];
+		return [[Rc2Server sharedInstance].workspaceItems objectAtIndexNoExceptions:index];
 	if (item == self.adminItem)
-		return [[self.adminItem objectForKey:@"children"] objectAtIndex:index];
+		return [[self.adminItem objectForKey:@"children"] objectAtIndexNoExceptions:index];
 	if ([item isKindOfClass:[RCWorkspaceFolder class]])
 		return [[item children] objectAtIndexNoExceptions:index];
 	return nil;

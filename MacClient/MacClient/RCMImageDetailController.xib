@@ -135,6 +135,7 @@
 						<string key="NSFrameSize">{492, 413}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:2141</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSImageCell" key="NSCell" id="915817770">
@@ -162,6 +163,27 @@
 				<bool key="NSPreservesSelection">YES</bool>
 				<bool key="NSSelectsInsertedObjects">YES</bool>
 				<bool key="NSFilterRestrictsInsertion">YES</bool>
+			</object>
+			<object class="NSMenu" id="569815843">
+				<string key="NSTitle"/>
+				<array class="NSMutableArray" key="NSMenuItems">
+					<object class="NSMenuItem" id="515094941">
+						<reference key="NSMenu" ref="569815843"/>
+						<string key="NSTitle">Copy</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="621500262"/>
+						<reference key="NSMixedImage" ref="484145027"/>
+					</object>
+					<object class="NSMenuItem" id="454162176">
+						<reference key="NSMenu" ref="569815843"/>
+						<string key="NSTitle">Save As…</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="621500262"/>
+						<reference key="NSMixedImage" ref="484145027"/>
+					</object>
+				</array>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -199,6 +221,22 @@
 					<int key="connectionID">16</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">saveImageAs:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="454162176"/>
+					</object>
+					<int key="connectionID">28</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">copy:</string>
+						<reference key="source" ref="1003"/>
+						<reference key="destination" ref="515094941"/>
+					</object>
+					<int key="connectionID">29</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">viewController</string>
 						<reference key="source" ref="1005"/>
@@ -221,6 +259,14 @@
 						</object>
 					</object>
 					<int key="connectionID">21</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menu</string>
+						<reference key="source" ref="533762901"/>
+						<reference key="destination" ref="569815843"/>
+					</object>
+					<int key="connectionID">26</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -383,6 +429,25 @@
 						<reference key="object" ref="829019425"/>
 						<reference key="parent" ref="0"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">22</int>
+						<reference key="object" ref="569815843"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="515094941"/>
+							<reference ref="454162176"/>
+						</array>
+						<reference key="parent" ref="0"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">23</int>
+						<reference key="object" ref="515094941"/>
+						<reference key="parent" ref="569815843"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">24</int>
+						<reference key="object" ref="454162176"/>
+						<reference key="parent" ref="569815843"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -393,6 +458,9 @@
 				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="22.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="24.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -404,7 +472,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">21</int>
+			<int key="maxID">29</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -438,6 +506,20 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">RCMImageDetailController</string>
 					<string key="superclassName">AMViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="copy:">id</string>
+						<string key="saveImageAs:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="copy:">
+							<string key="name">copy:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="saveImageAs:">
+							<string key="name">saveImageAs:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="arrayController">NSArrayController</string>
 						<string key="filePopUp">NSPopUpButton</string>

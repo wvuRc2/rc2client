@@ -16,4 +16,6 @@
 @property (nonatomic, strong) IBOutlet NSArrayController *arrayController;
 @property (nonatomic, strong) NSArray *availableImages;
 @property (nonatomic, strong) RCImage *selectedImage;
+
+-(IBAction)saveImageAs:(id)sender;
 @end

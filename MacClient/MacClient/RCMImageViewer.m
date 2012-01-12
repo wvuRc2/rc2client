@@ -54,8 +54,10 @@
 	[savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"png"]];
 	[savePanel setNameFieldStringValue:img.name];
 	[savePanel beginWithCompletionHandler:^(NSInteger result) {
-		NSData *data = [img.image pngData];
-		[data writeToURL:[savePanel URL] atomically:YES];
+		if (result == NSFileHandlingPanelOKButton) {
+			NSData *data = [img.image pngData];
+			[data writeToURL:[savePanel URL] atomically:YES];
+		}
 	}];
 }
 

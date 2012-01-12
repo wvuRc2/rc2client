@@ -18,6 +18,19 @@
 	return self;
 }
 
+-(IBAction)saveImageAs:(id)sender
+{
+	NSSavePanel *savePanel = [NSSavePanel savePanel];
+	[savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"png"]];
+	[savePanel setNameFieldStringValue:self.selectedImage.name];
+	[savePanel beginWithCompletionHandler:^(NSInteger result) {
+		if (result == NSFileHandlingPanelOKButton) {
+			NSData *data = [self.selectedImage.image pngData];
+			[data writeToURL:[savePanel URL] atomically:YES];
+		}
+	}];
+}
+
 @synthesize imageView;
 @synthesize filePopUp;
 @synthesize availableImages;
