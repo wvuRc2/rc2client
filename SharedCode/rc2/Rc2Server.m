@@ -113,9 +113,19 @@
 	return kUserAgent;
 }
 
+
+-(NSString*)connectionDescription
+{
+	if (eRc2Host_Rc2 == self.serverHost)
+		return self.currentLogin;
+	if (eRc2Host_Barney == self.serverHost)
+		return [NSString stringWithFormat:@"%@@barney", self.currentLogin];
+	return [NSString stringWithFormat:@"%@@local", self.currentLogin];
+}
+
 -(void)setServerHost:(NSInteger)sh
 {
-	if (self.serverHost >= eRc2Host_Harner && self.serverHost <= eRc2Host_Local) {
+	if (self.serverHost >= eRc2Host_Rc2 && self.serverHost <= eRc2Host_Local) {
 		_serverHost = sh;
 		[[NSUserDefaults standardUserDefaults] setInteger:sh forKey:kServerHostKey];
 	}
@@ -131,7 +141,7 @@
 			return @"https://localhost:8443/";
 		case eRc2Host_Barney:
 			return @"http://barney.stat.wvu.edu:8080/";
-		case eRc2Host_Harner:
+		case eRc2Host_Rc2:
 		default:
 			return @"http://rc2.stat.wvu.edu:8080/";
 	}

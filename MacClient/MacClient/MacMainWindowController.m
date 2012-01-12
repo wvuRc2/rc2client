@@ -42,6 +42,7 @@
 - (void)windowDidLoad
 {
 	[super windowDidLoad];
+	self.window.title = [NSString stringWithFormat:@"%@ (%@)", self.window.title, [[Rc2Server sharedInstance] connectionDescription]];
 	self.mainViewController = [[MacMainViewController alloc] init];
 	self.mainViewController.view.frame = self.detailContainer.frame;
 	NSView *contentView = self.window.contentView;
