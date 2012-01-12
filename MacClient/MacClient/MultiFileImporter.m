@@ -25,6 +25,89 @@ enum {
 
 @implementation MultiFileImporter
 
++(NSDragOperation)validateTableViewFileDrop:(id <NSDraggingInfo>)info
+{
+	static NSDictionary *readOptions=nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		readOptions = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSPasteboardURLReadingFileURLsOnlyKey,
+					   ARRAY((id)kUTTypePlainText,(id)kUTTypePDF), NSPasteboardURLReadingContentsConformToTypesKey,
+					   nil];
+	});
+	NSArray *urls = [[info draggingPasteboard] readObjectsForClasses:ARRAY([NSURL class]) options:readOptions];
+	if ([urls count] > 0) {
+		NSArray *ftypes = [Rc2Server acceptableImportFileSuffixes];
+		for (NSURL *url in urls) {
+			if (![ftypes containsObject:[url pathExtension]])
+				return NSDragOperationNone;
+		}
+		return NSDragOperationCopy;
+	}
+	return NSDragOperationNone;
+}
+
+//determines what files to import, prompting the user if necessary to see if existing files should be replaced or unique names should be
+// generated. Unless the user cancels, handler will be called with the actual files to import. Ideally they should then be passed
+// to an instance of MultiFileImporter.
++(void)acceptTableViewFileDrop:(NSTableView *)tableView dragInfo:(id <NSDraggingInfo>)info workspace:(RCWorkspace*)workspace
+	completionHandler:(void (^)(NSArray *urls, BOOL replaceExisting))handler
+{
+	//our validate method already confirmed they are acceptable file types
+	NSArray *urls = [[info draggingPasteboard] readObjectsForClasses:ARRAY([NSURL class]) options:nil];
+	//look for duplicate names
+	NSArray *existingNames = [workspace.files valueForKey:@"name"];
+	BOOL promptForAction=NO;
+	for (NSURL *url in urls) {
+		if ([existingNames containsObject:url.lastPathComponent])
+			promptForAction = YES;
+	}
+	if (promptForAction) {
+		//need to prompt them to replace or use unique names
+		NSAlert *alert = [[NSAlert alloc] init];
+		alert.messageText = @"Replace existing files?";
+		alert.informativeText = @"One or more files already exist with the same name as the dropped file(s).";
+		[alert addButtonWithTitle:@"Replace"];
+		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
+		NSButton *uniqButton = [alert addButtonWithTitle:@"Create Unique Names"];
+		[uniqButton setKeyEquivalent:@"u"];
+		[uniqButton setKeyEquivalentModifierMask:NSCommandKeyMask];
+		[alert beginSheetModalForWindow:tableView.window completionHandler:^(NSAlert *theAlert, NSInteger btxIdx) {
+			if (NSAlertSecondButtonReturn != btxIdx) {
+				handler(urls, btxIdx == NSAlertFirstButtonReturn);
+			}
+		}];
+	} else {
+		handler(urls, YES);
+	}
+}
+
+-(AMProgressWindowController*)prepareProgressWindowWithErrorHandler:(BasicBlock1Arg)errorHandler
+{
+	AMProgressWindowController *pwc = [[AMProgressWindowController alloc] init];
+	pwc.progressMessage = @"Importing files…";
+	pwc.indeterminate = NO;
+	pwc.percentComplete = 0;
+	__weak MultiFileImporter *weakMfi = self;
+	NSString *perToken = [self addObserverForKeyPath:@"currentFileName" task:^(id obj, NSDictionary *change) {
+		pwc.progressMessage = [NSString stringWithFormat:@"Importing %@", [obj valueForKey:@"currentFileName"]];
+		pwc.percentComplete = (1.0 - (weakMfi.countOfFilesRemaining / (CGFloat)weakMfi.fileUrls.count)) * 100.0;
+	}];
+	[self setCompletionBlock:^{
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[weakMfi removeObserverWithBlockToken:perToken];
+			[NSApp endSheet:pwc.window];
+			[pwc.window orderOut:nil];
+			if (weakMfi.lastError) { 
+				errorHandler(weakMfi);
+			}
+			[weakMfi.workspace refreshFiles];
+		});
+	}];
+	return pwc;
+}
+
+#pragma mark - meat & potatos
+
 -(void)importFile:(NSURL*)fileUrl
 {
 	NSString *destFileName = fileUrl.lastPathComponent;

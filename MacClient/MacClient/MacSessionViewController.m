@@ -25,6 +25,7 @@
 #import "ASIHTTPRequest.h"
 #import "AppDelegate.h"
 #import "RCMSessionFileCellView.h"
+#import "MultiFileImporter.h"
 
 @interface MacSessionViewController() {
 	CGFloat __fileListWidth;
@@ -145,6 +146,9 @@
 				blockSelf->__toggledFileViewOnFullScreen = NO;
 			}
 		}];
+		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+		[self.fileTableView setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleNone];
+		[self.fileTableView registerForDraggedTypes:ARRAY((id)kUTTypeFileURL)];
 		__didInit=YES;
 	}
 }
@@ -692,6 +696,32 @@
 	};
 	return view;
 }
+
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation
+{
+	return [MultiFileImporter validateTableViewFileDrop:info];
+}
+
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation
+{
+	[MultiFileImporter acceptTableViewFileDrop:tableView dragInfo:info workspace:self.session.workspace 
+							 completionHandler:^(NSArray *urls, BOOL replaceExisting)
+	 {
+		 MultiFileImporter *mfi = [[MultiFileImporter alloc] init];
+		 mfi.workspace = self.session.workspace;
+		 mfi.replaceExisting = replaceExisting;
+		 mfi.fileUrls = urls;
+		 AMProgressWindowController *pwc = [mfi prepareProgressWindowWithErrorHandler:^(MultiFileImporter *mfiRef) {
+			 [self presentError:mfiRef.lastError modalForWindow:self.view.window delegate:nil didPresentSelector:nil contextInfo:nil];
+		 }];
+		 [[NSOperationQueue mainQueue] addOperation:mfi];
+		 dispatch_async(dispatch_get_main_queue(), ^{
+			 [NSApp beginSheet:pwc.window modalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+		 });
+	 }];
+	return YES;
+}
+
 
 #pragma mark - split view
 

@@ -261,25 +261,8 @@
 	mfi.workspace = self.workspace;
 	mfi.replaceExisting = replace;
 	mfi.fileUrls = files;
-	AMProgressWindowController *pwc = [[AMProgressWindowController alloc] init];
-	pwc.progressMessage = @"Importing files…";
-	pwc.indeterminate = NO;
-	pwc.percentComplete = 0;
-	__weak MultiFileImporter *weakMfi = mfi;
-	NSString *perToken = [mfi addObserverForKeyPath:@"currentFileName" task:^(id obj, NSDictionary *change) {
-		pwc.progressMessage = [NSString stringWithFormat:@"Importing %@", [obj valueForKey:@"currentFileName"]];
-		pwc.percentComplete = (1.0 - (weakMfi.countOfFilesRemaining / (CGFloat)weakMfi.fileUrls.count)) * 100.0;
-	}];
-	[mfi setCompletionBlock:^{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[weakMfi removeObserverWithBlockToken:perToken];
-			[NSApp endSheet:pwc.window];
-			[pwc.window orderOut:nil];
-			if (weakMfi.lastError) { 
-				[self presentError:weakMfi.lastError modalForWindow:self.view.window delegate:nil didPresentSelector:nil contextInfo:nil];
-			}
-			[self.workspace refreshFiles];
-		});
+	AMProgressWindowController *pwc = [mfi prepareProgressWindowWithErrorHandler:^(MultiFileImporter *mfiRef) {
+		[self presentError:mfiRef.lastError modalForWindow:self.view.window delegate:nil didPresentSelector:nil contextInfo:nil];
 	}];
 	[[NSOperationQueue mainQueue] addOperation:mfi];
 	dispatch_async(dispatch_get_main_queue(), ^{
