@@ -32,6 +32,7 @@
 	NSPoint __curImgPoint;
 	BOOL __didInit;
 	BOOL __movingFileList;
+	BOOL __fileListInitiallyVisible;
 	BOOL __didFirstLoad;
 	BOOL __didFirstWindow;
 	BOOL __toggledFileViewOnFullScreen;
@@ -174,7 +175,7 @@
 -(void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
 	if (!__didFirstWindow) {
-		if (self.fileContainerView.frame.origin.x >= 0)
+		if (self.fileListVisible != __fileListInitiallyVisible)
 			[self toggleFileList:nil];
 		self.selectedFile = self.session.initialFileSelection;
 		__didFirstWindow=YES;
@@ -322,6 +323,7 @@
 	savedState.currentFile = self.selectedFile;
 	if (nil == savedState.currentFile)
 		savedState.inputText = self.editView.string;
+	[savedState setBoolProperty:self.fileListVisible forKey:@"fileListVisible"];
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
@@ -332,6 +334,7 @@
 	} else if ([savedState.inputText length] > 0) {
 		self.editView.string = savedState.inputText;
 	}
+	__fileListInitiallyVisible = [savedState boolPropertyForKey:@"fileListVisible"];
 	[self cacheImagesReferencedInHTML:savedState.consoleHtml];
 }
 

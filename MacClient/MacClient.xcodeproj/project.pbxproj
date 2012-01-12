@@ -166,6 +166,7 @@
 		08056E5B1448EC410002766D /* RCMacToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMacToolbarItem.m; sourceTree = "<group>"; };
 		0809BF2314B50086009CEC57 /* MultiFileImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiFileImporter.h; sourceTree = "<group>"; };
 		0809BF2414B50086009CEC57 /* MultiFileImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFileImporter.m; sourceTree = "<group>"; };
+		0809BF6514BF8EEB009CEC57 /* v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = v2.xcdatamodel; sourceTree = "<group>"; };
 		082945371496AA7700E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCWorkspaceCache.h; sourceTree = "<group>"; };
 		082945381496AA7700E593C7 /* _RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCWorkspaceCache.m; sourceTree = "<group>"; };
 		0829453A1496AA8300E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
@@ -821,7 +822,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if test \"${SRCROOT}/../SharedCode/rc2/model/generated\" -ot \"${SRCROOT}/../Rc2.xcdatamodeld\"\nthen\n/usr/bin/mogenerator -m \"${SRCROOT}/../Rc2.xcdatamodeld/Rc2.xcdatamodel\" --template-path \"${SRCROOT}/../modeltemplates\" -M \"${SRCROOT}/../SharedCode/rc2/model/generated\" -H \"${SRCROOT}/../SharedCode/rc2/model\" --use-pbx-vars --template-var arc=true\nfi\n";
+			shellScript = "if test \"${SRCROOT}/../SharedCode/rc2/model/generated\" -ot \"${SRCROOT}/../Rc2.xcdatamodeld\"\nthen\n/usr/bin/mogenerator -m \"${SRCROOT}/../Rc2.xcdatamodeld/v2.xcdatamodel\" --template-path \"${SRCROOT}/../modeltemplates\" -M \"${SRCROOT}/../SharedCode/rc2/model/generated\" -H \"${SRCROOT}/../SharedCode/rc2/model\" --use-pbx-vars --template-var arc=true\nfi\n";
 		};
 		08DFFD9B14893ED3008D1399 /* compile css */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1061,9 +1062,10 @@
 		08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0809BF6514BF8EEB009CEC57 /* v2.xcdatamodel */,
 				08447F6A1415B54F00A8DDF8 /* Rc2.xcdatamodel */,
 			);
-			currentVersion = 08447F6A1415B54F00A8DDF8 /* Rc2.xcdatamodel */;
+			currentVersion = 0809BF6514BF8EEB009CEC57 /* v2.xcdatamodel */;
 			name = Rc2.xcdatamodeld;
 			path = ../Rc2.xcdatamodeld;
 			sourceTree = "<group>";

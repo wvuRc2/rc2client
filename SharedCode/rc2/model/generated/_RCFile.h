@@ -1,11 +1,36 @@
+//
+//  _RCFile.h
+//
+//  Created by Mark Lilback
+//  Copyright (c) 2012 . All rights reserved.
+//
+
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to RCFile.h instead.
 
 #import <CoreData/CoreData.h>
 
 
-@class RCSavedSession;
+extern const struct RCFileAttributes {
+	__unsafe_unretained NSString *fileContents;
+	__unsafe_unretained NSString *fileId;
+	__unsafe_unretained NSString *lastModified;
+	__unsafe_unretained NSString *localAttributes;
+	__unsafe_unretained NSString *localEdits;
+	__unsafe_unretained NSString *localLastModified;
+	__unsafe_unretained NSString *name;
+	__unsafe_unretained NSString *sizeString;
+	__unsafe_unretained NSString *wspaceId;
+} RCFileAttributes;
 
+extern const struct RCFileRelationships {
+	__unsafe_unretained NSString *savedSessionsRefererencedBy;
+} RCFileRelationships;
+
+extern const struct RCFileFetchedProperties {
+} RCFileFetchedProperties;
+
+@class RCSavedSession;
 
 
 
@@ -27,12 +52,10 @@
 
 
 
-
 @property (nonatomic, strong) NSString *fileContents;
 
 
 //- (BOOL)validateFileContents:(id*)value_ error:(NSError**)error_;
-
 
 
 
@@ -47,12 +70,10 @@
 
 
 
-
 @property (nonatomic, strong) NSDate *lastModified;
 
 
 //- (BOOL)validateLastModified:(id*)value_ error:(NSError**)error_;
-
 
 
 
@@ -63,12 +84,10 @@
 
 
 
-
 @property (nonatomic, strong) NSString *localEdits;
 
 
 //- (BOOL)validateLocalEdits:(id*)value_ error:(NSError**)error_;
-
 
 
 
@@ -79,7 +98,6 @@
 
 
 
-
 @property (nonatomic, strong) NSString *name;
 
 
@@ -87,12 +105,10 @@
 
 
 
-
 @property (nonatomic, strong) NSString *sizeString;
 
 
 //- (BOOL)validateSizeString:(id*)value_ error:(NSError**)error_;
-
 
 
 

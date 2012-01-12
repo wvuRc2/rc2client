@@ -1,7 +1,32 @@
+//
+//  _RCMessage.m
+//
+//  Created by Mark Lilback
+//  Copyright (c) 2012 . All rights reserved.
+//
+
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to RCMessage.m instead.
 
 #import "_RCMessage.h"
+
+const struct RCMessageAttributes RCMessageAttributes = {
+	.body = @"body",
+	.dateRead = @"dateRead",
+	.dateSent = @"dateSent",
+	.messageId = @"messageId",
+	.priority = @"priority",
+	.rcptmsgId = @"rcptmsgId",
+	.sender = @"sender",
+	.subject = @"subject",
+	.version = @"version",
+};
+
+const struct RCMessageRelationships RCMessageRelationships = {
+};
+
+const struct RCMessageFetchedProperties RCMessageFetchedProperties = {
+};
 
 @implementation RCMessageID
 @end

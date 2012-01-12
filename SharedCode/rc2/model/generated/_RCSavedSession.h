@@ -1,8 +1,31 @@
+//
+//  _RCSavedSession.h
+//
+//  Created by Mark Lilback
+//  Copyright (c) 2012 . All rights reserved.
+//
+
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to RCSavedSession.h instead.
 
 #import <CoreData/CoreData.h>
 
+
+extern const struct RCSavedSessionAttributes {
+	__unsafe_unretained NSString *cmdHistoryData;
+	__unsafe_unretained NSString *consoleHtml;
+	__unsafe_unretained NSString *inputText;
+	__unsafe_unretained NSString *localAttributes;
+	__unsafe_unretained NSString *login;
+	__unsafe_unretained NSString *wspaceId;
+} RCSavedSessionAttributes;
+
+extern const struct RCSavedSessionRelationships {
+	__unsafe_unretained NSString *currentFile;
+} RCSavedSessionRelationships;
+
+extern const struct RCSavedSessionFetchedProperties {
+} RCSavedSessionFetchedProperties;
 
 @class RCFile;
 
@@ -23,12 +46,10 @@
 
 
 
-
 @property (nonatomic, strong) NSData *cmdHistoryData;
 
 
 //- (BOOL)validateCmdHistoryData:(id*)value_ error:(NSError**)error_;
-
 
 
 
@@ -39,7 +60,6 @@
 
 
 
-
 @property (nonatomic, strong) NSString *inputText;
 
 
@@ -47,12 +67,17 @@
 
 
 
+@property (nonatomic, strong) NSData *localAttributes;
+
+
+//- (BOOL)validateLocalAttributes:(id*)value_ error:(NSError**)error_;
+
+
 
 @property (nonatomic, strong) NSString *login;
 
 
 //- (BOOL)validateLogin:(id*)value_ error:(NSError**)error_;
-
 
 
 
@@ -104,6 +129,12 @@
 
 - (NSString*)primitiveInputText;
 - (void)setPrimitiveInputText:(NSString*)value;
+
+
+
+
+- (NSData*)primitiveLocalAttributes;
+- (void)setPrimitiveLocalAttributes:(NSData*)value;
 
 
 

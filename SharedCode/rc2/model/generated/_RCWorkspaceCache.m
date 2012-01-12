@@ -1,7 +1,25 @@
+//
+//  _RCWorkspaceCache.m
+//
+//  Created by Mark Lilback
+//  Copyright (c) 2012 . All rights reserved.
+//
+
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to RCWorkspaceCache.m instead.
 
 #import "_RCWorkspaceCache.h"
+
+const struct RCWorkspaceCacheAttributes RCWorkspaceCacheAttributes = {
+	.localAttributes = @"localAttributes",
+	.wspaceId = @"wspaceId",
+};
+
+const struct RCWorkspaceCacheRelationships RCWorkspaceCacheRelationships = {
+};
+
+const struct RCWorkspaceCacheFetchedProperties RCWorkspaceCacheFetchedProperties = {
+};
 
 @implementation RCWorkspaceCacheID
 @end
