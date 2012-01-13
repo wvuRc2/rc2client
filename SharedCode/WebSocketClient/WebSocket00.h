@@ -65,7 +65,7 @@ typedef NSUInteger WebSocketReadyState;
 @interface WebSocket00 : NSObject 
 {
 @private
-    id<WebSocket00Delegate> delegate;
+//    id<WebSocket00Delegate> delegate;
     NSURL* url;
     NSString* origin;
     AsyncSocket* socket;
@@ -87,7 +87,7 @@ typedef NSUInteger WebSocketReadyState;
 /**
  * Callback delegate for websocket events.
  **/
-@property(nonatomic,retain) id<WebSocket00Delegate> delegate;
+@property(nonatomic,unsafe_unretained) id<WebSocket00Delegate> delegate;
 
 /**
  * Timeout used for sending messages, not establishing the socket connection. A

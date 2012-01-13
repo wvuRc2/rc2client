@@ -31,11 +31,8 @@
 @property (nonatomic, readwrite) BOOL loggedIn;
 @property (nonatomic, readwrite) BOOL isFullScreen;
 @property (nonatomic, retain) BBEditApplication *bbedit;
-//@property (nonatomic, strong) NSMutableSet *sessionControllers;
-@property (nonatomic, strong) NSMutableSet *windowControllers;
 //following is only used while operating in the __fileCacheQueue
 @property (nonatomic, strong) NSMutableSet *fileCacheWorkspacesInQueue;
-@property (nonatomic, strong) RCSession *currentSession;
 -(void)handleSucessfulLogin;
 -(NSManagedObjectContext*)managedObjectContext:(BOOL)create;
 -(void)autoSaveChanges;
@@ -56,7 +53,6 @@
 	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
 
 	__firstLogin=YES;
-	self.windowControllers = [NSMutableSet set];
 	[self presentLoginPanel];
 	NSString *fileCache = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:fileCache])
@@ -133,9 +129,6 @@
 -(IBAction)doLogOut:(id)sender
 {
 	[self.mainWindowController close];
-	for (NSWindowController *wc in self.windowControllers)
-		[wc close];
-	[self.windowControllers removeAllObjects];
 	self.loggedIn=NO;
 	[self presentLoginPanel];
 }
@@ -144,8 +137,7 @@
 
 -(void)handleFileImport:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(BasicBlock1Arg)handler
 {
-	RCSession *session = [self sessionForWorkspace:wspace];
-	[[Rc2Server sharedInstance] importFile:fileUrl workspace:session.workspace completionHandler:^(BOOL success, RCFile *file)
+	[[Rc2Server sharedInstance] importFile:fileUrl workspace:wspace completionHandler:^(BOOL success, RCFile *file)
 	 {
 		 if (success) {
 			 handler(file);
@@ -188,41 +180,6 @@
 		}
 		[self.fileCacheWorkspacesInQueue removeObject:wspace];
 	});
-}
-
--(void)addWindowController:(NSWindowController*)controller
-{
-	[self.windowControllers addObject:controller];
-}
-
--(void)removeWindowController:(NSWindowController*)controller
-{
-	[self.windowControllers removeObject:controller];
-}
-
--(RCSession*)sessionForWorkspace:(RCWorkspace *)wspace
-{
-	if (self.currentSession.workspace == wspace)
-		return self.currentSession;
-	//TODO: need to implement limit on how many sessions can be open
-	self.currentSession = [[RCSession alloc] initWithWorkspace:wspace serverResponse:nil];
-	return self.currentSession;
-}
-
--(MacSessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create
-{
-	if (create) {
-		MacSessionViewController *svc = [[MacSessionViewController alloc] initWithSession:session];
-		return svc;
-	}
-	return nil;
-}
-
--(void)closeSessionViewController:(MacSessionViewController*)svc
-{
-	RCSession *session = svc.session;
-	[session closeWebSocket];
-	self.currentSession=nil;
 }
 
 -(void)displayPdfFile:(RCFile*)file
@@ -470,8 +427,6 @@ LOADFILE:
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-	for (NSWindowController *wc in self.windowControllers)
-		[wc close];
 	[self.mainWindowController close];
 	
 	// Save changes in the application's managed object context before the application terminates.
@@ -522,9 +477,6 @@ LOADFILE:
 @synthesize loginController;
 @synthesize autosaveTimer;
 @synthesize loggedIn;
-@synthesize currentSession;
-//@synthesize sessionControllers;
-@synthesize windowControllers;
 @synthesize fileCacheWorkspacesInQueue;
 @synthesize bbedit;
 @synthesize isFullScreen;

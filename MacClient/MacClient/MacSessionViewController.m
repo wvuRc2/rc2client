@@ -86,7 +86,6 @@
 -(void)dealloc
 {
 	self.contentSplitView.delegate=nil;
-	self.selectedFile=nil;
 }
 
 -(void)awakeFromNib
@@ -121,22 +120,22 @@
 		self.imgCachePath = [cacheUrl path];
 		self.imgCache = [NSMutableDictionary dictionary];
 		self.dloadQueue = [[NSOperationQueue alloc] init];
+		__unsafe_unretained MacSessionViewController *blockSelf = self;
 		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:RCWorkspaceFilesFetchedNotification 
 														  object:nil queue:nil usingBlock:^(NSNotification *note)
 		{
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[self.fileTableView reloadData];
-				if (self.fileIdJustImported) {
-					NSUInteger idx = [self.session.workspace.files indexOfObjectWithValue:self.fileIdJustImported usingSelector:@selector(fileId)];
+				[blockSelf.fileTableView reloadData];
+				if (blockSelf.fileIdJustImported) {
+					NSUInteger idx = [blockSelf.session.workspace.files indexOfObjectWithValue:blockSelf.fileIdJustImported usingSelector:@selector(fileId)];
 					if (NSNotFound != idx) {
-						[self.fileTableView amSelectRow:idx byExtendingSelection:NO];
+						[blockSelf.fileTableView amSelectRow:idx byExtendingSelection:NO];
 					}
-					self.fileIdJustImported=nil;
-					[self tableViewSelectionDidChange:nil];
+					blockSelf.fileIdJustImported=nil;
+					[blockSelf tableViewSelectionDidChange:nil];
 				}
 			});
 		}]];
-		__block __unsafe_unretained MacSessionViewController *blockSelf = self;
 		self.fullscreenToken = [[NSApp delegate] addObserverForKeyPath:@"isFullScreen" task:^(id obj, NSDictionary *change)
 		{
 			dispatch_async(dispatch_get_main_queue(), ^{
@@ -698,8 +697,9 @@
 	RCFile *file = [self.session.workspace.files objectAtIndexNoExceptions:row];
 	RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
 	view.objectValue = file;
+	__unsafe_unretained MacSessionViewController *blockSelf = self;
 	view.syncFileBlock = ^(RCFile *theFile) {
-		[self syncFile:theFile];
+		[blockSelf syncFile:theFile];
 	};
 	return view;
 }

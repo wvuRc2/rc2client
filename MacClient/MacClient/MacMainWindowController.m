@@ -63,8 +63,9 @@
 	[self.window makeFirstResponder:nil];
 	if (self.currentSessionController) {
 		[self.currentSessionController saveChanges];
-		AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
-		[appDel closeSessionViewController:self.currentSessionController];
+		self.currentSessionController.session.delegate = nil;
+		self.currentSessionController.session=nil;
+		self.currentSessionController=nil;
 	}
 }
 
@@ -91,12 +92,12 @@
 
 -(void)openSession:(RCWorkspace*)wspace file:(RCFile*)initialFile inNewWindow:(BOOL)inNewWindow
 {
-	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
-	RCSession *session = [appDel sessionForWorkspace:wspace];
-	session.initialFileSelection = initialFile;
-	MacSessionViewController *svc = [appDel viewControllerForSession:session create:YES];
-	self.currentSessionController = svc;
-	[self.navController pushViewController:svc animated:YES];
+	if (self.currentSessionController.session.workspace != wspace) {
+		RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:nil];
+		session.initialFileSelection = initialFile;
+		self.currentSessionController = [[MacSessionViewController alloc] initWithSession:session];
+	}
+	[self.navController pushViewController:self.currentSessionController animated:YES];
 }
 
 #pragma mark - actions
@@ -104,8 +105,6 @@
 -(IBAction)doBackToMainView:(id)sender
 {
 	if (self.navController.canPopViewController) {
-		if (self.navController.topViewController == self.currentSessionController)
-			self.currentSessionController=nil;
 		[self.navController popViewControllerAnimated:YES];
 	}
 }

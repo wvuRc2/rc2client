@@ -23,14 +23,6 @@
 @property (nonatomic, readonly) BOOL loggedIn;
 @property (nonatomic, readonly) BOOL isFullScreen;
 
--(RCSession*)sessionForWorkspace:(RCWorkspace*)wspace;
--(MacSessionViewController*)viewControllerForSession:(RCSession*)session create:(BOOL)create;
-//closes both sessionviewcontroller and session
--(void)closeSessionViewController:(MacSessionViewController*)svc;
-
--(void)addWindowController:(NSWindowController*)controller;
--(void)removeWindowController:(NSWindowController*)controller;
-
 -(void)showViewController:(AMViewController*)controller;
 -(void)displayPdfFile:(RCFile*)file;
 

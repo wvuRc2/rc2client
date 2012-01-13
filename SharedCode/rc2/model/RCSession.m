@@ -124,7 +124,7 @@
 
 -(void)setDelegate:(id<RCSessionDelegate>)del
 {
-	ZAssert([del conformsToProtocol:@protocol(RCSessionDelegate)], @"delegate not valid");
+	ZAssert(nil == del || [del conformsToProtocol:@protocol(RCSessionDelegate)], @"delegate not valid");
 	_delegate = del;
 }
 
