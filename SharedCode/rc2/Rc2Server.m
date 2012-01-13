@@ -194,6 +194,10 @@
 	return [self postRequestWithURL:url];
 }
 
+-(BOOL)responseIsValidJSON:(ASIHTTPRequest*)request
+{
+	return [[request.responseHeaders objectForKey:@"Content-Type"] hasPrefix:@"application/json"];
+}
 
 #pragma mark - workspaces
 
@@ -209,7 +213,7 @@
 	[req setPostValue:[NSString stringWithFormat:@"%d", parent.wspaceId.intValue] forKey:@"parent"];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
+		if (![self responseIsValidJSON:req]) {
 			hblock(NO, @"server sent back invalid response");
 			return;
 		}
@@ -231,7 +235,7 @@
 	__block __weak ASIHTTPRequest *req = theReq;
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
+		if (![self responseIsValidJSON:req]) {
 			hblock(NO, @"server sent back invalid response");
 			return;
 		}
@@ -351,7 +355,7 @@
 	__weak ASIHTTPRequest *req = theReq;
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
+		if (![self responseIsValidJSON:req]) {
 			hblock(NO, @"server sent back invalid response");
 			return;
 		}
@@ -562,7 +566,7 @@
 	__weak ASIHTTPRequest *req = theReq;
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
+		if (![self responseIsValidJSON:req]) {
 			hblock(NO, @"server sent back invalid response");
 			return;
 		}
@@ -612,7 +616,7 @@
 	__weak ASIHTTPRequest *req = theReq;
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
+		if (![self responseIsValidJSON:req]) {
 			hblock(NO, @"server sent back invalid response");
 			return;
 		}
@@ -632,7 +636,7 @@
 -(void)handleLoginResponse:(ASIHTTPRequest*)req forUser:(NSString*)user completionHandler:(Rc2SessionCompletionHandler)handler
 {
 	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-	if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
+	if (![self responseIsValidJSON:req]) {
 		handler(NO, @"server sent back invalid response");
 		return;
 	}

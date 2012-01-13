@@ -59,6 +59,8 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 -(NSString*)baseUrl;
 
+-(BOOL)responseIsValidJSON:(ASIHTTPRequest*)request;
+
 #pragma mark - login/logout
 -(void)loginAsUser:(NSString*)user password:(NSString*)password 
  completionHandler:(Rc2SessionCompletionHandler)hbock;

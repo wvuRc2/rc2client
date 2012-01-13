@@ -68,7 +68,7 @@
 		[blockSelf.requestLock lock];
 		if (blockSelf.currentRequest == req) {
 			NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-			if (![[req.responseHeaders objectForKey:@"Content-Type"] isEqualToString:@"application/json"]) {
+			if (![[Rc2Server sharedInstance] responseIsValidJSON:req]) {
 				return;
 			}
 			NSDictionary *rsp = [respStr JSONValue];
