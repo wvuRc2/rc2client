@@ -124,28 +124,32 @@
 		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:RCWorkspaceFilesFetchedNotification 
 														  object:nil queue:nil usingBlock:^(NSNotification *note)
 		{
-			[self.fileTableView reloadData];
-			if (self.fileIdJustImported) {
-				NSUInteger idx = [self.session.workspace.files indexOfObjectWithValue:self.fileIdJustImported usingSelector:@selector(fileId)];
-				if (NSNotFound != idx) {
-					[self.fileTableView amSelectRow:idx byExtendingSelection:NO];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self.fileTableView reloadData];
+				if (self.fileIdJustImported) {
+					NSUInteger idx = [self.session.workspace.files indexOfObjectWithValue:self.fileIdJustImported usingSelector:@selector(fileId)];
+					if (NSNotFound != idx) {
+						[self.fileTableView amSelectRow:idx byExtendingSelection:NO];
+					}
+					self.fileIdJustImported=nil;
+					[self tableViewSelectionDidChange:nil];
 				}
-				self.fileIdJustImported=nil;
-				[self tableViewSelectionDidChange:nil];
-			}
+			});
 		}]];
 		__block __unsafe_unretained MacSessionViewController *blockSelf = self;
 		self.fullscreenToken = [[NSApp delegate] addObserverForKeyPath:@"isFullScreen" task:^(id obj, NSDictionary *change)
 		{
-			if ([obj isFullScreen]) {
-				if (!blockSelf.fileListVisible) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				if ([obj isFullScreen]) {
+					if (!blockSelf.fileListVisible) {
+						[blockSelf toggleFileList:blockSelf];
+						blockSelf->__toggledFileViewOnFullScreen = YES;
+					}
+				} else if (blockSelf->__toggledFileViewOnFullScreen && blockSelf.fileListVisible) {
 					[blockSelf toggleFileList:blockSelf];
-					blockSelf->__toggledFileViewOnFullScreen = YES;
+					blockSelf->__toggledFileViewOnFullScreen = NO;
 				}
-			} else if (blockSelf->__toggledFileViewOnFullScreen && blockSelf.fileListVisible) {
-				[blockSelf toggleFileList:blockSelf];
-				blockSelf->__toggledFileViewOnFullScreen = NO;
-			}
+			});
 		}];
 		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 		[self.fileTableView setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleNone];

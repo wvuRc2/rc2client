@@ -43,8 +43,10 @@
 		self.syncButton.image = nil;
 	[self.syncButton.cell setHighlightsBy:NSContentsCellMask];
 	self.syncEnabledToken = [objectValue addObserverForKeyPath:@"locallyModified" task:^(RCFile *theFile, NSDictionary *change) {
-		[self.syncButton setEnabled:theFile.locallyModified];
-		[self setBackgroundStyle:self.backgroundStyle]; //trigger image adjustment
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.syncButton setEnabled:theFile.locallyModified];
+			[self setBackgroundStyle:self.backgroundStyle]; //trigger image adjustment
+		});
 	}];
 }
 

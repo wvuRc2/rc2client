@@ -89,8 +89,10 @@ enum {
 	pwc.percentComplete = 0;
 	__weak MultiFileImporter *weakMfi = self;
 	NSString *perToken = [self addObserverForKeyPath:@"currentFileName" task:^(id obj, NSDictionary *change) {
-		pwc.progressMessage = [NSString stringWithFormat:@"Importing %@", [obj valueForKey:@"currentFileName"]];
-		pwc.percentComplete = (1.0 - (weakMfi.countOfFilesRemaining / (CGFloat)weakMfi.fileUrls.count)) * 100.0;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			pwc.progressMessage = [NSString stringWithFormat:@"Importing %@", [obj valueForKey:@"currentFileName"]];
+			pwc.percentComplete = (1.0 - (weakMfi.countOfFilesRemaining / (CGFloat)weakMfi.fileUrls.count)) * 100.0;
+		});
 	}];
 	[self setCompletionBlock:^{
 		dispatch_async(dispatch_get_main_queue(), ^{
@@ -176,11 +178,6 @@ enum {
 			[self importNextFile];
 		});
 	}
-}
-
--(void)dealloc
-{
-	NSLog(@"mfi dealloc'd");
 }
 
 -(void)markAsComplete

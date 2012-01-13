@@ -41,13 +41,19 @@
 		__unsafe_unretained WorkspaceViewController *blockSelf = self;
 		[self.kvoTokens addObject:[self.workspace addObserverForKeyPath:@"files" task:^(id obj, NSDictionary *change)
 	   {
-		   if (!blockSelf.ignoreSectionReloads)
-				[blockSelf.sectionsTableView reloadData];
+		   if (!blockSelf.ignoreSectionReloads) {
+			   dispatch_async(dispatch_get_main_queue(), ^{
+					[blockSelf.sectionsTableView reloadData];
+			   });
+		   }
 	   }]];
 		[self.kvoTokens addObject:[self.workspace addObserverForKeyPath:@"shares" task:^(id obj, NSDictionary *change)
 		{
-			if (!blockSelf.ignoreSectionReloads)
-				[blockSelf.sectionsTableView reloadData];
+			if (!blockSelf.ignoreSectionReloads) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[blockSelf.sectionsTableView reloadData];
+				});
+			}
 		}]];
 		[self.workspace refreshShares];
 		RCWorkspaceCache *cache = self.workspace.cache;

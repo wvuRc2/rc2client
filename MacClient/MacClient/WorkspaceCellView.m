@@ -175,7 +175,9 @@
 	[self.kvoTokens addObject:[workspace addObserverForKeyPath:[self.objectValue objectForKey:@"childAttr"] 
 														  task:^(id obj, NSDictionary *change) 
 	{
-		[self.detailTableView reloadData];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.detailTableView reloadData];
+		});
 	}]];
 }
 
