@@ -91,7 +91,6 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 -(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
--(void)saveFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock __attribute__((deprecated));
 -(void)saveFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 

@@ -445,11 +445,6 @@
 	[req startAsynchronous];
 }
 
--(void)saveFile:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock
-{
-	[self saveFile:file workspace:self.selectedWorkspace completionHandler:hblock];
-}
-
 -(void)saveFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url=nil;

@@ -304,7 +304,10 @@
 	UIView *rootView = self.view.superview;
 	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
 	hud.labelText = @"Saving…";
-	[[Rc2Server sharedInstance] saveFile:self.currentFile completionHandler:^(BOOL success, id results) {
+	[[Rc2Server sharedInstance] saveFile:self.currentFile 
+							   workspace:[[Rc2Server sharedInstance] currentSession].workspace 
+					   completionHandler:^(BOOL success, id results) 
+	{
 		[MBProgressHUD hideHUDForView:rootView animated:YES];
 		if (success) {
 			[self.fileController.tableView reloadData];

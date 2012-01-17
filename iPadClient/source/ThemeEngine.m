@@ -160,7 +160,7 @@
 {
 	ThemeNotifyTracker *tn = [[ThemeNotifyTracker alloc] init];
 	tn.block = tblock;
-	AMZeroingWeakRef *weakRef = [AMZeroingWeakRef refWithTarget:tn];
+	MAZeroingWeakRef *weakRef = [MAZeroingWeakRef refWithTarget:tn];
 	[_toNotify addObject:weakRef];
 	return tn;
 }

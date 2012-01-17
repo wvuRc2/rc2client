@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0809BF6F14C5F1AC009CEC57 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF6C14C5F1AB009CEC57 /* Rc2.xcdatamodeld */; };
 		0829453F1496AA9800E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */; };
 		082945421496AAA000E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945411496AAA000E593C7 /* _RCWorkspaceCache.m */; };
 		082D9D5714097AEF008F3CB0 /* RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D9D5614097AEF008F3CB0 /* RCSavedSession.m */; };
@@ -64,7 +65,6 @@
 		08349F651404CDB800B629B4 /* workspaceHi.png in Resources */ = {isa = PBXBuildFile; fileRef = 08349F641404CDB800B629B4 /* workspaceHi.png */; };
 		083A6D6C1489764A00A29A52 /* console.html in copy console files */ = {isa = PBXBuildFile; fileRef = 08DFFDAD14897392008D1399 /* console.html */; };
 		083A6D6D1489765900A29A52 /* jquery-1.6.1.min.js in copy console files */ = {isa = PBXBuildFile; fileRef = 08DFFDAF14897392008D1399 /* jquery-1.6.1.min.js */; };
-		08447F681415B53B00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F661415B53B00A8DDF8 /* Rc2.xcdatamodeld */; };
 		08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */; };
 		08447F741415DE8F00A8DDF8 /* themes in Resources */ = {isa = PBXBuildFile; fileRef = 08447F731415DE8F00A8DDF8 /* themes */; };
 		08447F781415E96C00A8DDF8 /* ThemePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 08447F761415E96C00A8DDF8 /* ThemePicker.m */; };
@@ -178,6 +178,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0809BF6D14C5F1AC009CEC57 /* v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = v2.xcdatamodel; sourceTree = "<group>"; };
+		0809BF6E14C5F1AC009CEC57 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
 		0829453D1496AA9800E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
 		0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceCache.m; sourceTree = "<group>"; };
 		082945401496AAA000E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCWorkspaceCache.h; path = ../SharedCode/rc2/model/generated/_RCWorkspaceCache.h; sourceTree = SOURCE_ROOT; };
@@ -266,7 +268,6 @@
 		08349F601404C38000B629B4 /* WorkspaceTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceTableCell.m; path = source/WorkspaceTableCell.m; sourceTree = SOURCE_ROOT; };
 		08349F621404C3FA00B629B4 /* WorkspaceTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkspaceTableCell.xib; path = source/WorkspaceTableCell.xib; sourceTree = SOURCE_ROOT; };
 		08349F641404CDB800B629B4 /* workspaceHi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = workspaceHi.png; path = resources/workspaceHi.png; sourceTree = SOURCE_ROOT; };
-		08447F671415B53B00A8DDF8 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
 		08447F6D1415CBF300A8DDF8 /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/ThemeEngine.h; sourceTree = SOURCE_ROOT; };
 		08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/ThemeEngine.m; sourceTree = SOURCE_ROOT; };
 		08447F731415DE8F00A8DDF8 /* themes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = themes; sourceTree = SOURCE_ROOT; };
@@ -439,7 +440,7 @@
 			children = (
 				088AC24314ABA1210094D134 /* Rc².entitlements */,
 				082D9D531408FF6E008F3CB0 /* notes.markdown */,
-				08447F661415B53B00A8DDF8 /* Rc2.xcdatamodeld */,
+				0809BF6C14C5F1AB009CEC57 /* Rc2.xcdatamodeld */,
 				082DC03313EC99E5008EAA99 /* source */,
 				08349F5414049A8700B629B4 /* model */,
 				08DD23AE1412B65A00217C1A /* 3rd Party */,
@@ -932,7 +933,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if test \"${SRCROOT}/../SharedCode/rc2/model/generated\" -ot \"${SRCROOT}/../Rc2.xcdatamodeld\"\nthen\n/usr/bin/mogenerator -m \"${SRCROOT}/../Rc2.xcdatamodeld/Rc2.xcdatamodel\" --template-path \"${SRCROOT}/../modeltemplates\" -M \"${SRCROOT}/../SharedCode/rc2/model/generated\" -H \"${SRCROOT}/../SharedCode/rc2/model\" --use-pbx-vars --template-var arc=true\nfi\n";
+			shellScript = "if test \"${SRCROOT}/../SharedCode/rc2/model/generated\" -ot \"${SRCROOT}/../Rc2.xcdatamodeld\"\nthen\nFNAME=`/usr/libexec/PlistBuddy -c \"Print _XCCurrentVersionName\" ${SRCROOT}/../Rc2.xcdatamodeld/.xccurrentversion`\n/usr/bin/mogenerator -m \"${SRCROOT}/../Rc2.xcdatamodeld/$FNAME\" --template-path \"${SRCROOT}/../modeltemplates\" -M \"${SRCROOT}/../SharedCode/rc2/model/generated\" -H \"${SRCROOT}/../SharedCode/rc2/model\" --use-pbx-vars --template-var arc=true\nfi";
 		};
 		08A6FF51142F93F700E8AB4B /* increment build number */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1018,7 +1019,6 @@
 				08AE4E81141406B100963C52 /* MessageController.m in Sources */,
 				08AE4E921414374C00963C52 /* MessageListCell.m in Sources */,
 				08FE88991414F92F00672474 /* BottomViewController.m in Sources */,
-				08447F681415B53B00A8DDF8 /* Rc2.xcdatamodeld in Sources */,
 				08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */,
 				08447F781415E96C00A8DDF8 /* ThemePicker.m in Sources */,
 				08A6FF4E142F8BA300E8AB4B /* RC2RemoteLogger.m in Sources */,
@@ -1034,6 +1034,7 @@
 				089C0B141458E51800DF9984 /* RCWorkspaceShare.m in Sources */,
 				0829453F1496AA9800E593C7 /* RCWorkspaceCache.m in Sources */,
 				082945421496AAA000E593C7 /* _RCWorkspaceCache.m in Sources */,
+				0809BF6F14C5F1AC009CEC57 /* Rc2.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1254,15 +1255,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		08447F661415B53B00A8DDF8 /* Rc2.xcdatamodeld */ = {
+		0809BF6C14C5F1AB009CEC57 /* Rc2.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				08447F671415B53B00A8DDF8 /* Rc2.xcdatamodel */,
+				0809BF6D14C5F1AC009CEC57 /* v2.xcdatamodel */,
+				0809BF6E14C5F1AC009CEC57 /* Rc2.xcdatamodel */,
 			);
-			currentVersion = 08447F671415B53B00A8DDF8 /* Rc2.xcdatamodel */;
+			currentVersion = 0809BF6D14C5F1AC009CEC57 /* v2.xcdatamodel */;
 			name = Rc2.xcdatamodeld;
-			path = ../Rc2.xcdatamodeld;
-			sourceTree = "<group>";
+			path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/MacClient/../Rc2.xcdatamodeld";
+			sourceTree = "<absolute>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
 /* End XCVersionGroup section */

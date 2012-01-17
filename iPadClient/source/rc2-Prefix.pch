@@ -15,7 +15,7 @@
 	#import <QuartzCore/QuartzCore.h>
 	#import <MessageUI/MessageUI.h>
 	#import "Vyana-ios/Vyana-ios.h"
-	#import "Vyana-ios/AMZeroingWeakRef.h"
+	#import "Vyana-ios/MAZeroingWeakRef.h"
 	#import <DropboxSDK/DropboxSDK.h>
 	#import <DropboxSDK/JSON.h>
 	#import "TestFlight.h"
