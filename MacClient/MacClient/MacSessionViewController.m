@@ -704,6 +704,14 @@
 	return view;
 }
 
+- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
+{
+	RCFile *file = [self.session.workspace.files objectAtIndex:rowIndexes.firstIndex];
+	NSArray *pitems = ARRAY([NSURL fileURLWithPath:file.fileContentsPath]);
+	[pboard writeObjects:pitems];
+	return YES;
+}
+
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation
 {
 	return [MultiFileImporter validateTableViewFileDrop:info];
