@@ -14,7 +14,7 @@
 @class RCWorkspace;
 @class RCFile;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate,NSToolbarDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;

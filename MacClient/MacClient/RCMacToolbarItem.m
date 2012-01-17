@@ -80,6 +80,25 @@
 				good=NO;
 		}
 		[self setEnabled:good];
+	} else if ([self.view respondsToSelector:@selector(setEnabled:)]) {
+		//we have a custom view that can be enabled/disabled. figure out what our target is.
+		BOOL enabled=NO;
+		id target = self.target;
+		if (nil == target || target == self) {
+			id curResponder = self.view.window.firstResponder;
+			while (curResponder) {
+				if ([curResponder respondsToSelector:self.action] && 
+					[curResponder respondsToSelector:@selector(validateUserInterfaceItem:)])
+				{
+					enabled = [curResponder validateUserInterfaceItem:self];
+					break;
+				}
+				curResponder = [curResponder nextResponder];
+			}
+		} else if ([target respondsToSelector:@selector(validateUserInterfaceItem:)]) {
+			enabled = [target validateUserInterfaceItem:self];
+		}
+		[(id)self.view setEnabled:enabled];
 	} else {
 		[super validate];
 	}

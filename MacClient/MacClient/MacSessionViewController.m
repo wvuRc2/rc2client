@@ -20,6 +20,7 @@
 #import "RCSavedSession.h"
 #import "RCMTextView.h"
 #import "MCNewFileController.h"
+#import "RCMSessionUserController.h"
 #import "RCMAppConstants.h"
 #import <Vyana/AMWindow.h>
 #import "ASIHTTPRequest.h"
@@ -48,6 +49,8 @@
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) RCMImageViewer *imageController;
 @property (nonatomic, strong) NSArray *currentImageGroup;
+@property (nonatomic, strong) NSPopover *userPopover;
+@property (nonatomic, strong) RCMSessionUserController *userController;
 @property (nonatomic, strong) NSNumber *fileIdJustImported;
 @property (nonatomic, strong) id fullscreenToken;
 -(void)prepareForSession;
@@ -153,6 +156,7 @@
 		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 		[self.fileTableView setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleNone];
 		[self.fileTableView registerForDraggedTypes:ARRAY((id)kUTTypeFileURL)];
+		self.userController = [[RCMSessionUserController alloc] init];
 		__didInit=YES;
 	}
 }
@@ -205,6 +209,8 @@
 		return self.session.hasWritePerm;
 	} else if (action == @selector(saveFileEdits:)) {
 		return self.selectedFile.isTextFile && ![self.editView.string isEqualToString:self.selectedFile.currentContents];
+	} else if (action == @selector(toggleUsers:)) {
+		return YES;
 	}
 	return NO;
 }
@@ -215,6 +221,18 @@
 }
 
 #pragma mark - actions
+
+-(IBAction)toggleUsers:(id)sender
+{
+	if (nil == self.userPopover) {
+		self.userPopover = [[NSPopover alloc] init];
+		self.userPopover.behavior = NSPopoverBehaviorSemitransient;
+	}
+//	__unsafe_unretained MacSessionViewController *blockSelf = self;
+	self.userPopover.contentViewController = self.userController;
+	self.userController.session = self.session;
+	[self.userPopover showRelativeToRect:[sender frame] ofView:[sender superview] preferredEdge:NSMinYEdge];
+}
 
 -(IBAction)toggleFileList:(id)sender
 {
@@ -510,6 +528,9 @@
 {
 	self.busy=NO;
 	self.statusMessage = @"Connected";
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.session requestUserList];
+	});
 }
 
 -(void)connectionClosed
@@ -542,13 +563,16 @@
 		js = [NSString stringWithFormat:@"iR.userJoinedSession('%@', '%@')", 
 			  [self escapeForJS:[dict objectForKey:@"user"]],
 			  [self escapeForJS:[dict objectForKey:@"userid"]]];
+		[self.userController userJoined:dict];
 	} else if ([cmd isEqualToString:@"left"]) {
 		js = [NSString stringWithFormat:@"iR.userLeftSession('%@', '%@')", 
 			  [self escapeForJS:[dict objectForKey:@"user"]],
 			  [self escapeForJS:[dict objectForKey:@"userid"]]];
-	} else if ([cmd isEqualToString:@"userList"]) {
+		[self.userController userLeft:dict];
+	} else if ([cmd isEqualToString:@"userlist"]) {
 		js = [NSString stringWithFormat:@"iR.updateUserList(JSON.parse('%@'))", 
 			  [[[dict objectForKey:@"data"] objectForKey:@"users"] JSONRepresentation]];
+		[self.userController userListUpdated:dict];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpPath = [dict objectForKey:@"helpPath"];
@@ -813,6 +837,8 @@
 @synthesize currentImageGroup;
 @synthesize fileIdJustImported;
 @synthesize fullscreenToken;
+@synthesize userPopover;
+@synthesize userController;
 @end
 
 @implementation SessionView

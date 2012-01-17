@@ -36,6 +36,7 @@
 -(void)executeScript:(NSString*)script;
 -(void)executeSweave:(NSString*)fname script:(NSString*)script;
 -(void)sendChatMessage:(NSString*)message;
+-(void)requestUserList;
 
 -(id)settingForKey:(NSString*)key;
 -(void)setSetting:(id)val forKey:(NSString*)key;

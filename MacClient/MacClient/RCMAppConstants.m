@@ -13,6 +13,7 @@ NSString * const RCMToolbarItem_OpenSession = @"RCMToolbarItem_OpenSession";
 NSString * const RCMToolbarItem_Back = @"RCMToolbarItem_Back";
 NSString * const RCMToolbarItem_Remove = @"RCMToolbarItem_Remove";
 NSString * const RCMToolbarItem_Add = @"RCMToolbarItem_Add";
+NSString * const RCMToolbarItem_Users = @"RCMToolbarItem_Users";
 
 @implementation RCMAppConstants
 +(NSArray*)alertSupressionKeys

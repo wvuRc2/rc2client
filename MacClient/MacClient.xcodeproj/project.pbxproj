@@ -21,6 +21,8 @@
 		08056E3C1448D59C0002766D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08056E3B1448D59B0002766D /* QuartzCore.framework */; };
 		08056E5C1448EC410002766D /* RCMacToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056E5B1448EC410002766D /* RCMacToolbarItem.m */; };
 		0809BF2514B50086009CEC57 /* MultiFileImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF2414B50086009CEC57 /* MultiFileImporter.m */; };
+		0809BF7814C5FBF4009CEC57 /* RCMSessionUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF7614C5FBF4009CEC57 /* RCMSessionUserController.m */; };
+		0809BF7914C5FBF4009CEC57 /* RCMSessionUserController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0809BF7714C5FBF4009CEC57 /* RCMSessionUserController.xib */; };
 		082945391496AA7700E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945381496AA7700E593C7 /* _RCWorkspaceCache.m */; };
 		0829453C1496AA8300E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453B1496AA8300E593C7 /* RCWorkspaceCache.m */; };
 		0829456114993CF600E593C7 /* MCNewFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829456014993CF600E593C7 /* MCNewFileController.m */; };
@@ -167,6 +169,9 @@
 		0809BF2314B50086009CEC57 /* MultiFileImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiFileImporter.h; sourceTree = "<group>"; };
 		0809BF2414B50086009CEC57 /* MultiFileImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFileImporter.m; sourceTree = "<group>"; };
 		0809BF6514BF8EEB009CEC57 /* v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = v2.xcdatamodel; sourceTree = "<group>"; };
+		0809BF7514C5FBF3009CEC57 /* RCMSessionUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMSessionUserController.h; sourceTree = "<group>"; };
+		0809BF7614C5FBF4009CEC57 /* RCMSessionUserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMSessionUserController.m; sourceTree = "<group>"; };
+		0809BF7714C5FBF4009CEC57 /* RCMSessionUserController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMSessionUserController.xib; sourceTree = "<group>"; };
 		082945371496AA7700E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCWorkspaceCache.h; sourceTree = "<group>"; };
 		082945381496AA7700E593C7 /* _RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCWorkspaceCache.m; sourceTree = "<group>"; };
 		0829453A1496AA8300E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
@@ -179,7 +184,7 @@
 		0838B388141E9095003264A8 /* PXSourceListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceListDataSource.h; sourceTree = "<group>"; };
 		0838B389141E9095003264A8 /* PXSourceListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceListDelegate.h; sourceTree = "<group>"; };
 		0838B38C141E90C2003264A8 /* MacMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacMainWindowController.h; sourceTree = "<group>"; };
-		0838B38D141E90C2003264A8 /* MacMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacMainWindowController.m; sourceTree = "<group>"; };
+		0838B38D141E90C2003264A8 /* MacMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MacMainWindowController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0838B38F141E90E0003264A8 /* MacMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacMainWindow.xib; sourceTree = "<group>"; };
 		08447F6A1415B54F00A8DDF8 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
 		08566747149FCC3600BD85E5 /* RCMTextPrintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMTextPrintView.h; sourceTree = "<group>"; };
@@ -231,8 +236,8 @@
 		08ADF5AE144B918B00F787E6 /* RCMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMTextView.h; sourceTree = "<group>"; };
 		08ADF5AF144B918B00F787E6 /* RCMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMTextView.m; sourceTree = "<group>"; };
 		08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = MacClientNotes.rtf; path = MacClient/MacClientNotes.rtf; sourceTree = "<group>"; };
-		08ADF5BC144BA2ED00F787E6 /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMAppConstants.h; sourceTree = "<group>"; };
-		08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMAppConstants.m; sourceTree = "<group>"; };
+		08ADF5BC144BA2ED00F787E6 /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RCMAppConstants.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RCMAppConstants.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		08BD995D1474467F004EF624 /* RCMPDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMPDFViewController.h; sourceTree = "<group>"; };
 		08BD995E1474467F004EF624 /* RCMPDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMPDFViewController.m; sourceTree = "<group>"; };
 		08BD995F1474467F004EF624 /* RCMPDFViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMPDFViewController.xib; sourceTree = "<group>"; };
@@ -282,7 +287,7 @@
 		08FE88B91415533400672474 /* MacClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MacClient-Prefix.pch"; sourceTree = "<group>"; };
 		08FE88BB1415533400672474 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		08FE88BD1415533400672474 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		08FE88BE1415533400672474 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		08FE88BE1415533400672474 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		08FE88C11415533400672474 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		08FE88D014155C0600672474 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		08FE89C414156ED100672474 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASICacheDelegate.h; path = ../SharedCode/ASIHTTPRequest/ASICacheDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -410,6 +415,9 @@
 				0829455F14993CF600E593C7 /* MCNewFileController.h */,
 				0829456014993CF600E593C7 /* MCNewFileController.m */,
 				0829456214993D1200E593C7 /* MCNewFileController.xib */,
+				0809BF7514C5FBF3009CEC57 /* RCMSessionUserController.h */,
+				0809BF7614C5FBF4009CEC57 /* RCMSessionUserController.m */,
+				0809BF7714C5FBF4009CEC57 /* RCMSessionUserController.xib */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -804,6 +812,7 @@
 				08617618149BCD8C00450EE9 /* history.png in Resources */,
 				0861761D149BE19900450EE9 /* RCMMultiImageController.xib in Resources */,
 				08617622149BE37A00450EE9 /* RCMImageDetailController.xib in Resources */,
+				0809BF7914C5FBF4009CEC57 /* RCMSessionUserController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -909,6 +918,7 @@
 				08617621149BE37A00450EE9 /* RCMImageDetailController.m in Sources */,
 				08566749149FCC3600BD85E5 /* RCMTextPrintView.m in Sources */,
 				0809BF2514B50086009CEC57 /* MultiFileImporter.m in Sources */,
+				0809BF7814C5FBF4009CEC57 /* RCMSessionUserController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,7 @@ extern NSString * const RCMToolbarItem_OpenSession;
 extern NSString * const RCMToolbarItem_Back;
 extern NSString * const RCMToolbarItem_Remove;
 extern NSString * const RCMToolbarItem_Add;
+extern NSString * const RCMToolbarItem_Users;
 
 #define kPref_FixedFont @"FixedFont"
 #define kPref_SupressDeleteFileWarning @"SupressDeleteFileWarning"

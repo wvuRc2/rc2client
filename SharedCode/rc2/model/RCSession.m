@@ -122,6 +122,13 @@
 	self.timeOfLastTraffic = [NSDate date];
 }
 
+-(void)requestUserList
+{
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"userlist", @"cmd", nil];
+	[_ws send:[dict JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
+}
+
 -(void)setDelegate:(id<RCSessionDelegate>)del
 {
 	ZAssert(nil == del || [del conformsToProtocol:@protocol(RCSessionDelegate)], @"delegate not valid");

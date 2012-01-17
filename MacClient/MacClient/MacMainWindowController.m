@@ -48,13 +48,7 @@
 	NSView *contentView = self.window.contentView;
 	[contentView replaceSubview:self.detailContainer with:self.mainViewController.view];
 	self.navController = [[AMMacNavController alloc] initWithRootViewController:self.mainViewController];
-	NSToolbar *tbar = [[NSToolbar alloc] initWithIdentifier:@"mainwindow"];
-	[tbar setAllowsUserCustomization:NO];
-	[tbar setDisplayMode:NSToolbarDisplayModeIconOnly];
-	[tbar setSizeMode:NSToolbarSizeModeSmall];
-	tbar.delegate = [NSApp delegate];
-	self.window.toolbar = tbar;
-	RCMacToolbarItem *addItem = [tbar.items firstObjectWithValue:RCMToolbarItem_Add forKey:@"itemIdentifier"];
+	RCMacToolbarItem *addItem = [self.window.toolbar.items firstObjectWithValue:RCMToolbarItem_Add forKey:@"itemIdentifier"];
 	addItem.actionMenu = self.addToolbarMenu;
 }
 

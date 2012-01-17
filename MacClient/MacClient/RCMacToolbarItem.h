@@ -11,6 +11,7 @@
 //This subclass resizes the images to be 16x16 in a 24x24 space.
 // It also allows an action menu to be specified to be displayed when clicked. this overrides the target/action.
 // ViewControllers (or whatever) can push/pop their own menus.
+// It also implements validate for custom view items if the custom view responds to setEnabled:
 
 @interface RCMacToolbarItem : NSToolbarItem<NSMenuDelegate>
 @property (nonatomic, strong) IBOutlet NSMenu *actionMenu;
