@@ -73,8 +73,11 @@
 	NSString *baseUrl = [[Rc2Server sharedInstance] baseUrl];
 	NSString *urlStr = [baseUrl stringByReplacingOccurrencesOfString:@"http" withString:@"ws"];
 	urlStr = [urlStr stringByAppendingString:@"iR/ws"];
+	id build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-	urlStr = [urlStr stringByAppendingFormat:@"?wid=%@", self.workspace.wspaceId];
+	urlStr = [urlStr stringByAppendingFormat:@"?wid=%@&client=osx&build=%@", self.workspace.wspaceId, build];
+#else
+	urlStr = [urlStr stringByAppendingFormat:@"?client=ios&build=%@", build];
 #endif
 	_ws = [WebSocket00 webSocketWithURLString:urlStr delegate:self origin:nil 
 									 protocols:nil tlsSettings:nil verifyHandshake:YES];
