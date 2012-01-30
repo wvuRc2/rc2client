@@ -64,6 +64,7 @@
 		08A4064714538DC300DBA662 /* RCMAddShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08A4064514538DC300DBA662 /* RCMAddShareController.xib */; };
 		08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5AF144B918B00F787E6 /* RCMTextView.m */; };
 		08ADF5BE144BA2ED00F787E6 /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */; };
+		08B6305B14D74D770053DD74 /* RCStuckies.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B6305A14D74D770053DD74 /* RCStuckies.m */; };
 		08BD99601474467F004EF624 /* RCMPDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD995E1474467F004EF624 /* RCMPDFViewController.m */; };
 		08BD99611474467F004EF624 /* RCMPDFViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08BD995F1474467F004EF624 /* RCMPDFViewController.xib */; };
 		08BD99DB14842C9F004EF624 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD99DA14842C9F004EF624 /* Quartz.framework */; };
@@ -238,6 +239,8 @@
 		08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = MacClientNotes.rtf; path = MacClient/MacClientNotes.rtf; sourceTree = "<group>"; };
 		08ADF5BC144BA2ED00F787E6 /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RCMAppConstants.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RCMAppConstants.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		08B6305914D74D770053DD74 /* RCStuckies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCStuckies.h; path = ../SharedCode/rc2/RCStuckies.h; sourceTree = "<group>"; };
+		08B6305A14D74D770053DD74 /* RCStuckies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCStuckies.m; path = ../SharedCode/rc2/RCStuckies.m; sourceTree = "<group>"; };
 		08BD995D1474467F004EF624 /* RCMPDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMPDFViewController.h; sourceTree = "<group>"; };
 		08BD995E1474467F004EF624 /* RCMPDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMPDFViewController.m; sourceTree = "<group>"; };
 		08BD995F1474467F004EF624 /* RCMPDFViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMPDFViewController.xib; sourceTree = "<group>"; };
@@ -631,6 +634,8 @@
 			children = (
 				08FE8A1B1415755000672474 /* Rc2Server.h */,
 				08FE8A1C1415755000672474 /* Rc2Server.m */,
+				08B6305914D74D770053DD74 /* RCStuckies.h */,
+				08B6305A14D74D770053DD74 /* RCStuckies.m */,
 				08FE8A1E141575F500672474 /* model */,
 				08EE411E14364CAF004FDBB8 /* WebSocketClient */,
 				08FE89E014156F1300672474 /* json */,
@@ -919,6 +924,7 @@
 				08566749149FCC3600BD85E5 /* RCMTextPrintView.m in Sources */,
 				0809BF2514B50086009CEC57 /* MultiFileImporter.m in Sources */,
 				0809BF7814C5FBF4009CEC57 /* RCMSessionUserController.m in Sources */,
+				08B6305B14D74D770053DD74 /* RCStuckies.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

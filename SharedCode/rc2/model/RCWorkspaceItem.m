@@ -27,7 +27,7 @@
 		self.name = [dict objectForKey:@"name"];
 		self.wspaceId = [dict objectForKey:@"id"];
 		id pid = [dict objectForKey:@"parid"];
-		if (pid == [NSNull null])
+		if (pid == [NSNull null] || [pid intValue] == 0)
 			pid = nil;
 		self.parentId = pid;
 	}

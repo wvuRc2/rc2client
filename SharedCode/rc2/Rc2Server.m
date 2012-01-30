@@ -19,6 +19,7 @@
 #else
 #import "RCMessage.h"
 #endif
+#import "RCStuckies.h"
 
 #define kServerHostKey @"ServerHostKey"
 #define kUserAgent @"Rc2 iPadClient"
@@ -61,7 +62,7 @@
 	static Rc2Server *global;
 	
 	dispatch_once(&pred, ^{ 
-		global = [[Rc2Server alloc] init];
+		global = [[RCStuckies alloc] init];
 	});
 	
 	return global;
