@@ -8,6 +8,8 @@
 
 #import "RCStuckies.h"
 #import "ASIFormDataRequest.h"
+#import "RCWorkspace.h"
+#import "RCWorkspaceShare.h"
 
 @implementation RCStuckies
 -(NSString*)baseUrl
@@ -15,12 +17,37 @@
 	return @"http://barney.stat.wvu.edu:9999/";
 }
 
+-(void)fetchWorkspaceShares:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@/share", [self baseUrl],
+									   wspace.wspaceId]];
+	ASIHTTPRequest *theReq = [self requestWithURL:url];
+	__weak ASIHTTPRequest *req = theReq;
+	[req setCompletionBlock:^{
+		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+		if (![self responseIsValidJSON:req]) {
+			hblock(NO, @"server sent back invalid response");
+			return;
+		}
+		NSDictionary *rsp = [respStr JSONValue];
+		[wspace.shares removeAllObjects];
+		for (NSDictionary *dict in [rsp objectForKey:@"shares"]) {
+			RCWorkspaceShare *share = [[RCWorkspaceShare alloc] initWithDictionary:dict workspace:wspace];
+			[wspace.shares addObject:share];
+		}
+		hblock(![[rsp objectForKey:@"status"] boolValue], wspace.shares);
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+	}];
+	[req startAsynchronous];
+}
+
 -(void)loginAsUser:(NSString*)user password:(NSString*)password completionHandler:(Rc2SessionCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@login", [self baseUrl]]];
 	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
 	__weak ASIFormDataRequest *req = theReq;
-	NSDictionary *loginInfo = [NSDictionary dictionaryWithObjectsAndKeys:user, @"login", password, @"password", nil];
 	[req setTimeOutSeconds:10];
 	[req setPostValue:user forKey:@"login"];
 	[req setPostValue:password forKey:@"password"];

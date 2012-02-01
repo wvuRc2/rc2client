@@ -62,7 +62,8 @@
 	static Rc2Server *global;
 	
 	dispatch_once(&pred, ^{ 
-		global = [[RCStuckies alloc] init];
+//		global = [[RCStuckies alloc] init];
+		global = [[Rc2Server alloc] init];
 	});
 	
 	return global;
