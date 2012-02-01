@@ -17,6 +17,33 @@
 	return @"http://barney.stat.wvu.edu:9999/";
 }
 
+-(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/ftree/%@", [self baseUrl],
+									   wspace.wspaceId]];
+	ASIHTTPRequest *theReq = [self requestWithURL:url];
+	__weak ASIHTTPRequest *req = theReq;
+	[req setCompletionBlock:^{
+		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+		if (![self responseIsValidJSON:req]) {
+			hblock(NO, @"server sent back invalid response");
+			return;
+		}
+		NSDictionary *rsp = [respStr JSONValue];
+		NSMutableArray *entries = [NSMutableArray arrayWithArray:[rsp objectForKey:@"files"]];
+		//now we need to add any local files that haven't been sent to the server
+		NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
+		NSSet *newFiles = [moc fetchObjectsForEntityName:@"RCFile" withPredicate:@"fileId == 0 and wspaceId == %@",
+						   self.selectedWorkspace.wspaceId];
+		[entries addObjectsFromArray:[newFiles allObjects]];
+		hblock(![[rsp objectForKey:@"status"] boolValue], entries);
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+	}];
+	[req startAsynchronous];
+}
+
 -(void)fetchWorkspaceShares:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@/share", [self baseUrl],
