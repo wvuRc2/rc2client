@@ -164,7 +164,7 @@
 				//TODO: do we need to update? for now we're always refetching
 			}
 			if (needToFetch) {
-				NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [rc2 baseUrl],
+				NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [rc2 baseUrl],
 												   aFile.fileId]];
 				ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
 				req.userAgent = rc2.userAgentString;

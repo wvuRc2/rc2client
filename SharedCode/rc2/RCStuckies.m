@@ -10,6 +10,7 @@
 #import "ASIFormDataRequest.h"
 #import "RCWorkspace.h"
 #import "RCWorkspaceShare.h"
+#import "RCWorkspaceFolder.h"
 
 @implementation RCStuckies
 -(NSString*)baseUrl
@@ -17,9 +18,35 @@
 	return @"http://barney.stat.wvu.edu:9999/";
 }
 
+-(void)addWorkspace:(NSString*)name parent:(RCWorkspaceFolder*)parent folder:(BOOL)isFolder
+  completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace", [self baseUrl]]];
+	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
+	__weak ASIFormDataRequest *req = theReq;
+	[req setPostValue:name forKey:@"newname"];
+	if (isFolder)
+		[req setPostValue:@"f" forKey:@"newtype"];
+	[req setPostValue:[NSString stringWithFormat:@"%d", parent.wspaceId.intValue] forKey:@"parent"];
+	[req setCompletionBlock:^{
+		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+		if (![self responseIsValidJSON:req]) {
+			hblock(NO, @"server sent back invalid response");
+			return;
+		}
+		NSDictionary *rsp = [respStr JSONValue];
+		hblock(![[rsp objectForKey:@"status"] boolValue], rsp);
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+	}];
+	[req startAsynchronous];
+	
+}
+
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/ftree/%@", [self baseUrl],
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@/files", [self baseUrl],
 									   wspace.wspaceId]];
 	ASIHTTPRequest *theReq = [self requestWithURL:url];
 	__weak ASIHTTPRequest *req = theReq;

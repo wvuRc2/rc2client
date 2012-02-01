@@ -62,8 +62,8 @@
 	static Rc2Server *global;
 	
 	dispatch_once(&pred, ^{ 
-//		global = [[RCStuckies alloc] init];
-		global = [[Rc2Server alloc] init];
+		global = [[RCStuckies alloc] init];
+//		global = [[Rc2Server alloc] init];
 	});
 	
 	return global;
@@ -203,10 +203,11 @@
 
 #pragma mark - workspaces
 
+//++COPIED++
 -(void)addWorkspace:(NSString*)name parent:(RCWorkspaceFolder*)parent folder:(BOOL)isFolder
-	completionHandler:(Rc2FetchCompletionHandler)hblock
+  completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspaces", [self baseUrl]]];
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace", [self baseUrl]]];
 	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
 	__weak ASIFormDataRequest *req = theReq;
 	[req setPostValue:name forKey:@"newname"];
@@ -229,6 +230,7 @@
 	
 }
 
+//++COPIED++ (not needed)
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/use/%@", [self baseUrl],
@@ -363,7 +365,12 @@
 			return;
 		}
 		NSDictionary *rsp = [respStr JSONValue];
-		NSArray *entries = [self processFileListResponse:[rsp objectForKey:@"entries"]];
+		NSMutableArray *entries = [NSMutableArray arrayWithArray:[rsp objectForKey:@"files"]];
+		//now we need to add any local files that haven't been sent to the server
+		NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
+		NSSet *newFiles = [moc fetchObjectsForEntityName:@"RCFile" withPredicate:@"fileId == 0 and wspaceId == %@",
+						   self.selectedWorkspace.wspaceId];
+		[entries addObjectsFromArray:[newFiles allObjects]];
 		hblock(![[rsp objectForKey:@"status"] boolValue], entries);
 	}];
 	[req setFailedBlock:^{
@@ -375,7 +382,7 @@
 -(void)fetchBinaryFileContents:(RCFile*)file toPath:(NSString*)destPath progress:(id)progressView
 			 completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl],
 									   file.fileId]];
 	ASIHTTPRequest *theReq = [self requestWithURL:url];
 	__weak ASIHTTPRequest *req = theReq;
@@ -392,7 +399,7 @@
 
 -(NSString*)fetchFileContentsSynchronously:(RCFile*)file
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl],
 									   file.fileId]];
 	ASIHTTPRequest *theReq = [self requestWithURL:url];
 	[theReq startSynchronous];
@@ -412,7 +419,7 @@
 		});
 		return;
 	}
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl],
 									   file.fileId]];
 	ASIHTTPRequest *theReq = [self requestWithURL:url];
 	__weak ASIHTTPRequest *req = theReq;
@@ -428,7 +435,7 @@
 
 -(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl],
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl],
 									   file.fileId]];
 	ASIHTTPRequest *theReq = [self requestWithURL:url];
 	__weak ASIHTTPRequest *req = theReq;
@@ -452,9 +459,10 @@
 {
 	NSURL *url=nil;
 	if (file.existsOnServer)
-		url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl], file.fileId]];
+		url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl], file.fileId]];
 	else
 		url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/new", [self baseUrl]]];
+//FIXME: bad url above
 	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
 	__weak ASIFormDataRequest *req = theReq;
 	[req setPostValue:file.localEdits forKey:@"content"];
@@ -477,6 +485,7 @@
 
 -(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
+//FIXME: bad url
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/new", self.baseUrl]];
 	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
 	__weak ASIFormDataRequest *req = theReq;
@@ -499,6 +508,7 @@
 }
 
 //synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
+//FIXME: bad url
 -(RCFile*)importFile:(NSURL*)fileUrl name:(NSString*)filename workspace:(RCWorkspace*)workspace error:(NSError *__autoreleasing *)outError
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/new", self.baseUrl]];
@@ -526,7 +536,7 @@
 -(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace  
 			error:(NSError *__autoreleasing *)outError
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/%@", [self baseUrl], file.fileId]];
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl], file.fileId]];
 	ASIFormDataRequest *req = [self postRequestWithURL:url];
 	[req setFile:contentsFileUrl.path forKey:@"content"];
 	[req startSynchronous];
@@ -559,7 +569,7 @@
 //++COPIED++
 -(void)fetchWorkspaceShares:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/share/%@", [self baseUrl],
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@/share", [self baseUrl],
 									   wspace.wspaceId]];
 	ASIHTTPRequest *theReq = [self requestWithURL:url];
 	__weak ASIHTTPRequest *req = theReq;
@@ -570,7 +580,11 @@
 			return;
 		}
 		NSDictionary *rsp = [respStr JSONValue];
-		[self updateWorkspace:wspace withShareArray:[rsp objectForKey:@"shares"]];
+		[wspace.shares removeAllObjects];
+		for (NSDictionary *dict in [rsp objectForKey:@"shares"]) {
+			RCWorkspaceShare *share = [[RCWorkspaceShare alloc] initWithDictionary:dict workspace:wspace];
+			[wspace.shares addObject:share];
+		}
 		hblock(![[rsp objectForKey:@"status"] boolValue], wspace.shares);
 	}];
 	[req setFailedBlock:^{
@@ -666,7 +680,7 @@
 //++COPIED++
 -(void)loginAsUser:(NSString*)user password:(NSString*)password completionHandler:(Rc2SessionCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/login", [self baseUrl]]];
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@login", [self baseUrl]]];
 	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
 	__weak ASIFormDataRequest *req = theReq;
 	[req setTimeOutSeconds:10];
