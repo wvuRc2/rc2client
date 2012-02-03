@@ -70,9 +70,11 @@
 {
 	if (_ws)
 		return;
-	NSString *baseUrl = [[Rc2Server sharedInstance] baseUrl];
-	NSString *urlStr = [baseUrl stringByReplacingOccurrencesOfString:@"http" withString:@"ws"];
-	urlStr = [urlStr stringByAppendingString:@"iR/ws"];
+	//FIXME: skanky hack
+//	NSString *baseUrl = [[Rc2Server sharedInstance] baseUrl];
+	NSString *urlStr = @"ws://barney.stat.wvu.edu:8080/iR/ws";
+//	NSString *urlStr = [baseUrl stringByReplacingOccurrencesOfString:@"http" withString:@"ws"];
+//	urlStr = [urlStr stringByAppendingString:@"iR/ws"];
 	id build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 	urlStr = [urlStr stringByAppendingFormat:@"?wid=%@&client=osx&build=%@", self.workspace.wspaceId, build];

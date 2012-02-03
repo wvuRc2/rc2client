@@ -48,10 +48,15 @@
 	return NO;
 }
 
--(void)processSearchResults:(NSArray*)rsp
+-(void)processSearchResults:(NSDictionary*)rsp
 {
-	NSMutableArray *a = [NSMutableArray arrayWithCapacity:[rsp count]];
-	for (NSDictionary *dict in rsp)
+	if (![[rsp objectForKey:@"status"] isEqualToString:@"ok"]) {
+		Rc2LogError(@"error searching users:%@", [rsp objectForKey:@"message"]);
+		return;
+	}
+	NSArray *matches = [rsp objectForKey:@"users"];
+	NSMutableArray *a = [NSMutableArray arrayWithCapacity:[matches count]];
+	for (NSDictionary *dict in matches)
 		[a addObject:[[RCUser alloc] initWithDictionary:dict]];
 	self.users = a;
 	[self.resultsTable reloadData];

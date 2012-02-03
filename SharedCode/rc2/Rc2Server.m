@@ -19,7 +19,6 @@
 #else
 #import "RCMessage.h"
 #endif
-#import "RCStuckies.h"
 
 #define kServerHostKey @"ServerHostKey"
 #define kUserAgent @"Rc2 iPadClient"
@@ -62,8 +61,7 @@
 	static Rc2Server *global;
 	
 	dispatch_once(&pred, ^{ 
-		global = [[RCStuckies alloc] init];
-//		global = [[Rc2Server alloc] init];
+		global = [[Rc2Server alloc] init];
 	});
 	
 	return global;
@@ -142,7 +140,7 @@
 #endif
 			return @"https://localhost:8443/";
 		case eRc2Host_Barney:
-			return @"http://barney.stat.wvu.edu:8080/";
+			return @"http://barney.stat.wvu.edu:9999/";
 		case eRc2Host_Rc2:
 		default:
 			return @"http://rc2.stat.wvu.edu:8080/";
@@ -233,7 +231,7 @@
 //++COPIED++ (not needed)
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/use/%@", [self baseUrl],
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@?use", [self baseUrl],
 									   wspace.wspaceId]];
 	ASIHTTPRequest *theReq = [self requestWithURL:url];
 	__block __weak ASIHTTPRequest *req = theReq;
@@ -354,7 +352,7 @@
 //++COPIED++
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/ftree/%@", [self baseUrl],
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@/files", [self baseUrl],
 									   wspace.wspaceId]];
 	ASIHTTPRequest *theReq = [self requestWithURL:url];
 	__weak ASIHTTPRequest *req = theReq;

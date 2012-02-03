@@ -27,9 +27,9 @@
 	self.shareId = [dict objectForKey:@"id"];
 	self.userId = [dict objectForKey:@"userid"];
 	self.userName = [dict objectForKey:@"username"];
-	__canOpenFiles = ![[dict objectForKey:@"canOpenFiles"] boolValue];
-	__canWriteFiles = ![[dict objectForKey:@"canWriteFiles"] boolValue];
-	__requiresOwner = ![[dict objectForKey:@"requiresOwner"] boolValue];
+	__canOpenFiles = [[dict objectForKey:@"canOpenFiles"] boolValue];
+	__canWriteFiles = [[dict objectForKey:@"canWriteFiles"] boolValue];
+	__requiresOwner = [[dict objectForKey:@"requiresOwner"] boolValue];
 }
 
 -(void)setRequiresOwner:(BOOL)requiresOwner
