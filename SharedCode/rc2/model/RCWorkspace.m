@@ -97,9 +97,14 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 -(void)updateShare:(RCWorkspaceShare*)share permission:(NSString*)perm
 {
 	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:
-						   [NSString stringWithFormat:@"/fd/wspace/share/%@/%@", perm, share.shareId]];
+						   [NSString stringWithFormat:@"workspace/%@/share/%@", self.wspaceId, share.shareId]];
 	req.requestMethod = @"PUT";
-	[req setPostValue:share.shareId forKey:@"sid"];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:share.requiresOwner], @"requiresOwner",
+						  [NSNumber numberWithBool:share.canOpenFiles], @"canOpenFiles",
+						  [NSNumber numberWithBool:share.canWriteFiles], @"canWriteFiles",
+						  nil];
+	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	[req startSynchronous];
 }
 

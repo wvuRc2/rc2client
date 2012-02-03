@@ -165,8 +165,9 @@
 -(void)handleAddShare:(NSNumber*)userId cellView:(WorkspaceCellView*)wcv
 {
 	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:
-							   [NSString stringWithFormat:@"fd/wspace/share/%@", self.workspace.wspaceId]];
-	[req setPostValue:userId forKey:@"userid"];
+							   [NSString stringWithFormat:@"workspace/%@/share", self.workspace.wspaceId]];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[NSString stringWithFormat:@"{\"userid\":%@}", userId]];
 	__unsafe_unretained WorkspaceViewController *blockSelf = self;
 	req.completionBlock = ^{
 		blockSelf.ignoreSectionReloads=YES;
@@ -181,7 +182,7 @@
 -(void)handleRemoveShare:(RCWorkspaceShare*)share cellView:(WorkspaceCellView*)wcv
 {
 	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:
-							   [NSString stringWithFormat:@"fd/wspace/share/%@", share.shareId]];
+							   [NSString stringWithFormat:@"workspace/%@/share/%@", self.workspace.wspaceId, share.shareId]];
 	req.requestMethod = @"DELETE";
 	[req startSynchronous];
 	if (req.responseStatusCode == 200) {

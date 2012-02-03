@@ -35,19 +35,19 @@
 -(void)setRequiresOwner:(BOOL)requiresOwner
 {
 	__requiresOwner = requiresOwner;
-	[self.workspace updateShare:self permission:@"rqperm"];
+	[self.workspace updateShare:self permission:@"requiresOwner"];
 }
 
 -(void)setCanOpenFiles:(BOOL)canOpenFiles
 {
 	__canOpenFiles = canOpenFiles;
-	[self.workspace updateShare:self permission:@"rdperm"];
+	[self.workspace updateShare:self permission:@"canOpenFiles"];
 }
 
 -(void)setCanWriteFiles:(BOOL)canWriteFiles
 {
 	__canWriteFiles = canWriteFiles;
-	[self.workspace updateShare:self permission:@"wrperm"];
+	[self.workspace updateShare:self permission:@"canWriteFiles"];
 }
 
 @synthesize shareId;
