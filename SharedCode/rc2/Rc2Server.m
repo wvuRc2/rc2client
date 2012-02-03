@@ -595,9 +595,11 @@
 
 -(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/wspace/share/search", [self baseUrl]]];
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@user", [self baseUrl]]];
 	__block ASIFormDataRequest *req = [self postRequestWithURL:url];
-	[req setPostValue:sstring forKey:@"s"];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:sstring, @"value", @"email", @"type", nil];
+	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	return req;
 }
 

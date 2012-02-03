@@ -65,7 +65,7 @@
 		[self.resultsTable reloadData];
 		return;
 	}
-	ASIFormDataRequest *request = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"fd/admin/users/search"];
+	ASIFormDataRequest *request = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"user"];
 	__block id req = request;
 	[request setCompletionBlock: ^{
 		NSString *respStr = [NSString stringWithUTF8Data:[req responseData]];
@@ -76,8 +76,9 @@
 		type = @"email";
 	else if (self.searchesLogins)
 		type = @"login";
-	[req setPostValue:ss forKey:@"value"];
-	[req setPostValue:type forKey:@"type"];
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:type, @"type", ss, @"value", nil];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	[req startAsynchronous];
 }
 
@@ -105,20 +106,20 @@
 -(void)completeAddUser:(RCUser*)user password:(NSString*)pass
 {
 	//send the new user command to the server
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"fd/admin/users/add"];
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"admin/user"];
 	__block ASIFormDataRequest *request = req;
-	[req setPostValue:pass forKey:@"pass"];
-	[req setPostValue:user.email forKey:@"email"];
-	[req setPostValue:user.login forKey:@"login"];
-	[req setPostValue:user.name forKey:@"name"];
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:pass, @"pass", user.email, @"email", 
+						  user.login, @"login", user.name, @"name", nil];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	[req setCompletionBlock:^{
 		NSDictionary *rsp = [[NSString stringWithUTF8Data:[request responseData]] JSONValue];
-		if ([[rsp objectForKey:@"status"] intValue]) {
-			NSError *err = [NSError errorWithDomain:@"Rc2" code:1 userInfo:[NSDictionary dictionaryWithObject:[rsp objectForKey:@"error"] forKey:NSLocalizedDescriptionKey]];
+		if (![[rsp objectForKey:@"status"] isEqualToString:@"ok"]) {
+			NSError *err = [NSError errorWithDomain:@"Rc2" code:1 userInfo:[NSDictionary dictionaryWithObject:[rsp objectForKey:@"message"] forKey:NSLocalizedDescriptionKey]];
 			[NSApp presentError:err];
 		} else {
 			//worked. add that user to our display
-			RCUser *newUser = [[RCUser alloc] initWithDictionary:[rsp objectForKey:@"user"]];
+			RCUser *newUser = [[RCUser alloc] initWithDictionary:[rsp objectForKey:@"userid"]];
 			if (self.users)
 				self.users = [self.users arrayByAddingObject:newUser];
 			else
