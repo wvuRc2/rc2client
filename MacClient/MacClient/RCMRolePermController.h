@@ -8,10 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface RCMRolePermController : AMViewController
+@interface RCMRolePermController : AMViewController<NSTableViewDelegate,NSTableViewDataSource>
 @property (nonatomic, strong) IBOutlet NSArrayController *permController;
 @property (nonatomic, strong) IBOutlet NSTableView *permTable;
 @property (nonatomic, strong) IBOutlet NSArrayController *roleController;
 @property (nonatomic, strong) IBOutlet NSTableView *roleTable;
 @property (nonatomic, strong) IBOutlet NSArrayController *rolePermController;
+@property (nonatomic, strong) IBOutlet NSTableView *rolePermTable;
 @end

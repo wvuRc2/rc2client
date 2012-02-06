@@ -10,9 +10,12 @@
 #import "Rc2Server.h"
 #import "ASIHTTPRequest.h"
 
+#define kPermPboardType @"edu.wvu.stat.rc2.mac.perm"
+
 @interface RCMRolePermController()
 @property (nonatomic, copy) NSArray *perms;
 @property (nonatomic, copy) NSArray *roles;
+@property (nonatomic, strong) NSDictionary *selectedRole;
 @property (nonatomic, strong) id rpKey;
 -(void)fetchPermissions;
 -(void)fetchRoles;
@@ -36,6 +39,8 @@
 	self.rpKey = [self.roleController addObserverForKeyPath:@"selectedObjects" task:^(id obj, NSDictionary *change) {
 		[blockSelf adjustRolePerms];
 	}];
+	[self.permTable setDraggingSourceOperationMask:NSDragOperationCopy forLocal:YES];
+	[self.rolePermTable registerForDraggedTypes:ARRAY(kPermPboardType)];
 }
 
 -(void)adjustRolePerms
@@ -43,8 +48,10 @@
 	NSArray *selObjs = [self.roleController selectedObjects];
 	if (selObjs.count < 1) {
 		self.rolePermController.content=nil;
+		self.selectedRole=nil;
 		return;
 	}
+	self.selectedRole = [selObjs firstObject];
 	NSArray *perms = [[selObjs firstObject] valueForKey:@"permissionIds"];
 	NSMutableArray *ma = [NSMutableArray arrayWithCapacity:perms.count];
 	for (id val in perms) {
@@ -79,12 +86,54 @@
 	[req startAsynchronous];
 }
 
+#pragma mark - table view support
+
+-(BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard
+{
+	if (tableView != self.permTable)
+		return NO;
+	NSDictionary *perm = [self.perms objectAtIndex:[[rows firstObject] integerValue]];
+	if (nil == perm)
+		return NO;
+	[pboard setString:[perm objectForKey:@"short"] forType:kPermPboardType];
+	return YES;
+}
+
+-(NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id<NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation
+{
+	if (tableView != self.rolePermTable)
+		return NSDragOperationNone;
+	if (self.selectedRole == nil)
+		return NSDragOperationNone;
+	NSString *permStr = [[info draggingPasteboard] stringForType:kPermPboardType];
+	NSDictionary *perm = [self.perms firstObjectWithValue:permStr forKey:@"short"];
+	if ([self.rolePermController.arrangedObjects containsObject:perm])
+		return NSDragOperationNone;
+	return NSDragOperationCopy;
+}
+
+-(BOOL)tableView:(NSTableView *)tableView acceptDrop:(id<NSDraggingInfo>)info row:(NSInteger)row 
+   dropOperation:(NSTableViewDropOperation)dropOperation
+{
+	if (tableView != self.rolePermTable)
+		return NO;
+	if (self.selectedRole == nil)
+		return NO;
+	NSString *permStr = [[info draggingPasteboard] stringForType:kPermPboardType];
+	NSDictionary *perm = [self.perms firstObjectWithValue:permStr forKey:@"short"];
+	//send request to server
+	
+	return NO;
+}
+
 @synthesize permTable;
 @synthesize permController;
 @synthesize roleTable;
 @synthesize roleController;
+@synthesize rolePermTable;
 @synthesize rolePermController;
 @synthesize perms;
 @synthesize roles;
 @synthesize rpKey;
+@synthesize selectedRole;
 @end

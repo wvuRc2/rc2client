@@ -50,7 +50,7 @@
 
 -(void)processSearchResults:(NSDictionary*)rsp
 {
-	if (![[rsp objectForKey:@"status"] isEqualToString:@"ok"]) {
+	if (![[rsp objectForKey:@"status"] intValue] == 0) {
 		Rc2LogError(@"error searching users:%@", [rsp objectForKey:@"message"]);
 		return;
 	}
