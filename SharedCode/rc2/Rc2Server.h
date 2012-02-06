@@ -43,6 +43,7 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 @property (nonatomic, readonly) NSString *connectionDescription; //login name plus host if host is not rc2
 @property (nonatomic, readonly) BOOL isAdmin;
 @property (nonatomic, copy, readonly) NSArray *workspaceItems;
+@property (nonatomic, copy, readonly) NSArray *usersPermissions;
 @property (nonatomic, strong) RCWorkspace *selectedWorkspace;
 @property (nonatomic, strong) RCSession *currentSession;
 

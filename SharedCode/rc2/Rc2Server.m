@@ -30,6 +30,7 @@
 @property (nonatomic, copy, readwrite) NSString *currentLogin;
 @property (nonatomic, readwrite) BOOL isAdmin;
 @property (nonatomic, strong) NSNumber *currentUserId;
+@property (nonatomic, copy, readwrite) NSArray *usersPermissions;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
 @property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
 @property (nonatomic, strong) NSOperationQueue *requestQueue;
@@ -51,6 +52,7 @@
 @synthesize remoteLogger;
 @synthesize currentUserId;
 @synthesize isAdmin;
+@synthesize usersPermissions;
 @synthesize requestQueue;
 
 #pragma mark - init
@@ -662,6 +664,7 @@
 		self.loggedIn=YES;
 		self.currentLogin=user;
 		self.currentUserId = [rsp objectForKey:@"userid"];
+		self.usersPermissions = [rsp objectForKey:@"permissions"];
 		self.isAdmin = [[rsp objectForKey:@"isadmin"] boolValue];
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];

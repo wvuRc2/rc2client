@@ -64,6 +64,8 @@
 		08A4064714538DC300DBA662 /* RCMAddShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08A4064514538DC300DBA662 /* RCMAddShareController.xib */; };
 		08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5AF144B918B00F787E6 /* RCMTextView.m */; };
 		08ADF5BE144BA2ED00F787E6 /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */; };
+		08B630C714E070770053DD74 /* RCMRolePermController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B630C514E070760053DD74 /* RCMRolePermController.m */; };
+		08B630C814E070770053DD74 /* RCMRolePermController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B630C614E070760053DD74 /* RCMRolePermController.xib */; };
 		08BD99601474467F004EF624 /* RCMPDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD995E1474467F004EF624 /* RCMPDFViewController.m */; };
 		08BD99611474467F004EF624 /* RCMPDFViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08BD995F1474467F004EF624 /* RCMPDFViewController.xib */; };
 		08BD99DB14842C9F004EF624 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD99DA14842C9F004EF624 /* Quartz.framework */; };
@@ -238,6 +240,9 @@
 		08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = MacClientNotes.rtf; path = MacClient/MacClientNotes.rtf; sourceTree = "<group>"; };
 		08ADF5BC144BA2ED00F787E6 /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RCMAppConstants.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RCMAppConstants.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		08B630C414E070760053DD74 /* RCMRolePermController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMRolePermController.h; sourceTree = "<group>"; };
+		08B630C514E070760053DD74 /* RCMRolePermController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMRolePermController.m; sourceTree = "<group>"; };
+		08B630C614E070760053DD74 /* RCMRolePermController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMRolePermController.xib; sourceTree = "<group>"; };
 		08BD995D1474467F004EF624 /* RCMPDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMPDFViewController.h; sourceTree = "<group>"; };
 		08BD995E1474467F004EF624 /* RCMPDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMPDFViewController.m; sourceTree = "<group>"; };
 		08BD995F1474467F004EF624 /* RCMPDFViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMPDFViewController.xib; sourceTree = "<group>"; };
@@ -406,6 +411,9 @@
 				089C0B28145B101000DF9984 /* RCMUserAdminController.h */,
 				089C0B29145B101000DF9984 /* RCMUserAdminController.m */,
 				089C0B2A145B101000DF9984 /* RCMUserAdminController.xib */,
+				08B630C414E070760053DD74 /* RCMRolePermController.h */,
+				08B630C514E070760053DD74 /* RCMRolePermController.m */,
+				08B630C614E070760053DD74 /* RCMRolePermController.xib */,
 				089C0B39145B426100DF9984 /* RCMEditUserController.h */,
 				089C0B3A145B426100DF9984 /* RCMEditUserController.m */,
 				089C0B3C145B427300DF9984 /* RCMEditUserController.xib */,
@@ -813,6 +821,7 @@
 				0861761D149BE19900450EE9 /* RCMMultiImageController.xib in Resources */,
 				08617622149BE37A00450EE9 /* RCMImageDetailController.xib in Resources */,
 				0809BF7914C5FBF4009CEC57 /* RCMSessionUserController.xib in Resources */,
+				08B630C814E070770053DD74 /* RCMRolePermController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -919,6 +928,7 @@
 				08566749149FCC3600BD85E5 /* RCMTextPrintView.m in Sources */,
 				0809BF2514B50086009CEC57 /* MultiFileImporter.m in Sources */,
 				0809BF7814C5FBF4009CEC57 /* RCMSessionUserController.m in Sources */,
+				08B630C714E070770053DD74 /* RCMRolePermController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
