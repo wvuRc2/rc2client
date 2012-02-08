@@ -8,7 +8,7 @@
 
 #import "RCMRolePermController.h"
 #import "Rc2Server.h"
-#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 
 #define kPermPboardType @"edu.wvu.stat.rc2.mac.perm"
 
@@ -68,7 +68,14 @@
 	__unsafe_unretained ASIHTTPRequest *blockReq = req;
 	req.completionBlock = ^{
 		NSArray *roles = [[blockReq.responseString JSONValue] objectForKey:@"roles"];
-		self.roleController.content = roles;
+		NSMutableArray *editRoles = [NSMutableArray arrayWithCapacity:roles.count];
+		for (NSDictionary *aRole in roles) {
+			NSMutableDictionary *newRole = [aRole mutableCopy];
+			NSArray *perms = [newRole objectForKey:@"permissionIds"];
+			[newRole setObject:[perms mutableCopy] forKey:@"permissionIds"];
+			[editRoles addObject: newRole];
+		}
+		self.roleController.content = editRoles;
 		self.roles = roles;
 	};
 	[req startAsynchronous];
@@ -122,7 +129,20 @@
 	NSString *permStr = [[info draggingPasteboard] stringForType:kPermPboardType];
 	NSDictionary *perm = [self.perms firstObjectWithValue:permStr forKey:@"short"];
 	//send request to server
-	
+	NSString *msg = [NSString stringWithFormat:@"{\"action\":\"add\", \"role\":%@, \"perm\":%@}", 
+					 [self.selectedRole objectForKey:@"id"], [perm objectForKey:@"id"]];
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"role"];
+	[req setRequestMethod:@"PUT"];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[msg dataUsingEncoding:NSUTF8StringEncoding]];
+	[req startSynchronous];
+	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+	NSDictionary *dict = [respStr JSONValue];
+	if ([[dict objectForKey:@"status"] intValue] == 0) {
+		[[self.selectedRole objectForKey:@"permissionIds"] addObject:[perm objectForKey:@"id"]];
+		[self adjustRolePerms];
+		return YES;
+	}
 	return NO;
 }
 
