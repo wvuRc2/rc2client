@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0809BF6F14C5F1AC009CEC57 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF6C14C5F1AB009CEC57 /* Rc2.xcdatamodeld */; };
+		0815945E14E2F47A0067E83C /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815945C14E2F47A0067E83C /* gear.png */; };
+		0815945F14E2F47A0067E83C /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815945D14E2F47A0067E83C /* gear@2x.png */; };
+		0815946414E2F6630067E83C /* iSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0815946214E2F6630067E83C /* iSettingsController.m */; };
+		0815946514E2F6630067E83C /* iSettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0815946314E2F6630067E83C /* iSettingsController.xib */; };
 		0829453F1496AA9800E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */; };
 		082945421496AAA000E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945411496AAA000E593C7 /* _RCWorkspaceCache.m */; };
 		082D9D5714097AEF008F3CB0 /* RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D9D5614097AEF008F3CB0 /* RCSavedSession.m */; };
@@ -67,8 +71,6 @@
 		083A6D6D1489765900A29A52 /* jquery-1.6.1.min.js in copy console files */ = {isa = PBXBuildFile; fileRef = 08DFFDAF14897392008D1399 /* jquery-1.6.1.min.js */; };
 		08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */; };
 		08447F741415DE8F00A8DDF8 /* themes in Resources */ = {isa = PBXBuildFile; fileRef = 08447F731415DE8F00A8DDF8 /* themes */; };
-		08447F781415E96C00A8DDF8 /* ThemePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 08447F761415E96C00A8DDF8 /* ThemePicker.m */; };
-		08447F791415E96C00A8DDF8 /* ThemePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08447F771415E96C00A8DDF8 /* ThemePicker.xib */; };
 		08447F8A1416D82D00A8DDF8 /* ThemeEngine.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08447F891416D82D00A8DDF8 /* ThemeEngine.plist */; };
 		085323091404F8380045D207 /* RCSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 085323081404F8380045D207 /* RCSession.m */; };
 		085323101405CCC00045D207 /* console in Resources */ = {isa = PBXBuildFile; fileRef = 0853230F1405CCC00045D207 /* console */; };
@@ -132,8 +134,6 @@
 		08D55EFA1406664500E9D981 /* 1up.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D55EF71406664500E9D981 /* 1up.png */; };
 		08D55EFB1406664500E9D981 /* 2up.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D55EF81406664500E9D981 /* 2up.png */; };
 		08D55EFC1406664500E9D981 /* 4up.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D55EF91406664500E9D981 /* 4up.png */; };
-		08DD23071411C10300217C1A /* SettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DD23051411C10300217C1A /* SettingsController.m */; };
-		08DD23081411C10300217C1A /* SettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08DD23061411C10300217C1A /* SettingsController.xib */; };
 		08DD230B1411CDA600217C1A /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DD230A1411CDA500217C1A /* Default-Landscape.png */; };
 		08DD231D14125B0700217C1A /* Keyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08DD231B14125B0700217C1A /* Keyboard.xib */; };
 		08DD23201412641B00217C1A /* leftSym.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08DD231F1412641B00217C1A /* leftSym.txt */; };
@@ -180,6 +180,11 @@
 /* Begin PBXFileReference section */
 		0809BF6D14C5F1AC009CEC57 /* v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = v2.xcdatamodel; sourceTree = "<group>"; };
 		0809BF6E14C5F1AC009CEC57 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
+		0815945C14E2F47A0067E83C /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = resources/gear.png; sourceTree = SOURCE_ROOT; };
+		0815945D14E2F47A0067E83C /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gear@2x.png"; path = "resources/gear@2x.png"; sourceTree = SOURCE_ROOT; };
+		0815946114E2F6630067E83C /* iSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iSettingsController.h; path = source/iSettingsController.h; sourceTree = SOURCE_ROOT; };
+		0815946214E2F6630067E83C /* iSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iSettingsController.m; path = source/iSettingsController.m; sourceTree = SOURCE_ROOT; };
+		0815946314E2F6630067E83C /* iSettingsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = iSettingsController.xib; path = source/iSettingsController.xib; sourceTree = SOURCE_ROOT; };
 		0829453D1496AA9800E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
 		0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceCache.m; sourceTree = "<group>"; };
 		082945401496AAA000E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCWorkspaceCache.h; path = ../SharedCode/rc2/model/generated/_RCWorkspaceCache.h; sourceTree = SOURCE_ROOT; };
@@ -271,9 +276,6 @@
 		08447F6D1415CBF300A8DDF8 /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/ThemeEngine.h; sourceTree = SOURCE_ROOT; };
 		08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/ThemeEngine.m; sourceTree = SOURCE_ROOT; };
 		08447F731415DE8F00A8DDF8 /* themes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = themes; sourceTree = SOURCE_ROOT; };
-		08447F751415E96C00A8DDF8 /* ThemePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemePicker.h; path = source/ThemePicker.h; sourceTree = SOURCE_ROOT; };
-		08447F761415E96C00A8DDF8 /* ThemePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemePicker.m; path = source/ThemePicker.m; sourceTree = SOURCE_ROOT; };
-		08447F771415E96C00A8DDF8 /* ThemePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ThemePicker.xib; path = source/ThemePicker.xib; sourceTree = SOURCE_ROOT; };
 		08447F891416D82D00A8DDF8 /* ThemeEngine.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ThemeEngine.plist; path = resources/ThemeEngine.plist; sourceTree = SOURCE_ROOT; };
 		085323071404F8380045D207 /* RCSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSession.h; path = ../SharedCode/rc2/model/RCSession.h; sourceTree = SOURCE_ROOT; };
 		085323081404F8380045D207 /* RCSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSession.m; path = ../SharedCode/rc2/model/RCSession.m; sourceTree = SOURCE_ROOT; };
@@ -358,9 +360,6 @@
 		08D55EF71406664500E9D981 /* 1up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 1up.png; path = resources/1up.png; sourceTree = SOURCE_ROOT; };
 		08D55EF81406664500E9D981 /* 2up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 2up.png; path = resources/2up.png; sourceTree = SOURCE_ROOT; };
 		08D55EF91406664500E9D981 /* 4up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 4up.png; path = resources/4up.png; sourceTree = SOURCE_ROOT; };
-		08DD23041411C10300217C1A /* SettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsController.h; path = source/SettingsController.h; sourceTree = SOURCE_ROOT; };
-		08DD23051411C10300217C1A /* SettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsController.m; path = source/SettingsController.m; sourceTree = SOURCE_ROOT; };
-		08DD23061411C10300217C1A /* SettingsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsController.xib; path = source/SettingsController.xib; sourceTree = SOURCE_ROOT; };
 		08DD23091411C50D00217C1A /* AppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppConstants.h; path = source/AppConstants.h; sourceTree = SOURCE_ROOT; };
 		08DD230A1411CDA500217C1A /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape.png"; path = "resources/Default-Landscape.png"; sourceTree = SOURCE_ROOT; };
 		08DD231C14125B0700217C1A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = resources/en.lproj/Keyboard.xib; sourceTree = SOURCE_ROOT; };
@@ -609,6 +608,8 @@
 				08AE4E891414261B00963C52 /* message-tbar-badged.png */,
 				08AE4E8C14142D6200963C52 /* home-tbar-down.png */,
 				08AE4E8D14142D6200963C52 /* home-tbar.png */,
+				0815945C14E2F47A0067E83C /* gear.png */,
+				0815945D14E2F47A0067E83C /* gear@2x.png */,
 				08A7CFE21414A58A000ACA1D /* trash32.png */,
 				08A7CFE51414A689000ACA1D /* trash32-down.png */,
 				08AE4EA91414475100963C52 /* flag.png */,
@@ -718,15 +719,12 @@
 				08349EC814042FDA00B629B4 /* LoginController.h */,
 				08349EC914042FDA00B629B4 /* LoginController.m */,
 				08349ECA14042FDA00B629B4 /* LoginController.xib */,
-				08DD23041411C10300217C1A /* SettingsController.h */,
-				08DD23051411C10300217C1A /* SettingsController.m */,
-				08DD23061411C10300217C1A /* SettingsController.xib */,
+				0815946114E2F6630067E83C /* iSettingsController.h */,
+				0815946214E2F6630067E83C /* iSettingsController.m */,
+				0815946314E2F6630067E83C /* iSettingsController.xib */,
 				08DD23AF1412BBDC00217C1A /* DropboxImportController.h */,
 				08DD23B01412BBDD00217C1A /* DropboxImportController.m */,
 				08DD23B11412BBDD00217C1A /* DropboxImportController.xib */,
-				08447F751415E96C00A8DDF8 /* ThemePicker.h */,
-				08447F761415E96C00A8DDF8 /* ThemePicker.m */,
-				08447F771415E96C00A8DDF8 /* ThemePicker.xib */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -885,7 +883,6 @@
 				088A76FB140C3468003D6A3F /* revert.png in Resources */,
 				088A76FE140C373D003D6A3F /* buttonLightPressed.png in Resources */,
 				088A7701140C3833003D6A3F /* buttonLight.png in Resources */,
-				08DD23081411C10300217C1A /* SettingsController.xib in Resources */,
 				08DD230B1411CDA600217C1A /* Default-Landscape.png in Resources */,
 				08DD231D14125B0700217C1A /* Keyboard.xib in Resources */,
 				08DD23201412641B00217C1A /* leftSym.txt in Resources */,
@@ -910,11 +907,13 @@
 				08A7CFE61414A689000ACA1D /* trash32-down.png in Resources */,
 				08FE889A1414F92F00672474 /* BottomViewController.xib in Resources */,
 				08447F741415DE8F00A8DDF8 /* themes in Resources */,
-				08447F791415E96C00A8DDF8 /* ThemePicker.xib in Resources */,
 				08447F8A1416D82D00A8DDF8 /* ThemeEngine.plist in Resources */,
 				08B44978142CFE9A0064005D /* rightAlphap.txt in Resources */,
 				08B44979142CFE9A0064005D /* rightSymp.txt in Resources */,
 				08EE4159143A1ABC004FDBB8 /* Default-Portrait~ipad.png in Resources */,
+				0815945E14E2F47A0067E83C /* gear.png in Resources */,
+				0815945F14E2F47A0067E83C /* gear@2x.png in Resources */,
+				0815946514E2F6630067E83C /* iSettingsController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1011,7 +1010,6 @@
 				082D9D5A14097AFA008F3CB0 /* _RCSavedSession.m in Sources */,
 				088A76F2140C25DF003D6A3F /* CoolButton.m in Sources */,
 				088A76F9140C30E9003D6A3F /* IPadButton.m in Sources */,
-				08DD23071411C10300217C1A /* SettingsController.m in Sources */,
 				08DD23B21412BBDE00217C1A /* DropboxImportController.m in Sources */,
 				08DD23B61412C36E00217C1A /* DropboxImportCell.m in Sources */,
 				08DD23BD1413CC6B00217C1A /* _RCMessage.m in Sources */,
@@ -1020,7 +1018,6 @@
 				08AE4E921414374C00963C52 /* MessageListCell.m in Sources */,
 				08FE88991414F92F00672474 /* BottomViewController.m in Sources */,
 				08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */,
-				08447F781415E96C00A8DDF8 /* ThemePicker.m in Sources */,
 				08A6FF4E142F8BA300E8AB4B /* RC2RemoteLogger.m in Sources */,
 				08EE41151436441F004FDBB8 /* AsyncSocket.m in Sources */,
 				08EE41161436441F004FDBB8 /* MutableQueue.m in Sources */,
@@ -1035,6 +1032,7 @@
 				0829453F1496AA9800E593C7 /* RCWorkspaceCache.m in Sources */,
 				082945421496AAA000E593C7 /* _RCWorkspaceCache.m in Sources */,
 				0809BF6F14C5F1AC009CEC57 /* Rc2.xcdatamodeld in Sources */,
+				0815946414E2F6630067E83C /* iSettingsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

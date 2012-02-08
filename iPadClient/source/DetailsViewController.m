@@ -12,10 +12,9 @@
 #import "RCFile.h"
 #import "Rc2AppDelegate.h"
 #import "FileDetailsCell.h"
-#import "SettingsController.h"
-#import "ThemePicker.h"
 #import "MessageController.h"
 #import "ThemeEngine.h"
+#import "iSettingsController.h"
 
 #define kDefaultTitleText @"Welcome to Rc²"
 
@@ -36,16 +35,15 @@ enum {
 @property (nonatomic, strong) RCWorkspace *selectedWorkspace;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
-@property (nonatomic, strong) SettingsController *settingsController;
 @property (nonatomic, strong) MessageController *messageController;
 @property (nonatomic, strong) UIView *currentView;
 @property (nonatomic, strong) id themeChangeNotice;
 @property (nonatomic, strong) NSIndexPath *selectedIndex;
+@property (nonatomic, strong) iSettingsController *isettingsController;
+@property (nonatomic, strong) UIPopoverController *isettingsPopover;
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace;
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace withLogout:(BOOL)doLogout;
 -(void)updateLoginStatus;
--(void)displaySettings;
--(void)displayThemes;
 -(void)updateMessageIcon:(BOOL)aboutToSwitch;
 -(void)cleanupAfterLogout;
 -(void)postLoginSetup;
@@ -65,7 +63,6 @@ enum {
 
 -(void)freeUpMemory
 {
-	self.settingsController=nil;
 	self.dateFormatter=nil;
 	self.dateFormatter=nil;
 	for (id aToken in self.kvoTokens)
@@ -154,10 +151,25 @@ enum {
 
 -(IBAction)doActionMenu:(id)sender
 {
-	if (nil == self.actionSheet) {
+	if (self.isettingsPopover) {
+		//alraady displauing it, so dimiss it
+		[self.isettingsPopover dismissPopoverAnimated:YES];
+		self.isettingsPopover=nil;
+		return;
+	}
+	if (nil == self.isettingsController) {
+		self.isettingsController = [[iSettingsController alloc] init];
+		self.isettingsController.contentSizeForViewInPopover = CGSizeMake(350, 340);
+	}
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.isettingsController];
+	self.isettingsPopover = [[UIPopoverController alloc] initWithContentViewController:navController];
+	[self.isettingsPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+	self.isettingsController.containingPopover = self.isettingsPopover;
+	
+	/*	if (nil == self.actionSheet) {
 		self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Settings",@"Theme",nil];
 	}
-	[self.actionSheet showFromBarButtonItem:sender animated:YES];	
+	[self.actionSheet showFromBarButtonItem:sender animated:YES];	*/
 }
 
 -(IBAction)doStartSession:(id)sender
@@ -220,45 +232,6 @@ enum {
 }
 
 #pragma mark - meat & potatoes
-
--(void)displaySettings
-{
-	if (nil == self.settingsController) {
-		SettingsController *fc = [[SettingsController alloc] init];
-		self.settingsController = fc;
-	}
-	self.settingsController.modalPresentationStyle = UIModalPresentationPageSheet;
-	[self.settingsController view];
-	CGSize sz = self.settingsController.view.frame.size;
-	[self presentModalViewController:self.settingsController animated:YES];
-	self.settingsController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
-	| UIViewAutoresizingFlexibleBottomMargin;
-	CGRect r = self.settingsController.view.superview.frame;
-	r.size = sz;
-	self.settingsController.view.superview.frame = r;
-	CGPoint centerPt = CGPointZero;
-	centerPt.x = 512;
-	centerPt.y = 100 + floor(sz.height/2);
-	self.settingsController.view.superview.center = centerPt;
-}
-
--(void)displayThemes
-{
-	ThemePicker *picker = [[ThemePicker alloc] init];
-	picker.modalPresentationStyle = UIModalPresentationPageSheet;
-	[picker view];
-	CGSize sz = picker.view.frame.size;
-	[self presentModalViewController:picker animated:YES];
-	picker.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
-		| UIViewAutoresizingFlexibleBottomMargin;
-	CGRect r = picker.view.superview.frame;
-	r.size = sz;
-	picker.view.superview.frame = r;
-	CGPoint centerPt = CGPointZero;
-	centerPt.x = 512;
-	centerPt.y = 100 + floor(sz.height/2);
-	picker.view.superview.center = centerPt;
-}
 
 -(void)refreshDetails
 {
@@ -361,19 +334,6 @@ enum {
 	}
 	[self updateMessageIcon:NO];
 	self.sessionButton.enabled = self.currentView == self.workspaceContent;
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-	if (buttonIndex < 0)
-		return; //canceled
-	if (0 == buttonIndex) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self displaySettings];
-		});
-	} else if (1== buttonIndex) {
-		[self displayThemes];
-	}
 }
 
 -(UIImage*)editMessageImage:(UIImage*)origImage messageCount:(NSInteger)count
@@ -509,7 +469,6 @@ enum {
 @synthesize workspaceContent;
 @synthesize welcomeContent;
 @synthesize actionSheet;
-@synthesize settingsController;
 @synthesize msgCntLabel;
 @synthesize messagesButton;
 @synthesize messageNavView;
@@ -519,4 +478,6 @@ enum {
 @synthesize toolbar;
 @synthesize kvoTokens;
 @synthesize selectedIndex;
+@synthesize isettingsPopover;
+@synthesize isettingsController;
 @end

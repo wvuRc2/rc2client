@@ -146,6 +146,15 @@
 	return NO;
 }
 
+-(void)tableView:(NSTableView*)tableView handleDeleteKey:(NSEvent*)event
+{
+	if (tableView != self.rolePermTable) {
+		NSBeep();
+		return;
+	}
+	//delete the selected roleperm
+}
+
 @synthesize permTable;
 @synthesize permController;
 @synthesize roleTable;
