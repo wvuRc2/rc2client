@@ -16,10 +16,15 @@
 {
 	_statusMessage = [statusMessage copy];
 	if (statusMessage) {
-		RunAfterDelay(3, ^{
+		RunAfterDelay(5, ^{
 			if ([statusMessage isEqualToString:_statusMessage] && !self.busy)
 				self.statusMessage=nil;
 		});
 	}
+}
+
+-(NSView*)rightStatusView
+{
+	return nil;
 }
 @end

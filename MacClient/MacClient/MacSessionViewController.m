@@ -62,6 +62,7 @@
 -(void)handleNewFile:(NSString*)fileName;
 -(BOOL)fileListVisible;
 -(void)syncFile:(RCFile*)file;
+-(void)setMode:(NSString*)mode;
 @end
 
 @implementation MacSessionViewController
@@ -155,6 +156,7 @@
 		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 		[self.fileTableView setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleNone];
 		[self.fileTableView registerForDraggedTypes:ARRAY((id)kUTTypeFileURL)];
+		[self.modeLabel setHidden:YES];
 		__didInit=YES;
 	}
 }
@@ -569,6 +571,9 @@
 		[self.users removeAllObjects];
 		[self.users addObjectsFromArray:[dict valueForKeyPath:@"data.users"]];
 		[self.userTableView reloadData];
+		[self setMode:[dict objectForKey:@"mode"]];
+	} else if ([cmd isEqualToString:@"modechange"]) {
+		[self setMode:[dict objectForKey:@"mode"]];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpPath = [dict objectForKey:@"helpPath"];
@@ -827,6 +832,22 @@
 	}
 }
 
+-(void)setMode:(NSString*)mode
+{
+	NSString *fancyMode = @"Share Mode";
+	if ([mode isEqualToString:@"control"])
+		fancyMode = @"Control Mode";
+	else if ([mode isEqualToString:@"classroom"])
+		fancyMode = @"Classroom Mode";
+	self.modeLabel.stringValue = fancyMode;
+	[self.modePopUp selectItemWithTitle:fancyMode];
+}
+
+-(NSView*)rightStatusView
+{
+	return self.rightContainer;
+}
+
 @synthesize contentSplitView;
 @synthesize fileTableView;
 @synthesize outputController;
@@ -847,6 +868,9 @@
 @synthesize selectedLeftViewIndex;
 @synthesize userTableView;
 @synthesize users;
+@synthesize modePopUp;
+@synthesize rightContainer;
+@synthesize modeLabel;
 @end
 
 @implementation SessionView

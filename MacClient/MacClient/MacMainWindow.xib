@@ -416,11 +416,11 @@
 						</object>
 						<object class="NSTextField" id="389302438">
 							<reference key="NSNextResponder" ref="1006"/>
-							<int key="NSvFlags">290</int>
+							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{27, 1}, {470, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="628750669"/>
+							<reference key="NSNextKeyView" ref="66152371"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<string key="NSReuseIdentifierKey">_NS:3944</string>
 							<bool key="NSEnabled">YES</bool>
@@ -466,10 +466,10 @@
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSClassName">AMControlledView</string>
 						</object>
-						<object class="NSCustomView" id="628750669">
+						<object class="NSCustomView" id="66152371">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{510, 0}, {470, 22}}</string>
+							<string key="NSFrame">{{500, 2}, {480, 20}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
@@ -524,9 +524,9 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">rightStatusView</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="628750669"/>
+						<reference key="destination" ref="66152371"/>
 					</object>
-					<int key="connectionID">178</int>
+					<int key="connectionID">184</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -675,7 +675,7 @@
 							<reference ref="418191732"/>
 							<reference ref="389302438"/>
 							<reference ref="942362824"/>
-							<reference ref="628750669"/>
+							<reference ref="66152371"/>
 						</array>
 						<reference key="parent" ref="1005"/>
 					</object>
@@ -823,8 +823,8 @@
 						<reference key="parent" ref="1040249064"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">177</int>
-						<reference key="object" ref="628750669"/>
+						<int key="objectID">183</int>
+						<reference key="object" ref="66152371"/>
 						<reference key="parent" ref="1006"/>
 					</object>
 				</array>
@@ -866,7 +866,7 @@
 				<string key="170.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="171.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="172.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="177.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="183.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="83.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="84.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -877,7 +877,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">178</int>
+			<int key="maxID">184</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1097,6 +1097,7 @@
 						<string key="executeButton">NSButton</string>
 						<string key="fileContainerView">NSView</string>
 						<string key="fileTableView">NSTableView</string>
+						<string key="userTableView">NSTableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="contentSplitView">
@@ -1117,6 +1118,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="fileTableView">
 							<string key="name">fileTableView</string>
+							<string key="candidateClassName">NSTableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="userTableView">
+							<string key="name">userTableView</string>
 							<string key="candidateClassName">NSTableView</string>
 						</object>
 					</dictionary>

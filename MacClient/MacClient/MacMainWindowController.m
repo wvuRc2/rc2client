@@ -48,6 +48,7 @@
 	NSView *contentView = self.window.contentView;
 	[contentView replaceSubview:self.detailContainer with:self.mainViewController.view];
 	self.navController = [[AMMacNavController alloc] initWithRootViewController:self.mainViewController];
+	self.navController.delegate = (id)self;
 	RCMacToolbarItem *addItem = [self.window.toolbar.items firstObjectWithValue:RCMToolbarItem_Add forKey:@"itemIdentifier"];
 	addItem.actionMenu = self.addToolbarMenu;
 }
@@ -92,6 +93,23 @@
 		self.currentSessionController = [[MacSessionViewController alloc] initWithSession:session];
 	}
 	[self.navController pushViewController:self.currentSessionController animated:YES];
+}
+
+#pragma mark - nav controller
+
+-(void)macNavController:(AMMacNavController*)navController 
+  didShowViewController:(NSViewController*)viewController 
+			   animated:(BOOL)animated
+{
+	while (self.rightStatusView.subviews.count > 0)
+		[self.rightStatusView.subviews.firstObject removeFromSuperview];
+	if ([viewController isKindOfClass:[MacClientAbstractViewController class]]) {
+		NSView *view = [(id)viewController rightStatusView];
+		if (view) {
+			view.frame = self.rightStatusView.bounds;
+			[self.rightStatusView addSubview:view];
+		}
+	}
 }
 
 #pragma mark - actions

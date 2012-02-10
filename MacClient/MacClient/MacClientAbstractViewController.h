@@ -11,4 +11,5 @@
 @interface MacClientAbstractViewController : AMViewController
 @property (nonatomic,getter=isBusy) BOOL busy;
 @property (nonatomic, strong) NSString *statusMessage;
+@property (nonatomic, readonly) NSView *rightStatusView;
 @end
