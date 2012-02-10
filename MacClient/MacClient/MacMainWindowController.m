@@ -142,4 +142,5 @@
 @synthesize currentSessionController;
 @synthesize addToolbarMenu;
 @synthesize navController;
+@synthesize rightStatusView;
 @end

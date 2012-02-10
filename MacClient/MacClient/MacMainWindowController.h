@@ -17,6 +17,7 @@
 @property (strong, nonatomic) MacClientAbstractViewController *detailController;
 @property (strong) IBOutlet AMControlledView *detailContainer;
 @property (strong) IBOutlet NSMenu *addToolbarMenu;
+@property (strong) IBOutlet NSView *rightStatusView;
 
 -(void)openSession:(RCWorkspace*)wspace file:(RCFile*)initialFile inNewWindow:(BOOL)inNewWindow;
 -(void)openSession:(RCWorkspace*)wspace inNewWindow:(BOOL)inNewWindow;

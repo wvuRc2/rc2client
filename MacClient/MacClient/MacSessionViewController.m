@@ -20,7 +20,6 @@
 #import "RCSavedSession.h"
 #import "RCMTextView.h"
 #import "MCNewFileController.h"
-#import "RCMSessionUserController.h"
 #import "RCMAppConstants.h"
 #import <Vyana/AMWindow.h>
 #import "ASIHTTPRequest.h"
@@ -49,8 +48,7 @@
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) RCMImageViewer *imageController;
 @property (nonatomic, strong) NSArray *currentImageGroup;
-@property (nonatomic, strong) NSPopover *userPopover;
-@property (nonatomic, strong) RCMSessionUserController *userController;
+@property (nonatomic, strong) NSMutableArray *users;
 @property (nonatomic, strong) NSNumber *fileIdJustImported;
 @property (nonatomic, strong) id fullscreenToken;
 -(void)prepareForSession;
@@ -78,6 +76,7 @@
 		self.session = aSession;
 		self.session.delegate = self;
 		self.scratchString=@"";
+		self.users = [NSMutableArray array];
 		for (RCFile *file in self.session.workspace.files)
 			[file updateContentsFromServer];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
@@ -156,7 +155,6 @@
 		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 		[self.fileTableView setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleNone];
 		[self.fileTableView registerForDraggedTypes:ARRAY((id)kUTTypeFileURL)];
-		self.userController = [[RCMSessionUserController alloc] init];
 		__didInit=YES;
 	}
 }
@@ -224,14 +222,6 @@
 
 -(IBAction)toggleUsers:(id)sender
 {
-	if (nil == self.userPopover) {
-		self.userPopover = [[NSPopover alloc] init];
-		self.userPopover.behavior = NSPopoverBehaviorSemitransient;
-	}
-//	__unsafe_unretained MacSessionViewController *blockSelf = self;
-	self.userPopover.contentViewController = self.userController;
-	self.userController.session = self.session;
-	[self.userPopover showRelativeToRect:[sender frame] ofView:[sender superview] preferredEdge:NSMinYEdge];
 }
 
 -(IBAction)toggleFileList:(id)sender
@@ -563,16 +553,22 @@
 		js = [NSString stringWithFormat:@"iR.userJoinedSession('%@', '%@')", 
 			  [self escapeForJS:[dict objectForKey:@"user"]],
 			  [self escapeForJS:[dict objectForKey:@"userid"]]];
-		[self.userController userJoined:dict];
+		[self.users removeAllObjects];
+		[self.users addObjectsFromArray:[dict valueForKeyPath:@"session.users"]];
+		[self.userTableView reloadData];
 	} else if ([cmd isEqualToString:@"left"]) {
 		js = [NSString stringWithFormat:@"iR.userLeftSession('%@', '%@')", 
 			  [self escapeForJS:[dict objectForKey:@"user"]],
 			  [self escapeForJS:[dict objectForKey:@"userid"]]];
-		[self.userController userLeft:dict];
+		[self.users removeAllObjects];
+		[self.users addObjectsFromArray:[dict valueForKeyPath:@"session.users"]];
+		[self.userTableView reloadData];
 	} else if ([cmd isEqualToString:@"userlist"]) {
 		js = [NSString stringWithFormat:@"iR.updateUserList(JSON.parse('%@'))", 
 			  [[[dict objectForKey:@"data"] objectForKey:@"users"] JSONRepresentation]];
-		[self.userController userListUpdated:dict];
+		[self.users removeAllObjects];
+		[self.users addObjectsFromArray:[dict valueForKeyPath:@"data.users"]];
+		[self.userTableView reloadData];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpPath = [dict objectForKey:@"helpPath"];
@@ -713,11 +709,18 @@
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	return self.session.workspace.files.count;
+	if (tableView == self.fileTableView)
+		return self.session.workspace.files.count;
+	return [self.users count];
 }
 
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
+	if (tableView == self.userTableView) {
+		NSTableCellView *view = [tableView makeViewWithIdentifier:@"user" owner:nil];
+		view.objectValue = [self.users objectAtIndex:row];
+		return view;
+	}
 	RCFile *file = [self.session.workspace.files objectAtIndexNoExceptions:row];
 	RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
 	view.objectValue = file;
@@ -730,6 +733,8 @@
 
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
+	if (aTableView == self.userTableView)
+		return NO;
 	RCFile *file = [self.session.workspace.files objectAtIndex:rowIndexes.firstIndex];
 	NSArray *pitems = ARRAY([NSURL fileURLWithPath:file.fileContentsPath]);
 	[pboard writeObjects:pitems];
@@ -738,6 +743,8 @@
 
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation
 {
+	if (tableView == self.userTableView)
+		return NO;
 	return [MultiFileImporter validateTableViewFileDrop:info];
 }
 
@@ -837,8 +844,9 @@
 @synthesize currentImageGroup;
 @synthesize fileIdJustImported;
 @synthesize fullscreenToken;
-@synthesize userPopover;
-@synthesize userController;
+@synthesize selectedLeftViewIndex;
+@synthesize userTableView;
+@synthesize users;
 @end
 
 @implementation SessionView

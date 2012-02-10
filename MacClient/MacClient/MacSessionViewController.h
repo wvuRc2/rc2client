@@ -16,9 +16,11 @@
 @property (nonatomic, strong) RCSession *session;
 @property (nonatomic, strong) IBOutlet NSSplitView *contentSplitView;
 @property (nonatomic, strong) IBOutlet NSTableView *fileTableView;
+@property (nonatomic, strong) IBOutlet NSTableView *userTableView;
 @property (nonatomic, strong) IBOutlet NSView *fileContainerView;
 @property (nonatomic, strong) IBOutlet RCMTextView *editView;
 @property (nonatomic, strong) IBOutlet NSButton *executeButton;
+@property (assign) NSInteger selectedLeftViewIndex;
 
 -(id)initWithSession:(RCSession*)aSession;
 -(IBAction)toggleFileList:(id)sender;

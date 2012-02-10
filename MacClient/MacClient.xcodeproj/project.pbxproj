@@ -21,8 +21,11 @@
 		08056E3C1448D59C0002766D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08056E3B1448D59B0002766D /* QuartzCore.framework */; };
 		08056E5C1448EC410002766D /* RCMacToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056E5B1448EC410002766D /* RCMacToolbarItem.m */; };
 		0809BF2514B50086009CEC57 /* MultiFileImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF2414B50086009CEC57 /* MultiFileImporter.m */; };
-		0809BF7814C5FBF4009CEC57 /* RCMSessionUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF7614C5FBF4009CEC57 /* RCMSessionUserController.m */; };
-		0809BF7914C5FBF4009CEC57 /* RCMSessionUserController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0809BF7714C5FBF4009CEC57 /* RCMSessionUserController.xib */; };
+		0815947914E5B9AF0067E83C /* RCMUserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0815947814E5B9AF0067E83C /* RCMUserListCell.m */; };
+		0815948214E5C3F90067E83C /* hand-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815947E14E5C3F90067E83C /* hand-green.png */; };
+		0815948314E5C3F90067E83C /* hand-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815947F14E5C3F90067E83C /* hand-green@2x.png */; };
+		0815948414E5C3F90067E83C /* hand-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815948014E5C3F90067E83C /* hand-grey.png */; };
+		0815948514E5C3F90067E83C /* hand-grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815948114E5C3F90067E83C /* hand-grey@2x.png */; };
 		082945391496AA7700E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945381496AA7700E593C7 /* _RCWorkspaceCache.m */; };
 		0829453C1496AA8300E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453B1496AA8300E593C7 /* RCWorkspaceCache.m */; };
 		0829456114993CF600E593C7 /* MCNewFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829456014993CF600E593C7 /* MCNewFileController.m */; };
@@ -171,9 +174,12 @@
 		0809BF2314B50086009CEC57 /* MultiFileImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiFileImporter.h; sourceTree = "<group>"; };
 		0809BF2414B50086009CEC57 /* MultiFileImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFileImporter.m; sourceTree = "<group>"; };
 		0809BF6514BF8EEB009CEC57 /* v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = v2.xcdatamodel; sourceTree = "<group>"; };
-		0809BF7514C5FBF3009CEC57 /* RCMSessionUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMSessionUserController.h; sourceTree = "<group>"; };
-		0809BF7614C5FBF4009CEC57 /* RCMSessionUserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMSessionUserController.m; sourceTree = "<group>"; };
-		0809BF7714C5FBF4009CEC57 /* RCMSessionUserController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMSessionUserController.xib; sourceTree = "<group>"; };
+		0815947714E5B9AF0067E83C /* RCMUserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMUserListCell.h; sourceTree = "<group>"; };
+		0815947814E5B9AF0067E83C /* RCMUserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMUserListCell.m; sourceTree = "<group>"; };
+		0815947E14E5C3F90067E83C /* hand-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hand-green.png"; sourceTree = "<group>"; };
+		0815947F14E5C3F90067E83C /* hand-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hand-green@2x.png"; sourceTree = "<group>"; };
+		0815948014E5C3F90067E83C /* hand-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hand-grey.png"; sourceTree = "<group>"; };
+		0815948114E5C3F90067E83C /* hand-grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hand-grey@2x.png"; sourceTree = "<group>"; };
 		082945371496AA7700E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCWorkspaceCache.h; sourceTree = "<group>"; };
 		082945381496AA7700E593C7 /* _RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCWorkspaceCache.m; sourceTree = "<group>"; };
 		0829453A1496AA8300E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
@@ -423,9 +429,6 @@
 				0829455F14993CF600E593C7 /* MCNewFileController.h */,
 				0829456014993CF600E593C7 /* MCNewFileController.m */,
 				0829456214993D1200E593C7 /* MCNewFileController.xib */,
-				0809BF7514C5FBF3009CEC57 /* RCMSessionUserController.h */,
-				0809BF7614C5FBF4009CEC57 /* RCMSessionUserController.m */,
-				0809BF7714C5FBF4009CEC57 /* RCMSessionUserController.xib */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -469,6 +472,8 @@
 				08617615149BC5E600450EE9 /* RCMConsoleTextField.m */,
 				08566747149FCC3600BD85E5 /* RCMTextPrintView.h */,
 				08566748149FCC3600BD85E5 /* RCMTextPrintView.m */,
+				0815947714E5B9AF0067E83C /* RCMUserListCell.h */,
+				0815947814E5B9AF0067E83C /* RCMUserListCell.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -714,6 +719,10 @@
 				08056E211448BEBB0002766D /* RLogo.icns */,
 				08056DF51444D2E20002766D /* Rdoc.icns */,
 				08056DF31444D2970002766D /* RnW.icns */,
+				0815947E14E5C3F90067E83C /* hand-green.png */,
+				0815947F14E5C3F90067E83C /* hand-green@2x.png */,
+				0815948014E5C3F90067E83C /* hand-grey.png */,
+				0815948114E5C3F90067E83C /* hand-grey@2x.png */,
 				0861760914994EAB00450EE9 /* syncArrows.png */,
 				08617612149955CF00450EE9 /* syncArrowsSelected.png */,
 				08617617149BCD8C00450EE9 /* history.png */,
@@ -820,8 +829,11 @@
 				08617618149BCD8C00450EE9 /* history.png in Resources */,
 				0861761D149BE19900450EE9 /* RCMMultiImageController.xib in Resources */,
 				08617622149BE37A00450EE9 /* RCMImageDetailController.xib in Resources */,
-				0809BF7914C5FBF4009CEC57 /* RCMSessionUserController.xib in Resources */,
 				08B630C814E070770053DD74 /* RCMRolePermController.xib in Resources */,
+				0815948214E5C3F90067E83C /* hand-green.png in Resources */,
+				0815948314E5C3F90067E83C /* hand-green@2x.png in Resources */,
+				0815948414E5C3F90067E83C /* hand-grey.png in Resources */,
+				0815948514E5C3F90067E83C /* hand-grey@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,8 +939,8 @@
 				08617621149BE37A00450EE9 /* RCMImageDetailController.m in Sources */,
 				08566749149FCC3600BD85E5 /* RCMTextPrintView.m in Sources */,
 				0809BF2514B50086009CEC57 /* MultiFileImporter.m in Sources */,
-				0809BF7814C5FBF4009CEC57 /* RCMSessionUserController.m in Sources */,
 				08B630C714E070770053DD74 /* RCMRolePermController.m in Sources */,
+				0815947914E5B9AF0067E83C /* RCMUserListCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
