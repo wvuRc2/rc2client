@@ -202,6 +202,13 @@
 	[self.keyboardView setIsLandscape:UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation)];
 }
 
+#pragma mark - actions
+
+-(IBAction)showControls:(id)sender
+{
+	
+}
+
 #pragma mark - meat & potatoes
 
 -(void)loadKeyboard
@@ -466,6 +473,12 @@
 	Rc2LogInfo(@"processing ws command: %@", cmd);
 	if ([cmd isEqualToString:@"userid"]) {
 		js = [NSString stringWithFormat:@"iR.setUserid(%@)", [dict objectForKey:@"userid"]];
+		if (!self.session.canChangeMode) {
+			//remove control item from toolbar
+			NSMutableArray *items = [self.toolbar.items mutableCopy];
+			[items removeObject:self.controlButton];
+			[self.toolbar setItems:items];
+		}
 	} else if ([cmd isEqualToString:@"echo"]) {
 		js = [NSString stringWithFormat:@"iR.echoInput('%@', '%@', %@)", 
 			  	[self escapeForJS:[dict objectForKey:@"script"]],
@@ -601,4 +614,6 @@
 @synthesize bottomController;
 @synthesize themeToken;
 @synthesize showingProgress;
+@synthesize controlButton;
+@synthesize toolbar;
 @end

@@ -192,6 +192,8 @@
 	NSString *cmd = [dict objectForKey:@"msg"];
 	if ([cmd isEqualToString:@"userid"]) {
 		self.userid = [dict objectForKey:@"userid"];
+		[self setMode:[dict valueForKeyPath:@"session.mode"]];
+		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
 	} else if ([cmd isEqualToString:@"join"]) {
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
 	} else if ([cmd isEqualToString:@"left"]) {
