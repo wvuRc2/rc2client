@@ -234,13 +234,13 @@
 
 -(IBAction)changeMode:(id)sender
 {
-	NSString *mode = @"share";
+	NSString *mode = kMode_Share;
 	switch (self.modePopUp.indexOfSelectedItem) {
 		case 1:
-			mode = @"control";
+			mode = kMode_Control;
 			break;
 		case 2:
-			mode = @"classroom";
+			mode = kMode_Classroom;
 			break;
 	}
 	[self.session requestModeChange:mode];
@@ -850,9 +850,9 @@
 -(void)setMode:(NSString*)mode
 {
 	NSString *fancyMode = @"Share Mode";
-	if ([mode isEqualToString:@"control"])
+	if ([mode isEqualToString:kMode_Control])
 		fancyMode = @"Control Mode";
-	else if ([mode isEqualToString:@"classroom"])
+	else if ([mode isEqualToString:kMode_Classroom])
 		fancyMode = @"Classroom Mode";
 	self.modeLabel.stringValue = fancyMode;
 	[self.modePopUp selectItemWithTitle:fancyMode];

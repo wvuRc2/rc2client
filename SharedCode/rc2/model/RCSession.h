@@ -14,6 +14,10 @@
 @class RCSavedSession;
 @class RCFile;
 
+#define kMode_Share @"share"
+#define kMode_Control @"control"
+#define kMode_Classroom @"classroom"
+
 @interface RCSession : NSObject<WebSocket00Delegate>
 @property (nonatomic, strong, readonly) RCWorkspace *workspace;
 @property (nonatomic, unsafe_unretained) id<RCSessionDelegate> delegate;

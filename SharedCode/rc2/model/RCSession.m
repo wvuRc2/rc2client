@@ -13,6 +13,7 @@
 #import "NSString+SBJSON.h"
 #import "NSObject+SBJSON.h"
 #endif
+#import "RCSessionUser.h"
 #import "RCSavedSession.h"
 
 @interface RCSession() {
@@ -48,7 +49,7 @@
     if (self) {
         _workspace = wspace;
 		_settings = [[NSMutableDictionary alloc] init];
-		self.users = [NSMutableArray array];
+		self.users = [NSArray array];
 		NSString *settingKey = [NSString stringWithFormat:@"session_%@", self.workspace.wspaceId];
 		[_settings setValuesForKeysWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:settingKey]];
 		if (rsp)
@@ -177,15 +178,19 @@
 
 -(BOOL)canChangeMode
 {
-	NSDictionary *user = [self.users firstObjectWithValue:self.userid forKey:@"id"];
-	return [[user objectForKey:@"control"] boolValue];
+	RCSessionUser *user = [self.users firstObjectWithValue:self.userid forKey:@"userId"];
+	return user.master;
 }
 
 -(void)updateUsers:(NSArray*)updatedUsers
 {
 	[self willChangeValueForKey:@"users"];
-	self.users = updatedUsers;
+	NSMutableArray *ma = [NSMutableArray array];
+	for (NSDictionary *dict in updatedUsers)
+		[ma addObject:[[RCSessionUser alloc] initWithDictionary:dict]];
+	self.users = ma;
 	[self didChangeValueForKey:@"users"];
+	//TODO: record who's in control
 }
 
 -(void)internallyProcessMessage:(NSDictionary*)dict json:(NSString*)json

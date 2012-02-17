@@ -13,9 +13,9 @@
 -(void)setObjectValue:(id)objectValue
 {
 	[super setObjectValue:objectValue];
-	if ([[objectValue objectForKey:@"control"] boolValue])
+	if ([[objectValue valueForKey:@"control"] boolValue])
 		self.imgButton.image = [NSImage imageNamed:NSImageNameStatusAvailable];
-	else if ([[objectValue objectForKey:@"master"] boolValue])
+	else if ([[objectValue valueForKey:@"master"] boolValue])
 		self.imgButton.image = [NSImage imageNamed:NSImageNameStatusPartiallyAvailable];
 	else
 		self.imgButton.image = [NSImage imageNamed:NSImageNameStatusNone];
