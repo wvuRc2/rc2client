@@ -21,6 +21,7 @@
 	WebSocket00 *_ws;
 }
 @property (nonatomic, copy, readwrite) NSArray *users;
+@property (nonatomic, strong, readwrite) RCSessionUser *currentUser;
 @property (nonatomic, strong, readwrite) NSString *mode;
 @property (nonatomic, assign, readwrite) BOOL socketOpen;
 @property (nonatomic, assign, readwrite) BOOL hasReadPerm;
@@ -41,6 +42,7 @@
 @synthesize keepAliveTimer;
 @synthesize initialFileSelection;
 @synthesize users;
+@synthesize currentUser;
 @synthesize mode;
 
 - (id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp
@@ -176,18 +178,16 @@
 	}
 }
 
--(BOOL)canChangeMode
-{
-	RCSessionUser *user = [self.users firstObjectWithValue:self.userid forKey:@"userId"];
-	return user.master;
-}
-
 -(void)updateUsers:(NSArray*)updatedUsers
 {
 	[self willChangeValueForKey:@"users"];
 	NSMutableArray *ma = [NSMutableArray array];
-	for (NSDictionary *dict in updatedUsers)
-		[ma addObject:[[RCSessionUser alloc] initWithDictionary:dict]];
+	for (NSDictionary *dict in updatedUsers) {
+		RCSessionUser *suser = [[RCSessionUser alloc] initWithDictionary:dict];
+		[ma addObject:suser];
+		if ([suser.userId isEqualToNumber:self.userid])
+			self.currentUser = suser;
+	}
 	self.users = ma;
 	[self didChangeValueForKey:@"users"];
 	//TODO: record who's in control

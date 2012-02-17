@@ -17,6 +17,7 @@
 #import "RCWorkspace.h"
 #import "RCFile.h"
 #import "RCImage.h"
+#import "RCSessionUser.h"
 #import "RCSavedSession.h"
 #import "RCMTextView.h"
 #import "MCNewFileController.h"
@@ -220,7 +221,7 @@
 	} else if (action == @selector(toggleUsers:)) {
 		return YES;
 	} else if (action == @selector(changeMode:)) {
-		return self.session.canChangeMode;
+		return self.session.currentUser.master;
 	}
 	return NO;
 }

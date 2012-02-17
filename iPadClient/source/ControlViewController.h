@@ -12,6 +12,7 @@
 
 @interface ControlViewController : UIViewController
 @property (nonatomic, weak) IBOutlet UISegmentedControl *modeControl;
+@property (nonatomic, weak) IBOutlet UITableView *userTable;
 @property (nonatomic, strong) RCSession *session;
 -(IBAction)changeMode:(id)sender;
 @end

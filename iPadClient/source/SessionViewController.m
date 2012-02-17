@@ -21,6 +21,7 @@
 #import "RCImage.h"
 #import "RCFile.h"
 #import "MBProgressHUD.h"
+#import "RCSessionUser.h"
 #import "RCSavedSession.h"
 #import "ThemeEngine.h"
 #import "ControlViewController.h"
@@ -485,7 +486,7 @@
 	Rc2LogInfo(@"processing ws command: %@", cmd);
 	if ([cmd isEqualToString:@"userid"]) {
 		js = [NSString stringWithFormat:@"iR.setUserid(%@)", [dict objectForKey:@"userid"]];
-		if (!self.session.canChangeMode) {
+		if (!self.session.currentUser.master) {
 			//remove control item from toolbar
 			NSMutableArray *items = [self.toolbar.items mutableCopy];
 			[items removeObject:self.controlButton];

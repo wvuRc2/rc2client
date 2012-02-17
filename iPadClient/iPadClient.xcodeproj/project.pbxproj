@@ -79,6 +79,8 @@
 		085E7B1314EEC2F000036A9E /* ControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1114EEC2F000036A9E /* ControlViewController.m */; };
 		085E7B1414EEC2F000036A9E /* ControlViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B1214EEC2F000036A9E /* ControlViewController.xib */; };
 		085E7B1714EED6D400036A9E /* RCSessionUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1614EED6D400036A9E /* RCSessionUser.m */; };
+		085E7B1E14EEDB3E00036A9E /* ControllerUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1D14EEDB3E00036A9E /* ControllerUserCell.m */; };
+		085E7B2014EEDBFC00036A9E /* ControllerUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B1F14EEDBFC00036A9E /* ControllerUserCell.xib */; };
 		08661A2D1405AC180087BD34 /* MGSplitCornersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A281405AC170087BD34 /* MGSplitCornersView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08661A2E1405AC180087BD34 /* MGSplitDividerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A2A1405AC170087BD34 /* MGSplitDividerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08661A2F1405AC180087BD34 /* MGSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A2C1405AC170087BD34 /* MGSplitViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -292,6 +294,9 @@
 		085E7B1214EEC2F000036A9E /* ControlViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ControlViewController.xib; path = source/ControlViewController.xib; sourceTree = SOURCE_ROOT; };
 		085E7B1514EED6D400036A9E /* RCSessionUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSessionUser.h; sourceTree = "<group>"; };
 		085E7B1614EED6D400036A9E /* RCSessionUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSessionUser.m; sourceTree = "<group>"; };
+		085E7B1C14EEDB3E00036A9E /* ControllerUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControllerUserCell.h; path = source/ControllerUserCell.h; sourceTree = SOURCE_ROOT; };
+		085E7B1D14EEDB3E00036A9E /* ControllerUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ControllerUserCell.m; path = source/ControllerUserCell.m; sourceTree = SOURCE_ROOT; };
+		085E7B1F14EEDBFC00036A9E /* ControllerUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ControllerUserCell.xib; path = source/ControllerUserCell.xib; sourceTree = SOURCE_ROOT; };
 		08661A271405AC170087BD34 /* MGSplitCornersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSplitCornersView.h; sourceTree = "<group>"; };
 		08661A281405AC170087BD34 /* MGSplitCornersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSplitCornersView.m; sourceTree = "<group>"; };
 		08661A291405AC170087BD34 /* MGSplitDividerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSplitDividerView.h; sourceTree = "<group>"; };
@@ -728,6 +733,9 @@
 				08DD23B41412C36E00217C1A /* DropboxImportCell.h */,
 				08DD23B51412C36E00217C1A /* DropboxImportCell.m */,
 				08DD23B71412C54C00217C1A /* DropboxImportCell.xib */,
+				085E7B1C14EEDB3E00036A9E /* ControllerUserCell.h */,
+				085E7B1D14EEDB3E00036A9E /* ControllerUserCell.m */,
+				085E7B1F14EEDBFC00036A9E /* ControllerUserCell.xib */,
 			);
 			name = "views & cells";
 			sourceTree = "<group>";
@@ -936,6 +944,7 @@
 				085E7B0D14EEBC0600036A9E /* controller.png in Resources */,
 				085E7B0E14EEBC0600036A9E /* controller@2x.png in Resources */,
 				085E7B1414EEC2F000036A9E /* ControlViewController.xib in Resources */,
+				085E7B2014EEDBFC00036A9E /* ControllerUserCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1057,6 +1066,7 @@
 				0815946414E2F6630067E83C /* iSettingsController.m in Sources */,
 				085E7B1314EEC2F000036A9E /* ControlViewController.m in Sources */,
 				085E7B1714EED6D400036A9E /* RCSessionUser.m in Sources */,
+				085E7B1E14EEDB3E00036A9E /* ControllerUserCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
