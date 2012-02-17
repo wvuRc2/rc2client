@@ -33,6 +33,7 @@
 -(IBAction)exportFile:(id)sender;
 -(IBAction)createNewFile:(id)sender;
 -(IBAction)saveFileEdits:(id)sender;
+-(IBAction)changeMode:(id)sender;
 -(void)saveChanges;
 
 -(void)saveSessionState;

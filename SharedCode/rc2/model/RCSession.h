@@ -19,9 +19,12 @@
 @property (nonatomic, unsafe_unretained) id<RCSessionDelegate> delegate;
 @property (nonatomic, strong) NSNumber *userid;
 @property (nonatomic, strong) RCFile *initialFileSelection;
+@property (nonatomic, copy, readonly) NSArray *users;
+@property (nonatomic, strong, readonly) NSString *mode;
 @property (nonatomic, assign, readonly) BOOL socketOpen;
 @property (nonatomic, assign, readonly) BOOL hasReadPerm;
 @property (nonatomic, assign, readonly) BOOL hasWritePerm;
+@property (nonatomic, assign, readonly) BOOL canChangeMode;
 
 -(id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp;
 

@@ -48,9 +48,10 @@
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) RCMImageViewer *imageController;
 @property (nonatomic, strong) NSArray *currentImageGroup;
-@property (nonatomic, strong) NSMutableArray *users;
+@property (nonatomic, strong) NSArray *users;
 @property (nonatomic, strong) NSNumber *fileIdJustImported;
 @property (nonatomic, strong) id fullscreenToken;
+@property (nonatomic, strong) id usersToken;
 -(void)prepareForSession;
 -(void)completeSessionStartup:(id)response;
 -(NSString*)escapeForJS:(NSString*)str;
@@ -77,7 +78,7 @@
 		self.session = aSession;
 		self.session.delegate = self;
 		self.scratchString=@"";
-		self.users = [NSMutableArray array];
+		self.users = [NSArray array];
 		for (RCFile *file in self.session.workspace.files)
 			[file updateContentsFromServer];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
@@ -153,6 +154,13 @@
 				}
 			});
 		}];
+		self.usersToken = [self.session addObserverForKeyPath:@"users" task:^(id obj, NSDictionary *change)
+		{
+			dispatch_async(dispatch_get_main_queue(), ^{
+				blockSelf.users = blockSelf.session.users;
+				[blockSelf.userTableView reloadData];
+			});
+		}];
 		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 		[self.fileTableView setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleNone];
 		[self.fileTableView registerForDraggedTypes:ARRAY((id)kUTTypeFileURL)];
@@ -211,6 +219,8 @@
 		return self.selectedFile.isTextFile && ![self.editView.string isEqualToString:self.selectedFile.currentContents];
 	} else if (action == @selector(toggleUsers:)) {
 		return YES;
+	} else if (action == @selector(changeMode:)) {
+		return self.session.canChangeMode;
 	}
 	return NO;
 }
@@ -221,6 +231,11 @@
 }
 
 #pragma mark - actions
+
+-(IBAction)changeMode:(id)sender
+{
+	
+}
 
 -(IBAction)toggleUsers:(id)sender
 {
@@ -555,22 +570,13 @@
 		js = [NSString stringWithFormat:@"iR.userJoinedSession('%@', '%@')", 
 			  [self escapeForJS:[dict objectForKey:@"user"]],
 			  [self escapeForJS:[dict objectForKey:@"userid"]]];
-		[self.users removeAllObjects];
-		[self.users addObjectsFromArray:[dict valueForKeyPath:@"session.users"]];
-		[self.userTableView reloadData];
 	} else if ([cmd isEqualToString:@"left"]) {
 		js = [NSString stringWithFormat:@"iR.userLeftSession('%@', '%@')", 
 			  [self escapeForJS:[dict objectForKey:@"user"]],
 			  [self escapeForJS:[dict objectForKey:@"userid"]]];
-		[self.users removeAllObjects];
-		[self.users addObjectsFromArray:[dict valueForKeyPath:@"session.users"]];
-		[self.userTableView reloadData];
 	} else if ([cmd isEqualToString:@"userlist"]) {
 		js = [NSString stringWithFormat:@"iR.updateUserList(JSON.parse('%@'))", 
 			  [[[dict objectForKey:@"data"] objectForKey:@"users"] JSONRepresentation]];
-		[self.users removeAllObjects];
-		[self.users addObjectsFromArray:[dict valueForKeyPath:@"data.users"]];
-		[self.userTableView reloadData];
 		[self setMode:[dict objectForKey:@"mode"]];
 	} else if ([cmd isEqualToString:@"modechange"]) {
 		[self setMode:[dict objectForKey:@"mode"]];
@@ -871,6 +877,7 @@
 @synthesize modePopUp;
 @synthesize rightContainer;
 @synthesize modeLabel;
+@synthesize usersToken;
 @end
 
 @implementation SessionView

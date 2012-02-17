@@ -19,6 +19,8 @@
 	NSMutableDictionary *_settings;
 	WebSocket00 *_ws;
 }
+@property (nonatomic, copy, readwrite) NSArray *users;
+@property (nonatomic, strong, readwrite) NSString *mode;
 @property (nonatomic, assign, readwrite) BOOL socketOpen;
 @property (nonatomic, assign, readwrite) BOOL hasReadPerm;
 @property (nonatomic, assign, readwrite) BOOL hasWritePerm;
@@ -37,6 +39,8 @@
 @synthesize timeOfLastTraffic;
 @synthesize keepAliveTimer;
 @synthesize initialFileSelection;
+@synthesize users;
+@synthesize mode;
 
 - (id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp
 {
@@ -44,6 +48,7 @@
     if (self) {
         _workspace = wspace;
 		_settings = [[NSMutableDictionary alloc] init];
+		self.users = [NSMutableArray array];
 		NSString *settingKey = [NSString stringWithFormat:@"session_%@", self.workspace.wspaceId];
 		[_settings setValuesForKeysWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:settingKey]];
 		if (rsp)
@@ -161,6 +166,34 @@
 	}
 }
 
+-(BOOL)canChangeMode
+{
+	NSDictionary *user = [self.users firstObjectWithValue:self.userid forKey:@"id"];
+	return [[user objectForKey:@"control"] boolValue];
+}
+
+-(void)updateUsers:(NSArray*)updatedUsers
+{
+	[self willChangeValueForKey:@"users"];
+	self.users = updatedUsers;
+	[self didChangeValueForKey:@"users"];
+}
+
+-(void)internallyProcessMessage:(NSDictionary*)dict json:(NSString*)json
+{
+	NSString *cmd = [dict objectForKey:@"msg"];
+	if ([cmd isEqualToString:@"userid"]) {
+		self.userid = [dict objectForKey:@"userid"];
+	} else if ([cmd isEqualToString:@"join"]) {
+		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
+	} else if ([cmd isEqualToString:@"left"]) {
+		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
+	} else if ([cmd isEqualToString:@"userlist"]) {
+		[self updateUsers:[dict valueForKeyPath:@"data.users"]];
+		[self setMode:[dict objectForKey:@"data.mode"]];
+	}
+}
+
 #pragma mark - websocket delegate
 
 -(void)didOpen
@@ -186,10 +219,7 @@
 -(void)didReceiveMessage:(NSString*)msg
 {
 	NSDictionary *dict = [msg JSONValue];
-	NSString *cmd = [dict objectForKey:@"msg"];
-	if ([cmd isEqualToString:@"userid"]) {
-		self.userid = [dict objectForKey:@"userid"];
-	}
+	[self internallyProcessMessage:dict json:msg];
 	[self.delegate processWebSocketMessage:dict json:msg];
 	self.timeOfLastTraffic = [NSDate date];
 }
@@ -209,5 +239,4 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setObject:_settings forKey:[NSString stringWithFormat:@"session_%@", self.workspace.wspaceId]];
 }
-
 @end
