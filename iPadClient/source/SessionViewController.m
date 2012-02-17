@@ -23,6 +23,7 @@
 #import "MBProgressHUD.h"
 #import "RCSavedSession.h"
 #import "ThemeEngine.h"
+#import "ControlViewController.h"
 
 @interface SessionViewController() {
 	RCSession *_session;
@@ -32,6 +33,8 @@
 @property (nonatomic, strong) NSOperationQueue *dloadQueue;
 @property (nonatomic, strong) NSMutableDictionary *imgCache;
 @property (nonatomic, strong) ImageDisplayController *imgController;
+@property (nonatomic, strong) ControlViewController *controlController;
+@property (nonatomic, strong) UIPopoverController *controlPopover;
 @property (nonatomic, strong) id themeToken;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL showingProgress;
@@ -206,7 +209,12 @@
 
 -(IBAction)showControls:(id)sender
 {
-	
+	if (nil == self.controlController) {
+		self.controlController = [[ControlViewController alloc] init];
+		self.controlController.contentSizeForViewInPopover = self.controlController.view.frame.size;
+		self.controlPopover = [[UIPopoverController alloc] initWithContentViewController:self.controlController];
+	}
+	[self.controlPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 #pragma mark - meat & potatoes
@@ -616,4 +624,6 @@
 @synthesize showingProgress;
 @synthesize controlButton;
 @synthesize toolbar;
+@synthesize controlPopover;
+@synthesize controlController;
 @end

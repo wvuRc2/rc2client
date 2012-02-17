@@ -76,6 +76,8 @@
 		085323101405CCC00045D207 /* console in Resources */ = {isa = PBXBuildFile; fileRef = 0853230F1405CCC00045D207 /* console */; };
 		085E7B0D14EEBC0600036A9E /* controller.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B0B14EEBC0600036A9E /* controller.png */; };
 		085E7B0E14EEBC0600036A9E /* controller@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B0C14EEBC0600036A9E /* controller@2x.png */; };
+		085E7B1314EEC2F000036A9E /* ControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1114EEC2F000036A9E /* ControlViewController.m */; };
+		085E7B1414EEC2F000036A9E /* ControlViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B1214EEC2F000036A9E /* ControlViewController.xib */; };
 		08661A2D1405AC180087BD34 /* MGSplitCornersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A281405AC170087BD34 /* MGSplitCornersView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08661A2E1405AC180087BD34 /* MGSplitDividerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A2A1405AC170087BD34 /* MGSplitDividerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08661A2F1405AC180087BD34 /* MGSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A2C1405AC170087BD34 /* MGSplitViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -284,6 +286,9 @@
 		0853230F1405CCC00045D207 /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console; sourceTree = SOURCE_ROOT; };
 		085E7B0B14EEBC0600036A9E /* controller.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller.png; path = resources/controller.png; sourceTree = SOURCE_ROOT; };
 		085E7B0C14EEBC0600036A9E /* controller@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "controller@2x.png"; path = "resources/controller@2x.png"; sourceTree = SOURCE_ROOT; };
+		085E7B1014EEC2F000036A9E /* ControlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlViewController.h; path = source/ControlViewController.h; sourceTree = SOURCE_ROOT; };
+		085E7B1114EEC2F000036A9E /* ControlViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ControlViewController.m; path = source/ControlViewController.m; sourceTree = SOURCE_ROOT; };
+		085E7B1214EEC2F000036A9E /* ControlViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ControlViewController.xib; path = source/ControlViewController.xib; sourceTree = SOURCE_ROOT; };
 		08661A271405AC170087BD34 /* MGSplitCornersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSplitCornersView.h; sourceTree = "<group>"; };
 		08661A281405AC170087BD34 /* MGSplitCornersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSplitCornersView.m; sourceTree = "<group>"; };
 		08661A291405AC170087BD34 /* MGSplitDividerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSplitDividerView.h; sourceTree = "<group>"; };
@@ -682,6 +687,9 @@
 				08FE88961414F92F00672474 /* BottomViewController.h */,
 				08FE88971414F92F00672474 /* BottomViewController.m */,
 				08FE88981414F92F00672474 /* BottomViewController.xib */,
+				085E7B1014EEC2F000036A9E /* ControlViewController.h */,
+				085E7B1114EEC2F000036A9E /* ControlViewController.m */,
+				085E7B1214EEC2F000036A9E /* ControlViewController.xib */,
 			);
 			name = "session related controllers";
 			sourceTree = "<group>";
@@ -922,6 +930,7 @@
 				0815946514E2F6630067E83C /* iSettingsController.xib in Resources */,
 				085E7B0D14EEBC0600036A9E /* controller.png in Resources */,
 				085E7B0E14EEBC0600036A9E /* controller@2x.png in Resources */,
+				085E7B1414EEC2F000036A9E /* ControlViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1041,6 +1050,7 @@
 				082945421496AAA000E593C7 /* _RCWorkspaceCache.m in Sources */,
 				0809BF6F14C5F1AC009CEC57 /* Rc2.xcdatamodeld in Sources */,
 				0815946414E2F6630067E83C /* iSettingsController.m in Sources */,
+				085E7B1314EEC2F000036A9E /* ControlViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
