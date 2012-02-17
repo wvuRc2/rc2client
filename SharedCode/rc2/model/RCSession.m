@@ -81,7 +81,7 @@
 		return;
 	//FIXME: skanky hack
 //	NSString *baseUrl = [[Rc2Server sharedInstance] baseUrl];
-	NSString *urlStr = @"ws://barney.stat.wvu.edu:8080/iR/ws";
+	NSString *urlStr = [[Rc2Server sharedInstance] websocketUrl];
 //	NSString *urlStr = [baseUrl stringByReplacingOccurrencesOfString:@"http" withString:@"ws"];
 //	urlStr = [urlStr stringByAppendingString:@"iR/ws"];
 	id build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
@@ -95,7 +95,7 @@
 	_ws.timeout = -1;
 	[_ws open];
 	RunAfterDelay(10, ^{
-		if (!self.socketOpen) {
+		if (!self.socketOpen && _ws) {
 			//failed to open after 10 seconds. treat as an error
 			[_ws close];
 			_ws = nil;

@@ -59,6 +59,7 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 -(ASIFormDataRequest*)postRequestWithRelativeURL:(NSString*)urlString;
 
 -(NSString*)baseUrl;
+-(NSString*)websocketUrl;
 
 -(BOOL)responseIsValidJSON:(ASIHTTPRequest*)request;
 
