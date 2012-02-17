@@ -234,7 +234,16 @@
 
 -(IBAction)changeMode:(id)sender
 {
-	
+	NSString *mode = @"share";
+	switch (self.modePopUp.indexOfSelectedItem) {
+		case 1:
+			mode = @"control";
+			break;
+		case 2:
+			mode = @"classroom";
+			break;
+	}
+	[self.session requestModeChange:mode];
 }
 
 -(IBAction)toggleUsers:(id)sender

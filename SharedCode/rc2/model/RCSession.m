@@ -106,6 +106,14 @@
 	_ws=nil;
 }
 
+-(void)requestModeChange:(NSString*)newMode
+{
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"setmode", @"cmd", newMode, @"mode", nil];
+	Rc2LogInfo(@"changing mode: %@", newMode);
+	[_ws send:[dict JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
+}
+
 -(void)executeSweave:(NSString*)fname script:(NSString*)script
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"sweave", @"cmd", fname, @"fname",
@@ -191,6 +199,8 @@
 	} else if ([cmd isEqualToString:@"userlist"]) {
 		[self updateUsers:[dict valueForKeyPath:@"data.users"]];
 		[self setMode:[dict objectForKey:@"data.mode"]];
+	} else if ([cmd isEqualToString:@"modechange"]) {
+		[self setMode:[dict objectForKey:@"mode"]];
 	}
 }
 

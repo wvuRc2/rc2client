@@ -36,6 +36,7 @@
 
 -(id)savedSessionState;
 
+-(void)requestModeChange:(NSString*)newMode;
 -(void)executeScript:(NSString*)script;
 -(void)executeSweave:(NSString*)fname script:(NSString*)script;
 -(void)sendChatMessage:(NSString*)message;
