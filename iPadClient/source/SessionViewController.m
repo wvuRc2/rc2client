@@ -212,9 +212,13 @@
 	if (nil == self.controlController) {
 		self.controlController = [[ControlViewController alloc] init];
 		self.controlController.contentSizeForViewInPopover = self.controlController.view.frame.size;
+		self.controlController.session = self.session;
 		self.controlPopover = [[UIPopoverController alloc] initWithContentViewController:self.controlController];
 	}
-	[self.controlPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+	if (self.controlController.view.window)
+		[self.controlPopover dismissPopoverAnimated:YES];
+	else
+		[self.controlPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 #pragma mark - meat & potatoes

@@ -63,6 +63,7 @@
 	_delegate=nil; //assert in setDelegate: would cause crash
 	[self.keepAliveTimer invalidate];
 	[self closeWebSocket];
+	[self removeAllBlockObservers];
 }
 
 -(void)updateWithServerResponse:(NSDictionary*)rsp

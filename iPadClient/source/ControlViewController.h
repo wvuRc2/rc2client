@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class RCSession;
+
 @interface ControlViewController : UIViewController
 @property (nonatomic, weak) IBOutlet UISegmentedControl *modeControl;
-
+@property (nonatomic, strong) RCSession *session;
 -(IBAction)changeMode:(id)sender;
 @end
