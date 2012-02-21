@@ -119,7 +119,7 @@
 	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	[req setCompletionBlock:^{
 		NSDictionary *rsp = [[NSString stringWithUTF8Data:[request responseData]] JSONValue];
-		if (![[rsp objectForKey:@"status"] isEqualToString:@"ok"]) {
+		if ([[rsp objectForKey:@"status"] intValue] != 0) {
 			NSError *err = [NSError errorWithDomain:@"Rc2" code:1 userInfo:[NSDictionary dictionaryWithObject:[rsp objectForKey:@"message"] forKey:NSLocalizedDescriptionKey]];
 			[NSApp presentError:err];
 		} else {

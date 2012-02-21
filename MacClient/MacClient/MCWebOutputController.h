@@ -12,6 +12,7 @@
 @class RCMConsoleTextField;
 
 @protocol MCWebOutputDelegate <NSObject>
+-(BOOL)restricted;
 -(void)handleImageRequest:(NSURL*)url;
 -(void)previewImages:(NSArray*)imageUrls atPoint:(NSPoint)pt;
 -(void)executeConsoleCommand:(NSString*)command;

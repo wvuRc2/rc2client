@@ -158,7 +158,7 @@
 #endif
 			return @"ws://localhost:8443/iR/ws";
 		case eRc2Host_Barney:
-			return @"ws://barney.stat.wvu.edu:8443/iR/ws";
+			return @"ws://barney.stat.wvu.edu:8080/iR/ws";
 		case eRc2Host_Rc2:
 		default:
 			return @"ws://rc2.stat.wvu.edu:8080/iR/ws";

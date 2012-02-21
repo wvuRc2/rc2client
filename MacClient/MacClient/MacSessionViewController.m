@@ -53,6 +53,7 @@
 @property (nonatomic, strong) NSNumber *fileIdJustImported;
 @property (nonatomic, strong) id fullscreenToken;
 @property (nonatomic, strong) id usersToken;
+@property (nonatomic, strong) id modeChangeToken;
 -(void)prepareForSession;
 -(void)completeSessionStartup:(id)response;
 -(NSString*)escapeForJS:(NSString*)str;
@@ -65,6 +66,7 @@
 -(BOOL)fileListVisible;
 -(void)syncFile:(RCFile*)file;
 -(void)setMode:(NSString*)mode;
+-(void)modeChanged;
 @end
 
 @implementation MacSessionViewController
@@ -84,12 +86,17 @@
 			[file updateContentsFromServer];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
+		__unsafe_unretained MacSessionViewController *blockSelf = self;
+		self.modeChangeToken = [aSession addObserverForKeyPath:@"mode" task:^(id obj, NSDictionary *change) {
+			[blockSelf modeChanged];
+		}];
 	}
 	return self;
 }
 
 -(void)dealloc
 {
+	[self.outputController.webView unbind:@"enabled"];
 	self.contentSplitView.delegate=nil;
 }
 
@@ -108,6 +115,7 @@
 			self.statusMessage = @"Connecting to server…";
 			[self prepareForSession];
 		}
+		[self.outputController.webView bind:@"enabled" toObject:self withKeyPath:@"restricted" options:nil];
 		self.addMenu = [[NSMenu alloc] initWithTitle:@""];
 		//read this instead of hard-coding a value that chould change in the nib
 		__fileListWidth = self.contentSplitView.frame.origin.x;
@@ -376,6 +384,12 @@
 	[self cacheImagesReferencedInHTML:savedState.consoleHtml];
 }
 
+-(void)modeChanged
+{
+	//our mode changed. that means we possibly need to adjust
+	[self setMode:self.session.mode];
+}
+
 -(void)handleNewFile:(NSString*)fileName
 {
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
@@ -587,9 +601,6 @@
 	} else if ([cmd isEqualToString:@"userlist"]) {
 		js = [NSString stringWithFormat:@"iR.updateUserList(JSON.parse('%@'))", 
 			  [[[dict objectForKey:@"data"] objectForKey:@"users"] JSONRepresentation]];
-		[self setMode:[dict objectForKey:@"mode"]];
-	} else if ([cmd isEqualToString:@"modechange"]) {
-		[self setMode:[dict objectForKey:@"mode"]];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpPath = [dict objectForKey:@"helpPath"];
@@ -752,6 +763,13 @@
 	return view;
 }
 
+-(NSIndexSet*)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes
+{
+	if (self.restrictedMode)
+		return tableView.selectedRowIndexes;
+	return proposedSelectionIndexes;
+}
+
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
 	if (aTableView == self.userTableView)
@@ -857,6 +875,7 @@
 		fancyMode = @"Classroom Mode";
 	self.modeLabel.stringValue = fancyMode;
 	[self.modePopUp selectItemWithTitle:fancyMode];
+	self.restrictedMode = ![mode isEqualToString:kMode_Share] && !(self.session.currentUser.master || self.session.currentUser.control);
 }
 
 -(NSView*)rightStatusView
@@ -888,6 +907,8 @@
 @synthesize rightContainer;
 @synthesize modeLabel;
 @synthesize usersToken;
+@synthesize modeChangeToken;
+@synthesize restrictedMode;
 @end
 
 @implementation SessionView

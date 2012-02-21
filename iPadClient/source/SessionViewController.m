@@ -106,6 +106,7 @@
 
 - (void)dealloc
 {
+	self.session.delegate=nil;
 	[self freeMemory];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
