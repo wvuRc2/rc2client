@@ -16,6 +16,8 @@
 	BOOL _didSetGraphUrl;
 }
 @property (nonatomic, strong) NSString *lastPageContent;
+@property (nonatomic, strong) id sessionKvoToken;
+-(void)sessionModeChanged;
 @end
 
 @implementation ConsoleViewController
@@ -24,8 +26,10 @@
 @synthesize toolbar;
 @synthesize textField;
 @synthesize executeButton;
+@synthesize actionButton;
 @synthesize backButton;
 @synthesize lastPageContent;
+@synthesize sessionKvoToken;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -90,6 +94,15 @@
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
 	[self insertSavedContent:savedState.consoleHtml];
+}
+
+-(void)sessionModeChanged
+{
+	BOOL restricted = self.session.restrictedMode;
+	[self.textField setEnabled:!restricted];
+	self.executeButton.enabled = !restricted;
+	self.actionButton.enabled = !restricted;
+	self.backButton.enabled = !restricted;
 }
 
 #pragma mark - actions
@@ -211,6 +224,19 @@
 	}
 	return NO;
 }
+
+#pragma accessors
+
+-(void)setSession:(RCSession*)sess
+{
+	self.sessionKvoToken = nil;
+	_session = sess;
+	__unsafe_unretained ConsoleViewController *blockSelf = self;
+	self.sessionKvoToken = [sess addObserverForKeyPath:@"restrictedMode" task:^(id obj, NSDictionary *dict) {
+		[blockSelf sessionModeChanged];
+	}];
+}
+
 @end
 
 @implementation ConsoleView

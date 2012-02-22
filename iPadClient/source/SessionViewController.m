@@ -153,6 +153,7 @@
 	RCSavedSession *savedState = self.session.savedSessionState;
 	self.consoleController.session = self.session;
 	[self.consoleController view]; //force loading
+	self.editorController.session = self.session;
 	[self.editorController view];
 	[self.editorController restoreSessionState:savedState];
 	if (self.session.initialFileSelection)

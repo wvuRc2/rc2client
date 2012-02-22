@@ -43,7 +43,8 @@
 @synthesize initialFileSelection;
 @synthesize users;
 @synthesize currentUser;
-@synthesize mode;
+@synthesize mode=_mode;
+@synthesize restrictedMode;
 
 - (id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp
 {
@@ -262,4 +263,11 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setObject:_settings forKey:[NSString stringWithFormat:@"session_%@", self.workspace.wspaceId]];
 }
+
+-(void)setMode:(NSString*)theMode
+{
+	_mode = [theMode copy];
+	self.restrictedMode = ![theMode isEqualToString:kMode_Share] && !(self.currentUser.master || self.currentUser.control);
+}
+
 @end

@@ -11,14 +11,17 @@
 
 @class RCFile;
 @class RCSavedSession;
+@class RCSession;
 
 @interface EditorViewController : UIViewController<KeyboardViewDelegate,UIPopoverControllerDelegate,UITextViewDelegate>
 @property (nonatomic, strong) IBOutlet UITextView *textView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *executeButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *syncButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *actionButtonItem;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *openFileButtonItem;
 @property (nonatomic, strong) IBOutlet UILabel *docTitleLabel;
 @property (nonatomic, strong) RCFile *currentFile;
+@property (nonatomic, strong) RCSession *session;
 
 -(IBAction)doExecute:(id)sender;
 -(IBAction)doShowFiles:(id)sender;

@@ -28,6 +28,7 @@
 @property (nonatomic, strong) UINavigationController *importController;
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
+@property (nonatomic, strong) id sessionKvoToken;
 -(void)keyboardVisible:(NSNotification*)note;
 -(void)keyboardHiding:(NSNotification*)note;
 -(void)updateDocumentState;
@@ -35,6 +36,7 @@
 @end
 
 @implementation EditorViewController
+@synthesize session=_session;
 
 - (id)init
 {
@@ -217,6 +219,16 @@
 	centerPt.x = 512;
 	centerPt.y = 100 + floor(sz.height/2);
 	self.importController.view.superview.center = centerPt;
+}
+
+-(void)sessionModeChanged
+{
+	bool limited = self.session.restrictedMode;
+	self.actionButtonItem.enabled = !limited;
+	self.syncButtonItem.enabled = !limited;
+	self.executeButton.enabled = !limited;
+	self.openFileButtonItem.enabled = !limited;
+	self.textView.editable = !limited;
 }
 
 #pragma mark - actions
@@ -442,11 +454,22 @@
 
 #pragma mark - synthesizers
 
+-(void)setSession:(RCSession*)sess
+{
+	self.sessionKvoToken = nil;
+	_session = sess;
+	__unsafe_unretained EditorViewController *blockSelf = self;
+	self.sessionKvoToken = [sess addObserverForKeyPath:@"restrictedMode" task:^(id obj, NSDictionary *dict) {
+		[blockSelf sessionModeChanged];
+	}];
+}
+
 @synthesize textView;
 @synthesize fileController;
 @synthesize filePopover;
 @synthesize docTitleLabel;
 @synthesize actionButtonItem;
+@synthesize openFileButtonItem;
 @synthesize currentFile;
 @synthesize executeButton;
 @synthesize currentActionItems;
@@ -454,4 +477,5 @@
 @synthesize dropboxCache;
 @synthesize actionSheet;
 @synthesize syncButtonItem;
+@synthesize sessionKvoToken;
 @end

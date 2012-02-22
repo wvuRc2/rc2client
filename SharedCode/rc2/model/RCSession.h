@@ -30,6 +30,7 @@
 @property (nonatomic, assign, readonly) BOOL socketOpen;
 @property (nonatomic, assign, readonly) BOOL hasReadPerm;
 @property (nonatomic, assign, readonly) BOOL hasWritePerm;
+@property (assign) BOOL restrictedMode;
 
 -(id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp;
 

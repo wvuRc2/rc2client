@@ -17,6 +17,7 @@
 @property (nonatomic, strong) IBOutlet UITextField *textField;
 @property (nonatomic, strong) IBOutlet UIButton *executeButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *backButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *actionButton;
 @property (nonatomic, strong) RCSession *session;
 
 -(void)restoreSessionState:(RCSavedSession*)savedState;
