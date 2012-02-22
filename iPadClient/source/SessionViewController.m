@@ -364,6 +364,8 @@
 
 -(IBAction)endSession:(id)sender
 {
+	if (self.controlPopover.popoverVisible)
+		[self.controlPopover dismissPopoverAnimated:YES];
 	[_session setSetting:[NSNumber numberWithFloat:self.splitController.splitPosition] forKey:@"splitPosition"];
 	self.autoReconnect=NO;
 	[_session closeWebSocket];
