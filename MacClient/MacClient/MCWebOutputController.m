@@ -416,4 +416,5 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 @synthesize commandHistory;
 @synthesize historyPopUp;
 @synthesize historyHasItems;
+@synthesize restrictedMode;
 @end

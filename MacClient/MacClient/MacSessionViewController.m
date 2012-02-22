@@ -72,6 +72,7 @@
 @implementation MacSessionViewController
 @synthesize session=__session;
 @synthesize selectedFile=__selFile;
+@synthesize restrictedMode=_restrictedMode;
 
 -(id)initWithSession:(RCSession*)aSession
 {
@@ -883,6 +884,12 @@
 	return self.rightContainer;
 }
 
+-(void)setRestrictedMode:(BOOL)rmode
+{
+	_restrictedMode = rmode;
+	self.outputController.restrictedMode = rmode;
+}
+
 -(BOOL)restricted
 {
 	return self.restrictedMode;
@@ -913,7 +920,6 @@
 @synthesize modeLabel;
 @synthesize usersToken;
 @synthesize modeChangeToken;
-@synthesize restrictedMode;
 @end
 
 @implementation SessionView

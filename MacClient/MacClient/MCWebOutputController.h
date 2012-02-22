@@ -27,6 +27,7 @@
 @property (nonatomic) BOOL canExecute;
 @property (nonatomic) BOOL consoleVisible;
 @property (nonatomic) BOOL historyHasItems;
+@property (nonatomic) BOOL restrictedMode; //mirrored to session view controller's value
 
 -(IBAction)doExecuteQuery:(id)sender;
 -(IBAction)doClear:(id)sender;

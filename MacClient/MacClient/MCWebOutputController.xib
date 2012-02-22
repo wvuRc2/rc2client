@@ -457,7 +457,7 @@
 						<string key="label">enabled: canExecute</string>
 						<reference key="source" ref="837555001"/>
 						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="542285258">
 							<reference key="NSSource" ref="837555001"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">enabled: canExecute</string>
@@ -467,6 +467,30 @@
 						</object>
 					</object>
 					<int key="connectionID">16</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: restrictedMode</string>
+						<reference key="source" ref="837555001"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="837555001"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">enabled2: restrictedMode</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">restrictedMode</string>
+							<dictionary key="NSOptions">
+								<integer value="-1" key="NSMultipleValuesPlaceholder"/>
+								<integer value="-1" key="NSNoSelectionPlaceholder"/>
+								<integer value="-1" key="NSNotApplicablePlaceholder"/>
+								<integer value="-1" key="NSNullPlaceholder"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<reference key="NSPreviousConnector" ref="542285258"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">69</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -497,7 +521,7 @@
 						<string key="label">enabled: delegate.restricted</string>
 						<reference key="source" ref="414006801"/>
 						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="988926881">
 							<reference key="NSSource" ref="414006801"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">enabled: delegate.restricted</string>
@@ -514,10 +538,34 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: restrictedMode</string>
+						<reference key="source" ref="414006801"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="414006801"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">enabled2: restrictedMode</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">restrictedMode</string>
+							<dictionary key="NSOptions">
+								<integer value="-1" key="NSMultipleValuesPlaceholder"/>
+								<integer value="-1" key="NSNoSelectionPlaceholder"/>
+								<integer value="-1" key="NSNotApplicablePlaceholder"/>
+								<integer value="-1" key="NSNullPlaceholder"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<reference key="NSPreviousConnector" ref="988926881"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">65</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: consoleVisible</string>
 						<reference key="source" ref="998626251"/>
 						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="582034153">
 							<reference key="NSSource" ref="998626251"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">enabled: consoleVisible</string>
@@ -534,10 +582,34 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: restrictedMode</string>
+						<reference key="source" ref="998626251"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="998626251"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">enabled2: restrictedMode</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">restrictedMode</string>
+							<dictionary key="NSOptions">
+								<integer value="-1" key="NSMultipleValuesPlaceholder"/>
+								<integer value="-1" key="NSNoSelectionPlaceholder"/>
+								<integer value="-1" key="NSNotApplicablePlaceholder"/>
+								<integer value="-1" key="NSNullPlaceholder"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<reference key="NSPreviousConnector" ref="582034153"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">75</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: consoleVisible</string>
 						<reference key="source" ref="1034393441"/>
 						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="685957432">
 							<reference key="NSSource" ref="1034393441"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">enabled: consoleVisible</string>
@@ -547,6 +619,30 @@
 						</object>
 					</object>
 					<int key="connectionID">40</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: restrictedMode</string>
+						<reference key="source" ref="1034393441"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1034393441"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">enabled2: restrictedMode</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">restrictedMode</string>
+							<dictionary key="NSOptions">
+								<integer value="-1" key="NSMultipleValuesPlaceholder"/>
+								<integer value="-1" key="NSNoSelectionPlaceholder"/>
+								<integer value="-1" key="NSNotApplicablePlaceholder"/>
+								<integer value="-1" key="NSNullPlaceholder"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<reference key="NSPreviousConnector" ref="685957432"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">72</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -794,7 +890,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">63</int>
+			<int key="maxID">75</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
