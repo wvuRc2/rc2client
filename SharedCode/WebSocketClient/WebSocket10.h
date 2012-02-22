@@ -103,7 +103,7 @@ typedef NSUInteger WebSocketReadyState;
 @interface WebSocket10 : NSObject 
 {
 @private
-    id<WebSocket10Delegate> delegate;
+//    id<WebSocket10Delegate> delegate;
     NSURL* url;
     NSString* origin;
     AsyncSocket* socket;
@@ -130,7 +130,7 @@ typedef NSUInteger WebSocketReadyState;
 /**
  * Callback delegate for websocket events.
  **/
-@property(nonatomic,retain) id<WebSocket10Delegate> delegate;
+@property(nonatomic,unsafe_unretained) id<WebSocket10Delegate> delegate;
 
 /**
  * Max size of the payload. Any messages larger will be sent as fragments.

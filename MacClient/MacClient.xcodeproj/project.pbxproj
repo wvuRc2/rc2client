@@ -36,6 +36,7 @@
 		08447F6B1415B54F00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */; };
 		08566749149FCC3600BD85E5 /* RCMTextPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08566748149FCC3600BD85E5 /* RCMTextPrintView.m */; };
 		085E7B1A14EED6F600036A9E /* RCSessionUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1914EED6F600036A9E /* RCSessionUser.m */; };
+		085E7B3214F56C3200036A9E /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE412914364CAF004FDBB8 /* WebSocket07.m */; };
 		0861760A14994EAB00450EE9 /* syncArrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 0861760914994EAB00450EE9 /* syncArrows.png */; };
 		086176111499531700450EE9 /* RCMSessionFileCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 086176101499531700450EE9 /* RCMSessionFileCellView.m */; };
 		08617613149955CF00450EE9 /* syncArrowsSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 08617612149955CF00450EE9 /* syncArrowsSelected.png */; };
@@ -947,6 +948,7 @@
 				08B630C714E070770053DD74 /* RCMRolePermController.m in Sources */,
 				0815947914E5B9AF0067E83C /* RCMUserListCell.m in Sources */,
 				085E7B1A14EED6F600036A9E /* RCSessionUser.m in Sources */,
+				085E7B3214F56C3200036A9E /* WebSocket07.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

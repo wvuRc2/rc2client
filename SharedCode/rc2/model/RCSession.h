@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WebSocket00.h"
+#import "WebSocket07.h"
 
 @class RCWorkspace;
 @protocol RCSessionDelegate;
@@ -19,7 +19,7 @@
 #define kMode_Control @"control"
 #define kMode_Classroom @"classroom"
 
-@interface RCSession : NSObject<WebSocket00Delegate>
+@interface RCSession : NSObject<WebSocket07Delegate>
 @property (nonatomic, strong, readonly) RCWorkspace *workspace;
 @property (nonatomic, unsafe_unretained) id<RCSessionDelegate> delegate;
 @property (nonatomic, strong) NSNumber *userid;

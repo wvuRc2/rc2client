@@ -18,7 +18,7 @@
 
 @interface RCSession() {
 	NSMutableDictionary *_settings;
-	WebSocket00 *_ws;
+	WebSocket07 *_ws;
 }
 @property (nonatomic, copy, readwrite) NSArray *users;
 @property (nonatomic, strong, readwrite) RCSessionUser *currentUser;
@@ -90,7 +90,7 @@
 #else
 	urlStr = [urlStr stringByAppendingFormat:@"?wid=%@&client=ios&build=%@", self.workspace.wspaceId, build];
 #endif
-	_ws = [WebSocket00 webSocketWithURLString:urlStr delegate:self origin:nil 
+	_ws = [WebSocket07 webSocketWithURLString:urlStr delegate:self origin:nil 
 									 protocols:nil tlsSettings:nil verifyHandshake:YES];
 	_ws.timeout = -1;
 	[_ws open];
@@ -114,7 +114,7 @@
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"setmode", @"cmd", newMode, @"mode", nil];
 	Rc2LogInfo(@"changing mode: %@", newMode);
-	[_ws send:[dict JSONRepresentation]];
+	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }
 
@@ -123,7 +123,7 @@
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"sweave", @"cmd", fname, @"fname",
 						  script, @"script", nil];
 	Rc2LogInfo(@"executing sweave: %@", fname);
-	[_ws send:[dict JSONRepresentation]];
+	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }
 
@@ -132,7 +132,7 @@
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"executeScript", @"cmd",
 						  script, @"script", nil];
 	Rc2LogInfo(@"executing script: %@", [script length] > 10 ? [[script substringToIndex:10] stringByAppendingString:@"..."] : script);
-	[_ws send:[dict JSONRepresentation]];
+	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }
 
@@ -140,14 +140,14 @@
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"chat", @"cmd",
 						  message, @"message", nil];
-	[_ws send:[dict JSONRepresentation]];
+	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }
 
 -(void)requestUserList
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"userlist", @"cmd", nil];
-	[_ws send:[dict JSONRepresentation]];
+	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }
 
@@ -173,7 +173,7 @@
 {
 	if (self.socketOpen && fabs([self.timeOfLastTraffic timeIntervalSinceNow]) > 120) {
 		//send a dummy message that will be ignored
-		[_ws send:@"{cmd:\"keepAlive\"}"];
+		[_ws sendText:@"{cmd:\"keepAlive\"}"];
 		self.timeOfLastTraffic = [NSDate date];
 	}
 }
@@ -221,7 +221,7 @@
 	[self.delegate connectionOpened];
 }
 
-- (void) didClose: (NSError*) aError
+- (void) didClose:(NSUInteger) aStatusCode message:(NSString*) aMessage error:(NSError*) aError;
 {
 	NSLog(@"ws close");
 	self.socketOpen = NO;
@@ -234,12 +234,17 @@
 }
 
 //-(void)didReceiveTextMessage:(NSString*)msg
--(void)didReceiveMessage:(NSString*)msg
+-(void)didReceiveTextMessage:(NSString*)msg
 {
 	NSDictionary *dict = [msg JSONValue];
 	[self internallyProcessMessage:dict json:msg];
 	[self.delegate processWebSocketMessage:dict json:msg];
 	self.timeOfLastTraffic = [NSDate date];
+}
+
+-(void)didReceiveBinaryMessage:(NSData*) aMessage
+{
+	
 }
 
 #pragma mark - settings

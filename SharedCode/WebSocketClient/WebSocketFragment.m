@@ -70,6 +70,16 @@
     return NO;
 }
 
+- (BOOL) canBeParsed
+{
+    if (self.messageLength > 0)
+    {
+        return [fragment length] >= (payloadStart + payloadLength);
+    }
+    
+    return NO;
+}
+
 - (BOOL) isHeaderValid
 {
     return payloadStart;
@@ -270,7 +280,7 @@
     maskBytes[3] = (int)((aMask & 0XFF));
     unsigned char current;
     int index = (int)aRange.location;
-    int end = (int)(aRange.location + aRange.length);
+    int end = (int)aRange.location + (int)aRange.length;
     if (end > [aData length])
     {
         end = (int)[aData length];

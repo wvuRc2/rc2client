@@ -96,7 +96,7 @@
 
 -(void)dealloc
 {
-	[self.outputController.webView unbind:@"enabled"];
+//	[self.outputController.webView unbind:@"enabled"];
 	self.contentSplitView.delegate=nil;
 }
 
@@ -115,7 +115,7 @@
 			self.statusMessage = @"Connecting to server…";
 			[self prepareForSession];
 		}
-		[self.outputController.webView bind:@"enabled" toObject:self withKeyPath:@"restricted" options:nil];
+//		[self.outputController.webView bind:@"enabled" toObject:self withKeyPath:@"restricted" options:nil];
 		self.addMenu = [[NSMenu alloc] initWithTitle:@""];
 		//read this instead of hard-coding a value that chould change in the nib
 		__fileListWidth = self.contentSplitView.frame.origin.x;
@@ -881,6 +881,11 @@
 -(NSView*)rightStatusView
 {
 	return self.rightContainer;
+}
+
+-(BOOL)restricted
+{
+	return self.restrictedMode;
 }
 
 @synthesize contentSplitView;
