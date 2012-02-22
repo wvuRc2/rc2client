@@ -206,7 +206,7 @@
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
 	} else if ([cmd isEqualToString:@"userlist"]) {
 		[self updateUsers:[dict valueForKeyPath:@"data.users"]];
-		[self setMode:[dict objectForKey:@"data.mode"]];
+		[self setMode:[dict valueForKeyPath:@"data.mode"]];
 	} else if ([cmd isEqualToString:@"modechange"]) {
 		[self setMode:[dict objectForKey:@"mode"]];
 	}
