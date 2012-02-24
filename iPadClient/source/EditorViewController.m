@@ -167,6 +167,9 @@
 		NSLog(@"why is there an empty file?");
 	self.textView.text = file.currentContents;
 	[self updateDocumentState];
+	if (self.session.isClassroomMode && !self.session.restrictedMode) {
+		[self.session sendFileOpened:file];
+	}
 }
 
 -(void)userConfirmedDelete

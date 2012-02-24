@@ -32,6 +32,7 @@
 @property (nonatomic, assign, readonly) BOOL hasWritePerm;
 @property (assign) BOOL handRaised;
 @property (assign) BOOL restrictedMode;
+@property (nonatomic, readonly) BOOL isClassroomMode;
 
 -(id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp;
 
@@ -54,6 +55,9 @@
 -(void)raiseHand;
 -(void)lowerHand;
 
+//for classroom mode
+-(void)sendFileOpened:(RCFile*)file;
+
 -(id)settingForKey:(NSString*)key;
 -(void)setSetting:(id)val forKey:(NSString*)key;
 @end
@@ -65,4 +69,5 @@
 -(void)processWebSocketMessage:(NSDictionary*)msg json:(NSString*)jsonString;
 -(void)performConsoleAction:(NSString*)action;
 -(void)displayImage:(NSString*)imgPath;
+-(void)displayFile:(RCFile*)file;
 @end

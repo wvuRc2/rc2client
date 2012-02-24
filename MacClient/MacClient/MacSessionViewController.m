@@ -670,6 +670,11 @@
 	[self.imageController displayImage:[imgPath lastPathComponent]];
 }
 
+-(void)displayFile:(RCFile*)file
+{
+	self.selectedFile = file;
+}
+
 #pragma mark - web output delegate
 
 -(void)executeConsoleCommand:(NSString*)command
@@ -873,6 +878,9 @@
 		if (selectedFile)
 			newTxt = selectedFile.currentContents;
 		[self.editView setString:newTxt];
+	}
+	if (self.session.isClassroomMode && !self.restrictedMode) {
+		[self.session sendFileOpened:selectedFile];
 	}
 }
 

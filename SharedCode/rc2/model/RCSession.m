@@ -15,6 +15,7 @@
 #endif
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
+#import "RCFile.h"
 
 @interface RCSession() {
 	NSMutableDictionary *_settings;
@@ -167,6 +168,13 @@
 	self.timeOfLastTraffic = [NSDate date];
 }
 
+-(void)sendFileOpened:(RCFile*)file
+{
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"clcommand", @"cmd", @"openfile", @"subcmd",
+						  file.fileId, @"fid", nil];
+	[_ws sendText:[dict JSONRepresentation]];
+}
+
 -(void)setDelegate:(id<RCSessionDelegate>)del
 {
 	ZAssert(nil == del || [del conformsToProtocol:@protocol(RCSessionDelegate)], @"delegate not valid");
@@ -247,6 +255,9 @@
 		if ([[dict objectForKey:@"sid"] isEqualToNumber:self.currentUser.sid])
 			self.handRaised = NO;
 		[self didChangeValueForKey:@"users"];
+	} else if ([cmd isEqualToString:@"clopenfile"]) {
+		RCFile *file = [self.workspace fileWithId:[dict objectForKey:@"fileId"]];
+		[self.delegate displayFile:file];
 	}
 }
 
@@ -305,6 +316,11 @@
 {
 	_mode = [theMode copy];
 	self.restrictedMode = ![theMode isEqualToString:kMode_Share] && !(self.currentUser.master || self.currentUser.control);
+}
+
+-(BOOL)isClassroomMode
+{
+	return [self.mode isEqualToString:kMode_Classroom];
 }
 
 @end

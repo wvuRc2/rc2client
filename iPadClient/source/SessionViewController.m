@@ -483,6 +483,11 @@
 	[self.imgController loadImage1:[self.imgCache objectForKey:[imgPath lastPathComponent]]];
 }
 
+-(void)displayFile:(RCFile*)file
+{
+	[self.editorController loadFile:file];
+}
+
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString
 {
 	NSString *cmd = [dict objectForKey:@"msg"];
