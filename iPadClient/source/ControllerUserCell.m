@@ -12,12 +12,14 @@
 @implementation ControllerUserCell
 @synthesize user=_user;
 @synthesize nameLabel;
+@synthesize handButton;
 
 -(void)setUser:(RCSessionUser *)user
 {
 	_user = user;
 	if (user) {
 		self.nameLabel.text = user.login;
+		self.handButton.selected = user.handRaised;
 	}
 }
 @end

@@ -10,5 +10,6 @@
 
 @interface ControllerUserCell : iAMTableViewCell
 @property (nonatomic, strong) IBOutlet UILabel *nameLabel;
+@property (nonatomic, strong) IBOutlet UIButton *handButton;
 @property (nonatomic, retain) RCSessionUser *user;
 @end
