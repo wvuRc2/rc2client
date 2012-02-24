@@ -46,6 +46,10 @@
 		0861761D149BE19900450EE9 /* RCMMultiImageController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0861761B149BE19800450EE9 /* RCMMultiImageController.xib */; };
 		08617621149BE37A00450EE9 /* RCMImageDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0861761F149BE37A00450EE9 /* RCMImageDetailController.m */; };
 		08617622149BE37A00450EE9 /* RCMImageDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08617620149BE37A00450EE9 /* RCMImageDetailController.xib */; };
+		088D7F8914F83CAF005C62AF /* bighand-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 088D7F8514F83CAF005C62AF /* bighand-blue.png */; };
+		088D7F8A14F83CAF005C62AF /* bighand-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 088D7F8614F83CAF005C62AF /* bighand-blue@2x.png */; };
+		088D7F8B14F83CAF005C62AF /* bighand-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 088D7F8714F83CAF005C62AF /* bighand-green.png */; };
+		088D7F8C14F83CAF005C62AF /* bighand-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 088D7F8814F83CAF005C62AF /* bighand-green@2x.png */; };
 		088DF164143CDB1F00CF4844 /* MacSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088DF162143CDB1F00CF4844 /* MacSessionViewController.m */; };
 		088DF165143CDB1F00CF4844 /* MacSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */; };
 		088EABA2145C6F7E0033C249 /* PasswordVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 088EABA1145C6F7E0033C249 /* PasswordVerifier.m */; };
@@ -214,6 +218,10 @@
 		0861761E149BE37A00450EE9 /* RCMImageDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMImageDetailController.h; sourceTree = "<group>"; };
 		0861761F149BE37A00450EE9 /* RCMImageDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMImageDetailController.m; sourceTree = "<group>"; };
 		08617620149BE37A00450EE9 /* RCMImageDetailController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMImageDetailController.xib; sourceTree = "<group>"; };
+		088D7F8514F83CAF005C62AF /* bighand-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-blue.png"; sourceTree = "<group>"; };
+		088D7F8614F83CAF005C62AF /* bighand-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-blue@2x.png"; sourceTree = "<group>"; };
+		088D7F8714F83CAF005C62AF /* bighand-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-green.png"; sourceTree = "<group>"; };
+		088D7F8814F83CAF005C62AF /* bighand-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-green@2x.png"; sourceTree = "<group>"; };
 		088DF161143CDB1E00CF4844 /* MacSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacSessionViewController.h; sourceTree = "<group>"; };
 		088DF162143CDB1F00CF4844 /* MacSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacSessionViewController.m; sourceTree = "<group>"; };
 		088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacSessionViewController.xib; sourceTree = "<group>"; };
@@ -729,6 +737,10 @@
 				0815947F14E5C3F90067E83C /* hand-green@2x.png */,
 				0815948014E5C3F90067E83C /* hand-grey.png */,
 				0815948114E5C3F90067E83C /* hand-grey@2x.png */,
+				088D7F8514F83CAF005C62AF /* bighand-blue.png */,
+				088D7F8614F83CAF005C62AF /* bighand-blue@2x.png */,
+				088D7F8714F83CAF005C62AF /* bighand-green.png */,
+				088D7F8814F83CAF005C62AF /* bighand-green@2x.png */,
 				0861760914994EAB00450EE9 /* syncArrows.png */,
 				08617612149955CF00450EE9 /* syncArrowsSelected.png */,
 				08617617149BCD8C00450EE9 /* history.png */,
@@ -840,6 +852,10 @@
 				0815948314E5C3F90067E83C /* hand-green@2x.png in Resources */,
 				0815948414E5C3F90067E83C /* hand-grey.png in Resources */,
 				0815948514E5C3F90067E83C /* hand-grey@2x.png in Resources */,
+				088D7F8914F83CAF005C62AF /* bighand-blue.png in Resources */,
+				088D7F8A14F83CAF005C62AF /* bighand-blue@2x.png in Resources */,
+				088D7F8B14F83CAF005C62AF /* bighand-green.png in Resources */,
+				088D7F8C14F83CAF005C62AF /* bighand-green@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

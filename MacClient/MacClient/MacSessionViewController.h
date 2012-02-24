@@ -35,6 +35,7 @@
 -(IBAction)createNewFile:(id)sender;
 -(IBAction)saveFileEdits:(id)sender;
 -(IBAction)changeMode:(id)sender;
+-(IBAction)toggleHand:(id)sender;
 -(void)saveChanges;
 
 -(void)saveSessionState;

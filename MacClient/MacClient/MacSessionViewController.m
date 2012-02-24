@@ -361,6 +361,15 @@
 	});
 }
 
+-(IBAction)toggleHand:(id)sender
+{
+	if ([(NSButton*)sender state] == NSOnState) {
+		[self.session raiseHand];
+	} else {
+		[self.session lowerHand];
+	}
+}
+
 #pragma mark - meat & potatos
 
 -(void)saveSessionState
