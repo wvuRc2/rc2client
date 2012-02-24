@@ -7,6 +7,7 @@
 //
 
 #import "RCMUserListCell.h"
+#import "RCSessionUser.h"
 
 @implementation RCMUserListCell
 
@@ -20,6 +21,10 @@
 	else
 		self.imgButton.image = [NSImage imageNamed:NSImageNameStatusNone];
 	[self.imgButton.cell setBackgroundColor:[NSColor clearColor]];
+	if ([[objectValue valueForKey:@"handRaised"] boolValue])
+		self.handButton.state = NSOnState;
+	else 
+		self.handButton.state = NSOffState;
 }
 
 @synthesize imgButton;

@@ -31,4 +31,5 @@
 @synthesize userId;
 @synthesize sid;
 @synthesize control;
+@synthesize handRaised;
 @end

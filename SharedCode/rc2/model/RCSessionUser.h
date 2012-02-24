@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSNumber *sid;
 @property (nonatomic, assign) BOOL master;
 @property (nonatomic, assign) BOOL control;
+@property (nonatomic, assign) BOOL handRaised;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end

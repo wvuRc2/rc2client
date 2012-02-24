@@ -17,10 +17,10 @@
 
 @implementation RCMImagePrintView
 
-- (id)initWithImages:(NSArray*)images;
+- (id)initWithImages:(NSArray*)imgs;
 {
 	if ((self = [super initWithFrame:NSMakeRect(0, 0, 480, 480)])) {
-		self.images = images;
+		self.images = imgs;
 		NSDateFormatter *df = [[NSDateFormatter alloc] init];
 		df.timeStyle = NSDateFormatterShortStyle;
 		df.dateStyle = NSDateFormatterMediumStyle;

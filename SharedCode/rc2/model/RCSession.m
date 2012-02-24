@@ -236,11 +236,17 @@
 	} else if ([cmd isEqualToString:@"modechange"]) {
 		[self setMode:[dict objectForKey:@"mode"]];
 	} else if ([cmd isEqualToString:@"handraised"]) {
+		[self willChangeValueForKey:@"users"];
+		[self userWithSid:[dict objectForKey:@"sid"]].handRaised = YES;
 		if ([[dict objectForKey:@"sid"] isEqualToNumber:self.currentUser.sid])
 			self.handRaised = YES;
+		[self didChangeValueForKey:@"users"];
 	} else if ([cmd isEqualToString:@"handlowered"]) {
+		[self willChangeValueForKey:@"users"];
+		[self userWithSid:[dict objectForKey:@"sid"]].handRaised = NO;
 		if ([[dict objectForKey:@"sid"] isEqualToNumber:self.currentUser.sid])
 			self.handRaised = NO;
+		[self didChangeValueForKey:@"users"];
 	}
 }
 

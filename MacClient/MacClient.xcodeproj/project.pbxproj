@@ -776,7 +776,7 @@
 		08FE889E1415533300672474 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "Agile Monks";
 			};
 			buildConfigurationList = 08FE88A11415533300672474 /* Build configuration list for PBXProject "MacClient" */;

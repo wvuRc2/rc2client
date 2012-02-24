@@ -77,6 +77,7 @@ NSString * const PXSLDeleteKeyPressedOnRowsNotification = @"PXSourceListDeleteKe
 	
 	//Unregister the delegate from receiving notifications
 	[[NSNotificationCenter defaultCenter] removeObserver:_secondaryDelegate name:nil object:self];
+	[super dealloc];
 }
 
 - (void)finalize

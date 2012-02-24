@@ -52,9 +52,9 @@
 		return;
 	}
 	self.selectedRole = [selObjs firstObject];
-	NSArray *perms = [[selObjs firstObject] valueForKey:@"permissionIds"];
+	NSArray *nperms = [[selObjs firstObject] valueForKey:@"permissionIds"];
 	NSMutableArray *ma = [NSMutableArray arrayWithCapacity:perms.count];
-	for (id val in perms) {
+	for (id val in nperms) {
 		id aPerm = [self.perms firstObjectWithValue:val forKey:@"id"];
 		if (aPerm)
 			[ma addObject:aPerm];
@@ -67,16 +67,16 @@
 	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:@"role"];
 	__unsafe_unretained ASIHTTPRequest *blockReq = req;
 	req.completionBlock = ^{
-		NSArray *roles = [[blockReq.responseString JSONValue] objectForKey:@"roles"];
-		NSMutableArray *editRoles = [NSMutableArray arrayWithCapacity:roles.count];
-		for (NSDictionary *aRole in roles) {
+		NSArray *nroles = [[blockReq.responseString JSONValue] objectForKey:@"roles"];
+		NSMutableArray *editRoles = [NSMutableArray arrayWithCapacity:nroles.count];
+		for (NSDictionary *aRole in nroles) {
 			NSMutableDictionary *newRole = [aRole mutableCopy];
-			NSArray *perms = [newRole objectForKey:@"permissionIds"];
-			[newRole setObject:[perms mutableCopy] forKey:@"permissionIds"];
+			NSArray *nperms = [newRole objectForKey:@"permissionIds"];
+			[newRole setObject:[nperms mutableCopy] forKey:@"permissionIds"];
 			[editRoles addObject: newRole];
 		}
 		self.roleController.content = editRoles;
-		self.roles = roles;
+		self.roles = nroles;
 	};
 	[req startAsynchronous];
 }
@@ -86,9 +86,9 @@
 	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:@"perm"];
 	__unsafe_unretained ASIHTTPRequest *blockReq = req;
 	req.completionBlock = ^{
-		NSArray *perms = [blockReq.responseString JSONValue];
-		self.permController.content = perms;
-		self.perms = perms;
+		NSArray *nperms = [blockReq.responseString JSONValue];
+		self.permController.content = nperms;
+		self.perms = nperms;
 	};
 	[req startAsynchronous];
 }
