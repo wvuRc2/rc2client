@@ -113,10 +113,10 @@
 	return [self.messages count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSInteger row = indexPath.row;
-	MessageListCell *cell = [MessageListCell cellForTableView:tableView];
+	MessageListCell *cell = [MessageListCell cellForTableView:aTableView];
 	if (nil == cell.priorityImages) {
 		cell.priorityImages = self.flagImages;
 		[cell.deleteButton addTarget:self action:@selector(doDeleteMessage:) forControlEvents:UIControlEventTouchUpInside];
@@ -146,9 +146,9 @@
 	return indexPath;
 }
 
--(void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)tableView:(UITableView*)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	MessageListCell *newCell = (MessageListCell*)[tableView cellForRowAtIndexPath:indexPath];
+	MessageListCell *newCell = (MessageListCell*)[aTableView cellForRowAtIndexPath:indexPath];
 	[self setSelectedCell:newCell deselectedCell:self.currentSelection];
 	self.currentSelection = newCell;
 	RCMessage *message = [self.messages objectAtIndex:indexPath.row];
@@ -159,8 +159,8 @@
 		self.selRowIdx = -1;
 	else
 		self.selRowIdx = indexPath.row;
-	[tableView beginUpdates];
-	[tableView endUpdates];
+	[aTableView beginUpdates];
+	[aTableView endUpdates];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

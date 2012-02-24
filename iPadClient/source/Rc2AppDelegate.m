@@ -22,12 +22,14 @@
 #import "AppConstants.h"
 
 //hack for iOS 5.0 SDK bug
+/*
 @implementation UIImage(iOS5HackBugFix)
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
 	return nil;
 }
 @end
+*/
 
 @interface Rc2AppDelegate() {
 	NSManagedObjectModel *__mom;

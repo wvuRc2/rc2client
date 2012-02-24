@@ -162,8 +162,6 @@
 		08EE41171436441F004FDBB8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41071436441F004FDBB8 /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE41181436441F004FDBB8 /* WebSocket00.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE410A1436441F004FDBB8 /* WebSocket00.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE41191436441F004FDBB8 /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE410C1436441F004FDBB8 /* WebSocket07.m */; };
-		08EE411A1436441F004FDBB8 /* WebSocket08.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE410E1436441F004FDBB8 /* WebSocket08.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08EE411B1436441F004FDBB8 /* WebSocket10.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41101436441F004FDBB8 /* WebSocket10.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE411C1436441F004FDBB8 /* WebSocketFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41121436441F004FDBB8 /* WebSocketFragment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE411D1436441F004FDBB8 /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41141436441F004FDBB8 /* WebSocketMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE4159143A1ABC004FDBB8 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */; };
@@ -1071,8 +1069,6 @@
 				08EE41171436441F004FDBB8 /* NSData+Base64.m in Sources */,
 				08EE41181436441F004FDBB8 /* WebSocket00.m in Sources */,
 				08EE41191436441F004FDBB8 /* WebSocket07.m in Sources */,
-				08EE411A1436441F004FDBB8 /* WebSocket08.m in Sources */,
-				08EE411B1436441F004FDBB8 /* WebSocket10.m in Sources */,
 				08EE411C1436441F004FDBB8 /* WebSocketFragment.m in Sources */,
 				08EE411D1436441F004FDBB8 /* WebSocketMessage.m in Sources */,
 				089C0B141458E51800DF9984 /* RCWorkspaceShare.m in Sources */,

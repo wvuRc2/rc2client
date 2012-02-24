@@ -67,11 +67,11 @@
 	[server.currentSession sendChatMessage:self.textField.text];
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField
+-(BOOL)textFieldShouldReturn:(UITextField *)aTextField
 {
 	[self sendChatMessage];
-	[textField resignFirstResponder];
-	textField.text=@"";
+	[aTextField resignFirstResponder];
+	aTextField.text=@"";
 	return NO;
 }
 

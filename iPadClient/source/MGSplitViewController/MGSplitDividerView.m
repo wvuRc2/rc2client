@@ -111,7 +111,7 @@
 	
 	float stripThickness = 1.0;
 	UIColor *stripColor = [UIColor colorWithWhite:0.35 alpha:1.0];
-	UIColor *lightColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+	UIColor *myLightColor = [UIColor colorWithWhite:1.0 alpha:1.0];
 	float space = 3.0;
 	if (splitViewController.vertical) {
 		gripRect.size.width = stripThickness;
@@ -120,7 +120,7 @@
 		
 		gripRect.origin.x += stripThickness;
 		gripRect.origin.y += 1;
-		[lightColor set];
+		[myLightColor set];
 		UIRectFill(gripRect);
 		gripRect.origin.x -= stripThickness;
 		gripRect.origin.y -= 1;
@@ -131,7 +131,7 @@
 		
 		gripRect.origin.x += stripThickness;
 		gripRect.origin.y += 1;
-		[lightColor set];
+		[myLightColor set];
 		UIRectFill(gripRect);
 		gripRect.origin.x -= stripThickness;
 		gripRect.origin.y -= 1;
@@ -142,7 +142,7 @@
 		
 		gripRect.origin.x += stripThickness;
 		gripRect.origin.y += 1;
-		[lightColor set];
+		[myLightColor set];
 		UIRectFill(gripRect);
 		
 	} else {
@@ -152,7 +152,7 @@
 		
 		gripRect.origin.y += stripThickness;
 		gripRect.origin.x -= 1;
-		[lightColor set];
+		[myLightColor set];
 		UIRectFill(gripRect);
 		gripRect.origin.y -= stripThickness;
 		gripRect.origin.x += 1;
@@ -163,7 +163,7 @@
 		
 		gripRect.origin.y += stripThickness;
 		gripRect.origin.x -= 1;
-		[lightColor set];
+		[myLightColor set];
 		UIRectFill(gripRect);
 		gripRect.origin.y -= stripThickness;
 		gripRect.origin.x += 1;
@@ -174,7 +174,7 @@
 		
 		gripRect.origin.y += stripThickness;
 		gripRect.origin.x -= 1;
-		[lightColor set];
+		[myLightColor set];
 		UIRectFill(gripRect);
 	}
 }

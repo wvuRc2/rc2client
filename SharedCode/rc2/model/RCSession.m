@@ -194,12 +194,23 @@
 	}
 }
 
+-(RCSessionUser*)userWithSid:(NSNumber*)sid
+{
+	for (RCSessionUser *user in self.users) {
+		if ([user.sid isEqualToNumber:sid])
+			return user;
+	}
+	return nil;
+}
+
 -(void)updateUsers:(NSArray*)updatedUsers
 {
 	[self willChangeValueForKey:@"users"];
 	NSMutableArray *ma = [NSMutableArray array];
 	for (NSDictionary *dict in updatedUsers) {
-		RCSessionUser *suser = [[RCSessionUser alloc] initWithDictionary:dict];
+		RCSessionUser *suser = [self userWithSid:[dict objectForKey:@"sid"]];
+		if (nil == suser)
+			suser = [[RCSessionUser alloc] initWithDictionary:dict];
 		[ma addObject:suser];
 		if ([suser.userId isEqualToNumber:self.userid])
 			self.currentUser = suser;
