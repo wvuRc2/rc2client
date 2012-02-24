@@ -20,6 +20,7 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *actionButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *openFileButtonItem;
 @property (nonatomic, strong) IBOutlet UILabel *docTitleLabel;
+@property (nonatomic, strong) IBOutlet UIButton *handButton;
 @property (nonatomic, strong) RCFile *currentFile;
 @property (nonatomic, strong) RCSession *session;
 
@@ -32,6 +33,7 @@
 -(IBAction)doRevertFile:(id)sender;
 -(IBAction)presentDropboxImport:(id)sender;
 -(IBAction)doSaveFile:(id)sender;
+-(IBAction)toggleHand:(id)sender;
 
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress;
 -(void)loadFile:(RCFile*)file; //shows progress

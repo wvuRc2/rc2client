@@ -13,6 +13,8 @@
 #import "RCFile.h"
 #import "RCWorkspace.h"
 #import "RCSavedSession.h"
+#import "RCSession.h"
+#import "RCSessionUser.h"
 #import "SessionFilesController.h"
 #import "MBProgressHUD.h"
 #import "DropboxImportController.h"
@@ -21,6 +23,7 @@
 	CGRect _oldTextFrame;
 	CGFloat _oldHeight;
 	BOOL _viewLoaded;
+	BOOL _handUp;
 }
 @property (nonatomic, strong) SessionFilesController *fileController;
 @property (nonatomic, strong) UIPopoverController *filePopover;
@@ -29,6 +32,7 @@
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
 @property (nonatomic, strong) id sessionKvoToken;
+@property (nonatomic, strong) id sessionHandToken;
 -(void)keyboardVisible:(NSNotification*)note;
 -(void)keyboardHiding:(NSNotification*)note;
 -(void)updateDocumentState;
@@ -426,6 +430,14 @@
 											 animated:YES];
 }
 
+-(IBAction)toggleHand:(id)sender
+{
+	if (self.session.handRaised)
+		[self.session lowerHand];
+	else
+		[self.session raiseHand];
+}
+
 #pragma mark - delegate methods
 
 -(void)dismissSessionsFilesController
@@ -461,6 +473,11 @@
 	__unsafe_unretained EditorViewController *blockSelf = self;
 	self.sessionKvoToken = [sess addObserverForKeyPath:@"restrictedMode" task:^(id obj, NSDictionary *dict) {
 		[blockSelf sessionModeChanged];
+		NSLog(@"suser = %@", [obj currentUser]);
+		self.handButton.hidden = [obj currentUser].master;
+	}];
+	self.sessionHandToken = [sess addObserverForKeyPath:@"handRaised" task:^(id obj, NSDictionary *dict) {
+		blockSelf.handButton.selected = ((RCSession*)obj).handRaised;
 	}];
 }
 
@@ -478,4 +495,6 @@
 @synthesize actionSheet;
 @synthesize syncButtonItem;
 @synthesize sessionKvoToken;
+@synthesize handButton;
+@synthesize sessionHandToken;
 @end

@@ -81,6 +81,10 @@
 		085E7B1714EED6D400036A9E /* RCSessionUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1614EED6D400036A9E /* RCSessionUser.m */; };
 		085E7B1E14EEDB3E00036A9E /* ControllerUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1D14EEDB3E00036A9E /* ControllerUserCell.m */; };
 		085E7B2014EEDBFC00036A9E /* ControllerUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B1F14EEDBFC00036A9E /* ControllerUserCell.xib */; };
+		085E7B7814F7E9F600036A9E /* bighand-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B7414F7E9F600036A9E /* bighand-green.png */; };
+		085E7B7914F7E9F600036A9E /* bighand-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B7514F7E9F600036A9E /* bighand-green@2x.png */; };
+		085E7B7F14F7F0D700036A9E /* bighand-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B7D14F7F0D700036A9E /* bighand-blue.png */; };
+		085E7B8014F7F0D700036A9E /* bighand-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B7E14F7F0D700036A9E /* bighand-blue@2x.png */; };
 		08661A2D1405AC180087BD34 /* MGSplitCornersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A281405AC170087BD34 /* MGSplitCornersView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08661A2E1405AC180087BD34 /* MGSplitDividerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A2A1405AC170087BD34 /* MGSplitDividerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08661A2F1405AC180087BD34 /* MGSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A2C1405AC170087BD34 /* MGSplitViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -297,6 +301,10 @@
 		085E7B1C14EEDB3E00036A9E /* ControllerUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControllerUserCell.h; path = source/ControllerUserCell.h; sourceTree = SOURCE_ROOT; };
 		085E7B1D14EEDB3E00036A9E /* ControllerUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ControllerUserCell.m; path = source/ControllerUserCell.m; sourceTree = SOURCE_ROOT; };
 		085E7B1F14EEDBFC00036A9E /* ControllerUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ControllerUserCell.xib; path = source/ControllerUserCell.xib; sourceTree = SOURCE_ROOT; };
+		085E7B7414F7E9F600036A9E /* bighand-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bighand-green.png"; path = "../SharedImages/bighand-green.png"; sourceTree = SOURCE_ROOT; };
+		085E7B7514F7E9F600036A9E /* bighand-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bighand-green@2x.png"; path = "../SharedImages/bighand-green@2x.png"; sourceTree = SOURCE_ROOT; };
+		085E7B7D14F7F0D700036A9E /* bighand-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bighand-blue.png"; path = "../SharedImages/bighand-blue.png"; sourceTree = SOURCE_ROOT; };
+		085E7B7E14F7F0D700036A9E /* bighand-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bighand-blue@2x.png"; path = "../SharedImages/bighand-blue@2x.png"; sourceTree = SOURCE_ROOT; };
 		08661A271405AC170087BD34 /* MGSplitCornersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSplitCornersView.h; sourceTree = "<group>"; };
 		08661A281405AC170087BD34 /* MGSplitCornersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSplitCornersView.m; sourceTree = "<group>"; };
 		08661A291405AC170087BD34 /* MGSplitDividerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSplitDividerView.h; sourceTree = "<group>"; };
@@ -618,6 +626,10 @@
 		0860C54214103D2E00582C7D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				085E7B7414F7E9F600036A9E /* bighand-green.png */,
+				085E7B7514F7E9F600036A9E /* bighand-green@2x.png */,
+				085E7B7D14F7F0D700036A9E /* bighand-blue.png */,
+				085E7B7E14F7F0D700036A9E /* bighand-blue@2x.png */,
 				085E7B0B14EEBC0600036A9E /* controller.png */,
 				085E7B0C14EEBC0600036A9E /* controller@2x.png */,
 				08AE4EAD1414568700963C52 /* messageCellBG.png */,
@@ -945,6 +957,10 @@
 				085E7B0E14EEBC0600036A9E /* controller@2x.png in Resources */,
 				085E7B1414EEC2F000036A9E /* ControlViewController.xib in Resources */,
 				085E7B2014EEDBFC00036A9E /* ControllerUserCell.xib in Resources */,
+				085E7B7814F7E9F600036A9E /* bighand-green.png in Resources */,
+				085E7B7914F7E9F600036A9E /* bighand-green@2x.png in Resources */,
+				085E7B7F14F7F0D700036A9E /* bighand-blue.png in Resources */,
+				085E7B8014F7F0D700036A9E /* bighand-blue@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1173,7 +1189,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "A975A085-9F3F-4B7B-B79C-4B497A8C17E5";
+				PROVISIONING_PROFILE = "926AADF2-1896-4B13-B530-D254AB8C88D2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1205,7 +1221,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "A975A085-9F3F-4B7B-B79C-4B497A8C17E5";
+				PROVISIONING_PROFILE = "926AADF2-1896-4B13-B530-D254AB8C88D2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1255,7 +1271,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "A975A085-9F3F-4B7B-B79C-4B497A8C17E5";
+				PROVISIONING_PROFILE = "926AADF2-1896-4B13-B530-D254AB8C88D2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

@@ -45,6 +45,7 @@
 @synthesize currentUser;
 @synthesize mode=_mode;
 @synthesize restrictedMode;
+@synthesize handRaised;
 
 - (id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp
 {
@@ -152,6 +153,20 @@
 	self.timeOfLastTraffic = [NSDate date];
 }
 
+-(void)raiseHand
+{
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"raisehand", @"cmd", nil];
+	[_ws sendText:[dict JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
+}
+
+-(void)lowerHand
+{
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"lowerhand", @"cmd", nil];
+	[_ws sendText:[dict JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
+}
+
 -(void)setDelegate:(id<RCSessionDelegate>)del
 {
 	ZAssert(nil == del || [del conformsToProtocol:@protocol(RCSessionDelegate)], @"delegate not valid");
@@ -191,7 +206,6 @@
 	}
 	self.users = ma;
 	[self didChangeValueForKey:@"users"];
-	//TODO: record who's in control
 }
 
 -(void)internallyProcessMessage:(NSDictionary*)dict json:(NSString*)json
@@ -199,8 +213,8 @@
 	NSString *cmd = [dict objectForKey:@"msg"];
 	if ([cmd isEqualToString:@"userid"]) {
 		self.userid = [dict objectForKey:@"userid"];
-		[self setMode:[dict valueForKeyPath:@"session.mode"]];
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
+		[self setMode:[dict valueForKeyPath:@"session.mode"]];
 	} else if ([cmd isEqualToString:@"join"]) {
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
 	} else if ([cmd isEqualToString:@"left"]) {
@@ -210,6 +224,12 @@
 		[self setMode:[dict valueForKeyPath:@"data.mode"]];
 	} else if ([cmd isEqualToString:@"modechange"]) {
 		[self setMode:[dict objectForKey:@"mode"]];
+	} else if ([cmd isEqualToString:@"handraised"]) {
+		if ([[dict objectForKey:@"sid"] isEqualToNumber:self.currentUser.sid])
+			self.handRaised = YES;
+	} else if ([cmd isEqualToString:@"handlowered"]) {
+		if ([[dict objectForKey:@"sid"] isEqualToNumber:self.currentUser.sid])
+			self.handRaised = NO;
 	}
 }
 

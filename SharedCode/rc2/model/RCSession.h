@@ -30,6 +30,7 @@
 @property (nonatomic, assign, readonly) BOOL socketOpen;
 @property (nonatomic, assign, readonly) BOOL hasReadPerm;
 @property (nonatomic, assign, readonly) BOOL hasWritePerm;
+@property (assign) BOOL handRaised;
 @property (assign) BOOL restrictedMode;
 
 -(id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp;
@@ -47,6 +48,9 @@
 -(void)executeSweave:(NSString*)fname script:(NSString*)script;
 -(void)sendChatMessage:(NSString*)message;
 -(void)requestUserList;
+
+-(void)raiseHand;
+-(void)lowerHand;
 
 -(id)settingForKey:(NSString*)key;
 -(void)setSetting:(id)val forKey:(NSString*)key;
