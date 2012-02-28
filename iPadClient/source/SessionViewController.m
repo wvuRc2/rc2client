@@ -594,7 +594,8 @@
 - (float)splitViewController:(MGSplitViewController *)svc constrainSplitPosition:(float)proposedPosition 
 			   splitViewSize:(CGSize)viewSize;
 {
-	CGFloat maxSize = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation) ? viewSize.width : viewSize.height;
+	BOOL isLandscape = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
+	CGFloat maxSize = isLandscape ? viewSize.width : viewSize.height;
 	if (maxSize - proposedPosition < 150)
 		return maxSize-150;
 	if (maxSize - proposedPosition < 70) {
@@ -608,8 +609,13 @@
 	}
 	if (proposedPosition > maxSize-10)
 		return maxSize-10;
-	if (proposedPosition < 260)
-		return 260;
+	if (isLandscape) {
+		if (proposedPosition < 320)
+			proposedPosition = 320;
+	} else {
+		if (proposedPosition < 200)
+			return 200;
+	}
 	return proposedPosition;
 }
 
