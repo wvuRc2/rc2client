@@ -223,8 +223,13 @@
 	r.size = sz;
 	self.importController.view.superview.frame = r;
 	CGPoint centerPt = CGPointZero;
-	centerPt.x = 512;
-	centerPt.y = 100 + floor(sz.height/2);
+	if (UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation)) {
+		centerPt.x = 512;
+		centerPt.y = 100 + floor(sz.height/2);
+	} else {
+		centerPt.x = 384;
+		centerPt.y = 100 + floor(sz.height/2);		
+	}
 	self.importController.view.superview.center = centerPt;
 }
 
@@ -476,7 +481,6 @@
 	__unsafe_unretained EditorViewController *blockSelf = self;
 	self.sessionKvoToken = [sess addObserverForKeyPath:@"restrictedMode" task:^(id obj, NSDictionary *dict) {
 		[blockSelf sessionModeChanged];
-		NSLog(@"suser = %@", [obj currentUser]);
 		self.handButton.hidden = [obj currentUser].master;
 	}];
 	self.sessionHandToken = [sess addObserverForKeyPath:@"handRaised" task:^(id obj, NSDictionary *dict) {

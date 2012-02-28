@@ -50,6 +50,7 @@
 		088D7F8A14F83CAF005C62AF /* bighand-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 088D7F8614F83CAF005C62AF /* bighand-blue@2x.png */; };
 		088D7F8B14F83CAF005C62AF /* bighand-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 088D7F8714F83CAF005C62AF /* bighand-green.png */; };
 		088D7F8C14F83CAF005C62AF /* bighand-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 088D7F8814F83CAF005C62AF /* bighand-green@2x.png */; };
+		088D7FA314FD3AD6005C62AF /* RCMSyntaxHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 088D7FA214FD3AD6005C62AF /* RCMSyntaxHighlighter.m */; };
 		088DF164143CDB1F00CF4844 /* MacSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088DF162143CDB1F00CF4844 /* MacSessionViewController.m */; };
 		088DF165143CDB1F00CF4844 /* MacSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */; };
 		088EABA2145C6F7E0033C249 /* PasswordVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 088EABA1145C6F7E0033C249 /* PasswordVerifier.m */; };
@@ -222,6 +223,8 @@
 		088D7F8614F83CAF005C62AF /* bighand-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-blue@2x.png"; sourceTree = "<group>"; };
 		088D7F8714F83CAF005C62AF /* bighand-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-green.png"; sourceTree = "<group>"; };
 		088D7F8814F83CAF005C62AF /* bighand-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-green@2x.png"; sourceTree = "<group>"; };
+		088D7FA114FD3AD6005C62AF /* RCMSyntaxHighlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMSyntaxHighlighter.h; sourceTree = "<group>"; };
+		088D7FA214FD3AD6005C62AF /* RCMSyntaxHighlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMSyntaxHighlighter.m; sourceTree = "<group>"; };
 		088DF161143CDB1E00CF4844 /* MacSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacSessionViewController.h; sourceTree = "<group>"; };
 		088DF162143CDB1F00CF4844 /* MacSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacSessionViewController.m; sourceTree = "<group>"; };
 		088DF163143CDB1F00CF4844 /* MacSessionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacSessionViewController.xib; sourceTree = "<group>"; };
@@ -396,6 +399,8 @@
 		08056E331448C6430002766D /* utility */ = {
 			isa = PBXGroup;
 			children = (
+				088D7FA114FD3AD6005C62AF /* RCMSyntaxHighlighter.h */,
+				088D7FA214FD3AD6005C62AF /* RCMSyntaxHighlighter.m */,
 				08FE8A501415A89700672474 /* EMKeychainItem.h */,
 				08FE8A511415A89700672474 /* EMKeychainItem.m */,
 				08EE40E91433AC2C004FDBB8 /* RC2RemoteLogger.h */,
@@ -965,6 +970,7 @@
 				0815947914E5B9AF0067E83C /* RCMUserListCell.m in Sources */,
 				085E7B1A14EED6F600036A9E /* RCSessionUser.m in Sources */,
 				085E7B3214F56C3200036A9E /* WebSocket07.m in Sources */,
+				088D7FA314FD3AD6005C62AF /* RCMSyntaxHighlighter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -151,7 +151,6 @@
 						   (id)kCFBooleanTrue, @"isdir", item, @"metadata", nil]];
 		} else {
 			NSNumber *importable = [NSNumber numberWithBool:([fileTypes containsObject:ftype]) && item.totalBytes > 0];
-			Rc2LogInfo(@"%@ is importable? %@", item.path.lastPathComponent, importable);
 			[a addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:[item.path lastPathComponent], @"name",
 						   (id)kCFBooleanFalse, @"isdir", item, @"metadata", importable, @"importable", nil]];
 		}

@@ -27,6 +27,7 @@
 #import "AppDelegate.h"
 #import "RCMSessionFileCellView.h"
 #import "MultiFileImporter.h"
+#import "RCMSyntaxHighlighter.h"
 
 @interface MacSessionViewController() {
 	CGFloat __fileListWidth;
@@ -720,6 +721,13 @@
 
 #pragma mark - text view delegate
 
+-(void)textDidChange:(NSNotification*)note
+{
+	NSRange rng = self.editView.selectedRange;
+	[self.editView.textStorage setAttributedString:[[RCMSyntaxHighlighter sharedInstance] syntaxHighlight:self.editView.attributedString]];
+	[self.editView setSelectedRange:rng];
+}
+
 -(BOOL)textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector
 {
 	if (commandSelector == @selector(insertNewline:)) {
@@ -877,7 +885,9 @@
 		NSString *newTxt = self.scratchString;
 		if (selectedFile)
 			newTxt = selectedFile.currentContents;
-		[self.editView setString:newTxt];
+		NSAttributedString *astr = [NSAttributedString attributedStringWithString:newTxt attributes:nil];
+		astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlight:astr];
+		[self.editView.textStorage setAttributedString:astr];
 	}
 	if (self.session.isClassroomMode && !self.restrictedMode) {
 		[self.session sendFileOpened:selectedFile];
