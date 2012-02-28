@@ -341,7 +341,7 @@
 															<string key="NSFrame">{{1, 461}, {168, 15}}</string>
 															<reference key="NSSuperview" ref="138418140"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="422064599"/>
+															<reference key="NSNextKeyView"/>
 															<string key="NSReuseIdentifierKey">_NS:1847</string>
 															<int key="NSsFlags">1</int>
 															<reference key="NSTarget" ref="138418140"/>
@@ -444,8 +444,8 @@
 								<array class="NSMutableArray" key="NSSubviews">
 									<object class="NSButton" id="515813873">
 										<reference key="NSNextResponder" ref="874418216"/>
-										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{8, 10}, {32, 32}}</string>
+										<int key="NSvFlags">268</int>
+										<string key="NSFrame">{{8, 461}, {32, 32}}</string>
 										<reference key="NSSuperview" ref="874418216"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="885409590"/>
@@ -476,8 +476,8 @@
 									</object>
 									<object class="NSButton" id="885409590">
 										<reference key="NSNextResponder" ref="874418216"/>
-										<int key="NSvFlags">289</int>
-										<string key="NSFrame">{{132, 8}, {82, 32}}</string>
+										<int key="NSvFlags">265</int>
+										<string key="NSFrame">{{132, 459}, {82, 32}}</string>
 										<reference key="NSSuperview" ref="874418216"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1040863375"/>
@@ -528,7 +528,7 @@
 															<string>WebURLsWithTitlesPboardType</string>
 															<string>public.url</string>
 														</set>
-														<string key="NSFrame">{{0, 319}, {198, 133}}</string>
+														<string key="NSFrameSize">{198, 112}</string>
 														<reference key="NSSuperview" ref="448343561"/>
 														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="626904679"/>
@@ -588,10 +588,11 @@
 														</object>
 														<int key="NSTVFlags">6</int>
 														<string key="NSMaxSize">{463, 10000000}</string>
+														<string key="NSMinize">{198, 41}</string>
 														<nil key="NSDelegate"/>
 													</object>
 												</array>
-												<string key="NSFrame">{{1, 1}, {198, 452}}</string>
+												<string key="NSFrame">{{1, 1}, {198, 431}}</string>
 												<reference key="NSSuperview" ref="69654693"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="41799446"/>
@@ -652,7 +653,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 												<double key="NSPercent">0.94565218687057495</double>
 											</object>
 										</array>
-										<string key="NSFrame">{{8, 51}, {200, 454}}</string>
+										<string key="NSFrame">{{8, 20}, {200, 433}}</string>
 										<reference key="NSSuperview" ref="874418216"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="448343561"/>
@@ -1347,9 +1348,9 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<int key="objectID">18</int>
 						<reference key="object" ref="874418216"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="69654693"/>
 							<reference ref="885409590"/>
 							<reference ref="515813873"/>
+							<reference ref="69654693"/>
 						</array>
 						<reference key="parent" ref="422064599"/>
 					</object>
