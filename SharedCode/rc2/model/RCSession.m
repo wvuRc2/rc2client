@@ -147,6 +147,11 @@
 	self.timeOfLastTraffic = [NSDate date];
 }
 
+-(void)sendAudioInput:(NSData*)data
+{
+	[_ws sendBinary:data];
+}
+
 -(void)requestUserList
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"userlist", @"cmd", nil];
@@ -293,7 +298,7 @@
 
 -(void)didReceiveBinaryMessage:(NSData*) aMessage
 {
-	
+	[self.delegate processBinaryMessage:aMessage];
 }
 
 #pragma mark - settings

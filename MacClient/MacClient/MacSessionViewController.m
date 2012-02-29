@@ -30,8 +30,11 @@
 #import "RCMSyntaxHighlighter.h"
 
 @interface MacSessionViewController() {
+	AudioQueueRef _inputQueue, _outputQueue;
+	AudioStreamBasicDescription _audioDesc;
 	CGFloat __fileListWidth;
 	NSPoint __curImgPoint;
+	BOOL _recordingOn;
 	BOOL __didInit;
 	BOOL __movingFileList;
 	BOOL __fileListInitiallyVisible;
@@ -55,6 +58,7 @@
 @property (nonatomic, strong) id fullscreenToken;
 @property (nonatomic, strong) id usersToken;
 @property (nonatomic, strong) id modeChangeToken;
+@property (nonatomic, strong) NSMutableArray *audioQueue;
 -(void)prepareForSession;
 -(void)completeSessionStartup:(id)response;
 -(NSString*)escapeForJS:(NSString*)str;
@@ -68,7 +72,18 @@
 -(void)syncFile:(RCFile*)file;
 -(void)setMode:(NSString*)mode;
 -(void)modeChanged;
+-(void)initializeRecording;
+-(void)initializeAudioOut;
+-(void)tearDownAudio;
 @end
+
+static void MyAudioInputCallback(void *inUserData, AudioQueueRef inQueue, AudioQueueBufferRef inBuffer,
+								 const AudioTimeStamp *inStartTIme, UInt32 inNumPackets,
+								 const AudioStreamPacketDescription *inPacketDesc);
+
+static void MyOutputCallback(void *inUserData, AudioQueueRef inAQ,AudioQueueBufferRef inCompleteAQBuffer);
+static void MyAudioPropertyListener(void *inUserData, AudioQueueRef queue, AudioQueuePropertyID property);
+static Boolean IsQueueRunning(AudioQueueRef queue);
 
 @implementation MacSessionViewController
 @synthesize session=__session;
@@ -99,6 +114,7 @@
 -(void)dealloc
 {
 //	[self.outputController.webView unbind:@"enabled"];
+	[self tearDownAudio];
 	self.contentSplitView.delegate=nil;
 }
 
@@ -195,6 +211,7 @@
 		__didFirstLoad=YES;
 	} else if (newSuperview == nil) {
 		[self saveSessionState];
+		[self tearDownAudio];
 	}
 }
 
@@ -368,6 +385,121 @@
 		[self.session raiseHand];
 	} else {
 		[self.session lowerHand];
+	}
+}
+
+-(IBAction)toggleMicrophone:(id)sender
+{
+	ZAssert(_recordingOn != [(NSButton*)sender state], @"recording state out of sync with UI");
+	if (nil == _inputQueue)
+		[self initializeRecording];
+	if (_recordingOn) {
+		//pause it then
+		AudioQueuePause(_inputQueue);
+	} else {
+		//start it
+		OSStatus status = AudioQueueStart(_inputQueue, NULL);
+		if (noErr != status)
+			NSLog(@"error starting input queue: %d", status);
+	}
+	_recordingOn = !_recordingOn;
+}
+
+#pragma mark - voice chat
+
+-(void)initializeRecording
+{
+	if (_inputQueue)
+		return;
+	//get the audio format info
+	if (0 == _audioDesc.mFormatID) {
+		_audioDesc.mFormatID = kAudioFormatiLBC;
+		UInt32 propSize = sizeof(AudioStreamBasicDescription);
+		AudioFormatGetProperty(kAudioFormatProperty_FormatInfo, 0, NULL, &propSize, &_audioDesc);
+	}
+	OSStatus err = AudioQueueNewInput(&_audioDesc, MyAudioInputCallback, (__bridge void*)self, NULL, NULL, 0, &_inputQueue);
+	if (err != noErr) {
+		Rc2LogError(@"failed to create input audio queue: %d", err);
+		//TODO: inform user
+	}
+	for (int i=0; i < 3; i++) {
+		AudioQueueBufferRef buffer;
+		AudioQueueAllocateBuffer(_inputQueue, 950, &buffer);
+		AudioQueueEnqueueBuffer(_inputQueue, buffer, 0, NULL);
+	}
+	AudioQueueAddPropertyListener(_inputQueue, kAudioQueueProperty_IsRunning, MyAudioPropertyListener, (__bridge void*)self);
+}
+
+-(void)initializeAudioOut
+{
+	if (_outputQueue)
+		return;
+	if (nil == self.audioQueue)
+		self.audioQueue = [NSMutableArray array];
+	if (0 == _audioDesc.mFormatID) {
+		_audioDesc.mFormatID = kAudioFormatiLBC;
+		UInt32 propSize = sizeof(AudioStreamBasicDescription);
+		AudioFormatGetProperty(kAudioFormatProperty_FormatInfo, 0, NULL, &propSize, &_audioDesc);
+	}
+	OSStatus err = AudioQueueNewOutput(&_audioDesc, MyOutputCallback, (__bridge void*)self, NULL, NULL, 0, &_outputQueue);
+	if (noErr != err) {
+		//TODO: report error
+		Rc2LogError(@"error starting audio output queue:%d", err);
+	}
+}
+
+-(void)resetOutputQueue
+{
+	AudioQueueBufferRef buffers[3];
+	for (int i=0; i < 3; i++) {
+		AudioQueueAllocateBuffer(_outputQueue, 950, &buffers[i]);
+		MyOutputCallback((__bridge void*)self, _outputQueue, buffers[i]);
+	}
+	AudioQueueStart(_outputQueue, NULL);
+}
+
+-(void)outOfAudioOutputData
+{
+	AudioQueueStop(_outputQueue, false);
+}
+
+-(NSData*)popNextAudioOutPacket
+{
+	NSData *d = nil;
+	if (self.audioQueue.count < 1)
+		return nil;
+	@synchronized (self) {
+		d = [self.audioQueue lastObject];
+		[self.audioQueue removeLastObject];
+		if (self.audioQueue.count < 1) {
+			[self outOfAudioOutputData];
+		}
+	}
+	return d;
+}
+
+-(void)tearDownAudio
+{
+	if (_inputQueue) {
+		AudioQueueRemovePropertyListener(_inputQueue, kAudioQueueProperty_IsRunning, MyAudioPropertyListener, (__bridge void*)self);
+		AudioQueueStop(_inputQueue, true);
+		AudioQueueDispose(_inputQueue, true);
+		_inputQueue=nil;
+	}
+	if (_outputQueue) {
+		AudioQueueStop(_outputQueue, true);
+		AudioQueueDispose(_outputQueue, true);
+		_outputQueue=nil;
+	}
+}
+
+-(void)processRecordedData:(AudioQueueBufferRef)inBuffer
+{
+	if (inBuffer->mAudioDataByteSize > 0) {
+		NSData *audioData = [NSData dataWithBytes:inBuffer->mAudioData length:inBuffer->mAudioDataByteSize];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.session sendAudioInput:audioData];
+		});
 	}
 }
 
@@ -676,6 +808,28 @@
 	self.selectedFile = file;
 }
 
+-(void)processBinaryMessage:(NSData*)data
+{
+	if (nil == _outputQueue) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self initializeAudioOut];
+		});
+	}
+	@synchronized (self) {
+		if (nil == self.audioQueue)
+			self.audioQueue = [NSMutableArray array];
+		[self.audioQueue addObject:data];
+	}
+	if (!IsQueueRunning(_outputQueue) && self.audioQueue.count > 2) {
+		AudioQueueBufferRef buffers[3];
+		for (int i=0; i < 3; i++) {
+			AudioQueueAllocateBuffer(_outputQueue, 950, &buffers[i]);
+			MyOutputCallback((__bridge void*)self, _outputQueue, buffers[i]);
+		}
+		AudioQueueStart(_outputQueue, NULL);
+	}
+}
+
 #pragma mark - web output delegate
 
 -(void)executeConsoleCommand:(NSString*)command
@@ -947,7 +1101,44 @@
 @synthesize modeLabel;
 @synthesize usersToken;
 @synthesize modeChangeToken;
+@synthesize audioQueue;
 @end
 
 @implementation SessionView
 @end
+
+static void MyAudioPropertyListener(void *inUserData, AudioQueueRef queue, AudioQueuePropertyID property)
+{
+	UInt32 val=0;
+	UInt32 valSize = sizeof(val);
+	AudioQueueGetProperty(queue, property, &val, &valSize);
+	NSLog(@"is queue running? %d", val);
+}
+
+static void MyOutputCallback(void *inUserData, AudioQueueRef inAQ,AudioQueueBufferRef inCompleteAQBuffer)
+{
+	MacSessionViewController *me = (__bridge MacSessionViewController*)inUserData;
+	NSData *data = [me popNextAudioOutPacket];
+	if (nil == data)
+		return;
+	inCompleteAQBuffer->mAudioDataByteSize = data.length;
+	[data getBytes:inCompleteAQBuffer->mAudioData length:inCompleteAQBuffer->mAudioDataByteSize];
+	AudioQueueEnqueueBuffer(inAQ, inCompleteAQBuffer, 0, NULL);
+}
+
+static void MyAudioInputCallback(void *inUserData, AudioQueueRef inQueue, AudioQueueBufferRef inBuffer,
+								 const AudioTimeStamp *inStartTIme, UInt32 inNumPackets,
+								 const AudioStreamPacketDescription *inPacketDesc)
+{
+	MacSessionViewController *me = (__bridge MacSessionViewController*)inUserData;
+	[me processRecordedData:inBuffer];
+	AudioQueueEnqueueBuffer(inQueue, inBuffer, 0, NULL);
+}
+
+static Boolean IsQueueRunning(AudioQueueRef queue)
+{
+	UInt32 val=0;
+	UInt32 valSize = sizeof(val);
+	AudioQueueGetProperty(queue, kAudioQueueProperty_IsRunning, &val, &valSize);
+	return val != 0;
+}

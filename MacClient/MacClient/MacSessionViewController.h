@@ -36,6 +36,8 @@
 -(IBAction)saveFileEdits:(id)sender;
 -(IBAction)changeMode:(id)sender;
 -(IBAction)toggleHand:(id)sender;
+-(IBAction)toggleMicrophone:(id)sender;
+
 -(void)saveChanges;
 
 -(void)saveSessionState;

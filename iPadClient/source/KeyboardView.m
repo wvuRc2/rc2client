@@ -192,6 +192,7 @@ enum {
 	
 	NSInteger rowCnt=0;
 	for (NSString *rowStr in rows) {
+		@autoreleasepool {
 		CGFloat largestHeight=0;
 		NSArray *keyStrs = [rowStr componentsSeparatedByString:@"\n"];
 		if ([keyStrs count] < 1)
@@ -250,6 +251,7 @@ enum {
 			frame.origin.y += initFrame.size.height + kKeyButtonMargin;
 		frame.origin.x = initFrame.origin.x;
 		rowCnt++;
+	}
 	}
 	return frame.origin.y + kKeyViewYOffset;
 }
@@ -416,7 +418,8 @@ enum {
 		[keyStr drawInRect:txtRect withFont:fnt lineBreakMode:UILineBreakModeClip];
 	}
 	
-	return UIGraphicsGetImageFromCurrentImageContext();
+	UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+	return img;
 }
 
 -(void)setIsLandscape:(BOOL)newOrient

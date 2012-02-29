@@ -12,6 +12,7 @@
 		0815945F14E2F47A0067E83C /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815945D14E2F47A0067E83C /* gear@2x.png */; };
 		0815946414E2F6630067E83C /* iSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0815946214E2F6630067E83C /* iSettingsController.m */; };
 		0815946514E2F6630067E83C /* iSettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0815946314E2F6630067E83C /* iSettingsController.xib */; };
+		081A164D14FEBCA3004B34A0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */; };
 		0829453F1496AA9800E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */; };
 		082945421496AAA000E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945411496AAA000E593C7 /* _RCWorkspaceCache.m */; };
 		082D9D5714097AEF008F3CB0 /* RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D9D5614097AEF008F3CB0 /* RCSavedSession.m */; };
@@ -194,6 +195,7 @@
 		0815946114E2F6630067E83C /* iSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iSettingsController.h; path = source/iSettingsController.h; sourceTree = SOURCE_ROOT; };
 		0815946214E2F6630067E83C /* iSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iSettingsController.m; path = source/iSettingsController.m; sourceTree = SOURCE_ROOT; };
 		0815946314E2F6630067E83C /* iSettingsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = iSettingsController.xib; path = source/iSettingsController.xib; sourceTree = SOURCE_ROOT; };
+		081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0829453D1496AA9800E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
 		0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceCache.m; sourceTree = "<group>"; };
 		082945401496AAA000E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCWorkspaceCache.h; path = ../SharedCode/rc2/model/generated/_RCWorkspaceCache.h; sourceTree = SOURCE_ROOT; };
@@ -434,6 +436,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				081A164D14FEBCA3004B34A0 /* AudioToolbox.framework in Frameworks */,
 				0872E5FC1407C0E500B1A6CF /* AVFoundation.framework in Frameworks */,
 				0872E5F61407BB9E00B1A6CF /* AssetsLibrary.framework in Frameworks */,
 				0872E5F41407B91500B1A6CF /* MessageUI.framework in Frameworks */,
@@ -483,6 +486,7 @@
 		082DC02C13EC99E4008EAA99 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */,
 				088AC26414BA62D00094D134 /* DropboxSDK.framework */,
 				0872E5FB1407C0E400B1A6CF /* AVFoundation.framework */,
 				0872E5F51407BB9E00B1A6CF /* AssetsLibrary.framework */,

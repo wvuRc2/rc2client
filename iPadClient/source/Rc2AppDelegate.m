@@ -44,6 +44,7 @@
 @end
 
 #define kCustomKeyboardDBPathTemplate @"/rc2shares/keyboards/custom%d-%d%@.txt"
+static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionState);
 
 @implementation Rc2AppDelegate
 
@@ -107,6 +108,12 @@
 	NSString *cachePath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:cachePath])
 		[[NSFileManager defaultManager] createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil];
+	
+	//setup audio
+	AudioSessionInitialize(NULL, NULL, MyAudioInterruptionCallback, (__bridge void*)self);
+	SInt32 category = kAudioSessionCategory_PlayAndRecord;
+	AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(category), &category);
+	AudioSessionSetActive(true);
 	
 	return YES;
 }
@@ -486,3 +493,8 @@
 @synthesize myPsc;
 @synthesize dropboxCompletionBlock;
 @end
+
+static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionState)
+{
+	
+}

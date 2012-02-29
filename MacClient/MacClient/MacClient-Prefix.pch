@@ -10,6 +10,7 @@
 	#import <Vyana/VyanaLog.h>
 	#import <WebKit/WebKit.h>
 	#import <SystemConfiguration/SystemConfiguration.h>
+	#import <AudioToolbox/AudioToolbox.h>
 	#import "JSON.h"
 #endif
 

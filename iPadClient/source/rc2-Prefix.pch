@@ -14,6 +14,7 @@
 	#import <CoreData/CoreData.h>
 	#import <QuartzCore/QuartzCore.h>
 	#import <MessageUI/MessageUI.h>
+	#import <AudioToolbox/AudioToolbox.h>
 	#import "Vyana-ios/Vyana-ios.h"
 	#import "Vyana-ios/MAZeroingWeakRef.h"
 	#import <DropboxSDK/DropboxSDK.h>

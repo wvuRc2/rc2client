@@ -55,6 +55,8 @@
 -(void)raiseHand;
 -(void)lowerHand;
 
+-(void)sendAudioInput:(NSData*)data;
+
 //for classroom mode
 -(void)sendFileOpened:(RCFile*)file;
 
@@ -67,6 +69,7 @@
 -(void)connectionClosed;
 -(void)handleWebSocketError:(NSError*)error;
 -(void)processWebSocketMessage:(NSDictionary*)msg json:(NSString*)jsonString;
+-(void)processBinaryMessage:(NSData*)data;
 -(void)performConsoleAction:(NSString*)action;
 -(void)displayImage:(NSString*)imgPath;
 -(void)displayFile:(RCFile*)file;
