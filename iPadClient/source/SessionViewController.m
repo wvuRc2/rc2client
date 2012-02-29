@@ -30,6 +30,7 @@
 	AudioQueueRef _inputQueue, _outputQueue;
 	AudioStreamBasicDescription _audioDesc;
 	RCSession *_session;
+	BOOL _mikeOn;
 }
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) NSString *imgCachePath;
@@ -239,6 +240,24 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 		[self.controlPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
+-(IBAction)toggleMicrophone:(id)sender
+{
+	if (nil == _inputQueue)
+		[self initializeRecording];
+	if (_mikeOn) {
+		_mikeOn = NO;
+		[self.mikeButton setImage:[UIImage imageNamed:@"mikeOff"]];
+		//pause it then
+		AudioQueuePause(_inputQueue);
+	} else {
+		_mikeOn = YES;
+		[self.mikeButton setImage:[UIImage imageNamed:@"mike"]];
+		OSStatus status = AudioQueueStart(_inputQueue, NULL);
+		if (noErr != status)
+			NSLog(@"error starting input queue: %ld", status);
+	}
+}
+
 #pragma mark - audio chat
 
 -(void)initializeRecording
@@ -251,7 +270,8 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 		UInt32 propSize = sizeof(AudioStreamBasicDescription);
 		AudioFormatGetProperty(kAudioFormatProperty_FormatInfo, 0, NULL, &propSize, &_audioDesc);
 	}
-	OSStatus err = AudioQueueNewInput(&_audioDesc, MyAudioInputCallback, (__bridge void*)self, NULL, NULL, 0, &_inputQueue);
+	MAZeroingWeakRef *weakRef = [MAZeroingWeakRef refWithTarget:self];
+	OSStatus err = AudioQueueNewInput(&_audioDesc, MyAudioInputCallback, (__bridge_retained void*)weakRef, NULL, NULL, 0, &_inputQueue);
 	if (err != noErr) {
 		Rc2LogError(@"failed to create input audio queue: %d", err);
 		//TODO: inform user
@@ -782,6 +802,7 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 @synthesize controlPopover;
 @synthesize controlController;
 @synthesize audioQueue;
+@synthesize mikeButton;
 @end
 
 
@@ -800,9 +821,12 @@ static void MyAudioInputCallback(void *inUserData, AudioQueueRef inQueue, AudioQ
 								 const AudioTimeStamp *inStartTIme, UInt32 inNumPackets,
 								 const AudioStreamPacketDescription *inPacketDesc)
 {
-	SessionViewController *me = (__bridge SessionViewController*)inUserData;
-	[me processRecordedData:inBuffer];
-	AudioQueueEnqueueBuffer(inQueue, inBuffer, 0, NULL);
+	dispatch_async(dispatch_get_main_queue(), ^{
+		MAZeroingWeakRef *weakRef = (__bridge MAZeroingWeakRef*)inUserData;
+		SessionViewController *me = weakRef.target;
+		[me processRecordedData:inBuffer];
+		AudioQueueEnqueueBuffer(inQueue, inBuffer, 0, NULL);
+	});
 }
 
 static void MyAudioPropertyListener(void *inUserData, AudioQueueRef queue, AudioQueuePropertyID property)

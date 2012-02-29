@@ -29,7 +29,9 @@
 @property (nonatomic, strong) IBOutlet ConsoleViewController *consoleController;
 @property (nonatomic, strong) IBOutlet BottomViewController *bottomController;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *controlButton;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *mikeButton;
 @property (weak, nonatomic, readonly) RCSession *session;
 
 -(IBAction)showControls:(id)sender;
+-(IBAction)toggleMicrophone:(id)sender;
 @end
