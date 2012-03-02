@@ -2,7 +2,7 @@
 //  _RCSavedSession.h
 //
 //  Created by Mark Lilback
-//  Copyright (c) 2012 . All rights reserved.
+//  Copyright (c) 2012 Agile Monks, LLC. All rights reserved.
 //
 
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.

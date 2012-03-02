@@ -46,6 +46,7 @@
 		0861761D149BE19900450EE9 /* RCMMultiImageController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0861761B149BE19800450EE9 /* RCMMultiImageController.xib */; };
 		08617621149BE37A00450EE9 /* RCMImageDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0861761F149BE37A00450EE9 /* RCMImageDetailController.m */; };
 		08617622149BE37A00450EE9 /* RCMImageDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08617620149BE37A00450EE9 /* RCMImageDetailController.xib */; };
+		086246991501180700A71853 /* RCAudioChatEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 086246981501180700A71853 /* RCAudioChatEngine.m */; };
 		088D7F8914F83CAF005C62AF /* bighand-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 088D7F8514F83CAF005C62AF /* bighand-blue.png */; };
 		088D7F8A14F83CAF005C62AF /* bighand-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 088D7F8614F83CAF005C62AF /* bighand-blue@2x.png */; };
 		088D7F8B14F83CAF005C62AF /* bighand-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 088D7F8714F83CAF005C62AF /* bighand-green.png */; };
@@ -222,6 +223,8 @@
 		0861761E149BE37A00450EE9 /* RCMImageDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMImageDetailController.h; sourceTree = "<group>"; };
 		0861761F149BE37A00450EE9 /* RCMImageDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMImageDetailController.m; sourceTree = "<group>"; };
 		08617620149BE37A00450EE9 /* RCMImageDetailController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMImageDetailController.xib; sourceTree = "<group>"; };
+		086246971501180700A71853 /* RCAudioChatEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCAudioChatEngine.h; path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/iPadClient/../SharedCode/rc2/RCAudioChatEngine.h"; sourceTree = "<absolute>"; };
+		086246981501180700A71853 /* RCAudioChatEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCAudioChatEngine.m; path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/iPadClient/../SharedCode/rc2/RCAudioChatEngine.m"; sourceTree = "<absolute>"; };
 		088D7F8514F83CAF005C62AF /* bighand-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-blue.png"; sourceTree = "<group>"; };
 		088D7F8614F83CAF005C62AF /* bighand-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-blue@2x.png"; sourceTree = "<group>"; };
 		088D7F8714F83CAF005C62AF /* bighand-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-green.png"; sourceTree = "<group>"; };
@@ -667,6 +670,8 @@
 		08FE89C314156E9700672474 /* Shared Code */ = {
 			isa = PBXGroup;
 			children = (
+				086246971501180700A71853 /* RCAudioChatEngine.h */,
+				086246981501180700A71853 /* RCAudioChatEngine.m */,
 				08FE8A1B1415755000672474 /* Rc2Server.h */,
 				08FE8A1C1415755000672474 /* Rc2Server.m */,
 				08FE8A1E141575F500672474 /* model */,
@@ -983,6 +988,7 @@
 				085E7B1A14EED6F600036A9E /* RCSessionUser.m in Sources */,
 				085E7B3214F56C3200036A9E /* WebSocket07.m in Sources */,
 				088D7FA314FD3AD6005C62AF /* RCMSyntaxHighlighter.m in Sources */,
+				086246991501180700A71853 /* RCAudioChatEngine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

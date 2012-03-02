@@ -88,6 +88,7 @@
 		085E7B7914F7E9F600036A9E /* bighand-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B7514F7E9F600036A9E /* bighand-green@2x.png */; };
 		085E7B7F14F7F0D700036A9E /* bighand-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B7D14F7F0D700036A9E /* bighand-blue.png */; };
 		085E7B8014F7F0D700036A9E /* bighand-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B7E14F7F0D700036A9E /* bighand-blue@2x.png */; };
+		086246961501125F00A71853 /* RCAudioChatEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 086246951501125F00A71853 /* RCAudioChatEngine.m */; };
 		08661A2D1405AC180087BD34 /* MGSplitCornersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A281405AC170087BD34 /* MGSplitCornersView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08661A2E1405AC180087BD34 /* MGSplitDividerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A2A1405AC170087BD34 /* MGSplitDividerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08661A2F1405AC180087BD34 /* MGSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08661A2C1405AC170087BD34 /* MGSplitViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -309,6 +310,8 @@
 		085E7B7514F7E9F600036A9E /* bighand-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bighand-green@2x.png"; path = "../SharedImages/bighand-green@2x.png"; sourceTree = SOURCE_ROOT; };
 		085E7B7D14F7F0D700036A9E /* bighand-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bighand-blue.png"; path = "../SharedImages/bighand-blue.png"; sourceTree = SOURCE_ROOT; };
 		085E7B7E14F7F0D700036A9E /* bighand-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bighand-blue@2x.png"; path = "../SharedImages/bighand-blue@2x.png"; sourceTree = SOURCE_ROOT; };
+		086246941501125F00A71853 /* RCAudioChatEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCAudioChatEngine.h; path = ../SharedCode/rc2/RCAudioChatEngine.h; sourceTree = "<group>"; };
+		086246951501125F00A71853 /* RCAudioChatEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCAudioChatEngine.m; path = ../SharedCode/rc2/RCAudioChatEngine.m; sourceTree = "<group>"; };
 		08661A271405AC170087BD34 /* MGSplitCornersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSplitCornersView.h; sourceTree = "<group>"; };
 		08661A281405AC170087BD34 /* MGSplitCornersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSplitCornersView.m; sourceTree = "<group>"; };
 		08661A291405AC170087BD34 /* MGSplitDividerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSplitDividerView.h; sourceTree = "<group>"; };
@@ -471,7 +474,7 @@
 				082D9D531408FF6E008F3CB0 /* notes.markdown */,
 				0809BF6C14C5F1AB009CEC57 /* Rc2.xcdatamodeld */,
 				082DC03313EC99E5008EAA99 /* source */,
-				08349F5414049A8700B629B4 /* model */,
+				08624692150111FF00A71853 /* shared code */,
 				08DD23AE1412B65A00217C1A /* 3rd Party */,
 				082DC03413EC99E5008EAA99 /* Supporting Files */,
 				082DC02C13EC99E4008EAA99 /* Frameworks */,
@@ -520,8 +523,6 @@
 				082DC03D13EC99E5008EAA99 /* Rc2AppDelegate.m */,
 				08447F6D1415CBF300A8DDF8 /* ThemeEngine.h */,
 				08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */,
-				08349ED814044ACC00B629B4 /* Rc2Server.h */,
-				08349ED914044ACC00B629B4 /* Rc2Server.m */,
 				082DC03F13EC99E5008EAA99 /* MainWindow.xib */,
 				08349F471404959700B629B4 /* DetailsViewController.h */,
 				08349F481404959700B629B4 /* DetailsViewController.m */,
@@ -535,8 +536,6 @@
 				088A76C91406A15F003D6A3F /* session related controllers */,
 				08DD23021411C0D500217C1A /* secondary controllers */,
 				08D55EF11406601000E9D981 /* views & cells */,
-				08A6FF4C142F8BA300E8AB4B /* RC2RemoteLogger.h */,
-				08A6FF4D142F8BA300E8AB4B /* RC2RemoteLogger.m */,
 			);
 			name = source;
 			path = iPadClient;
@@ -680,6 +679,20 @@
 				08349F641404CDB800B629B4 /* workspaceHi.png */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		08624692150111FF00A71853 /* shared code */ = {
+			isa = PBXGroup;
+			children = (
+				08349ED814044ACC00B629B4 /* Rc2Server.h */,
+				08349ED914044ACC00B629B4 /* Rc2Server.m */,
+				086246941501125F00A71853 /* RCAudioChatEngine.h */,
+				086246951501125F00A71853 /* RCAudioChatEngine.m */,
+				08A6FF4C142F8BA300E8AB4B /* RC2RemoteLogger.h */,
+				08A6FF4D142F8BA300E8AB4B /* RC2RemoteLogger.m */,
+				08349F5414049A8700B629B4 /* model */,
+			);
+			name = "shared code";
 			sourceTree = "<group>";
 		};
 		08661A261405AC170087BD34 /* MGSplitViewController */ = {
@@ -1091,6 +1104,7 @@
 				085E7B1314EEC2F000036A9E /* ControlViewController.m in Sources */,
 				085E7B1714EED6D400036A9E /* RCSessionUser.m in Sources */,
 				085E7B1E14EEDB3E00036A9E /* ControllerUserCell.m in Sources */,
+				086246961501125F00A71853 /* RCAudioChatEngine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1139,15 +1153,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PROVISIONING_PROFILE = "926AADF2-1896-4B13-B530-D254AB8C88D2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1157,13 +1173,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "926AADF2-1896-4B13-B530-D254AB8C88D2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1239,13 +1257,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "926AADF2-1896-4B13-B530-D254AB8C88D2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};

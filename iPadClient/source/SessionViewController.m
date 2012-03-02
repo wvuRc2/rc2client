@@ -25,12 +25,10 @@
 #import "RCSavedSession.h"
 #import "ThemeEngine.h"
 #import "ControlViewController.h"
+#import "RCAudioChatEngine.h"
 
 @interface SessionViewController() {
-	AudioQueueRef _inputQueue, _outputQueue;
-	AudioStreamBasicDescription _audioDesc;
 	RCSession *_session;
-	BOOL _mikeOn;
 }
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) NSString *imgCachePath;
@@ -39,8 +37,8 @@
 @property (nonatomic, strong) ImageDisplayController *imgController;
 @property (nonatomic, strong) ControlViewController *controlController;
 @property (nonatomic, strong) UIPopoverController *controlPopover;
+@property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) id themeToken;
-@property (nonatomic, strong) NSMutableArray *audioQueue;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL showingProgress;
 @property (nonatomic, assign) BOOL autoReconnect;
@@ -56,18 +54,7 @@
 -(BOOL)loadImageIntoCache:(NSString*)imgPath;
 -(void)loadKeyboard;
 -(void)keyboardPrefsChanged:(NSNotification*)note;
--(void)initializeRecording;
--(void)initializeAudioOut;
--(void)tearDownAudio;
 @end
-
-static void MyAudioInputCallback(void *inUserData, AudioQueueRef inQueue, AudioQueueBufferRef inBuffer,
-								 const AudioTimeStamp *inStartTIme, UInt32 inNumPackets,
-								 const AudioStreamPacketDescription *inPacketDesc);
-
-static void MyOutputCallback(void *inUserData, AudioQueueRef inAQ,AudioQueueBufferRef inCompleteAQBuffer);
-static void MyAudioPropertyListener(void *inUserData, AudioQueueRef queue, AudioQueuePropertyID property);
-static Boolean IsQueueRunning(AudioQueueRef queue);
 
 #pragma mark -
 
@@ -81,6 +68,8 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 		_session.delegate = self;
 		NSError *err=nil;
 		self.autoReconnect=NO;
+		self.audioEngine = [[RCAudioChatEngine alloc] init];
+		self.audioEngine.session = session;
 		NSFileManager *fm = [[NSFileManager alloc] init];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
@@ -109,7 +98,7 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 
 -(void)freeMemory
 {
-	[self tearDownAudio];
+	self.audioEngine=nil;
 	self.themeToken=nil;
 	self.jsQuiteRExp=nil;
 	self.imgController=nil;
@@ -242,141 +231,12 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 
 -(IBAction)toggleMicrophone:(id)sender
 {
-	if (nil == _inputQueue)
-		[self initializeRecording];
-	if (_mikeOn) {
-		_mikeOn = NO;
+	if (self.audioEngine.mikeOn) {
 		[self.mikeButton setImage:[UIImage imageNamed:@"mikeOff"]];
-		//pause it then
-		AudioQueuePause(_inputQueue);
 	} else {
-		_mikeOn = YES;
 		[self.mikeButton setImage:[UIImage imageNamed:@"mike"]];
-		OSStatus status = AudioQueueStart(_inputQueue, NULL);
-		if (noErr != status)
-			NSLog(@"error starting input queue: %ld", status);
 	}
-}
-
-#pragma mark - audio chat
-
--(void)initializeRecording
-{
-	if (_inputQueue)
-		return;
-	//get the audio format info
-	if (0 == _audioDesc.mFormatID) {
-		_audioDesc.mFormatID = kAudioFormatiLBC;
-		UInt32 propSize = sizeof(AudioStreamBasicDescription);
-		AudioFormatGetProperty(kAudioFormatProperty_FormatInfo, 0, NULL, &propSize, &_audioDesc);
-	}
-	MAZeroingWeakRef *weakRef = [MAZeroingWeakRef refWithTarget:self];
-	OSStatus err = AudioQueueNewInput(&_audioDesc, MyAudioInputCallback, (__bridge_retained void*)weakRef, NULL, NULL, 0, &_inputQueue);
-	if (err != noErr) {
-		Rc2LogError(@"failed to create input audio queue: %d", err);
-		//TODO: inform user
-	}
-	for (int i=0; i < 3; i++) {
-		AudioQueueBufferRef buffer;
-		AudioQueueAllocateBuffer(_inputQueue, 950, &buffer);
-		AudioQueueEnqueueBuffer(_inputQueue, buffer, 0, NULL);
-	}
-}
-
--(void)initializeAudioOut
-{
-	if (_outputQueue)
-		return;
-	if (nil == self.audioQueue)
-		self.audioQueue = [NSMutableArray array];
-	if (0 == _audioDesc.mFormatID) {
-		_audioDesc.mFormatID = kAudioFormatiLBC;
-		UInt32 propSize = sizeof(AudioStreamBasicDescription);
-		AudioFormatGetProperty(kAudioFormatProperty_FormatInfo, 0, NULL, &propSize, &_audioDesc);
-	}
-	OSStatus err = AudioQueueNewOutput(&_audioDesc, MyOutputCallback, (__bridge void*)self, NULL, NULL, 0, &_outputQueue);
-	if (noErr != err) {
-		//TODO: report error
-		Rc2LogError(@"error starting audio output queue:%d", err);
-	}
-	AudioQueueAddPropertyListener(_outputQueue, kAudioQueueProperty_IsRunning, MyAudioPropertyListener, (__bridge void*)self);
-}
-
--(void)resetOutputQueue
-{
-	AudioQueueBufferRef buffers[3];
-	for (int i=0; i < 3; i++) {
-		AudioQueueAllocateBuffer(_outputQueue, 950, &buffers[i]);
-		MyOutputCallback((__bridge void*)self, _outputQueue, buffers[i]);
-	}
-	AudioQueueStart(_outputQueue, NULL);
-}
-
--(void)outOfAudioOutputData
-{
-	AudioQueueStop(_outputQueue, false);
-}
-
--(NSData*)popNextAudioOutPacket
-{
-	NSData *d = nil;
-	if (self.audioQueue.count < 1)
-		return nil;
-	@synchronized (self) {
-		d = [self.audioQueue lastObject];
-		[self.audioQueue removeLastObject];
-		if (self.audioQueue.count < 1) {
-			[self outOfAudioOutputData];
-		}
-	}
-	return d;
-}
-
--(void)tearDownAudio
-{
-	if (_inputQueue) {
-		AudioQueueStop(_inputQueue, true);
-		AudioQueueDispose(_inputQueue, true);
-		_inputQueue=nil;
-	}
-	if (_outputQueue) {
-		AudioQueueRemovePropertyListener(_outputQueue, kAudioQueueProperty_IsRunning, MyAudioPropertyListener, (__bridge void*)self);
-		AudioQueueStop(_outputQueue, true);
-		AudioQueueDispose(_outputQueue, true);
-		_outputQueue=nil;
-	}
-}
-
--(void)processRecordedData:(AudioQueueBufferRef)inBuffer
-{
-	if (inBuffer->mAudioDataByteSize > 0) {
-		NSData *audioData = [NSData dataWithBytes:inBuffer->mAudioData length:inBuffer->mAudioDataByteSize];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self.session sendAudioInput:audioData];
-		});
-	}
-}
-
--(void)processBinaryMessage:(NSData*)data
-{
-	if (nil == _outputQueue) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self initializeAudioOut];
-		});
-	}
-	@synchronized (self) {
-		if (nil == self.audioQueue)
-			self.audioQueue = [NSMutableArray array];
-		[self.audioQueue addObject:data];
-	}
-	if (!IsQueueRunning(_outputQueue) && self.audioQueue.count > 2) {
-		AudioQueueBufferRef buffers[3];
-		for (int i=0; i < 3; i++) {
-			AudioQueueAllocateBuffer(_outputQueue, 950, &buffers[i]);
-			MyOutputCallback((__bridge void*)self, _outputQueue, buffers[i]);
-		}
-		AudioQueueStart(_outputQueue, NULL);
-	}
+	[self.audioEngine toggleMicrophone];
 }
 
 #pragma mark - meat & potatoes
@@ -643,6 +503,11 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 	[self.editorController loadFile:file];
 }
 
+-(void)processBinaryMessage:(NSData*)data
+{
+}
+
+
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString
 {
 	NSString *cmd = [dict objectForKey:@"msg"];
@@ -801,46 +666,6 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 @synthesize toolbar;
 @synthesize controlPopover;
 @synthesize controlController;
-@synthesize audioQueue;
 @synthesize mikeButton;
+@synthesize audioEngine;
 @end
-
-
-static void MyOutputCallback(void *inUserData, AudioQueueRef inAQ,AudioQueueBufferRef inCompleteAQBuffer)
-{
-	SessionViewController *me = (__bridge SessionViewController*)inUserData;
-	NSData *data = [me popNextAudioOutPacket];
-	if (nil == data)
-		return;
-	inCompleteAQBuffer->mAudioDataByteSize = data.length;
-	[data getBytes:inCompleteAQBuffer->mAudioData length:inCompleteAQBuffer->mAudioDataByteSize];
-	AudioQueueEnqueueBuffer(inAQ, inCompleteAQBuffer, 0, NULL);
-}
-
-static void MyAudioInputCallback(void *inUserData, AudioQueueRef inQueue, AudioQueueBufferRef inBuffer,
-								 const AudioTimeStamp *inStartTIme, UInt32 inNumPackets,
-								 const AudioStreamPacketDescription *inPacketDesc)
-{
-	dispatch_async(dispatch_get_main_queue(), ^{
-		MAZeroingWeakRef *weakRef = (__bridge MAZeroingWeakRef*)inUserData;
-		SessionViewController *me = weakRef.target;
-		[me processRecordedData:inBuffer];
-		AudioQueueEnqueueBuffer(inQueue, inBuffer, 0, NULL);
-	});
-}
-
-static void MyAudioPropertyListener(void *inUserData, AudioQueueRef queue, AudioQueuePropertyID property)
-{
-	UInt32 val=0;
-	UInt32 valSize = sizeof(val);
-	AudioQueueGetProperty(queue, property, &val, &valSize);
-	NSLog(@"is queue running? %lu", val);
-}
-
-static Boolean IsQueueRunning(AudioQueueRef queue)
-{
-	UInt32 val=0;
-	UInt32 valSize = sizeof(val);
-	AudioQueueGetProperty(queue, kAudioQueueProperty_IsRunning, &val, &valSize);
-	return val != 0;
-}
