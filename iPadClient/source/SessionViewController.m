@@ -505,6 +505,7 @@
 
 -(void)processBinaryMessage:(NSData*)data
 {
+	[self.audioEngine processBinaryMessage:data];
 }
 
 

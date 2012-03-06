@@ -17,4 +17,7 @@
 -(void)tearDownAudio;
 -(void)processBinaryMessage:(NSData*)data;
 -(void)toggleMicrophone;
+
+//for debugging purposes
+-(void)playDataFromFile:(NSString*)filePath;
 @end

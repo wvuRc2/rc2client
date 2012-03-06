@@ -882,7 +882,7 @@
 		082DC02013EC99E4008EAA99 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 082DC02313EC99E4008EAA99 /* Build configuration list for PBXProject "iPadClient" */;
 			compatibilityVersion = "Xcode 3.2";

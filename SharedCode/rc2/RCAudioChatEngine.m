@@ -18,10 +18,12 @@
 @interface RCAudioChatEngine() {
 	AudioQueueRef _inputQueue, _outputQueue;
 	AudioStreamBasicDescription _audioDesc;
+	NSMutableArray *_outArray;
 	int32_t _audioSeqId;
 	BOOL _mikeOn;
 }
 @property (nonatomic, strong) NSMutableArray *audioQueue;
+-(int32_t)bufferSize;
 @end
 
 static void MyAudioInputCallback(void *inUserData, AudioQueueRef inQueue, AudioQueueBufferRef inBuffer,
@@ -37,6 +39,9 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 {
 	if (_inputQueue)
 		return;
+#ifdef DEBUG_AUDIO_OUT
+	_outArray = [NSMutableArray array];
+#endif
 	//get the audio format info
 	if (0 == _audioDesc.mFormatID) {
 		_audioDesc.mFormatID = kAudioFormatiLBC;
@@ -51,7 +56,7 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 	}
 	for (int i=0; i < 3; i++) {
 		AudioQueueBufferRef buffer;
-		AudioQueueAllocateBuffer(_inputQueue, 950, &buffer);
+		AudioQueueAllocateBuffer(_inputQueue, self.bufferSize, &buffer);
 		AudioQueueEnqueueBuffer(_inputQueue, buffer, 0, NULL);
 	}
 }
@@ -74,6 +79,17 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 	}
 }
 
+//calculate the buffer size. this will only work for iLBC. 
+-(int32_t)bufferSize
+{
+	CGFloat seconds = 0.3f;
+	int32_t frames = (int32_t)ceil(seconds * _audioDesc.mSampleRate);
+	UInt32 maxPacketSize = _audioDesc.mBytesPerPacket;
+	int32_t packets = frames / _audioDesc.mFramesPerPacket;
+	int32_t bytes = packets * maxPacketSize;
+	return bytes;
+}
+
 -(void)toggleMicrophone
 {
 	if (nil == _inputQueue)
@@ -82,6 +98,10 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 		_mikeOn = NO;
 		//pause it then
 		AudioQueuePause(_inputQueue);
+#ifdef DEBUG_AUDIO_OUT
+		[_outArray writeToFile:@"/Users/mlilback/Desktop/rc2audio.plist" atomically:NO];
+		_outArray = [NSMutableArray array];
+#endif
 	} else {
 		_mikeOn = YES;
 		OSStatus status = AudioQueueStart(_inputQueue, NULL);
@@ -94,7 +114,7 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 {
 	AudioQueueBufferRef buffers[3];
 	for (int i=0; i < 3; i++) {
-		AudioQueueAllocateBuffer(_outputQueue, 950, &buffers[i]);
+		AudioQueueAllocateBuffer(_outputQueue, self.bufferSize, &buffers[i]);
 		MyOutputCallback((__bridge void*)self, _outputQueue, buffers[i]);
 	}
 	AudioQueueStart(_outputQueue, NULL);
@@ -112,6 +132,7 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 		return nil;
 	@synchronized (self) {
 		RCAudioData *ad = [self.audioQueue lastObject];
+		NSLog(@"popped seqid: %d", ad.seqId);
 		d = ad.data;
 		[self.audioQueue removeLastObject];
 		if (self.audioQueue.count < 1) {
@@ -135,17 +156,21 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 	}
 }
 
--(void)processRecordedData:(AudioQueueBufferRef)inBuffer
+-(void)processRecordedData:(AudioQueueBufferRef)inBuffer sampleTime:(int32_t)sampleTime
 {
 	if (inBuffer->mAudioDataByteSize > 0) {
 		NSData *audioData = [NSData dataWithBytes:inBuffer->mAudioData length:inBuffer->mAudioDataByteSize];
 		NSMutableData *md = [NSMutableData dataWithCapacity:audioData.length + sizeof(_audioSeqId)];
+		_audioSeqId = sampleTime;
 		[md appendBytes:&_audioSeqId length:sizeof(_audioSeqId)];
 		++_audioSeqId;
 		[md appendData:audioData];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self.session sendAudioInput:md];
 		});
+#ifdef DEBUG_AUDIO_OUT
+		[_outArray addObject:md];
+#endif
 	}
 }
 
@@ -163,15 +188,25 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 		if (nil == self.audioQueue)
 			self.audioQueue = [NSMutableArray array];
 		[self.audioQueue addObject:adata];
-		[self.audioQueue sortUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"seqId" ascending:YES])];
+		[self.audioQueue sortUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"seqId" ascending:NO])];
 	}
-	if (!IsQueueRunning(_outputQueue) && self.audioQueue.count > 2) {
+	if (!IsQueueRunning(_outputQueue) && self.audioQueue.count > 5) {
 		AudioQueueBufferRef buffers[3];
 		for (int i=0; i < 3; i++) {
-			AudioQueueAllocateBuffer(_outputQueue, 950, &buffers[i]);
+			AudioQueueAllocateBuffer(_outputQueue, self.bufferSize, &buffers[i]);
 			MyOutputCallback((__bridge void*)self, _outputQueue, buffers[i]);
 		}
 		AudioQueueStart(_outputQueue, NULL);
+	}
+}
+
+-(void)playDataFromFile:(NSString*)filePath
+{
+	if (nil == _outputQueue)
+		[self initializeAudioOut];
+	NSArray *packetArray = [NSArray arrayWithContentsOfFile:filePath];
+	for (NSData *item in packetArray) {
+		[self processBinaryMessage:item];
 	}
 }
 
@@ -206,13 +241,13 @@ static void MyOutputCallback(void *inUserData, AudioQueueRef inAQ,AudioQueueBuff
 }
 
 static void MyAudioInputCallback(void *inUserData, AudioQueueRef inQueue, AudioQueueBufferRef inBuffer,
-								 const AudioTimeStamp *inStartTIme, UInt32 inNumPackets,
+								 const AudioTimeStamp *inStartTime, UInt32 inNumPackets,
 								 const AudioStreamPacketDescription *inPacketDesc)
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		MAZeroingWeakRef *weakRef = (__bridge MAZeroingWeakRef*)inUserData;
 		RCAudioChatEngine *me = weakRef.target;
-		[me processRecordedData:inBuffer];
+		[me processRecordedData:inBuffer sampleTime:(int)(inStartTime->mSampleTime / 1000)];
 		AudioQueueEnqueueBuffer(inQueue, inBuffer, 0, NULL);
 	});
 }

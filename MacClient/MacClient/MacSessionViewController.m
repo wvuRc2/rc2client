@@ -583,6 +583,7 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.session requestUserList];
 	});
+//	[self.audioEngine playDataFromFile:@"/Users/mlilback/Desktop/rc2audio.plist"];
 }
 
 -(void)connectionClosed
