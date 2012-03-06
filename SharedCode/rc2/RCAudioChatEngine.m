@@ -82,7 +82,7 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 //calculate the buffer size. this will only work for iLBC. 
 -(int32_t)bufferSize
 {
-	CGFloat seconds = 0.3f;
+	CGFloat seconds = 0.5f;
 	int32_t frames = (int32_t)ceil(seconds * _audioDesc.mSampleRate);
 	UInt32 maxPacketSize = _audioDesc.mBytesPerPacket;
 	int32_t packets = frames / _audioDesc.mFramesPerPacket;
@@ -132,10 +132,10 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 		return nil;
 	@synchronized (self) {
 		RCAudioData *ad = [self.audioQueue lastObject];
-		NSLog(@"popped seqid: %d", ad.seqId);
 		d = ad.data;
 		[self.audioQueue removeLastObject];
 		if (self.audioQueue.count < 1) {
+			NSLog(@"out of audio packets");
 			[self outOfAudioOutputData];
 		}
 	}
