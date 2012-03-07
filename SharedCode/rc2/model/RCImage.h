@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface RCImage : NSObject
+@property (nonatomic, strong) NSNumber *imageId;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *path;
 @property (nonatomic, assign) NSTimeInterval timestamp;

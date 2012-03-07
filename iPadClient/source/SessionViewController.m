@@ -299,18 +299,21 @@
 }
 
 
--(void)cacheImages:(NSArray*)urls
+-(void)cacheImages:(NSArray*)imgDicts
 {
-	for (NSString *str in urls) {
-		NSString *fname = [str lastPathComponent];
-		NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:fname];
-		NSURL *url = [NSURL URLWithString:str];
+	for (NSDictionary *imgDict in imgDicts) {
+		NSString *fname = [imgDict objectForKey:@"name"];
+		NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", 
+																			   [imgDict objectForKey:@"id"]]];
+		NSURL *url = [NSURL URLWithString:[imgDict objectForKey:@"url"]];
 		ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithURL:url];
 		[req setDownloadDestinationPath: imgPath];
 		__weak SessionViewController *blockSelf = self;
 		[req setCompletionBlock:^{
+			NSLog(@"downloaded: %@", imgPath);
 			RCImage *img = [[RCImage alloc] initWithPath:imgPath];
-			img.name = [fname stringbyRemovingPercentEscapes];
+			img.name = fname;
+			img.imageId = [imgDict objectForKey:@"id"];
 			if ([img.name indexOf:@"#"] != NSNotFound)
 				img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
 			[blockSelf.imgCache setObject:img forKey:fname];
@@ -322,14 +325,11 @@
 -(NSArray*)adjustImageArray:(NSArray*)inArray
 {
 	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
-	NSMutableArray *fetchArray = [NSMutableArray arrayWithCapacity:[inArray count]];
-	NSString *baseUrl = [[Rc2Server sharedInstance] baseUrl];
-	for (NSString *aUrl in inArray) {
+	for (NSDictionary *imgDict in inArray) {
+		NSString *aUrl = [imgDict objectForKey:@"url"];
 		[outArray addObject:[NSString stringWithFormat:@"rc2img://%@", aUrl]];
-		[fetchArray addObject:[NSString stringWithFormat:@"%@%@", baseUrl, [aUrl substringFromIndex:1]]];
 	}
-	//now need to fetch images in background
-	[self cacheImages:fetchArray];
+	[self cacheImages:inArray];
 	return outArray;
 }
 
@@ -513,7 +513,7 @@
 {
 	NSString *cmd = [dict objectForKey:@"msg"];
 	NSString *js=nil;
-	Rc2LogInfo(@"processing ws command: %@", cmd);
+//	Rc2LogInfo(@"processing ws command: %@", cmd);
 	if ([cmd isEqualToString:@"userid"]) {
 		js = [NSString stringWithFormat:@"iR.setUserid(%@)", [dict objectForKey:@"userid"]];
 		if (!self.session.currentUser.master) {

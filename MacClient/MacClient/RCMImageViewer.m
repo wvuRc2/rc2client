@@ -41,9 +41,9 @@
 	}];
 }
 
--(void)displayImage:(NSString*)path
+-(void)displayImage:(NSNumber*)imageId
 {
-	NSInteger idx = [self.imageArray indexOfObjectWithValue:path usingSelector:@selector(name)];
+	NSInteger idx = [self.imageArray indexOfFirstObjectWithValue:imageId forKey:@"imageId"];
 	if (idx < 0 || idx > self.imageArray.count)
 		idx = 0;
 	[self.imageArrayController setSelectionIndex:idx];

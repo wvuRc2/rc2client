@@ -173,9 +173,9 @@
 	request.userAgent = self.userAgentString;
 	request.validatesSecureCertificate = NO;
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-	__block __weak NSError *error = request.error;
+	__unsafe_unretained ASIHTTPRequest *blockReq = request;
 	[request setFailedBlock:^{
-		[NSApp presentError:error];
+		[NSApp presentError:blockReq.error];
 	}];
 #endif
 }

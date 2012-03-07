@@ -540,21 +540,28 @@
 }
 
 
--(void)cacheImages:(NSArray*)urls
+-(void)cacheImages:(NSArray*)imgDicts
 {
-	for (NSString *str in urls) {
-		NSString *fname = [str lastPathComponent];
-		NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:fname];
-		NSURL *url = [NSURL URLWithString:str];
-		ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
+	for (NSDictionary *imgDict in imgDicts) {
+		NSString *fname = [imgDict objectForKey:@"name"];
+		NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", 
+																			   [imgDict objectForKey:@"id"]]];
+		NSString *urlStr = [imgDict objectForKey:@"url"];
+		if ([urlStr characterAtIndex:0] == '/')
+			urlStr = [urlStr substringFromIndex:1];
+		urlStr = [urlStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+		urlStr = [[Rc2Server sharedInstance].baseUrl stringByAppendingString:urlStr];
+		NSURL *url = [NSURL URLWithString:urlStr];
+		ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithURL:url];
 		[req setDownloadDestinationPath: imgPath];
 		__unsafe_unretained MacSessionViewController *blockSelf = self;
 		[req setCompletionBlock:^{
 			RCImage *img = [[RCImage alloc] initWithPath:imgPath];
-			img.name = [fname stringbyRemovingPercentEscapes];
+			img.name = fname;
+			img.imageId = [imgDict objectForKey:@"id"];
 			if ([img.name indexOf:@"#"] != NSNotFound)
 				img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
-			[blockSelf.imgCache setObject:img forKey:fname];
+			[blockSelf.imgCache setObject:img forKey:img.imageId.description];
 		}];
 		[self.dloadQueue addOperation:req];
 	}
@@ -563,14 +570,10 @@
 -(NSArray*)adjustImageArray:(NSArray*)inArray
 {
 	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
-	NSMutableArray *fetchArray = [NSMutableArray arrayWithCapacity:[inArray count]];
-	NSString *baseUrl = [[Rc2Server sharedInstance] baseUrl];
-	for (NSString *aUrl in inArray) {
-		[outArray addObject:[NSString stringWithFormat:@"rc2img://%@", aUrl]];
-		[fetchArray addObject:[NSString stringWithFormat:@"%@%@", baseUrl, [aUrl substringFromIndex:1]]];
+	for (NSDictionary *imgDict in inArray) {
+		[outArray addObject:[NSString stringWithFormat:@"rc2img:///%@", [imgDict objectForKey:@"id"]]];
 	}
-	//now need to fetch images in background
-	[self cacheImages:fetchArray];
+	[self cacheImages:inArray];
 	return outArray;
 }
 
@@ -600,7 +603,7 @@
 {
 	NSString *cmd = [dict objectForKey:@"msg"];
 	NSString *js=nil;
-	Rc2LogInfo(@"processing ws command: %@", cmd);
+//	Rc2LogInfo(@"processing ws command: %@", cmd);
 	if ([cmd isEqualToString:@"userid"]) {
 		js = [NSString stringWithFormat:@"iR.setUserid(%@)", [dict objectForKey:@"userid"]];
 	} else if ([cmd isEqualToString:@"echo"]) {
@@ -679,7 +682,7 @@
 	};
 	NSRect r = NSMakeRect(__curImgPoint.x+16, self.outputController.webView.frame.size.height - __curImgPoint.y - 16, 1, 1);
 	[self.imagePopover showRelativeToRect:r ofView:self.outputController.webView preferredEdge:NSMaxXEdge];
-	[self.imageController displayImage:[imgPath lastPathComponent]];
+	[self.imageController displayImage:[NSNumber numberWithInt:[[imgPath lastPathComponent] intValue]]];
 }
 
 -(void)displayFile:(RCFile*)file
@@ -709,7 +712,8 @@
 	}
 	NSMutableArray *imgArray = [NSMutableArray arrayWithCapacity:imageUrls.count];
 	for (NSString *path in imageUrls) {
-		RCImage *img = [self.imgCache objectForKey:path];
+		NSString *imgId = [path lastPathComponent];
+		RCImage *img = [self.imgCache objectForKey:imgId];
 		if (img)
 			[imgArray addObject:img];
 	}

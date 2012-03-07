@@ -13,6 +13,7 @@
 @synthesize path;
 @synthesize image;
 @synthesize timestamp;
+@synthesize imageId;
 
 -(id)initWithPath:(NSString*)aPath
 {
