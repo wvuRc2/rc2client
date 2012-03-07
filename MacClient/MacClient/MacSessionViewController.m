@@ -508,9 +508,9 @@
 	return [str description];
 }
 
--(BOOL)loadImageIntoCache:(NSString*)imgPath
+-(BOOL)loadImageIntoCache:(NSString*)imageId
 {
-	imgPath = imgPath.lastPathComponent;
+	NSString *imgPath = [imageId stringByAppendingPathExtension:@"png"];
 	NSFileManager *fm = [NSFileManager defaultManager];
 	NSString *fpath = [self.imgCachePath stringByAppendingPathComponent:imgPath];
 	if (![fm fileExistsAtPath:fpath])
@@ -519,7 +519,7 @@
 	img.name = [imgPath stringbyRemovingPercentEscapes];
 	if ([img.name indexOf:@"#"] != NSNotFound)
 		img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
-	[self.imgCache setObject:img forKey:imgPath];
+	[self.imgCache setObject:img forKey:[imgPath stringByDeletingPathExtension]];
 	return YES;
 }
 
@@ -528,7 +528,7 @@
 	if (nil == html)
 		return;
 	NSError *err=nil;
-	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///iR/images/([^\\.]+\\.png)" options:0 error:&err];
+	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///([0-9]+)" options:0 error:&err];
 	ZAssert(nil == err, @"error compiling regex: %@", [err localizedDescription]);
 	__unsafe_unretained MacSessionViewController *blockSelf = self;
 	[regex enumerateMatchesInString:html options:0 range:NSMakeRange(0, [html length]) 
@@ -667,6 +667,8 @@
 
 -(void)displayImage:(NSString*)imgPath
 {
+	if ([imgPath hasPrefix:@"/"])
+		imgPath = [imgPath substringFromIndex:1];
 	if (nil == self.imageController)
 		self.imageController = [[RCMImageViewer alloc] init];
 	if (nil == self.imagePopover) {
