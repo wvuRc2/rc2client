@@ -110,7 +110,7 @@
 -(IBAction)doExecute:(id)sender
 {
 	[self.textField resignFirstResponder];
-	[[Rc2Server sharedInstance].currentSession executeScript:self.textField.text];
+	[[Rc2Server sharedInstance].currentSession executeScript:self.textField.text scriptName:nil];
 }
 
 -(IBAction)doDecreaseFont:(id)sender

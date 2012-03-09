@@ -282,7 +282,7 @@
 	if ([self.selectedFile.name hasSuffix:@".Rnw"]) {
 		[self.session executeSweave:self.selectedFile.name script:self.editView.string];
 	} else {
-		[self.session executeScript:self.editView.string];
+		[self.session executeScript:self.editView.string scriptName:self.selectedFile.name];
 	}
 }
 
@@ -613,7 +613,7 @@
 
 -(void)executeConsoleCommand:(NSString*)command
 {
-	[self.session executeScript:command];
+	[self.session executeScript:command scriptName:nil];
 }
 
 -(void)previewImages:(NSArray*)imageUrls atPoint:(NSPoint)pt

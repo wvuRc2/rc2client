@@ -250,7 +250,7 @@
 	if ([self.currentFile.name hasSuffix:@".Rnw"])
 		[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:self.textView.text];
 	else
-		[[Rc2Server sharedInstance].currentSession executeScript:self.textView.text];
+		[[Rc2Server sharedInstance].currentSession executeScript:self.textView.text scriptName:self.currentFile.name];
 }
 
 -(void)loadFile:(RCFile*)file
