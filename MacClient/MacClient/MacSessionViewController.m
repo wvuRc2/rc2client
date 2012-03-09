@@ -29,6 +29,7 @@
 #import "MultiFileImporter.h"
 #import "RCMSyntaxHighlighter.h"
 #import "RCAudioChatEngine.h"
+#import "RCImageCache.h"
 
 @interface MacSessionViewController() {
 	CGFloat __fileListWidth;
@@ -41,9 +42,7 @@
 	BOOL __toggledFileViewOnFullScreen;
 }
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
-@property (nonatomic, strong) NSString *imgCachePath;
-@property (nonatomic, strong) NSMutableDictionary *imgCache;
-@property (nonatomic, strong) NSOperationQueue *dloadQueue;
+//@property (nonatomic, strong) NSOperationQueue *dloadQueue;
 @property (nonatomic, strong) NSMenu *addMenu;
 @property (nonatomic, strong) MCWebOutputController *outputController;
 @property (nonatomic, strong) RCFile *selectedFile;
@@ -60,10 +59,6 @@
 -(void)prepareForSession;
 -(void)completeSessionStartup:(id)response;
 -(NSString*)escapeForJS:(NSString*)str;
--(NSArray*)adjustImageArray:(NSArray*)inArray;
--(void)cacheImages:(NSArray*)urls;
--(void)cacheImagesReferencedInHTML:(NSString*)html;
--(BOOL)loadImageIntoCache:(NSString*)imgPath;
 -(void)handleFileImport:(NSURL*)fileUrl;
 -(void)handleNewFile:(NSString*)fileName;
 -(BOOL)fileListVisible;
@@ -108,7 +103,6 @@
 {
 	[super awakeFromNib];
 	if (!__didInit) {
-		NSError *err=nil;
 		self.outputController = [[MCWebOutputController alloc] init];
 		NSView *croot = [self.contentSplitView.subviews objectAtIndex:1];
 		[croot addSubview:self.outputController.view];
@@ -126,19 +120,6 @@
 		self.audioEngine = [[RCAudioChatEngine alloc] init];
 		self.audioEngine.session = self.session;
 		//caches
-		NSFileManager *fm = [[NSFileManager alloc] init];
-		NSURL *cacheUrl = [NSURL URLWithString:[NSApp thisApplicationsCacheFolder]];
-		cacheUrl = [cacheUrl URLByAppendingPathComponent:@"Rimages"];
-		if (![fm fileExistsAtPath:cacheUrl.path]) {
-			BOOL result = [fm createDirectoryAtPath:[cacheUrl path]
-						withIntermediateDirectories:YES
-										 attributes:nil
-											  error:&err];
-			ZAssert(result, @"failed to create img cache directory: %@", [err localizedDescription]);
-		}
-		self.imgCachePath = [cacheUrl path];
-		self.imgCache = [NSMutableDictionary dictionary];
-		self.dloadQueue = [[NSOperationQueue alloc] init];
 		__unsafe_unretained MacSessionViewController *blockSelf = self;
 		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:RCWorkspaceFilesFetchedNotification 
 														  object:nil queue:nil usingBlock:^(NSNotification *note)
@@ -360,7 +341,7 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		RCMMultiImageController	*ivc = [[RCMMultiImageController alloc] init];
 		[ivc view];
-		ivc.availableImages = self.imgCache.allValues;
+		ivc.availableImages = [[RCImageCache sharedInstance] allImages];
 		AppDelegate *del = [TheApp delegate];
 		[del showViewController:ivc];
 		[ivc setDisplayedImages: self.currentImageGroup];
@@ -402,7 +383,7 @@
 		self.editView.string = savedState.inputText;
 	}
 	__fileListInitiallyVisible = [savedState boolPropertyForKey:@"fileListVisible"];
-	[self cacheImagesReferencedInHTML:savedState.consoleHtml];
+	[[RCImageCache sharedInstance] cacheImagesReferencedInHTML:savedState.consoleHtml];
 }
 
 -(void)modeChanged
@@ -508,75 +489,6 @@
 	return [str description];
 }
 
--(BOOL)loadImageIntoCache:(NSString*)imageId
-{
-	NSString *imgPath = [imageId stringByAppendingPathExtension:@"png"];
-	NSFileManager *fm = [NSFileManager defaultManager];
-	NSString *fpath = [self.imgCachePath stringByAppendingPathComponent:imgPath];
-	if (![fm fileExistsAtPath:fpath])
-		return NO;
-	RCImage *img = [[RCImage alloc] initWithPath:fpath];
-	img.name = [imgPath stringbyRemovingPercentEscapes];
-	if ([img.name indexOf:@"#"] != NSNotFound)
-		img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
-	[self.imgCache setObject:img forKey:[imgPath stringByDeletingPathExtension]];
-	return YES;
-}
-
--(void)cacheImagesReferencedInHTML:(NSString*)html
-{
-	if (nil == html)
-		return;
-	NSError *err=nil;
-	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///([0-9]+)" options:0 error:&err];
-	ZAssert(nil == err, @"error compiling regex: %@", [err localizedDescription]);
-	__unsafe_unretained MacSessionViewController *blockSelf = self;
-	[regex enumerateMatchesInString:html options:0 range:NSMakeRange(0, [html length]) 
-						 usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) 
-	 {
-		 NSString *fname = [html substringWithRange:[match rangeAtIndex:1]];
-		 [blockSelf loadImageIntoCache:fname];
-	 }];
-}
-
-
--(void)cacheImages:(NSArray*)imgDicts
-{
-	for (NSDictionary *imgDict in imgDicts) {
-		NSString *fname = [imgDict objectForKey:@"name"];
-		NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", 
-																			   [imgDict objectForKey:@"id"]]];
-		NSString *urlStr = [imgDict objectForKey:@"url"];
-		if ([urlStr characterAtIndex:0] == '/')
-			urlStr = [urlStr substringFromIndex:1];
-		urlStr = [urlStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
-		urlStr = [[Rc2Server sharedInstance].baseUrl stringByAppendingString:urlStr];
-		NSURL *url = [NSURL URLWithString:urlStr];
-		ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithURL:url];
-		[req setDownloadDestinationPath: imgPath];
-		__unsafe_unretained MacSessionViewController *blockSelf = self;
-		[req setCompletionBlock:^{
-			RCImage *img = [[RCImage alloc] initWithPath:imgPath];
-			img.name = fname;
-			img.imageId = [imgDict objectForKey:@"id"];
-			if ([img.name indexOf:@"#"] != NSNotFound)
-				img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
-			[blockSelf.imgCache setObject:img forKey:img.imageId.description];
-		}];
-		[self.dloadQueue addOperation:req];
-	}
-}
-
--(NSArray*)adjustImageArray:(NSArray*)inArray
-{
-	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
-	for (NSDictionary *imgDict in inArray) {
-		[outArray addObject:[NSString stringWithFormat:@"rc2img:///%@", [imgDict objectForKey:@"id"]]];
-	}
-	[self cacheImages:inArray];
-	return outArray;
-}
-
 #pragma mark - session delegate
 
 -(void)connectionOpened
@@ -642,7 +554,7 @@
 				  [self escapeForJS:[dict objectForKey:@"json"]]];
 		}
 		if ([[dict objectForKey:@"imageUrls"] count] > 0) {
-			NSArray *adjustedImages = [self adjustImageArray:[dict objectForKey:@"imageUrls"]];
+			NSArray *adjustedImages = [[RCImageCache sharedInstance] adjustImageArray:[dict objectForKey:@"imageUrls"]];
 			js = [NSString stringWithFormat:@"iR.appendImages(%@)",
 				  [adjustedImages JSONRepresentation]];
 		}
@@ -715,7 +627,7 @@
 	NSMutableArray *imgArray = [NSMutableArray arrayWithCapacity:imageUrls.count];
 	for (NSString *path in imageUrls) {
 		NSString *imgId = [path lastPathComponent];
-		RCImage *img = [self.imgCache objectForKey:imgId];
+		RCImage *img = [[RCImageCache sharedInstance] imageWithId:imgId];
 		if (img)
 			[imgArray addObject:img];
 	}
@@ -953,9 +865,7 @@
 @synthesize executeButton;
 @synthesize scratchString;
 @synthesize jsQuiteRExp;
-@synthesize imgCache;
-@synthesize imgCachePath;
-@synthesize dloadQueue;
+//@synthesize dloadQueue;
 @synthesize imagePopover;
 @synthesize imageController;
 @synthesize currentImageGroup;

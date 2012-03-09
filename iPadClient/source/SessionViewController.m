@@ -326,8 +326,7 @@
 {
 	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
 	for (NSDictionary *imgDict in inArray) {
-		NSString *aUrl = [imgDict objectForKey:@"url"];
-		[outArray addObject:[NSString stringWithFormat:@"rc2img://%@", aUrl]];
+		[outArray addObject:[NSString stringWithFormat:@"rc2img:///%@", [imgDict objectForKey:@"id"]]];
 	}
 	[self cacheImages:inArray];
 	return outArray;
@@ -475,6 +474,10 @@
 		return;
 	}
 
+	if ([imgPath hasPrefix:@"/"])
+		imgPath = [imgPath substringFromIndex:1];
+	if (![imgPath hasSuffix:@".png"])
+		imgPath = [imgPath stringByAppendingPathExtension:@"png"];
 	if (![self loadImageIntoCache:imgPath]) {
 		//FIXME: display alert
 		Rc2LogWarn(@"image does not exist: %@", imgPath);
