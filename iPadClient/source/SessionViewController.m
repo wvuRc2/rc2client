@@ -19,6 +19,7 @@
 #import "ASIHTTPRequest.h"
 #import "ImageDisplayController.h"
 #import "RCImage.h"
+#import "RCImageCache.h"
 #import "RCFile.h"
 #import "MBProgressHUD.h"
 #import "RCSessionUser.h"
@@ -31,9 +32,6 @@
 	RCSession *_session;
 }
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
-@property (nonatomic, strong) NSString *imgCachePath;
-@property (nonatomic, strong) NSOperationQueue *dloadQueue;
-@property (nonatomic, strong) NSMutableDictionary *imgCache;
 @property (nonatomic, strong) ImageDisplayController *imgController;
 @property (nonatomic, strong) ControlViewController *controlController;
 @property (nonatomic, strong) UIPopoverController *controlPopover;
@@ -44,14 +42,10 @@
 @property (nonatomic, assign) BOOL autoReconnect;
 -(void)saveSessionState;
 -(NSString*)escapeForJS:(NSString*)str;
--(NSArray*)adjustImageArray:(NSArray*)inArray;
--(void)cacheImages:(NSArray*)urls;
 -(void)displayPdfFile:(RCFile*)file;
 -(void)loadAndDisplayPdfFile:(RCFile*)file;
 -(void)appRestored:(NSNotification*)note;
 -(void)appEnteringBackground:(NSNotification*)note;
--(void)cacheImagesReferencedInHTML:(NSString*)html;
--(BOOL)loadImageIntoCache:(NSString*)imgPath;
 -(void)loadKeyboard;
 -(void)keyboardPrefsChanged:(NSNotification*)note;
 @end
@@ -70,22 +64,8 @@
 		self.autoReconnect=NO;
 		self.audioEngine = [[RCAudioChatEngine alloc] init];
 		self.audioEngine.session = session;
-		NSFileManager *fm = [[NSFileManager alloc] init];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
-		NSURL *cacheUrl = [fm URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask
-							appropriateForURL:nil create:YES error:&err];
-		cacheUrl = [cacheUrl URLByAppendingPathComponent:@"Rimages"];
-		if (![fm fileExistsAtPath:cacheUrl.path]) {
-			BOOL result = [fm createDirectoryAtPath:[cacheUrl path]
-						withIntermediateDirectories:YES
-										 attributes:nil
-											  error:&err];
-			ZAssert(result, @"failed to create img cache directory: %@", [err localizedDescription]);
-		}
-		self.imgCachePath = [cacheUrl path];
-		self.imgCache = [NSMutableDictionary dictionary];
-		self.dloadQueue = [[NSOperationQueue alloc] init];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appRestored:) 
 													 name: UIApplicationWillEnterForegroundNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnteringBackground:) 
@@ -102,9 +82,6 @@
 	self.themeToken=nil;
 	self.jsQuiteRExp=nil;
 	self.imgController=nil;
-	self.imgCachePath=nil;
-	self.imgCache=nil;
-	self.dloadQueue=nil;
 	self.editorController=nil;
 	self.consoleController=nil;
 }
@@ -164,7 +141,7 @@
 	if (self.session.initialFileSelection)
 		[self.editorController loadFile:self.session.initialFileSelection showProgress:NO];
 	[self.consoleController restoreSessionState:savedState];
-	[self cacheImagesReferencedInHTML:savedState.consoleHtml];
+	[[RCImageCache sharedInstance] cacheImagesReferencedInHTML:savedState.consoleHtml];
 	if (!self.session.socketOpen) {
 		RunAfterDelay(0.2, ^{
 			MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -278,58 +255,6 @@
 //		return [self.jsQuiteRExp stringByReplacingMatchesInString:str options:0 range:NSMakeRange(0, [str length]) 
 //													 withTemplate:@"\\'"];
 	return [str description];
-}
-
-
--(void)cacheImagesReferencedInHTML:(NSString*)html
-{
-	if (nil == html)
-		return;
-	NSError *err=nil;
-	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///iR/images/([^\\.]+\\.png)" 
-																		   options:0 error:&err];
-	ZAssert(nil == err, @"error compiling regex: %@", [err localizedDescription]);
-	__weak SessionViewController *blockSelf = self;
-	[regex enumerateMatchesInString:html options:0 range:NSMakeRange(0, [html length]) 
-						 usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) 
-						{
-							NSString *fname = [html substringWithRange:[match rangeAtIndex:1]];
-							[blockSelf loadImageIntoCache:fname];
-						 }];
-}
-
-
--(void)cacheImages:(NSArray*)imgDicts
-{
-	for (NSDictionary *imgDict in imgDicts) {
-		NSString *fname = [imgDict objectForKey:@"name"];
-		NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", 
-																			   [imgDict objectForKey:@"id"]]];
-		NSURL *url = [NSURL URLWithString:[imgDict objectForKey:@"url"]];
-		ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithURL:url];
-		[req setDownloadDestinationPath: imgPath];
-		__weak SessionViewController *blockSelf = self;
-		[req setCompletionBlock:^{
-			NSLog(@"downloaded: %@", imgPath);
-			RCImage *img = [[RCImage alloc] initWithPath:imgPath];
-			img.name = fname;
-			img.imageId = [imgDict objectForKey:@"id"];
-			if ([img.name indexOf:@"#"] != NSNotFound)
-				img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
-			[blockSelf.imgCache setObject:img forKey:fname];
-		}];
-		[self.dloadQueue addOperation:req];
-	}
-}
-
--(NSArray*)adjustImageArray:(NSArray*)inArray
-{
-	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
-	for (NSDictionary *imgDict in inArray) {
-		[outArray addObject:[NSString stringWithFormat:@"rc2img:///%@", [imgDict objectForKey:@"id"]]];
-	}
-	[self cacheImages:inArray];
-	return outArray;
 }
 
 -(void)displayPdfFile:(RCFile*)file
@@ -446,21 +371,6 @@
 	[self.consoleController.webView stringByEvaluatingJavaScriptFromString:cmd];
 }
 
--(BOOL)loadImageIntoCache:(NSString*)imgPath
-{
-	imgPath = imgPath.lastPathComponent;
-	NSFileManager *fm = [NSFileManager defaultManager];
-	NSString *fpath = [self.imgCachePath stringByAppendingPathComponent:imgPath];
-	if (![fm fileExistsAtPath:fpath])
-		return NO;
-	RCImage *img = [[RCImage alloc] initWithPath:fpath];
-	img.name = [imgPath stringbyRemovingPercentEscapes];
-	if ([img.name indexOf:@"#"] != NSNotFound)
-		img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
-	[self.imgCache setObject:img forKey:imgPath];
-	return YES;
-}
-
 -(void)displayImage:(NSString*)imgPath
 {
 	if ([imgPath hasSuffix:@".pdf"]) {
@@ -476,16 +386,16 @@
 
 	if ([imgPath hasPrefix:@"/"])
 		imgPath = [imgPath substringFromIndex:1];
-	if (![imgPath hasSuffix:@".png"])
-		imgPath = [imgPath stringByAppendingPathExtension:@"png"];
-	if (![self loadImageIntoCache:imgPath]) {
+	
+	if (![[RCImageCache sharedInstance] loadImageIntoCache:imgPath]) {
 		//FIXME: display alert
 		Rc2LogWarn(@"image does not exist: %@", imgPath);
 		return;
 	}
+	
 	if (nil == self.imgController)
 		self.imgController = [[ImageDisplayController alloc] init];
-	self.imgController.allImages = [[self.imgCache allValues] sortedArrayUsingComparator:^(RCImage *obj1, RCImage *obj2) {
+	self.imgController.allImages = [[[RCImageCache sharedInstance] allImages] sortedArrayUsingComparator:^(RCImage *obj1, RCImage *obj2) {
 		if (obj1.timestamp > obj2.timestamp)
 			return NSOrderedAscending;
 		if (obj2.timestamp > obj1.timestamp)
@@ -498,7 +408,7 @@
 	};
 	[self presentModalViewController:self.imgController animated:YES];
 	[self.imgController loadImages];
-	[self.imgController loadImage1:[self.imgCache objectForKey:[imgPath lastPathComponent]]];
+	[self.imgController loadImage1:[[RCImageCache sharedInstance] imageWithId:imgPath]];
 }
 
 -(void)displayFile:(RCFile*)file
@@ -561,7 +471,7 @@
 				  [self escapeForJS:[dict objectForKey:@"json"]]];
 		}
 		if ([[dict objectForKey:@"imageUrls"] count] > 0) {
-			NSArray *adjustedImages = [self adjustImageArray:[dict objectForKey:@"imageUrls"]];
+			NSArray *adjustedImages = [[RCImageCache sharedInstance] adjustImageArray:[dict objectForKey:@"imageUrls"]];
 			js = [NSString stringWithFormat:@"iR.appendImages(%@)",
 				  [adjustedImages JSONRepresentation]];
 		}
@@ -657,9 +567,6 @@
 @synthesize editorController;
 @synthesize consoleController;
 @synthesize jsQuiteRExp;
-@synthesize imgCachePath;
-@synthesize imgCache;
-@synthesize dloadQueue;
 @synthesize imgController;
 @synthesize reconnecting;
 @synthesize autoReconnect;

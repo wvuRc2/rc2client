@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		080433E8150AAD020065426A /* RCImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 080433E7150AAD020065426A /* RCImageCache.m */; };
 		0809BF6F14C5F1AC009CEC57 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF6C14C5F1AB009CEC57 /* Rc2.xcdatamodeld */; };
 		0815945E14E2F47A0067E83C /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815945C14E2F47A0067E83C /* gear.png */; };
 		0815945F14E2F47A0067E83C /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815945D14E2F47A0067E83C /* gear@2x.png */; };
@@ -191,6 +192,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		080433E6150AAD020065426A /* RCImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageCache.h; path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/MacClient/../SharedCode/rc2/RCImageCache.h"; sourceTree = "<absolute>"; };
+		080433E7150AAD020065426A /* RCImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageCache.m; path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/MacClient/../SharedCode/rc2/RCImageCache.m"; sourceTree = "<absolute>"; };
 		0809BF6D14C5F1AC009CEC57 /* v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = v2.xcdatamodel; sourceTree = "<group>"; };
 		0809BF6E14C5F1AC009CEC57 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
 		0815945C14E2F47A0067E83C /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = resources/gear.png; sourceTree = SOURCE_ROOT; };
@@ -686,6 +689,8 @@
 			children = (
 				08349ED814044ACC00B629B4 /* Rc2Server.h */,
 				08349ED914044ACC00B629B4 /* Rc2Server.m */,
+				080433E6150AAD020065426A /* RCImageCache.h */,
+				080433E7150AAD020065426A /* RCImageCache.m */,
 				086246941501125F00A71853 /* RCAudioChatEngine.h */,
 				086246951501125F00A71853 /* RCAudioChatEngine.m */,
 				08A6FF4C142F8BA300E8AB4B /* RC2RemoteLogger.h */,
@@ -1105,6 +1110,7 @@
 				085E7B1714EED6D400036A9E /* RCSessionUser.m in Sources */,
 				085E7B1E14EEDB3E00036A9E /* ControllerUserCell.m in Sources */,
 				086246961501125F00A71853 /* RCAudioChatEngine.m in Sources */,
+				080433E8150AAD020065426A /* RCImageCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
