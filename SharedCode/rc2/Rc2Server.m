@@ -451,8 +451,8 @@
 
 -(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl],
-									   file.fileId]];
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@/files/%@", [self baseUrl],
+									   workspace.wspaceId, file.fileId]];
 	ASIHTTPRequest *theReq = [self requestWithURL:url];
 	__weak ASIHTTPRequest *req = theReq;
 	req.requestMethod = @"DELETE";
