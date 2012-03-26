@@ -11,6 +11,7 @@
 #import "RCSavedSession.h"
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
+#import "RCImageCache.h"
 
 @interface ConsoleViewController() {
 	BOOL _didSetGraphUrl;
@@ -137,6 +138,7 @@
 -(IBAction)doClear:(id)sender
 {
 	[self.webView stringByEvaluatingJavaScriptFromString:@"iR.clearConsole()"];
+	[[RCImageCache sharedInstance] clearCache];
 }
 
 -(IBAction)doBack:(id)sender

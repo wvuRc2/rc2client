@@ -18,4 +18,6 @@
 -(NSArray*)allImages;
 -(NSArray*)adjustImageArray:(NSArray*)inArray;
 -(RCImage*)imageWithId:(NSString*)imgId;
+
+-(void)clearCache;
 @end

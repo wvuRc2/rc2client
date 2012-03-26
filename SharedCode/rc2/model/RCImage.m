@@ -26,6 +26,10 @@
 	self.image = img;
 #endif
 	self.timestamp = [NSDate timeIntervalSinceReferenceDate];
+	NSString *pathc = aPath.lastPathComponent;
+	if (![pathc containsCharacterNotInSet:[NSCharacterSet decimalDigitCharacterSet]])
+		self.imageId = [NSNumber numberWithInt:[pathc intValue]];
+	self.name = pathc;
 	return self;
 }
 @end

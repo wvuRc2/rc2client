@@ -13,9 +13,12 @@
 
 @interface RCImageCache()
 @property (nonatomic, strong) NSString *imgCachePath;
+@property (nonatomic, strong) NSMutableDictionary *metaData;
 @property (nonatomic, strong) NSMutableDictionary *imgCache;
 @property (nonatomic, strong) NSOperationQueue *dloadQueue;
 @end
+
+#define kPref_ImageMetaData @"ImageMetaData"
 
 @implementation RCImageCache
 
@@ -36,7 +39,7 @@
 		NSFileManager *fm = [[NSFileManager alloc] init];
 		NSURL *cacheUrl = [fm URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask
 							appropriateForURL:nil create:YES error:&err];
-		cacheUrl = [cacheUrl URLByAppendingPathComponent:@"Rimages"];
+		cacheUrl = [cacheUrl URLByAppendingPathComponent:@"Rc2/Rimages"];
 		if (![fm fileExistsAtPath:cacheUrl.path]) {
 			BOOL result = [fm createDirectoryAtPath:[cacheUrl path]
 						withIntermediateDirectories:YES
@@ -47,8 +50,29 @@
 		self.imgCachePath = [cacheUrl path];
 		self.imgCache = [NSMutableDictionary dictionary];
 		self.dloadQueue = [[NSOperationQueue alloc] init];
+		self.metaData = [[[NSUserDefaults standardUserDefaults] objectForKey:kPref_ImageMetaData] mutableCopy];
 	}
 	return self;
+}
+
+-(void)saveFileName:(NSString*)fname forId:(NSNumber*)imageId
+{
+	[self.metaData setObject:fname forKey:imageId];
+	[[NSUserDefaults standardUserDefaults] setObject:self.metaData forKey:kPref_ImageMetaData];
+}
+
+-(void)clearCache
+{
+	[self.metaData removeAllObjects];
+	[[NSUserDefaults standardUserDefaults] setObject:self.metaData forKey:kPref_ImageMetaData];
+	NSFileManager *fm = [[NSFileManager alloc] init];
+	NSError *err=nil;
+	for (NSString *fname in [fm contentsOfDirectoryAtPath:self.imgCachePath error:nil]) {
+		NSString *path = [self.imgCachePath stringByAppendingPathComponent:fname];
+		if ([path hasSuffix:@"png"] || [path hasSuffix:@"pdf"])
+			if (![fm removeItemAtPath:path error:&err])
+				Rc2LogError(@"error removing %@ from cache", path);
+	}
 }
 
 -(NSArray*)allImages
@@ -56,18 +80,18 @@
 	return [self.imgCache allValues];
 }
 
--(BOOL)loadImageIntoCache:(NSString*)imageId
+-(BOOL)loadImageIntoCache:(NSString*)imageIdStr
 {
-	NSString *imgPath = [imageId stringByAppendingPathExtension:@"png"];
+	NSString *imgPath = [imageIdStr stringByAppendingPathExtension:@"png"];
 	NSFileManager *fm = [NSFileManager defaultManager];
 	NSString *fpath = [self.imgCachePath stringByAppendingPathComponent:imgPath];
 	if (![fm fileExistsAtPath:fpath])
 		return NO;
 	RCImage *img = [[RCImage alloc] initWithPath:fpath];
-	img.name = [imgPath stringbyRemovingPercentEscapes];
-	if ([img.name indexOf:@"#"] != NSNotFound)
-		img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
-	[self.imgCache setObject:img forKey:[imgPath stringByDeletingPathExtension]];
+	NSString *cachedName = [self.metaData objectForKey:img.imageId];
+	if (cachedName)
+		img.name = cachedName;
+	[self.imgCache setObject:img forKey:imageIdStr];
 	return YES;
 }
 
@@ -108,6 +132,7 @@
 			if ([img.name indexOf:@"#"] != NSNotFound)
 				img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
 			[[[RCImageCache sharedInstance] imgCache] setObject:img forKey:img.imageId.description];
+			[[RCImageCache sharedInstance] saveFileName:img.name forId:img.imageId];
 		}];
 		[self.dloadQueue addOperation:req];
 	}
@@ -131,4 +156,5 @@
 @synthesize imgCache=_imgCache;
 @synthesize imgCachePath=_imgCachePath;
 @synthesize dloadQueue=_dloadQueue;
+@synthesize metaData=_metaData;
 @end

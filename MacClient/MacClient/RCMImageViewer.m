@@ -47,6 +47,7 @@
 	if (idx < 0 || idx > self.imageArray.count)
 		idx = 0;
 	[self.imageArrayController setSelectionIndex:idx];
+	self.displayedImageName = [[self.imageArray objectAtIndex:idx] name];
 }
 
 -(IBAction)saveImageAs:(id)sender

@@ -11,6 +11,7 @@
 #import "RCMConsoleTextField.h"
 #import "AppDelegate.h"
 #import "RCMAppConstants.h"
+#import "RCImageCache.h"
 
 @interface MCWebOutputController() {
 	NSInteger __cmdHistoryIdx;
@@ -163,6 +164,7 @@
 -(IBAction)doClear:(id)sender
 {
 	[self.webView stringByEvaluatingJavaScriptFromString:@"iR.clearConsole()"];
+	[[RCImageCache sharedInstance] clearCache];
 }
 
 -(IBAction)saveSelectedPDF:(id)sender
