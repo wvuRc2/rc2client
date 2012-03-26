@@ -130,10 +130,11 @@
 	self.timeOfLastTraffic = [NSDate date];
 }
 
--(void)executeScript:(NSString*)script scriptName:(NSString*)sname
+-(void)executeScript:(NSString*)script scriptName:(NSString*)fname
 {
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"executeScript", @"cmd", sname, @"fname",
-						  script, @"script", nil];
+	//fname could be null, so at end of list
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"executeScript", @"cmd", script, @"script", 
+						  fname, @"fname", nil];
 	Rc2LogInfo(@"executing script: %@", [script length] > 10 ? [[script substringToIndex:10] stringByAppendingString:@"..."] : script);
 	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
