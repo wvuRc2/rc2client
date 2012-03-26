@@ -15,6 +15,7 @@
 #import <Vyana/NSMenu+AMExtensions.h>
 #import "MacMainWindowController.h"
 #import "RCMacToolbarItem.h"
+#import "RCMAppConstants.h"
 
 #define kControllerClass @"controllerClass"
 #define kLastSelectedPathKey @"MainViewLastSelectedSrcItem"
@@ -70,6 +71,8 @@
 		//reload the last selected path
 		NSIndexPath *lastPath = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kLastSelectedPathKey];
 		[self.mainSourceList selectItemAtIndexPath:lastPath];
+		for (NSMenuItem *mi in self.addMenu.itemArray)
+			mi.target = self;
 		__didInit=YES;
 	}
 }
@@ -78,7 +81,7 @@
 {
 	if (!__setupAddMenu) {
 		NSToolbar *tbar = [NSApp valueForKeyPath:@"delegate.mainWindowController.window.toolbar"];
-		RCMacToolbarItem *ti = [tbar.items firstObjectWithValue:@"add" forKey:@"itemIdentifier"];
+		RCMacToolbarItem *ti = [tbar.items firstObjectWithValue:RCMToolbarItem_Add forKey:@"itemIdentifier"];
 		if (newSuperview)
 			[ti pushActionMenu:self.addMenu];
 		__setupAddMenu=YES;
@@ -121,6 +124,10 @@
 		if ([selItem isKindOfClass:[RCWorkspace class]])
 			return YES;
 		return NO;
+	}
+	if (@selector(doAddWorkspace:) == action) {
+		NSLog(@"oking add workspace");
+		return YES;
 	}
 	return YES;
 }
