@@ -13,6 +13,7 @@
 }
 @property (nonatomic, strong) NSMutableArray *menuStack;
 -(IBAction)myAction:(id)sender;
+-(NSMenu*)currentMenu;
 @end
 
 @implementation RCMacToolbarItem
@@ -61,12 +62,17 @@
 -(void)pushActionMenu:(NSMenu*)menu
 {
 	[self.menuStack addObject:menu];
+	if (menu.title.length > 0)
+		[self setToolTip:menu.title];
 }
 
 -(void)popActionMenu:(NSMenu*)menu
 {
-	if (menu == [self.menuStack lastObject])
+	if (menu == [self.menuStack lastObject]) {
 		[self.menuStack removeLastObject];
+		if (menu.title.length > 0)
+			self.toolTip = self.currentMenu.title;
+	}
 }
 
 -(void)validate
@@ -107,10 +113,16 @@
 -(IBAction)myAction:(id)sender
 {
 	NSView *v = [self valueForKey:@"_view"];
+	NSMenu *menu = self.currentMenu;
+	[NSMenu popUpContextMenu:menu withEvent:[NSApp currentEvent] forView:v withFont:[NSFont systemFontOfSize:11]];
+}
+
+-(NSMenu*)currentMenu
+{
 	NSMenu *menu = self.actionMenu;
 	if (self.menuStack.count > 0)
 		menu = [self.menuStack lastObject];
-	[NSMenu popUpContextMenu:menu withEvent:[NSApp currentEvent] forView:v withFont:[NSFont systemFontOfSize:11]];
+	return menu;
 }
 
 @end

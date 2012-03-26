@@ -114,7 +114,15 @@
 			[self prepareForSession];
 		}
 //		[self.outputController.webView bind:@"enabled" toObject:self withKeyPath:@"restricted" options:nil];
-		self.addMenu = [[NSMenu alloc] initWithTitle:@""];
+		self.addMenu = [[NSMenu alloc] initWithTitle:@"Add a File"];
+		[self.addMenu setAutoenablesItems:NO];
+		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"New File…" action:@selector(createNewFile:) keyEquivalent:@""];
+		mi.target = self;
+		[mi setEnabled:YES];
+		[self.addMenu addItem:mi];
+		mi = [[NSMenuItem alloc] initWithTitle:@"Import File…" action:@selector(importFile:) keyEquivalent:@""];
+		mi.target = self;
+		[self.addMenu addItem:mi];
 		//read this instead of hard-coding a value that chould change in the nib
 		__fileListWidth = self.contentSplitView.frame.origin.x;
 		self.audioEngine = [[RCAudioChatEngine alloc] init];
@@ -167,20 +175,19 @@
 
 -(void)viewWillMoveToSuperview:(NSView *)newSuperview
 {
+	NSToolbar *tbar = [NSApp valueForKeyPath:@"delegate.mainWindowController.window.toolbar"];
+	RCMacToolbarItem *ti = [tbar.items firstObjectWithValue:RCMToolbarItem_Add forKey:@"itemIdentifier"];
 	if (!__didFirstLoad) {
-		NSToolbar *tbar = [NSApp valueForKeyPath:@"delegate.mainWindowController.window.toolbar"];
-		RCMacToolbarItem *ti = [tbar.items firstObjectWithValue:@"add" forKey:@"itemIdentifier"];
 		if (newSuperview) {
 			RCSavedSession *savedState = self.session.savedSessionState;
 			[self restoreSessionState:savedState];
 			[ti pushActionMenu:self.addMenu];
-		} else {
-			[ti popActionMenu:self.addMenu];
 		}
 		__didFirstLoad=YES;
 	} else if (newSuperview == nil) {
 		[self saveSessionState];
 		[self.audioEngine tearDownAudio];
+		[ti popActionMenu:self.addMenu];
 	}
 }
 
