@@ -57,4 +57,5 @@
 @synthesize wspaceId;
 @synthesize parentId;
 @synthesize name;
+@synthesize parentItem=_parentItem;
 @end

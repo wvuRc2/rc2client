@@ -31,7 +31,7 @@
 		0829453C1496AA8300E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453B1496AA8300E593C7 /* RCWorkspaceCache.m */; };
 		0829456114993CF600E593C7 /* MCNewFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829456014993CF600E593C7 /* MCNewFileController.m */; };
 		0829456314993D1200E593C7 /* MCNewFileController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0829456214993D1200E593C7 /* MCNewFileController.xib */; };
-		0838B38A141E9095003264A8 /* PXSourceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B387141E9095003264A8 /* PXSourceList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0838B38A141E9095003264A8 /* PXSourceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B387141E9095003264A8 /* PXSourceList.m */; };
 		0838B38E141E90C2003264A8 /* MacMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0838B38D141E90C2003264A8 /* MacMainWindowController.m */; };
 		0838B390141E90E0003264A8 /* MacMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0838B38F141E90E0003264A8 /* MacMainWindow.xib */; };
 		08447F6B1415B54F00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */; };

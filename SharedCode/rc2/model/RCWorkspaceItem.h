@@ -15,6 +15,7 @@
 
 -(id)initWithDictionary:(NSDictionary*)dict;
 
+@property (nonatomic, weak) RCWorkspaceItem *parentItem;
 @property (nonatomic, strong) NSNumber *wspaceId;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, strong) NSNumber *parentId;

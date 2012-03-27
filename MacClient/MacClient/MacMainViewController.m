@@ -25,7 +25,8 @@
 	BOOL __observingWindowClose;
 	BOOL __setupAddMenu;
 }
-@property (strong )NSArray *rootItems;
+@property (nonatomic, strong) id curPromptController;
+@property (strong) NSArray *rootItems;
 @property (strong) NSMutableDictionary *workspacesItem;
 @property (strong) NSMutableDictionary *adminItem;
 @property (strong) NSMutableArray *kvoObservers;
@@ -136,10 +137,12 @@
 
 -(IBAction)doAddWorkspace:(id)sender
 {
+	[self promptToAddWorkspace:NO];
 }
 
 -(IBAction)doAddWorkspaceFolder:(id)sender
 {
+	[self promptToAddWorkspace:YES];
 }
 
 -(IBAction)doRenameWorksheetFolder:(id)sender
@@ -186,6 +189,35 @@
 }
 
 #pragma mark - meat & potatos
+
+-(void)promptToAddWorkspace:(BOOL)isFolder
+{
+	RCWorkspaceItem *selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
+	//prompt for workspace name
+	AMStringPromptWindowController *pwc = [[AMStringPromptWindowController alloc] init];
+	__unsafe_unretained AMStringPromptWindowController *blockPwc = pwc;
+	self.curPromptController=pwc;
+	pwc.promptString = isFolder ? @"Folder Name:" : @"Workspace Name:";
+	pwc.okButtonTitle = @"Create";
+	[pwc displayModelForWindow:self.view.window completionHandler:^(NSInteger rc) {
+		if (rc == NSOKButton) {
+			NSString *strVal = blockPwc.stringValue;
+			self.curPromptController=nil;
+			//by default, add to parent of selected item
+			RCWorkspaceFolder *folder = (RCWorkspaceFolder*)[selItem parentItem];
+			//if a folder is selected, add to that folder
+			if ([selItem isKindOfClass:[RCWorkspaceFolder class]])
+				folder = (RCWorkspaceFolder*)selItem;
+			NSLog(@"adding %@ to %@", strVal, folder.name);
+			[[Rc2Server sharedInstance] addWorkspace:strVal parent:folder folder:isFolder 
+								   completionHandler:^(BOOL success, id results)
+			{
+				NSLog(@"added: %@", results);
+			}];
+		}
+	}];
+	
+}
 
 -(void)openSession:(id)sender inNewWindow:(BOOL)inNewWindow
 {
@@ -352,4 +384,5 @@
 @synthesize detailContainer;
 @synthesize addMenu;
 @synthesize rootItems;
+@synthesize curPromptController=_curPromptController;
 @end

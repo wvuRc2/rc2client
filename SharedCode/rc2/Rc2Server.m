@@ -237,6 +237,7 @@
 			return;
 		}
 		NSDictionary *rsp = [respStr JSONValue];
+		[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
 		hblock(![[rsp objectForKey:@"status"] boolValue], rsp);
 	}];
 	[req setFailedBlock:^{
@@ -295,6 +296,7 @@
 				Rc2LogWarn(@"bad parent %@ for %@", anItem.parentId, anItem.wspaceId);
 			}
 			[folder addChild:anItem];
+			anItem.parentItem = folder;
 		}
 	}
 	[rootObjects sortUsingSelector:@selector(compareWithItem:)];
