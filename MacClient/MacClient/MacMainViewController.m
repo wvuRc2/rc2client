@@ -208,11 +208,25 @@
 			//if a folder is selected, add to that folder
 			if ([selItem isKindOfClass:[RCWorkspaceFolder class]])
 				folder = (RCWorkspaceFolder*)selItem;
-			NSLog(@"adding %@ to %@", strVal, folder.name);
 			[[Rc2Server sharedInstance] addWorkspace:strVal parent:folder folder:isFolder 
-								   completionHandler:^(BOOL success, id results)
+								   completionHandler:^(BOOL success, RCWorkspaceItem *results)
 			{
-				NSLog(@"added: %@", results);
+				if (!success)
+					Rc2LogError(@"error adding workspace:%@", results);
+				//expand all parent items (no matter depth)
+				NSMutableArray *parents = [NSMutableArray array];
+				RCWorkspaceFolder *parent = (RCWorkspaceFolder*)[results parentItem];
+				while (parent) {
+					[parents insertObject:parent atIndex:0];
+					parent = (RCWorkspaceFolder*)parent.parentItem;
+				}
+				for (id anItem in parents)
+					[self.mainSourceList expandItem:anItem];
+				//select row that was added
+				NSInteger rowIdx = [self.mainSourceList rowForItem:results];
+				if (-1 != rowIdx) {
+					[self.mainSourceList selectRowIndexes:[NSIndexSet indexSetWithIndex:rowIdx] byExtendingSelection:NO];
+				}
 			}];
 		}
 	}];

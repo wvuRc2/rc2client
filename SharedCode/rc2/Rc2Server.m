@@ -32,6 +32,7 @@
 @property (nonatomic, strong) NSNumber *currentUserId;
 @property (nonatomic, copy, readwrite) NSArray *usersPermissions;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
+@property (nonatomic, strong) NSMutableDictionary *wsItemsById;
 @property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
 @property (nonatomic, strong) NSOperationQueue *requestQueue;
 -(void)updateWorkspaceItems:(NSArray*)items;
@@ -46,6 +47,7 @@
 @synthesize serverHost=_serverHost;
 @synthesize loggedIn=_loggedIn;
 @synthesize workspaceItems=_workspaceItems;
+@synthesize wsItemsById=_wsItemsById;
 @synthesize selectedWorkspace=_selectedWorkspace;
 @synthesize currentSession=_currentSession;
 @synthesize currentLogin;
@@ -93,6 +95,7 @@
 {
 	self = [super init];
 	self.serverHost = [[NSUserDefaults standardUserDefaults] integerForKey:kServerHostKey];
+	self.wsItemsById = [NSMutableDictionary dictionary];
 #if TARGET_IPHONE_SIMULATOR
 	self.serverHost = eRc2Host_Local;
 #endif
@@ -237,8 +240,12 @@
 			return;
 		}
 		NSDictionary *rsp = [respStr JSONValue];
-		[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
-		hblock(![[rsp objectForKey:@"status"] boolValue], rsp);
+		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+			[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
+			hblock(YES, [self.wsItemsById objectForKey:[[rsp objectForKey:@"wspace"] objectForKey:@"id"]]);
+		} else {
+			hblock(NO, respStr);
+		}
 	}];
 	[req setFailedBlock:^{
 		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
@@ -287,6 +294,7 @@
 		[allWspaces setObject:anItem forKey:anItem.wspaceId];
 		if (nil == anItem.parentId)
 			[rootObjects addObject:anItem];
+		[self.wsItemsById setObject:anItem forKey:anItem.wspaceId];
 	}
 	//now add all objects to their parents
 	for (RCWorkspaceItem *anItem in [allWspaces allValues]) {

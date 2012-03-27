@@ -33,8 +33,10 @@
 
 -(void)addChild:(RCWorkspaceItem *)aChild
 {
-	[_children addObject:aChild];
-	[_children sortUsingSelector:@selector(compareWithItem:)];
+	if (![_children containsObject:aChild]) {
+		[_children addObject:aChild];
+		[_children sortUsingSelector:@selector(compareWithItem:)];
+	}
 }
 
 -(RCWorkspaceItem*)childWithId:(NSNumber*)theId
