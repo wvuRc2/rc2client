@@ -54,6 +54,11 @@
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (NSUInteger)validModesForFontPanel:(NSFontPanel *)fontPanel
+{
+	return NSFontPanelFaceModeMask|NSFontPanelSizeModeMask|NSFontPanelCollectionModeMask|NSFontPanelTextColorEffectModeMask|NSFontPanelDocumentColorEffectModeMask;
+}
+
 -(void)insertText:(id)newText
 {
 	NSRange curLoc = self.selectedRange;
