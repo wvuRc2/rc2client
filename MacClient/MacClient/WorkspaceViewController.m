@@ -55,13 +55,14 @@
 				});
 			}
 		}]];
+		NSArray *perms = [[Rc2Server sharedInstance] usersPermissions];
 		[self.workspace refreshShares];
 		RCWorkspaceCache *cache = self.workspace.cache;
 		NSMutableArray *secs = [NSMutableArray array];
 		[secs addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"Files", @"name", 
 						 [NSNumber numberWithBool:[cache boolPropertyForKey:@"WVC_FilesExpanded"]], @"expanded", 
 						 @"WVC_FilesExpanded", @"expandedKey", @"files", @"childAttr", nil]];
-		if (!aWorkspace.sharedByOther)
+		if (!aWorkspace.sharedByOther && [perms containsObject:@"SHAREWS"])
 			[secs addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"Sharing", @"name",
 							 [NSNumber numberWithBool:[cache boolPropertyForKey:@"WVC_SharesExpanded"]], @"expanded", 
 							 @"WVC_SharesExpanded", @"expandedKey", @"shares", @"childAttr", nil]];
