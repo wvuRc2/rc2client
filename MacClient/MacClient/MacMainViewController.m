@@ -297,6 +297,22 @@
 	return menu;
 }
 
+#pragma mark - split view delegate
+
+-(CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex
+{
+	if (proposedMaximumPosition > 400)
+		return 400;
+	return proposedMaximumPosition;
+}
+
+-(CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMinimumPosition ofSubviewAt:(NSInteger)dividerIndex
+{
+	if (proposedMinimumPosition < 160)
+		return 160;
+	return proposedMinimumPosition;
+}
+
 #pragma mark - accessors & synthesizers
 
 -(void)setDetailView:(AMControlledView *)aView

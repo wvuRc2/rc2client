@@ -145,6 +145,12 @@
 	}];
 }
 
+-(IBAction)doOpenSession:(id)sender
+{
+	MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
+	[mainwc openSession:self.workspace file:nil inNewWindow:NO];	
+}
+
 #pragma mark - meat & potatos
 
 -(void)deleteFile:(WorkspaceCellView*)cellView

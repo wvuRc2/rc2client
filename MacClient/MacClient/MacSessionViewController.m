@@ -41,6 +41,7 @@
 	BOOL __didFirstWindow;
 	BOOL __toggledFileViewOnFullScreen;
 }
+@property (nonatomic, strong) IBOutlet NSButton *backButton;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 //@property (nonatomic, strong) NSOperationQueue *dloadQueue;
 @property (nonatomic, strong) NSMenu *addMenu;
@@ -127,6 +128,16 @@
 		__fileListWidth = self.contentSplitView.frame.origin.x;
 		self.audioEngine = [[RCAudioChatEngine alloc] init];
 		self.audioEngine.session = self.session;
+
+		NSImage *timg = [NSImage imageNamed:NSImageNameGoLeftTemplate];
+		[timg setSize:NSMakeSize(16, 16)];
+		NSImage *img = [[NSImage alloc] initWithSize:NSMakeSize(32, 32)];
+		[img lockFocus];
+		[timg drawInRect:NSMakeRect(8, 8, 16, 16) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+		[img unlockFocus];
+		[img setTemplate:YES];
+		self.backButton.image = img;
+		
 		//caches
 		__unsafe_unretained MacSessionViewController *blockSelf = self;
 		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:RCWorkspaceFilesFetchedNotification 
@@ -248,10 +259,6 @@
 			break;
 	}
 	[self.session requestModeChange:mode];
-}
-
--(IBAction)toggleUsers:(id)sender
-{
 }
 
 -(IBAction)toggleFileList:(id)sender
@@ -887,6 +894,7 @@
 @synthesize usersToken;
 @synthesize modeChangeToken;
 @synthesize audioEngine;
+@synthesize backButton;
 @end
 
 @implementation SessionView

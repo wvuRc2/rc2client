@@ -20,6 +20,13 @@
 @synthesize actionMenu=__actionMenu;
 @synthesize menuStack;
 
+-(id)copyWithZone:(NSZone *)zone
+{
+	RCMacToolbarItem *ni = [super copyWithZone:zone];
+	ni.menuStack = self.menuStack.mutableCopy;
+	return ni;
+}
+
 -(void)imageSetup
 {
 	NSImage *timg = self.image;
@@ -61,6 +68,8 @@
 
 -(void)pushActionMenu:(NSMenu*)menu
 {
+	if (nil == self.menuStack)
+		self.menuStack = [NSMutableArray array];
 	[self.menuStack addObject:menu];
 	if (menu.title.length > 0)
 		[self setToolTip:menu.title];

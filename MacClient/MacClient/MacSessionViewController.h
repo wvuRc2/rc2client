@@ -28,7 +28,6 @@
 
 -(id)initWithSession:(RCSession*)aSession;
 -(IBAction)toggleFileList:(id)sender;
--(IBAction)toggleUsers:(id)sender;
 -(IBAction)executeScript:(id)sender;
 -(IBAction)importFile:(id)sender;
 -(IBAction)exportFile:(id)sender;

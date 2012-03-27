@@ -12,7 +12,7 @@
 
 @class RCWorkspace;
 
-@interface MacMainViewController : MacClientAbstractViewController<PXSourceListDataSource,PXSourceListDelegate>
+@interface MacMainViewController : MacClientAbstractViewController<PXSourceListDataSource,PXSourceListDelegate,NSSplitViewDelegate>
 @property (strong) IBOutlet PXSourceList *mainSourceList;
 @property (strong, nonatomic) IBOutlet AMControlledView *detailView;
 @property (strong, nonatomic) IBOutlet AMControlledView *detailContainer;
