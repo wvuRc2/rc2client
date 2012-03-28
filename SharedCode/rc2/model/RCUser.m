@@ -45,13 +45,14 @@
 	for (NSDictionary *roleDict in allRoles) {
 		NSMutableDictionary *md = [NSMutableDictionary dictionary];
 		[md setObject:[roleDict objectForKey:@"shortname"] forKey:@"name"];
+		[md setObject:[roleDict objectForKey:@"id"] forKey:@"id"];
 		if ([self.roleIds containsObject:[roleDict objectForKey:@"id"]])
 			[md setObject:[NSNumber numberWithBool:YES] forKey:@"have"];
 		else
 			[md setObject:[NSNumber numberWithBool:NO] forKey:@"have"];
+		[md setObject:[md objectForKey:@"have"] forKey:@"savedHave"];
 		[roleArray addObject:md];
 	}
-	NSLog(@"roleArray = %@", roleArray);
 	self.roles = roleArray;
 	return self;
 }

@@ -14,7 +14,11 @@
 #import <Vyana/AMBlockUtils.h>
 #import <Vyana/NSApplication+AMExtensions.h>
 
-@interface RCMUserAdminController()
+@interface RCMUserAdminController() {
+	BOOL _updatingRole;
+}
+@property (nonatomic, strong) id lastSelectedUserRole;
+@property (nonatomic, strong) id checkToken;
 @property (nonatomic, copy) NSArray *users;
 @property (nonatomic, copy) NSArray *roles;
 @property (nonatomic, strong) RCMEditUserController *editController;
@@ -29,6 +33,11 @@
 	return self;
 }
 
+-(void)dealloc
+{
+	[self.detailController removeAllBlockObservers];
+}
+
 -(void)awakeFromNib
 {
 	self.searchesLogins=YES;
@@ -38,6 +47,47 @@
 		NSDictionary *rsp = [[NSString stringWithUTF8Data:[req responseData]] JSONValue];
 		self.roles = [rsp objectForKey:@"roles"];
 	}];
+	[req startAsynchronous];
+	__unsafe_unretained RCMUserAdminController *blockSelf = self;
+	self.checkToken = [self.detailController addObserverForKeyPath:@"selection.have" task:^(id obj, NSDictionary *dict)
+	{
+		if (blockSelf->_updatingRole)
+			return;
+		NSMutableDictionary *roleDict = [[obj selectedObjects] firstObject];
+		BOOL needUpdate=NO;
+		if (roleDict && roleDict == blockSelf.lastSelectedUserRole) {
+			needUpdate = roleDict && ![[roleDict objectForKey:@"have"] isEqual:[roleDict objectForKey:@"savedHave"]];
+		} else {
+			blockSelf.lastSelectedUserRole = roleDict;
+			needUpdate = roleDict && ![[roleDict objectForKey:@"have"] isEqual:[roleDict objectForKey:@"savedHave"]];
+		}
+		if (needUpdate)
+			[blockSelf toggleRole:roleDict];
+	}];
+}
+
+-(void)toggleRole:(NSMutableDictionary*)roleDict
+{
+	ASIFormDataRequest *request = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"/admin/user?role"];
+	__unsafe_unretained ASIFormDataRequest *req = request;
+	NSNumber *userid = [self.userController.selectedObjects.firstObject userId];
+	NSNumber *roleid = [roleDict objectForKey:@"id"];
+	ZAssert(roleid && userid, @"invalid role/user");
+	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:userid, @"userid", roleid, @"roleid", nil];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[[params JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req setCompletionBlock:^{
+		NSDictionary *rsp = [[NSString stringWithUTF8Data:[req responseData]] JSONValue];
+		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+			[roleDict setObject:[rsp objectForKey:@"havePerm"] forKey:@"have"];
+			[roleDict setObject:[rsp objectForKey:@"havePerm"] forKey:@"savedHave"];
+			NSLog(@"server ok'd role toggle:%@", rsp);
+		} else {
+			NSLog(@"server gave error for toggle");
+		}
+		_updatingRole = NO;
+	}];
+	_updatingRole = YES;
 	[req startAsynchronous];
 }
 
@@ -178,4 +228,6 @@
 @synthesize roles=_roles;
 @synthesize userController;
 @synthesize detailController;
+@synthesize checkToken=_checkToken;
+@synthesize lastSelectedUserRole=_lastSelectedUserRole;
 @end
