@@ -77,78 +77,6 @@
 							<int key="NSPeriodicInterval">75</int>
 						</object>
 					</object>
-					<object class="NSButton" id="476586321">
-						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{61, 480}, {104, 23}}</string>
-						<reference key="NSSuperview" ref="1005"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="1034393441"/>
-						<string key="NSReuseIdentifierKey">_NS:2466</string>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="61522151">
-							<int key="NSCellFlags">-2080244224</int>
-							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Open in Safari</string>
-							<reference key="NSSupport" ref="131322699"/>
-							<string key="NSCellIdentifier">_NS:2466</string>
-							<reference key="NSControlView" ref="476586321"/>
-							<int key="NSButtonFlags">-2037628673</int>
-							<int key="NSButtonFlags2">162</int>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">400</int>
-							<int key="NSPeriodicInterval">75</int>
-						</object>
-					</object>
-					<object class="NSButton" id="998626251">
-						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{8, 480}, {45, 23}}</string>
-						<reference key="NSSuperview" ref="1005"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="476586321"/>
-						<string key="NSReuseIdentifierKey">_NS:2466</string>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="648359090">
-							<int key="NSCellFlags">-2080244224</int>
-							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Back</string>
-							<reference key="NSSupport" ref="131322699"/>
-							<string key="NSCellIdentifier">_NS:2466</string>
-							<reference key="NSControlView" ref="998626251"/>
-							<int key="NSButtonFlags">-2037628673</int>
-							<int key="NSButtonFlags2">162</int>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">400</int>
-							<int key="NSPeriodicInterval">75</int>
-						</object>
-					</object>
-					<object class="NSButton" id="1034393441">
-						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{509, 480}, {49, 23}}</string>
-						<reference key="NSSuperview" ref="1005"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="600886400"/>
-						<string key="NSReuseIdentifierKey">_NS:2466</string>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="538141926">
-							<int key="NSCellFlags">-2080244224</int>
-							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Clear</string>
-							<reference key="NSSupport" ref="131322699"/>
-							<string key="NSCellIdentifier">_NS:2466</string>
-							<reference key="NSControlView" ref="1034393441"/>
-							<int key="NSButtonFlags">-2038152961</int>
-							<int key="NSButtonFlags2">162</int>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">400</int>
-							<int key="NSPeriodicInterval">75</int>
-						</object>
-					</object>
 					<object class="NSTextField" id="414006801">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">290</int>
@@ -192,7 +120,6 @@
 						<string key="NSFrame">{{475, 8}, {89, 32}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="998626251"/>
 						<string key="NSReuseIdentifierKey">_NS:687</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="540905342">
@@ -230,7 +157,7 @@
 							<string>public.url</string>
 							<string>public.url-name</string>
 						</set>
-						<string key="NSFrame">{{8, 46}, {550, 427}}</string>
+						<string key="NSFrame">{{8, 46}, {550, 494}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -334,7 +261,7 @@
 				<string key="NSFrameSize">{566, 560}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="223668653"/>
+				<reference key="NSNextKeyView"/>
 				<string key="NSClassName">AMControlledView</string>
 			</object>
 		</array>
@@ -371,30 +298,6 @@
 						<reference key="destination" ref="837555001"/>
 					</object>
 					<int key="connectionID">21</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">doClear:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="1034393441"/>
-					</object>
-					<int key="connectionID">34</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">goBack:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="998626251"/>
-					</object>
-					<int key="connectionID">35</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">openInWebBrowser:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="476586321"/>
-					</object>
-					<int key="connectionID">45</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -561,110 +464,6 @@
 					<int key="connectionID">65</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: consoleVisible</string>
-						<reference key="source" ref="998626251"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="582034153">
-							<reference key="NSSource" ref="998626251"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: consoleVisible</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">consoleVisible</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">42</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled2: restrictedMode</string>
-						<reference key="source" ref="998626251"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="998626251"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled2: restrictedMode</string>
-							<string key="NSBinding">enabled2</string>
-							<string key="NSKeyPath">restrictedMode</string>
-							<dictionary key="NSOptions">
-								<integer value="-1" key="NSMultipleValuesPlaceholder"/>
-								<integer value="-1" key="NSNoSelectionPlaceholder"/>
-								<integer value="-1" key="NSNotApplicablePlaceholder"/>
-								<integer value="-1" key="NSNullPlaceholder"/>
-								<string key="NSValueTransformerName">NSNegateBoolean</string>
-							</dictionary>
-							<reference key="NSPreviousConnector" ref="582034153"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">75</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: consoleVisible</string>
-						<reference key="source" ref="1034393441"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="685957432">
-							<reference key="NSSource" ref="1034393441"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: consoleVisible</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">consoleVisible</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">40</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled2: restrictedMode</string>
-						<reference key="source" ref="1034393441"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1034393441"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled2: restrictedMode</string>
-							<string key="NSBinding">enabled2</string>
-							<string key="NSKeyPath">restrictedMode</string>
-							<dictionary key="NSOptions">
-								<integer value="-1" key="NSMultipleValuesPlaceholder"/>
-								<integer value="-1" key="NSNoSelectionPlaceholder"/>
-								<integer value="-1" key="NSNotApplicablePlaceholder"/>
-								<integer value="-1" key="NSNullPlaceholder"/>
-								<string key="NSValueTransformerName">NSNegateBoolean</string>
-							</dictionary>
-							<reference key="NSPreviousConnector" ref="685957432"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">72</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: consoleVisible</string>
-						<reference key="source" ref="476586321"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="476586321"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: consoleVisible</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">consoleVisible</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">44</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">performClick:</string>
 						<reference key="source" ref="223668653"/>
@@ -720,9 +519,6 @@
 						<reference key="object" ref="1005"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="600886400"/>
-							<reference ref="998626251"/>
-							<reference ref="1034393441"/>
-							<reference ref="476586321"/>
 							<reference ref="837555001"/>
 							<reference ref="414006801"/>
 							<reference ref="749280317"/>
@@ -760,48 +556,6 @@
 						<int key="objectID">14</int>
 						<reference key="object" ref="459981997"/>
 						<reference key="parent" ref="414006801"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">30</int>
-						<reference key="object" ref="1034393441"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="538141926"/>
-						</array>
-						<reference key="parent" ref="1005"/>
-						<string key="objectName">clear button</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">31</int>
-						<reference key="object" ref="538141926"/>
-						<reference key="parent" ref="1034393441"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">28</int>
-						<reference key="object" ref="998626251"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="648359090"/>
-						</array>
-						<reference key="parent" ref="1005"/>
-						<string key="objectName">back button</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">29</int>
-						<reference key="object" ref="648359090"/>
-						<reference key="parent" ref="998626251"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">36</int>
-						<reference key="object" ref="476586321"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="61522151"/>
-						</array>
-						<reference key="parent" ref="1005"/>
-						<string key="objectName">safari button</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">37</int>
-						<reference key="object" ref="61522151"/>
-						<reference key="parent" ref="476586321"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">46</int>
@@ -870,12 +624,6 @@
 				<string key="13.CustomClassName">RCMConsoleTextField</string>
 				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="30.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="36.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="37.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.WebKitIBPlugin</string>
 				<string key="46.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="47.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
