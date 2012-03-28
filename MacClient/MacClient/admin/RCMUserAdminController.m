@@ -16,6 +16,7 @@
 
 @interface RCMUserAdminController()
 @property (nonatomic, copy) NSArray *users;
+@property (nonatomic, copy) NSArray *roles;
 @property (nonatomic, strong) RCMEditUserController *editController;
 @end
 
@@ -31,6 +32,13 @@
 -(void)awakeFromNib
 {
 	self.searchesLogins=YES;
+	ASIHTTPRequest *request = [[Rc2Server sharedInstance] requestWithRelativeURL:@"role"];
+	__unsafe_unretained ASIHTTPRequest *req = request;
+	[request setCompletionBlock:^{
+		NSDictionary *rsp = [[NSString stringWithUTF8Data:[req responseData]] JSONValue];
+		self.roles = [rsp objectForKey:@"roles"];
+	}];
+	[req startAsynchronous];
 }
 
 -(BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -57,9 +65,8 @@
 	NSArray *matches = [rsp objectForKey:@"users"];
 	NSMutableArray *a = [NSMutableArray arrayWithCapacity:[matches count]];
 	for (NSDictionary *dict in matches)
-		[a addObject:[[RCUser alloc] initWithDictionary:dict]];
+		[a addObject:[[RCUser alloc] initWithDictionary:dict allRoles:self.roles]];
 	self.users = a;
-	[self.resultsTable reloadData];
 }
 
 -(IBAction)searchUsers:(id)sender
@@ -124,7 +131,7 @@
 			[NSApp presentError:err];
 		} else {
 			//worked. add that user to our display
-			RCUser *newUser = [[RCUser alloc] initWithDictionary:[rsp objectForKey:@"userid"]];
+			RCUser *newUser = [[RCUser alloc] initWithDictionary:[rsp objectForKey:@"userid"] allRoles:self.roles];
 			if (self.users)
 				self.users = [self.users arrayByAddingObject:newUser];
 			else
@@ -156,27 +163,19 @@
 	}];
 }
 
--(NSInteger)numberOfRowsInTableView:(NSTableView*)tableView
-{
-	return [self.users count];
-}
-
--(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-	return [[self.users objectAtIndex:row] valueForKey:[tableColumn identifier]];
-}
-
 - (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
 	self.users = [self.users sortedArrayUsingDescriptors:[tableView sortDescriptors]];
-	[tableView reloadData];
 }
 
 @synthesize resultsTable;
 @synthesize searchField;
-@synthesize users;
+@synthesize users=_users;
 @synthesize searchesNames;
 @synthesize searchesEmails;
 @synthesize searchesLogins;
 @synthesize editController;
+@synthesize roles=_roles;
+@synthesize userController;
+@synthesize detailController;
 @end

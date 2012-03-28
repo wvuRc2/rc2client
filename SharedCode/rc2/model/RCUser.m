@@ -21,6 +21,8 @@
 @synthesize name=__name;
 @synthesize email=__email;
 @synthesize login=__login;
+@synthesize roleIds=_roleIds;
+@synthesize roles=_roles;
 
 -(id)init
 {
@@ -29,7 +31,7 @@
 	return self;
 }
 
--(id)initWithDictionary:(NSDictionary*)dict
+-(id)initWithDictionary:(NSDictionary*)dict allRoles:(NSArray*)allRoles
 {
 	self = [super init];
 	self.origDict = dict;
@@ -38,6 +40,19 @@
 	self.name = [dict objectForKey:@"name"];
 	self.email = [dict objectForKey:@"email"];
 	self.isAdmin = [[dict objectForKey:@"isadmin"] boolValue];
+	self.roleIds = [dict objectForKey:@"roleIds"];
+	NSMutableArray *roleArray = [NSMutableArray arrayWithCapacity:allRoles.count];
+	for (NSDictionary *roleDict in allRoles) {
+		NSMutableDictionary *md = [NSMutableDictionary dictionary];
+		[md setObject:[roleDict objectForKey:@"shortname"] forKey:@"name"];
+		if ([self.roleIds containsObject:[roleDict objectForKey:@"id"]])
+			[md setObject:[NSNumber numberWithBool:YES] forKey:@"have"];
+		else
+			[md setObject:[NSNumber numberWithBool:NO] forKey:@"have"];
+		[roleArray addObject:md];
+	}
+	NSLog(@"roleArray = %@", roleArray);
+	self.roles = roleArray;
 	return self;
 }
 

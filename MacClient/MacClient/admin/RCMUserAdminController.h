@@ -11,6 +11,8 @@
 @interface RCMUserAdminController : MacClientAbstractViewController<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, strong) IBOutlet NSTableView *resultsTable;
 @property (nonatomic, strong) IBOutlet NSSearchField *searchField;
+@property (nonatomic, strong) IBOutlet NSArrayController *userController;
+@property (nonatomic, strong) IBOutlet NSArrayController *detailController;
 @property (nonatomic) BOOL searchesNames;
 @property (nonatomic) BOOL searchesLogins;
 @property (nonatomic) BOOL searchesEmails;

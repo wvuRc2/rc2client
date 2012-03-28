@@ -13,9 +13,11 @@
 @property (nonatomic, copy) NSString *login;
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSArray *roleIds;
+@property (nonatomic, copy) NSArray *roles;
 @property (nonatomic, readonly) BOOL isDirty;
 @property (nonatomic, readonly) BOOL existsOnServer;
 @property (nonatomic) BOOL isAdmin;
 
--(id)initWithDictionary:(NSDictionary*)dict;
+-(id)initWithDictionary:(NSDictionary*)dict allRoles:(NSArray*)allRoles;
 @end
