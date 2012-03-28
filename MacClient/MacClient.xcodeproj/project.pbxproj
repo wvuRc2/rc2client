@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		080286861523639300E2F707 /* RCMToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 080286851523639300E2F707 /* RCMToolbarView.m */; };
+		0802868815236D6C00E2F707 /* openother.png in Resources */ = {isa = PBXBuildFile; fileRef = 0802868715236D6C00E2F707 /* openother.png */; };
+		0802868B1523713200E2F707 /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = 080286891523713200E2F707 /* clear.png */; };
+		0802868C1523713200E2F707 /* webback.png in Resources */ = {isa = PBXBuildFile; fileRef = 0802868A1523713200E2F707 /* webback.png */; };
 		0804C4E0150AA53A0079F963 /* RCImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0804C4DF150AA53A0079F963 /* RCImageCache.m */; };
 		08056DB6143F60780002766D /* Vyana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08056DB5143F60780002766D /* Vyana.framework */; };
 		08056DB7143F60880002766D /* Vyana.framework in Copy Fworks */ = {isa = PBXBuildFile; fileRef = 08056DB5143F60780002766D /* Vyana.framework */; };
@@ -167,6 +171,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		080286841523639300E2F707 /* RCMToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMToolbarView.h; sourceTree = "<group>"; };
+		080286851523639300E2F707 /* RCMToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMToolbarView.m; sourceTree = "<group>"; };
+		0802868715236D6C00E2F707 /* openother.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = openother.png; path = resources/openother.png; sourceTree = SOURCE_ROOT; };
+		080286891523713200E2F707 /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clear.png; path = resources/clear.png; sourceTree = SOURCE_ROOT; };
+		0802868A1523713200E2F707 /* webback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = webback.png; path = resources/webback.png; sourceTree = SOURCE_ROOT; };
 		0804C4DE150AA53A0079F963 /* RCImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageCache.h; path = ../SharedCode/rc2/RCImageCache.h; sourceTree = "<group>"; };
 		0804C4DF150AA53A0079F963 /* RCImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageCache.m; path = ../SharedCode/rc2/RCImageCache.m; sourceTree = "<group>"; };
 		08056DB5143F60780002766D /* Vyana.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Vyana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -504,6 +513,8 @@
 				08566748149FCC3600BD85E5 /* RCMTextPrintView.m */,
 				0815947714E5B9AF0067E83C /* RCMUserListCell.h */,
 				0815947814E5B9AF0067E83C /* RCMUserListCell.m */,
+				080286841523639300E2F707 /* RCMToolbarView.h */,
+				080286851523639300E2F707 /* RCMToolbarView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -778,6 +789,9 @@
 				08A4063C1453272D00DBA662 /* baccord-right.png */,
 				08FE8A4C14159CA000672474 /* rc2.png */,
 				08FE8A4D14159CA000672474 /* rc2@2x.png */,
+				0802868715236D6C00E2F707 /* openother.png */,
+				080286891523713200E2F707 /* clear.png */,
+				0802868A1523713200E2F707 /* webback.png */,
 			);
 			name = SharedImages;
 			path = ../../SharedImages;
@@ -883,6 +897,9 @@
 				088D7F8C14F83CAF005C62AF /* bighand-green@2x.png in Resources */,
 				088D7FD714FEA3D3005C62AF /* microphone.png in Resources */,
 				088D7FD814FEA3D3005C62AF /* microphoneOff.png in Resources */,
+				0802868815236D6C00E2F707 /* openother.png in Resources */,
+				0802868B1523713200E2F707 /* clear.png in Resources */,
+				0802868C1523713200E2F707 /* webback.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -995,6 +1012,7 @@
 				088D7FA314FD3AD6005C62AF /* RCMSyntaxHighlighter.m in Sources */,
 				086246991501180700A71853 /* RCAudioChatEngine.m in Sources */,
 				0804C4E0150AA53A0079F963 /* RCImageCache.m in Sources */,
+				080286861523639300E2F707 /* RCMToolbarView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
