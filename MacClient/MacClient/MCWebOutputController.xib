@@ -48,7 +48,7 @@
 					<object class="NSButton" id="749280317">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{8, 15}, {22, 22}}</string>
+						<string key="NSFrame">{{8, 7}, {22, 22}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="414006801"/>
@@ -80,7 +80,7 @@
 					<object class="NSTextField" id="414006801">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{38, 15}, {435, 22}}</string>
+						<string key="NSFrame">{{38, 7}, {435, 22}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="837555001"/>
@@ -117,7 +117,7 @@
 					<object class="NSButton" id="837555001">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">289</int>
-						<string key="NSFrame">{{475, 8}, {89, 32}}</string>
+						<string key="NSFrame">{{475, 1}, {89, 32}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:687</string>
@@ -157,7 +157,7 @@
 							<string>public.url</string>
 							<string>public.url-name</string>
 						</set>
-						<string key="NSFrame">{{8, 46}, {550, 494}}</string>
+						<string key="NSFrame">{{8, 38}, {550, 514}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>

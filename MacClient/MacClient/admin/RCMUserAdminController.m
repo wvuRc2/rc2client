@@ -81,7 +81,6 @@
 		if ([[rsp objectForKey:@"status"] intValue] == 0) {
 			[roleDict setObject:[rsp objectForKey:@"havePerm"] forKey:@"have"];
 			[roleDict setObject:[rsp objectForKey:@"havePerm"] forKey:@"savedHave"];
-			NSLog(@"server ok'd role toggle:%@", rsp);
 		} else {
 			NSLog(@"server gave error for toggle");
 		}
