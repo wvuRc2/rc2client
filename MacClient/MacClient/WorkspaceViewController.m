@@ -161,7 +161,7 @@
 		if (success) 
 			[cellView reloadData];
 		else
-			[NSAlert displayAlertWithTitle:@"Error" details:@"An unknown error occurred while deleting the selcted file."];
+			[NSAlert displayAlertWithTitle:@"Error" details:@"An unknown error occurred while deleting the selected file."];
 	}];
 }
 

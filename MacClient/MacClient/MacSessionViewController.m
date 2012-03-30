@@ -331,6 +331,15 @@
 	}];
 }
 
+-(IBAction)deleteFile:(id)sender
+{
+	NSAlert *alert = [NSAlert alertWithMessageText:@"Delete File?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Are you sure you want to delete the file \"%@\"? This action can not be undone.", self.selectedFile.name];
+	[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *theAlert, NSInteger rc) {
+		if (rc == NSFileHandlingPanelOKButton)
+			[self deleteSelectedFile];
+	}];
+}
+
 -(IBAction)createNewFile:(id)sender
 {
 	MCNewFileController *nfc = [[MCNewFileController alloc] init];
@@ -450,6 +459,17 @@
 			});
 		}
 	 }];
+}
+
+-(void)deleteSelectedFile
+{
+	[[Rc2Server sharedInstance] deleteFile:self.selectedFile workspace:self.session.workspace completionHandler:^(BOOL success, id results)
+	{
+		if (success)
+			self.selectedFile = nil;
+		else
+			[NSAlert displayAlertWithTitle:@"Error" details:@"An unknown error occurred while deleting the selected file."];
+	}];
 }
 
 -(void)saveChanges
