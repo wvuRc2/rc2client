@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) NSMenuItem *viewSourceMenuItem;
 @property (nonatomic, strong) NSMutableArray *commandHistory;
+@property (nonatomic, strong) NSMutableArray *outputQueue;
 -(void)loadContent;
 -(void)viewSource:(id)sender;
 -(void)jserror:(id)err;
@@ -39,6 +40,7 @@
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if ((self = [super initWithNibName:@"MCWebOutputController" bundle:nil])) {
 		self.commandHistory = [[NSMutableArray alloc] init];
+		self.outputQueue = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
@@ -109,6 +111,25 @@
 	[self.commandHistory removeAllObjects];
 	[self.commandHistory addObjectsFromArray:savedState.commandHistory];
 	self.historyHasItems = self.commandHistory.count > 0;
+}
+
+-(void)executeJavaScript:(NSString*)js
+{
+	//if they are viewing a help page or pdf then js execution will fail. So we queue the command to run
+	// after we reload the content
+	NSString *res = [self.webView stringByEvaluatingJavaScriptFromString:@"iR.graphFileUrl"];
+	if (res.length < 4) {
+		//queue the action
+		if (0 == self.outputQueue.count) {
+			//reload our content
+			[self loadContent];
+		}
+		[self.outputQueue addObject:js];
+	} else {
+		//ok to do it
+		[self.webView stringByEvaluatingJavaScriptFromString:js];
+	}
+	
 }
 
 -(void)previewImage:(DOMElement*)imgGroupElem images:(WebScriptObject*)images
@@ -317,6 +338,11 @@
 			doc.innerHTML = self.lastContent;
 			self.lastContent=nil;
 		}
+		if (self.outputQueue.count > 0) {
+			for (NSString *js in self.outputQueue)
+				[self.webView stringByEvaluatingJavaScriptFromString:js];
+			[self.outputQueue removeAllObjects];
+		}
 	}
 	if (nil == self.webView.backForwardList)
 		[self.webView setMaintainsBackForwardList:YES];
@@ -360,6 +386,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 			[listener use];
 			return;
 		} else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
+			//displaying a pdf
 			[self.delegate handleImageRequest:[request URL]];
 		}
 		//otherwise, fire off to external browser
@@ -404,7 +431,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	self.canExecute = [inputText length] > 0;
 }
 
-@synthesize webView;
+@synthesize webView=_webView;
 @synthesize delegate;
 @synthesize imagePopover;
 @synthesize consoleField;
@@ -419,4 +446,5 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 @synthesize historyPopUp;
 @synthesize historyHasItems;
 @synthesize restrictedMode;
+@synthesize outputQueue=_outputQueue;
 @end

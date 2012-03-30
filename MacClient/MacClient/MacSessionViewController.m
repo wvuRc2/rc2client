@@ -599,8 +599,8 @@
 		[self.session.workspace updateFileId:fileid];
 	}
 	if (js) {
-		[self.outputController.webView stringByEvaluatingJavaScriptFromString:js];
-		[self.outputController.webView stringByEvaluatingJavaScriptFromString:@"scroll(0,document.body.scrollHeight)"];
+		[self.outputController executeJavaScript:js];
+		[self.outputController executeJavaScript:@"scroll(0,document.body.scrollHeight)"];
 	}
 }
 
@@ -608,7 +608,7 @@
 {
 	action = [action stringbyRemovingPercentEscapes];
 	NSString *cmd = [NSString stringWithFormat:@"iR.appendConsoleText('%@')", action];
-	[self.outputController.webView stringByEvaluatingJavaScriptFromString:cmd];	
+	[self.outputController executeJavaScript:cmd];	
 }
 
 -(void)displayImage:(NSString*)imgPath

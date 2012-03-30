@@ -40,4 +40,7 @@
 
 -(void)saveSessionState:(RCSavedSession*)savedState;
 -(void)restoreSessionState:(RCSavedSession*)savedState;
+
+-(void)executeJavaScript:(NSString*)js;
+
 @end
