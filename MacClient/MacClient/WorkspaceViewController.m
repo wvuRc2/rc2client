@@ -149,7 +149,9 @@
 -(IBAction)doOpenSession:(id)sender
 {
 	MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
-	[mainwc openSession:self.workspace file:nil inNewWindow:NO];	
+	WorkspaceCellView *wcv = [self.sectionsTableView viewAtColumn:0 row:0 makeIfNecessary:NO];
+	RCFile *selFile = wcv.selectedObject;
+	[mainwc openSession:self.workspace file:selFile inNewWindow:NO];	
 }
 
 #pragma mark - meat & potatos
@@ -258,8 +260,7 @@
 		[(AppDelegate*)[NSApp delegate] displayPdfFile:file];
 		
 	} else {
-		MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
-		[mainwc openSession:self.workspace file:file inNewWindow:NO];
+		[self doOpenSession:self];
 	}
 }
 
@@ -315,6 +316,8 @@
 		h = 27;
 	return h;
 }
+
+#pragma mark - synthesizers
 
 @synthesize workspace;
 @synthesize sectionsTableView;

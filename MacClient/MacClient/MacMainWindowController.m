@@ -89,9 +89,10 @@
 {
 	if (self.currentSessionController.session.workspace != wspace) {
 		RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:nil];
-		session.initialFileSelection = initialFile;
 		self.currentSessionController = [[MacSessionViewController alloc] initWithSession:session];
 	}
+	if (initialFile)
+		self.currentSessionController.session.initialFileSelection = initialFile;
 	[self.navController pushViewController:self.currentSessionController animated:YES];
 }
 

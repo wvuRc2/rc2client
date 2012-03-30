@@ -200,6 +200,12 @@
 		[self.audioEngine tearDownAudio];
 		[ti popActionMenu:self.addMenu];
 	}
+	if (newSuperview != nil) {
+		if (self.session.initialFileSelection) {
+			self.selectedFile = self.session.initialFileSelection;
+			self.session.initialFileSelection = nil;
+		}
+	}
 }
 
 -(void)viewWillMoveToWindow:(NSWindow *)newWindow
@@ -207,7 +213,7 @@
 	if (!__didFirstWindow) {
 		if (self.fileListVisible != __fileListInitiallyVisible)
 			[self toggleFileList:nil];
-		self.selectedFile = self.session.initialFileSelection;
+//		self.selectedFile = self.session.initialFileSelection;
 		__didFirstWindow=YES;
 	}
 }

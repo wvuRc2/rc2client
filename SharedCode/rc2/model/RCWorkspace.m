@@ -114,6 +114,15 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 	[self refreshFiles];
 }
 
+-(RCWorkspaceShare*)shareForUserId:(NSNumber*)userId
+{
+	for (RCWorkspaceShare *share in self.shares) {
+		if ([share.userId isEqual:userId])
+			return share;
+	}
+	return nil;
+}
+
 -(NSArray*)files
 {
 	if (nil == _files && !self.fetchingFiles)

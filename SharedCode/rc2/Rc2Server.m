@@ -511,7 +511,6 @@
 
 -(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-//FIXME: bad url
 	ASIFormDataRequest *theReq = [self postRequestWithRelativeURL:[NSString stringWithFormat:@"workspace/%@/files", wspace.wspaceId]];
 	__weak ASIFormDataRequest *req = theReq;
 	[req setPostValue:[fileUrl lastPathComponent] forKey:@"name"];
@@ -540,7 +539,6 @@
 }
 
 //synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
-//FIXME: bad url
 -(RCFile*)importFile:(NSURL*)fileUrl name:(NSString*)filename workspace:(RCWorkspace*)workspace error:(NSError *__autoreleasing *)outError
 {
 	ASIFormDataRequest *req = [self postRequestWithRelativeURL:[NSString stringWithFormat:@"workspace/%@/files", workspace.wspaceId]];
