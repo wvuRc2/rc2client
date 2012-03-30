@@ -512,8 +512,7 @@
 -(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 //FIXME: bad url
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/new", self.baseUrl]];
-	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
+	ASIFormDataRequest *theReq = [self postRequestWithRelativeURL:[NSString stringWithFormat:@"workspace/%@/files", wspace.wspaceId]];
 	__weak ASIFormDataRequest *req = theReq;
 	[req setPostValue:[fileUrl lastPathComponent] forKey:@"name"];
 	[req setPostValue:self.currentUserId forKey:@"userid"];
@@ -522,10 +521,17 @@
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		NSDictionary *dict = [respStr JSONValue];
-		NSDictionary *fdata = [dict objectForKey:@"file"];
-		RCFile *rcfile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
-		[rcfile updateWithDictionary:fdata];
-		hblock(YES, rcfile);
+		if ([[dict objectForKey:@"status"] intValue] == 0) {
+			NSDictionary *fdata = [dict objectForKey:@"file"];
+			RCFile *rcfile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+			[rcfile updateWithDictionary:fdata];
+			hblock(YES, rcfile);
+		} else {
+			if ([dict objectForKey:@"error"])
+				hblock(NO, [dict objectForKey:@"error"]);
+			else
+				hblock(NO, @"unknown error");
+		}
 	}];
 	[req setFailedBlock:^{
 		hblock(NO, @"unknown error");
@@ -537,8 +543,7 @@
 //FIXME: bad url
 -(RCFile*)importFile:(NSURL*)fileUrl name:(NSString*)filename workspace:(RCWorkspace*)workspace error:(NSError *__autoreleasing *)outError
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/new", self.baseUrl]];
-	ASIFormDataRequest *req = [self postRequestWithURL:url];
+	ASIFormDataRequest *req = [self postRequestWithRelativeURL:[NSString stringWithFormat:@"workspace/%@/files", workspace.wspaceId]];
 	[req setPostValue:filename forKey:@"name"];
 	[req setPostValue:self.currentUserId forKey:@"userid"];
 	[req setPostValue:workspace.wspaceId forKey:@"wspaceid"];
