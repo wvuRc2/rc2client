@@ -7,6 +7,7 @@
 //
 
 #import "RCMSyntaxHighlighter.h"
+#import "RCMAppConstants.h"
 
 @interface RCMSyntaxHighlighter()
 @property (nonatomic, strong) NSRegularExpression *quoteRegex;
@@ -73,12 +74,24 @@
 																	options:NSRegularExpressionDotMatchesLineSeparators error:&err];
 		if (err)
 			Rc2LogError(@"error compiling noweb regex: %@", err);
-		
-		self.commentAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithCalibratedRed:0.064 green:0.428 blue:0.240 alpha:1.000] forKey:NSForegroundColorAttributeName];
-		self.keywordAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithCalibratedRed:0.616 green:0.096 blue:0.228 alpha:1.000] forKey:NSForegroundColorAttributeName];
-		self.functionAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithCalibratedRed:0.094 green:0.212 blue:1.000 alpha:1.000] forKey:NSForegroundColorAttributeName];
+		[self cacheAttributes];
+		//listen for color changes
+		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:NSUserDefaultsDidChangeNotification 
+																					   object:nil queue:nil 
+																				   usingBlock:^(NSNotification *note) 
+		{
+			[self cacheAttributes];
+		}]];
 	}
 	return self;
+}
+
+-(void)cacheAttributes
+{
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+	self.commentAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Comment]] forKey:NSForegroundColorAttributeName];
+	self.keywordAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Keyword]] forKey:NSForegroundColorAttributeName];
+	self.functionAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Function]] forKey:NSForegroundColorAttributeName];
 }
 
 -(NSAttributedString*)syntaxHighlightRCode:(NSAttributedString*)sourceStr

@@ -10,5 +10,11 @@
 	<integer>1</integer>
 	<key>CommandHistoryMaxLen</key>
 	<integer>10</integer>
+	<key>SyntaxColor_Comment</key>
+	<string>1735FF</string>
+	<key>SyntaxColor_Keyword</key>
+	<string>C71267</string>
+	<key>SyntaxColor_Function</key>
+	<string>C78312</string>
 </dict>
 </plist>
