@@ -39,6 +39,11 @@
 	}
 }
 
+-(void)removeChild:(RCWorkspaceItem*)aChild
+{
+	[_children removeObject:aChild];
+}
+
 -(RCWorkspaceItem*)childWithId:(NSNumber*)theId
 {
 	RCWorkspaceItem *item=nil;

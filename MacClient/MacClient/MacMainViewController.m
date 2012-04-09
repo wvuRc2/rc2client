@@ -31,6 +31,7 @@
 @property (strong) NSMutableDictionary *adminItem;
 @property (strong) NSMutableArray *kvoObservers;
 @property (strong) NSMutableDictionary *wspaceControllers;
+@property (nonatomic, weak) RCWorkspaceItem *selectedItem;
 -(void)openSession:(id)sender inNewWindow:(BOOL)inNewWindow;
 -(void)showSourceItem:(NSDictionary*)dict;
 -(void)windowAboutToClose:(NSNotification*)note;
@@ -150,6 +151,18 @@
 	
 }
 
+-(IBAction)doDeleteWorkspaceItem:(id)sender
+{
+	NSLog(@"should delete %@", self.selectedItem);
+	[[Rc2Server sharedInstance] deleteWorkspce:self.selectedItem completionHandler:^(BOOL success, id msg) {
+		if (success) {
+			[self.mainSourceList reloadItem:self.workspacesItem reloadChildren:YES];
+			//need to adjust the main view like the selection changed
+			[self sourceListSelectionDidChange:nil];
+		}
+	}];
+}
+
 -(IBAction)doOpenSession:(id)sender
 {
 	[self openSession:sender inNewWindow:NO];
@@ -256,6 +269,7 @@
 -(void)sourceListSelectionDidChange:(NSNotification *)notification
 {
 	id selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
+	self.selectedItem = selItem;
 	if ([selItem isKindOfClass:[RCWorkspace class]]) {
 		RCWorkspace *selWspace = selItem;
 		WorkspaceViewController *rvc = [self.wspaceControllers objectForKey:selWspace.wspaceId];
@@ -399,4 +413,5 @@
 @synthesize addMenu;
 @synthesize rootItems;
 @synthesize curPromptController=_curPromptController;
+@synthesize selectedItem=_selectedItem;
 @end

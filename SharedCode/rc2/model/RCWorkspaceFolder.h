@@ -16,4 +16,5 @@
 -(RCWorkspaceItem*)childWithId:(NSNumber*)theId;
 
 -(void)addChild:(RCWorkspaceItem*)aChild;
+-(void)removeChild:(RCWorkspaceItem*)aChild;
 @end

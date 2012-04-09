@@ -10,6 +10,7 @@
 
 @class RCWorkspace;
 @class RCWorkspaceFolder;
+@class RCWorkspaceItem;
 @class RCSession;
 @class RCFile;
 @class RCSavedSession;
@@ -91,6 +92,7 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 //results is tesponse dict from server with either workspace or error entry
 -(void)addWorkspace:(NSString*)name parent:(RCWorkspaceFolder*)parent folder:(BOOL)isFolder
 	completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(void)deleteWorkspce:(RCWorkspaceItem*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 -(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
