@@ -851,9 +851,18 @@
 			[__selFile setLocalEdits:self.editView.string];
 	} else
 		self.scratchString = self.editView.string;
+	RCFile *oldFile = __selFile;
+	NSInteger oldFileIdx = [self.session.workspace.files indexOfObject:oldFile];
+	if (oldFileIdx < 0)
+		oldFileIdx = 0;
 	__selFile = selectedFile;
 	if ([selectedFile.name hasSuffix:@".pdf"]) {
 		[(AppDelegate*)[NSApp delegate] displayPdfFile:selectedFile];
+		RunAfterDelay(0.2, ^{
+			__selFile=nil;
+			[self.fileTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:oldFileIdx] byExtendingSelection:NO];
+			[self tableViewSelectionDidChange:nil];
+		});
 	} else {
 		NSString *newTxt = self.scratchString;
 		if (selectedFile)
