@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSRegularExpression *functionRegex;
 @property (nonatomic, strong) NSRegularExpression *keywordRegex;
 @property (nonatomic, strong) NSRegularExpression *latexCommentRegex;
+@property (nonatomic, strong) NSRegularExpression *latexKeywordRegex;
 @property (nonatomic, strong) NSRegularExpression *nowebChunkRegex;
 @property (nonatomic, strong) NSDictionary *commentAttrs;
 @property (nonatomic, strong) NSDictionary *keywordAttrs;
@@ -30,6 +31,7 @@
 @synthesize keywordAttrs;
 @synthesize functionAttrs;
 @synthesize latexCommentRegex;
+@synthesize latexKeywordRegex;
 @synthesize nowebChunkRegex;
 
 +(id)sharedInstance
@@ -61,7 +63,12 @@
 			Rc2LogError(@"error compiling comment regex: %@", err);
 		self.latexCommentRegex = [NSRegularExpression regularExpressionWithPattern:@"(?<!\\\\)(%.*\n)" options:0 error:&err];
 		if (err)
-			Rc2LogError(@"error compiling latex quote regex: %@", err);
+			Rc2LogError(@"error compiling latex comment regex: %@", err);
+		self.latexKeywordRegex = [NSRegularExpression regularExpressionWithPattern:@"^\\\\([A-Za-z]+)" 
+									options:NSRegularExpressionDotMatchesLineSeparators|NSRegularExpressionAnchorsMatchLines 
+									error:&err];
+		if (err)
+			Rc2LogError(@"error compiling latex keyword regex: %@", err);
 		self.nowebChunkRegex = [NSRegularExpression regularExpressionWithPattern:@"\n<<([^>]*)>>=\n+(.*?)\n@\n" 
 																	options:NSRegularExpressionDotMatchesLineSeparators error:&err];
 		if (err)
@@ -144,6 +151,12 @@
 			[astr addAttributes:commentAttrs range:[results rangeAtIndex:1]];
 		}];
 		
+		[self.latexKeywordRegex enumerateMatchesInString:astr.string options:0 range:NSMakeRange(0, astr.length) 
+											  usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
+		{
+			[astr addAttributes:keywordAttrs range:[results rangeAtIndex:0]];
+		}];
+
 		//add back in chunks with highlighting
 		for (NSString *key in chunks.allKeys) {
 			NSRange rng = [[chunkRanges objectForKey:key] rangeValue];
