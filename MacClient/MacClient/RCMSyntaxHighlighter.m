@@ -13,6 +13,11 @@
 @property (nonatomic, strong) NSRegularExpression *commentRegex;
 @property (nonatomic, strong) NSRegularExpression *functionRegex;
 @property (nonatomic, strong) NSRegularExpression *keywordRegex;
+@property (nonatomic, strong) NSRegularExpression *latexCommentRegex;
+@property (nonatomic, strong) NSRegularExpression *nowebChunkRegex;
+@property (nonatomic, strong) NSDictionary *commentAttrs;
+@property (nonatomic, strong) NSDictionary *keywordAttrs;
+@property (nonatomic, strong) NSDictionary *functionAttrs;
 @end
 
 @implementation RCMSyntaxHighlighter
@@ -21,6 +26,11 @@
 @synthesize commentRegex;
 @synthesize functionRegex;
 @synthesize keywordRegex;
+@synthesize commentAttrs;
+@synthesize keywordAttrs;
+@synthesize functionAttrs;
+@synthesize latexCommentRegex;
+@synthesize nowebChunkRegex;
 
 +(id)sharedInstance
 {
@@ -49,15 +59,23 @@
 		self.commentRegex = [NSRegularExpression regularExpressionWithPattern:@"#.*?\n" options:0 error:&err];
 		if (err)
 			Rc2LogError(@"error compiling comment regex: %@", err);
+		self.latexCommentRegex = [NSRegularExpression regularExpressionWithPattern:@"(?<!\\\\)(%.*\n)" options:0 error:&err];
+		if (err)
+			Rc2LogError(@"error compiling latex quote regex: %@", err);
+		self.nowebChunkRegex = [NSRegularExpression regularExpressionWithPattern:@"\n<<([^>]*)>>=\n+(.*?)\n@\n" 
+																	options:NSRegularExpressionDotMatchesLineSeparators error:&err];
+		if (err)
+			Rc2LogError(@"error compiling noweb regex: %@", err);
+		
+		self.commentAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithCalibratedRed:0.064 green:0.428 blue:0.240 alpha:1.000] forKey:NSForegroundColorAttributeName];
+		self.keywordAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithCalibratedRed:0.616 green:0.096 blue:0.228 alpha:1.000] forKey:NSForegroundColorAttributeName];
+		self.functionAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithCalibratedRed:0.094 green:0.212 blue:1.000 alpha:1.000] forKey:NSForegroundColorAttributeName];
 	}
 	return self;
 }
 
--(NSAttributedString*)syntaxHighlight:(NSAttributedString*)sourceStr
+-(NSAttributedString*)syntaxHighlightRCode:(NSAttributedString*)sourceStr
 {
-	NSDictionary *commentAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithCalibratedRed:0.064 green:0.428 blue:0.240 alpha:1.000] forKey:NSForegroundColorAttributeName];
-	NSDictionary *keywordAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithCalibratedRed:0.616 green:0.096 blue:0.228 alpha:1.000] forKey:NSForegroundColorAttributeName];
-	NSDictionary *functionAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithCalibratedRed:0.094 green:0.212 blue:1.000 alpha:1.000] forKey:NSForegroundColorAttributeName];
 	NSMutableAttributedString *astr = [sourceStr mutableCopy];
 	NSMutableDictionary *quotes = [NSMutableDictionary dictionary];
 	
@@ -92,5 +110,51 @@
 	}
 	
 	return astr;
+}
+
+-(NSAttributedString*)syntaxHighlightLatexCode:(NSAttributedString *)sourceStr
+{
+	@try {
+		NSMutableAttributedString *astr = [sourceStr mutableCopy];
+		NSMutableDictionary *chunks = [NSMutableDictionary dictionary];
+		NSMutableDictionary *chunkRanges = [NSMutableDictionary dictionary];
+		
+		__block int nextChunkIndex=1;
+		[self.nowebChunkRegex enumerateMatchesInString:astr.string options:0 range:NSMakeRange(0, astr.length) 
+											usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
+		{
+			//mark any chunk title as a comment
+			if ([results rangeAtIndex:1].length > 0)
+				[astr setAttributes:self.commentAttrs range:[results rangeAtIndex:1]];
+			NSMutableAttributedString *chunkBlock = [[astr attributedSubstringFromRange:results.range] mutableCopy];
+			NSAttributedString *rcode = [astr attributedSubstringFromRange:[results rangeAtIndex:2]];
+			rcode = [self syntaxHighlightRCode:rcode];
+			NSInteger codeOffset = [results rangeAtIndex:2].location - results.range.location;
+			//3 is for ending of chunk "\n@\n"
+			NSRange codeRange = NSMakeRange(codeOffset, [results rangeAtIndex:2].length);
+			[chunkBlock replaceCharactersInRange:codeRange withAttributedString:rcode];
+			NSString *key = [NSString stringWithFormat:@"~`%d`~", nextChunkIndex++];
+			[chunks setObject:chunkBlock forKey:key];
+			[chunkRanges setObject:[NSValue valueWithRange:results.range] forKey:key];
+		}];
+
+		[self.latexCommentRegex enumerateMatchesInString:astr.string options:0 range:NSMakeRange(0, astr.length) 
+										 usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
+		{
+			[astr addAttributes:commentAttrs range:[results rangeAtIndex:1]];
+		}];
+		
+		//add back in chunks with highlighting
+		for (NSString *key in chunks.allKeys) {
+			NSRange rng = [[chunkRanges objectForKey:key] rangeValue];
+			NSAttributedString *str = [chunks objectForKey:key];
+			[astr replaceCharactersInRange:rng withAttributedString:str];
+		}
+		
+		return astr;
+	} @catch (NSException *e) {
+		Rc2LogWarn(@"exception highlighting sweave", e);
+	}
+	return sourceStr;
 }
 @end

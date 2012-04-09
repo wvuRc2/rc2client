@@ -12,6 +12,7 @@
 
 +(id)sharedInstance;
 
--(NSAttributedString*)syntaxHighlight:(NSAttributedString*)sourceStr;
+-(NSAttributedString*)syntaxHighlightRCode:(NSAttributedString*)sourceStr;
+-(NSAttributedString*)syntaxHighlightLatexCode:(NSAttributedString*)sourceStr;
 
 @end

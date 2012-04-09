@@ -697,7 +697,7 @@
 -(void)textDidChange:(NSNotification*)note
 {
 	NSRange rng = self.editView.selectedRange;
-	[self.editView.textStorage setAttributedString:[[RCMSyntaxHighlighter sharedInstance] syntaxHighlight:self.editView.attributedString]];
+	[self.editView.textStorage setAttributedString:[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightRCode:self.editView.attributedString]];
 	[self.editView setSelectedRange:rng];
 }
 
@@ -868,7 +868,10 @@
 		if (selectedFile)
 			newTxt = selectedFile.currentContents;
 		NSAttributedString *astr = [NSAttributedString attributedStringWithString:newTxt attributes:nil];
-		astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlight:astr];
+		if ([selectedFile.name hasSuffix:@".Rnw"])
+			astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightLatexCode:astr];
+		else if ([selectedFile.name hasSuffix:@".R"])
+			astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightRCode:astr];
 		[self.editView.textStorage setAttributedString:astr];
 	}
 	if (self.session.isClassroomMode && !self.restrictedMode) {
