@@ -29,7 +29,7 @@
 @property (nonatomic, assign, readwrite) BOOL loggedIn;
 @property (nonatomic, copy, readwrite) NSString *currentLogin;
 @property (nonatomic, readwrite) BOOL isAdmin;
-@property (nonatomic, strong) NSNumber *currentUserId;
+@property (nonatomic, strong, readwrite) NSNumber *currentUserId;
 @property (nonatomic, copy, readwrite) NSArray *usersPermissions;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
 @property (nonatomic, strong) NSMutableDictionary *wsItemsById;

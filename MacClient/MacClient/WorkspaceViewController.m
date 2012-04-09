@@ -156,6 +156,15 @@
 
 #pragma mark - meat & potatos
 
+-(BOOL)haveWritePerm
+{
+	if (self.workspace.sharedByOther) {
+		RCWorkspaceShare *perm = [self.workspace shareForUserId:[[Rc2Server sharedInstance] currentUserId]];
+		return perm.canWriteFiles;
+	}
+	return YES;
+}
+
 -(void)deleteFile:(WorkspaceCellView*)cellView
 {
 	RCFile *file = cellView.selectedObject;
@@ -220,7 +229,8 @@
 		}
 		[self.addPopover showRelativeToRect:[sender frame] ofView:sender preferredEdge:NSMinYEdge];
 	} else if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"files"]) {
-		[self importFile:sender];
+		if ([self haveWritePerm])
+			[self importFile:sender];
 	}
 }
 
@@ -235,7 +245,7 @@
 	} else if ([[secDict objectForKey:@"childAttr"] isEqualToString:@"files"]) {
 		if ([defaults boolForKey:kPref_SupressDeleteFileWarning]) {
 			[self deleteFile:cellView];
-		} else {
+		} else if([self haveWritePerm]) {
 			RCFile *file = cellView.selectedObject;
 			NSAlert *alert = [[NSAlert alloc] init];
 			alert.messageText = @"Are you sure you want to delete this file?";

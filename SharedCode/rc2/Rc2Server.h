@@ -40,6 +40,7 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 @property (nonatomic, assign) NSInteger serverHost;
 @property (nonatomic, assign, readonly) BOOL loggedIn;
 @property (nonatomic, copy, readonly) NSString *currentLogin;
+@property (nonatomic, strong, readonly) NSNumber *currentUserId;
 @property (nonatomic, readonly) NSString *connectionDescription; //login name plus host if host is not rc2
 @property (nonatomic, readonly) BOOL isAdmin;
 @property (nonatomic, copy, readonly) NSArray *workspaceItems;
