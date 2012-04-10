@@ -443,7 +443,12 @@
 	} else if ([cmd isEqualToString:@"error"]) {
 		NSString *errmsg = [[dict objectForKey:@"error"] stringByTrimmingWhitespace];
 		errmsg = [self escapeForJS:errmsg];
-		js = [NSString stringWithFormat:@"iR.displayError('%@')", errmsg];
+		if ([errmsg indexOf:@"\n"] > 0) {
+			errmsg = [errmsg stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+			js = [NSString stringWithFormat:@"iR.displayFormattedError('%@')", errmsg];
+		} else {
+			js = [NSString stringWithFormat:@"iR.displayError('%@')", errmsg];
+		}
 	} else if ([cmd isEqualToString:@"join"]) {
 		js = [NSString stringWithFormat:@"iR.userJoinedSession('%@', '%@')", 
 			  [self escapeForJS:[dict objectForKey:@"user"]],

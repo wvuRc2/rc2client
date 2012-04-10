@@ -149,6 +149,11 @@ iR.appendHelpCommand = function(topic, pageUrl) {
 	}
 }
 
+iR.displayFormattedError = function(msg) {
+	var html = '<div class="sessionMsg serverError" style="white-space:pre;">' + msg + '</div>'
+	iR.appendConsoleText(html)
+}
+
 iR.displayError = function(msg) {
 	var html = '<div class="sessionMsg"><span class="serverError">' + msg + '</span></div>'
 	iR.appendConsoleText(html)
