@@ -13,5 +13,5 @@
 @end
 
 @interface RCMTextView : NSTextView
-
+@property (nonatomic, copy) NSDictionary *textAttributes;
 @end

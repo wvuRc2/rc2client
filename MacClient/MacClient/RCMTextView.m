@@ -10,7 +10,6 @@
 #import "RCMAppConstants.h"
 
 @interface RCMTextView()
-@property (nonatomic, copy) NSDictionary *textAttributes;
 -(NSUInteger)findMatchingParen:(NSUInteger)closeLoc string:(NSString*)str;
 @end
 

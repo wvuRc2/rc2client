@@ -528,6 +528,17 @@
 	return [str description];
 }
 
+-(void)setEditViewTextWithHighlighting:(NSAttributedString*)srcStr
+{
+	id astr = [srcStr mutableCopy];
+	[astr addAttributes:self.editView.textAttributes range:NSMakeRange(0, [astr length])];
+	if ([self.selectedFile.name hasSuffix:@".Rnw"])
+		astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightLatexCode:astr];
+	else if ([self.selectedFile.name hasSuffix:@".R"])
+		astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightRCode:astr];
+	[self.editView.textStorage setAttributedString:astr];
+}
+
 #pragma mark - session delegate
 
 -(void)connectionOpened
@@ -702,7 +713,7 @@
 -(void)textDidChange:(NSNotification*)note
 {
 	NSRange rng = self.editView.selectedRange;
-	[self.editView.textStorage setAttributedString:[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightRCode:self.editView.attributedString]];
+	[self setEditViewTextWithHighlighting:self.editView.attributedString];
 	[self.editView setSelectedRange:rng];
 }
 
@@ -872,12 +883,7 @@
 		NSString *newTxt = self.scratchString;
 		if (selectedFile)
 			newTxt = selectedFile.currentContents;
-		NSAttributedString *astr = [NSAttributedString attributedStringWithString:newTxt attributes:nil];
-		if ([selectedFile.name hasSuffix:@".Rnw"])
-			astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightLatexCode:astr];
-		else if ([selectedFile.name hasSuffix:@".R"])
-			astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightRCode:astr];
-		[self.editView.textStorage setAttributedString:astr];
+		[self setEditViewTextWithHighlighting:[NSMutableAttributedString attributedStringWithString:newTxt attributes:nil]];
 	}
 	if (self.session.isClassroomMode && !self.restrictedMode) {
 		[self.session sendFileOpened:selectedFile];
