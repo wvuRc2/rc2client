@@ -75,13 +75,14 @@
 		if (err)
 			Rc2LogError(@"error compiling noweb regex: %@", err);
 		[self cacheAttributes];
-		//listen for color changes
-		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:NSUserDefaultsDidChangeNotification 
-																					   object:nil queue:nil 
-																				   usingBlock:^(NSNotification *note) 
+		//listen for color changes. don't save token since this is a singleton
+		[[NSNotificationCenter defaultCenter] addObserverForName:NSUserDefaultsDidChangeNotification 
+														  object:nil 
+														   queue:nil 
+													  usingBlock:^(NSNotification *note) 
 		{
 			[self cacheAttributes];
-		}]];
+		}];
 	}
 	return self;
 }
