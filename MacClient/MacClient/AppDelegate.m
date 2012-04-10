@@ -19,6 +19,8 @@
 #import "RCMacToolbarItem.h"
 #import "ASIHTTPRequest.h"
 #import "BBEdit.h"
+#import "RCMGeneralPrefs.h"
+#import "RCMFontPrefs.h"
 
 @interface AppDelegate() {
 	dispatch_queue_t __fileCacheQueue;
@@ -131,6 +133,19 @@
 	[self.mainWindowController close];
 	self.loggedIn=NO;
 	[self presentLoginPanel];
+}
+
+-(IBAction)showPreferences:(id)sender
+{
+	AMPreferencesController *prefsController = [AMPreferencesController defaultInstance];
+	if (![prefsController areModulesLoaded]) {
+		//need to load our prefs modules
+		[prefsController addModule:[RCMGeneralPrefs moduleWithNibName: @"GeneralPrefs"
+															   bundle: nil title: @"General" identifier:@"general" imageName:nil]];
+		[prefsController addModule:[RCMFontPrefs moduleWithNibName: @"FontsPrefs"
+															bundle: nil title: @"Fonts" identifier:@"fonts" imageName:NSImageNameFontPanel]];
+	}
+	[prefsController showWindow:sender];
 }
 
 #pragma mark - meat & potatoes

@@ -10,6 +10,7 @@
 #import "RCMAppConstants.h"
 
 @interface RCMTextView()
+@property (nonatomic, copy) NSDictionary *textAttributes;
 -(NSUInteger)findMatchingParen:(NSUInteger)closeLoc string:(NSString*)str;
 @end
 
@@ -17,13 +18,20 @@
 
 -(void)awakeFromNib
 {
-	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_FixedFont];
+	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_EditorFont];
 	if (nil == fnt)
 		fnt = [NSFont userFixedPitchFontOfSize:12.0];
 	[self setFont:fnt];
 	[self.textContainer setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
 	[self.textContainer setWidthTracksTextView:NO];
 	[self setHorizontallyResizable:YES];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontPrefsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
+	[self fontPrefsChanged:nil];
+}
+
+-(void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
 }
 
 -(void)print:(id)sender
@@ -40,18 +48,11 @@
 {
 	if (nil == string)
 		string = @"";
-	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_FixedFont];
+	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_EditorFont];
 	if (nil == fnt)
 		fnt = [NSFont userFixedPitchFontOfSize:12.0];
 	[super setString:string];
-	[self.textStorage addAttribute:NSFontAttributeName value:fnt range:NSMakeRange(0, string.length)];
-}
-
--(void)changeFont:(id)sender
-{
-	[super changeFont:sender];
-	[[NSUserDefaults standardUserDefaults] archiveObject:self.font forKey:kPref_FixedFont];
-	[[NSUserDefaults standardUserDefaults] synchronize];
+//	[self.textStorage addAttribute:NSFontAttributeName value:fnt range:NSMakeRange(0, string.length)];
 }
 
 - (NSUInteger)validModesForFontPanel:(NSFontPanel *)fontPanel
@@ -126,5 +127,23 @@
 	
 	return NSNotFound;
 }
+
+-(void)fontPrefsChanged:(NSNotification*)note
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSColor *fgcolor = [NSColor colorWithHexString:[defaults objectForKey:kPref_EditorFontColor]];
+	NSColor *bgcolor = [NSColor colorWithHexString:[defaults objectForKey:kPref_EditorBGColor]];
+	NSFont *font = [defaults unarchiveObjectForKey:kPref_EditorFont];
+	self.textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName,
+						   fgcolor, NSForegroundColorAttributeName, 
+						   bgcolor, NSBackgroundColorAttributeName, 
+						   nil];
+	[self setTypingAttributes:self.textAttributes];
+	self.backgroundColor = bgcolor;
+	[self.textStorage addAttributes:self.textAttributes 
+							  range:NSMakeRange(0, self.string.length)];
+}
+
+@synthesize textAttributes;
 @end
 

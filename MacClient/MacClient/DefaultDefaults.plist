@@ -16,5 +16,15 @@
 	<string>C71267</string>
 	<key>SyntaxColor_Function</key>
 	<string>C78312</string>
+	<key>EditorFont</key>
+	<data>BAtzdHJlYW10eXBlZIHoA4QBQISEhAZOU0ZvbnQehIQITlNPYmplY3QAhYQBaSSEBVszNmNdBgAAABwAAAD//k0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAhAFmDYQBYwCYAZgAmACG</data>
+	<key>EditorFontSize</key>
+	<integer>13</integer>
+	<key>EditorFontColor</key>
+	<string>000000</string>
+	<key>EditorBGColor</key>
+	<string>FFFFFF</string>
+	<key>EditorFontDisplayName</key>
+	<string>Menlo</string>
 </dict>
 </plist>

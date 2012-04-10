@@ -31,6 +31,10 @@
 		0815948314E5C3F90067E83C /* hand-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815947F14E5C3F90067E83C /* hand-green@2x.png */; };
 		0815948414E5C3F90067E83C /* hand-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815948014E5C3F90067E83C /* hand-grey.png */; };
 		0815948514E5C3F90067E83C /* hand-grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815948114E5C3F90067E83C /* hand-grey@2x.png */; };
+		082895EC1534863300A6B6C2 /* GeneralPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082895EB1534863300A6B6C2 /* GeneralPrefs.xib */; };
+		082895EF153486EE00A6B6C2 /* RCMGeneralPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 082895EE153486EE00A6B6C2 /* RCMGeneralPrefs.m */; };
+		0828961015348F8A00A6B6C2 /* FontsPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0828960D15348F8A00A6B6C2 /* FontsPrefs.xib */; };
+		0828961115348F8A00A6B6C2 /* RCMFontPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828960F15348F8A00A6B6C2 /* RCMFontPrefs.m */; };
 		082945391496AA7700E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945381496AA7700E593C7 /* _RCWorkspaceCache.m */; };
 		0829453C1496AA8300E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453B1496AA8300E593C7 /* RCWorkspaceCache.m */; };
 		0829456114993CF600E593C7 /* MCNewFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829456014993CF600E593C7 /* MCNewFileController.m */; };
@@ -203,6 +207,12 @@
 		0815947F14E5C3F90067E83C /* hand-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hand-green@2x.png"; sourceTree = "<group>"; };
 		0815948014E5C3F90067E83C /* hand-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hand-grey.png"; sourceTree = "<group>"; };
 		0815948114E5C3F90067E83C /* hand-grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hand-grey@2x.png"; sourceTree = "<group>"; };
+		082895EB1534863300A6B6C2 /* GeneralPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralPrefs.xib; sourceTree = "<group>"; };
+		082895ED153486EE00A6B6C2 /* RCMGeneralPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMGeneralPrefs.h; sourceTree = "<group>"; };
+		082895EE153486EE00A6B6C2 /* RCMGeneralPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMGeneralPrefs.m; sourceTree = "<group>"; };
+		0828960D15348F8A00A6B6C2 /* FontsPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FontsPrefs.xib; sourceTree = "<group>"; };
+		0828960E15348F8A00A6B6C2 /* RCMFontPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMFontPrefs.h; sourceTree = "<group>"; };
+		0828960F15348F8A00A6B6C2 /* RCMFontPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMFontPrefs.m; sourceTree = "<group>"; };
 		082945371496AA7700E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCWorkspaceCache.h; sourceTree = "<group>"; };
 		082945381496AA7700E593C7 /* _RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCWorkspaceCache.m; sourceTree = "<group>"; };
 		0829453A1496AA8300E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
@@ -472,6 +482,19 @@
 			name = "secondary controllers";
 			sourceTree = "<group>";
 		};
+		082895E91534861C00A6B6C2 /* Prefs */ = {
+			isa = PBXGroup;
+			children = (
+				082895ED153486EE00A6B6C2 /* RCMGeneralPrefs.h */,
+				082895EE153486EE00A6B6C2 /* RCMGeneralPrefs.m */,
+				082895EB1534863300A6B6C2 /* GeneralPrefs.xib */,
+				0828960E15348F8A00A6B6C2 /* RCMFontPrefs.h */,
+				0828960F15348F8A00A6B6C2 /* RCMFontPrefs.m */,
+				0828960D15348F8A00A6B6C2 /* FontsPrefs.xib */,
+			);
+			path = Prefs;
+			sourceTree = "<group>";
+		};
 		0838B385141E9095003264A8 /* PXSourceList */ = {
 			isa = PBXGroup;
 			children = (
@@ -632,6 +655,7 @@
 				08056E351448C6600002766D /* secondary controllers */,
 				08056E331448C6430002766D /* utility */,
 				08ADF5B2144B919000F787E6 /* views */,
+				082895E91534861C00A6B6C2 /* Prefs */,
 				0838B385141E9095003264A8 /* PXSourceList */,
 			);
 			path = MacClient;
@@ -900,6 +924,8 @@
 				0802868815236D6C00E2F707 /* openother.png in Resources */,
 				0802868B1523713200E2F707 /* clear.png in Resources */,
 				0802868C1523713200E2F707 /* webback.png in Resources */,
+				082895EC1534863300A6B6C2 /* GeneralPrefs.xib in Resources */,
+				0828961015348F8A00A6B6C2 /* FontsPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1013,6 +1039,8 @@
 				086246991501180700A71853 /* RCAudioChatEngine.m in Sources */,
 				0804C4E0150AA53A0079F963 /* RCImageCache.m in Sources */,
 				080286861523639300E2F707 /* RCMToolbarView.m in Sources */,
+				082895EF153486EE00A6B6C2 /* RCMGeneralPrefs.m in Sources */,
+				0828961115348F8A00A6B6C2 /* RCMFontPrefs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
