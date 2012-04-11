@@ -522,8 +522,10 @@
 
 -(NSString*)escapeForJS:(NSString*)str
 {
-	if ([str isKindOfClass:[NSString class]])
+	if ([str isKindOfClass:[NSString class]]) {
+		str = [str stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
 		return [str stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
+	}
 //		return [self.jsQuiteRExp stringByReplacingMatchesInString:str options:0 range:NSMakeRange(0, [str length]) withTemplate:@"\\'"];
 	return [str description];
 }
