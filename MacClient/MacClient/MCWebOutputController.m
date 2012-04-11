@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "RCMAppConstants.h"
 #import "RCImageCache.h"
+#import <Quartz/Quartz.h>
 
 @interface MCWebOutputController() {
 	NSInteger __cmdHistoryIdx;
@@ -346,6 +347,11 @@
 	}
 	if (nil == self.webView.backForwardList)
 		[self.webView setMaintainsBackForwardList:YES];
+	if ([self.webView.mainFrameURL hasSuffix:@".pdf"]) {
+		[self.webView enumerateSubviewsOfClass:[PDFView class] block:^(id aView, BOOL *stop) {
+			[aView setDisplayMode:kPDFDisplaySinglePage];
+		}];
+	}
 }
 
 - (void)webView:(WebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
@@ -402,6 +408,8 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	NSMutableArray *items = [NSMutableArray arrayWithObject:self.clearMenuItem];
 	[items addObject:[self.viewSourceMenuItem copy]];
 	for (NSMenuItem *mi in defaultMenuItems) {
+//		if (mi.tag == WebMenuItemPDFSinglePage)
+//			[items addObject:mi];
 		if (mi.tag == 2024 || mi.tag == WebMenuItemTagGoBack || mi.tag == WebMenuItemTagGoForward)
 			[items addObject:mi];
 	}
