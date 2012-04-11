@@ -35,6 +35,8 @@
 		082895EF153486EE00A6B6C2 /* RCMGeneralPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 082895EE153486EE00A6B6C2 /* RCMGeneralPrefs.m */; };
 		0828961015348F8A00A6B6C2 /* FontsPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0828960D15348F8A00A6B6C2 /* FontsPrefs.xib */; };
 		0828961115348F8A00A6B6C2 /* RCMFontPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828960F15348F8A00A6B6C2 /* RCMFontPrefs.m */; };
+		0828965B153612B300A6B6C2 /* NoodleLineNumberMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 08289658153612B300A6B6C2 /* NoodleLineNumberMarker.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0828965C153612B300A6B6C2 /* NoodleLineNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828965A153612B300A6B6C2 /* NoodleLineNumberView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		082945391496AA7700E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945381496AA7700E593C7 /* _RCWorkspaceCache.m */; };
 		0829453C1496AA8300E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453B1496AA8300E593C7 /* RCWorkspaceCache.m */; };
 		0829456114993CF600E593C7 /* MCNewFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829456014993CF600E593C7 /* MCNewFileController.m */; };
@@ -213,6 +215,10 @@
 		0828960D15348F8A00A6B6C2 /* FontsPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FontsPrefs.xib; sourceTree = "<group>"; };
 		0828960E15348F8A00A6B6C2 /* RCMFontPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMFontPrefs.h; sourceTree = "<group>"; };
 		0828960F15348F8A00A6B6C2 /* RCMFontPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMFontPrefs.m; sourceTree = "<group>"; };
+		08289657153612B300A6B6C2 /* NoodleLineNumberMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoodleLineNumberMarker.h; sourceTree = "<group>"; };
+		08289658153612B300A6B6C2 /* NoodleLineNumberMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoodleLineNumberMarker.m; sourceTree = "<group>"; };
+		08289659153612B300A6B6C2 /* NoodleLineNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoodleLineNumberView.h; sourceTree = "<group>"; };
+		0828965A153612B300A6B6C2 /* NoodleLineNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoodleLineNumberView.m; sourceTree = "<group>"; };
 		082945371496AA7700E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCWorkspaceCache.h; sourceTree = "<group>"; };
 		082945381496AA7700E593C7 /* _RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCWorkspaceCache.m; sourceTree = "<group>"; };
 		0829453A1496AA8300E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
@@ -495,6 +501,18 @@
 			path = Prefs;
 			sourceTree = "<group>";
 		};
+		08289656153612B300A6B6C2 /* 3rdParty */ = {
+			isa = PBXGroup;
+			children = (
+				08289657153612B300A6B6C2 /* NoodleLineNumberMarker.h */,
+				08289658153612B300A6B6C2 /* NoodleLineNumberMarker.m */,
+				08289659153612B300A6B6C2 /* NoodleLineNumberView.h */,
+				0828965A153612B300A6B6C2 /* NoodleLineNumberView.m */,
+				0838B385141E9095003264A8 /* PXSourceList */,
+			);
+			path = 3rdParty;
+			sourceTree = "<group>";
+		};
 		0838B385141E9095003264A8 /* PXSourceList */ = {
 			isa = PBXGroup;
 			children = (
@@ -503,7 +521,8 @@
 				0838B388141E9095003264A8 /* PXSourceListDataSource.h */,
 				0838B389141E9095003264A8 /* PXSourceListDelegate.h */,
 			);
-			path = PXSourceList;
+			name = PXSourceList;
+			path = ../PXSourceList;
 			sourceTree = "<group>";
 		};
 		083A6D671489742400A29A52 /* shared console */ = {
@@ -656,7 +675,7 @@
 				08056E331448C6430002766D /* utility */,
 				08ADF5B2144B919000F787E6 /* views */,
 				082895E91534861C00A6B6C2 /* Prefs */,
-				0838B385141E9095003264A8 /* PXSourceList */,
+				08289656153612B300A6B6C2 /* 3rdParty */,
 			);
 			path = MacClient;
 			sourceTree = "<group>";
@@ -1041,6 +1060,8 @@
 				080286861523639300E2F707 /* RCMToolbarView.m in Sources */,
 				082895EF153486EE00A6B6C2 /* RCMGeneralPrefs.m in Sources */,
 				0828961115348F8A00A6B6C2 /* RCMFontPrefs.m in Sources */,
+				0828965B153612B300A6B6C2 /* NoodleLineNumberMarker.m in Sources */,
+				0828965C153612B300A6B6C2 /* NoodleLineNumberView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
