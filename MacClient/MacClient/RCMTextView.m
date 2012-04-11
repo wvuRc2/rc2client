@@ -139,8 +139,7 @@
 						   nil];
 	[self setTypingAttributes:self.textAttributes];
 	self.backgroundColor = bgcolor;
-	[self.textStorage addAttributes:self.textAttributes 
-							  range:NSMakeRange(0, self.string.length)];
+	[(id)self.delegate recolorText];
 }
 
 @synthesize textAttributes;

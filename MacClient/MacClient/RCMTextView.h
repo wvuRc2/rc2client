@@ -10,6 +10,7 @@
 
 @protocol RCMTextViewDelegate <NSTextViewDelegate>
 -(void)handleTextViewPrint:(id)sender;
+-(void)recolorText;
 @end
 
 @interface RCMTextView : NSTextView
