@@ -521,7 +521,6 @@
 															</array>
 															<reference key="NSMenuFont" ref="725514408"/>
 														</object>
-														<int key="NSSelectedIndex">-1</int>
 														<bool key="NSPullDown">YES</bool>
 														<int key="NSPreferredEdge">1</int>
 														<bool key="NSUsesItemFromMenu">YES</bool>
@@ -735,7 +734,6 @@
 													<int key="NSvFlags">292</int>
 													<string key="NSFrame">{{103, 6}, {67, 25}}</string>
 													<reference key="NSSuperview" ref="341699872"/>
-													<reference key="NSNextKeyView" ref="422064599"/>
 													<string key="NSReuseIdentifierKey">_NS:2177</string>
 													<bool key="NSEnabled">YES</bool>
 													<object class="NSSegmentedCell" key="NSCell" id="544006362">
@@ -853,7 +851,7 @@
 															<string>WebURLsWithTitlesPboardType</string>
 															<string>public.url</string>
 														</set>
-														<string key="NSFrameSize">{198, 65}</string>
+														<string key="NSFrame">{{0, 51}, {198, 14}}</string>
 														<reference key="NSSuperview" ref="448343561"/>
 														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="626904679"/>
@@ -1002,6 +1000,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<string key="NSFrame">{{226, 0}, {308, 465}}</string>
 								<reference key="NSSuperview" ref="422064599"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:1167</string>
 								<string key="NSClassName">NSView</string>
 							</object>
@@ -1023,7 +1022,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="NSClassName">SessionView</string>
 			</object>
 			<object class="NSCustomView" id="581032746">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTextField" id="1023014179">
@@ -1050,7 +1049,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<int key="NSvFlags">289</int>
 						<string key="NSFrame">{{317, 2}, {122, 15}}</string>
 						<reference key="NSSuperview" ref="581032746"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:868</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="949759875">
@@ -1122,7 +1120,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 				</array>
 				<string key="NSFrameSize">{436, 22}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="1023014179"/>
 				<string key="NSReuseIdentifierKey">_NS:1192</string>
 				<string key="NSClassName">NSView</string>

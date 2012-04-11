@@ -30,6 +30,7 @@
 #import "RCMSyntaxHighlighter.h"
 #import "RCAudioChatEngine.h"
 #import "RCImageCache.h"
+#import "NoodleLineNumberView.h"
 
 @interface MacSessionViewController() {
 	CGFloat __fileListWidth;
@@ -138,6 +139,11 @@
 		[img unlockFocus];
 		[img setTemplate:YES];
 		self.backButton.image = img;
+		
+		//line numbers
+		NoodleLineNumberView *lnv = [[NoodleLineNumberView alloc] initWithScrollView:self.editView.enclosingScrollView];
+		[self.editView.enclosingScrollView setVerticalRulerView:lnv];
+		[self.editView.enclosingScrollView setRulersVisible:YES];
 		
 		//caches
 		__unsafe_unretained MacSessionViewController *blockSelf = self;
