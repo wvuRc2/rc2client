@@ -98,6 +98,7 @@
 {
 //	[self.outputController.webView unbind:@"enabled"];
 	self.contentSplitView.delegate=nil;
+	[self unregisterAllNotificationTokens];
 }
 
 -(void)awakeFromNib
