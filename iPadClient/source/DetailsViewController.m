@@ -15,6 +15,7 @@
 #import "MessageController.h"
 #import "ThemeEngine.h"
 #import "iSettingsController.h"
+#import "AppConstants.h"
 
 #define kDefaultTitleText @"Welcome to Rc²"
 
@@ -111,6 +112,7 @@ enum {
 		self.loginButton.title = @"Login";
 		self.fileTableView.rowHeight = 52;
 		self.fileTableView.allowsSelection = YES;
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fileTableDoubleTapped:) name:kTableViewDoubleClickedNotification object:self.fileTableView];
 		self.currentView = self.welcomeContent;
 		id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
 			[blockSelf updateForNewTheme:theme];
@@ -130,6 +132,7 @@ enum {
 	[self freeUpMemory];
 	self.fileTableView.allowsSelection = NO;
 	self.themeChangeNotice=nil;
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:kTableViewDoubleClickedNotification object:nil];
 	_didMsgCheck = NO;
 }
 
@@ -232,6 +235,11 @@ enum {
 }
 
 #pragma mark - meat & potatoes
+
+-(void)fileTableDoubleTapped:(NSNotification*)note
+{
+	[self doStartSession:nil];
+}
 
 -(void)refreshDetails
 {
@@ -409,7 +417,7 @@ enum {
 	}
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table view
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

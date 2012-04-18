@@ -21,3 +21,5 @@ typedef enum {
 #define KeyboardPrefsChangedNotification @"KeyboardPrefsChangedNotification"
 
 #define kChatMessageNotification @"ChatMessageNotification"
+
+#define kTableViewDoubleClickedNotification @"kTableViewDoubleClickedNotification"

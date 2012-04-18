@@ -20,6 +20,7 @@
 #import "ASIHTTPRequest.h"
 #import "MBProgressHUD.h"
 #import "AppConstants.h"
+#import <objc/runtime.h>
 
 //hack for iOS 5.0 SDK bug
 /*
@@ -30,6 +31,10 @@
 }
 @end
 */
+
+@interface UITableView (DoubleClick)
+-(void)myTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
+@end
 
 @interface Rc2AppDelegate() {
 	NSManagedObjectModel *__mom;
@@ -66,6 +71,11 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 	 
+	//swizzle UITableView method so can get double click notifications
+	Method customMethod = class_getInstanceMethod([UITableView class], @selector(myTouchesEnded:withEvent:));
+	Method origMethod = class_getInstanceMethod([UITableView class], @selector(touchesEnded:withEvent:));
+	method_exchangeImplementations(origMethod, customMethod);
+	
 	self.detailsController = [[DetailsViewController alloc] init];
 	WorkspaceTableController *wtc = [[WorkspaceTableController alloc] initWithNibName:@"WorkspaceTableController" bundle:nil];
 	self.navController = [[UINavigationController alloc] initWithRootViewController:wtc];
@@ -493,6 +503,19 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 @synthesize myPsc;
 @synthesize dropboxCompletionBlock;
 @end
+
+@implementation UITableView (DoubleClick)
+-(void)myTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	for (UITouch *aTouch in touches) {
+		if (aTouch.tapCount == 2)
+			[[NSNotificationCenter defaultCenter] postNotificationName:kTableViewDoubleClickedNotification 
+																object:self];
+	}
+	[self myTouchesEnded:touches withEvent:event]; //calls original 'cause we've been swizzled
+}
+@end
+
 
 static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionState)
 {
