@@ -717,7 +717,7 @@
 	NSDictionary *rsp = [respStr JSONValue];
 	if ([[rsp objectForKey:@"status"] intValue] != 0) {
 		//error
-		handler(NO, [rsp objectForKey:@"error"]);
+		handler(NO, [rsp objectForKey:@"message"]);
 	} else {
 		//success
 		self.loggedIn=YES;
