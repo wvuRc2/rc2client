@@ -1,3 +1,9 @@
+recent changes
+
+Double tap opens session with specified document selected
+Login error messages now provide more details
+LDAP authentication supported
+
 # Rc2 iOS App #
 
 0x2328 - keyboard key

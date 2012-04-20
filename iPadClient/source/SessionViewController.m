@@ -27,6 +27,7 @@
 #import "ThemeEngine.h"
 #import "ControlViewController.h"
 #import "RCAudioChatEngine.h"
+#import "DoodleViewController.h"
 
 @interface SessionViewController() {
 	RCSession *_session;
@@ -36,6 +37,8 @@
 @property (nonatomic, strong) ControlViewController *controlController;
 @property (nonatomic, strong) UIPopoverController *controlPopover;
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
+@property (nonatomic, strong) DoodleViewController *doodle;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *doodleButton;
 @property (nonatomic, strong) id themeToken;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL showingProgress;
@@ -152,6 +155,11 @@
 			});
 		});
 	}
+	if (![[[Rc2Server sharedInstance] usersPermissions] containsObject:@"CROOM_SESS"]) {
+		NSArray *a = self.toolbar.items;
+		a = [a arrayByRemovingObjectAtIndex:[a indexOfObject:self.doodleButton]];
+		[self.toolbar setItems:a animated:NO];
+	}
 }
 
 - (void)viewDidUnload
@@ -191,6 +199,18 @@
 }
 
 #pragma mark - actions
+
+-(IBAction)showDoodleView:(id)sender
+{
+	if (nil == self.doodle) {
+		self.doodle = [[DoodleViewController alloc] init];
+	}
+	if (self.doodle.view.superview == nil) {
+		[self.view addSubview:self.doodle.view];
+	} else {
+		[self.doodle.view removeFromSuperview];
+	}
+}
 
 -(IBAction)showControls:(id)sender
 {
@@ -586,4 +606,6 @@
 @synthesize controlController;
 @synthesize mikeButton;
 @synthesize audioEngine;
+@synthesize doodle;
+@synthesize doodleButton;
 @end

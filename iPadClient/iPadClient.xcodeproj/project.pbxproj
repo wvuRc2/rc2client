@@ -16,6 +16,7 @@
 		081A164D14FEBCA3004B34A0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */; };
 		081A165014FEDDD6004B34A0 /* mike.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A164F14FEDDD6004B34A0 /* mike.png */; };
 		081A165214FEE035004B34A0 /* mikeOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A165114FEE035004B34A0 /* mikeOff.png */; };
+		082896611541DB7B00A6B6C2 /* DoodleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828965F1541DB7B00A6B6C2 /* DoodleViewController.m */; };
 		0829453F1496AA9800E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */; };
 		082945421496AAA000E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945411496AAA000E593C7 /* _RCWorkspaceCache.m */; };
 		082D9D5714097AEF008F3CB0 /* RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D9D5614097AEF008F3CB0 /* RCSavedSession.m */; };
@@ -204,6 +205,8 @@
 		081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		081A164F14FEDDD6004B34A0 /* mike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mike.png; path = resources/mike.png; sourceTree = SOURCE_ROOT; };
 		081A165114FEE035004B34A0 /* mikeOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mikeOff.png; path = resources/mikeOff.png; sourceTree = SOURCE_ROOT; };
+		0828965E1541DB7B00A6B6C2 /* DoodleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DoodleViewController.h; path = source/DoodleViewController.h; sourceTree = SOURCE_ROOT; };
+		0828965F1541DB7B00A6B6C2 /* DoodleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DoodleViewController.m; path = source/DoodleViewController.m; sourceTree = SOURCE_ROOT; };
 		0829453D1496AA9800E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
 		0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceCache.m; sourceTree = "<group>"; };
 		082945401496AAA000E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCWorkspaceCache.h; path = ../SharedCode/rc2/model/generated/_RCWorkspaceCache.h; sourceTree = SOURCE_ROOT; };
@@ -738,6 +741,8 @@
 				085E7B1014EEC2F000036A9E /* ControlViewController.h */,
 				085E7B1114EEC2F000036A9E /* ControlViewController.m */,
 				085E7B1214EEC2F000036A9E /* ControlViewController.xib */,
+				0828965E1541DB7B00A6B6C2 /* DoodleViewController.h */,
+				0828965F1541DB7B00A6B6C2 /* DoodleViewController.m */,
 			);
 			name = "session related controllers";
 			sourceTree = "<group>";
@@ -1111,6 +1116,7 @@
 				085E7B1E14EEDB3E00036A9E /* ControllerUserCell.m in Sources */,
 				086246961501125F00A71853 /* RCAudioChatEngine.m in Sources */,
 				080433E8150AAD020065426A /* RCImageCache.m in Sources */,
+				082896611541DB7B00A6B6C2 /* DoodleViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -58,6 +58,7 @@
 										<string key="NSFrame">{{0, 6}, {300, 21}}</string>
 										<reference key="NSSuperview" ref="323425324"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:120</string>
 										<object class="NSColor" key="IBUIBackgroundColor" id="202228777">
 											<int key="NSColorSpace">3</int>
@@ -133,6 +134,12 @@
 								<float key="IBUIWidth">50</float>
 								<reference key="IBUIToolbar" ref="814798345"/>
 								<int key="IBUISystemItemIdentifier">6</int>
+							</object>
+							<object class="IBUIBarButtonItem" id="324420786">
+								<string key="IBUITitle">Doodle</string>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<int key="IBUIStyle">1</int>
+								<reference key="IBUIToolbar" ref="814798345"/>
 							</object>
 							<object class="IBUIBarButtonItem" id="281469805">
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -273,6 +280,14 @@
 					<int key="connectionID">75</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">doodleButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="324420786"/>
+					</object>
+					<int key="connectionID">79</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">endSession:</string>
 						<reference key="source" ref="48826985"/>
@@ -320,6 +335,14 @@
 					</object>
 					<int key="connectionID">76</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">showDoodleView:</string>
+						<reference key="source" ref="324420786"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">78</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -364,6 +387,7 @@
 							<reference ref="856833133"/>
 							<reference ref="747672580"/>
 							<reference ref="896982470"/>
+							<reference ref="324420786"/>
 						</object>
 						<reference key="parent" ref="766721923"/>
 					</object>
@@ -438,6 +462,11 @@
 						<reference key="object" ref="896982470"/>
 						<reference key="parent" ref="814798345"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">77</int>
+						<reference key="object" ref="324420786"/>
+						<reference key="parent" ref="814798345"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -465,6 +494,7 @@
 					<string>58.IBPluginDependency</string>
 					<string>70.IBPluginDependency</string>
 					<string>74.IBPluginDependency</string>
+					<string>77.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -489,6 +519,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -503,7 +534,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">76</int>
+			<int key="maxID">79</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1275,6 +1306,7 @@
 							<string>button1</string>
 							<string>consoleController</string>
 							<string>controlButton</string>
+							<string>doodleButton</string>
 							<string>editorController</string>
 							<string>keyboardView</string>
 							<string>mikeButton</string>
@@ -1289,6 +1321,7 @@
 							<string>BottomViewController</string>
 							<string>UIButton</string>
 							<string>ConsoleViewController</string>
+							<string>UIBarButtonItem</string>
 							<string>UIBarButtonItem</string>
 							<string>EditorViewController</string>
 							<string>KeyboardView</string>
@@ -1308,6 +1341,7 @@
 							<string>button1</string>
 							<string>consoleController</string>
 							<string>controlButton</string>
+							<string>doodleButton</string>
 							<string>editorController</string>
 							<string>keyboardView</string>
 							<string>mikeButton</string>
@@ -1333,6 +1367,10 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">controlButton</string>
+								<string key="candidateClassName">UIBarButtonItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">doodleButton</string>
 								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -1394,7 +1432,7 @@
 			<object class="NSArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{20, 10}</string>
-				<string>{17, 29}</string>
+				<string>{12, 20}</string>
 			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">1173</string>

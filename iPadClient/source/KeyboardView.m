@@ -453,8 +453,6 @@ enum {
 -(void)adjustFrame
 {
 	CGRect f = self.frame;
-	NSLog(@"our frame is %@", NSStringFromCGRect(f));
-	NSLog(@"super frame is %@", NSStringFromCGRect(self.superview.frame));
 	f.size.height = _isLandscape ? _landscapeKeyboardHeight : _portraitKeyboardHeight;
 	if (f.size.height < 100) //we were getting zero at some point. this corrects that problem
 		f.size.height = 357;
