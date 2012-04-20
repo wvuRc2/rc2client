@@ -44,6 +44,7 @@
 						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{20, 49}, {663, 43}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="86857718"/>
 						<string key="NSReuseIdentifierKey">_NS:120</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -75,13 +76,14 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{0, 707}, {703, 21}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
+						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:120</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<string key="IBUIText">©2011 West Virginia University. All Rights Reserved.</string>
+						<string key="IBUIText">©2012 West Virginia University. All Rights Reserved.</string>
 						<reference key="IBUITextColor" ref="319413788"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
@@ -106,6 +108,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{511, 6}, {44, 33}}</string>
 								<reference key="NSSuperview" ref="495449458"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="154441039"/>
 								<string key="NSReuseIdentifierKey">_NS:226</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="8796169">
@@ -150,6 +153,7 @@
 						</array>
 						<string key="NSFrameSize">{703, 44}</string>
 						<reference key="NSSuperview" ref="766721923"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="309804506"/>
 						<string key="NSReuseIdentifierKey">_NS:150</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -202,6 +206,7 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{20, 100}, {663, 599}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="44419698"/>
 						<string key="NSReuseIdentifierKey">_NS:196</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -216,6 +221,7 @@
 				</array>
 				<string key="NSFrame">{{0, 20}, {703, 748}}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="495449458"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -262,6 +268,7 @@
 						<int key="NSvFlags">276</int>
 						<string key="NSFrame">{{20, 49}, {320, 501}}</string>
 						<reference key="NSSuperview" ref="586707519"/>
+						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:164</string>
 						<reference key="IBUIBackgroundColor" ref="8796169"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -282,6 +289,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{20, 20}, {84, 21}}</string>
 						<reference key="NSSuperview" ref="586707519"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="295998953"/>
 						<string key="NSReuseIdentifierKey">_NS:120</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -307,6 +315,7 @@
 				</array>
 				<string key="NSFrameSize">{663, 599}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="470354217"/>
 				<string key="NSReuseIdentifierKey">_NS:196</string>
 				<object class="NSColor" key="IBUIBackgroundColor">
@@ -597,7 +606,101 @@
 			<nil key="sourceID"/>
 			<int key="maxID">97</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">DetailsViewController</string>
+					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="doActionMenu:">id</string>
+						<string key="doLoginLogout:">id</string>
+						<string key="doLogoutFromWSPage:">id</string>
+						<string key="doMessages:">id</string>
+						<string key="doStartSession:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="doActionMenu:">
+							<string key="name">doActionMenu:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doLoginLogout:">
+							<string key="name">doLoginLogout:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doLogoutFromWSPage:">
+							<string key="name">doLogoutFromWSPage:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doMessages:">
+							<string key="name">doMessages:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doStartSession:">
+							<string key="name">doStartSession:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="fileTableView">UITableView</string>
+						<string key="loginButton">UIBarButtonItem</string>
+						<string key="messageNavView">UIView</string>
+						<string key="messagesButton">UIBarButtonItem</string>
+						<string key="msgCntLabel">UILabel</string>
+						<string key="sessionButton">UIBarButtonItem</string>
+						<string key="titleLabel">UILabel</string>
+						<string key="toolbar">UIToolbar</string>
+						<string key="welcomeContent">UIView</string>
+						<string key="workspaceContent">UIView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="fileTableView">
+							<string key="name">fileTableView</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="loginButton">
+							<string key="name">loginButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="messageNavView">
+							<string key="name">messageNavView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="messagesButton">
+							<string key="name">messagesButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="msgCntLabel">
+							<string key="name">msgCntLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="sessionButton">
+							<string key="name">sessionButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="titleLabel">
+							<string key="name">titleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="toolbar">
+							<string key="name">toolbar</string>
+							<string key="candidateClassName">UIToolbar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="welcomeContent">
+							<string key="name">welcomeContent</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="workspaceContent">
+							<string key="name">workspaceContent</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/DetailsViewController.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">

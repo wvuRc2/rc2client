@@ -19,7 +19,6 @@
 {
 	self = [super initWithFrame:frame];
 	self.paths = [NSMutableArray array];
-//	self.backgroundColor = [[UIColor magentaColor] colorWithAlphaComponent:0.05];
 	self.backgroundColor = [UIColor clearColor];
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clearDoodles:)];
 	tap.numberOfTapsRequired = 2;
