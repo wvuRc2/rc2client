@@ -37,6 +37,8 @@
 
 -(BOOL)isFolder { return NO; }
 
+-(BOOL)canDelete { return YES; }
+
 -(NSComparisonResult)compareWithItem:(RCWorkspaceItem*)anItem
 {
 	//shared folder is always first

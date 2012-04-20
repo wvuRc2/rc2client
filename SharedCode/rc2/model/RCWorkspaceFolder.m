@@ -26,6 +26,13 @@
 
 -(BOOL)isFolder { return YES; }
 
+-(BOOL)canDelete
+{
+	if ([self.name isEqualToString:@"shared"])
+		return NO;
+	return YES;
+}
+
 -(NSArray*)children
 {
 	return [_children copy];

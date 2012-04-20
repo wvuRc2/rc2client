@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, strong) NSNumber *parentId;
 @property (nonatomic, readonly) BOOL isFolder;
+@property (nonatomic, readonly) BOOL canDelete;
 
 -(NSComparisonResult)compareWithItem:(RCWorkspaceItem*)anItem;
 @end

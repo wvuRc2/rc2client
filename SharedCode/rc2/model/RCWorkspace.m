@@ -123,6 +123,15 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 	return nil;
 }
 
+-(BOOL)canDelete
+{
+	if (self.sharedByOther)
+		return NO;
+	if ([self.name isEqualToString:@"default"])
+		return NO;
+	return YES;
+}
+
 -(NSArray*)files
 {
 	if (nil == _files && !self.fetchingFiles)

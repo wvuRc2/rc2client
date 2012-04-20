@@ -20,12 +20,11 @@
 @property (nonatomic, strong) UIActionSheet *addSheet;
 @property (nonatomic, strong) WorkspaceTableCell *currentSelection;
 @property (nonatomic, strong) id themeChangeNotice;
+@property (nonatomic, strong) UIAlertView *currentAlert;
 -(void)handleAddWorkspaceResponse:(BOOL)success results:(NSDictionary*)results;
 @end
 
 @implementation WorkspaceTableController
-@synthesize workspaceItems=_workspaceItems;
-@synthesize currentSelection;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -105,12 +104,12 @@
 	[self.addSheet showFromBarButtonItem:self.addButton animated:YES];
 }
 
--(void)handleAddWorkspaceResponse:(BOOL)success results:(NSDictionary*)results
+-(void)handleAddWorkspaceResponse:(BOOL)success results:(id)results
 {
 	if (!success) {
 		NSString *err=nil;
 		if ([results isKindOfClass:[NSString class]])
-			err = results.description;
+			err = [results description];
 		else
 			err = [results objectForKey:@"error"];
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -121,9 +120,7 @@
 		[alert show];
 		return;
 	}
-	RCWorkspaceItem *wspace = [RCWorkspaceItem workspaceItemWithDictionary:[results objectForKey:@"wspace"]];
-	[(RCWorkspaceFolder*)self.parentItem addChild:wspace];
-	self.workspaceItems = [self.workspaceItems arrayByAddingObject:wspace];
+	self.workspaceItems = [self.workspaceItems arrayByAddingObject:results];
 	[self.tableView reloadData];
 }
 
@@ -134,18 +131,19 @@
 	NSString *title=@"Workspace Name:";
 	if (buttonIndex == 1)
 		title = @"Folder Name:";
-	AMPromptView *pv = [[AMPromptView alloc] initWithPrompt:title 
-												acceptTitle:@"Create" cancelTitle:@"Cancel" delegate:nil];
-	pv.completionHandler = ^(AMPromptView *prompt, NSString *string) {
-		if (string) {
+	self.currentAlert = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
+	self.currentAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+	__unsafe_unretained WorkspaceTableController *blockSelf=self;
+	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
+		if (1==btnIdx) {
 			RCWorkspaceFolder *parent = (RCWorkspaceFolder*)self.parentItem;
-			[[Rc2Server sharedInstance] addWorkspace:string parent:parent folder:buttonIndex==1
+			[[Rc2Server sharedInstance] addWorkspace:[alert textFieldAtIndex:0].text parent:parent folder:buttonIndex==1
 								   completionHandler:^(BOOL success, id results) {
 									   [self handleAddWorkspaceResponse:success results:results];
 								   }];
 		}
-	};
-	[pv show];
+		blockSelf.currentAlert=nil;
+	}];
 }
 
 -(void)clearSelection
@@ -220,6 +218,38 @@
 	[Rc2Server sharedInstance].selectedWorkspace = nil;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	__unsafe_unretained WorkspaceTableController *blockSelf = self;
+	RCWorkspaceItem *wsitem = [_workspaceItems objectAtIndex:indexPath.row];
+	NSString *msg = [NSString stringWithFormat:@"Delete Workspace '%@'? This action can not be undone.", 
+					 wsitem.name];
+	self.currentAlert = [[UIAlertView alloc] initWithTitle:@"Delete Workspace?" message:msg delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete", nil];
+	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
+		if (btnIdx == 1) {
+			[[Rc2Server sharedInstance] deleteWorkspce:wsitem completionHandler:^(BOOL success, id msg) {
+				blockSelf.workspaceItems = [blockSelf.workspaceItems arrayByRemovingObjectAtIndex:indexPath.row];
+				[tableView reloadData];
+				if (!success) {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						UIAlertView *msgview = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+						[msgview show];
+					});
+				}
+			}];
+		}
+		self.currentAlert=nil;
+	}];
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	RCWorkspaceItem *wsitem = [_workspaceItems objectAtIndex:indexPath.row];
+	if (wsitem.canDelete && !wsitem.isFolder)
+		return UITableViewCellEditingStyleDelete;
+	return UITableViewCellEditingStyleNone;
+}
+
 #pragma mark - accessors
 
 -(void)setWorkspaceItems:(NSArray *)items
@@ -230,6 +260,9 @@
 	[self.tableView reloadData];
 }
 
+@synthesize workspaceItems=_workspaceItems;
+@synthesize currentSelection=_currentSelection;
+@synthesize currentAlert=_currentAlert;
 @synthesize loggedInToken;
 @synthesize addSheet;
 @synthesize addButton;
