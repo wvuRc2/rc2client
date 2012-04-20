@@ -7,6 +7,7 @@
 //
 
 #import "DoodleViewController.h"
+#import "DoodleView.h"
 
 @interface DoodleViewController ()
 
@@ -16,10 +17,9 @@
 
 -(void)loadView
 {
-	UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 768, 980)];
+	DoodleView *v = [[DoodleView alloc] initWithFrame:CGRectMake(0, 44, 768, 980)];
 	self.view = v;
 	v.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-	v.layer.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.05].CGColor;
 }
 
 -(void)viewDidAppear:(BOOL)animated
