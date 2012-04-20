@@ -31,6 +31,7 @@
 @property (nonatomic, strong) UINavigationController *importController;
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
+@property (nonatomic, strong) UIAlertView *currentAlert;
 @property (nonatomic, strong) id sessionKvoToken;
 @property (nonatomic, strong) id sessionHandToken;
 -(void)keyboardVisible:(NSNotification*)note;
@@ -356,11 +357,14 @@
 
 -(IBAction)doNewFile:(id)sender
 {
-	AMPromptView *prompt = [[AMPromptView alloc] initWithPrompt:@"New File Name:" acceptTitle:@"Create" cancelTitle:@"Cancel" delegate:nil];
-	prompt.completionHandler = ^(AMPromptView *pv, NSString *str) {
-		if ([str length] > 0) {
+	self.currentAlert = [[UIAlertView alloc] initWithTitle:@"New File Name:" message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
+	self.currentAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+	__unsafe_unretained EditorViewController *blockSelf=self;
+	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
+		if (1==btnIdx) {
 			[(UIPopoverController*)self.parentViewController dismissPopoverAnimated:YES];
 			//make sure has a file extension
+			NSString *str = [alert textFieldAtIndex:0].text;
 			NSString *ext = [str pathExtension];
 			if (![ext isEqualToString:@"R"] && ![ext isEqualToString:@"RnW"] && ![ext isEqualToString:@"txt"])
 				str = [str stringByAppendingPathExtension:@"R"];
@@ -371,8 +375,8 @@
 			[[[Rc2Server sharedInstance] currentSession].workspace addFile:file];
 			[self performSelectorOnMainThread:@selector(loadFile:) withObject:file waitUntilDone:NO];
 		}
-	};
-	[prompt show];
+		blockSelf.currentAlert=nil;
+	}];
 }
 
 -(void)doDeleteFile:(id)sender
@@ -504,4 +508,5 @@
 @synthesize sessionKvoToken;
 @synthesize handButton;
 @synthesize sessionHandToken;
+@synthesize currentAlert=_currentAlert;
 @end
