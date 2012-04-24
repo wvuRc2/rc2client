@@ -7,7 +7,12 @@
 //
 
 #import "RCMSyntaxHighlighter.h"
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 #import "RCMAppConstants.h"
+#else
+#import <CoreText/CoreText.h>
+#import "AppConstants.h"
+#endif
 
 @interface RCMSyntaxHighlighter()
 @property (nonatomic, strong) NSRegularExpression *quoteRegex;
@@ -90,9 +95,15 @@
 -(void)cacheAttributes
 {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 	self.commentAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Comment]] forKey:NSForegroundColorAttributeName];
 	self.keywordAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Keyword]] forKey:NSForegroundColorAttributeName];
 	self.functionAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Function]] forKey:NSForegroundColorAttributeName];
+#else
+	self.commentAttrs = [NSDictionary dictionaryWithObject:[UIColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Comment]] forKey:(__bridge NSString*)kCTForegroundColorAttributeName];
+	self.keywordAttrs = [NSDictionary dictionaryWithObject:[UIColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Keyword]] forKey:(__bridge NSString*)kCTForegroundColorAttributeName];
+	self.functionAttrs = [NSDictionary dictionaryWithObject:[UIColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Function]] forKey:(__bridge NSString*)kCTForegroundColorAttributeName];
+#endif
 }
 
 -(NSAttributedString*)syntaxHighlightRCode:(NSAttributedString*)sourceStr

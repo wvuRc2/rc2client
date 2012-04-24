@@ -11,6 +11,9 @@
 #define kPrefCustomKey1URL @"PrefCustomKey1URL"
 #define kPrefCustomKey2URL @"PrefCustomKey2URL"
 #define kPrefKeyboardLayout @"KeyboardLayout"
+#define kPref_SyntaxColor_Comment @"SyntaxColor_Comment"
+#define kPref_SyntaxColor_Function @"SyntaxColor_Function"
+#define kPref_SyntaxColor_Keyword @"SyntaxColor_Keyword"
 
 typedef enum {
 	eKeyboardLayout_Standard=0,

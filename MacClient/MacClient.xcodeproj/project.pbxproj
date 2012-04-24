@@ -257,8 +257,8 @@
 		088D7F8614F83CAF005C62AF /* bighand-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-blue@2x.png"; sourceTree = "<group>"; };
 		088D7F8714F83CAF005C62AF /* bighand-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-green.png"; sourceTree = "<group>"; };
 		088D7F8814F83CAF005C62AF /* bighand-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-green@2x.png"; sourceTree = "<group>"; };
-		088D7FA114FD3AD6005C62AF /* RCMSyntaxHighlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMSyntaxHighlighter.h; sourceTree = "<group>"; };
-		088D7FA214FD3AD6005C62AF /* RCMSyntaxHighlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMSyntaxHighlighter.m; sourceTree = "<group>"; };
+		088D7FA114FD3AD6005C62AF /* RCMSyntaxHighlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMSyntaxHighlighter.h; path = ../SharedCode/rc2/RCMSyntaxHighlighter.h; sourceTree = SOURCE_ROOT; };
+		088D7FA214FD3AD6005C62AF /* RCMSyntaxHighlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMSyntaxHighlighter.m; path = ../SharedCode/rc2/RCMSyntaxHighlighter.m; sourceTree = SOURCE_ROOT; };
 		088D7FD514FEA3D3005C62AF /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphone.png; sourceTree = "<group>"; };
 		088D7FD614FEA3D3005C62AF /* microphoneOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphoneOff.png; sourceTree = "<group>"; };
 		088D7FDA14FEA702005C62AF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -437,8 +437,6 @@
 		08056E331448C6430002766D /* utility */ = {
 			isa = PBXGroup;
 			children = (
-				088D7FA114FD3AD6005C62AF /* RCMSyntaxHighlighter.h */,
-				088D7FA214FD3AD6005C62AF /* RCMSyntaxHighlighter.m */,
 				08FE8A501415A89700672474 /* EMKeychainItem.h */,
 				08FE8A511415A89700672474 /* EMKeychainItem.m */,
 				08EE40E91433AC2C004FDBB8 /* RC2RemoteLogger.h */,
@@ -729,6 +727,8 @@
 			children = (
 				086246971501180700A71853 /* RCAudioChatEngine.h */,
 				086246981501180700A71853 /* RCAudioChatEngine.m */,
+				088D7FA114FD3AD6005C62AF /* RCMSyntaxHighlighter.h */,
+				088D7FA214FD3AD6005C62AF /* RCMSyntaxHighlighter.m */,
 				0804C4DE150AA53A0079F963 /* RCImageCache.h */,
 				0804C4DF150AA53A0079F963 /* RCImageCache.m */,
 				08FE8A1B1415755000672474 /* Rc2Server.h */,
