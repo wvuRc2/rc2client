@@ -18,12 +18,14 @@
 }
 @property (nonatomic, strong) NSString *lastPageContent;
 @property (nonatomic, strong) id sessionKvoToken;
+@property (nonatomic, strong) UIActionSheet *actionSheet;
 -(void)sessionModeChanged;
 @end
 
 @implementation ConsoleViewController
 @synthesize webView=_webView;
 @synthesize session=_session;
+@synthesize actionSheet=_actionSheet;
 @synthesize toolbar;
 @synthesize textField;
 @synthesize executeButton;
@@ -126,13 +128,18 @@
 
 -(IBAction)doActionSheet:(id)sender
 {
+	if (self.actionSheet.isVisible) {
+		[self.actionSheet dismissWithClickedButtonIndex:-1 animated:YES];
+		self.actionSheet=nil;
+		return;
+	}
 	NSArray *actionItems = ARRAY(
 								 [AMActionItem actionItemWithName:@"Clear" target:self action:@selector(doClear:) userInfo:nil],
 								 [AMActionItem actionItemWithName:@"Decrease Font Size" target:self action:@selector(doDecreaseFont:) userInfo:nil],
 								 [AMActionItem actionItemWithName:@"Increase Font Size" target:self action:@selector(doIncreaseFont:) userInfo:nil]
 	);
-	UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Console Actions" actionItems:actionItems];
-	[sheet showFromBarButtonItem:sender animated:YES];
+	self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Console Actions" actionItems:actionItems];
+	[self.actionSheet showFromBarButtonItem:sender animated:YES];
 }
 
 -(IBAction)doClear:(id)sender

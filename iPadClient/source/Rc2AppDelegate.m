@@ -70,6 +70,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[[VyanaLogger sharedInstance] startLogging];
 	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+	[(iAMApplication*)application loadDefaultDefaults];
 	 
 	//swizzle UITableView method so can get double click notifications
 	Method customMethod = class_getInstanceMethod([UITableView class], @selector(myTouchesEnded:withEvent:));

@@ -145,6 +145,7 @@
 	RCSession *session = [Rc2Server sharedInstance].currentSession;
 	self.executeButton.enabled = self.textView.text.length > 0;
 	self.syncButtonItem.enabled = session.hasWritePerm && self.currentFile.locallyModified;
+	self.textView.font = [UIFont fontWithName:@"Inconsolata" size:18];
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
