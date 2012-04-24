@@ -13,6 +13,7 @@
 #import "RCWorkspaceShare.h"
 #import "RCFile.h"
 #import "RC2RemoteLogger.h"
+#import "SBJsonParser.h"
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 #import "NSObject+SBJSON.h"
 #import "NSString+SBJSON.h"
@@ -35,6 +36,7 @@
 @property (nonatomic, strong) NSMutableDictionary *wsItemsById;
 @property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
 @property (nonatomic, strong) NSOperationQueue *requestQueue;
+@property (nonatomic, strong) SBJsonParser *jsonParser;
 -(void)updateWorkspaceItems:(NSArray*)items;
 @end
 
@@ -56,6 +58,7 @@
 @synthesize isAdmin;
 @synthesize usersPermissions;
 @synthesize requestQueue;
+@synthesize jsonParser=_jsonParser;
 
 #pragma mark - init
 
@@ -96,6 +99,7 @@
 	self = [super init];
 	self.serverHost = [[NSUserDefaults standardUserDefaults] integerForKey:kServerHostKey];
 	self.wsItemsById = [NSMutableDictionary dictionary];
+	self.jsonParser = [[SBJsonParser alloc] init];
 #if TARGET_IPHONE_SIMULATOR
 	self.serverHost = eRc2Host_Local;
 #endif
@@ -239,8 +243,8 @@
 			hblock(NO, @"server sent back invalid response");
 			return;
 		}
-		NSDictionary *rsp = [respStr JSONValue];
-		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+		NSDictionary *rsp = [self.jsonParser objectWithString:respStr];
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
 			[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
 			hblock(YES, [self.wsItemsById objectForKey:[[rsp objectForKey:@"wspace"] objectForKey:@"id"]]);
 		} else {
@@ -510,28 +514,33 @@
 	}];
 	[req startAsynchronous];
 }
-
 -(void)saveFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url=nil;
-	if (file.existsOnServer)
+	if (file.existsOnServer) 
 		url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl], file.fileId]];
 	else
-		url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/files/new", [self baseUrl]]];
-//FIXME: bad url above
+		url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/0", [self baseUrl]]];
 	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
 	__weak ASIFormDataRequest *req = theReq;
+	if (file.existsOnServer)
+		[req setRequestMethod:@"PUT"];
 	[req setPostValue:file.localEdits forKey:@"content"];
 	[req setPostValue:file.name forKey:@"name"];
+	[req setPostValue:file.name.pathExtension forKey:@"type"];
 	[req setPostValue:workspace.wspaceId forKey:@"wspaceid"];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		NSDictionary *dict = [respStr JSONValue];
-		NSString *oldContents = file.localEdits;
-		[file updateWithDictionary:[dict objectForKey:@"file"]];
-		file.fileContents = oldContents;
-		[file discardEdits];
-		hblock(YES, file);
+		NSDictionary *dict = [self.jsonParser objectWithString:respStr];
+		if (dict) {
+			NSString *oldContents = file.localEdits;
+			[file updateWithDictionary:[dict objectForKey:@"file"]];
+			file.fileContents = oldContents;
+			[file discardEdits];
+			hblock(YES, file);
+		} else {
+			hblock(NO, respStr);
+		}
 	}];
 	[req setFailedBlock:^{
 		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
@@ -605,7 +614,9 @@
 		return NO;
 	}
 	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-	NSDictionary *dict = [respStr JSONValue];
+	NSDictionary *dict = [self.jsonParser objectWithString:respStr error:outError];
+	if (nil == dict)
+		return NO;
 	[file discardEdits];
 	[file updateWithDictionary:[dict objectForKey:@"file"]];
 	if (file.isTextFile)
