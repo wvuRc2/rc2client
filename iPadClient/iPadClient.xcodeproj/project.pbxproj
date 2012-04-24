@@ -147,6 +147,11 @@
 		08BA999115473C1100B6CFC1 /* Inconsolata.otf in Resources */ = {isa = PBXBuildFile; fileRef = 08BA999015473C1100B6CFC1 /* Inconsolata.otf */; };
 		08BA99951547408100B6CFC1 /* RCMSyntaxHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BA99941547408100B6CFC1 /* RCMSyntaxHighlighter.m */; };
 		08BA9997154744C700B6CFC1 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BA9996154744C700B6CFC1 /* CoreText.framework */; };
+		08BA99991547485900B6CFC1 /* libDTRichTextEditor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BA99981547485900B6CFC1 /* libDTRichTextEditor.a */; };
+		08BA999B1547486400B6CFC1 /* DTLoupe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08BA999A1547486400B6CFC1 /* DTLoupe.bundle */; };
+		08BA999E1547489600B6CFC1 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BA999C1547489600B6CFC1 /* CoreImage.framework */; };
+		08BA999F1547489600B6CFC1 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BA999D1547489600B6CFC1 /* ImageIO.framework */; };
+		08BA99A1154748B300B6CFC1 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BA99A0154748B300B6CFC1 /* libxml2.dylib */; };
 		08D55EDF140635CA00E9D981 /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EDE140635CA00E9D981 /* GradientButton.m */; };
 		08D55EE314063C9500E9D981 /* RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EE214063C9500E9D981 /* RCFile.m */; };
 		08D55EE7140641D900E9D981 /* FileDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EE5140641D900E9D981 /* FileDetailsCell.m */; };
@@ -403,6 +408,11 @@
 		08BA99931547408100B6CFC1 /* RCMSyntaxHighlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMSyntaxHighlighter.h; path = ../SharedCode/rc2/RCMSyntaxHighlighter.h; sourceTree = "<group>"; };
 		08BA99941547408100B6CFC1 /* RCMSyntaxHighlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMSyntaxHighlighter.m; path = ../SharedCode/rc2/RCMSyntaxHighlighter.m; sourceTree = "<group>"; };
 		08BA9996154744C700B6CFC1 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		08BA99981547485900B6CFC1 /* libDTRichTextEditor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDTRichTextEditor.a; path = richTextEditor/libDTRichTextEditor.a; sourceTree = "<group>"; };
+		08BA999A1547486400B6CFC1 /* DTLoupe.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DTLoupe.bundle; path = richTextEditor/DTLoupe.bundle; sourceTree = SOURCE_ROOT; };
+		08BA999C1547489600B6CFC1 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		08BA999D1547489600B6CFC1 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		08BA99A0154748B300B6CFC1 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		08D55EDD140635CA00E9D981 /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GradientButton.h; path = source/GradientButton.h; sourceTree = SOURCE_ROOT; };
 		08D55EDE140635CA00E9D981 /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GradientButton.m; path = source/GradientButton.m; sourceTree = SOURCE_ROOT; };
 		08D55EE114063C9500E9D981 /* RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCFile.h; path = ../SharedCode/rc2/model/RCFile.h; sourceTree = SOURCE_ROOT; };
@@ -470,6 +480,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08BA99A1154748B300B6CFC1 /* libxml2.dylib in Frameworks */,
+				08BA999E1547489600B6CFC1 /* CoreImage.framework in Frameworks */,
+				08BA999F1547489600B6CFC1 /* ImageIO.framework in Frameworks */,
 				08BA9997154744C700B6CFC1 /* CoreText.framework in Frameworks */,
 				081A164D14FEBCA3004B34A0 /* AudioToolbox.framework in Frameworks */,
 				0872E5FC1407C0E500B1A6CF /* AVFoundation.framework in Frameworks */,
@@ -489,6 +502,7 @@
 				082DC03213EC99E5008EAA99 /* CoreGraphics.framework in Frameworks */,
 				08317A101427E200009701C6 /* libTestFlight.a in Frameworks */,
 				088AC26514BA62D00094D134 /* DropboxSDK.framework in Frameworks */,
+				08BA99991547485900B6CFC1 /* libDTRichTextEditor.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,6 +549,10 @@
 		082DC02C13EC99E4008EAA99 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				08BA99981547485900B6CFC1 /* libDTRichTextEditor.a */,
+				08BA99A0154748B300B6CFC1 /* libxml2.dylib */,
+				08BA999C1547489600B6CFC1 /* CoreImage.framework */,
+				08BA999D1547489600B6CFC1 /* ImageIO.framework */,
 				08BA9996154744C700B6CFC1 /* CoreText.framework */,
 				081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */,
 				088AC26414BA62D00094D134 /* DropboxSDK.framework */,
@@ -607,6 +625,7 @@
 				082DC03613EC99E5008EAA99 /* InfoPlist.strings */,
 				082DC03913EC99E5008EAA99 /* rc2-Prefix.pch */,
 				082DC03A13EC99E5008EAA99 /* main.m */,
+				08BA999A1547486400B6CFC1 /* DTLoupe.bundle */,
 			);
 			name = "Supporting Files";
 			path = iPadClient;
@@ -1040,6 +1059,7 @@
 				081A165214FEE035004B34A0 /* mikeOff.png in Resources */,
 				08BA998E154739B000B6CFC1 /* DefaultDefaults.plist in Resources */,
 				08BA999115473C1100B6CFC1 /* Inconsolata.otf in Resources */,
+				08BA999B1547486400B6CFC1 /* DTLoupe.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1254,6 +1274,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
@@ -1269,12 +1290,14 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"/**",
 					"$(BUILT_PRODUCTS_DIR)",
+					"$(SRCROOT)/richTextEditor/**",
 				);
 				INFOPLIST_FILE = "resources/rc2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../3rdParty/testflight\"",
+					"\"$(SRCROOT)/richTextEditor\"",
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
@@ -1287,6 +1310,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
@@ -1301,12 +1325,14 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"/**",
 					"$(BUILT_PRODUCTS_DIR)",
+					"$(SRCROOT)/richTextEditor/**",
 				);
 				INFOPLIST_FILE = "resources/rc2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../3rdParty/testflight\"",
+					"\"$(SRCROOT)/richTextEditor\"",
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
@@ -1338,6 +1364,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (ZJLV2664FQ)";
@@ -1352,6 +1379,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"/**",
 					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+					"$(SRCROOT)/richTextEditor/**",
 				);
 				INFOPLIST_FILE = "resources/rc2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -1359,6 +1387,7 @@
 					"$(BUILD_DIR)/Vyana",
 					"$(inherited)",
 					"\"$(SRCROOT)/../3rdParty/testflight\"",
+					"\"$(SRCROOT)/richTextEditor\"",
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";

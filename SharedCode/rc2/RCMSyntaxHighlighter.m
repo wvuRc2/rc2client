@@ -100,10 +100,19 @@
 	self.keywordAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Keyword]] forKey:NSForegroundColorAttributeName];
 	self.functionAttrs = [NSDictionary dictionaryWithObject:[NSColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Function]] forKey:NSForegroundColorAttributeName];
 #else
-	self.commentAttrs = [NSDictionary dictionaryWithObject:[UIColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Comment]] forKey:(__bridge NSString*)kCTForegroundColorAttributeName];
-	self.keywordAttrs = [NSDictionary dictionaryWithObject:[UIColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Keyword]] forKey:(__bridge NSString*)kCTForegroundColorAttributeName];
-	self.functionAttrs = [NSDictionary dictionaryWithObject:[UIColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Function]] forKey:(__bridge NSString*)kCTForegroundColorAttributeName];
+	self.commentAttrs = [NSDictionary dictionaryWithObject:(id)[UIColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Comment]].CGColor forKey:(__bridge NSString*)kCTForegroundColorAttributeName];
+	self.keywordAttrs = [NSDictionary dictionaryWithObject:(id)[UIColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Keyword]].CGColor forKey:(__bridge NSString*)kCTForegroundColorAttributeName];
+	self.functionAttrs = [NSDictionary dictionaryWithObject:(id)[UIColor colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Function]].CGColor forKey:(__bridge NSString*)kCTForegroundColorAttributeName];
 #endif
+}
+
+-(NSAttributedString*)syntaxHighlightCode:(NSAttributedString*)sourceStr ofType:(NSString*)fileExtension
+{
+	if ([fileExtension isEqualToString:@"R"])
+		return [self syntaxHighlightRCode:sourceStr];
+	else if ([fileExtension isEqualToString:@"RnW"] || [fileExtension isEqualToString:@"Rnw"])
+		return [self syntaxHighlightLatexCode:sourceStr];
+	return sourceStr;
 }
 
 -(NSAttributedString*)syntaxHighlightRCode:(NSAttributedString*)sourceStr

@@ -14,7 +14,7 @@
 @class RCSession;
 
 @interface EditorViewController : UIViewController<KeyboardViewDelegate,UIPopoverControllerDelegate,UITextViewDelegate>
-@property (nonatomic, strong) IBOutlet UITextView *textView;
+//@property (nonatomic, strong) IBOutlet UITextView *textView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *executeButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *syncButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *actionButtonItem;
@@ -34,6 +34,9 @@
 -(IBAction)presentDropboxImport:(id)sender;
 -(IBAction)doSaveFile:(id)sender;
 -(IBAction)toggleHand:(id)sender;
+
+-(void)setInputView:(id)inputView;
+-(BOOL)isEditorFirstResponder;
 
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress;
 -(void)loadFile:(RCFile*)file; //shows progress

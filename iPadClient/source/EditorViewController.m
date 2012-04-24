@@ -18,6 +18,9 @@
 #import "SessionFilesController.h"
 #import "MBProgressHUD.h"
 #import "DropboxImportController.h"
+#import "DTRichTextEditor.h"
+#import "RCMSyntaxHighlighter.h"
+#import "DTTextRange.h"
 
 @interface EditorViewController() {
 	CGRect _oldTextFrame;
@@ -25,6 +28,8 @@
 	BOOL _viewLoaded;
 	BOOL _handUp;
 }
+@property (nonatomic, strong) IBOutlet DTRichTextEditorView *richEditor;
+@property (nonatomic, strong) NSDictionary *defaultTextAttrs;
 @property (nonatomic, strong) SessionFilesController *fileController;
 @property (nonatomic, strong) UIPopoverController *filePopover;
 @property (nonatomic, strong) NSMutableArray *currentActionItems;
@@ -41,7 +46,6 @@
 @end
 
 @implementation EditorViewController
-@synthesize session=_session;
 
 - (id)init
 {
@@ -61,7 +65,7 @@
 {
 	switch (code) {
 		case 0xeaa0: //execute
-			[self.textView resignFirstResponder];
+			[self.richEditor resignFirstResponder];
 			[self doExecute:self];
 			break;
 	}
@@ -74,17 +78,17 @@
 	CGRect keyboardRect = [aValue CGRectValue];
 	keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
 	CGFloat keyboardTop = keyboardRect.origin.y;
-	_oldHeight=self.textView.bounds.size.height;
-	CGRect frame = self.textView.frame;
+	_oldHeight=self.richEditor.bounds.size.height;
+	CGRect frame = self.richEditor.frame;
 	_oldTextFrame=frame;
 	frame.size.height = keyboardTop-frame.origin.y;
-	self.textView.frame=frame;
+	self.richEditor.frame=frame;
 }
 
 -(void)keyboardHiding:(NSNotification*)note
 {
 	NSDictionary *userInfo = [note userInfo];
-	CGRect frame = self.textView.frame;
+	CGRect frame = self.richEditor.frame;
 	frame.size.height=_oldHeight;
 	NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
 	NSTimeInterval animationDuration;
@@ -92,10 +96,10 @@
 	// Animate the resize of the text view's frame in sync with the keyboard's appearance.
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:animationDuration];
-	self.textView.frame=frame;
-	self.textView.frame = _oldTextFrame;
+	self.richEditor.frame=frame;
+	self.richEditor.frame = _oldTextFrame;
 	[UIView commitAnimations]; 
-	self.currentFile.localEdits = self.textView.text;
+	self.currentFile.localEdits = self.richEditor.attributedString.string;
 	[self updateDocumentState];
 }
 
@@ -112,6 +116,15 @@
 											 selector:@selector(keyboardHiding:)
 												 name:UIKeyboardWillHideNotification object:nil];
 		self.docTitleLabel.text = @"Untitled Document";
+		self.richEditor.defaultFontFamily = @"Inconsolata";
+		CTFontRef fnt = CTFontCreateWithName(CFSTR("Inconsolata"), 18.0, NULL);
+		self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+								 (__bridge id)fnt, (NSString*)kCTFontAttributeName,
+								 nil];
+		CFRelease(fnt);
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(richTextChanged:) 
+													 name:DTRichTextEditorTextDidBeginEditingNotification 
+												   object:self.richEditor];
 		_viewLoaded=YES;
 	}
 }
@@ -137,15 +150,60 @@
 	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
 }
 
+#pragma mark - keyboard delegate
+
+-(void)keyboardWants2ReplaceCharactersInRange:(NSRange)rng with:(NSString*)str
+{
+	NSMutableAttributedString *astr = [self.richEditor.attributedString mutableCopy];
+	[astr replaceCharactersInRange:rng withString:str];
+	self.richEditor.attributedString = astr;
+}
+
+-(void)keyboardWants2DeleteCharactersInRange:(NSRange)rng
+{
+	NSMutableAttributedString *astr = [self.richEditor.attributedString mutableCopy];
+	[astr deleteCharactersInRange:rng];
+	self.richEditor.attributedString = astr;
+}
+
+-(NSRange)keyboardWants2GetRange
+{
+	return ((DTTextRange*)self.richEditor.selectedTextRange).NSRangeValue;
+}
+
+-(void)keyboardWants2SetRange:(NSRange)rng
+{
+	DTTextRange *aRange = [[DTTextRange alloc] initWithNSRange:rng];
+	self.richEditor.selectedTextRange = aRange;
+}
+
+-(NSString*)keyboardWantsContentString
+{
+	return self.richEditor.attributedString.string;
+}
+
+-(void)keyboardWants2DismissFirstResponder
+{
+	[self.richEditor resignFirstResponder];
+}
 
 #pragma mark - meat & potatoes
+
+-(void)setInputView:(id)inputView
+{
+	self.richEditor.inputView = inputView;
+}
+
+-(BOOL)isEditorFirstResponder
+{
+	return self.richEditor.isFirstResponder;
+}
 
 -(void)updateDocumentState
 {
 	RCSession *session = [Rc2Server sharedInstance].currentSession;
-	self.executeButton.enabled = self.textView.text.length > 0;
+	self.executeButton.enabled = self.richEditor.attributedString.length > 0;
 	self.syncButtonItem.enabled = session.hasWritePerm && self.currentFile.locallyModified;
-	self.textView.font = [UIFont fontWithName:@"Inconsolata" size:18];
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
@@ -153,7 +211,7 @@
 	if (savedState.currentFile) {
 		[self loadFile:savedState.currentFile];
 	} else if ([savedState.inputText length] > 0) {
-		self.textView.text = savedState.inputText;
+		[self updateTextContents:[[NSAttributedString alloc] initWithString:savedState.inputText]];
 	}
 	[self updateDocumentState];
 }
@@ -161,13 +219,13 @@
 -(void)loadFileData:(RCFile*)file
 {
 	if (self.currentFile) {
-		self.currentFile.localEdits = self.textView.text;
+		self.currentFile.localEdits = self.richEditor.attributedString.string;
 	}
 	self.currentFile = file;
 	self.docTitleLabel.text = file.name;
 	if (file.currentContents.length < 1)
 		NSLog(@"why is there an empty file?");
-	self.textView.text = file.currentContents;
+	[self updateTextContents:[[NSAttributedString alloc] initWithString:file.currentContents]];
 	[self updateDocumentState];
 	if (self.session.isClassroomMode && !self.session.restrictedMode) {
 		[self.session sendFileOpened:file];
@@ -242,17 +300,18 @@
 	self.syncButtonItem.enabled = !limited;
 	self.executeButton.enabled = !limited;
 	self.openFileButtonItem.enabled = !limited;
-	self.textView.editable = !limited;
+	self.richEditor.editable = !limited;
 }
 
 #pragma mark - actions
 
 -(IBAction)doExecute:(id)sender
 {
+	NSString *src = self.richEditor.attributedString.string;
 	if ([self.currentFile.name hasSuffix:@".Rnw"])
-		[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:self.textView.text];
+		[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:src];
 	else
-		[[Rc2Server sharedInstance].currentSession executeScript:self.textView.text scriptName:self.currentFile.name];
+		[[Rc2Server sharedInstance].currentSession executeScript:src scriptName:self.currentFile.name];
 }
 
 -(void)loadFile:(RCFile*)file
@@ -291,7 +350,7 @@
 -(IBAction)doClear:(id)sender
 {
 	self.docTitleLabel.text = @"Untitled Document";
-	self.textView.text = @"";
+	self.richEditor.attributedString = [[NSAttributedString alloc] initWithString:@""];
 	self.currentFile=nil;
 	[self updateDocumentState];
 }
@@ -352,7 +411,7 @@
 -(IBAction)doRevertFile:(id)sender
 {
 	[self.currentFile discardEdits];
-	self.textView.text = self.currentFile.fileContents;
+	[self updateTextContents:[[NSAttributedString alloc] initWithString:self.currentFile.currentContents]];
 	[self updateDocumentState];
 }
 
@@ -472,6 +531,20 @@
 	self.actionSheet=nil;
 }
 
+- (void)richTextChanged:(NSNotification*)note
+{
+	[self updateTextContents:nil];
+}
+
+-(void)updateTextContents:(NSAttributedString*)srcStr
+{
+	if (nil == srcStr)
+		srcStr = self.richEditor.attributedString;
+	NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
+	[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
+	self.richEditor.attributedText = astr;	
+}
+
 - (void)textViewDidChange:(UITextView *)tview
 {
 	[self updateDocumentState];
@@ -493,7 +566,9 @@
 	}];
 }
 
-@synthesize textView;
+@synthesize session=_session;
+@synthesize richEditor=_richEditor;
+//@synthesize textView;
 @synthesize fileController;
 @synthesize filePopover;
 @synthesize docTitleLabel;
@@ -509,5 +584,6 @@
 @synthesize sessionKvoToken;
 @synthesize handButton;
 @synthesize sessionHandToken;
+@synthesize defaultTextAttrs=_defaultTextAttrs;
 @synthesize currentAlert=_currentAlert;
 @end

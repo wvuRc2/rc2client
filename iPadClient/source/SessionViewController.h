@@ -15,7 +15,7 @@
 @class ConsoleViewController;
 @class BottomViewController;
 
-@interface SessionViewController : UIViewController<MGSplitViewControllerDelegate,RCSessionDelegate,KeyboardViewDelegate,UIDocumentInteractionControllerDelegate> {
+@interface SessionViewController : UIViewController<MGSplitViewControllerDelegate,RCSessionDelegate,KeyboardExecuteDelegate,UIDocumentInteractionControllerDelegate> {
 	IBOutlet UITextField *textField;
 	IBOutlet UITextView *textView;
 }

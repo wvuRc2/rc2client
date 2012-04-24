@@ -7,6 +7,7 @@
 //
 
 @protocol KeyboardViewDelegate;
+@protocol KeyboardExecuteDelegate;
 
 typedef enum {
 	eKeyboardStyle_Default,
@@ -16,9 +17,9 @@ typedef enum {
 @interface KeyboardView : UIView {
 }
 @property (nonatomic, strong) IBOutlet UIView *buttonTemplate;
-@property (nonatomic, strong) IBOutlet UITextView *textView;
 @property (nonatomic, strong) IBOutlet UITextField *consoleField;
 @property (nonatomic, unsafe_unretained) id<KeyboardViewDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id<KeyboardExecuteDelegate> executeDelegate;
 @property (nonatomic, assign) eKeyboardStyle keyboardStyle;
 @property (nonatomic, assign) BOOL isLandscape;
 -(IBAction)doKeyPress:(id)sender;
@@ -27,6 +28,16 @@ typedef enum {
 -(void)layoutKeyboard;
 @end
 
+@protocol KeyboardExecuteDelegate <NSObject>
+-(void)handleKeyCode:(unichar)code;
+@end
+
 @protocol KeyboardViewDelegate <NSObject>
 -(void)handleKeyCode:(unichar)code;
+-(void)keyboardWants2ReplaceCharactersInRange:(NSRange)rng with:(NSString*)str;
+-(void)keyboardWants2DeleteCharactersInRange:(NSRange)rng;
+-(NSRange)keyboardWants2GetRange;
+-(void)keyboardWants2SetRange:(NSRange)rng;
+-(NSString*)keyboardWantsContentString;
+-(void)keyboardWants2DismissFirstResponder;
 @end

@@ -76,8 +76,6 @@ enum {
 @end
 
 @implementation KeyboardView
-@synthesize keyboardStyle=_keyStyle;
-@synthesize isLandscape=_isLandscape;
 
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -297,8 +295,8 @@ enum {
 {
 	NSString *str=nil;
 	BOOL isConsole = [self.consoleField isFirstResponder];
-	NSRange rng = self.textView.selectedRange;
-	NSString *curText = isConsole ? self.consoleField.text : self.textView.text;
+	NSRange rng = [self.delegate keyboardWants2GetRange];
+	NSString *curText = isConsole ? self.consoleField.text : [self.delegate keyboardWantsContentString];
 	if ([sender tag] == 0) {
 		str = self.shiftDown ? sender.representedText : [sender.representedText lowercaseString];
 	} else if ([sender tag] >= 1000) {
@@ -310,8 +308,8 @@ enum {
 				if (isConsole) {
 					self.consoleField.text = [curText substringToIndex:curText.length-2];
 				} else if (rng.location > 0) {
-					self.textView.text = [curText stringByReplacingCharactersInRange:NSMakeRange(rng.location-1, 1) withString:@""];
-					self.textView.selectedRange = NSMakeRange(rng.location-1, 0);
+					[self.delegate keyboardWants2DeleteCharactersInRange:NSMakeRange(rng.location-1, 1)];
+					[self.delegate keyboardWants2SetRange:NSMakeRange(rng.location-1, 0)];
 				}
 				break;
 			case kKeyCodeShift:
@@ -325,7 +323,7 @@ enum {
 				if (isConsole)
 					[self.consoleField resignFirstResponder];
 				else
-					[self.textView resignFirstResponder];
+					[self.delegate keyboardWants2DismissFirstResponder];
 				break;
 			case kKeyCodeUpArrow:
 				break;
@@ -333,14 +331,14 @@ enum {
 				break;
 			case kKeyCodeLeftArrow:
 				if (!isConsole && rng.location > 0)
-					self.textView.selectedRange = NSMakeRange(rng.location-1, 0);
+					[self.delegate keyboardWants2SetRange:NSMakeRange(rng.location-1, 0)];
 				break;
 			case kKeyCodeRightArrow:
 				if (!isConsole && rng.location < [curText length])
-					self.textView.selectedRange = NSMakeRange(rng.location+1, 0);
+					[self.delegate keyboardWants2SetRange:NSMakeRange(rng.location+1, 0)];
 				break;
 			default:
-				[self.delegate handleKeyCode:(unichar)[sender tag]];
+				[self.executeDelegate handleKeyCode:(unichar)[sender tag]];
 				break;
 		}
 	} else {
@@ -350,7 +348,7 @@ enum {
 		if (isConsole)
 			self.consoleField.text = [curText stringByAppendingString:str];
 		else
-			[self.textView setText:[curText stringByReplacingCharactersInRange:rng withString:str]];
+			[self.delegate keyboardWants2ReplaceCharactersInRange:rng with:str];
 	}
 }
 
@@ -479,13 +477,15 @@ enum {
 
 #pragma mark - synthesizers
 
+@synthesize keyboardStyle=_keyStyle;
+@synthesize isLandscape=_isLandscape;
 @synthesize currentLayout;
 @synthesize alphaKeyView;
 @synthesize symKeyView;
 @synthesize buttonTemplateData;
 @synthesize layoutButton;
-@synthesize textView;
 @synthesize delegate;
+@synthesize executeDelegate;
 @synthesize buttonTemplate;
 @synthesize shiftDown;
 @synthesize shiftKey;

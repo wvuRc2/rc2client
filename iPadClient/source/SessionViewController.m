@@ -247,16 +247,16 @@
 	if ([defaults boolForKey:kPrefLefty])
 		self.keyboardView.keyboardStyle = eKeyboardStyle_LeftHanded;
 	[self.keyboardView layoutKeyboard];
-	self.editorController.textView.inputView = self.keyboardView;
-	self.keyboardView.textView = self.editorController.textView;
-	self.keyboardView.delegate = self;
+	[self.editorController setInputView:self.keyboardView];
+	self.keyboardView.delegate = self.editorController;
+	self.keyboardView.executeDelegate = self;
 	self.keyboardView.consoleField = self.consoleController.textField;
 	self.consoleController.textField.inputView = self.keyboardView;
 }
 
 -(void)handleKeyCode:(unichar)code
 {
-	if ([self.editorController.textView isFirstResponder])
+	if ([self.editorController isEditorFirstResponder])
 		[self.editorController handleKeyCode:code];
 	else if ([self.consoleController.textField isFirstResponder]) {
 		switch (code) {
@@ -344,7 +344,7 @@
 							  @"$('#consoleOutputGenerated').html()"];
 	savedState.currentFile = self.editorController.currentFile;
 	if (nil == savedState.currentFile)
-		savedState.inputText = self.editorController.textView.text;
+		savedState.inputText = [self.editorController keyboardWantsContentString]; //FIXME: hack. need better way
 }
 
 -(void)appRestored:(NSNotification*)note
