@@ -517,35 +517,61 @@
 -(void)saveFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url=nil;
-	if (file.existsOnServer) 
+	if (file.existsOnServer)  {
 		url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl], file.fileId]];
-	else
-		url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/0", [self baseUrl]]];
-	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
-	__weak ASIFormDataRequest *req = theReq;
-	if (file.existsOnServer)
-		[req setRequestMethod:@"PUT"];
-	[req setPostValue:file.localEdits forKey:@"content"];
-	[req setPostValue:file.name forKey:@"name"];
-	[req setPostValue:file.name.pathExtension forKey:@"type"];
-	[req setPostValue:workspace.wspaceId forKey:@"wspaceid"];
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		NSDictionary *dict = [self.jsonParser objectWithString:respStr];
-		if (dict) {
-			NSString *oldContents = file.localEdits;
-			[file updateWithDictionary:[dict objectForKey:@"file"]];
-			file.fileContents = oldContents;
-			[file discardEdits];
-			hblock(YES, file);
-		} else {
-			hblock(NO, respStr);
-		}
-	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
+		ASIFormDataRequest *theReq = [self postRequestWithURL:url];
+		__weak ASIFormDataRequest *req = theReq;
+		if (file.existsOnServer)
+			[req setRequestMethod:@"PUT"];
+		[req setPostValue:file.localEdits forKey:@"content"];
+		[req setPostValue:file.name forKey:@"name"];
+		[req setPostValue:file.name.pathExtension forKey:@"type"];
+		[req setPostValue:workspace.wspaceId forKey:@"wspaceid"];
+		[req setCompletionBlock:^{
+			NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+			NSDictionary *dict = [self.jsonParser objectWithString:respStr];
+			if (dict) {
+				NSString *oldContents = file.localEdits;
+				[file updateWithDictionary:[dict objectForKey:@"file"]];
+				file.fileContents = oldContents;
+				[file discardEdits];
+				hblock(YES, file);
+			} else {
+				hblock(NO, respStr);
+			}
+		}];
+		[req setFailedBlock:^{
+			hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+		}];
+		[req startAsynchronous];
+	} else {
+		ASIFormDataRequest *theReq = [self postRequestWithRelativeURL:[NSString stringWithFormat:@"workspace/%@/files", workspace.wspaceId]];
+		__weak ASIFormDataRequest *req = theReq;
+		[req setPostFormat:ASIMultipartFormDataPostFormat];
+		[req setPostValue:file.name forKey:@"name"];
+		[req setPostValue:self.currentUserId forKey:@"userid"];
+		[req setPostValue:workspace.wspaceId forKey:@"wspaceid"];
+		[req setPostValue:file.localEdits forKey:@"content"];
+		[req setCompletionBlock:^{
+			NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+			NSDictionary *dict = [respStr JSONValue];
+			if ([[dict objectForKey:@"status"] intValue] == 0) {
+				NSDictionary *fdata = [dict objectForKey:@"file"];
+				RCFile *rcfile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+				[rcfile updateWithDictionary:fdata];
+				hblock(YES, rcfile);
+			} else {
+				if ([dict objectForKey:@"error"])
+					hblock(NO, [dict objectForKey:@"error"]);
+				else
+					hblock(NO, @"unknown error");
+			}
+		}];
+		[req setFailedBlock:^{
+			hblock(NO, @"unknown error");
+		}];
+		[req startAsynchronous];
+	}
 }
 
 -(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock

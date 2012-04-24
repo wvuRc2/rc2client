@@ -18,6 +18,9 @@
 		081A165214FEE035004B34A0 /* mikeOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A165114FEE035004B34A0 /* mikeOff.png */; };
 		082896611541DB7B00A6B6C2 /* DoodleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828965F1541DB7B00A6B6C2 /* DoodleViewController.m */; };
 		082896661541E4B000A6B6C2 /* DoodleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082896651541E4B000A6B6C2 /* DoodleView.m */; };
+		0828967515471D7E00A6B6C2 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828966E15471D7E00A6B6C2 /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0828967615471D7E00A6B6C2 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828967015471D7E00A6B6C2 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0828967715471D7E00A6B6C2 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828967215471D7E00A6B6C2 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0829453F1496AA9800E593C7 /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */; };
 		082945421496AAA000E593C7 /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 082945411496AAA000E593C7 /* _RCWorkspaceCache.m */; };
 		082D9D5714097AEF008F3CB0 /* RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D9D5614097AEF008F3CB0 /* RCSavedSession.m */; };
@@ -210,6 +213,12 @@
 		0828965F1541DB7B00A6B6C2 /* DoodleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DoodleViewController.m; path = source/DoodleViewController.m; sourceTree = SOURCE_ROOT; };
 		082896641541E4B000A6B6C2 /* DoodleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DoodleView.h; path = source/DoodleView.h; sourceTree = SOURCE_ROOT; };
 		082896651541E4B000A6B6C2 /* DoodleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DoodleView.m; path = source/DoodleView.m; sourceTree = SOURCE_ROOT; };
+		0828966D15471D7E00A6B6C2 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		0828966E15471D7E00A6B6C2 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
+		0828966F15471D7E00A6B6C2 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		0828967015471D7E00A6B6C2 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		0828967115471D7E00A6B6C2 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		0828967215471D7E00A6B6C2 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		0829453D1496AA9800E593C7 /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
 		0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceCache.m; sourceTree = "<group>"; };
 		082945401496AAA000E593C7 /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCWorkspaceCache.h; path = ../SharedCode/rc2/model/generated/_RCWorkspaceCache.h; sourceTree = SOURCE_ROOT; };
@@ -476,6 +485,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0828966715471D7E00A6B6C2 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				0828966D15471D7E00A6B6C2 /* SBJsonBase.h */,
+				0828966E15471D7E00A6B6C2 /* SBJsonBase.m */,
+				0828966F15471D7E00A6B6C2 /* SBJsonParser.h */,
+				0828967015471D7E00A6B6C2 /* SBJsonParser.m */,
+				0828967115471D7E00A6B6C2 /* SBJsonWriter.h */,
+				0828967215471D7E00A6B6C2 /* SBJsonWriter.m */,
+			);
+			name = json;
+			path = ../SharedCode/json;
+			sourceTree = "<group>";
+		};
 		082DC01E13EC99E4008EAA99 = {
 			isa = PBXGroup;
 			children = (
@@ -807,6 +830,7 @@
 		08DD23AE1412B65A00217C1A /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				0828966715471D7E00A6B6C2 /* json */,
 				08EE41011436441F004FDBB8 /* WebSocketClient */,
 				08661A261405AC170087BD34 /* MGSplitViewController */,
 				08349F111404706A00B629B4 /* ASIHTTPRequest */,
@@ -1123,6 +1147,9 @@
 				080433E8150AAD020065426A /* RCImageCache.m in Sources */,
 				082896611541DB7B00A6B6C2 /* DoodleViewController.m in Sources */,
 				082896661541E4B000A6B6C2 /* DoodleView.m in Sources */,
+				0828967515471D7E00A6B6C2 /* SBJsonBase.m in Sources */,
+				0828967615471D7E00A6B6C2 /* SBJsonParser.m in Sources */,
+				0828967715471D7E00A6B6C2 /* SBJsonWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
