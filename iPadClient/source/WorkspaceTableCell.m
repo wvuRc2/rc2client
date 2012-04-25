@@ -104,8 +104,6 @@
 
 -(void)setItem:(RCWorkspaceItem *)anItem
 {
-	if (anItem == _item)
-		return;
 	_item = anItem;
 	label.text = anItem.name;
 	

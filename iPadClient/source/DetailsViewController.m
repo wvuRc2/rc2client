@@ -96,10 +96,7 @@ enum {
 																		   task:^(id obj, NSDictionary *change)
 		{
 			RCWorkspace *sel = [obj selectedWorkspace];
-			if (blockSelf.selectedWorkspace != sel) {
 				[blockSelf updateSelectedWorkspace:sel];
-	//			[blockSelf performSelectorOnMainThread:@selector(updateSelectedWorkspace:) withObject:sel waitUntilDone:NO];
-		   }
 		}];
 		[self.kvoTokens addObject:aToken];
 		self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
@@ -238,7 +235,7 @@ enum {
 
 -(void)fileTableDoubleTapped:(NSNotification*)note
 {
-	[self doStartSession:nil];
+//	[self doStartSession:nil];
 }
 
 -(void)refreshDetails

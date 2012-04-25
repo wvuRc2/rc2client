@@ -19,6 +19,7 @@
 @property (nonatomic, strong) id loggedInToken;
 @property (nonatomic, strong) UIActionSheet *addSheet;
 @property (nonatomic, strong) WorkspaceTableCell *currentSelection;
+@property (nonatomic, strong) UIActionSheet *actionSheet;
 @property (nonatomic, strong) id themeChangeNotice;
 @property (nonatomic, strong) UIAlertView *currentAlert;
 -(void)handleAddWorkspaceResponse:(BOOL)success results:(NSDictionary*)results;
@@ -79,6 +80,9 @@
 		[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
 			blockSelf.addButton.enabled = [Rc2Server sharedInstance].loggedIn;
 		}];
+		UILongPressGestureRecognizer *lpr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressOnFile:)];
+		lpr.minimumPressDuration = 0.5;
+		[self.tableView addGestureRecognizer:lpr];
 	}
 }
 
@@ -146,12 +150,95 @@
 	}];
 }
 
+#pragma mark - meat & potatos
+
 -(void)clearSelection
 {
 	self.currentSelection.drawSelected = NO;
 	self.currentSelection = nil;
 	[self.tableView selectRowAtIndexPath:nil animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
+
+-(void)deleteWorkspace:(id)wsitem
+{
+	if ([wsitem isKindOfClass:[AMActionItem class]])
+		wsitem = [wsitem userInfo];
+	__unsafe_unretained WorkspaceTableController *blockSelf = self;
+	NSString *msg = [NSString stringWithFormat:@"Delete Workspace '%@'? This action can not be undone.", 
+					 [wsitem name]];
+	if ([wsitem isFolder])
+		msg = [NSString stringWithFormat:@"Delete Folder '%@' and all contents? This action can not be undone.", 
+					 [wsitem name]];
+	self.currentAlert = [[UIAlertView alloc] initWithTitle:@"Delete Workspace?" message:msg delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete", nil];
+	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
+		if (btnIdx == 1) {
+			[[Rc2Server sharedInstance] deleteWorkspce:wsitem completionHandler:^(BOOL success, id msg) {
+				NSInteger idx = [self.workspaceItems indexOfObject:wsitem];
+				blockSelf.workspaceItems = [blockSelf.workspaceItems arrayByRemovingObjectAtIndex:idx];
+				[blockSelf.tableView reloadData];
+				if (!success) {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						UIAlertView *msgview = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+						[msgview show];
+					});
+				}
+			}];
+		}
+		self.currentAlert=nil;
+	}];
+}
+
+-(void)renameWorkspace:(id)wsitem
+{
+	if ([wsitem isKindOfClass:[AMActionItem class]])
+		wsitem = [wsitem userInfo];
+	__unsafe_unretained WorkspaceTableController *blockSelf = self;
+	NSString *msg = [NSString stringWithFormat:@"Rename '%@':", [wsitem name]];
+	self.currentAlert = [[UIAlertView alloc] initWithTitle:msg message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Rename", nil];
+	self.currentAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+	[self.currentAlert textFieldAtIndex:0].text = [wsitem name];
+	[self.currentAlert textFieldAtIndex:0].clearButtonMode = UITextFieldViewModeAlways;
+	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
+		if (btnIdx == 1) {
+			NSString *newName = [alert textFieldAtIndex:0].text;
+			[[Rc2Server sharedInstance] renameWorkspce:wsitem name:newName completionHandler:^(BOOL success, id msg) {
+				if (success) {
+					[blockSelf.tableView reloadData];
+				} else {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						UIAlertView *msgview = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+						[msgview show];
+					});
+				}
+			}]; 
+		}
+		self.currentAlert=nil;
+	}];
+}
+
+-(void)longPressOnFile:(UILongPressGestureRecognizer*)gesture
+{
+	if (gesture.state == UIGestureRecognizerStateBegan) {
+		if (self.actionSheet) {
+			[self.actionSheet dismissWithClickedButtonIndex:0 animated:YES];
+			self.actionSheet = nil;
+		}
+		CGPoint pt = [gesture locationInView:self.tableView];
+		NSIndexPath *ipath = [self.tableView indexPathForRowAtPoint:pt];
+		NSMutableArray *items = [NSMutableArray array];
+		RCWorkspaceItem *selItem = [self.workspaceItems objectAtIndex:ipath.row];
+		if (selItem.canRename)
+			[items addObject:[AMActionItem actionItemWithName:@"Rename" target:self action:@selector(renameWorkspace:) userInfo:selItem]];
+		if (selItem.canDelete)
+			[items addObject:[AMActionItem actionItemWithName:@"Delete" target:self action:@selector(deleteWorkspace:) userInfo:selItem]];
+		if (items.count > 0) {
+			self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Actions" actionItems:items];
+			CGRect r = CGRectMake(pt.x, pt.y, 1, 1);
+			[self.actionSheet showFromRect:r inView:self.tableView animated:YES];
+		}
+	}
+}
+
 
 #pragma mark - Table view data source
 
@@ -220,32 +307,14 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	__unsafe_unretained WorkspaceTableController *blockSelf = self;
 	RCWorkspaceItem *wsitem = [_workspaceItems objectAtIndex:indexPath.row];
-	NSString *msg = [NSString stringWithFormat:@"Delete Workspace '%@'? This action can not be undone.", 
-					 wsitem.name];
-	self.currentAlert = [[UIAlertView alloc] initWithTitle:@"Delete Workspace?" message:msg delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete", nil];
-	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
-		if (btnIdx == 1) {
-			[[Rc2Server sharedInstance] deleteWorkspce:wsitem completionHandler:^(BOOL success, id msg) {
-				blockSelf.workspaceItems = [blockSelf.workspaceItems arrayByRemovingObjectAtIndex:indexPath.row];
-				[tableView reloadData];
-				if (!success) {
-					dispatch_async(dispatch_get_main_queue(), ^{
-						UIAlertView *msgview = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-						[msgview show];
-					});
-				}
-			}];
-		}
-		self.currentAlert=nil;
-	}];
+	[self deleteWorkspace:wsitem];
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	RCWorkspaceItem *wsitem = [_workspaceItems objectAtIndex:indexPath.row];
-	if (wsitem.canDelete && !wsitem.isFolder)
+	if (wsitem.canDelete)
 		return UITableViewCellEditingStyleDelete;
 	return UITableViewCellEditingStyleNone;
 }
@@ -263,6 +332,7 @@
 @synthesize workspaceItems=_workspaceItems;
 @synthesize currentSelection=_currentSelection;
 @synthesize currentAlert=_currentAlert;
+@synthesize actionSheet=_actionSheet;
 @synthesize loggedInToken;
 @synthesize addSheet;
 @synthesize addButton;

@@ -38,6 +38,7 @@
 -(BOOL)isFolder { return NO; }
 
 -(BOOL)canDelete { return YES; }
+-(BOOL)canRename { return self.canDelete; }
 
 -(NSComparisonResult)compareWithItem:(RCWorkspaceItem*)anItem
 {

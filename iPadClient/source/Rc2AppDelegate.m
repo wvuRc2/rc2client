@@ -255,6 +255,10 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 -(void)startSession:(RCFile*)initialFile
 {
+	if ([initialFile.name.pathExtension isEqualToString:@"pdf"]) {
+		[self displayPdfFile:initialFile];
+		return;
+	}
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
 	if (eKeyboardLayout_Standard == keylayout) {

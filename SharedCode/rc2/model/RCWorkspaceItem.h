@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSNumber *parentId;
 @property (nonatomic, readonly) BOOL isFolder;
 @property (nonatomic, readonly) BOOL canDelete;
+@property (nonatomic, readonly) BOOL canRename;
 
 -(NSComparisonResult)compareWithItem:(RCWorkspaceItem*)anItem;
 @end
