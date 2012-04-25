@@ -55,6 +55,8 @@
 		<string>999999</string>
 		<key>MasterCellSelectedEnd</key>
 		<string>aaaaaa</string>
-</dict>
+	</dict>
+	<key>cssfile</key>
+	<string>greyscale.css</string>
 </dict>
 </plist>

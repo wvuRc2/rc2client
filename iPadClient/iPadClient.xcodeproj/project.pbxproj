@@ -152,6 +152,8 @@
 		08BA999E1547489600B6CFC1 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BA999C1547489600B6CFC1 /* CoreImage.framework */; };
 		08BA999F1547489600B6CFC1 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BA999D1547489600B6CFC1 /* ImageIO.framework */; };
 		08BA99A1154748B300B6CFC1 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BA99A0154748B300B6CFC1 /* libxml2.dylib */; };
+		08BA99A41548A17800B6CFC1 /* greyscale.css in Resources */ = {isa = PBXBuildFile; fileRef = 08BA99A21548A17800B6CFC1 /* greyscale.css */; };
+		08BA99A51548A17800B6CFC1 /* standard.css in Resources */ = {isa = PBXBuildFile; fileRef = 08BA99A31548A17800B6CFC1 /* standard.css */; };
 		08D55EDF140635CA00E9D981 /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EDE140635CA00E9D981 /* GradientButton.m */; };
 		08D55EE314063C9500E9D981 /* RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EE214063C9500E9D981 /* RCFile.m */; };
 		08D55EE7140641D900E9D981 /* FileDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EE5140641D900E9D981 /* FileDetailsCell.m */; };
@@ -413,6 +415,8 @@
 		08BA999C1547489600B6CFC1 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		08BA999D1547489600B6CFC1 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		08BA99A0154748B300B6CFC1 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		08BA99A21548A17800B6CFC1 /* greyscale.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = greyscale.css; path = ../console/common/greyscale.css; sourceTree = SOURCE_ROOT; };
+		08BA99A31548A17800B6CFC1 /* standard.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = standard.css; path = ../console/common/standard.css; sourceTree = SOURCE_ROOT; };
 		08D55EDD140635CA00E9D981 /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GradientButton.h; path = source/GradientButton.h; sourceTree = SOURCE_ROOT; };
 		08D55EDE140635CA00E9D981 /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GradientButton.m; path = source/GradientButton.m; sourceTree = SOURCE_ROOT; };
 		08D55EE114063C9500E9D981 /* RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCFile.h; path = ../SharedCode/rc2/model/RCFile.h; sourceTree = SOURCE_ROOT; };
@@ -876,6 +880,8 @@
 			isa = PBXGroup;
 			children = (
 				08DFFDAD14897392008D1399 /* console.html */,
+				08BA99A21548A17800B6CFC1 /* greyscale.css */,
+				08BA99A31548A17800B6CFC1 /* standard.css */,
 				08DFFDAE14897392008D1399 /* ir.js */,
 				08DFFDAF14897392008D1399 /* jquery-1.6.1.min.js */,
 			);
@@ -1060,6 +1066,8 @@
 				08BA998E154739B000B6CFC1 /* DefaultDefaults.plist in Resources */,
 				08BA999115473C1100B6CFC1 /* Inconsolata.otf in Resources */,
 				08BA999B1547486400B6CFC1 /* DTLoupe.bundle in Resources */,
+				08BA99A41548A17800B6CFC1 /* greyscale.css in Resources */,
+				08BA99A51548A17800B6CFC1 /* standard.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

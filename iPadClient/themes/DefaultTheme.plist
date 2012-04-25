@@ -60,5 +60,7 @@
 		<key>SessionPaneSplitterEnd</key>
 		<string>dbdf81</string>
 	</dict>
+	<key>cssfile</key>
+	<string>standard.css</string>
 </dict>
 </plist>

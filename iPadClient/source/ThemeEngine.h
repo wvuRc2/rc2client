@@ -15,6 +15,7 @@
 -(NSDictionary*)themeColors;
 -(NSString*)consoleValueForKey:(NSString*)key;
 @property (weak, nonatomic, readonly) NSString *name;
+@property (nonatomic, strong, readonly) NSString *cssfile;
 @property (nonatomic, readonly) BOOL isCustom;
 @end
 

@@ -38,6 +38,11 @@
 	return [[self.themeDict objectForKey:@"console"] objectForKey:key];
 }
 
+-(NSString*)cssfile
+{
+	return [self.themeDict objectForKey:@"cssfile"];
+}
+
 -(NSDictionary*)themeColors
 {
 	return [self.themeDict objectForKey:@"colors"];
@@ -171,9 +176,9 @@
 //if the theme doesn't have that, it will do nothing. the bg will be centered in parentLayer
 -(void)addBackgroundLayer:(CALayer*)parentLayer withKey:(NSString*)key frame:(CGRect)frame
 {
-	if (nil != [parentLayer firstSublayerWithName:kThemeBGLayerName]) {
-		Rc2LogWarn(@"asked to add a bg when already has one");
-		return;
+	CALayer *existingLayer = [parentLayer firstSublayerWithName:kThemeBGLayerName];
+	if (nil != existingLayer) {
+		[existingLayer removeFromSuperlayer];
 	}
     CAGradientLayer *gl = [CAGradientLayer layer];
     [gl setBounds:frame];
@@ -191,7 +196,7 @@
 	} else {
 		startColor = [th colorForKey:key];
 		if (startColor) {
-//			gl.backgroundColor = startColor.CGColor;
+			gl.backgroundColor = startColor.CGColor;
 		}
 	}
 }

@@ -210,6 +210,8 @@
 		NSString *ss = [self themedStyleSheet];
 		[self.webView stringByEvaluatingJavaScriptFromString:ss];
 	}
+	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"$('#themecss').attr('href','%@')",
+														  [[ThemeEngine sharedInstance] currentTheme].cssfile]];
 	self.backButton.enabled = [self.webView.request.URL.scheme hasPrefix:@"http"];
 }
 

@@ -1,0 +1,34 @@
+body {
+  background-color: #fff;
+ }
+
+.logText {
+  color: rgba(58,214,58,0.9);
+ }
+
+.statusText {
+  background-color: #f28ef2; }
+
+.helpMsg {
+  color: #3757d6;
+  }
+
+.inputText {
+  background-color: #f1de38; }
+
+.serverError {
+  background-color: #e5a7b8; }
+
+#consoleOutputGenerated > table > tbody > tr:nth-child(even) {
+  background-color: #E2FF87; }
+
+#consoleOutputGenerated > table > tbody > tr:nth-child(odd) {
+  background-color: #FFDB87; }
+
+table.ir-mx th {
+  background-color: #aaa;
+  border: 1px dotted black; }
+
+table.ir-mx td {
+  border: 1px dotted black; }
+
