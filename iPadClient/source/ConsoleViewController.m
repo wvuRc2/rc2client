@@ -192,8 +192,8 @@
 		NSURL *theUrl = [[NSBundle mainBundle] URLForResource:@"graph" withExtension:@"png" subdirectory:@"console"];
 		NSString *url = [theUrl absoluteString];
 		url = [url stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-		NSString *cmd = [NSString stringWithFormat:@"iR.graphFileUrl = '%@'", url];
-		[self.webView stringByEvaluatingJavaScriptFromString:cmd];
+//		NSString *cmd = [NSString stringWithFormat:@"iR.graphFileUrl = '%@'", url];
+//		[self.webView stringByEvaluatingJavaScriptFromString:cmd];
 		_didSetGraphUrl=YES;
 		CGRect f = self.webView.frame;
 		if (f.origin.x < 10)
