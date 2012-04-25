@@ -180,7 +180,7 @@
 			[NSApp presentError:err];
 		} else {
 			//worked. add that user to our display
-			RCUser *newUser = [[RCUser alloc] initWithDictionary:[rsp objectForKey:@"userid"] allRoles:self.roles];
+			RCUser *newUser = [[RCUser alloc] initWithDictionary:[rsp objectForKey:@"user"] allRoles:self.roles];
 			if (self.users)
 				self.users = [self.users arrayByAddingObject:newUser];
 			else
