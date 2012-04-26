@@ -33,6 +33,7 @@
 @property (nonatomic, strong, readwrite) NSNumber *currentUserId;
 @property (nonatomic, copy, readwrite) NSArray *usersPermissions;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
+@property (nonatomic, copy, readwrite) NSArray *classesTaught;
 @property (nonatomic, strong) NSMutableDictionary *wsItemsById;
 @property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
 @property (nonatomic, strong) NSOperationQueue *requestQueue;
@@ -49,6 +50,7 @@
 @synthesize serverHost=_serverHost;
 @synthesize loggedIn=_loggedIn;
 @synthesize workspaceItems=_workspaceItems;
+@synthesize classesTaught=_classesTaught;
 @synthesize wsItemsById=_wsItemsById;
 @synthesize selectedWorkspace=_selectedWorkspace;
 @synthesize currentSession=_currentSession;
@@ -775,7 +777,7 @@
 
 #pragma mark - login/logout
 
--(void)handleLoginResponse:(ASIHTTPRequest*)req forUser:(NSString*)user completionHandler:(Rc2SessionCompletionHandler)handler
+-(void)handleLoginResponse:(ASIHTTPRequest*)req forUser:(NSString*)user completionHandler:(Rc2FetchCompletionHandler)handler
 {
 	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 	if (![self responseIsValidJSON:req]) {
@@ -792,7 +794,10 @@
 		self.currentLogin=user;
 		self.currentUserId = [rsp objectForKey:@"userid"];
 		self.usersPermissions = [rsp objectForKey:@"permissions"];
-		self.isAdmin = [[rsp objectForKey:@"isadmin"] boolValue];
+		self.isAdmin = [[rsp objectForKey:@"isAdmin"] boolValue];
+		self.classesTaught = [rsp objectForKey:@"classes"];
+		if (self.classesTaught.count < 1)
+			self.classesTaught=nil;
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
@@ -802,13 +807,12 @@
 										 user, [dev systemName], [dev systemVersion], [dev model]];
 #endif
 		[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
-		handler(YES, nil);
+		handler(YES, rsp);
 		Rc2LogInfo(@"logged in");
 	}
 }
 
-//++COPIED++
--(void)loginAsUser:(NSString*)user password:(NSString*)password completionHandler:(Rc2SessionCompletionHandler)hblock
+-(void)loginAsUser:(NSString*)user password:(NSString*)password completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@login", [self baseUrl]]];
 	ASIFormDataRequest *theReq = [self postRequestWithURL:url];

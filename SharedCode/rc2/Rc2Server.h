@@ -46,6 +46,7 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 @property (nonatomic, readonly) BOOL isAdmin;
 @property (nonatomic, copy, readonly) NSArray *workspaceItems;
 @property (nonatomic, copy, readonly) NSArray *usersPermissions;
+@property (nonatomic, copy, readonly) NSArray *classesTaught;
 @property (nonatomic, strong) RCWorkspace *selectedWorkspace;
 @property (nonatomic, strong) RCSession *currentSession;
 
@@ -67,7 +68,7 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 #pragma mark - login/logout
 -(void)loginAsUser:(NSString*)user password:(NSString*)password 
- completionHandler:(Rc2SessionCompletionHandler)hbock;
+ completionHandler:(Rc2FetchCompletionHandler)hbock;
 
 -(void)logout;
 

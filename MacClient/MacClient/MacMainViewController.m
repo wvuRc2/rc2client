@@ -29,6 +29,7 @@
 @property (strong) NSArray *rootItems;
 @property (strong) NSMutableDictionary *workspacesItem;
 @property (strong) NSMutableDictionary *adminItem;
+@property (strong) NSMutableDictionary *classItem;
 @property (strong) NSMutableArray *kvoObservers;
 @property (strong) NSMutableDictionary *wspaceControllers;
 @property (nonatomic, weak) RCWorkspaceItem *selectedItem;
@@ -45,6 +46,7 @@
 	if (([super initWithNibName:@"MacMainViewController" bundle:nil])) {
 		self.workspacesItem = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"WORKSPACES", @"name", nil];
 		self.adminItem = [NSMutableDictionary dictionaryWithObject:@"ADMIN" forKey:@"name"];
+		self.classItem = [NSMutableDictionary dictionaryWithObject:@"CLASSES" forKey:@"name"];
 		NSArray *adminItems = ARRAY([NSMutableDictionary dictionaryWithObjectsAndKeys:@"users", @"name",
 							   @"RCMUserAdminController", kControllerClass, nil],
 									[NSMutableDictionary dictionaryWithObjectsAndKeys:@"permissions", @"name",
@@ -59,10 +61,14 @@
 -(void)awakeFromNib
 {
 	if (!__didInit) {
+		NSMutableArray *roots = [NSMutableArray arrayWithObject:self.workspacesItem];
+		if ([[Rc2Server sharedInstance] classesTaught].count > 0) {
+			[roots addObject:self.classItem];
+			[self.classItem setObject:[Rc2Server sharedInstance].classesTaught forKey:@"children"];
+		}
 		if ([[Rc2Server sharedInstance] isAdmin])
-			self.rootItems = ARRAY(self.workspacesItem, self.adminItem);
-		else
-			self.rootItems = [NSArray arrayWithObject:self.workspacesItem];
+			[roots addObject:self.adminItem];
+		self.rootItems = roots;
 		__unsafe_unretained MacMainViewController *blockRef = self;
 		[self.kvoObservers addObject:[AMKeyValueObserver observerWithObject:[Rc2Server sharedInstance] keyPath:@"workspaceItems" withOptions:0 
 					observerBlock:^(id obj, NSString *keyPath, NSDictionary *change)
@@ -71,8 +77,8 @@
 		}]];
 		[self.mainSourceList reloadData]; 
 		//reload the last selected path
-		NSIndexPath *lastPath = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kLastSelectedPathKey];
-		[self.mainSourceList selectItemAtIndexPath:lastPath];
+//		NSIndexPath *lastPath = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kLastSelectedPathKey];
+//		[self.mainSourceList selectItemAtIndexPath:lastPath];
 		for (NSMenuItem *mi in self.addMenu.itemArray)
 			mi.target = self;
 		__didInit=YES;
@@ -289,9 +295,11 @@
 -(NSUInteger)sourceList:(PXSourceList *)sourceList numberOfChildrenOfItem:(id)item
 {
 	if (nil == item)
-		return 2;
+		return self.rootItems.count;
 	if (item == self.workspacesItem)
 		return [[Rc2Server sharedInstance].workspaceItems count];
+	if (item == self.classItem)
+		return [[self.classItem objectForKey:@"children"] count];
 	if (item == self.adminItem)
 		return [[self.adminItem objectForKey:@"children"] count];
 	if ([item respondsToSelector:@selector(isFolder)] && [item isFolder])
@@ -302,14 +310,14 @@
 -(id)sourceList:(PXSourceList *)aSourceList child:(NSUInteger)index ofItem:(id)item
 {
 	if (nil == item) {
-		if (index == 1)
-			return self.adminItem;
-		return self.workspacesItem;
+		return [self.rootItems objectAtIndex:index];
 	}
 	if (item == self.workspacesItem)
 		return [[Rc2Server sharedInstance].workspaceItems objectAtIndexNoExceptions:index];
 	if (item == self.adminItem)
 		return [[self.adminItem objectForKey:@"children"] objectAtIndexNoExceptions:index];
+	if (item == self.classItem)
+		return [[self.classItem objectForKey:@"children"] objectAtIndexNoExceptions:index];
 	if ([item isKindOfClass:[RCWorkspaceFolder class]])
 		return [[item children] objectAtIndexNoExceptions:index];
 	return nil;
@@ -321,6 +329,8 @@
 		return [item objectForKey:@"name"];
 	if ([item isKindOfClass:[RCWorkspaceItem class]])
 		return [item name];
+	if ([item isKindOfClass:[NSString class]])
+		return item;
 	return nil;
 }
 
@@ -328,12 +338,12 @@
 {
 	if ([item isKindOfClass:[RCWorkspaceItem class]])
 		return [item isFolder];
-	return item == self.workspacesItem || item == self.adminItem;
+	return item == self.workspacesItem || item == self.adminItem || item == self.classItem;
 }
 
 -(BOOL)sourceList:(PXSourceList *)aSourceList isGroupAlwaysExpanded:(id)group
 {
-	if (group == self.workspacesItem || group == self.adminItem)
+	if (group == self.workspacesItem || group == self.adminItem || group == self.classItem)
 		return YES;
 	return NO;
 }
@@ -408,6 +418,7 @@
 @synthesize wspaceControllers;
 @synthesize workspacesItem;
 @synthesize adminItem;
+@synthesize classItem;
 @synthesize detailController;
 @synthesize detailContainer;
 @synthesize addMenu;
