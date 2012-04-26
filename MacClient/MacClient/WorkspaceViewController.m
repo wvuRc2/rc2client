@@ -219,12 +219,16 @@
 		if (nil == self.addPopover) {
 			__unsafe_unretained WorkspaceViewController *blockSelf = self;
 			self.addController = [[RCMUserSearchPopupController alloc] init];
-			self.addController.workspace = self.workspace;
 			self.addPopover = [[NSPopover alloc] init];
 			self.addPopover.contentViewController = self.addController;
 			self.addPopover.behavior = NSPopoverBehaviorTransient;
-			self.addController.changeHandler = ^(NSNumber *userId) {
+			self.addController.removeSelectedUserFromList = YES;
+			self.addController.searchType = @"email";
+			self.addController.selectUserHandler = ^(NSNumber *userId) {
 				[blockSelf handleAddShare:userId cellView:cellView];
+			};
+			self.addController.showUserHandler = ^(NSNumber *userId) {
+				return (BOOL)(nil == [self.workspace.shares firstObjectWithValue:userId forKey:@"userId"]);
 			};
 		}
 		[self.addPopover showRelativeToRect:[sender frame] ofView:sender preferredEdge:NSMinYEdge];

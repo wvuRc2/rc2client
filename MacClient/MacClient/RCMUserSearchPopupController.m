@@ -1,5 +1,5 @@
 //
-//  RCMAddShareController.m
+//  RCMUserSearchPopupController.m
 //  MacClient
 //
 //  Created by Mark Lilback on 10/22/11.
@@ -8,8 +8,6 @@
 
 #import "RCMUserSearchPopupController.h"
 #import "Rc2Server.h"
-#import "RCWorkspace.h"
-#import "RCWorkspaceShare.h"
 #import "ASIHTTPRequest.h"
 
 @interface RCMUserSearchPopupController()
@@ -21,8 +19,9 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-	if ((self = [super initWithNibName:@"RCMAddShareController" bundle:nil])) {
+	if ((self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil])) {
 		self.requestLock = [[NSRecursiveLock alloc] init];
+		self.searchType = @"all";
 	}
 	return self;
 }
@@ -31,8 +30,7 @@
 {
 	NSMutableArray *users = [NSMutableArray array];
 	for (NSDictionary *dict in results) {
-		if (nil == [self.workspace.shares firstObjectWithValue:[dict objectForKey:@"id"] forKey:@"userId"])
-		{
+		if (self.showUserHandler == nil || self.showUserHandler([dict objectForKey:@"id"])) {
 			NSMutableDictionary *md = [dict mutableCopy];
 			NSString *fn = [NSString stringWithFormat:@"%@ (%@)", [md objectForKey:@"name"], [md objectForKey:@"login"]];
 			[md setObject:fn forKey:@"fullname"];
@@ -43,13 +41,14 @@
 	[self.resultsTable reloadData];
 }
 
--(IBAction)addShareForUser:(id)sender
+-(IBAction)selectUser:(id)sender
 {
 	NSInteger row = [self.resultsTable rowForView:sender];
-	self.changeHandler([[self.arrayController.arrangedObjects objectAtIndex:row] objectForKey:@"id"]);
-	//remove from results
-	[self.resultsTable removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row] withAnimation:NSTableViewAnimationSlideUp|NSTableViewAnimationEffectFade];
-	[self.arrayController removeObjectAtArrangedObjectIndex:row];
+	self.selectUserHandler([[self.arrayController.arrangedObjects objectAtIndex:row] objectForKey:@"id"]);
+	if (self.removeSelectedUserFromList) {
+		[self.resultsTable removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row] withAnimation:NSTableViewAnimationSlideUp|NSTableViewAnimationEffectFade];
+		[self.arrayController removeObjectAtArrangedObjectIndex:row];
+	}
 }
 
 -(IBAction)performSearch:(id)sender
@@ -61,7 +60,7 @@
 		return;
 	}
 	[self.requestLock lock];
-	self.currentRequest = [[Rc2Server sharedInstance] createUserSearchRequest:sstring searchType:@"email"];
+	self.currentRequest = [[Rc2Server sharedInstance] createUserSearchRequest:sstring searchType:self.searchType];
 	__block ASIHTTPRequest *req = self.currentRequest;
 	__unsafe_unretained RCMUserSearchPopupController *blockSelf = self;
 	[self.currentRequest setCompletionBlock:^{
@@ -75,7 +74,7 @@
 		[blockSelf.requestLock unlock];
 	}];
 	[self.currentRequest setFailedBlock:^{
-		Rc2LogWarn(@"error seing add share request");
+		Rc2LogWarn(@"error sending user search request");
 	}];
 	[self.currentRequest startAsynchronous];
 	[self.requestLock unlock];
@@ -103,6 +102,8 @@
 @synthesize arrayController;
 @synthesize currentRequest;
 @synthesize requestLock;
-@synthesize workspace;
-@synthesize changeHandler;
+@synthesize selectUserHandler;
+@synthesize showUserHandler;
+@synthesize searchType=_searchType;
+@synthesize removeSelectedUserFromList=_removeSelectedUserFromList;
 @end

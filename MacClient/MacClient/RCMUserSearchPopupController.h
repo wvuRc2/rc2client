@@ -1,5 +1,5 @@
 //
-//  RCMAddShareController.h
+//  RCMUserSearchPopupController.h
 //  MacClient
 //
 //  Created by Mark Lilback on 10/22/11.
@@ -8,18 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class RCWorkspace;
-@class RCWorkspaceShare;
-
-typedef void (^AddShareHandler)(NSNumber *userId);
+typedef void (^SelectUserHandler)(NSNumber *userId);
+typedef BOOL (^ShowUserInResults)(NSNumber *userId);
 
 @interface RCMUserSearchPopupController : AMViewController<NSTableViewDelegate,NSTableViewDataSource>
-@property (nonatomic, strong) RCWorkspace *workspace;
 @property (nonatomic, strong) IBOutlet NSSearchField *searchField;
 @property (nonatomic, strong) IBOutlet NSTableView *resultsTable;
 @property (nonatomic, strong) IBOutlet NSArrayController *arrayController;
-@property (nonatomic, copy) AddShareHandler changeHandler;
+@property (nonatomic, copy) SelectUserHandler selectUserHandler;
+@property (nonatomic, copy) ShowUserInResults showUserHandler;
+@property (nonatomic, copy) NSString *searchType;
+@property (nonatomic, assign) BOOL removeSelectedUserFromList;
 
--(IBAction)addShareForUser:(id)sender;
+-(IBAction)selectUser:(id)sender;
 -(IBAction)performSearch:(id)sender;
 @end
