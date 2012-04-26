@@ -11,7 +11,7 @@
 #import "RCWorkspaceShare.h"
 #import "RCWorkspaceCache.h"
 #import "WorkspaceCellView.h"
-#import "RCMAddShareController.h"
+#import "RCMUserSearchPopupController.h"
 #import "MacMainWindowController.h"
 #import "ASIFormDataRequest.h"
 #import "AppDelegate.h"
@@ -23,7 +23,7 @@
 @interface WorkspaceViewController()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
 @property (nonatomic, copy) NSArray *sections;
-@property (nonatomic, strong) RCMAddShareController *addController;
+@property (nonatomic, strong) RCMUserSearchPopupController *addController;
 @property (nonatomic, strong) NSPopover *addPopover;
 @property (nonatomic, assign) BOOL ignoreSectionReloads;
 -(void)loadShares;
@@ -218,7 +218,7 @@
 		//handle adding a share
 		if (nil == self.addPopover) {
 			__unsafe_unretained WorkspaceViewController *blockSelf = self;
-			self.addController = [[RCMAddShareController alloc] init];
+			self.addController = [[RCMUserSearchPopupController alloc] init];
 			self.addController.workspace = self.workspace;
 			self.addPopover = [[NSPopover alloc] init];
 			self.addPopover.contentViewController = self.addController;

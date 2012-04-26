@@ -85,8 +85,8 @@
 		08A4063E1453272D00DBA662 /* baccord-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A4063B1453272D00DBA662 /* baccord-left.png */; };
 		08A4063F1453272D00DBA662 /* baccord-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A4063C1453272D00DBA662 /* baccord-right.png */; };
 		08A4064214534C6500DBA662 /* RCWorkspaceShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4064114534C6500DBA662 /* RCWorkspaceShare.m */; };
-		08A4064614538DC300DBA662 /* RCMAddShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4064414538DC300DBA662 /* RCMAddShareController.m */; };
-		08A4064714538DC300DBA662 /* RCMAddShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08A4064514538DC300DBA662 /* RCMAddShareController.xib */; };
+		08A4064614538DC300DBA662 /* RCMUserSearchPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4064414538DC300DBA662 /* RCMUserSearchPopupController.m */; };
+		08A4064714538DC300DBA662 /* RCMUserSearchPopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08A4064514538DC300DBA662 /* RCMUserSearchPopupController.xib */; };
 		08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5AF144B918B00F787E6 /* RCMTextView.m */; };
 		08ADF5BE144BA2ED00F787E6 /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */; };
 		08B630C714E070770053DD74 /* RCMRolePermController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B630C514E070760053DD74 /* RCMRolePermController.m */; };
@@ -290,9 +290,9 @@
 		08A4063C1453272D00DBA662 /* baccord-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "baccord-right.png"; path = "resources/baccord-right.png"; sourceTree = SOURCE_ROOT; };
 		08A4064014534C6500DBA662 /* RCWorkspaceShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceShare.h; sourceTree = "<group>"; };
 		08A4064114534C6500DBA662 /* RCWorkspaceShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceShare.m; sourceTree = "<group>"; };
-		08A4064314538DC300DBA662 /* RCMAddShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMAddShareController.h; sourceTree = "<group>"; };
-		08A4064414538DC300DBA662 /* RCMAddShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMAddShareController.m; sourceTree = "<group>"; };
-		08A4064514538DC300DBA662 /* RCMAddShareController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMAddShareController.xib; sourceTree = "<group>"; };
+		08A4064314538DC300DBA662 /* RCMUserSearchPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = RCMUserSearchPopupController.h; sourceTree = "<group>"; };
+		08A4064414538DC300DBA662 /* RCMUserSearchPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMUserSearchPopupController.m; sourceTree = "<group>"; };
+		08A4064514538DC300DBA662 /* RCMUserSearchPopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMUserSearchPopupController.xib; sourceTree = "<group>"; };
 		08ADF5AE144B918B00F787E6 /* RCMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMTextView.h; sourceTree = "<group>"; };
 		08ADF5AF144B918B00F787E6 /* RCMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMTextView.m; sourceTree = "<group>"; };
 		08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = MacClientNotes.rtf; path = MacClient/MacClientNotes.rtf; sourceTree = "<group>"; };
@@ -464,9 +464,9 @@
 				0861761E149BE37A00450EE9 /* RCMImageDetailController.h */,
 				0861761F149BE37A00450EE9 /* RCMImageDetailController.m */,
 				08617620149BE37A00450EE9 /* RCMImageDetailController.xib */,
-				08A4064314538DC300DBA662 /* RCMAddShareController.h */,
-				08A4064414538DC300DBA662 /* RCMAddShareController.m */,
-				08A4064514538DC300DBA662 /* RCMAddShareController.xib */,
+				08A4064314538DC300DBA662 /* RCMUserSearchPopupController.h */,
+				08A4064414538DC300DBA662 /* RCMUserSearchPopupController.m */,
+				08A4064514538DC300DBA662 /* RCMUserSearchPopupController.xib */,
 				089C0B28145B101000DF9984 /* RCMUserAdminController.h */,
 				089C0B29145B101000DF9984 /* RCMUserAdminController.m */,
 				089C0B2A145B101000DF9984 /* RCMUserAdminController.xib */,
@@ -919,7 +919,7 @@
 				08A4063D1453272D00DBA662 /* baccord-center.png in Resources */,
 				08A4063E1453272D00DBA662 /* baccord-left.png in Resources */,
 				08A4063F1453272D00DBA662 /* baccord-right.png in Resources */,
-				08A4064714538DC300DBA662 /* RCMAddShareController.xib in Resources */,
+				08A4064714538DC300DBA662 /* RCMUserSearchPopupController.xib in Resources */,
 				089C0B2C145B101000DF9984 /* RCMUserAdminController.xib in Resources */,
 				089C0B3D145B427300DF9984 /* RCMEditUserController.xib in Resources */,
 				08BD99611474467F004EF624 /* RCMPDFViewController.xib in Resources */,
@@ -1035,7 +1035,7 @@
 				08A406181451AF0900DBA662 /* RCSavedSession.m in Sources */,
 				08A40630145249A600DBA662 /* WorkspaceCellView.m in Sources */,
 				08A4064214534C6500DBA662 /* RCWorkspaceShare.m in Sources */,
-				08A4064614538DC300DBA662 /* RCMAddShareController.m in Sources */,
+				08A4064614538DC300DBA662 /* RCMUserSearchPopupController.m in Sources */,
 				089C0B2B145B101000DF9984 /* RCMUserAdminController.m in Sources */,
 				089C0B3B145B426100DF9984 /* RCMEditUserController.m in Sources */,
 				089C0B40145B431600DF9984 /* RCUser.m in Sources */,

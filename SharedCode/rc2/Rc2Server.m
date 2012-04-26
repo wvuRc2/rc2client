@@ -720,12 +720,12 @@
 	[req startAsynchronous];
 }
 
--(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring
+-(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring searchType:(NSString*)searchType
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@user", [self baseUrl]]];
 	__block ASIFormDataRequest *req = [self postRequestWithURL:url];
 	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:sstring, @"value", @"email", @"type", nil];
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:sstring, @"value", searchType, @"type", nil];
 	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	return req;
 }

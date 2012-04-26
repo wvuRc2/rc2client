@@ -6,18 +6,18 @@
 //  Copyright (c) 2011 Agile Monks. All rights reserved.
 //
 
-#import "RCMAddShareController.h"
+#import "RCMUserSearchPopupController.h"
 #import "Rc2Server.h"
 #import "RCWorkspace.h"
 #import "RCWorkspaceShare.h"
 #import "ASIHTTPRequest.h"
 
-@interface RCMAddShareController()
+@interface RCMUserSearchPopupController()
 @property (nonatomic, strong) ASIHTTPRequest *currentRequest;
 @property (nonatomic, strong) NSRecursiveLock *requestLock;
 @end
 
-@implementation RCMAddShareController
+@implementation RCMUserSearchPopupController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -61,18 +61,16 @@
 		return;
 	}
 	[self.requestLock lock];
-	self.currentRequest = [[Rc2Server sharedInstance] createUserSearchRequest:sstring];
+	self.currentRequest = [[Rc2Server sharedInstance] createUserSearchRequest:sstring searchType:@"email"];
 	__block ASIHTTPRequest *req = self.currentRequest;
-	__unsafe_unretained RCMAddShareController *blockSelf = self;
+	__unsafe_unretained RCMUserSearchPopupController *blockSelf = self;
 	[self.currentRequest setCompletionBlock:^{
 		[blockSelf.requestLock lock];
 		if (blockSelf.currentRequest == req) {
 			NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-			if (![[Rc2Server sharedInstance] responseIsValidJSON:req]) {
-				return;
-			}
 			NSDictionary *rsp = [respStr JSONValue];
-			[blockSelf processSearchResults:[rsp objectForKey:@"users"]];
+			if (rsp)
+				[blockSelf processSearchResults:[rsp objectForKey:@"users"]];
 		}
 		[blockSelf.requestLock unlock];
 	}];

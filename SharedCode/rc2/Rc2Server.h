@@ -122,5 +122,5 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 #pragma mark - misc/other
 
 -(void)fetchWorkspaceShares:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
--(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring;
+-(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring searchType:(NSString*)searchType;
 @end
