@@ -17,6 +17,7 @@
 @class RCMessage;
 @class ASIHTTPRequest;
 @class ASIFormDataRequest;
+@class RCAssignment;
 
 enum {
 	eRc2Host_Rc2=0,
@@ -119,6 +120,10 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 -(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock; //prepares selected workspace
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
+
+#pragma mark - courses/assignments
+
+-(BOOL)synchronouslyUpdateAssignment:(RCAssignment*)assignment withValues:(NSDictionary*)newVals;
 
 #pragma mark - misc/other
 

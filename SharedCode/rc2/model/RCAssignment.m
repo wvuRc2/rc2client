@@ -10,13 +10,14 @@
 
 @implementation RCAssignment
 
-+(NSArray*)assignmentsFromJSONArray:(NSArray*)json
++(NSArray*)assignmentsFromJSONArray:(NSArray*)json forCourse:(RCCourse*)course
 {
 	if ([json count] < 1)
 		return nil;
 	NSMutableArray *a = [NSMutableArray arrayWithCapacity:json.count];
 	for (NSDictionary *cd in json) {
 		RCAssignment *ass = [[RCAssignment alloc] initWithDictionary:cd];
+		ass.course = course;
 		[a addObject:ass];
 	}
 	return a;
@@ -41,8 +42,9 @@
 
 @synthesize assignmentId;
 @synthesize sortOrder;
-@synthesize name;
+@synthesize name=_name;
 @synthesize locked;
 @synthesize startDate;
 @synthesize endDate;
+@synthesize course=_course;
 @end

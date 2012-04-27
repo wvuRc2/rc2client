@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+@class RCCourse;
+
 @interface RCAssignment : NSObject
+@property (nonatomic, weak) RCCourse *course;
 @property (nonatomic, strong) NSNumber *assignmentId;
 @property (nonatomic, strong) NSNumber *sortOrder;
 @property (nonatomic, copy) NSString *name;
@@ -17,7 +20,7 @@
 @property (nonatomic, assign) BOOL locked;
 
 
-+(NSArray*)assignmentsFromJSONArray:(NSArray*)json;
++(NSArray*)assignmentsFromJSONArray:(NSArray*)json forCourse:(RCCourse*)course;
 
 -(id)initWithDictionary:(NSDictionary*)dict; //required to get the id
 

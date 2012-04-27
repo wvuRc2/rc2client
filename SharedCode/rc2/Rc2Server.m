@@ -13,6 +13,7 @@
 #import "RCWorkspaceShare.h"
 #import "RCFile.h"
 #import "RCCourse.h"
+#import "RCAssignment.h"
 #import "RC2RemoteLogger.h"
 #import "SBJsonParser.h"
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
@@ -731,6 +732,23 @@
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:sstring, @"value", searchType, @"type", nil];
 	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	return req;
+}
+
+#pragma mark - courses/assignments
+
+-(BOOL)synchronouslyUpdateAssignment:(RCAssignment*)assignment withValues:(NSDictionary*)newVals
+{
+	ASIHTTPRequest *theReq = [self requestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment/%@", 
+							   assignment.course.classId, assignment.assignmentId]];
+	[theReq addRequestHeader:@"Content-Type" value:@"application/json"];
+	[theReq setRequestMethod:@"PUT"];
+	[theReq appendPostData:[[newVals JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[theReq startSynchronous];
+	if (200 != theReq.responseStatusCode)
+		return NO;
+	if ([[[[theReq responseString] JSONValue] objectForKey:@"status"] intValue] == 0)
+		return YES;
+	return NO;
 }
 
 #pragma mark - messages
