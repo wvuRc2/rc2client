@@ -12,6 +12,7 @@
 #import "RCWorkspace.h"
 #import "RCWorkspaceShare.h"
 #import "RCFile.h"
+#import "RCCourse.h"
 #import "RC2RemoteLogger.h"
 #import "SBJsonParser.h"
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
@@ -795,9 +796,7 @@
 		self.currentUserId = [rsp objectForKey:@"userid"];
 		self.usersPermissions = [rsp objectForKey:@"permissions"];
 		self.isAdmin = [[rsp objectForKey:@"isAdmin"] boolValue];
-		self.classesTaught = [rsp objectForKey:@"classes"];
-		if (self.classesTaught.count < 1)
-			self.classesTaught=nil;
+		self.classesTaught = [RCCourse classesFromJSONArray:[rsp objectForKey:@"classes"]];
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)

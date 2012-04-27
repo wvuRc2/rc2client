@@ -11,7 +11,9 @@
 #import "RCWorkspaceFolder.h"
 #import "RCWorkspace.h"
 #import "RCSession.h"
+#import "RCCourse.h"
 #import "WorkspaceViewController.h"
+#import "RCMManageCourseController.h"
 #import <Vyana/NSMenu+AMExtensions.h>
 #import "MacMainWindowController.h"
 #import "RCMacToolbarItem.h"
@@ -26,6 +28,7 @@
 	BOOL __setupAddMenu;
 }
 @property (nonatomic, strong) id curPromptController;
+@property (nonatomic, strong) RCMManageCourseController *courseController;
 @property (strong) NSArray *rootItems;
 @property (strong) NSMutableDictionary *workspacesItem;
 @property (strong) NSMutableDictionary *adminItem;
@@ -287,6 +290,11 @@
 		self.detailView = (AMControlledView*)rvc.view;
 	} else if ([selItem isKindOfClass:[NSDictionary class]] && [selItem objectForKey:kControllerClass]) {
 		[self showSourceItem:selItem];
+	} else if ([selItem isKindOfClass:[RCCourse class]]) {
+		if (nil == self.courseController)
+			self.courseController = [[RCMManageCourseController alloc] init];
+		self.courseController.theCourse = selItem;
+		self.detailView = (AMControlledView*)self.courseController.view;
 	} else {
 		self.detailView=nil;
 	}
@@ -328,6 +336,8 @@
 	if ([item isKindOfClass:[NSDictionary class]])
 		return [item objectForKey:@"name"];
 	if ([item isKindOfClass:[RCWorkspaceItem class]])
+		return [item name];
+	if ([item isKindOfClass:[RCCourse class]])
 		return [item name];
 	if ([item isKindOfClass:[NSString class]])
 		return item;
@@ -425,4 +435,5 @@
 @synthesize rootItems;
 @synthesize curPromptController=_curPromptController;
 @synthesize selectedItem=_selectedItem;
+@synthesize courseController=_courseController;
 @end

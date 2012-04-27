@@ -154,6 +154,7 @@
 		08BA99A1154748B300B6CFC1 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BA99A0154748B300B6CFC1 /* libxml2.dylib */; };
 		08BA99A41548A17800B6CFC1 /* greyscale.css in Resources */ = {isa = PBXBuildFile; fileRef = 08BA99A21548A17800B6CFC1 /* greyscale.css */; };
 		08BA99A51548A17800B6CFC1 /* standard.css in Resources */ = {isa = PBXBuildFile; fileRef = 08BA99A31548A17800B6CFC1 /* standard.css */; };
+		08BA99B7154B128C00B6CFC1 /* RCCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BA99B6154B128B00B6CFC1 /* RCCourse.m */; };
 		08D55EDF140635CA00E9D981 /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EDE140635CA00E9D981 /* GradientButton.m */; };
 		08D55EE314063C9500E9D981 /* RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EE214063C9500E9D981 /* RCFile.m */; };
 		08D55EE7140641D900E9D981 /* FileDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D55EE5140641D900E9D981 /* FileDetailsCell.m */; };
@@ -417,6 +418,8 @@
 		08BA99A0154748B300B6CFC1 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		08BA99A21548A17800B6CFC1 /* greyscale.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = greyscale.css; path = ../console/common/greyscale.css; sourceTree = SOURCE_ROOT; };
 		08BA99A31548A17800B6CFC1 /* standard.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = standard.css; path = ../console/common/standard.css; sourceTree = SOURCE_ROOT; };
+		08BA99B5154B128B00B6CFC1 /* RCCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCourse.h; sourceTree = "<group>"; };
+		08BA99B6154B128B00B6CFC1 /* RCCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCourse.m; sourceTree = "<group>"; };
 		08D55EDD140635CA00E9D981 /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GradientButton.h; path = source/GradientButton.h; sourceTree = SOURCE_ROOT; };
 		08D55EDE140635CA00E9D981 /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GradientButton.m; path = source/GradientButton.m; sourceTree = SOURCE_ROOT; };
 		08D55EE114063C9500E9D981 /* RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCFile.h; path = ../SharedCode/rc2/model/RCFile.h; sourceTree = SOURCE_ROOT; };
@@ -690,6 +693,8 @@
 				089C0B131458E51800DF9984 /* RCWorkspaceShare.m */,
 				0829453D1496AA9800E593C7 /* RCWorkspaceCache.h */,
 				0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */,
+				08BA99B5154B128B00B6CFC1 /* RCCourse.h */,
+				08BA99B6154B128B00B6CFC1 /* RCCourse.m */,
 				08F566661407073E00229A39 /* generated */,
 			);
 			name = model;
@@ -1196,6 +1201,7 @@
 				0828967615471D7E00A6B6C2 /* SBJsonParser.m in Sources */,
 				0828967715471D7E00A6B6C2 /* SBJsonWriter.m in Sources */,
 				08BA99951547408100B6CFC1 /* RCMSyntaxHighlighter.m in Sources */,
+				08BA99B7154B128C00B6CFC1 /* RCCourse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
