@@ -3,7 +3,7 @@
 //  iPadClient
 //
 //  Created by Mark Lilback on 8/25/11.
-//  Copyright 2011 Agile Monks. All rights reserved.
+//  Copyright 2011 West Virginia University. All rights reserved.
 //
 
 #import "ImageDisplayController.h"

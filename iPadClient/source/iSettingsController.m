@@ -3,7 +3,7 @@
 //  iPadClient
 //
 //  Created by Mark Lilback on 2/8/12.
-//  Copyright (c) 2012 Agile Monks. All rights reserved.
+//  Copyright (c) 2012 West Virginia University. All rights reserved.
 //
 
 #import "iSettingsController.h"

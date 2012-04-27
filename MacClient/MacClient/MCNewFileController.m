@@ -3,7 +3,7 @@
 //  MacClient
 //
 //  Created by Mark Lilback on 12/14/11.
-//  Copyright (c) 2011 Agile Monks. All rights reserved.
+//  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
 #import "MCNewFileController.h"

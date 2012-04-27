@@ -3,7 +3,7 @@
 //  iPadClient
 //
 //  Created by Mark Lilback on 9/4/11.
-//  Copyright (c) 2011 Agile Monks. All rights reserved.
+//  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
 @interface MessageController : NSObject

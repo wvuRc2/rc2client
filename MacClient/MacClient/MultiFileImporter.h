@@ -3,7 +3,7 @@
 //  MacClient
 //
 //  Created by Mark Lilback on 1/4/12.
-//  Copyright (c) 2012 Agile Monks. All rights reserved.
+//  Copyright (c) 2012 West Virginia University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
