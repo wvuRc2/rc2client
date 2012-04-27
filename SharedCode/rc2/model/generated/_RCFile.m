@@ -2,7 +2,7 @@
 //  _RCFile.m
 //
 //  Created by Mark Lilback
-//  Copyright (c) 2012 . All rights reserved.
+//  Copyright (c) 2012 West Virginia University. All rights reserved.
 //
 
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.

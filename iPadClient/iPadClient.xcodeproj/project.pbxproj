@@ -83,6 +83,7 @@
 		08447F8A1416D82D00A8DDF8 /* ThemeEngine.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08447F891416D82D00A8DDF8 /* ThemeEngine.plist */; };
 		085323091404F8380045D207 /* RCSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 085323081404F8380045D207 /* RCSession.m */; };
 		085323101405CCC00045D207 /* console in Resources */ = {isa = PBXBuildFile; fileRef = 0853230F1405CCC00045D207 /* console */; };
+		08581864154B29E10025DA07 /* RCAssignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08581863154B29E10025DA07 /* RCAssignment.m */; };
 		085E7B0D14EEBC0600036A9E /* controller.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B0B14EEBC0600036A9E /* controller.png */; };
 		085E7B0E14EEBC0600036A9E /* controller@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B0C14EEBC0600036A9E /* controller@2x.png */; };
 		085E7B1314EEC2F000036A9E /* ControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1114EEC2F000036A9E /* ControlViewController.m */; };
@@ -326,6 +327,8 @@
 		085323071404F8380045D207 /* RCSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSession.h; path = ../SharedCode/rc2/model/RCSession.h; sourceTree = SOURCE_ROOT; };
 		085323081404F8380045D207 /* RCSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSession.m; path = ../SharedCode/rc2/model/RCSession.m; sourceTree = SOURCE_ROOT; };
 		0853230F1405CCC00045D207 /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console; sourceTree = SOURCE_ROOT; };
+		08581862154B29E10025DA07 /* RCAssignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCAssignment.h; sourceTree = "<group>"; };
+		08581863154B29E10025DA07 /* RCAssignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCAssignment.m; sourceTree = "<group>"; };
 		085E7B0B14EEBC0600036A9E /* controller.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller.png; path = resources/controller.png; sourceTree = SOURCE_ROOT; };
 		085E7B0C14EEBC0600036A9E /* controller@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "controller@2x.png"; path = "resources/controller@2x.png"; sourceTree = SOURCE_ROOT; };
 		085E7B1014EEC2F000036A9E /* ControlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlViewController.h; path = source/ControlViewController.h; sourceTree = SOURCE_ROOT; };
@@ -695,6 +698,8 @@
 				0829453E1496AA9800E593C7 /* RCWorkspaceCache.m */,
 				08BA99B5154B128B00B6CFC1 /* RCCourse.h */,
 				08BA99B6154B128B00B6CFC1 /* RCCourse.m */,
+				08581862154B29E10025DA07 /* RCAssignment.h */,
+				08581863154B29E10025DA07 /* RCAssignment.m */,
 				08F566661407073E00229A39 /* generated */,
 			);
 			name = model;
@@ -1202,6 +1207,7 @@
 				0828967715471D7E00A6B6C2 /* SBJsonWriter.m in Sources */,
 				08BA99951547408100B6CFC1 /* RCMSyntaxHighlighter.m in Sources */,
 				08BA99B7154B128C00B6CFC1 /* RCCourse.m in Sources */,
+				08581864154B29E10025DA07 /* RCAssignment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

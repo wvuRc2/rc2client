@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSString *semesterName;
 @property (nonatomic, copy) NSString *courseName;
 @property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSArray *assignments;
 
 +(NSArray*)classesFromJSONArray:(NSArray*)json;
 

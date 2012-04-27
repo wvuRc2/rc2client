@@ -45,4 +45,5 @@
 @synthesize semesterName;
 @synthesize courseName;
 @synthesize name;
+@synthesize assignments;
 @end
