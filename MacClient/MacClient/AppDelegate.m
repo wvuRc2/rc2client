@@ -17,10 +17,11 @@
 #import "RCWorkspace.h"
 #import "RCFile.h"
 #import "RCMacToolbarItem.h"
-#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 #import "BBEdit.h"
 #import "RCMGeneralPrefs.h"
 #import "RCMFontPrefs.h"
+#import <CrashReporter/CrashReporter.h>
 
 @interface AppDelegate() {
 	dispatch_queue_t __fileCacheQueue;
@@ -54,6 +55,11 @@
 	[[VyanaLogger sharedInstance] startLogging];
 	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
 
+	PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
+	NSError *error;
+	if (![crashReporter enableCrashReporterAndReturnError: &error])
+		Rc2LogError(@"failed to load crash reporter: %@", error);
+	
 	__firstLogin=YES;
 	[self presentLoginPanel];
 	NSString *fileCache = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
@@ -146,6 +152,8 @@
 															bundle: nil title: @"Fonts" identifier:@"fonts" imageName:NSImageNameFontPanel]];
 	}
 	[prefsController showWindow:sender];
+	[[NSArray array] objectAtIndex:21];
+	NSBeep();
 }
 
 #pragma mark - meat & potatoes
@@ -232,6 +240,25 @@
 											 selector:@selector(windowWillClose:) 
 												 name:NSWindowWillCloseNotification 
 											   object:self.mainWindowController.window];
+
+	PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
+	if ([crashReporter hasPendingCrashReport])
+		[self handleCrashReport];
+}
+
+-(void)handleCrashReport
+{
+	NSError *error;
+	PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
+	NSData *crashData = [crashReporter loadPendingCrashReportDataAndReturnError: &error];
+	if (nil == crashData)
+		Rc2LogError(@"failed to load crash data: %@", error);
+	else {
+		ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"crash"];
+		[req setPostValue:crashData forKey:@"data"];
+		[req startAsynchronous];
+	}
+	[crashReporter purgePendingCrashReport];
 }
 
 -(void)displayTextInExternalEditor:(NSString*)text

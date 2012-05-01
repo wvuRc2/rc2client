@@ -111,9 +111,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 												  appSecret:@"on576o50uxrjxhj"
 													  root:kDBRootDropbox];
 	[DBSession setSharedSession:session];
-#ifndef TARGET_IPHONE_SIMULATOR
 	[TestFlight takeOff:@"77af1fa93381361c61748e58fae9f4f9_Mjc0ODAyMDExLTA5LTE5IDE2OjUwOjU3LjYzOTg1Mw"];
-#endif
 	
 	//make sure file cache folder exists
 	NSString *cachePath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];

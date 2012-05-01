@@ -47,6 +47,8 @@
 		08447F6B1415B54F00A8DDF8 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08447F691415B54F00A8DDF8 /* Rc2.xcdatamodeld */; };
 		08566749149FCC3600BD85E5 /* RCMTextPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08566748149FCC3600BD85E5 /* RCMTextPrintView.m */; };
 		08581860154B279C0025DA07 /* RCAssignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0858185F154B279C0025DA07 /* RCAssignment.m */; };
+		08581871155068290025DA07 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08581870155068290025DA07 /* CrashReporter.framework */; };
+		08581872155068370025DA07 /* CrashReporter.framework in Copy Fworks */ = {isa = PBXBuildFile; fileRef = 08581870155068290025DA07 /* CrashReporter.framework */; };
 		085E7B1A14EED6F600036A9E /* RCSessionUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1914EED6F600036A9E /* RCSessionUser.m */; };
 		085E7B3214F56C3200036A9E /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE412914364CAF004FDBB8 /* WebSocket07.m */; };
 		0861760A14994EAB00450EE9 /* syncArrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 0861760914994EAB00450EE9 /* syncArrows.png */; };
@@ -174,6 +176,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				08056DB7143F60880002766D /* Vyana.framework in Copy Fworks */,
+				08581872155068370025DA07 /* CrashReporter.framework in Copy Fworks */,
 			);
 			name = "Copy Fworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -242,6 +245,7 @@
 		08566748149FCC3600BD85E5 /* RCMTextPrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMTextPrintView.m; sourceTree = "<group>"; };
 		0858185E154B279C0025DA07 /* RCAssignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCAssignment.h; sourceTree = "<group>"; };
 		0858185F154B279C0025DA07 /* RCAssignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCAssignment.m; sourceTree = "<group>"; };
+		08581870155068290025DA07 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../3rdParty/CrashReporter.framework; sourceTree = "<group>"; };
 		085E7B1814EED6F600036A9E /* RCSessionUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSessionUser.h; sourceTree = "<group>"; };
 		085E7B1914EED6F600036A9E /* RCSessionUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSessionUser.m; sourceTree = "<group>"; };
 		0861760914994EAB00450EE9 /* syncArrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrows.png; path = resources/syncArrows.png; sourceTree = SOURCE_ROOT; };
@@ -439,6 +443,7 @@
 				08FE89F414156FFE00672474 /* SystemConfiguration.framework in Frameworks */,
 				08FE88D114155C0600672474 /* WebKit.framework in Frameworks */,
 				08FE88AC1415533300672474 /* Cocoa.framework in Frameworks */,
+				08581871155068290025DA07 /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,6 +653,7 @@
 		08FE88AA1415533300672474 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				08581870155068290025DA07 /* CrashReporter.framework */,
 				088D7FDA14FEA702005C62AF /* AudioToolbox.framework */,
 				08BD99DD148439D1004EF624 /* ScriptingBridge.framework */,
 				08BD99DA14842C9F004EF624 /* Quartz.framework */,
@@ -1187,6 +1193,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Rc2Client-dewfyvrozuowhgchoqvbtqkdvzut/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../3rdParty\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MacClient/MacClient-Prefix.pch";
@@ -1210,6 +1217,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Rc2Client-dewfyvrozuowhgchoqvbtqkdvzut/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../3rdParty\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MacClient/MacClient-Prefix.pch";
