@@ -50,10 +50,13 @@
 		self.workspacesItem = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"WORKSPACES", @"name", nil];
 		self.adminItem = [NSMutableDictionary dictionaryWithObject:@"ADMIN" forKey:@"name"];
 		self.classItem = [NSMutableDictionary dictionaryWithObject:@"CLASSES" forKey:@"name"];
-		NSArray *adminItems = ARRAY([NSMutableDictionary dictionaryWithObjectsAndKeys:@"users", @"name",
-							   @"RCMUserAdminController", kControllerClass, nil],
-									[NSMutableDictionary dictionaryWithObjectsAndKeys:@"permissions", @"name",
-									 @"RCMRolePermController", kControllerClass, nil]);
+		NSMutableArray *adminItems = [[NSMutableArray alloc] initWithObjects:
+									  [NSMutableDictionary dictionaryWithObjectsAndKeys:@"users", @"name", @"RCMUserAdminController", kControllerClass, nil],
+									  [NSMutableDictionary dictionaryWithObjectsAndKeys:@"permissions", @"name", @"RCMRolePermController", kControllerClass, nil],
+									  nil];
+		if ([[Rc2Server sharedInstance].usersPermissions containsObject:@"DEVELOPER"]) {
+			[adminItems addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"crash reports", @"name", @"RCMCrashReportController", kControllerClass, nil]];
+		}
 		[self.adminItem setObject:adminItems forKey:@"children"];
 		self.wspaceControllers = [[NSMutableDictionary alloc] init];
 		self.kvoObservers = [NSMutableArray array];

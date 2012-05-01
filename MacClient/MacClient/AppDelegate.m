@@ -255,8 +255,9 @@
 		Rc2LogError(@"failed to load crash data: %@", error);
 	else {
 		ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"crash"];
-		[req setPostValue:crashData forKey:@"data"];
+		[req setData:crashData withFileName:@"data" andContentType:@"application/octet-stream" forKey:@"data"];
 		[req startAsynchronous];
+		[crashData writeToFile:@"/Users/mlilback/Desktop/crasshrpt" atomically:NO];
 	}
 	[crashReporter purgePendingCrashReport];
 }
