@@ -37,8 +37,8 @@
 	self.name = [dict objectForKey:@"name"];
 	self.sortOrder = [dict objectForKey:@"sortOrder"];
 	self.locked = [[dict objectForKey:@"locked"] boolValue];
-	self.startDate = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"startDate"] integerValue]];
-	self.endDate = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"endDate"] integerValue]];
+	self.startDate = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"startDate"] integerValue]/1000];
+	self.endDate = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"endDate"] integerValue]/1000];
 	id files = [dict objectForKey:@"assignmentFiles"];
 	if ([files isKindOfClass:[NSArray class]])
 		self.files = [RCAssignmentFile filesFromJSONArray:files forCourse:self];

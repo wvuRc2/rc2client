@@ -14,14 +14,14 @@
 #import "ASIFormDataRequest.h"
 
 @interface RCMManageCourseController()
-@property (nonatomic, strong) IBOutlet NSArrayController *assignmentController;
+@property (nonatomic, strong) NSMutableArray *assignments;
+@property (nonatomic, strong) NSArray *assignSortDescriptors;
 @property (nonatomic, strong) IBOutlet NSTableView *assignTable;
 @property (nonatomic, strong) IBOutlet NSTableView *fileTable;
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
 @property (nonatomic, strong) id curSelToken;
 @property (nonatomic, strong) RCAssignment *selectedAssignment;
 @property (nonatomic, strong) RCAssignmentFile *selectedFile;
-@property (nonatomic, strong) NSIndexSet *selIndexes;
 @end
 
 @implementation RCMManageCourseController
@@ -30,16 +30,13 @@
 {
  	if ((self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil])) {
 		self.kvoTokens = [NSMutableSet set];
+		self.assignSortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
 	}
 	return self;
 }
 
 -(void)awakeFromNib
 {
-	__unsafe_unretained RCMManageCourseController *blockSelf = self;
-	[self.kvoTokens addObject:[self.assignmentController addObserverForKeyPath:@"selectedObjects" task:^(id obj, NSDictionary *change) {
-		blockSelf.selectedAssignment = [[obj selectedObjects] firstObject];
-	}]];
 	if (self.theCourse.assignments.count < 1)
 		[self loadAssignments];
 }
@@ -84,6 +81,11 @@
 
 #pragma mark - meat & potatos
 
+-(void)resortAssignments
+{
+	[self.assignments sortUsingDescriptors:self.assignSortDescriptors];
+}
+
 -(void)importFiles:(NSArray*)fileUrls
 {
 	NSString *errorMessage=nil;
@@ -123,27 +125,19 @@
 		NSDictionary *rsp = [req.responseString JSONValue];
 		if ([[rsp objectForKey:@"status"] intValue] == 0) {
 			self.theCourse.assignments = [RCAssignment assignmentsFromJSONArray:[rsp objectForKey:@"assignments"] forCourse:self.theCourse];
+			self.assignments = [self.theCourse.assignments mutableCopy];
+			[self.assignTable reloadData];
 		}
 	}];
 	[req startAsynchronous];
-}
-
-- (BOOL)control:(NSControl *)control isValidObject:(id)object
-{
-	NSInteger colNum = [self.assignTable.tableColumns indexOfObject:[self.assignTable tableColumnWithIdentifier:@"name"]];
-	NSInteger rowNum = [self.assignmentController.arrangedObjects indexOfObject:self.selectedAssignment];
-	NSView *dispView = [self.assignTable viewAtColumn:colNum row:rowNum makeIfNecessary:NO];
-	if ([control isDescendantOf:dispView]) {
-		//it is the name view
-		return [[Rc2Server sharedInstance] synchronouslyUpdateAssignment:self.selectedAssignment withValues:[NSDictionary dictionaryWithObject:object forKey:@"name"]];
-	}
-	return YES;
 }
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	if (tableView == self.fileTable) {
 		return self.selectedAssignment.files.count;
+	} else if (tableView == self.assignTable) {
+		return self.assignments.count;
 	}
 	return 0;
 }
@@ -156,12 +150,41 @@
 			return file.name;
 		if ([tableColumn.identifier isEqualToString:@"readonly"])
 			return [NSNumber numberWithBool:file.readonly];
+	} else if (tableView == self.assignTable) {
+		RCAssignment *assign = [self.assignments objectAtIndex:row];
+		id val = [assign valueForKey:tableColumn.identifier];
+		return val;
 	}
 	return nil;
 }
 
 -(void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
+	if (tableView == self.assignTable) {
+		RCAssignment *assign = [self.assignments objectAtIndex:row];
+		if (assign.locked) {
+			NSBeep();
+			return;
+		}
+		if ([object isKindOfClass:[NSDate class]]) {
+			object = [NSNumber numberWithDouble:[object timeIntervalSince1970] * 1000];
+		}
+		NSDictionary *mods = [NSDictionary dictionaryWithObject:object forKey:tableColumn.identifier];
+		NSString *urlstr = [NSString stringWithFormat:@"courses/%@/assignment/%@", self.theCourse.courseId, assign.assignmentId];
+		ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
+		[req setRequestMethod:@"PUT"];
+		[req addRequestHeader:@"Content-Type" value:@"application/json"];
+		[req appendPostData:[[mods JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+		[req startSynchronous];
+		if (req.responseStatusCode == 200) {
+			NSDictionary *d = [req.responseString JSONValue];
+			if ([[d objectForKey:@"status"] intValue] == 0) {
+				[assign updateWithDictionary:[d objectForKey:@"assignment"]];
+				[self resortAssignments];
+			}
+		}
+		return;
+	}
 	if (tableView != self.fileTable)
 		return;
 	if (![tableColumn.identifier isEqualToString:@"readonly"]) {
@@ -191,8 +214,12 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-	NSInteger idx = [self.fileTable selectedRow];
-	self.selectedFile = [self.selectedAssignment.files objectAtIndexNoExceptions:idx];
+	if (notification.object == self.assignTable) {
+		self.selectedAssignment = [self.assignments objectAtIndexNoExceptions:self.assignTable.selectedRow];
+	} else {
+		NSInteger idx = [self.fileTable selectedRow];
+		self.selectedFile = [self.selectedAssignment.files objectAtIndexNoExceptions:idx];
+	}
 }
 
 -(void)setSelectedAssignment:(RCAssignment *)assign
@@ -203,16 +230,17 @@
 //		NSLog(@"name changed: %@, %@", [obj name], change);
 	}];
 	_selectedAssignment = assign;
+	self.selectedFile=nil;
 	[self.fileTable reloadData];
 }
 
 @synthesize theCourse=_theCourse;
+@synthesize assignments=_assignments;
 @synthesize kvoTokens=_kvoTokens;
-@synthesize assignmentController=_assignmentController;
 @synthesize selectedAssignment=_selectedAssignment;
 @synthesize curSelToken=_curSelToken;
-@synthesize selIndexes=_selIndexes;
 @synthesize assignTable=_assignTable;
 @synthesize fileTable=_fileTable;
 @synthesize selectedFile=_selectedFile;
+@synthesize assignSortDescriptors=_assignSortDescriptors;
 @end
