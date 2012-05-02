@@ -7,6 +7,7 @@
 //
 
 #import "RCAssignment.h"
+#import "RCAssignmentFile.h"
 
 @implementation RCAssignment
 
@@ -38,6 +39,9 @@
 	self.locked = [[dict objectForKey:@"locked"] boolValue];
 	self.startDate = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"startDate"] integerValue]];
 	self.endDate = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"endDate"] integerValue]];
+	id files = [dict objectForKey:@"assignmentFiles"];
+	if ([files isKindOfClass:[NSArray class]])
+		self.files = [RCAssignmentFile filesFromJSONArray:files forCourse:self];
 }
 
 @synthesize assignmentId;
@@ -47,4 +51,5 @@
 @synthesize startDate;
 @synthesize endDate;
 @synthesize course=_course;
+@synthesize files=_files;
 @end

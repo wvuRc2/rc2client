@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) NSDate *endDate;
 @property (nonatomic, assign) BOOL locked;
-
+@property (nonatomic, copy) NSArray *files;
 
 +(NSArray*)assignmentsFromJSONArray:(NSArray*)json forCourse:(RCCourse*)course;
 

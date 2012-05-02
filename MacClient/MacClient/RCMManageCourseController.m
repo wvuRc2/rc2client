@@ -9,12 +9,14 @@
 #import "RCMManageCourseController.h"
 #import "RCCourse.h"
 #import "RCAssignment.h"
+#import "RCAssignmentFile.h"
 #import "Rc2Server.h"
 #import "ASIHTTPRequest.h"
 
 @interface RCMManageCourseController()
 @property (nonatomic, strong) IBOutlet NSArrayController *assignmentController;
 @property (nonatomic, strong) IBOutlet NSTableView *assignTable;
+@property (nonatomic, strong) IBOutlet NSTableView *fileTable;
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
 @property (nonatomic, strong) id curSelToken;
 @property (nonatomic, strong) RCAssignment *selectedAssignment;
@@ -69,6 +71,26 @@
 	return YES;
 }
 
+-(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+	if (tableView == self.fileTable) {
+		return self.selectedAssignment.files.count;
+	}
+	return 0;
+}
+
+-(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+	if (tableView == self.fileTable) {
+		RCAssignmentFile *file = [self.selectedAssignment.files objectAtIndex:row];
+		if ([tableColumn.identifier isEqualToString:@"name"])
+			return file.name;
+		if ([tableColumn.identifier isEqualToString:@"readonly"])
+			return [NSNumber numberWithBool:file.readonly];
+	}
+	return nil;
+}
+
 -(void)setSelectedAssignment:(RCAssignment *)assign
 {
 	if (assign == _selectedAssignment)
@@ -77,6 +99,7 @@
 //		NSLog(@"name changed: %@, %@", [obj name], change);
 	}];
 	_selectedAssignment = assign;
+	[self.fileTable reloadData];
 }
 
 @synthesize theCourse=_theCourse;
@@ -86,4 +109,5 @@
 @synthesize curSelToken=_curSelToken;
 @synthesize selIndexes=_selIndexes;
 @synthesize assignTable=_assignTable;
+@synthesize fileTable=_fileTable;
 @end

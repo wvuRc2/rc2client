@@ -51,6 +51,7 @@
 		08581872155068370025DA07 /* CrashReporter.framework in Copy Fworks */ = {isa = PBXBuildFile; fileRef = 08581870155068290025DA07 /* CrashReporter.framework */; };
 		085818761550781E0025DA07 /* RCMCrashReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 085818741550781E0025DA07 /* RCMCrashReportController.m */; };
 		085818771550781E0025DA07 /* RCMCrashReportController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 085818751550781E0025DA07 /* RCMCrashReportController.xib */; };
+		0858187E1551C2C40025DA07 /* RCAssignmentFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0858187D1551C2C40025DA07 /* RCAssignmentFile.m */; };
 		085E7B1A14EED6F600036A9E /* RCSessionUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1914EED6F600036A9E /* RCSessionUser.m */; };
 		085E7B3214F56C3200036A9E /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE412914364CAF004FDBB8 /* WebSocket07.m */; };
 		0861760A14994EAB00450EE9 /* syncArrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 0861760914994EAB00450EE9 /* syncArrows.png */; };
@@ -251,6 +252,8 @@
 		085818731550781E0025DA07 /* RCMCrashReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMCrashReportController.h; path = admin/RCMCrashReportController.h; sourceTree = "<group>"; };
 		085818741550781E0025DA07 /* RCMCrashReportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMCrashReportController.m; path = admin/RCMCrashReportController.m; sourceTree = "<group>"; };
 		085818751550781E0025DA07 /* RCMCrashReportController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RCMCrashReportController.xib; path = admin/RCMCrashReportController.xib; sourceTree = "<group>"; };
+		0858187C1551C2C40025DA07 /* RCAssignmentFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCAssignmentFile.h; sourceTree = "<group>"; };
+		0858187D1551C2C40025DA07 /* RCAssignmentFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCAssignmentFile.m; sourceTree = "<group>"; };
 		085E7B1814EED6F600036A9E /* RCSessionUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSessionUser.h; sourceTree = "<group>"; };
 		085E7B1914EED6F600036A9E /* RCSessionUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSessionUser.m; sourceTree = "<group>"; };
 		0861760914994EAB00450EE9 /* syncArrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrows.png; path = resources/syncArrows.png; sourceTree = SOURCE_ROOT; };
@@ -834,6 +837,8 @@
 				08BA99B3154B0C9700B6CFC1 /* RCCourse.m */,
 				0858185E154B279C0025DA07 /* RCAssignment.h */,
 				0858185F154B279C0025DA07 /* RCAssignment.m */,
+				0858187C1551C2C40025DA07 /* RCAssignmentFile.h */,
+				0858187D1551C2C40025DA07 /* RCAssignmentFile.m */,
 			);
 			name = model;
 			path = ../SharedCode/rc2/model;
@@ -1116,6 +1121,7 @@
 				08BA99B4154B0C9700B6CFC1 /* RCCourse.m in Sources */,
 				08581860154B279C0025DA07 /* RCAssignment.m in Sources */,
 				085818761550781E0025DA07 /* RCMCrashReportController.m in Sources */,
+				0858187E1551C2C40025DA07 /* RCAssignmentFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

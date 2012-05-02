@@ -10,6 +10,6 @@
 
 @class RCCourse;
 
-@interface RCMManageCourseController : AMViewController
+@interface RCMManageCourseController : AMViewController<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, strong) RCCourse *theCourse;
 @end
