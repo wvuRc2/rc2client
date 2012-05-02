@@ -12,6 +12,7 @@
 
 @interface RCAssignmentFile : NSObject
 @property (nonatomic, weak) RCAssignment *assignment;
+@property (nonatomic, strong, readonly) NSNumber *assignmentFileId;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) BOOL readonly;
 
