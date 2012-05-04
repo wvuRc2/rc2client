@@ -43,6 +43,58 @@
 
 #pragma mark - actions
 
+-(IBAction)addAssignment:(id)sender
+{
+	NSString *aname = [NSString stringWithFormat:@"Assignment %ld", self.assignments.count + 1];
+	NSDate *startDate = [NSDate dateWithTimeIntervalSinceNow:86400 * 7];
+	NSDate *endDate = [NSDate dateWithTimeIntervalSinceNow:86400 * 14];
+	if (self.assignments.count > 0) {
+		RCAssignment *ass = [self.assignments lastObject];
+		startDate = [NSDate dateWithTimeIntervalSinceReferenceDate:ass.endDate.timeIntervalSinceReferenceDate + 86400];
+		endDate = [NSDate dateWithTimeIntervalSinceReferenceDate:startDate.timeIntervalSinceReferenceDate + 7 * 86400];
+	}
+	NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:aname, @"name", 
+						  [NSNumber numberWithDouble:startDate.timeIntervalSince1970 * 1000], @"startDate", 
+						  [NSNumber numberWithDouble:endDate.timeIntervalSince1970 * 1000], @"endDate", nil];
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment", self.theCourse.courseId]];
+	[req appendPostData:[[args JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req startSynchronous];
+	if (req.responseStatusCode != 200) {
+		[NSAlert displayAlertWithTitle:@"Server Error" details:[NSString stringWithFormat:@"server returned %@", req.responseStatusCode]];
+		return;
+	}
+	NSDictionary *dict = [req.responseString JSONValue];
+	if ([[dict objectForKey:@"status"] intValue] != 0) {
+		[NSAlert displayAlertWithTitle:@"Server Error" details:[dict objectForKey:@"message"]];
+		return;
+	}
+	RCAssignment *assign = [[RCAssignment alloc] initWithDictionary:[dict objectForKey:@"assignment"]];
+	[self.assignments addObject:assign];
+	[self.assignTable reloadData];
+	[self.assignTable selectRowIndexes:[NSIndexSet indexSetWithIndex:self.assignments.count-1] byExtendingSelection:NO];
+}
+
+-(IBAction)deleteAssignment:(id)sender
+{
+	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment/%@", self.theCourse.courseId, self.selectedAssignment.assignmentId]];
+	[req setRequestMethod:@"DELETE"];
+	[req startSynchronous];
+	if (req.responseStatusCode != 200) {
+		[NSAlert displayAlertWithTitle:@"Server Error" details:[NSString stringWithFormat:@"server returned %@", req.responseStatusCode]];
+		return;
+	}
+	NSDictionary *dict = [req.responseString JSONValue];
+	if ([[dict objectForKey:@"status"] intValue] != 0) {
+		[NSAlert displayAlertWithTitle:@"Server Error" details:[dict objectForKey:@"message"]];
+		return;
+	}
+	self.theCourse.assignments = [self.theCourse.assignments arrayByRemovingObjectAtIndex:[self.theCourse.assignments indexOfObject:self.selectedAssignment]];
+	[self.assignments removeObject:self.selectedAssignment];
+	self.selectedAssignment=nil;
+	[self.assignTable reloadData];
+	[self.fileTable reloadData];
+}
+
 -(IBAction)uploadFiles:(id)sender
 {
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
