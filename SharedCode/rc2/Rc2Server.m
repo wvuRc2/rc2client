@@ -93,7 +93,7 @@
 	static NSArray *fileExts=nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		fileExts = [[NSMutableArray alloc] initWithObjects:@"txt", @"R", @"Rnw", @"csv", @"tsv", @"tab", @"pdf", nil];
+		fileExts = [[NSMutableArray alloc] initWithObjects:@"txt", @"R", @"Rnw", @"RnW", @"csv", @"tsv", @"tab", @"pdf", nil];
 	});
 	return fileExts;
 }

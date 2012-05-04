@@ -12,6 +12,7 @@
 #import "RCAssignmentFile.h"
 #import "Rc2Server.h"
 #import "ASIFormDataRequest.h"
+#import "MultiFileImporter.h"
 
 @interface RCMManageCourseController()
 @property (nonatomic, strong) NSMutableArray *assignments;
@@ -39,6 +40,8 @@
 {
 	if (self.theCourse.assignments.count < 1)
 		[self loadAssignments];
+	[self.fileTable setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleRegular];
+	[self.fileTable registerForDraggedTypes:ARRAY((id)kUTTypeFileURL)];
 }
 
 #pragma mark - actions
@@ -88,7 +91,9 @@
 		[NSAlert displayAlertWithTitle:@"Server Error" details:[dict objectForKey:@"message"]];
 		return;
 	}
-	self.theCourse.assignments = [self.theCourse.assignments arrayByRemovingObjectAtIndex:[self.theCourse.assignments indexOfObject:self.selectedAssignment]];
+	NSInteger idx = [self.theCourse.assignments indexOfObject:self.selectedAssignment];
+	if (idx != NSNotFound)
+		self.theCourse.assignments = [self.theCourse.assignments arrayByRemovingObjectAtIndex:idx];
 	[self.assignments removeObject:self.selectedAssignment];
 	self.selectedAssignment=nil;
 	[self.assignTable reloadData];
@@ -138,6 +143,7 @@
 	[self.assignments sortUsingDescriptors:self.assignSortDescriptors];
 }
 
+//resets status/busy when finished
 -(void)importFiles:(NSArray*)fileUrls
 {
 	NSString *errorMessage=nil;
@@ -183,6 +189,32 @@
 	}];
 	[req startAsynchronous];
 }
+
+//TODO: this code is not called. need to adjust importFiles above so that duplicates are handled properly
+-(void)handleFileUpload:(NSArray*)urls replacing:(BOOL)replaceExisting
+{
+	self.statusMessage = @"Uploading Files";
+	self.busy = YES;
+	NSMutableArray *workingUrls = [NSMutableArray arrayWithCapacity:urls.count];
+	for (NSURL *aUrl in urls) {
+		NSString *fname =aUrl.lastPathComponent;
+		if (nil != [self.selectedAssignment.files firstObjectWithValue:fname forKey:@"name"]) {
+			if (replaceExisting) {
+				//deleting existing
+				continue;
+			} else {
+				fname = [MultiFileImporter uniqueFileName:fname existingFiles:self.selectedAssignment.files];
+			}
+		} else {
+			[workingUrls addObject:aUrl];
+		}
+	}
+	[self importFiles:workingUrls];
+	self.busy = NO;
+	self.statusMessage = @"";
+}
+
+#pragma mark - table view
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
@@ -262,6 +294,28 @@
 			afile.readonly = [object boolValue];
 		}
 	}
+}
+
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation
+{
+	if (tableView == self.fileTable)
+		return [MultiFileImporter validateTableViewFileDrop:info];
+	return NO;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation
+{
+	[MultiFileImporter acceptTableViewFileDrop:tableView dragInfo:info existingFiles:self.selectedAssignment.files 
+							 completionHandler:^(NSArray *urls, BOOL replaceExisting)
+	{
+		self.statusMessage = @"Uploading Files";
+		self.busy = YES;
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+			[self importFiles:urls];
+		});
+	}];
+	
+	return YES;
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification

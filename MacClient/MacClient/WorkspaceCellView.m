@@ -137,7 +137,7 @@
 
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation
 {
-	[MultiFileImporter acceptTableViewFileDrop:tableView dragInfo:info workspace:self.workspace 
+	[MultiFileImporter acceptTableViewFileDrop:tableView dragInfo:info existingFiles:self.workspace.files 
 							 completionHandler:^(NSArray *urls, BOOL replaceExisting)
 	 {
 		 [self.cellDelegate workspaceCell:self handleDroppedFiles:urls replaceExisting:replaceExisting];

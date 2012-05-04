@@ -49,13 +49,13 @@ enum {
 //determines what files to import, prompting the user if necessary to see if existing files should be replaced or unique names should be
 // generated. Unless the user cancels, handler will be called with the actual files to import. Ideally they should then be passed
 // to an instance of MultiFileImporter.
-+(void)acceptTableViewFileDrop:(NSTableView *)tableView dragInfo:(id <NSDraggingInfo>)info workspace:(RCWorkspace*)workspace
++(void)acceptTableViewFileDrop:(NSTableView *)tableView dragInfo:(id <NSDraggingInfo>)info existingFiles:(NSArray*)existingFiles
 	completionHandler:(void (^)(NSArray *urls, BOOL replaceExisting))handler
 {
 	//our validate method already confirmed they are acceptable file types
 	NSArray *urls = [[info draggingPasteboard] readObjectsForClasses:ARRAY([NSURL class]) options:nil];
 	//look for duplicate names
-	NSArray *existingNames = [workspace.files valueForKey:@"name"];
+	NSArray *existingNames = [existingFiles valueForKey:@"name"];
 	BOOL promptForAction=NO;
 	for (NSURL *url in urls) {
 		if ([existingNames containsObject:url.lastPathComponent])
@@ -79,6 +79,21 @@ enum {
 	} else {
 		handler(urls, YES);
 	}
+}
+
++(NSString*)uniqueFileName:(NSString*)fname existingFiles:(NSArray*)existingFiles
+{
+	NSInteger i=1;
+	NSString *destFileName = fname;
+	while (YES) {
+		NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", [destFileName stringByDeletingPathExtension],
+							 i++, [destFileName pathExtension]];
+		if (nil == [existingFiles firstObjectWithValue:newName forKey:@"name"]) {
+			destFileName = newName;
+			break;
+		}
+	}
+	return destFileName;
 }
 
 -(AMProgressWindowController*)prepareProgressWindowWithErrorHandler:(BasicBlock1Arg)errorHandler
@@ -119,16 +134,7 @@ enum {
 		if (self.replaceExisting) {
 			replaceThisFile = YES;
 		} else {
-			//need to generate a unique file name
-			NSInteger i=1;
-			while (YES) {
-				NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", [destFileName stringByDeletingPathExtension],
-									 i++, [destFileName pathExtension]];
-				if (nil == [self.workspace fileWithName:newName]) {
-					destFileName = newName;
-					break;
-				}
-			}
+			destFileName = [MultiFileImporter uniqueFileName:destFileName existingFiles:self.workspace.files];
 		}
 	}
 	self.currentFileName = destFileName;
