@@ -24,7 +24,6 @@
 #endif
 
 #define kServerHostKey @"ServerHostKey"
-#define kUserAgent @"Rc2 iPadClient"
 
 #pragma mark -
 
@@ -123,7 +122,11 @@
 
 -(NSString*)userAgentString
 {
-	return kUserAgent;
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1070)
+	return @"Rc2 MacClient";
+#else
+	return @"Rc2 iPadClient";
+#endif
 }
 
 
