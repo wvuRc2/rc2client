@@ -54,9 +54,6 @@
 									  [NSMutableDictionary dictionaryWithObjectsAndKeys:@"users", @"name", @"RCMUserAdminController", kControllerClass, nil],
 									  [NSMutableDictionary dictionaryWithObjectsAndKeys:@"permissions", @"name", @"RCMRolePermController", kControllerClass, nil],
 									  nil];
-		if ([[Rc2Server sharedInstance].usersPermissions containsObject:@"DEVELOPER"]) {
-			[adminItems addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"crash reports", @"name", @"RCMCrashReportController", kControllerClass, nil]];
-		}
 		[self.adminItem setObject:adminItems forKey:@"children"];
 		self.wspaceControllers = [[NSMutableDictionary alloc] init];
 		self.kvoObservers = [NSMutableArray array];

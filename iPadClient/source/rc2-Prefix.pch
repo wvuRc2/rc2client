@@ -20,7 +20,6 @@
 	#import <DropboxSDK/DropboxSDK.h>
 	#import <DropboxSDK/NSString+DBJSON.h>
 	#import <DropboxSDK/NSObject+DBJSON.h>
-	#import "TestFlight.h"
 	#import "Vyana-ios/VyanaLog.h"
 #endif
 

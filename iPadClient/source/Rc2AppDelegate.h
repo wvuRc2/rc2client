@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BWHockeyManager.h"
 
 @class DetailsViewController;
 @class SessionViewController;
 @class MGSplitViewController;
 @class RCFile;
 
-@interface Rc2AppDelegate : NSObject <UIApplicationDelegate> {
+@interface Rc2AppDelegate : NSObject <UIApplicationDelegate, BWHockeyManagerDelegate> {
 
 }
 

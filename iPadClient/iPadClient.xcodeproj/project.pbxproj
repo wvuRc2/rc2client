@@ -38,7 +38,6 @@
 		082DC04713EC99E5008EAA99 /* SessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082DC04513EC99E5008EAA99 /* SessionViewController.xib */; };
 		082DC04F13EC9EB2008EAA99 /* KeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082DC04E13EC9EB2008EAA99 /* KeyboardView.m */; };
 		082DC05613ECA3AA008EAA99 /* KeyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 082DC05513ECA3AA008EAA99 /* KeyButton.m */; };
-		08317A101427E200009701C6 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08317A0F1427E200009701C6 /* libTestFlight.a */; };
 		08349EBE1403311500B629B4 /* rightSym.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08349EBD1403311500B629B4 /* rightSym.txt */; };
 		08349EC1140339F300B629B4 /* rightAlpha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08349EC0140339F300B629B4 /* rightAlpha.txt */; };
 		08349EC3140384D700B629B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08349EC2140384D700B629B4 /* QuartzCore.framework */; };
@@ -84,6 +83,19 @@
 		085323091404F8380045D207 /* RCSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 085323081404F8380045D207 /* RCSession.m */; };
 		085323101405CCC00045D207 /* console in Resources */ = {isa = PBXBuildFile; fileRef = 0853230F1405CCC00045D207 /* console */; };
 		08581864154B29E10025DA07 /* RCAssignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08581863154B29E10025DA07 /* RCAssignment.m */; };
+		08581881155461900025DA07 /* RCAssignmentFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08581880155461900025DA07 /* RCAssignmentFile.m */; };
+		0858189E155465840025DA07 /* BWApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 08581884155465840025DA07 /* BWApp.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0858189F155465840025DA07 /* BWGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = 08581886155465840025DA07 /* BWGlobal.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		085818A0155465840025DA07 /* BWHockeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08581888155465840025DA07 /* BWHockeyManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		085818A1155465840025DA07 /* BWHockeySettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0858188A155465840025DA07 /* BWHockeySettingsViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		085818A2155465840025DA07 /* BWHockeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0858188C155465840025DA07 /* BWHockeyViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		085818A3155465840025DA07 /* NSString+HockeyAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0858188F155465840025DA07 /* NSString+HockeyAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		085818A4155465840025DA07 /* PSAppStoreHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08581891155465840025DA07 /* PSAppStoreHeader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		085818A5155465840025DA07 /* PSStoreButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08581893155465840025DA07 /* PSStoreButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		085818A6155465840025DA07 /* PSWebTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08581895155465840025DA07 /* PSWebTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		085818A7155465840025DA07 /* UIImage+HockeyAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08581897155465840025DA07 /* UIImage+HockeyAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		085818A8155465840025DA07 /* Hockey.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08581898155465840025DA07 /* Hockey.bundle */; };
+		085818AB155465840025DA07 /* README.mkdown in Resources */ = {isa = PBXBuildFile; fileRef = 0858189D155465840025DA07 /* README.mkdown */; };
 		085E7B0D14EEBC0600036A9E /* controller.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B0B14EEBC0600036A9E /* controller.png */; };
 		085E7B0E14EEBC0600036A9E /* controller@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E7B0C14EEBC0600036A9E /* controller@2x.png */; };
 		085E7B1314EEC2F000036A9E /* ControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1114EEC2F000036A9E /* ControlViewController.m */; };
@@ -329,6 +341,30 @@
 		0853230F1405CCC00045D207 /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console; sourceTree = SOURCE_ROOT; };
 		08581862154B29E10025DA07 /* RCAssignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCAssignment.h; sourceTree = "<group>"; };
 		08581863154B29E10025DA07 /* RCAssignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCAssignment.m; sourceTree = "<group>"; };
+		0858187F155461900025DA07 /* RCAssignmentFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCAssignmentFile.h; sourceTree = "<group>"; };
+		08581880155461900025DA07 /* RCAssignmentFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCAssignmentFile.m; sourceTree = "<group>"; };
+		08581883155465840025DA07 /* BWApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWApp.h; sourceTree = "<group>"; };
+		08581884155465840025DA07 /* BWApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWApp.m; sourceTree = "<group>"; };
+		08581885155465840025DA07 /* BWGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWGlobal.h; sourceTree = "<group>"; };
+		08581886155465840025DA07 /* BWGlobal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWGlobal.m; sourceTree = "<group>"; };
+		08581887155465840025DA07 /* BWHockeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWHockeyManager.h; sourceTree = "<group>"; };
+		08581888155465840025DA07 /* BWHockeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWHockeyManager.m; sourceTree = "<group>"; };
+		08581889155465840025DA07 /* BWHockeySettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWHockeySettingsViewController.h; sourceTree = "<group>"; };
+		0858188A155465840025DA07 /* BWHockeySettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWHockeySettingsViewController.m; sourceTree = "<group>"; };
+		0858188B155465840025DA07 /* BWHockeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWHockeyViewController.h; sourceTree = "<group>"; };
+		0858188C155465840025DA07 /* BWHockeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWHockeyViewController.m; sourceTree = "<group>"; };
+		0858188E155465840025DA07 /* NSString+HockeyAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HockeyAdditions.h"; sourceTree = "<group>"; };
+		0858188F155465840025DA07 /* NSString+HockeyAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HockeyAdditions.m"; sourceTree = "<group>"; };
+		08581890155465840025DA07 /* PSAppStoreHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSAppStoreHeader.h; sourceTree = "<group>"; };
+		08581891155465840025DA07 /* PSAppStoreHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSAppStoreHeader.m; sourceTree = "<group>"; };
+		08581892155465840025DA07 /* PSStoreButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSStoreButton.h; sourceTree = "<group>"; };
+		08581893155465840025DA07 /* PSStoreButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSStoreButton.m; sourceTree = "<group>"; };
+		08581894155465840025DA07 /* PSWebTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSWebTableViewCell.h; sourceTree = "<group>"; };
+		08581895155465840025DA07 /* PSWebTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSWebTableViewCell.m; sourceTree = "<group>"; };
+		08581896155465840025DA07 /* UIImage+HockeyAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HockeyAdditions.h"; sourceTree = "<group>"; };
+		08581897155465840025DA07 /* UIImage+HockeyAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HockeyAdditions.m"; sourceTree = "<group>"; };
+		08581898155465840025DA07 /* Hockey.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Hockey.bundle; sourceTree = "<group>"; };
+		0858189D155465840025DA07 /* README.mkdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mkdown; sourceTree = "<group>"; };
 		085E7B0B14EEBC0600036A9E /* controller.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller.png; path = resources/controller.png; sourceTree = SOURCE_ROOT; };
 		085E7B0C14EEBC0600036A9E /* controller@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "controller@2x.png"; path = "resources/controller@2x.png"; sourceTree = SOURCE_ROOT; };
 		085E7B1014EEC2F000036A9E /* ControlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlViewController.h; path = source/ControlViewController.h; sourceTree = SOURCE_ROOT; };
@@ -510,7 +546,6 @@
 				082DC02E13EC99E5008EAA99 /* UIKit.framework in Frameworks */,
 				082DC03013EC99E5008EAA99 /* Foundation.framework in Frameworks */,
 				082DC03213EC99E5008EAA99 /* CoreGraphics.framework in Frameworks */,
-				08317A101427E200009701C6 /* libTestFlight.a in Frameworks */,
 				088AC26514BA62D00094D134 /* DropboxSDK.framework in Frameworks */,
 				08BA99991547485900B6CFC1 /* libDTRichTextEditor.a in Frameworks */,
 			);
@@ -700,10 +735,50 @@
 				08BA99B6154B128B00B6CFC1 /* RCCourse.m */,
 				08581862154B29E10025DA07 /* RCAssignment.h */,
 				08581863154B29E10025DA07 /* RCAssignment.m */,
+				0858187F155461900025DA07 /* RCAssignmentFile.h */,
+				08581880155461900025DA07 /* RCAssignmentFile.m */,
 				08F566661407073E00229A39 /* generated */,
 			);
 			name = model;
 			path = ../SharedCode/rc2/model;
+			sourceTree = "<group>";
+		};
+		08581882155465840025DA07 /* HockeyKit-ios */ = {
+			isa = PBXGroup;
+			children = (
+				08581883155465840025DA07 /* BWApp.h */,
+				08581884155465840025DA07 /* BWApp.m */,
+				08581885155465840025DA07 /* BWGlobal.h */,
+				08581886155465840025DA07 /* BWGlobal.m */,
+				08581887155465840025DA07 /* BWHockeyManager.h */,
+				08581888155465840025DA07 /* BWHockeyManager.m */,
+				08581889155465840025DA07 /* BWHockeySettingsViewController.h */,
+				0858188A155465840025DA07 /* BWHockeySettingsViewController.m */,
+				0858188B155465840025DA07 /* BWHockeyViewController.h */,
+				0858188C155465840025DA07 /* BWHockeyViewController.m */,
+				0858188D155465840025DA07 /* Helper */,
+				08581898155465840025DA07 /* Hockey.bundle */,
+				0858189D155465840025DA07 /* README.mkdown */,
+			);
+			name = "HockeyKit-ios";
+			path = "../3rdParty/HockeyKit-ios";
+			sourceTree = "<group>";
+		};
+		0858188D155465840025DA07 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				0858188E155465840025DA07 /* NSString+HockeyAdditions.h */,
+				0858188F155465840025DA07 /* NSString+HockeyAdditions.m */,
+				08581890155465840025DA07 /* PSAppStoreHeader.h */,
+				08581891155465840025DA07 /* PSAppStoreHeader.m */,
+				08581892155465840025DA07 /* PSStoreButton.h */,
+				08581893155465840025DA07 /* PSStoreButton.m */,
+				08581894155465840025DA07 /* PSWebTableViewCell.h */,
+				08581895155465840025DA07 /* PSWebTableViewCell.m */,
+				08581896155465840025DA07 /* UIImage+HockeyAdditions.h */,
+				08581897155465840025DA07 /* UIImage+HockeyAdditions.m */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		0860C54214103D2E00582C7D /* images */ = {
@@ -878,6 +953,7 @@
 		08DD23AE1412B65A00217C1A /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				08581882155465840025DA07 /* HockeyKit-ios */,
 				0828966715471D7E00A6B6C2 /* json */,
 				08EE41011436441F004FDBB8 /* WebSocketClient */,
 				08661A261405AC170087BD34 /* MGSplitViewController */,
@@ -1078,6 +1154,8 @@
 				08BA999B1547486400B6CFC1 /* DTLoupe.bundle in Resources */,
 				08BA99A41548A17800B6CFC1 /* greyscale.css in Resources */,
 				08BA99A51548A17800B6CFC1 /* standard.css in Resources */,
+				085818A8155465840025DA07 /* Hockey.bundle in Resources */,
+				085818AB155465840025DA07 /* README.mkdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1208,6 +1286,17 @@
 				08BA99951547408100B6CFC1 /* RCMSyntaxHighlighter.m in Sources */,
 				08BA99B7154B128C00B6CFC1 /* RCCourse.m in Sources */,
 				08581864154B29E10025DA07 /* RCAssignment.m in Sources */,
+				08581881155461900025DA07 /* RCAssignmentFile.m in Sources */,
+				0858189E155465840025DA07 /* BWApp.m in Sources */,
+				0858189F155465840025DA07 /* BWGlobal.m in Sources */,
+				085818A0155465840025DA07 /* BWHockeyManager.m in Sources */,
+				085818A1155465840025DA07 /* BWHockeySettingsViewController.m in Sources */,
+				085818A2155465840025DA07 /* BWHockeyViewController.m in Sources */,
+				085818A3155465840025DA07 /* NSString+HockeyAdditions.m in Sources */,
+				085818A4155465840025DA07 /* PSAppStoreHeader.m in Sources */,
+				085818A5155465840025DA07 /* PSStoreButton.m in Sources */,
+				085818A6155465840025DA07 /* PSWebTableViewCell.m in Sources */,
+				085818A7155465840025DA07 /* UIImage+HockeyAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

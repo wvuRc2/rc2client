@@ -454,7 +454,7 @@
 
 -(IBAction)presentDropboxImport:(id)sender
 {
-	Rc2AppDelegate *del = [TheApp delegate];
+	Rc2AppDelegate *del = (Rc2AppDelegate*)[TheApp delegate];
 	if ([[DBSession sharedSession] isLinked]) {
 		del.dropboxCompletionBlock = nil;
 		[self doDropBoxImport];

@@ -174,7 +174,7 @@ enum {
 
 -(IBAction)doStartSession:(id)sender
 {
-	Rc2AppDelegate *del = [[UIApplication sharedApplication] delegate];
+	Rc2AppDelegate *del = (Rc2AppDelegate*)[[UIApplication sharedApplication] delegate];
 	RCFile *selFile=nil;
 	if (self.selectedIndex)
 		selFile = [self.selectedWorkspace.files objectAtIndex:self.selectedIndex.row];
@@ -191,7 +191,7 @@ enum {
 	if ([Rc2Server sharedInstance].loggedIn) {
 		[[Rc2Server sharedInstance] logout];
 	} else {
-		Rc2AppDelegate *del = [[UIApplication sharedApplication] delegate];
+		Rc2AppDelegate *del = (Rc2AppDelegate*)[[UIApplication sharedApplication] delegate];
 		[del promptForLogin];
 	}
 }

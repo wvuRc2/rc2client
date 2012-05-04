@@ -77,6 +77,9 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	Method origMethod = class_getInstanceMethod([UITableView class], @selector(touchesEnded:withEvent:));
 	method_exchangeImplementations(origMethod, customMethod);
 	
+	[[BWHockeyManager sharedHockeyManager] setAppIdentifier:@"1ecec8cd34e796a9159794e9e86610ee"];
+	[[BWHockeyManager sharedHockeyManager] setDelegate:self];
+	
 	self.detailsController = [[DetailsViewController alloc] init];
 	WorkspaceTableController *wtc = [[WorkspaceTableController alloc] initWithNibName:@"WorkspaceTableController" bundle:nil];
 	self.navController = [[UINavigationController alloc] initWithRootViewController:wtc];
@@ -111,7 +114,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 												  appSecret:@"on576o50uxrjxhj"
 													  root:kDBRootDropbox];
 	[DBSession setSharedSession:session];
-	[TestFlight takeOff:@"77af1fa93381361c61748e58fae9f4f9_Mjc0ODAyMDExLTA5LTE5IDE2OjUwOjU3LjYzOTg1Mw"];
 	
 	//make sure file cache folder exists
 	NSString *cachePath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
@@ -342,6 +344,13 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	self.authController.view.superview.center = pt;
 }
 
+
+-(NSString *)customDeviceIdentifier 
+{
+	if ([[UIDevice currentDevice] respondsToSelector:@selector(uniqueIdentifier)])
+		return [[UIDevice currentDevice] performSelector:@selector(uniqueIdentifier)];
+	return nil;
+}
 
 //this is called even when swithing to background or will terminate is about to happen.
 -(void)eventLoopComplete:(UIEvent*)event

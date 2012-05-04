@@ -21,7 +21,9 @@
 #import "BBEdit.h"
 #import "RCMGeneralPrefs.h"
 #import "RCMFontPrefs.h"
-#import <CrashReporter/CrashReporter.h>
+#import <HockeySDK/CNSHockeyManager.h>
+
+#define kPref_LastLoginString @"LastLoginString"
 
 @interface AppDelegate() {
 	dispatch_queue_t __fileCacheQueue;
@@ -50,18 +52,18 @@
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize mainWindowController = _mainWindowController;
 
+-(void)showMainApplicationWindow
+{
+	[self presentLoginPanel];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	[[VyanaLogger sharedInstance] startLogging];
 	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
-
-	PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
-	NSError *error;
-	if (![crashReporter enableCrashReporterAndReturnError: &error])
-		Rc2LogError(@"failed to load crash reporter: %@", error);
+	[[CNSHockeyManager sharedHockeyManager] configureWithIdentifier:@"f4225a0ff7ed8fe53eb30f4a29a21689" delegate:self];
 	
 	__firstLogin=YES;
-	[self presentLoginPanel];
 	NSString *fileCache = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:fileCache])
 		[[NSFileManager defaultManager] createDirectoryAtPath:fileCache withIntermediateDirectories:YES attributes:nil error:nil];
@@ -234,32 +236,13 @@
 -(void)handleSucessfulLogin
 {
 	self.loggedIn = YES;
+	[[NSUserDefaults standardUserDefaults] setObject:[Rc2Server sharedInstance].currentLogin forKey:kPref_LastLoginString];
 	self.mainWindowController = [[MacMainWindowController alloc] init];
 	[self.mainWindowController.window makeKeyAndOrderFront:self];
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(windowWillClose:) 
 												 name:NSWindowWillCloseNotification 
 											   object:self.mainWindowController.window];
-
-	PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
-	if ([crashReporter hasPendingCrashReport])
-		[self handleCrashReport];
-}
-
--(void)handleCrashReport
-{
-	NSError *error;
-	PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
-	NSData *crashData = [crashReporter loadPendingCrashReportDataAndReturnError: &error];
-	if (nil == crashData)
-		Rc2LogError(@"failed to load crash data: %@", error);
-	else {
-		ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"crash"];
-		[req setData:crashData withFileName:@"data" andContentType:@"application/octet-stream" forKey:@"data"];
-		[req startAsynchronous];
-		[crashData writeToFile:@"/Users/mlilback/Desktop/crasshrpt" atomically:NO];
-	}
-	[crashReporter purgePendingCrashReport];
 }
 
 -(void)displayTextInExternalEditor:(NSString*)text
@@ -285,6 +268,13 @@
 			NSLog(@"failed to save moc changes: %@", err);
 		}
 	}
+}
+
+#pragma mark - hockey app
+
+-(NSString*)crashReportUserID
+{
+	return [[NSUserDefaults standardUserDefaults] objectForKey:kPref_LastLoginString];
 }
 
 #pragma mark - core data
