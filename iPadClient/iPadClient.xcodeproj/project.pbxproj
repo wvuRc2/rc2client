@@ -16,6 +16,7 @@
 		081A164D14FEBCA3004B34A0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */; };
 		081A165014FEDDD6004B34A0 /* mike.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A164F14FEDDD6004B34A0 /* mike.png */; };
 		081A165214FEE035004B34A0 /* mikeOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A165114FEE035004B34A0 /* mikeOff.png */; };
+		081A5DEB1558349000F6D482 /* SessionEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 081A5DEA1558349000F6D482 /* SessionEditView.m */; };
 		082896611541DB7B00A6B6C2 /* DoodleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828965F1541DB7B00A6B6C2 /* DoodleViewController.m */; };
 		082896661541E4B000A6B6C2 /* DoodleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082896651541E4B000A6B6C2 /* DoodleView.m */; };
 		0828967515471D7E00A6B6C2 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828966E15471D7E00A6B6C2 /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -234,6 +235,8 @@
 		081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		081A164F14FEDDD6004B34A0 /* mike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mike.png; path = resources/mike.png; sourceTree = SOURCE_ROOT; };
 		081A165114FEE035004B34A0 /* mikeOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mikeOff.png; path = resources/mikeOff.png; sourceTree = SOURCE_ROOT; };
+		081A5DE91558349000F6D482 /* SessionEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SessionEditView.h; path = source/SessionEditView.h; sourceTree = SOURCE_ROOT; };
+		081A5DEA1558349000F6D482 /* SessionEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SessionEditView.m; path = source/SessionEditView.m; sourceTree = SOURCE_ROOT; };
 		0828965E1541DB7B00A6B6C2 /* DoodleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DoodleViewController.h; path = source/DoodleViewController.h; sourceTree = SOURCE_ROOT; };
 		0828965F1541DB7B00A6B6C2 /* DoodleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DoodleViewController.m; path = source/DoodleViewController.m; sourceTree = SOURCE_ROOT; };
 		082896641541E4B000A6B6C2 /* DoodleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DoodleView.h; path = source/DoodleView.h; sourceTree = SOURCE_ROOT; };
@@ -930,6 +933,8 @@
 				085E7B1C14EEDB3E00036A9E /* ControllerUserCell.h */,
 				085E7B1D14EEDB3E00036A9E /* ControllerUserCell.m */,
 				085E7B1F14EEDBFC00036A9E /* ControllerUserCell.xib */,
+				081A5DE91558349000F6D482 /* SessionEditView.h */,
+				081A5DEA1558349000F6D482 /* SessionEditView.m */,
 			);
 			name = "views & cells";
 			sourceTree = "<group>";
@@ -1297,6 +1302,7 @@
 				085818A5155465840025DA07 /* PSStoreButton.m in Sources */,
 				085818A6155465840025DA07 /* PSWebTableViewCell.m in Sources */,
 				085818A7155465840025DA07 /* UIImage+HockeyAdditions.m in Sources */,
+				081A5DEB1558349000F6D482 /* SessionEditView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

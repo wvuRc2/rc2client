@@ -18,7 +18,7 @@
 #import "SessionFilesController.h"
 #import "MBProgressHUD.h"
 #import "DropboxImportController.h"
-#import "DTRichTextEditor.h"
+#import "SessionEditView.h"
 #import "RCMSyntaxHighlighter.h"
 #import "DTTextRange.h"
 
@@ -28,7 +28,7 @@
 	BOOL _viewLoaded;
 	BOOL _handUp;
 }
-@property (nonatomic, strong) IBOutlet DTRichTextEditorView *richEditor;
+@property (nonatomic, strong) IBOutlet SessionEditView *richEditor;
 @property (nonatomic, strong) NSDictionary *defaultTextAttrs;
 @property (nonatomic, strong) SessionFilesController *fileController;
 @property (nonatomic, strong) UIPopoverController *filePopover;
@@ -125,6 +125,13 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(richTextChanged:) 
 													 name:DTRichTextEditorTextDidBeginEditingNotification 
 												   object:self.richEditor];
+		self.richEditor.helpBlock = ^(SessionEditView *editView) {
+			//FIXME: need to sanitize the input string
+			DTTextRange *tr = (DTTextRange*)self.richEditor.selectedTextRange;
+			NSString *str = [self.richEditor.attributedString.string substringWithRange:tr.NSRangeValue];
+			if (str)
+				[[Rc2Server sharedInstance].currentSession executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
+		};
 		_viewLoaded=YES;
 	}
 }
