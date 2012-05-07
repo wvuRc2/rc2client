@@ -19,6 +19,7 @@ static const CGFloat kKeyboardHeight = 354;
 }
 @property (nonatomic, strong) UIView *barView;
 @property (nonatomic, strong) UIButton *actionButton;
+@property (nonatomic, strong) UIButton *nameLabel;
 @property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @end
@@ -27,7 +28,7 @@ static const CGFloat kKeyboardHeight = 354;
 @synthesize image=_image;
 @synthesize imageView=_imageView;
 @synthesize scrollView=_scrollView;
-@synthesize nameField=_nameField;
+@synthesize nameLabel=_nameLabel;
 @synthesize barView;
 @synthesize actionButton;
 @synthesize delegate;
@@ -71,12 +72,15 @@ static const CGFloat kKeyboardHeight = 354;
 	bv.backgroundColor = [UIColor blackColor];
 	bv.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	
-	UITextField *tf = [[UITextField alloc] initWithFrame:CGRectMake((barRect.size.width - 200)/2, 8, 200, 32)];
-	self.nameField = tf;
-	tf.textAlignment = UITextAlignmentCenter;
-	tf.textColor = [UIColor whiteColor];
-	tf.delegate = self;
-	[bv addSubview:tf];
+	UIButton *nf = [UIButton buttonWithType:UIButtonTypeCustom];
+	nf.frame = CGRectMake((barRect.size.width - 200)/2, 4, 200, 32);
+	self.nameLabel = nf;
+	nf.titleLabel.textAlignment = UITextAlignmentCenter;
+	nf.titleLabel.textColor = [UIColor whiteColor];
+	nf.opaque = NO;
+	nf.backgroundColor = [UIColor clearColor];
+	[nf addTarget:self action:@selector(showImageSwitcher:) forControlEvents:UIControlEventTouchUpInside];
+	[bv addSubview:nf];
 
 	self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 16, 80, 20)];
 	[bv addSubview:self.dateLabel];
@@ -114,6 +118,12 @@ static const CGFloat kKeyboardHeight = 354;
 //	self.scrollView.zoomScale = fmin(self.scrollView.minimumZoomScale, 1.0);
 }
 
+-(IBAction)showImageSwitcher:(id)sender
+{
+	CGRect r = [self convertRect:self.nameLabel.frame fromView:self.nameLabel];
+	[self.delegate showImageSwitcher:self forRect:r];
+}
+
 -(IBAction)doActionMenu:(id)sender
 {
 	[self.delegate showActionMenuForImage:self.image button:sender];
@@ -123,9 +133,9 @@ static const CGFloat kKeyboardHeight = 354;
 {
 	[super setFrame:frame];
 	[self adjustImageDetails];
-	CGRect f = self.nameField.frame;
+	CGRect f = self.nameLabel.frame;
 	f.origin.x = floor((self.barView.frame.size.width - f.size.width)/2);
-	self.nameField.frame = f;
+	self.nameLabel.frame = f;
 }
 
 -(CGRect)centeredFrameForScrollView:(UIScrollView*)scroll andView:(UIView*)view
@@ -181,66 +191,9 @@ static const CGFloat kKeyboardHeight = 354;
 		return;
 	_image = img;
 	self.imageView.image = [img image];
-	self.nameField.text = [img.name stringByDeletingPathExtension];
+	[self.nameLabel setTitle:[img.name stringByDeletingPathExtension] forState:UIControlStateNormal];
 	self.dateLabel.text = [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:img.timestamp]];
 	[self adjustImageDetails];
-}
-
-#pragma mark - text field
-
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-	[textField resignFirstResponder];
-	return YES;
-}
-
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-	CGFloat fldbttm = self.frame.origin.y + CGRectGetMaxY(textField.frame) + 8;
-	if (fldbttm > kKeyboardHeight) {
-		CGRect tfr = [self.window convertRect:textField.bounds fromView:textField];
-		CGRect vr = [self.window convertRect:self.bounds fromView:self];
-		CGFloat midline = tfr.origin.y + 0.5 * tfr.size.height;
-		CGFloat numerator = midline - vr.origin.y - kMinScrollFraction * vr.size.height;
-		CGFloat denominator = (kMaxScrollFraction - kMinScrollFraction) * vr.size.height;
-		CGFloat heightFraction = numerator / denominator;
-		if (heightFraction < 0.0)
-			heightFraction = 0.0;
-		if (heightFraction > 1.0)
-			heightFraction = 1.0;
-		_animationDistance = floor(kKeyboardHeight * heightFraction);
-		CGRect viewFrame = self.frame;
-		viewFrame.origin.y -= _animationDistance;
-		[UIView beginAnimations:nil context:nil];
-		[UIView setAnimationBeginsFromCurrentState:YES];
-		[UIView setAnimationDuration:kKeyAnimationDuration];
-		[self setFrame:viewFrame];
-		[UIView commitAnimations];
-	} else {
-		_animationDistance=0;
-	}
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-	return NO;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-	NSString *name = textField.text;
-	if (![name hasSuffix:@".png"])
-		name = [name stringByAppendingPathExtension:@"png"];
-	self.image.name = name;
-	if (_animationDistance > 0) {
-		CGRect viewFrame = self.frame;
-		viewFrame.origin.y += _animationDistance;
-		[UIView beginAnimations:nil context:nil];
-		[UIView setAnimationBeginsFromCurrentState:YES];
-		[UIView setAnimationDuration:kKeyAnimationDuration];
-		self.frame = viewFrame;
-		[UIView commitAnimations];
-	}
 }
 
 @end

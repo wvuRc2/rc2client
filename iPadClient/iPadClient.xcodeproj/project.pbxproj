@@ -17,6 +17,7 @@
 		081A165014FEDDD6004B34A0 /* mike.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A164F14FEDDD6004B34A0 /* mike.png */; };
 		081A165214FEE035004B34A0 /* mikeOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A165114FEE035004B34A0 /* mikeOff.png */; };
 		081A5DEB1558349000F6D482 /* SessionEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 081A5DEA1558349000F6D482 /* SessionEditView.m */; };
+		081A5DEF15584A6E00F6D482 /* ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 081A5DEE15584A6E00F6D482 /* ImagePickerController.m */; };
 		082896611541DB7B00A6B6C2 /* DoodleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828965F1541DB7B00A6B6C2 /* DoodleViewController.m */; };
 		082896661541E4B000A6B6C2 /* DoodleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082896651541E4B000A6B6C2 /* DoodleView.m */; };
 		0828967515471D7E00A6B6C2 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828966E15471D7E00A6B6C2 /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -237,6 +238,8 @@
 		081A165114FEE035004B34A0 /* mikeOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mikeOff.png; path = resources/mikeOff.png; sourceTree = SOURCE_ROOT; };
 		081A5DE91558349000F6D482 /* SessionEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SessionEditView.h; path = source/SessionEditView.h; sourceTree = SOURCE_ROOT; };
 		081A5DEA1558349000F6D482 /* SessionEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SessionEditView.m; path = source/SessionEditView.m; sourceTree = SOURCE_ROOT; };
+		081A5DED15584A6E00F6D482 /* ImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagePickerController.h; path = source/ImagePickerController.h; sourceTree = SOURCE_ROOT; };
+		081A5DEE15584A6E00F6D482 /* ImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImagePickerController.m; path = source/ImagePickerController.m; sourceTree = SOURCE_ROOT; };
 		0828965E1541DB7B00A6B6C2 /* DoodleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DoodleViewController.h; path = source/DoodleViewController.h; sourceTree = SOURCE_ROOT; };
 		0828965F1541DB7B00A6B6C2 /* DoodleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DoodleViewController.m; path = source/DoodleViewController.m; sourceTree = SOURCE_ROOT; };
 		082896641541E4B000A6B6C2 /* DoodleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DoodleView.h; path = source/DoodleView.h; sourceTree = SOURCE_ROOT; };
@@ -884,6 +887,8 @@
 				08D55EF2140660FB00E9D981 /* ImageDisplayController.h */,
 				08D55EF3140660FB00E9D981 /* ImageDisplayController.m */,
 				08D55EF4140660FB00E9D981 /* ImageDisplayController.xib */,
+				081A5DED15584A6E00F6D482 /* ImagePickerController.h */,
+				081A5DEE15584A6E00F6D482 /* ImagePickerController.m */,
 				088A76CA1406A194003D6A3F /* SessionFilesController.h */,
 				088A76CB1406A194003D6A3F /* SessionFilesController.m */,
 				088A76CC1406A194003D6A3F /* SessionFilesController.xib */,
@@ -1303,6 +1308,7 @@
 				085818A6155465840025DA07 /* PSWebTableViewCell.m in Sources */,
 				085818A7155465840025DA07 /* UIImage+HockeyAdditions.m in Sources */,
 				081A5DEB1558349000F6D482 /* SessionEditView.m in Sources */,
+				081A5DEF15584A6E00F6D482 /* ImagePickerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

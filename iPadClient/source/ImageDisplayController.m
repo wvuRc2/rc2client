@@ -9,6 +9,7 @@
 #import "ImageDisplayController.h"
 #import "ImageHolderView.h"
 #import "RCImage.h"
+#import "ImagePickerController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
 
@@ -40,6 +41,8 @@
 }
 @property (nonatomic, strong) RCImage *actionImage;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
+@property (nonatomic, strong) ImagePickerController *imagePicker;
+@property (nonatomic, strong) UIPopoverController *imagePopover;
 -(void)layoutAs1Up;
 -(void)layoutAs2Up;
 -(void)layoutAs4Up;
@@ -62,6 +65,8 @@
 @synthesize actionSheet;
 @synthesize actionImage;
 @synthesize closeHandler;
+@synthesize imagePicker;
+@synthesize imagePopover;
 
 - (id)init
 {
@@ -292,6 +297,30 @@
 	} else {
 		[self.actionSheet showFromRect:[button frame] inView:[button superview] animated:YES];
 	}
+}
+
+-(void)showImageSwitcher:(ImageHolderView*)imgView forRect:(CGRect)rect
+{
+	if (nil == self.imagePicker) {
+		self.imagePicker = [[ImagePickerController alloc] init];
+		self.imagePopover = [[UIPopoverController alloc] initWithContentViewController:self.imagePicker];
+		self.imagePicker.contentSizeForViewInPopover = CGSizeMake(240, 360);
+	}
+	if (self.imagePopover.isPopoverVisible) {
+		[self.imagePopover dismissPopoverAnimated:YES];
+		return;
+	}
+	self.imagePicker.selectionHandler = ^{
+		imgView.image = self.imagePicker.selectedImage;
+		[self.imagePopover dismissPopoverAnimated:YES];
+	};
+	self.imagePicker.images = self.allImages;
+	self.imagePicker.selectedImage = imgView.image;
+	CGRect adjRect = rect;
+	adjRect.origin.x = CGRectGetMidX(rect)-1;
+	adjRect.size.width = 2;
+	[self.imagePopover presentPopoverFromRect:adjRect inView:imgView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+	[self.imagePicker.tableView reloadData];
 }
 
 -(IBAction)doPrint:(id)sender
