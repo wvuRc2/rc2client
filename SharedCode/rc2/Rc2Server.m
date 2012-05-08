@@ -802,7 +802,7 @@
 -(void)handleLoginResponse:(ASIHTTPRequest*)req forUser:(NSString*)user completionHandler:(Rc2FetchCompletionHandler)handler
 {
 	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-	[respStr writeToFile:@"/tmp/rc2.lastlogin.json" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+//	[respStr writeToFile:@"/tmp/rc2.lastlogin.json" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 	if (![self responseIsValidJSON:req]) {
 		handler(NO, @"server sent back invalid response");
 		return;
