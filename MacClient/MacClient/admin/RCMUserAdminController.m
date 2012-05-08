@@ -22,6 +22,9 @@
 @property (nonatomic, copy) NSArray *users;
 @property (nonatomic, copy) NSArray *roles;
 @property (nonatomic, strong) RCMEditUserController *editController;
+@property (nonatomic, strong) IBOutlet NSWindow *passwordWindow;
+@property (nonatomic, copy) NSString *passChange1;
+@property (nonatomic, copy) NSString *passChange2;
 @end
 
 @implementation RCMUserAdminController
@@ -65,6 +68,8 @@
 			[blockSelf toggleRole:roleDict];
 	}];
 }
+
+#pragma mark - meat & potatos
 
 -(void)toggleRole:(NSMutableDictionary*)roleDict
 {
@@ -118,6 +123,35 @@
 	self.users = a;
 }
 
+-(void)completeAddUser:(RCUser*)user password:(NSString*)pass
+{
+	//send the new user command to the server
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"admin/user"];
+	__block ASIFormDataRequest *request = req;
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:pass, @"pass", user.email, @"email", 
+						  user.login, @"login", user.name, @"name", nil];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req setCompletionBlock:^{
+		NSDictionary *rsp = [[NSString stringWithUTF8Data:[request responseData]] JSONValue];
+		if ([[rsp objectForKey:@"status"] intValue] != 0) {
+			NSError *err = [NSError errorWithDomain:@"Rc2" code:1 userInfo:[NSDictionary dictionaryWithObject:[rsp objectForKey:@"message"] forKey:NSLocalizedDescriptionKey]];
+			[NSApp presentError:err];
+		} else {
+			//worked. add that user to our display
+			RCUser *newUser = [[RCUser alloc] initWithDictionary:[rsp objectForKey:@"user"] allRoles:self.roles];
+			if (self.users)
+				self.users = [self.users arrayByAddingObject:newUser];
+			else
+				self.users = [NSArray arrayWithObject:newUser];
+			[self.resultsTable reloadData];
+		}
+	}];
+	[req startAsynchronous];
+}
+
+#pragma mark - actions
+
 -(IBAction)searchUsers:(id)sender
 {
 	NSString *ss = self.searchField.stringValue;
@@ -164,33 +198,6 @@
 	}
 }
 
--(void)completeAddUser:(RCUser*)user password:(NSString*)pass
-{
-	//send the new user command to the server
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"admin/user"];
-	__block ASIFormDataRequest *request = req;
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:pass, @"pass", user.email, @"email", 
-						  user.login, @"login", user.name, @"name", nil];
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req setCompletionBlock:^{
-		NSDictionary *rsp = [[NSString stringWithUTF8Data:[request responseData]] JSONValue];
-		if ([[rsp objectForKey:@"status"] intValue] != 0) {
-			NSError *err = [NSError errorWithDomain:@"Rc2" code:1 userInfo:[NSDictionary dictionaryWithObject:[rsp objectForKey:@"message"] forKey:NSLocalizedDescriptionKey]];
-			[NSApp presentError:err];
-		} else {
-			//worked. add that user to our display
-			RCUser *newUser = [[RCUser alloc] initWithDictionary:[rsp objectForKey:@"user"] allRoles:self.roles];
-			if (self.users)
-				self.users = [self.users arrayByAddingObject:newUser];
-			else
-				self.users = [NSArray arrayWithObject:newUser];
-			[self.resultsTable reloadData];
-		}
-	}];
-	[req startAsynchronous];
-}
-
 -(IBAction)dismissAddUser:(id)sender
 {
 	[NSApp endSheet:self.editController.window];
@@ -212,10 +219,54 @@
 	}];
 }
 
+-(IBAction)changePassword:(id)sender
+{
+	self.passChange1 = nil;
+	self.passChange2 = nil;
+	RCUser *user = self.userController.selectedObjects.firstObject;
+	ZAssert(user != nil, @"no user selected while changing password");
+	[NSApp beginSheet:self.passwordWindow modalForWindow:self.view.window completionHandler:^(NSInteger rc) {
+		[self.passwordWindow orderOut:self];
+		if (rc == 1) {
+			if (self.passChange1.length < 4 || self.passChange2.length < 4 || ![self.passChange1 isEqualToString:self.passChange2]) {
+				//report error
+				[NSAlert displayAlertWithTitle:@"Bad Passwords" details:@"you can pick a stronger password than that"];
+				return;
+			}
+			//do the password change
+			ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"admin/cp"];
+			req.requestMethod = @"PUT";
+			NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:self.passChange1, @"p", user.userId, @"uid", nil];
+			[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+			[req startSynchronous];
+			NSDictionary *rsp = [req.responseString JSONValue];
+			if (nil == rsp) {
+				[NSAlert displayAlertWithTitle:@"Error" details:@"unknown error"];
+			} else if ([[rsp objectForKey:@"status"] intValue] != 0) {
+				[NSAlert displayAlertWithTitle:@"Error" details:[rsp objectForKey:@"message"]];
+			}
+		}
+	}];
+}
+
+-(IBAction)cancelPasswordChange:(id)sender
+{
+	[NSApp endSheet:self.passwordWindow returnCode:0];
+}
+
+-(IBAction)performPasswordChange:(id)sender
+{
+	[NSApp endSheet:self.passwordWindow returnCode:1];
+}
+
+#pragma mark - table view
+
 - (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
 	self.users = [self.users sortedArrayUsingDescriptors:[tableView sortDescriptors]];
 }
+
+#pragma mark - synthesizers
 
 @synthesize resultsTable;
 @synthesize searchField;
@@ -229,4 +280,7 @@
 @synthesize detailController;
 @synthesize checkToken=_checkToken;
 @synthesize lastSelectedUserRole=_lastSelectedUserRole;
+@synthesize passChange1;
+@synthesize passChange2;
+@synthesize passwordWindow;
 @end
