@@ -18,16 +18,16 @@
 
 @interface PXSourceList: NSOutlineView <NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
-	id <PXSourceListDelegate> _secondaryDelegate;		//Used to store the publicly visible delegate
-	id <PXSourceListDataSource> _secondaryDataSource;	//Used to store the publicly visible data source
+	__unsafe_unretained id <PXSourceListDelegate> _secondaryDelegate;		//Used to store the publicly visible delegate
+	__unsafe_unretained id <PXSourceListDataSource> _secondaryDataSource;	//Used to store the publicly visible data source
 	
 	NSSize _iconSize;									//The size of icons in the Source List. Defaults to 16x16
 }
 	
 @property (nonatomic, assign) NSSize iconSize;
 	
-@property (assign) id<PXSourceListDataSource> dataSource;
-@property (assign) id<PXSourceListDelegate> delegate;
+@property (unsafe_unretained) id<PXSourceListDataSource> dataSource;
+@property (unsafe_unretained) id<PXSourceListDelegate> delegate;
 
 - (NSUInteger)numberOfGroups;							//Returns the number of groups in the Source List
 - (BOOL)isGroupItem:(id)item;							//Returns whether `item` is a group

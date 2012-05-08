@@ -24,13 +24,22 @@
 	[self.textContainer setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
 	[self.textContainer setWidthTracksTextView:NO];
 	[self setHorizontallyResizable:YES];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontPrefsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontPrefsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
 	[self fontPrefsChanged:nil];
 }
 
 -(void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
+//	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
+}
+
+-(void)viewDidMoveToWindow
+{
+	if (nil == self.window) {
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];		
+	} else {
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontPrefsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
+	}
 }
 
 -(void)print:(id)sender

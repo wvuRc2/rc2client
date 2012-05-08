@@ -221,6 +221,15 @@
 	self.curPromptController=pwc;
 	pwc.promptString = isFolder ? @"Folder Name:" : @"Workspace Name:";
 	pwc.okButtonTitle = @"Create";
+	pwc.validationBlock = ^(AMStringPromptWindowController *sc) {
+		if ([sc.stringValue caseInsensitiveCompare:@"shared"] == NSOrderedSame || 
+			[sc.stringValue caseInsensitiveCompare:@"courses"] == NSOrderedSame)
+		{
+			pwc.validationErrorMessage=@"That name is not acceptable.";
+			return NO;
+		}
+		return YES;
+	};
 	[pwc displayModelForWindow:self.view.window completionHandler:^(NSInteger rc) {
 		if (rc == NSOKButton) {
 			NSString *strVal = blockPwc.stringValue;

@@ -248,7 +248,8 @@
 		return YES;
 	} else if (action == @selector(changeMode:)) {
 		return self.session.currentUser.master;
-	}
+	} else if (action == @selector(contextualHelp:)) 
+		return YES;
 	return NO;
 }
 
@@ -717,6 +718,13 @@
 	}
 }
 
+-(IBAction)contextualHelp:(id)sender
+{
+	NSString *txt = [self.editView.string substringWithRange:[self.editView selectedRange]];
+	if (txt.length > 0)
+		[self executeConsoleCommand:[NSString stringWithFormat:@"help(%@)", txt]];
+}
+
 #pragma mark - text view delegate
 
 -(void)textDidChange:(NSNotification*)note
@@ -736,6 +744,22 @@
 		}
 	}
 	return NO;
+}
+
+-(NSMenu*)textView:(NSTextView *)view menu:(NSMenu *)menu forEvent:(NSEvent *)event atIndex:(NSUInteger)charIndex
+{
+	NSInteger idx = -1;
+	for (NSMenuItem *anItem in menu.itemArray) {
+		if ([[anItem title] rangeOfString:@"Google"].location != NSNotFound) {
+			idx = [menu indexOfItem:anItem];
+		}
+	}
+	if (idx >= 0) {
+		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"Lookup in R Help" action:@selector(contextualHelp:) keyEquivalent:@""];
+		[mi setEnabled:YES];
+		[menu insertItem:mi atIndex:idx];
+	}
+	return menu;
 }
 
 -(void)handleTextViewPrint:(id)sender

@@ -139,6 +139,7 @@
 -(IBAction)doLogOut:(id)sender
 {
 	[self.mainWindowController close];
+	self.mainWindowController=nil;
 	self.loggedIn=NO;
 	[self presentLoginPanel];
 }
