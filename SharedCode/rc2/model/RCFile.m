@@ -173,9 +173,8 @@
 
 -(BOOL)isTextFile
 {
-	//FIXME: shouldn't this use the global array from Rc2Server?
 	NSString *ext = self.name.pathExtension;
-	if ([ext isEqualToString:@"R"] || [ext isEqualToString:@"Rnw"] || [ext isEqualToString:@"txt"])
+	if ([[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
 		return YES;
 	return NO;
 }

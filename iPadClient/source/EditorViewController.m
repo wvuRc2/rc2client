@@ -211,6 +211,11 @@
 	RCSession *session = [Rc2Server sharedInstance].currentSession;
 	self.executeButton.enabled = self.richEditor.attributedString.length > 0;
 	self.syncButtonItem.enabled = session.hasWritePerm && self.currentFile.locallyModified;
+	if (self.currentFile && currentFile.readOnlyValue) {
+		[self.richEditor setEditable:NO];
+	} else {
+		[self.richEditor setEditable:YES];
+	}
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
