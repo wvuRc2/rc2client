@@ -18,6 +18,7 @@ const struct RCFileAttributes RCFileAttributes = {
 	.localEdits = @"localEdits",
 	.localLastModified = @"localLastModified",
 	.name = @"name",
+	.readOnly = @"readOnly",
 	.sizeString = @"sizeString",
 	.wspaceId = @"wspaceId",
 };
@@ -57,6 +58,10 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 	
 	if ([key isEqualToString:@"fileIdValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"fileId"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+	}
+	if ([key isEqualToString:@"readOnlyValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"readOnly"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 	}
 	if ([key isEqualToString:@"wspaceIdValue"]) {
@@ -133,6 +138,32 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 
 @dynamic name;
 
+
+
+
+
+
+@dynamic readOnly;
+
+
+
+- (BOOL)readOnlyValue {
+	NSNumber *result = [self readOnly];
+	return [result boolValue];
+}
+
+- (void)setReadOnlyValue:(BOOL)value_ {
+	[self setReadOnly:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveReadOnlyValue {
+	NSNumber *result = [self primitiveReadOnly];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveReadOnlyValue:(BOOL)value_ {
+	[self setPrimitiveReadOnly:[NSNumber numberWithBool:value_]];
+}
 
 
 

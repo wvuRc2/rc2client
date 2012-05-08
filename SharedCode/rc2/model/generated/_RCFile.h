@@ -19,6 +19,7 @@ extern const struct RCFileAttributes {
 	__unsafe_unretained NSString *localEdits;
 	__unsafe_unretained NSString *localLastModified;
 	__unsafe_unretained NSString *name;
+	__unsafe_unretained NSString *readOnly;
 	__unsafe_unretained NSString *sizeString;
 	__unsafe_unretained NSString *wspaceId;
 } RCFileAttributes;
@@ -31,6 +32,7 @@ extern const struct RCFileFetchedProperties {
 } RCFileFetchedProperties;
 
 @class RCSavedSession;
+
 
 
 
@@ -102,6 +104,17 @@ extern const struct RCFileFetchedProperties {
 
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, strong) NSNumber *readOnly;
+
+
+@property BOOL readOnlyValue;
+- (BOOL)readOnlyValue;
+- (void)setReadOnlyValue:(BOOL)value_;
+
+//- (BOOL)validateReadOnly:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -192,6 +205,15 @@ extern const struct RCFileFetchedProperties {
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveReadOnly;
+- (void)setPrimitiveReadOnly:(NSNumber*)value;
+
+- (BOOL)primitiveReadOnlyValue;
+- (void)setPrimitiveReadOnlyValue:(BOOL)value_;
 
 
 

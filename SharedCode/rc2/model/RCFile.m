@@ -37,6 +37,7 @@
 {
 	self.name = [dict objectForKey:@"name"];
 	self.sizeString = [dict objectForKey:@"size"];
+	self.readOnly = [dict objectForKey:@"readonly"];
 	NSDate *lm = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"timestamp"] integerValue]];
 	//flush contents if file has been updated
 	//FIXME: what is the proper handling here?
