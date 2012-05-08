@@ -17,34 +17,47 @@
 
 -(IBAction)syncFile:(id)sender
 {
-	self.syncFileBlock(self.objectValue);
+	RCFile *file = (RCFile*)self.objectValue;
+	if (!file.readOnlyValue)
+		self.syncFileBlock(self.objectValue);
 }
 
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
 {
-	NSImage *img = [NSImage imageNamed:@"syncArrows.png"];
-	if (NSBackgroundStyleDark == backgroundStyle)
-		img = [NSImage imageNamed:@"syncArrowsSelected.png"];
-	if (!self.syncButton.isEnabled)
-		img = nil;
-	[self.syncButton setImage:img];
+	RCFile *file = (RCFile*)self.objectValue;
+	if (file.readOnlyValue) {
+		self.syncButton.image = [NSImage imageNamed:NSImageNameLockLockedTemplate];
+	} else {
+		NSImage *img = [NSImage imageNamed:@"syncArrows.png"];
+		if (NSBackgroundStyleDark == backgroundStyle)
+			img = [NSImage imageNamed:@"syncArrowsSelected.png"];
+		if (!self.syncButton.isEnabled)
+			img = nil;
+		[self.syncButton setImage:img];
+	}
 	[super setBackgroundStyle:backgroundStyle];
 }
 
 -(void)setObjectValue:(id)objectValue
 {
 	[super setObjectValue:objectValue];
+	RCFile *file = (RCFile*)objectValue;
 	NSString *name = [objectValue name];
 	if (nil == name)
 		name = @"";
 	self.textField.stringValue = name;
-	[self.syncButton setEnabled:[(RCFile*)objectValue locallyModified]];
-	if (!self.syncButton.isEnabled)
-		self.syncButton.image = nil;
+	if (file.readOnlyValue) {
+		self.syncButton.image = [NSImage imageNamed:NSImageNameLockLockedTemplate];
+		[self.syncButton setEnabled:NO];
+	} else {
+		[self.syncButton setEnabled:file.locallyModified];
+		if (!self.syncButton.isEnabled)
+			self.syncButton.image = nil;
+	}
 	[self.syncButton.cell setHighlightsBy:NSContentsCellMask];
 	self.syncEnabledToken = [objectValue addObserverForKeyPath:@"locallyModified" task:^(RCFile *theFile, NSDictionary *change) {
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[self.syncButton setEnabled:theFile.locallyModified];
+			[self.syncButton setEnabled:theFile.locallyModified && !theFile.readOnlyValue];
 			[self setBackgroundStyle:self.backgroundStyle]; //trigger image adjustment
 		});
 	}];

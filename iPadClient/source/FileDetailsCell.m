@@ -16,7 +16,7 @@
 @synthesize lastModLabel;
 @synthesize localLastModLabel;
 @synthesize dateFormatter;
-
+@synthesize permissionView;
 
 -(CGFloat)rowHeight
 {
@@ -46,6 +46,7 @@
 	else if ([file.name hasSuffix:@".pdf"])
 		imgName = @"console/pdf";
 	self.imgView.image = [UIImage imageNamed:imgName];
+	self.permissionView.image = file.readOnlyValue ? [UIImage imageNamed:@"lock"] : nil;
 }
 
 @end

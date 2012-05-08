@@ -194,6 +194,8 @@
 		08DD23BD1413CC6B00217C1A /* _RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DD23BC1413CC6A00217C1A /* _RCMessage.m */; };
 		08DD23C01413CC7A00217C1A /* RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DD23BF1413CC7900217C1A /* RCMessage.m */; };
 		08DFFDB114897392008D1399 /* ir.js in copy console files */ = {isa = PBXBuildFile; fileRef = 08DFFDAE14897392008D1399 /* ir.js */; };
+		08E187581559AB4000B08C56 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 08E187561559AB4000B08C56 /* lock.png */; };
+		08E187591559AB4000B08C56 /* lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08E187571559AB4000B08C56 /* lock@2x.png */; };
 		08EE41151436441F004FDBB8 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41031436441F004FDBB8 /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE41161436441F004FDBB8 /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41051436441F004FDBB8 /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE41171436441F004FDBB8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41071436441F004FDBB8 /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -500,6 +502,8 @@
 		08DFFDAD14897392008D1399 /* console.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = console.html; path = ../console/common/console.html; sourceTree = SOURCE_ROOT; };
 		08DFFDAE14897392008D1399 /* ir.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = ir.js; path = ../console/common/ir.js; sourceTree = SOURCE_ROOT; };
 		08DFFDAF14897392008D1399 /* jquery-1.6.1.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "jquery-1.6.1.min.js"; path = "../console/common/jquery-1.6.1.min.js"; sourceTree = SOURCE_ROOT; };
+		08E187561559AB4000B08C56 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = resources/lock.png; sourceTree = SOURCE_ROOT; };
+		08E187571559AB4000B08C56 /* lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lock@2x.png"; path = "resources/lock@2x.png"; sourceTree = SOURCE_ROOT; };
 		08EE41021436441F004FDBB8 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
 		08EE41031436441F004FDBB8 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
 		08EE41041436441F004FDBB8 /* MutableQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableQueue.h; sourceTree = "<group>"; };
@@ -790,6 +794,8 @@
 		0860C54214103D2E00582C7D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				08E187561559AB4000B08C56 /* lock.png */,
+				08E187571559AB4000B08C56 /* lock@2x.png */,
 				081A164F14FEDDD6004B34A0 /* mike.png */,
 				081A165114FEE035004B34A0 /* mikeOff.png */,
 				085E7B7414F7E9F600036A9E /* bighand-green.png */,
@@ -1166,6 +1172,8 @@
 				08BA99A51548A17800B6CFC1 /* standard.css in Resources */,
 				085818A8155465840025DA07 /* Hockey.bundle in Resources */,
 				085818AB155465840025DA07 /* README.mkdown in Resources */,
+				08E187581559AB4000B08C56 /* lock.png in Resources */,
+				08E187591559AB4000B08C56 /* lock@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

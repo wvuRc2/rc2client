@@ -191,7 +191,9 @@
 
 -(IBAction)sourceListDoubleClicked:(id)sender
 {
-	//FIXME: need to handle if an item is not selected
+	id selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
+	if (nil == selItem || ![selItem isKindOfClass:[RCWorkspace class]])
+		return;
 	RunAfterDelay(0.5, ^{
 		[self doOpenSession:sender];
 	});

@@ -16,6 +16,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *lastModLabel;
 @property (nonatomic, strong) IBOutlet UILabel *localLastModLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *imgView;
+@property (nonatomic, strong) IBOutlet UIImageView *permissionView;;
 
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
