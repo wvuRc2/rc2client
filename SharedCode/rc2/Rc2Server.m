@@ -561,10 +561,13 @@
 		__weak ASIFormDataRequest *req = theReq;
 		if (file.existsOnServer)
 			[req setRequestMethod:@"PUT"];
-		[req setPostValue:file.localEdits forKey:@"content"];
-		[req setPostValue:file.name forKey:@"name"];
-		[req setPostValue:file.name.pathExtension forKey:@"type"];
-		[req setPostValue:workspace.wspaceId forKey:@"wspaceid"];
+		[req addRequestHeader:@"Content-Type" value:@"application/json"];
+		NSMutableDictionary *d = [NSMutableDictionary dictionary];
+		[d setObject:file.localEdits forKey:@"contents"];
+		[d setObject:file.name forKey:@"name"];
+		[d setObject:file.name.pathExtension forKey:@"type"];
+		[d setObject:workspace.wspaceId forKey:@"wspaceid"];
+		[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 		[req setCompletionBlock:^{
 			NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 			NSDictionary *dict = [self.jsonParser objectWithString:respStr];

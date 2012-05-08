@@ -502,8 +502,8 @@
 			[self.fileTableView reloadData];
 			self.statusMessage = [NSString stringWithFormat:@"%@ successfully saved to server", theFile.name];
 		} else {
-			Rc2LogWarn(@"error syncing file to server:%@", theFile.name);
-			self.statusMessage = [NSString stringWithFormat:@"Unknown error while saving %@ to server", theFile.name];
+			Rc2LogWarn(@"error syncing file to server:%@", file.name);
+			self.statusMessage = [NSString stringWithFormat:@"Unknown error while saving %@ to server:%@", file.name, (NSString*)theFile];
 		}
 	}];
 }
@@ -547,6 +547,7 @@
 	else if ([self.selectedFile.name hasSuffix:@".R"])
 		astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightRCode:astr];
 	[self.editView.textStorage setAttributedString:astr];
+	[self.editView setEditable: self.selectedFile.readOnlyValue ? NO : YES];
 }
 
 #pragma mark - session delegate
@@ -901,7 +902,9 @@
 -(void)setSelectedFile:(RCFile *)selectedFile
 {
 	if (__selFile) {
-		if ([__selFile.fileContents isEqualToString:self.editView.string])
+		if (__selFile.readOnlyValue)
+			;
+		else if ([__selFile.fileContents isEqualToString:self.editView.string])
 			[__selFile setLocalEdits:nil];
 		else
 			[__selFile setLocalEdits:self.editView.string];

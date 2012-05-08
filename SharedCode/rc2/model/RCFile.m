@@ -37,7 +37,7 @@
 {
 	self.name = [dict objectForKey:@"name"];
 	self.sizeString = [dict objectForKey:@"size"];
-	self.readOnly = [dict objectForKey:@"readonly"];
+	self.readOnlyValue = [[dict objectForKey:@"readonly"] boolValue];
 	NSDate *lm = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"timestamp"] integerValue]];
 	//flush contents if file has been updated
 	//FIXME: what is the proper handling here?
@@ -84,11 +84,15 @@
 		self.sizeString = @"0 bytes";
 	if (nil == self.name)
 		self.name = @"untitled.R";
+	if (nil == self.readOnly)
+		self.readOnly = [NSNumber numberWithBool:NO];
 }
 
 -(void)awakeFromFetch
 {
 	[super awakeFromFetch];
+	if (nil == self.readOnly)
+		self.readOnly = [NSNumber numberWithBool:NO];
 	if (!self.isTextFile)
 		self.localEdits=nil;
 	self.locallyModified = self.localEdits.length > 0;
@@ -108,8 +112,6 @@
 	if (self.fileContents)
 		[self.fileContents writeToFile:self.fileContentsPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
-
-
 
 -(void)setLocalEdits:(NSString *)edits
 {
@@ -185,8 +187,8 @@
 
 -(NSString*)currentContents
 {
-	if (nil == self.fileContents && nil == self.localEdits)
-		return @"";
+//	if (nil == self.fileContents && nil == self.localEdits)
+//		return @"";
 	if ([self.localEdits length] > 0)
 		return self.localEdits;
 	if (nil == self.fileContents) {
