@@ -186,6 +186,7 @@
 {
 	request.userAgent = self.userAgentString;
 	request.validatesSecureCertificate = NO;
+	request.timeOutSeconds = 10;
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 	__unsafe_unretained ASIHTTPRequest *blockReq = request;
 	[request setFailedBlock:^{

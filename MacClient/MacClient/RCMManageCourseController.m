@@ -16,9 +16,11 @@
 
 @interface RCMManageCourseController()
 @property (nonatomic, strong) NSMutableArray *assignments;
+@property (nonatomic, strong) NSMutableArray *students;
 @property (nonatomic, strong) NSArray *assignSortDescriptors;
 @property (nonatomic, strong) IBOutlet NSTableView *assignTable;
 @property (nonatomic, strong) IBOutlet NSTableView *fileTable;
+@property (nonatomic, strong) IBOutlet NSTableView *studentTable;
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
 @property (nonatomic, strong) id curSelToken;
 @property (nonatomic, strong) RCAssignment *selectedAssignment;
@@ -32,6 +34,7 @@
  	if ((self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil])) {
 		self.kvoTokens = [NSMutableSet set];
 		self.assignSortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
+		self.students = [NSMutableArray array];
 	}
 	return self;
 }
@@ -136,6 +139,22 @@
 	}
 }
 
+-(IBAction)showStudents:(id)sender
+{
+	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/due", self.selectedAssignment.assignmentId]];
+	[req startSynchronous];
+	if (req.responseStatusCode == 200) {
+		NSDictionary *d = [req.responseString JSONValue];
+		[self.students removeAllObjects];
+		for (NSDictionary *sdict in [d objectForKey:@"students"]) {
+			NSMutableDictionary *md = [sdict mutableCopy];
+			[md setObject:[NSDate dateWithTimeIntervalSince1970:[[md objectForKey:@"duedate"] longValue] / 1000] forKey:@"duedate"];
+			[self.students addObject:md];
+		}
+		[self.studentTable reloadData];
+	}
+}
+
 #pragma mark - meat & potatos
 
 -(void)resortAssignments
@@ -214,6 +233,63 @@
 	self.statusMessage = @"";
 }
 
+-(void)handleAssignmentEdit:(RCAssignment*)assign forProperty:(NSString*)prop newValue:(id)object
+{
+	if ([object isKindOfClass:[NSDate class]]) {
+		object = [NSNumber numberWithDouble:[object timeIntervalSince1970] * 1000];
+	}
+	NSDictionary *mods = [NSDictionary dictionaryWithObject:object forKey:prop];
+	NSString *urlstr = [NSString stringWithFormat:@"courses/%@/assignment/%@", self.theCourse.courseId, assign.assignmentId];
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
+	[req setRequestMethod:@"PUT"];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[[mods JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req startSynchronous];
+	if (req.responseStatusCode == 200) {
+		NSDictionary *d = [req.responseString JSONValue];
+		if ([[d objectForKey:@"status"] intValue] == 0) {
+			[assign updateWithDictionary:[d objectForKey:@"assignment"]];
+			[self resortAssignments];
+		}
+	}
+}
+
+-(void)handleFileEdit:(RCAssignmentFile*)afile forProperty:(NSString*)prop newValue:(id)object
+{
+	//send to server
+	NSString *urlstr = [NSString stringWithFormat:@"assignment/%@/file/%@", self.selectedAssignment.assignmentId, afile.assignmentFileId];
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
+	[req setRequestMethod:@"PUT"];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	NSDictionary *d = [NSDictionary dictionaryWithObject:object forKey:@"readonly"];
+	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req startSynchronous];
+	if (req.responseStatusCode == 200) {
+		d = [req.responseString JSONValue];
+		if ([[d objectForKey:@"status"] intValue] == 0) {
+			afile.readonly = [object boolValue];
+		}
+	}
+}
+
+-(void)handleDueDateEdit:(NSMutableDictionary*)studentDict newValue:(id)object
+{
+	//send to server
+	NSString *urlstr = [NSString stringWithFormat:@"assignment/%@/due", self.selectedAssignment.assignmentId];
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
+	[req setRequestMethod:@"PUT"];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	NSMutableDictionary *d = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:[object timeIntervalSince1970] * 1000], @"duedate", [studentDict objectForKey:@"wsid"], @"wsid", nil];
+	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req startSynchronous];
+	if (req.responseStatusCode == 200) {
+		d = [req.responseString JSONValue];
+		if ([[d objectForKey:@"status"] intValue] == 0) {
+			[studentDict setObject:object forKey:@"duedate"];
+		}
+	}
+}
+
 #pragma mark - table view
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -222,6 +298,8 @@
 		return self.selectedAssignment.files.count;
 	} else if (tableView == self.assignTable) {
 		return self.assignments.count;
+	} else if (tableView == self.studentTable) {
+		return self.students.count;
 	}
 	return 0;
 }
@@ -238,6 +316,8 @@
 		RCAssignment *assign = [self.assignments objectAtIndex:row];
 		id val = [assign valueForKey:tableColumn.identifier];
 		return val;
+	} else if (tableView == self.studentTable) {
+		return [[self.students objectAtIndex:row] objectForKey:tableColumn.identifier];
 	}
 	return nil;
 }
@@ -250,49 +330,17 @@
 			NSBeep();
 			return;
 		}
-		if ([object isKindOfClass:[NSDate class]]) {
-			object = [NSNumber numberWithDouble:[object timeIntervalSince1970] * 1000];
+		[self handleAssignmentEdit:assign forProperty:tableColumn.identifier newValue:object];
+		return;
+	} else if (tableView == self.fileTable) {
+		if (![tableColumn.identifier isEqualToString:@"readonly"] || self.selectedAssignment.locked) {
+			NSBeep();
+			return;
 		}
-		NSDictionary *mods = [NSDictionary dictionaryWithObject:object forKey:tableColumn.identifier];
-		NSString *urlstr = [NSString stringWithFormat:@"courses/%@/assignment/%@", self.theCourse.courseId, assign.assignmentId];
-		ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
-		[req setRequestMethod:@"PUT"];
-		[req addRequestHeader:@"Content-Type" value:@"application/json"];
-		[req appendPostData:[[mods JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-		[req startSynchronous];
-		if (req.responseStatusCode == 200) {
-			NSDictionary *d = [req.responseString JSONValue];
-			if ([[d objectForKey:@"status"] intValue] == 0) {
-				[assign updateWithDictionary:[d objectForKey:@"assignment"]];
-				[self resortAssignments];
-			}
-		}
-		return;
-	}
-	if (tableView != self.fileTable)
-		return;
-	if (![tableColumn.identifier isEqualToString:@"readonly"]) {
-		NSBeep();
-		return;
-	}
-	if (self.selectedAssignment.locked) {
-		NSBeep();
-		return;
-	}
-	RCAssignmentFile *afile = [self.selectedAssignment.files objectAtIndex:row];
-	//send to server
-	NSString *urlstr = [NSString stringWithFormat:@"assignment/%@/file/%@", self.selectedAssignment.assignmentId, afile.assignmentFileId];
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
-	[req setRequestMethod:@"PUT"];
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	NSDictionary *d = [NSDictionary dictionaryWithObject:object forKey:@"readonly"];
-	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req startSynchronous];
-	if (req.responseStatusCode == 200) {
-		d = [req.responseString JSONValue];
-		if ([[d objectForKey:@"status"] intValue] == 0) {
-			afile.readonly = [object boolValue];
-		}
+		RCAssignmentFile *afile = [self.selectedAssignment.files objectAtIndex:row];
+		[self handleFileEdit:afile forProperty:tableColumn.identifier newValue:object];
+	} else if (tableView == self.studentTable) {
+		[self handleDueDateEdit:[self.students objectAtIndex:row] newValue:object];
 	}
 }
 
@@ -338,6 +386,8 @@
 	_selectedAssignment = assign;
 	self.selectedFile=nil;
 	[self.fileTable reloadData];
+	[self.students removeAllObjects];
+	[self.studentTable reloadData];
 }
 
 @synthesize theCourse=_theCourse;
@@ -349,4 +399,6 @@
 @synthesize fileTable=_fileTable;
 @synthesize selectedFile=_selectedFile;
 @synthesize assignSortDescriptors=_assignSortDescriptors;
+@synthesize studentTable=_studentTable;
+ @synthesize students=_students;
 @end
