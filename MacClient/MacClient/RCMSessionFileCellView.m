@@ -25,8 +25,8 @@
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
 {
 	RCFile *file = (RCFile*)self.objectValue;
-	if (file.readOnlyValue) {
-		self.syncButton.image = [NSImage imageNamed:NSImageNameLockLockedTemplate];
+	if (file.readOnlyValue || file.kind != nil) {
+		self.syncButton.image = file.permissionImage;
 	} else {
 		NSImage *img = [NSImage imageNamed:@"syncArrows.png"];
 		if (NSBackgroundStyleDark == backgroundStyle)
@@ -46,8 +46,8 @@
 	if (nil == name)
 		name = @"";
 	self.textField.stringValue = name;
-	if (file.readOnlyValue) {
-		self.syncButton.image = [NSImage imageNamed:NSImageNameLockLockedTemplate];
+	if (file.readOnlyValue || file.kind != nil) {
+		self.syncButton.image = file.permissionImage;
 		[self.syncButton setEnabled:NO];
 	} else {
 		[self.syncButton setEnabled:file.locallyModified];

@@ -30,4 +30,7 @@
 
 -(NSString*)fileContentsPath;
 
+//on iOS, returns UIImage. on Mac returns NSImage
+-(id)permissionImage;
+
 @end

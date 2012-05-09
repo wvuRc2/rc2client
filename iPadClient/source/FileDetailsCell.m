@@ -46,7 +46,7 @@
 	else if ([file.name hasSuffix:@".pdf"])
 		imgName = @"console/pdf";
 	self.imgView.image = [UIImage imageNamed:imgName];
-	self.permissionView.image = file.readOnlyValue ? [UIImage imageNamed:@"lock"] : nil;
+	self.permissionView.image = file.permissionImage;
 }
 
 @end

@@ -14,6 +14,7 @@
 extern const struct RCFileAttributes {
 	__unsafe_unretained NSString *fileContents;
 	__unsafe_unretained NSString *fileId;
+	__unsafe_unretained NSString *kind;
 	__unsafe_unretained NSString *lastModified;
 	__unsafe_unretained NSString *localAttributes;
 	__unsafe_unretained NSString *localEdits;
@@ -32,6 +33,7 @@ extern const struct RCFileFetchedProperties {
 } RCFileFetchedProperties;
 
 @class RCSavedSession;
+
 
 
 
@@ -69,6 +71,13 @@ extern const struct RCFileFetchedProperties {
 - (void)setFileIdValue:(int)value_;
 
 //- (BOOL)validateFileId:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, strong) NSString *kind;
+
+
+//- (BOOL)validateKind:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -175,6 +184,12 @@ extern const struct RCFileFetchedProperties {
 
 - (int)primitiveFileIdValue;
 - (void)setPrimitiveFileIdValue:(int)value_;
+
+
+
+
+- (NSString*)primitiveKind;
+- (void)setPrimitiveKind:(NSString*)value;
 
 
 

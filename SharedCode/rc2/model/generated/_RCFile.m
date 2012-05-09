@@ -13,6 +13,7 @@
 const struct RCFileAttributes RCFileAttributes = {
 	.fileContents = @"fileContents",
 	.fileId = @"fileId",
+	.kind = @"kind",
 	.lastModified = @"lastModified",
 	.localAttributes = @"localAttributes",
 	.localEdits = @"localEdits",
@@ -103,6 +104,13 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 - (void)setPrimitiveFileIdValue:(int)value_ {
 	[self setPrimitiveFileId:[NSNumber numberWithInt:value_]];
 }
+
+
+
+
+
+@dynamic kind;
+
 
 
 

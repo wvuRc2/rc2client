@@ -31,6 +31,10 @@
 		0815948314E5C3F90067E83C /* hand-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815947F14E5C3F90067E83C /* hand-green@2x.png */; };
 		0815948414E5C3F90067E83C /* hand-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815948014E5C3F90067E83C /* hand-grey.png */; };
 		0815948514E5C3F90067E83C /* hand-grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815948114E5C3F90067E83C /* hand-grey@2x.png */; };
+		0818EE16155B205100159291 /* graded.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE12155B205100159291 /* graded.png */; };
+		0818EE17155B205100159291 /* graded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE13155B205100159291 /* graded@2x.png */; };
+		0818EE18155B205100159291 /* turnedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE14155B205100159291 /* turnedin.png */; };
+		0818EE19155B205100159291 /* turnedin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE15155B205100159291 /* turnedin@2x.png */; };
 		082895EC1534863300A6B6C2 /* GeneralPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082895EB1534863300A6B6C2 /* GeneralPrefs.xib */; };
 		082895EF153486EE00A6B6C2 /* RCMGeneralPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 082895EE153486EE00A6B6C2 /* RCMGeneralPrefs.m */; };
 		0828961015348F8A00A6B6C2 /* FontsPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0828960D15348F8A00A6B6C2 /* FontsPrefs.xib */; };
@@ -217,6 +221,10 @@
 		0815947F14E5C3F90067E83C /* hand-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hand-green@2x.png"; sourceTree = "<group>"; };
 		0815948014E5C3F90067E83C /* hand-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hand-grey.png"; sourceTree = "<group>"; };
 		0815948114E5C3F90067E83C /* hand-grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hand-grey@2x.png"; sourceTree = "<group>"; };
+		0818EE12155B205100159291 /* graded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = graded.png; sourceTree = "<group>"; };
+		0818EE13155B205100159291 /* graded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "graded@2x.png"; sourceTree = "<group>"; };
+		0818EE14155B205100159291 /* turnedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = turnedin.png; sourceTree = "<group>"; };
+		0818EE15155B205100159291 /* turnedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "turnedin@2x.png"; sourceTree = "<group>"; };
 		082895EB1534863300A6B6C2 /* GeneralPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralPrefs.xib; sourceTree = "<group>"; };
 		082895ED153486EE00A6B6C2 /* RCMGeneralPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMGeneralPrefs.h; sourceTree = "<group>"; };
 		082895EE153486EE00A6B6C2 /* RCMGeneralPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMGeneralPrefs.m; sourceTree = "<group>"; };
@@ -880,6 +888,10 @@
 				0802868715236D6C00E2F707 /* openother.png */,
 				080286891523713200E2F707 /* clear.png */,
 				0802868A1523713200E2F707 /* webback.png */,
+				0818EE12155B205100159291 /* graded.png */,
+				0818EE13155B205100159291 /* graded@2x.png */,
+				0818EE14155B205100159291 /* turnedin.png */,
+				0818EE15155B205100159291 /* turnedin@2x.png */,
 			);
 			name = SharedImages;
 			path = ../../SharedImages;
@@ -992,6 +1004,10 @@
 				082895EC1534863300A6B6C2 /* GeneralPrefs.xib in Resources */,
 				0828961015348F8A00A6B6C2 /* FontsPrefs.xib in Resources */,
 				08BA99B1154B0AC100B6CFC1 /* RCMManageCourseController.xib in Resources */,
+				0818EE16155B205100159291 /* graded.png in Resources */,
+				0818EE17155B205100159291 /* graded@2x.png in Resources */,
+				0818EE18155B205100159291 /* turnedin.png in Resources */,
+				0818EE19155B205100159291 /* turnedin@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

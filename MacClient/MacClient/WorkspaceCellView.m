@@ -12,18 +12,6 @@
 #import "Rc2Server.h"
 #import "MultiFileImporter.h"
 
-@interface RCFile(MacSupport)
--(id)permissionImage;
-@end
-
-@implementation RCFile(MacSupport)
--(id)permissionImage
-{
-	if ([self readOnlyValue]) return [NSImage imageNamed:NSImageNameLockLockedTemplate];
-	return nil;
-}
-@end
-
 @interface WorkspaceCellView()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
 @property (nonatomic, retain, readwrite) id selectedObject;
