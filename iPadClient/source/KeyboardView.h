@@ -17,7 +17,7 @@ typedef enum {
 @interface KeyboardView : UIView {
 }
 @property (nonatomic, strong) IBOutlet UIView *buttonTemplate;
-@property (nonatomic, strong) IBOutlet UITextField *consoleField;
+@property (nonatomic, weak) IBOutlet UITextField *consoleField;
 @property (nonatomic, unsafe_unretained) id<KeyboardViewDelegate> delegate;
 @property (nonatomic, unsafe_unretained) id<KeyboardExecuteDelegate> executeDelegate;
 @property (nonatomic, assign) eKeyboardStyle keyboardStyle;

@@ -127,8 +127,8 @@
 												   object:self.richEditor];
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
 			//FIXME: need to sanitize the input string
-			DTTextRange *tr = (DTTextRange*)self.richEditor.selectedTextRange;
-			NSString *str = [self.richEditor.attributedString.string substringWithRange:tr.NSRangeValue];
+			DTTextRange *tr = (DTTextRange*)editView.selectedTextRange;
+			NSString *str = [editView.attributedString.string substringWithRange:tr.NSRangeValue];
 			if (str)
 				[[Rc2Server sharedInstance].currentSession executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
 		};
@@ -571,7 +571,7 @@
 	__unsafe_unretained EditorViewController *blockSelf = self;
 	self.sessionKvoToken = [sess addObserverForKeyPath:@"restrictedMode" task:^(id obj, NSDictionary *dict) {
 		[blockSelf sessionModeChanged];
-		self.handButton.hidden = [obj currentUser].master;
+		blockSelf.handButton.hidden = [obj currentUser].master;
 	}];
 	self.sessionHandToken = [sess addObserverForKeyPath:@"handRaised" task:^(id obj, NSDictionary *dict) {
 		blockSelf.handButton.selected = ((RCSession*)obj).handRaised;
