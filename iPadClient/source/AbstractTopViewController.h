@@ -13,9 +13,14 @@
 @interface AbstractTopViewController : UIViewController
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *messagesButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *homeButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *gradingButton;
+@property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, strong) NSMutableArray *kvoTokens;
 
 -(IBAction)doActionMenu:(id)sender;
+
+//subclasses can implement this to adjust things on login/logout. must call super
+-(void)adjustInterfaceBasedOnLogin;
 
 //registered so subclasses can respond to theme changes. also called from viewDidLoad so intiial values can be set
 -(void)updateForNewTheme:(Theme*)theme;

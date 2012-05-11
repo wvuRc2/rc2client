@@ -9,7 +9,6 @@
 #import "AbstractTopViewController.h"
 
 @interface DetailsViewController : AbstractTopViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
-@property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *loginButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *sessionButton;

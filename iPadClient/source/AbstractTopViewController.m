@@ -9,6 +9,7 @@
 #import "AbstractTopViewController.h"
 #import "iSettingsController.h"
 #import "ThemeEngine.h"
+#import "Rc2Server.h"
 
 @interface AbstractTopViewController ()
 @property (nonatomic, strong) UIPopoverController *isettingsPopover;
@@ -39,6 +40,10 @@
 	}];
 	self.themeChangeNotice = tn;
 	[self updateForNewTheme:[[ThemeEngine sharedInstance] currentTheme]];
+	[self.kvoTokens addObject:[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
+		[blockSelf adjustInterfaceBasedOnLogin];
+	}]];
+	[self adjustInterfaceBasedOnLogin];
 }
 
 -(void)viewDidUnload
@@ -76,6 +81,22 @@
 	self.isettingsController.containingPopover = self.isettingsPopover;
 }
 
+-(void)adjustInterfaceBasedOnLogin
+{
+	if (self.gradingButton) {
+		NSMutableArray *ma = [self.toolbar.items mutableCopy];
+		NSArray *classes = [[Rc2Server sharedInstance] classesTaught];
+		if ([classes count] > 0) {
+			if (![ma containsObject:self.gradingButton]) {
+				[ma insertObject:self.gradingButton atIndex:[ma count] - 3];
+			}
+		} else {
+			[ma removeObject:self.gradingButton];
+		}
+		[self.toolbar setItems:ma animated:YES];
+	}
+}
+
 -(void)updateForNewTheme:(Theme*)theme
 {
 	
@@ -87,4 +108,6 @@
 @synthesize homeButton=_homeButton;
 @synthesize kvoTokens=_kvoTokens;
 @synthesize themeChangeNotice=_themeChangeNotice;
+@synthesize gradingButton=_gradingButton;
+@synthesize toolbar=_toolbar;
 @end

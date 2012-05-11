@@ -26,6 +26,10 @@
 		0818EE7E155D922900159291 /* AbstractTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0818EE7D155D922900159291 /* AbstractTopViewController.m */; };
 		0818EE81155D9E0500159291 /* wspace-tbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE7F155D9E0500159291 /* wspace-tbar.png */; };
 		0818EE82155D9E0500159291 /* wspace-tbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE80155D9E0500159291 /* wspace-tbar@2x.png */; };
+		0818EE85155DB83A00159291 /* grade-tbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE84155DB83A00159291 /* grade-tbar.png */; };
+		0818EE87155DB9CA00159291 /* grade-tbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE86155DB9CA00159291 /* grade-tbar@2x.png */; };
+		0818EE8B155DBEF600159291 /* GradingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0818EE89155DBEF500159291 /* GradingViewController.m */; };
+		0818EE8C155DBEF600159291 /* GradingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE8A155DBEF600159291 /* GradingViewController.xib */; };
 		081A164D14FEBCA3004B34A0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */; };
 		081A165014FEDDD6004B34A0 /* mike.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A164F14FEDDD6004B34A0 /* mike.png */; };
 		081A165214FEE035004B34A0 /* mikeOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A165114FEE035004B34A0 /* mikeOff.png */; };
@@ -266,6 +270,11 @@
 		0818EE7D155D922900159291 /* AbstractTopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AbstractTopViewController.m; path = source/AbstractTopViewController.m; sourceTree = SOURCE_ROOT; };
 		0818EE7F155D9E0500159291 /* wspace-tbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wspace-tbar.png"; path = "resources/wspace-tbar.png"; sourceTree = SOURCE_ROOT; };
 		0818EE80155D9E0500159291 /* wspace-tbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wspace-tbar@2x.png"; path = "resources/wspace-tbar@2x.png"; sourceTree = SOURCE_ROOT; };
+		0818EE84155DB83A00159291 /* grade-tbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "grade-tbar.png"; path = "resources/grade-tbar.png"; sourceTree = SOURCE_ROOT; };
+		0818EE86155DB9CA00159291 /* grade-tbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "grade-tbar@2x.png"; path = "resources/grade-tbar@2x.png"; sourceTree = SOURCE_ROOT; };
+		0818EE88155DBEF500159291 /* GradingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GradingViewController.h; path = source/GradingViewController.h; sourceTree = SOURCE_ROOT; };
+		0818EE89155DBEF500159291 /* GradingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GradingViewController.m; path = source/GradingViewController.m; sourceTree = SOURCE_ROOT; };
+		0818EE8A155DBEF600159291 /* GradingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GradingViewController.xib; path = source/GradingViewController.xib; sourceTree = SOURCE_ROOT; };
 		081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		081A164F14FEDDD6004B34A0 /* mike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mike.png; path = resources/mike.png; sourceTree = SOURCE_ROOT; };
 		081A165114FEE035004B34A0 /* mikeOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mikeOff.png; path = resources/mikeOff.png; sourceTree = SOURCE_ROOT; };
@@ -608,6 +617,9 @@
 				0818EE75155D841C00159291 /* MessagesViewController.xib */,
 				0818EE79155D89A000159291 /* WorkspacesViewController.h */,
 				0818EE7A155D89A000159291 /* WorkspacesViewController.m */,
+				0818EE88155DBEF500159291 /* GradingViewController.h */,
+				0818EE89155DBEF500159291 /* GradingViewController.m */,
+				0818EE8A155DBEF600159291 /* GradingViewController.xib */,
 			);
 			name = "top level controllers";
 			sourceTree = "<group>";
@@ -878,6 +890,8 @@
 				08AE4E8D14142D6200963C52 /* home-tbar.png */,
 				0818EE7F155D9E0500159291 /* wspace-tbar.png */,
 				0818EE80155D9E0500159291 /* wspace-tbar@2x.png */,
+				0818EE84155DB83A00159291 /* grade-tbar.png */,
+				0818EE86155DB9CA00159291 /* grade-tbar@2x.png */,
 				0815945C14E2F47A0067E83C /* gear.png */,
 				0815945D14E2F47A0067E83C /* gear@2x.png */,
 				08A7CFE21414A58A000ACA1D /* trash32.png */,
@@ -1248,6 +1262,9 @@
 				0818EE77155D841C00159291 /* MessagesViewController.xib in Resources */,
 				0818EE81155D9E0500159291 /* wspace-tbar.png in Resources */,
 				0818EE82155D9E0500159291 /* wspace-tbar@2x.png in Resources */,
+				0818EE85155DB83A00159291 /* grade-tbar.png in Resources */,
+				0818EE87155DB9CA00159291 /* grade-tbar@2x.png in Resources */,
+				0818EE8C155DBEF600159291 /* GradingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1396,6 +1413,7 @@
 				0818EE76155D841C00159291 /* MessagesViewController.m in Sources */,
 				0818EE7B155D89A000159291 /* WorkspacesViewController.m in Sources */,
 				0818EE7E155D922900159291 /* AbstractTopViewController.m in Sources */,
+				0818EE8B155DBEF600159291 /* GradingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

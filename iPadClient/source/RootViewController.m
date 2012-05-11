@@ -10,11 +10,13 @@
 #import "WelcomeViewController.h"
 #import "MessagesViewController.h"
 #import "WorkspacesViewController.h"
+#import "GradingViewController.h"
 
 @interface RootViewController ()
 @property (nonatomic, strong) WelcomeViewController *welcomeController;
 @property (nonatomic, strong) MessagesViewController *messageController;
 @property (nonatomic, strong) WorkspacesViewController *workspaceController;
+@property (nonatomic, strong) GradingViewController *gradingController;
 @property (nonatomic, strong) id currentController;
 @end
 
@@ -79,7 +81,13 @@
 
 -(void)showGrading
 {
-	
+	if (nil == self.gradingController) {
+		self.gradingController = [[GradingViewController alloc] init];
+		[self addChildViewController:self.gradingController];
+		[self.gradingController didMoveToParentViewController:self];
+		self.gradingController.view.frame = self.view.bounds;
+	}
+	[self switchToController:self.gradingController];
 }
 
 -(void)switchToController:(UIViewController*)vc
@@ -100,4 +108,5 @@
 @synthesize currentController=_currentController;
 @synthesize messageController=_messageController;
 @synthesize workspaceController=_workspaceController;
+@synthesize gradingController=_gradingController;
 @end

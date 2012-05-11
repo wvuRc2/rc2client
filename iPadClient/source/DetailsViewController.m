@@ -444,7 +444,6 @@ enum {
 @synthesize actionSheet;
 @synthesize messageController;
 @synthesize currentView;
-@synthesize toolbar;
 @synthesize rc2Tokens;
 @synthesize selectedIndex;
 @end

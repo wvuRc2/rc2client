@@ -826,7 +826,6 @@ NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNoti
 		handler(NO, [rsp objectForKey:@"message"]);
 	} else {
 		//success
-		self.loggedIn=YES;
 		self.currentLogin=user;
 		self.currentUserId = [rsp objectForKey:@"userid"];
 		self.usersPermissions = [rsp objectForKey:@"permissions"];
@@ -841,8 +840,8 @@ NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNoti
 										 user, [dev systemName], [dev systemVersion], [dev model]];
 #endif
 		[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
+		self.loggedIn=YES;
 		handler(YES, rsp);
-		Rc2LogInfo(@"logged in");
 	}
 }
 

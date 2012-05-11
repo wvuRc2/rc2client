@@ -208,6 +208,11 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[self.rootController showWorkspaces];
 }
 
+-(IBAction)showGrading:(id)sender
+{
+	[self.rootController showGrading];
+}
+
 -(IBAction)logout:(id)sender
 {
 	[[Rc2Server sharedInstance] logout];
