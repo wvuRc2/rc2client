@@ -25,6 +25,8 @@
 
 #define kServerHostKey @"ServerHostKey"
 
+NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNotification";
+
 #pragma mark -
 
 @interface Rc2Server()
@@ -232,6 +234,11 @@
 	return [[request.responseHeaders objectForKey:@"Content-Type"] hasPrefix:@"application/json"];
 }
 
+-(void)broadcastWorkspaceItemsUpdated
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:WorkspaceItemsChangedNotification object:self];
+}
+
 #pragma mark - workspaces
 
 //++COPIED++
@@ -318,6 +325,7 @@
 				[self.workspaceItems arrayByRemovingObjectAtIndex:[self.workspaceItems indexOfObject:wspace]];
 			else
 				[(RCWorkspaceFolder*)wspace.parentItem removeChild:wspace];
+			[self broadcastWorkspaceItemsUpdated];
 		}
 		hblock(success, rsp);
 	}];
@@ -382,6 +390,7 @@
 	}
 	[rootObjects sortUsingSelector:@selector(compareWithItem:)];
 	self.workspaceItems = rootObjects;
+	[self broadcastWorkspaceItemsUpdated];
 }
 
 -(void)enumerateWorkspaceItemArray:(NSArray*)items stop:(BOOL*)stop block:(void (^)(RCWorkspace *wspace, BOOL *stop))block

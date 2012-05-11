@@ -102,6 +102,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 			[((WorkspaceTableController*)self.navController.topViewController) clearSelection];
 		}
 	}];
+ */
 	[(iAMApplication*)application sendDelegateEventNotifications];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self promptForLogin];
@@ -122,7 +123,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	SInt32 category = kAudioSessionCategory_PlayAndRecord;
 	AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(category), &category);
 	AudioSessionSetActive(true);
-*/	
+	
 	return YES;
 }
 
@@ -332,12 +333,11 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	__unsafe_unretained Rc2AppDelegate *blockSelf = self;
 	self.authController.loginCompleteHandler = ^ {
 		[blockVC dismissModalViewControllerAnimated:YES];
-		Rc2AppDelegate *del = ((Rc2AppDelegate*)[[UIApplication sharedApplication] delegate]);
-		del.authController=nil;
-		[(WorkspaceTableController*)blockSelf.navController.topViewController 
-							setWorkspaceItems:[[Rc2Server sharedInstance] workspaceItems]];
+		blockSelf.authController=nil;
+//		[(WorkspaceTableController*)blockSelf.navController.topViewController 
+//							setWorkspaceItems:[[Rc2Server sharedInstance] workspaceItems]];
 		if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentSessionWspaceId"]) {
-			[del restoreLastSession];
+			[blockSelf restoreLastSession];
 		}
 	};
 	self.authController.modalPresentationStyle = UIModalPresentationPageSheet;
