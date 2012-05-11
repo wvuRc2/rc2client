@@ -10,8 +10,8 @@
 #import "Rc2Server.h"
 #import <Vyana-ios/UIAlertView+AMExtensions.h>
 #import "IPadButton.h"
+#import "AppConstants.h"
 
-#define kLastLoginKey @"LastLogin"
 
 @interface LoginController()
 -(void)reportError:(NSString*)errMsg;
@@ -36,7 +36,7 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	NSString *lastLogin = [[NSUserDefaults standardUserDefaults] objectForKey:kLastLoginKey];
+	NSString *lastLogin = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefLastLogin];
 	if (lastLogin) {
 		self.useridField.text = lastLogin;
 		[self loadPasswordForLogin:lastLogin];
@@ -103,7 +103,7 @@
 -(void)saveLoginInfo
 {
 	[SFHFKeychainUtils storeUsername:self.useridField.text andPassword:self.passwordField.text forServiceName:@"Rc2" updateExisting:YES error:nil];
-	[[NSUserDefaults standardUserDefaults] setObject:self.useridField.text forKey:kLastLoginKey];
+	[[NSUserDefaults standardUserDefaults] setObject:self.useridField.text forKey:kPrefLastLogin];
 }
 
 -(void)loadPasswordForLogin:(NSString*)login

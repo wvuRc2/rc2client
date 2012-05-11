@@ -6,6 +6,7 @@
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
+#define kPrefLastLogin @"LastLogin"
 #define kPrefLefty @"LeftyPref"
 #define kPrefDynKey @"DynKeyboard"
 #define kPrefCustomKey1URL @"PrefCustomKey1URL"

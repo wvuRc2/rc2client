@@ -105,7 +105,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
  */
 	[(iAMApplication*)application sendDelegateEventNotifications];
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[self promptForLogin];
+		[self startLoginProcess];
 	});
 
 	DBSession *session = [[DBSession alloc] initWithAppKey:@"663yb1illxbs5rl" 
@@ -206,6 +206,13 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 -(IBAction)showWorkspaces:(id)sender
 {
 	[self.rootController showWorkspaces];
+}
+
+-(IBAction)logout:(id)sender
+{
+	[[Rc2Server sharedInstance] logout];
+	[self.rootController showWelcome];
+	[self promptForLogin];
 }
 
 #pragma mark - meat & potatoes
@@ -326,6 +333,30 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	}
 }
 
+-(void)startLoginProcess
+{
+	//FIXME: show progress dialog
+	Rc2Server *rc2 = [Rc2Server sharedInstance];
+	NSString *login = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefLastLogin];
+	if (nil == login) {
+		[self promptForLogin];
+		return;
+	}
+	NSString *pass = [SFHFKeychainUtils getPasswordForUsername:login andServiceName:@"Rc2" error:nil];
+	if (nil == pass) {
+		[self promptForLogin];
+		return;
+	}
+	[rc2 loginAsUser:login password:pass completionHandler:^(BOOL success, id results) {
+		if (success) {
+			if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentSessionWspaceId"])
+				[self performSelectorOnMainThread:@selector(restoreLastSession) withObject:nil waitUntilDone:NO];
+		} else {
+			[self performSelectorOnMainThread:@selector(promptForLogin) withObject:nil waitUntilDone:NO];
+		}
+	}];
+}
+
 -(void)promptForLogin
 {
 	self.authController = [[LoginController alloc] init];
@@ -334,8 +365,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	self.authController.loginCompleteHandler = ^ {
 		[blockVC dismissModalViewControllerAnimated:YES];
 		blockSelf.authController=nil;
-//		[(WorkspaceTableController*)blockSelf.navController.topViewController 
-//							setWorkspaceItems:[[Rc2Server sharedInstance] workspaceItems]];
 		if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentSessionWspaceId"]) {
 			[blockSelf restoreLastSession];
 		}

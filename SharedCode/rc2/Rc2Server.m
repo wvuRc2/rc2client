@@ -851,7 +851,7 @@ NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNoti
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@login", [self baseUrl]]];
 	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
 	__weak ASIFormDataRequest *req = theReq;
-	[req setTimeOutSeconds:10];
+	[req setTimeOutSeconds:5];
 	[req setPostValue:user forKey:@"login"];
 	[req setPostValue:password forKey:@"password"];
 	[req setCompletionBlock:^{

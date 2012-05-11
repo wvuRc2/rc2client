@@ -161,21 +161,6 @@ enum {
 	[del startSession:selFile];
 }
 
--(IBAction)doLogoutFromWSPage:(id)sender
-{
-	[self updateSelectedWorkspace:nil withLogout:YES];
-}
-
--(IBAction)doLoginLogout:(id)sender
-{
-	if ([Rc2Server sharedInstance].loggedIn) {
-		[[Rc2Server sharedInstance] logout];
-	} else {
-		Rc2AppDelegate *del = (Rc2AppDelegate*)[[UIApplication sharedApplication] delegate];
-		[del promptForLogin];
-	}
-}
-
 -(IBAction)doMessages:(id)sender
 {
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
@@ -288,7 +273,9 @@ enum {
 								toView:self.welcomeContent
 							  duration:0.7
 							   options:UIViewAnimationOptionTransitionFlipFromRight
-							completion:^(BOOL finished) { if (doLogout) [blockSelf doLoginLogout:nil]; }];
+							completion:^(BOOL finished) { 
+								//if (doLogout) [blockSelf doLoginLogout:nil]; 
+							}];
 			self.currentView = self.welcomeContent;
 			self.titleLabel.text = kDefaultTitleText;
 /*		} else {

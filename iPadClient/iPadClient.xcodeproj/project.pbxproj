@@ -612,6 +612,19 @@
 			name = "top level controllers";
 			sourceTree = "<group>";
 		};
+		0818EE83155DAB4900159291 /* workspace controllers */ = {
+			isa = PBXGroup;
+			children = (
+				08349F471404959700B629B4 /* DetailsViewController.h */,
+				08349F481404959700B629B4 /* DetailsViewController.m */,
+				08349F491404959700B629B4 /* DetailsViewController.xib */,
+				08349F4C1404988600B629B4 /* WorkspaceTableController.h */,
+				08349F4D1404988600B629B4 /* WorkspaceTableController.m */,
+				08349F4E1404988600B629B4 /* WorkspaceTableController.xib */,
+			);
+			name = "workspace controllers";
+			sourceTree = "<group>";
+		};
 		0828966715471D7E00A6B6C2 /* json */ = {
 			isa = PBXGroup;
 			children = (
@@ -691,12 +704,7 @@
 				0818EE69155D771B00159291 /* RootViewController.h */,
 				0818EE6A155D771B00159291 /* RootViewController.m */,
 				0818EE78155D892900159291 /* top level controllers */,
-				08349F471404959700B629B4 /* DetailsViewController.h */,
-				08349F481404959700B629B4 /* DetailsViewController.m */,
-				08349F491404959700B629B4 /* DetailsViewController.xib */,
-				08349F4C1404988600B629B4 /* WorkspaceTableController.h */,
-				08349F4D1404988600B629B4 /* WorkspaceTableController.m */,
-				08349F4E1404988600B629B4 /* WorkspaceTableController.xib */,
+				0818EE83155DAB4900159291 /* workspace controllers */,
 				08AE4E7F141406B100963C52 /* MessageController.h */,
 				08AE4E80141406B100963C52 /* MessageController.m */,
 				08AE4E821414078C00963C52 /* MessageController.xib */,

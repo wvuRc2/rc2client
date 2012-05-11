@@ -17,8 +17,6 @@
 @property (strong, nonatomic) IBOutlet UIView *workspaceContent;
 @property (strong, nonatomic) IBOutlet UIView *welcomeContent;
 
--(IBAction)doLogoutFromWSPage:(id)sender;
--(IBAction)doLoginLogout:(id)sender;
 -(IBAction)doStartSession:(id)sender;
 -(IBAction)doMessages:(id)sender;
 -(void)refreshDetails;

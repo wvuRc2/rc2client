@@ -31,6 +31,7 @@
 -(IBAction)showMessages:(id)sender;
 -(IBAction)showWelcome:(id)sender;
 -(IBAction)showWorkspaces:(id)sender;
+-(IBAction)logout:(id)sender;
 
 -(void)promptForLogin;
 -(void)startSession:(RCFile*)initialFile;
