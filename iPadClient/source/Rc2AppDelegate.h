@@ -14,7 +14,7 @@
 @class MGSplitViewController;
 @class RCFile;
 
-@interface Rc2AppDelegate : NSObject <UIApplicationDelegate, BWHockeyManagerDelegate> {
+@interface Rc2AppDelegate : UIResponder <UIApplicationDelegate, BWHockeyManagerDelegate> {
 
 }
 
@@ -27,6 +27,10 @@
 @property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+-(IBAction)showMessages:(id)sender;
+-(IBAction)showWelcome:(id)sender;
+-(IBAction)showWorkspaces:(id)sender;
 
 -(void)promptForLogin;
 -(void)startSession:(RCFile*)initialFile;

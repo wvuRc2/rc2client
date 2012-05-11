@@ -1,3 +1,7 @@
+root controller has 4 child controllers -- welcome, messages, workspaces, grading. 
+It has API to switch between them. The child controllers will call that api to switch
+between different views (from toolbar buttons).
+
 recent changes
 
 Double tap opens session with specified document selected

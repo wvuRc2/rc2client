@@ -929,7 +929,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0430;
-				ORGANIZATIONNAME = "Agile Monks";
+				ORGANIZATIONNAME = "West Virginia University";
 			};
 			buildConfigurationList = 08FE88A11415533300672474 /* Build configuration list for PBXProject "MacClient" */;
 			compatibilityVersion = "Xcode 3.2";

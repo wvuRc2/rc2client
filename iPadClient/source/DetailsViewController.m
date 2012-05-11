@@ -14,7 +14,6 @@
 #import "FileDetailsCell.h"
 #import "MessageController.h"
 #import "ThemeEngine.h"
-#import "iSettingsController.h"
 #import "AppConstants.h"
 
 #define kDefaultTitleText @"Welcome to Rc²"
@@ -31,24 +30,20 @@ enum {
 	BOOL _didMsgCheck;
 	BOOL _didNibCheck;
 }
-@property (nonatomic, strong) NSMutableArray *kvoTokens;
+@property (nonatomic, strong) NSMutableArray *rc2Tokens;
 @property (nonatomic, strong) NSString *wspaceFilesToken;
 @property (nonatomic, strong) RCWorkspace *selectedWorkspace;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
 @property (nonatomic, strong) MessageController *messageController;
 @property (nonatomic, strong) UIView *currentView;
-@property (nonatomic, strong) id themeChangeNotice;
 @property (nonatomic, strong) NSIndexPath *selectedIndex;
-@property (nonatomic, strong) iSettingsController *isettingsController;
-@property (nonatomic, strong) UIPopoverController *isettingsPopover;
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace;
 -(void)updateSelectedWorkspace:(RCWorkspace*)wspace withLogout:(BOOL)doLogout;
 -(void)updateLoginStatus;
 -(void)updateMessageIcon:(BOOL)aboutToSwitch;
 -(void)cleanupAfterLogout;
 -(void)postLoginSetup;
--(void)updateForNewTheme:(Theme*)theme;
 @end
 
 @implementation DetailsViewController
@@ -64,16 +59,15 @@ enum {
 
 -(void)freeUpMemory
 {
+	[super freeUpMemory];
 	self.dateFormatter=nil;
 	self.dateFormatter=nil;
-	for (id aToken in self.kvoTokens)
+	for (id aToken in self.rc2Tokens)
 		[[Rc2Server sharedInstance] removeObserverWithBlockToken:aToken];
-	self.kvoTokens=nil;
+	self.rc2Tokens=nil;
     self.workspaceContent=nil;
     self.welcomeContent=nil;
 	self.actionSheet=nil;
-	self.messageNavView=nil;
-	self.themeChangeNotice=nil;
 }
 
 -(void)dealloc
@@ -87,7 +81,7 @@ enum {
 {
 	[super viewDidLoad];
 	if (!_didNibCheck) {
-		self.kvoTokens = [NSMutableArray array];
+		self.rc2Tokens = [NSMutableArray array];
 		self.dateFormatter = [[NSDateFormatter alloc] init];
 		[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
 		[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
@@ -98,27 +92,19 @@ enum {
 			RCWorkspace *sel = [obj selectedWorkspace];
 				[blockSelf updateSelectedWorkspace:sel];
 		}];
-		[self.kvoTokens addObject:aToken];
+		[self.rc2Tokens addObject:aToken];
 		self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 		aToken =  [[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" 
 																		   task:^(id obj, NSDictionary *change) {
 			   [blockSelf performSelectorOnMainThread:@selector(updateLoginStatus) withObject:nil waitUntilDone:NO];
 		}];
-		[self.kvoTokens addObject:aToken];
+		[self.rc2Tokens addObject:aToken];
 		self.loginButton.possibleTitles = [NSSet setWithObjects:@"Login",@"Logout",nil];
 		self.loginButton.title = @"Login";
 		self.fileTableView.rowHeight = 52;
 		self.fileTableView.allowsSelection = YES;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fileTableDoubleTapped:) name:kTableViewDoubleClickedNotification object:self.fileTableView];
 		self.currentView = self.welcomeContent;
-		id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
-			[blockSelf updateForNewTheme:theme];
-		}];
-		self.themeChangeNotice = tn;
-		Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
-		self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
-		self.welcomeContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
-		self.workspaceContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
 		_didNibCheck=YES;
 	}
 }
@@ -128,7 +114,6 @@ enum {
 	[super viewDidUnload];
 	[self freeUpMemory];
 	self.fileTableView.allowsSelection = NO;
-	self.themeChangeNotice=nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:kTableViewDoubleClickedNotification object:nil];
 	_didMsgCheck = NO;
 }
@@ -148,7 +133,7 @@ enum {
 }
 
 #pragma mark - actions
-
+/*
 -(IBAction)doActionMenu:(id)sender
 {
 	if (self.isettingsPopover) {
@@ -165,12 +150,7 @@ enum {
 	self.isettingsPopover = [[UIPopoverController alloc] initWithContentViewController:navController];
 	[self.isettingsPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 	self.isettingsController.containingPopover = self.isettingsPopover;
-	
-	/*	if (nil == self.actionSheet) {
-		self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Settings",@"Theme",nil];
-	}
-	[self.actionSheet showFromBarButtonItem:sender animated:YES];	*/
-}
+}*/
 
 -(IBAction)doStartSession:(id)sender
 {
@@ -367,6 +347,7 @@ enum {
 
 -(void)updateForNewTheme:(Theme*)theme
 {
+	[super updateForNewTheme:theme];
 	self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
 	self.welcomeContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
 	self.workspaceContent.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
@@ -474,15 +455,9 @@ enum {
 @synthesize workspaceContent;
 @synthesize welcomeContent;
 @synthesize actionSheet;
-@synthesize msgCntLabel;
-@synthesize messagesButton;
-@synthesize messageNavView;
 @synthesize messageController;
 @synthesize currentView;
-@synthesize themeChangeNotice;
 @synthesize toolbar;
-@synthesize kvoTokens;
+@synthesize rc2Tokens;
 @synthesize selectedIndex;
-@synthesize isettingsPopover;
-@synthesize isettingsController;
 @end

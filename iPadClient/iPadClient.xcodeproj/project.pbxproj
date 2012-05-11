@@ -17,6 +17,15 @@
 		0818EE20155B207000159291 /* graded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE1C155B207000159291 /* graded@2x.png */; };
 		0818EE21155B207000159291 /* turnedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE1D155B207000159291 /* turnedin.png */; };
 		0818EE22155B207000159291 /* turnedin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE1E155B207000159291 /* turnedin@2x.png */; };
+		0818EE6B155D771B00159291 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0818EE6A155D771B00159291 /* RootViewController.m */; };
+		0818EE71155D781700159291 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0818EE6F155D781700159291 /* WelcomeViewController.m */; };
+		0818EE72155D781700159291 /* WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE70155D781700159291 /* WelcomeViewController.xib */; };
+		0818EE76155D841C00159291 /* MessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0818EE74155D841C00159291 /* MessagesViewController.m */; };
+		0818EE77155D841C00159291 /* MessagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE75155D841C00159291 /* MessagesViewController.xib */; };
+		0818EE7B155D89A000159291 /* WorkspacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0818EE7A155D89A000159291 /* WorkspacesViewController.m */; };
+		0818EE7E155D922900159291 /* AbstractTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0818EE7D155D922900159291 /* AbstractTopViewController.m */; };
+		0818EE81155D9E0500159291 /* wspace-tbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE7F155D9E0500159291 /* wspace-tbar.png */; };
+		0818EE82155D9E0500159291 /* wspace-tbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE80155D9E0500159291 /* wspace-tbar@2x.png */; };
 		081A164D14FEBCA3004B34A0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */; };
 		081A165014FEDDD6004B34A0 /* mike.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A164F14FEDDD6004B34A0 /* mike.png */; };
 		081A165214FEE035004B34A0 /* mikeOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A165114FEE035004B34A0 /* mikeOff.png */; };
@@ -243,6 +252,20 @@
 		0818EE1C155B207000159291 /* graded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "graded@2x.png"; path = "../SharedImages/graded@2x.png"; sourceTree = SOURCE_ROOT; };
 		0818EE1D155B207000159291 /* turnedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = turnedin.png; path = ../SharedImages/turnedin.png; sourceTree = SOURCE_ROOT; };
 		0818EE1E155B207000159291 /* turnedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "turnedin@2x.png"; path = "../SharedImages/turnedin@2x.png"; sourceTree = SOURCE_ROOT; };
+		0818EE69155D771B00159291 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = source/RootViewController.h; sourceTree = SOURCE_ROOT; };
+		0818EE6A155D771B00159291 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = source/RootViewController.m; sourceTree = SOURCE_ROOT; };
+		0818EE6E155D781600159291 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WelcomeViewController.h; path = source/WelcomeViewController.h; sourceTree = SOURCE_ROOT; };
+		0818EE6F155D781700159291 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WelcomeViewController.m; path = source/WelcomeViewController.m; sourceTree = SOURCE_ROOT; };
+		0818EE70155D781700159291 /* WelcomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WelcomeViewController.xib; path = source/WelcomeViewController.xib; sourceTree = SOURCE_ROOT; };
+		0818EE73155D841C00159291 /* MessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessagesViewController.h; path = source/MessagesViewController.h; sourceTree = SOURCE_ROOT; };
+		0818EE74155D841C00159291 /* MessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessagesViewController.m; path = source/MessagesViewController.m; sourceTree = SOURCE_ROOT; };
+		0818EE75155D841C00159291 /* MessagesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessagesViewController.xib; path = source/MessagesViewController.xib; sourceTree = SOURCE_ROOT; };
+		0818EE79155D89A000159291 /* WorkspacesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspacesViewController.h; path = source/WorkspacesViewController.h; sourceTree = SOURCE_ROOT; };
+		0818EE7A155D89A000159291 /* WorkspacesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspacesViewController.m; path = source/WorkspacesViewController.m; sourceTree = SOURCE_ROOT; };
+		0818EE7C155D922900159291 /* AbstractTopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractTopViewController.h; path = source/AbstractTopViewController.h; sourceTree = SOURCE_ROOT; };
+		0818EE7D155D922900159291 /* AbstractTopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AbstractTopViewController.m; path = source/AbstractTopViewController.m; sourceTree = SOURCE_ROOT; };
+		0818EE7F155D9E0500159291 /* wspace-tbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wspace-tbar.png"; path = "resources/wspace-tbar.png"; sourceTree = SOURCE_ROOT; };
+		0818EE80155D9E0500159291 /* wspace-tbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wspace-tbar@2x.png"; path = "resources/wspace-tbar@2x.png"; sourceTree = SOURCE_ROOT; };
 		081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		081A164F14FEDDD6004B34A0 /* mike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mike.png; path = resources/mike.png; sourceTree = SOURCE_ROOT; };
 		081A165114FEE035004B34A0 /* mikeOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mikeOff.png; path = resources/mikeOff.png; sourceTree = SOURCE_ROOT; };
@@ -572,6 +595,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0818EE78155D892900159291 /* top level controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0818EE7C155D922900159291 /* AbstractTopViewController.h */,
+				0818EE7D155D922900159291 /* AbstractTopViewController.m */,
+				0818EE6E155D781600159291 /* WelcomeViewController.h */,
+				0818EE6F155D781700159291 /* WelcomeViewController.m */,
+				0818EE70155D781700159291 /* WelcomeViewController.xib */,
+				0818EE73155D841C00159291 /* MessagesViewController.h */,
+				0818EE74155D841C00159291 /* MessagesViewController.m */,
+				0818EE75155D841C00159291 /* MessagesViewController.xib */,
+				0818EE79155D89A000159291 /* WorkspacesViewController.h */,
+				0818EE7A155D89A000159291 /* WorkspacesViewController.m */,
+			);
+			name = "top level controllers";
+			sourceTree = "<group>";
+		};
 		0828966715471D7E00A6B6C2 /* json */ = {
 			isa = PBXGroup;
 			children = (
@@ -648,6 +688,9 @@
 				08447F6D1415CBF300A8DDF8 /* ThemeEngine.h */,
 				08447F6E1415CBF300A8DDF8 /* ThemeEngine.m */,
 				082DC03F13EC99E5008EAA99 /* MainWindow.xib */,
+				0818EE69155D771B00159291 /* RootViewController.h */,
+				0818EE6A155D771B00159291 /* RootViewController.m */,
+				0818EE78155D892900159291 /* top level controllers */,
 				08349F471404959700B629B4 /* DetailsViewController.h */,
 				08349F481404959700B629B4 /* DetailsViewController.m */,
 				08349F491404959700B629B4 /* DetailsViewController.xib */,
@@ -671,6 +714,7 @@
 				08DFFDB3148973F2008D1399 /* shared console */,
 				0853230F1405CCC00045D207 /* console */,
 				08447F731415DE8F00A8DDF8 /* themes */,
+				0860C54214103D2E00582C7D /* images */,
 				08447F891416D82D00A8DDF8 /* ThemeEngine.plist */,
 				08BA998D154739B000B6CFC1 /* DefaultDefaults.plist */,
 				08BA999015473C1100B6CFC1 /* Inconsolata.otf */,
@@ -680,7 +724,6 @@
 				08349EC0140339F300B629B4 /* rightAlpha.txt */,
 				08B44976142CFE9A0064005D /* rightAlphap.txt */,
 				08B44977142CFE9A0064005D /* rightSymp.txt */,
-				0860C54214103D2E00582C7D /* images */,
 				087CE9021402E86100C9F758 /* Icon72.png */,
 				08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */,
 				08DD230A1411CDA500217C1A /* Default-Landscape.png */,
@@ -825,6 +868,8 @@
 				08AE4E891414261B00963C52 /* message-tbar-badged.png */,
 				08AE4E8C14142D6200963C52 /* home-tbar-down.png */,
 				08AE4E8D14142D6200963C52 /* home-tbar.png */,
+				0818EE7F155D9E0500159291 /* wspace-tbar.png */,
+				0818EE80155D9E0500159291 /* wspace-tbar@2x.png */,
 				0815945C14E2F47A0067E83C /* gear.png */,
 				0815945D14E2F47A0067E83C /* gear@2x.png */,
 				08A7CFE21414A58A000ACA1D /* trash32.png */,
@@ -1076,6 +1121,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "West Virginia University";
 			};
 			buildConfigurationList = 082DC02313EC99E4008EAA99 /* Build configuration list for PBXProject "iPadClient" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1190,6 +1236,10 @@
 				0818EE20155B207000159291 /* graded@2x.png in Resources */,
 				0818EE21155B207000159291 /* turnedin.png in Resources */,
 				0818EE22155B207000159291 /* turnedin@2x.png in Resources */,
+				0818EE72155D781700159291 /* WelcomeViewController.xib in Resources */,
+				0818EE77155D841C00159291 /* MessagesViewController.xib in Resources */,
+				0818EE81155D9E0500159291 /* wspace-tbar.png in Resources */,
+				0818EE82155D9E0500159291 /* wspace-tbar@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1333,6 +1383,11 @@
 				085818A7155465840025DA07 /* UIImage+HockeyAdditions.m in Sources */,
 				081A5DEB1558349000F6D482 /* SessionEditView.m in Sources */,
 				081A5DEF15584A6E00F6D482 /* ImagePickerController.m in Sources */,
+				0818EE6B155D771B00159291 /* RootViewController.m in Sources */,
+				0818EE71155D781700159291 /* WelcomeViewController.m in Sources */,
+				0818EE76155D841C00159291 /* MessagesViewController.m in Sources */,
+				0818EE7B155D89A000159291 /* WorkspacesViewController.m in Sources */,
+				0818EE7E155D922900159291 /* AbstractTopViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

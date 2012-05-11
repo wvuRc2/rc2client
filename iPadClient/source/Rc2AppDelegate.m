@@ -12,6 +12,7 @@
 #import "SessionViewController.h"
 #import "DetailsViewController.h"
 #import "MGSplitViewController.h"
+#import "RootViewController.h"
 #import "Rc2Server.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
@@ -22,16 +23,6 @@
 #import "AppConstants.h"
 #import <objc/runtime.h>
 
-//hack for iOS 5.0 SDK bug
-/*
-@implementation UIImage(iOS5HackBugFix)
--(id)initWithCoder:(NSCoder *)aDecoder
-{
-	return nil;
-}
-@end
-*/
-
 @interface UITableView (DoubleClick)
 -(void)myTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 @end
@@ -40,6 +31,7 @@
 	NSManagedObjectModel *__mom;
 	NSInteger _curKeyFile;
 }
+@property (nonatomic, strong) RootViewController *rootController;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *myPsc;
 @property (nonatomic, strong) LoginController *authController;
 @property (nonatomic, strong) UIView *messageListView;
@@ -77,9 +69,14 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	Method origMethod = class_getInstanceMethod([UITableView class], @selector(touchesEnded:withEvent:));
 	method_exchangeImplementations(origMethod, customMethod);
 	
-	[[BWHockeyManager sharedHockeyManager] setAppIdentifier:@"1ecec8cd34e796a9159794e9e86610ee"];
-	[[BWHockeyManager sharedHockeyManager] setDelegate:self];
+//	[[BWHockeyManager sharedHockeyManager] setAppIdentifier:@"1ecec8cd34e796a9159794e9e86610ee"];
+//	[[BWHockeyManager sharedHockeyManager] setDelegate:self];
 	
+	self.rootController = [[RootViewController alloc] init];
+	self.window.rootViewController = self.rootController;
+	[self.window addSubview:self.rootController.view];
+	[self.window makeKeyAndVisible];
+/*	
 	self.detailsController = [[DetailsViewController alloc] init];
 	WorkspaceTableController *wtc = [[WorkspaceTableController alloc] initWithNibName:@"WorkspaceTableController" bundle:nil];
 	self.navController = [[UINavigationController alloc] initWithRootViewController:wtc];
@@ -125,7 +122,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	SInt32 category = kAudioSessionCategory_PlayAndRecord;
 	AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(category), &category);
 	AudioSessionSetActive(true);
-	
+*/	
 	return YES;
 }
 
@@ -191,6 +188,23 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	 Save data if appropriate.
 	 See also applicationDidEnterBackground:.
 	 */
+}
+
+#pragma mark - actions
+
+-(IBAction)showWelcome:(id)sender
+{
+	[self.rootController showWelcome];
+}
+
+-(IBAction)showMessages:(id)sender
+{
+	[self.rootController showMessages];
+}
+
+-(IBAction)showWorkspaces:(id)sender
+{
+	[self.rootController showWorkspaces];
 }
 
 #pragma mark - meat & potatoes
@@ -514,6 +528,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 @synthesize myPsc;
 @synthesize dropboxCompletionBlock;
+@synthesize rootController=_rootController;
 @end
 
 @implementation UITableView (DoubleClick)
