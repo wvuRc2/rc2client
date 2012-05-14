@@ -30,6 +30,9 @@
 		0818EE87155DB9CA00159291 /* grade-tbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE86155DB9CA00159291 /* grade-tbar@2x.png */; };
 		0818EE8B155DBEF600159291 /* GradingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0818EE89155DBEF500159291 /* GradingViewController.m */; };
 		0818EE8C155DBEF600159291 /* GradingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE8A155DBEF600159291 /* GradingViewController.xib */; };
+		0818EEB21561A19D00159291 /* RCStudentAssignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0818EEB11561A19D00159291 /* RCStudentAssignment.m */; };
+		0818EEB61561A41D00159291 /* StudentAssignmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0818EEB51561A41D00159291 /* StudentAssignmentCell.m */; };
+		0818EEB81561A44E00159291 /* StudentAssignmentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0818EEB71561A44E00159291 /* StudentAssignmentCell.xib */; };
 		081A164D14FEBCA3004B34A0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */; };
 		081A165014FEDDD6004B34A0 /* mike.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A164F14FEDDD6004B34A0 /* mike.png */; };
 		081A165214FEE035004B34A0 /* mikeOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 081A165114FEE035004B34A0 /* mikeOff.png */; };
@@ -275,6 +278,11 @@
 		0818EE88155DBEF500159291 /* GradingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GradingViewController.h; path = source/GradingViewController.h; sourceTree = SOURCE_ROOT; };
 		0818EE89155DBEF500159291 /* GradingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GradingViewController.m; path = source/GradingViewController.m; sourceTree = SOURCE_ROOT; };
 		0818EE8A155DBEF600159291 /* GradingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GradingViewController.xib; path = source/GradingViewController.xib; sourceTree = SOURCE_ROOT; };
+		0818EEB01561A19D00159291 /* RCStudentAssignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCStudentAssignment.h; sourceTree = "<group>"; };
+		0818EEB11561A19D00159291 /* RCStudentAssignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCStudentAssignment.m; sourceTree = "<group>"; };
+		0818EEB41561A41D00159291 /* StudentAssignmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StudentAssignmentCell.h; path = source/StudentAssignmentCell.h; sourceTree = SOURCE_ROOT; };
+		0818EEB51561A41D00159291 /* StudentAssignmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StudentAssignmentCell.m; path = source/StudentAssignmentCell.m; sourceTree = SOURCE_ROOT; };
+		0818EEB71561A44E00159291 /* StudentAssignmentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StudentAssignmentCell.xib; path = source/StudentAssignmentCell.xib; sourceTree = SOURCE_ROOT; };
 		081A164C14FEBCA3004B34A0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		081A164F14FEDDD6004B34A0 /* mike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mike.png; path = resources/mike.png; sourceTree = SOURCE_ROOT; };
 		081A165114FEE035004B34A0 /* mikeOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mikeOff.png; path = resources/mikeOff.png; sourceTree = SOURCE_ROOT; };
@@ -818,6 +826,8 @@
 				08581863154B29E10025DA07 /* RCAssignment.m */,
 				0858187F155461900025DA07 /* RCAssignmentFile.h */,
 				08581880155461900025DA07 /* RCAssignmentFile.m */,
+				0818EEB01561A19D00159291 /* RCStudentAssignment.h */,
+				0818EEB11561A19D00159291 /* RCStudentAssignment.m */,
 				08F566661407073E00229A39 /* generated */,
 			);
 			name = model;
@@ -1025,6 +1035,9 @@
 				085E7B1F14EEDBFC00036A9E /* ControllerUserCell.xib */,
 				081A5DE91558349000F6D482 /* SessionEditView.h */,
 				081A5DEA1558349000F6D482 /* SessionEditView.m */,
+				0818EEB41561A41D00159291 /* StudentAssignmentCell.h */,
+				0818EEB51561A41D00159291 /* StudentAssignmentCell.m */,
+				0818EEB71561A44E00159291 /* StudentAssignmentCell.xib */,
 			);
 			name = "views & cells";
 			sourceTree = "<group>";
@@ -1265,6 +1278,7 @@
 				0818EE85155DB83A00159291 /* grade-tbar.png in Resources */,
 				0818EE87155DB9CA00159291 /* grade-tbar@2x.png in Resources */,
 				0818EE8C155DBEF600159291 /* GradingViewController.xib in Resources */,
+				0818EEB81561A44E00159291 /* StudentAssignmentCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1414,6 +1428,8 @@
 				0818EE7B155D89A000159291 /* WorkspacesViewController.m in Sources */,
 				0818EE7E155D922900159291 /* AbstractTopViewController.m in Sources */,
 				0818EE8B155DBEF600159291 /* GradingViewController.m in Sources */,
+				0818EEB21561A19D00159291 /* RCStudentAssignment.m in Sources */,
+				0818EEB61561A41D00159291 /* StudentAssignmentCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,6 @@
 
 #import "AbstractTopViewController.h"
 
-@interface GradingViewController : AbstractTopViewController
+@interface GradingViewController : AbstractTopViewController<UITableViewDataSource,UITableViewDelegate>
 
 @end
