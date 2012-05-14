@@ -68,9 +68,11 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	Method customMethod = class_getInstanceMethod([UITableView class], @selector(myTouchesEnded:withEvent:));
 	Method origMethod = class_getInstanceMethod([UITableView class], @selector(touchesEnded:withEvent:));
 	method_exchangeImplementations(origMethod, customMethod);
-	
-//	[[BWHockeyManager sharedHockeyManager] setAppIdentifier:@"1ecec8cd34e796a9159794e9e86610ee"];
-//	[[BWHockeyManager sharedHockeyManager] setDelegate:self];
+
+#ifndef CONFIGURATION_Debug
+	[[BWHockeyManager sharedHockeyManager] setAppIdentifier:@"1ecec8cd34e796a9159794e9e86610ee"];
+	[[BWHockeyManager sharedHockeyManager] setDelegate:self];
+#endif
 	
 	self.rootController = [[RootViewController alloc] init];
 	self.window.rootViewController = self.rootController;
@@ -127,7 +129,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	return YES;
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
 	if ([[DBSession sharedSession] handleOpenURL:url]) {
 		if ([[DBSession sharedSession] isLinked]) {
@@ -136,6 +138,14 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 				self.dropboxCompletionBlock();
 		}
 		return YES;
+	} else if ([[url lastPathComponent] hasSuffix:@".pdf"]) {
+		//see if it is a grading URL
+		NSString *fname = [url.lastPathComponent stringByDeletingPathExtension];
+		NSArray *parts = [fname componentsSeparatedByString:@"-"];
+		if (parts.count > 2 && [[parts objectAtIndex:0] isEqualToString:@"rc2g"]) {
+			//do something
+			return YES;
+		}
 	}
 	return NO;
 }
