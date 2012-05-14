@@ -10,4 +10,5 @@
 
 @interface GradingViewController : AbstractTopViewController<UITableViewDataSource,UITableViewDelegate>
 
+-(IBAction)editPdf:(id)sender;
 @end

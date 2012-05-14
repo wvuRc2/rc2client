@@ -20,10 +20,13 @@
 @property (nonatomic, strong) IBOutlet AMPickerPopover *classPicker;
 @property (nonatomic, strong) IBOutlet UITableView *studentTableView;
 @property (nonatomic, strong) IBOutlet AMPickerPopover *assignmentPicker;
+@property (nonatomic, strong) IBOutlet AMPickerPopover *filePicker;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *qualifySegControl;
 @property (nonatomic, strong) IBOutlet UIView *studentDetailsView;
 @property (nonatomic, strong) IBOutlet UILabel *studentNameLabel;
 @property (nonatomic, strong) IBOutlet UITextField *gradeField;
+@property (nonatomic, strong) IBOutlet UIButton *pdfButton;
+@property (nonatomic, copy) NSString *myCachePath;
 @property (nonatomic, strong) NSArray *students;
 @property (nonatomic, copy) NSSet *dueAssignmentIds;
 @property (nonatomic, strong) RCStudentAssignment *selectedStudent;
@@ -35,9 +38,16 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	//FIXME: setup something to clear this cache
+	self.myCachePath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"gradding/"];
+	NSFileManager *fm = [NSFileManager defaultManager];
+	if (![fm fileExistsAtPath:self.myCachePath]) {
+		[fm createDirectoryAtPath:self.myCachePath withIntermediateDirectories:YES attributes:nil error:nil];
+	}
 	self.kvoTokens = [NSMutableSet set];
 	self.classPicker.itemKey = @"name";
 	self.assignmentPicker.itemKey = @"name";
+	self.filePicker.itemKey = @"name";
 	self.classPicker.items = [Rc2Server sharedInstance].classesTaught;
 	__unsafe_unretained GradingViewController *blockSelf = self;
 	self.classPicker.changeHandler = ^(id picker) {
@@ -45,6 +55,10 @@
 	};
 	[self.kvoTokens addObject:[self.assignmentPicker addObserverForKeyPath:@"selectedItem" task:^(id obj, id change) {
 		[blockSelf assignmentSelectionChagned];
+	}]];
+	[self.kvoTokens addObject:[self.filePicker addObserverForKeyPath:@"selectedItem" task:^(id obj, id change)
+	{
+		[blockSelf FileSelectionChanged];
 	}]];
 	//parse the tograde list to know which assignments are due
 	NSArray *tograde = [Rc2Server sharedInstance].assignmentsToGrade;
@@ -70,6 +84,11 @@
 }
 
 -(IBAction)qualifierValueChanged:(id)sender
+{
+	
+}
+
+-(IBAction)editPdf:(id)sender
 {
 	
 }
@@ -138,6 +157,12 @@
 	[self.view setNeedsDisplay];
 }
 
+-(void)FileSelectionChanged
+{
+	NSDictionary *fileData = self.filePicker.selectedItem;
+	[self.pdfButton setEnabled: [[fileData objectForKey:@"name"] hasSuffix:@".pdf"]];
+}
+
 -(void)adjustStudentDetails
 {
 	if (self.selectedStudent) {
@@ -146,6 +171,7 @@
 		}];
 		self.studentNameLabel.text = self.selectedStudent.studentName;
 		self.gradeField.text = self.selectedStudent.grade.description;
+		self.filePicker.items = self.selectedStudent.files;
 	} else {
 		[UIView animateWithDuration:0.3 animations:^{
 			self.studentDetailsView.alpha = 0;
@@ -225,4 +251,7 @@
 @synthesize studentDetailsView=_studentDetailsView;
 @synthesize studentNameLabel=_studentNameLabel;
 @synthesize gradeField=_gradeField;
+@synthesize filePicker=_filePicker;
+@synthesize pdfButton=_pdfButton;
+@synthesize myCachePath=_myCachePath;
 @end
