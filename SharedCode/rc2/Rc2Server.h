@@ -50,6 +50,7 @@ extern NSString * const WorkspaceItemsChangedNotification;
 @property (nonatomic, copy, readonly) NSArray *workspaceItems;
 @property (nonatomic, copy, readonly) NSArray *usersPermissions;
 @property (nonatomic, copy, readonly) NSArray *classesTaught;
+@property (nonatomic, copy, readonly) NSArray *assignmentsToGrade;
 @property (nonatomic, strong) RCWorkspace *selectedWorkspace;
 @property (nonatomic, strong) RCSession *currentSession;
 

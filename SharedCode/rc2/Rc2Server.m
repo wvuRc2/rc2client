@@ -37,6 +37,7 @@ NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNoti
 @property (nonatomic, copy, readwrite) NSArray *usersPermissions;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
 @property (nonatomic, copy, readwrite) NSArray *classesTaught;
+@property (nonatomic, copy, readwrite) NSArray *assignmentsToGrade;
 @property (nonatomic, strong) NSMutableDictionary *wsItemsById;
 @property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
 @property (nonatomic, strong) NSOperationQueue *requestQueue;
@@ -54,6 +55,7 @@ NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNoti
 @synthesize loggedIn=_loggedIn;
 @synthesize workspaceItems=_workspaceItems;
 @synthesize classesTaught=_classesTaught;
+@synthesize assignmentsToGrade=_assignmentsToGrade;
 @synthesize wsItemsById=_wsItemsById;
 @synthesize selectedWorkspace=_selectedWorkspace;
 @synthesize currentSession=_currentSession;
@@ -831,6 +833,7 @@ NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNoti
 		self.usersPermissions = [rsp objectForKey:@"permissions"];
 		self.isAdmin = [[rsp objectForKey:@"isAdmin"] boolValue];
 		self.classesTaught = [RCCourse classesFromJSONArray:[rsp objectForKey:@"classes"]];
+		self.assignmentsToGrade = [rsp objectForKey:@"tograde"];
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
