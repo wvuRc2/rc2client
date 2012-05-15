@@ -20,6 +20,7 @@
 
 -(void)updateWithDictionary:(NSDictionary*)dict
 {
+	self.workspaceId = [dict objectForKey:@"id"];
 	self.studentName = [dict objectForKey:@"student"];
 	self.studentId = [dict objectForKey:@"ownerid"];
 	self.turnedIn = [[dict objectForKey:@"turnedin"] boolValue];
@@ -42,4 +43,5 @@
 @synthesize grade=_grade;
 @synthesize files=_files;
 @synthesize dueDate=_dueDate;
+@synthesize workspaceId=_workspaceId;
 @end

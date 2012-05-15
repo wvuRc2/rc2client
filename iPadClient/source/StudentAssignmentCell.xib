@@ -69,7 +69,7 @@
 					<object class="IBUILabel" id="649634996">
 						<reference key="NSNextResponder" ref="722548269"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{8, 37}, {170, 21}}</string>
+						<string key="NSFrame">{{8, 33}, {170, 21}}</string>
 						<reference key="NSSuperview" ref="722548269"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="625558425"/>
@@ -90,7 +90,7 @@
 					<object class="IBUILabel" id="625558425">
 						<reference key="NSNextResponder" ref="722548269"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{8, 66}, {80, 21}}</string>
+						<string key="NSFrame">{{194, 33}, {75, 21}}</string>
 						<reference key="NSSuperview" ref="722548269"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="399064488"/>
@@ -111,7 +111,7 @@
 					<object class="IBUILabel" id="399064488">
 						<reference key="NSNextResponder" ref="722548269"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{96, 66}, {80, 21}}</string>
+						<string key="NSFrame">{{275, 33}, {80, 21}}</string>
 						<reference key="NSSuperview" ref="722548269"/>
 						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -131,7 +131,7 @@
 					<object class="IBUILabel" id="649635481">
 						<reference key="NSNextResponder" ref="722548269"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{194, 8}, {80, 21}}</string>
+						<string key="NSFrame">{{194, 8}, {53, 21}}</string>
 						<reference key="NSSuperview" ref="722548269"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="649634996"/>
@@ -152,7 +152,7 @@
 					<object class="IBUILabel" id="870077464">
 						<reference key="NSNextResponder" ref="722548269"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{194, 37}, {80, 21}}</string>
+						<string key="NSFrame">{{255, 8}, {80, 21}}</string>
 						<reference key="NSSuperview" ref="722548269"/>
 						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -170,7 +170,7 @@
 						<reference key="IBUIFont" ref="168387627"/>
 					</object>
 				</array>
-				<string key="NSFrameSize">{300, 100}</string>
+				<string key="NSFrameSize">{371, 60}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="102084685"/>
@@ -249,10 +249,10 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="102084685"/>
 							<reference ref="649634996"/>
-							<reference ref="625558425"/>
-							<reference ref="399064488"/>
 							<reference ref="649635481"/>
 							<reference ref="870077464"/>
+							<reference ref="625558425"/>
+							<reference ref="399064488"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -314,7 +314,6 @@
 					<string key="superclassName">iAMTableViewCell</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="dateLabel">UILabel</string>
-						<string key="gradeField">UITextField</string>
 						<string key="gradeLabel">UILabel</string>
 						<string key="nameLabel">UILabel</string>
 						<string key="turnedInLabel">UILabel</string>
@@ -323,10 +322,6 @@
 						<object class="IBToOneOutletInfo" key="dateLabel">
 							<string key="name">dateLabel</string>
 							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="gradeField">
-							<string key="name">gradeField</string>
-							<string key="candidateClassName">UITextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="gradeLabel">
 							<string key="name">gradeLabel</string>

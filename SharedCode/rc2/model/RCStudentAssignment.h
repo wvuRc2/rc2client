@@ -13,7 +13,8 @@
 @interface RCStudentAssignment : NSObject
 @property (nonatomic, weak) RCAssignment *assignment;
 @property (nonatomic, copy) NSString *studentName;
-@property (nonatomic, copy) NSNumber *studentId;
+@property (nonatomic, strong) NSNumber *studentId;
+@property (nonatomic, strong) NSNumber *workspaceId;
 @property (nonatomic, assign) BOOL turnedIn;
 @property (nonatomic, strong) NSDate *dueDate;
 @property (nonatomic, strong) NSNumber *grade;

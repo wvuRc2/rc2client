@@ -322,10 +322,37 @@
 	return YES;
 }
 
+-(void)saveGrade:(NSNumber*)newGrade
+{
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/grade/%@", [self.assignmentPicker.selectedItem assignmentId], [self.selectedStudent workspaceId]]];
+	[req setRequestMethod:@"PUT"];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	NSDictionary *d = [NSDictionary dictionaryWithObject:newGrade forKey:@"grade"];
+	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req startSynchronous];
+	if (req.responseStatusCode != 200) {
+		[UIAlertView showAlertWithTitle:@"Invalid Server Response" message:@"failed to set grade"];
+		self.gradeField.text = self.selectedStudent.grade.description;
+	} else {
+		d = [req.responseString JSONValue];
+		if ([d objectForKey:@"status"] && [[d objectForKey:@"status"] intValue] == 0) {
+			self.selectedStudent.grade = newGrade;
+			[self.studentTableView reloadData];
+		} else {
+			[UIAlertView showAlertWithTitle:@"Error Saving Grade" message:[d objectForKey:@"message"]];
+			self.gradeField.text = self.selectedStudent.grade.description;
+		}
+	}
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];
-	//TODO: save the grade
+	//save the grade
+	NSNumber *grade = [NSNumber numberWithFloat:[textField.text floatValue]];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self saveGrade:grade];
+	});
 	return NO;
 }
 
@@ -356,7 +383,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 100;
+	return 60;
 }
 
 -(void)setSelectedStudent:(RCStudentAssignment *)sel

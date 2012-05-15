@@ -415,6 +415,7 @@
 								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 									<int key="IBUIAutocorrectionType">1</int>
 									<int key="IBUIKeyboardType">4</int>
+									<int key="IBUIReturnKeyType">7</int>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="47637700"/>
@@ -474,6 +475,7 @@
 								<string key="NSFrame">{{283, 88}, {31, 31}}</string>
 								<reference key="NSSuperview" ref="633962299"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
