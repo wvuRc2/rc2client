@@ -109,7 +109,7 @@
 		[self showPdfPanel:fpath];
 	} else {
 		//need to fetch the file
-		ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"file/%@", 
+		ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"file/%@?pdf", 
 																					 [selectedFile objectForKey:@"fileid"]]];
 		__weak ASIHTTPRequest *req = theReq;
 		req.downloadDestinationPath = fpath;
@@ -277,8 +277,8 @@
 
 -(void)FileSelectionChanged
 {
-	NSDictionary *fileData = self.filePicker.selectedItem;
-	[self.pdfButton setEnabled: [[fileData objectForKey:@"name"] hasSuffix:@".pdf"]];
+//	NSDictionary *fileData = self.filePicker.selectedItem;
+//	[self.pdfButton setEnabled: [[fileData objectForKey:@"name"] hasSuffix:@".pdf"]];
 }
 
 -(void)adjustStudentDetails
