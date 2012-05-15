@@ -25,7 +25,14 @@
 	self.turnedIn = [[dict objectForKey:@"turnedin"] boolValue];
 	self.dueDate = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"duedate"] doubleValue] / 1000.0];
 	self.grade = [dict objectForKey:@"grade"];
-	self.files = [dict objectForKey:@"files"];
+	NSMutableArray *files = [[[dict objectForKey:@"files"] mutableCopy] deepCopy];
+	for (NSMutableDictionary *aFile in files) {
+		if ([[aFile objectForKey:@"kind"] isEqualToString:@"graded"]) {
+			NSString *fname = [aFile objectForKey:@"name"];
+			[aFile setObject:[[[fname stringByDeletingPathExtension] stringByAppendingString:@" (Graded)"] stringByAppendingPathExtension:[fname pathExtension]] forKey:@"name"];
+		}
+	}
+	self.files = files;
 }
 
 @synthesize studentId=_studentId;
