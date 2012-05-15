@@ -104,6 +104,18 @@
 							}];
 }
 
+-(void)handleGradingUrl:(NSURL*)url
+{
+	if (nil == self.gradingController || self.currentController != self.gradingController) {
+		[self showGrading];
+		RunAfterDelay(0.4, ^{ //same duration as transition animation
+			[self.gradingController handleUrl:url];
+		});
+	} else {
+		[self.gradingController handleUrl:url];
+	}
+}
+
 @synthesize welcomeController=_welcomeController;
 @synthesize currentController=_currentController;
 @synthesize messageController=_messageController;

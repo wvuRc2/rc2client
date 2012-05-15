@@ -138,14 +138,9 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 				self.dropboxCompletionBlock();
 		}
 		return YES;
-	} else if ([[url lastPathComponent] hasSuffix:@".pdf"]) {
-		//see if it is a grading URL
-		NSString *fname = [url.lastPathComponent stringByDeletingPathExtension];
-		NSArray *parts = [fname componentsSeparatedByString:@"-"];
-		if (parts.count > 2 && [[parts objectAtIndex:0] isEqualToString:@"rc2g"]) {
-			//do something
-			return YES;
-		}
+	} else if ([[url lastPathComponent] hasSuffix:@".pdf"] && [url.lastPathComponent hasPrefix:@"rc2g"]) {
+		[self.rootController handleGradingUrl:url];
+		return YES;
 	}
 	return NO;
 }

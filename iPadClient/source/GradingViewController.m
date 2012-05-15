@@ -15,6 +15,7 @@
 #import "RCStudentAssignment.h"
 #import "StudentAssignmentCell.h"
 #import "ASIFormDataRequest.h"
+#import "MBProgressHUD.h"
 
 @interface GradingViewController ()
 @property (nonatomic, strong) IBOutlet AMPickerPopover *classPicker;
@@ -26,11 +27,13 @@
 @property (nonatomic, strong) IBOutlet UILabel *studentNameLabel;
 @property (nonatomic, strong) IBOutlet UITextField *gradeField;
 @property (nonatomic, strong) IBOutlet UIButton *pdfButton;
+@property (nonatomic, strong) UIDocumentInteractionController *interactionController;
 @property (nonatomic, copy) NSString *myCachePath;
 @property (nonatomic, strong) NSArray *students;
 @property (nonatomic, copy) NSSet *dueAssignmentIds;
 @property (nonatomic, strong) RCStudentAssignment *selectedStudent;
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
+@property (nonatomic, strong) NSMutableDictionary *pdfUrlData;
 @end
 
 @implementation GradingViewController
@@ -41,6 +44,7 @@
 	//FIXME: setup something to clear this cache
 	self.myCachePath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"gradding/"];
 	NSFileManager *fm = [NSFileManager defaultManager];
+	[fm removeItemAtPath:self.myCachePath error:nil];
 	if (![fm fileExistsAtPath:self.myCachePath]) {
 		[fm createDirectoryAtPath:self.myCachePath withIntermediateDirectories:YES attributes:nil error:nil];
 	}
@@ -90,7 +94,100 @@
 
 -(IBAction)editPdf:(id)sender
 {
-	
+	NSDictionary *selectedFile = self.filePicker.selectedItem;
+	NSString *fname = [NSString stringWithFormat:@"rc2g-%@#%@#%@#%@-%@.pdf", [self.classPicker.selectedItem courseId],
+					   [self.assignmentPicker.selectedItem assignmentId], self.selectedStudent.studentId,
+					   [selectedFile objectForKey:@"wsfileid"],
+					   self.selectedStudent.studentName];
+	NSString *fpath = [self.myCachePath stringByAppendingPathComponent:fname];
+	if ([[NSFileManager defaultManager] fileExistsAtPath:fpath]) {
+		[self showPdfPanel:fpath];
+	} else {
+		//need to fetch the file
+		ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"file/%@", 
+																					 [selectedFile objectForKey:@"fileid"]]];
+		__weak ASIHTTPRequest *req = theReq;
+		req.downloadDestinationPath = fpath;
+		[req setCompletionBlock:^{
+			[MBProgressHUD hideHUDForView:self.view animated:YES];
+			if (req.responseStatusCode == 200) {
+				[self showPdfPanel:fpath];
+			} else {
+				[UIAlertView showAlertWithTitle:@"Error Fetching file" message:@"unknwon error"];
+			}
+		}];
+		[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		[req startAsynchronous];
+	}
+}
+
+-(void)showPdfPanel:(NSString*)fpath
+{
+	self.interactionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:fpath]];
+	[self.interactionController presentOpenInMenuFromRect:self.pdfButton.frame inView:self.pdfButton animated:YES];
+}
+
+-(void)handleUrl:(NSURL*)url
+{
+	NSString *fname = [url.lastPathComponent stringByDeletingPathExtension];
+	NSArray *parts = [fname componentsSeparatedByString:@"-"];
+	if (parts.count > 2 && [[parts objectAtIndex:0] isEqualToString:@"rc2g"]) {
+		NSArray *ids = [[parts objectAtIndex:1] componentsSeparatedByString:@"#"]; //courseId/assignId/wsfileId
+		if (ids.count != 4) {
+			[UIAlertView showAlertWithTitle:@"Invalid PDF" message:@"This pdf is not from an assignment"];
+			return;
+		}
+		self.pdfUrlData = [NSMutableDictionary dictionaryWithObjectsAndKeys:url.path, @"path", ids, @"ids", nil];
+		NSInteger cid = [[ids objectAtIndex:0] integerValue];
+		for (RCCourse *course in self.classPicker.items) {
+			if (course.courseId.integerValue == cid) {
+				self.classPicker.selectedItem = course;
+				break;
+			}
+		}
+		NSInteger aid = [[ids objectAtIndex:1] integerValue];
+		if ([[self.assignmentPicker.selectedItem assignmentId] integerValue] != aid) {
+			for (RCAssignment *ass in self.assignmentPicker.items) {
+				if ([ass.assignmentId integerValue] == aid) {
+					self.assignmentPicker.selectedItem = ass;
+					break;
+				}
+			}
+		}
+		NSInteger sid = [[ids objectAtIndex:2] integerValue];
+		if (self.selectedStudent.studentId.integerValue != sid) {
+			RCStudentAssignment *stud = [self.students firstObjectWithValue:[NSNumber numberWithInteger:sid] forKey:@"studentId"];
+			if (stud) {
+				self.selectedStudent = stud;
+				[self.studentTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:[self.students indexOfObject:stud] inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+			}
+		}
+		NSInteger wsfid = [[ids objectAtIndex:3] integerValue];
+		if ([[self.filePicker.selectedItem objectForKey:@"wsfileid"] integerValue] != wsfid) {
+			self.filePicker.selectedItem = [self.filePicker.items firstObjectWithValue:[NSNumber numberWithInt:wsfid] forKey:@"wsfileid"];
+		}
+	}
+	[[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+	self.pdfUrlData=nil;
+}
+
+-(void)handleAssignmentServerResponse:(ASIHTTPRequest*)req
+{
+	RCCourse *course = self.classPicker.selectedItem;
+	NSDictionary *rsp = [req.responseString JSONValue];
+	if ([[rsp objectForKey:@"status"] intValue] == 0) {
+		course.assignments = [RCAssignment assignmentsFromJSONArray:[rsp objectForKey:@"assignments"] forCourse:course];
+		if (self.qualifySegControl.selectedSegmentIndex == 0) {
+			NSMutableArray *ma = [NSMutableArray array];
+			for (RCAssignment *ass in course.assignments) {
+				if ([self.dueAssignmentIds containsObject: ass.assignmentId])
+					[ma addObject: ass];
+			}
+			self.assignmentPicker.items = ma;
+		} else {
+			self.assignmentPicker.items = course.assignments;
+		}
+	}
 }
 
 -(void)courseSelectionChanged
@@ -101,45 +198,46 @@
 		ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:
 								  [NSString stringWithFormat:@"courses/%@", course.classId]];
 		__unsafe_unretained ASIHTTPRequest *req = theReq;
-		[theReq setCompletionBlock:^{
-			NSDictionary *rsp = [req.responseString JSONValue];
-			if ([[rsp objectForKey:@"status"] intValue] == 0) {
-				course.assignments = [RCAssignment assignmentsFromJSONArray:[rsp objectForKey:@"assignments"] forCourse:course];
-				if (self.qualifySegControl.selectedSegmentIndex == 0) {
-					NSMutableArray *ma = [NSMutableArray array];
-					for (RCAssignment *ass in course.assignments) {
-						if ([self.dueAssignmentIds containsObject: ass.assignmentId])
-							[ma addObject: ass];
-					}
-					self.assignmentPicker.items = ma;
-				} else {
-					self.assignmentPicker.items = course.assignments;
-				}
-			}
-		}];
-		[req startAsynchronous];
+		if (nil == self.pdfUrlData) {
+			[theReq setCompletionBlock:^{
+				[self handleAssignmentServerResponse:req];
+			}];
+			[req startAsynchronous];
+		} else {
+			[req startSynchronous];
+			[self handleAssignmentServerResponse:req];
+		}
 	}
 }
 
 -(void)assignmentSelectionChagned
 {
+	self.selectedStudent=nil;
 	RCAssignment *assignment = self.assignmentPicker.selectedItem;
 	//need to fetch the list of student workspaces for selected assignment
 	ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:
 							  [NSString stringWithFormat:@"assignment/%@/grade", assignment.assignmentId]];
 	__unsafe_unretained ASIHTTPRequest *req = theReq;
-	[theReq setCompletionBlock:^{
-		if (req.responseStatusCode == 200) {
-			NSDictionary *d = [req.responseString JSONValue];
-			if (d)
-				[self processStudentList:[d objectForKey:@"workspaces"]];
-		}
-	}];
-	[req startAsynchronous];
+	if (nil == self.pdfUrlData) {
+		[theReq setCompletionBlock:^{
+			[self processStudentListResponse:req];
+		}];
+		[req startAsynchronous];
+	} else {
+		[req startSynchronous];
+		[self processStudentListResponse:req];
+	}
 }
 
--(void)processStudentList:(NSArray*)studentList
+-(void)processStudentListResponse:(ASIHTTPRequest*)req
 {
+	if (req.responseStatusCode != 200) {
+		[UIAlertView showAlertWithTitle:@"Error fetching data" message:@"unknown error from server"];
+		self.students=nil;
+		return;
+	}
+	NSDictionary *d = [req.responseString JSONValue];
+	NSArray *studentList = [d objectForKey:@"workspaces"];
 	NSMutableArray *ma = [NSMutableArray arrayWithCapacity:studentList.count];
 	for (NSDictionary *d in studentList) {
 		RCStudentAssignment *sa = [[RCStudentAssignment alloc] initWithDictionary:d];
@@ -148,13 +246,6 @@
 	}
 	self.students = ma;
 	[self.studentTableView reloadData];
-}
-
--(void)updateForNewTheme:(Theme*)theme
-{
-	[super updateForNewTheme:theme];
-	self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
-	[self.view setNeedsDisplay];
 }
 
 -(void)FileSelectionChanged
@@ -179,6 +270,13 @@
 		if (self.gradeField.isFirstResponder)
 			[self.gradeField resignFirstResponder];
 	}
+}
+
+-(void)updateForNewTheme:(Theme*)theme
+{
+	[super updateForNewTheme:theme];
+	self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+	[self.view setNeedsDisplay];
 }
 
 #pragma mark - text field
@@ -254,4 +352,6 @@
 @synthesize filePicker=_filePicker;
 @synthesize pdfButton=_pdfButton;
 @synthesize myCachePath=_myCachePath;
+@synthesize interactionController=_interactionController;
+@synthesize pdfUrlData=_pdfUrlData;
 @end

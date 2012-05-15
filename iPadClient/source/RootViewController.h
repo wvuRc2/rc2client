@@ -14,4 +14,5 @@
 -(void)showMessages;
 -(void)showWorkspaces;
 -(void)showGrading;
+-(void)handleGradingUrl:(NSURL*)url;
 @end
