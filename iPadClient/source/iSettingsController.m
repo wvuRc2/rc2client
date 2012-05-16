@@ -10,6 +10,7 @@
 #import "AppConstants.h"
 #import "ThemeEngine.h"
 #import "Vyana-ios/AMNavigationTreeController.h"
+#import "Rc2Server.h"
 
 enum { eTree_Theme, eTree_Keyboard };
 
@@ -56,6 +57,10 @@ enum { eTree_Theme, eTree_Keyboard };
 			self.keyboardLabel.text = @"Custom 2";
 			break;
 	}
+	NSDictionary *settings = [[Rc2Server sharedInstance] userSettings];
+	self.emailField.text = [settings objectForKey:@"email"];
+	self.smsField.text = [settings objectForKey:@"smsphone"];
+	self.twitterField.text = [settings objectForKey:@"twitter"];
 	ThemeEngine *te = [ThemeEngine sharedInstance];
 	Theme *curTheme = te.currentTheme;
 	self.themeLabel.text = curTheme.name;
@@ -81,6 +86,12 @@ enum { eTree_Theme, eTree_Keyboard };
 	[self.containingPopover dismissPopoverAnimated:YES];
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[textField resignFirstResponder];
+	return NO;
+}
+
 #pragma mark - table view
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -91,7 +102,7 @@ enum { eTree_Theme, eTree_Keyboard };
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	if (section == 0)
-		return 1;
+		return 3;
 	if (section == 1)
 		return 2;
 	return 0;
@@ -100,7 +111,11 @@ enum { eTree_Theme, eTree_Keyboard };
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (indexPath.section == 0) {
-		return self.passwordCell;
+		if (indexPath.row == 0)
+			return self.emailCell;
+		if (indexPath.row == 1)
+			return self.twitterCell;
+		return self.smsCell;
 	} else if (indexPath.section == 1) {
 		if (indexPath.row == 0)
 			return self.keyboardCell;
@@ -173,6 +188,12 @@ enum { eTree_Theme, eTree_Keyboard };
 @synthesize passwordCell;
 @synthesize keyboardCell;
 @synthesize themeCell;
+@synthesize emailCell;
+@synthesize emailField;
+@synthesize twitterCell;
+@synthesize twitterField;
+@synthesize smsCell;
+@synthesize smsField;
 @synthesize keyboardLabel;
 @synthesize themeLabel;
 @synthesize containingPopover;

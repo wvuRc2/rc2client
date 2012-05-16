@@ -59,12 +59,13 @@ NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNoti
 @synthesize wsItemsById=_wsItemsById;
 @synthesize selectedWorkspace=_selectedWorkspace;
 @synthesize currentSession=_currentSession;
-@synthesize currentLogin;
-@synthesize remoteLogger;
-@synthesize currentUserId;
-@synthesize isAdmin;
-@synthesize usersPermissions;
-@synthesize requestQueue;
+@synthesize userSettings=_userSettings;
+@synthesize currentLogin=_currentLogin;
+@synthesize remoteLogger=_remoteLogger;
+@synthesize currentUserId=_currentUserId;
+@synthesize isAdmin=_isAdmin;
+@synthesize usersPermissions=_usersPermissions;
+@synthesize requestQueue=_requestQueue;
 @synthesize jsonParser=_jsonParser;
 
 #pragma mark - init
@@ -830,6 +831,7 @@ NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNoti
 		//success
 		self.currentLogin=user;
 		self.currentUserId = [rsp objectForKey:@"userid"];
+		self.userSettings = [rsp objectForKey:@"settings"];
 		self.usersPermissions = [rsp objectForKey:@"permissions"];
 		self.isAdmin = [[rsp objectForKey:@"isAdmin"] boolValue];
 		self.classesTaught = [RCCourse classesFromJSONArray:[rsp objectForKey:@"classes"]];
