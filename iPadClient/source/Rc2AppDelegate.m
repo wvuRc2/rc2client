@@ -259,9 +259,9 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	SessionViewController *svc = [[SessionViewController alloc] initWithSession:[Rc2Server sharedInstance].currentSession];
 	self.sessionController = svc;
 	[svc view];
-	[MBProgressHUD hideHUDForView:self.splitController.view animated:YES];
+	[MBProgressHUD hideHUDForView:self.rootController.view animated:YES];
 	RunAfterDelay(0.25, ^{
-		[self.splitController presentModalViewController:svc animated:YES];
+		[self.rootController presentModalViewController:svc animated:YES];
 	});
 }
 
@@ -304,7 +304,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	ZAssert(wspace, @"startSession called without a selected workspace");
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
 	BOOL restoring = nil != savedState;
-	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.splitController.view animated:YES];
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.rootController.view animated:YES];
 	hud.labelText = restoring ? @"Restoring session…" : @"Loading…";
 	[[Rc2Server sharedInstance] prepareWorkspace:^(BOOL success, id response) {
 		if (success) {
@@ -314,7 +314,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 				[self completeSessionStartup:response selectedFile:initialFile];
 			});
 		} else {
-			[MBProgressHUD hideHUDForView:self.splitController.view animated:YES];
+			[MBProgressHUD hideHUDForView:self.rootController.view animated:YES];
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Server Error"
 															message:response
 														   delegate:nil
@@ -327,7 +327,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 -(IBAction)endSession:(id)sender
 {
-	[self.splitController dismissModalViewControllerAnimated:YES];
+	[self.rootController dismissModalViewControllerAnimated:YES];
 	[self.detailsController refreshDetails];
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"currentSessionWspaceId"];
 	self.sessionController=nil;

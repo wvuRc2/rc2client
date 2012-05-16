@@ -94,6 +94,7 @@
 {
 	if (vc == self.currentController)
 		return;
+	vc.view.frame = self.view.bounds;
 	[self transitionFromViewController:self.currentController 
 					  toViewController:vc 
 							  duration:0.4 

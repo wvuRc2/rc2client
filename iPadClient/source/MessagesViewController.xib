@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1296</int>
+		<int key="IBDocument.SystemTarget">1280</int>
 		<string key="IBDocument.SystemVersion">11D50b</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
 		<string key="IBDocument.AppKitVersion">1138.32</string>
@@ -36,7 +36,7 @@
 			</object>
 			<object class="IBUIView" id="766721923">
 				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">292</int>
+				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIToolbar" id="621187165">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -45,7 +45,7 @@
 							<object class="IBUIButton" id="836165213">
 								<reference key="NSNextResponder" ref="621187165"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{923, 6}, {44, 33}}</string>
+								<string key="NSFrame">{{921, 6}, {44, 33}}</string>
 								<reference key="NSSuperview" ref="621187165"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="533938102"/>
@@ -459,7 +459,6 @@
 						<string key="loginButton">UIBarButtonItem</string>
 						<string key="sessionButton">UIBarButtonItem</string>
 						<string key="titleLabel">UILabel</string>
-						<string key="toolbar">UIToolbar</string>
 						<string key="welcomeContent">UIView</string>
 						<string key="workspaceContent">UIView</string>
 					</dictionary>
@@ -479,10 +478,6 @@
 						<object class="IBToOneOutletInfo" key="titleLabel">
 							<string key="name">titleLabel</string>
 							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="toolbar">
-							<string key="name">toolbar</string>
-							<string key="candidateClassName">UIToolbar</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="welcomeContent">
 							<string key="name">welcomeContent</string>
@@ -632,14 +627,10 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1296" key="NS.object.0"/>
-		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="gear.png">{20, 20}</string>
+			<string key="gear.png">{22, 22}</string>
 			<string key="grade-tbar.png">{20, 20}</string>
 			<string key="home-tbar.png">{44, 32}</string>
 			<string key="message-tbar-down.png">{44, 32}</string>
