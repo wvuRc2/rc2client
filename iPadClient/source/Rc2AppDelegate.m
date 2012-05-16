@@ -10,8 +10,6 @@
 #import "LoginController.h"
 #import "WorkspaceTableController.h"
 #import "SessionViewController.h"
-#import "DetailsViewController.h"
-#import "MGSplitViewController.h"
 #import "RootViewController.h"
 #import "Rc2Server.h"
 #import "RCSession.h"
@@ -47,9 +45,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 @synthesize window=_window;
 @synthesize authController=_authController;
-@synthesize splitController=_splitController;
-@synthesize navController=_navController;
-@synthesize detailsController=_detailsController;
 @synthesize sessionController=_sessionController;
 @synthesize currentMasterView;
 @synthesize messageListView;
@@ -78,33 +73,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	self.window.rootViewController = self.rootController;
 	[self.window addSubview:self.rootController.view];
 	[self.window makeKeyAndVisible];
-/*	
-	self.detailsController = [[DetailsViewController alloc] init];
-	WorkspaceTableController *wtc = [[WorkspaceTableController alloc] initWithNibName:@"WorkspaceTableController" bundle:nil];
-	self.navController = [[UINavigationController alloc] initWithRootViewController:wtc];
-	wtc.navigationItem.title = @"Workspaces";
-	self.splitController = [[MGSplitViewController alloc] initWithNibName:nil bundle:nil];
-	self.splitController.masterViewController = self.navController;
-	self.splitController.detailViewController = self.detailsController;
-	self.splitController.showsMasterInPortrait = YES;
-	[self.window addSubview:self.splitController.view];
-	self.window.rootViewController = self.splitController;
-	if (UIInterfaceOrientationIsLandscape([TheApp statusBarOrientation]))
-		self.splitController.splitPosition = 320;
-	else
-		self.splitController.splitPosition = 260;
-	
-	[self.window makeKeyAndVisible];
-	[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
-		[(WorkspaceTableController*)self.navController.topViewController 
-		 setWorkspaceItems:[[Rc2Server sharedInstance] workspaceItems]];
-	}];
-	[[Rc2Server sharedInstance] addObserverForKeyPath:@"selectedWorkspace" task:^(id obj, NSDictionary *change) {
-		if (nil == [[Rc2Server sharedInstance] selectedWorkspace]) {
-			[((WorkspaceTableController*)self.navController.topViewController) clearSelection];
-		}
-	}];
- */
+
 	[(iAMApplication*)application sendDelegateEventNotifications];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self startLoginProcess];
@@ -147,13 +116,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 - (void)application:(UIApplication *)application didChangeStatusBarOrientation:(UIInterfaceOrientation)oldStatusBarOrientation;
 {
-	if (UIInterfaceOrientationIsLandscape(oldStatusBarOrientation)) {
-		//chnaging to portrait
-		self.splitController.splitPosition = 260;
-	} else {
-		//to landscape
-		self.splitController.splitPosition = 320;
-	}
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -235,25 +197,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[defaults setObject:[mb pathForResource:@"rightSym" ofType:@"txt"] forKey:kPrefCustomKey2URL];		
 }
 
--(IBAction)flipMasterView:(UIView*)otherView
-{
-	if (self.currentMasterView == self.navController.view) {
-			[UIView transitionFromView:self.navController.view
-								toView:otherView
-							  duration:0.7
-							   options:UIViewAnimationOptionTransitionFlipFromLeft
-							completion:^(BOOL finished) { }];
-		self.currentMasterView = self.messageListView;
-	} else {
-			[UIView transitionFromView:otherView
-								toView:self.navController.view
-							  duration:0.7
-							   options:UIViewAnimationOptionTransitionFlipFromRight
-							completion:^(BOOL finished) {}];
-		self.currentMasterView = self.navController.view;
-	}
-}
-
 -(void)completeSessionStartup2
 {
 	SessionViewController *svc = [[SessionViewController alloc] initWithSession:[Rc2Server sharedInstance].currentSession];
@@ -328,7 +271,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 -(IBAction)endSession:(id)sender
 {
 	[self.rootController dismissModalViewControllerAnimated:YES];
-	[self.detailsController refreshDetails];
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"currentSessionWspaceId"];
 	self.sessionController=nil;
 }

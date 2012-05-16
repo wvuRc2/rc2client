@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BWHockeyManager.h"
 
-@class DetailsViewController;
 @class SessionViewController;
-@class MGSplitViewController;
 @class RCFile;
 
 @interface Rc2AppDelegate : UIResponder <UIApplicationDelegate, BWHockeyManagerDelegate> {
@@ -19,9 +17,6 @@
 }
 
 @property (nonatomic, strong) IBOutlet UIWindow *window;
-@property (nonatomic, strong) IBOutlet MGSplitViewController *splitController;
-@property (nonatomic, strong) IBOutlet UINavigationController *navController;
-@property (nonatomic, strong) IBOutlet DetailsViewController *detailsController;
 @property (nonatomic, strong) SessionViewController *sessionController;
 @property (nonatomic, copy) BasicBlock dropboxCompletionBlock;
 @property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
@@ -37,7 +32,6 @@
 -(void)promptForLogin;
 -(void)startSession:(RCFile*)initialFile;
 -(IBAction)endSession:(id)sender;
--(IBAction)flipMasterView:(UIView*)otherView;
 -(void)displayPdfFile:(RCFile*)file;
 
 -(NSURL *)applicationDocumentsDirectory;
