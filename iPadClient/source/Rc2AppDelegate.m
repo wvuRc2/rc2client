@@ -16,7 +16,7 @@
 #import "RCWorkspace.h"
 #import "RCSavedSession.h"
 #import "RCFile.h"
-#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 #import "MBProgressHUD.h"
 #import "AppConstants.h"
 #import <objc/runtime.h>
@@ -35,6 +35,7 @@
 @property (nonatomic, strong) UIView *messageListView;
 @property (nonatomic, strong) UIView *currentMasterView;
 @property (nonatomic, strong) DBRestClient *keyboardRestClient;
+@property (nonatomic, strong) NSData *pushToken;
 -(void)downloadKeyboardFile;
 @end
 
@@ -49,6 +50,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 @synthesize currentMasterView;
 @synthesize messageListView;
 @synthesize keyboardRestClient;
+@synthesize pushToken;
 
 #pragma mark - app delegate
 
@@ -156,6 +158,17 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	 Save data if appropriate.
 	 See also applicationDidEnterBackground:.
 	 */
+}
+
+-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+	self.pushToken = deviceToken;
+	ASIFormDataRequest *theReq = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"user"];
+	[theReq setRequestMethod:@"PUT"];
+	NSDictionary *d = [NSDictionary dictionaryWithObject:[deviceToken base64EncodedString] forKey:@"token"];
+	[theReq appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[theReq addRequestHeader:@"Content-Type" value:@"application/json"];
+	[theReq startAsynchronous];
 }
 
 #pragma mark - actions
@@ -285,6 +298,11 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	}
 }
 
+-(void)registerForPushNotification
+{
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeBadge];
+}
+
 -(void)startLoginProcess
 {
 	//FIXME: show progress dialog
@@ -301,6 +319,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	}
 	[rc2 loginAsUser:login password:pass completionHandler:^(BOOL success, id results) {
 		if (success) {
+			[self registerForPushNotification];
 			if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentSessionWspaceId"])
 				[self performSelectorOnMainThread:@selector(restoreLastSession) withObject:nil waitUntilDone:NO];
 		} else {
@@ -317,6 +336,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	self.authController.loginCompleteHandler = ^ {
 		[blockVC dismissModalViewControllerAnimated:YES];
 		blockSelf.authController=nil;
+		[blockSelf registerForPushNotification];
 		if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentSessionWspaceId"]) {
 			[blockSelf restoreLastSession];
 		}

@@ -76,12 +76,12 @@
 							<object class="IBUIButton" id="180005480">
 								<reference key="NSNextResponder" ref="541564345"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{923, 6}, {44, 33}}</string>
+								<string key="NSFrame">{{867, 6}, {44, 33}}</string>
 								<reference key="NSSuperview" ref="541564345"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="390218837"/>
 								<string key="NSReuseIdentifierKey">_NS:226</string>
-								<object class="NSColor" key="IBUIBackgroundColor">
+								<object class="NSColor" key="IBUIBackgroundColor" id="151027143">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MCAwAA</bytes>
 								</object>
@@ -90,7 +90,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<object class="NSColor" key="IBUIHighlightedTitleColor">
+								<object class="NSColor" key="IBUIHighlightedTitleColor" id="363028151">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MQA</bytes>
 								</object>
@@ -98,11 +98,11 @@
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
-								<object class="NSColor" key="IBUINormalTitleShadowColor">
+								<object class="NSColor" key="IBUINormalTitleShadowColor" id="745623030">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC41AA</bytes>
 								</object>
-								<object class="NSCustomResource" key="IBUIHighlightedImage">
+								<object class="NSCustomResource" key="IBUIHighlightedImage" id="699299616">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">message-tbar-down.png</string>
 								</object>
@@ -110,15 +110,43 @@
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">message-tbar.png</string>
 								</object>
-								<object class="IBUIFontDescription" key="IBUIFontDescription">
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="576309495">
 									<int key="type">2</int>
 									<double key="pointSize">15</double>
 								</object>
-								<object class="NSFont" key="IBUIFont">
+								<object class="NSFont" key="IBUIFont" id="898399199">
 									<string key="NSName">Helvetica-Bold</string>
 									<double key="NSSize">15</double>
 									<int key="NSfFlags">16</int>
 								</object>
+							</object>
+							<object class="IBUIButton" id="563554015">
+								<reference key="NSNextResponder" ref="541564345"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{921, 6}, {44, 33}}</string>
+								<reference key="NSSuperview" ref="541564345"/>
+								<reference key="NSWindow"/>
+								<string key="NSReuseIdentifierKey">_NS:226</string>
+								<reference key="IBUIBackgroundColor" ref="151027143"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<int key="IBUIContentMode">1</int>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<bool key="IBUIEnabled">NO</bool>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<reference key="IBUIHighlightedTitleColor" ref="363028151"/>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+								</object>
+								<reference key="IBUINormalTitleShadowColor" ref="745623030"/>
+								<reference key="IBUIHighlightedImage" ref="699299616"/>
+								<object class="NSCustomResource" key="IBUINormalImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">home-tbar.png</string>
+								</object>
+								<reference key="IBUIFontDescription" ref="576309495"/>
+								<reference key="IBUIFont" ref="898399199"/>
 							</object>
 						</array>
 						<string key="NSFrameSize">{1024, 44}</string>
@@ -173,6 +201,13 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<float key="IBUIWidth">44</float>
 								<reference key="IBUICustomView" ref="180005480"/>
+								<reference key="IBUIToolbar" ref="541564345"/>
+							</object>
+							<object class="IBUIBarButtonItem" id="387398890">
+								<bool key="IBUIEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<float key="IBUIWidth">44</float>
+								<reference key="IBUICustomView" ref="563554015"/>
 								<reference key="IBUIToolbar" ref="541564345"/>
 							</object>
 							<object class="IBUIBarButtonItem" id="752127631">
@@ -327,6 +362,7 @@
 							<reference ref="49198179"/>
 							<reference ref="1005115041"/>
 							<reference ref="698512266"/>
+							<reference ref="387398890"/>
 						</array>
 						<reference key="parent" ref="766721923"/>
 					</object>
@@ -378,6 +414,19 @@
 						<reference key="object" ref="698512266"/>
 						<reference key="parent" ref="541564345"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">27</int>
+						<reference key="object" ref="387398890"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="563554015"/>
+						</array>
+						<reference key="parent" ref="541564345"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">28</int>
+						<reference key="object" ref="563554015"/>
+						<reference key="parent" ref="387398890"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -394,6 +443,9 @@
 				<string key="20.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="27.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="0.0" key="28.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -403,7 +455,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">26</int>
+			<int key="maxID">28</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -451,123 +503,10 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">DetailsViewController</string>
-					<string key="superclassName">AbstractTopViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="doMessages:">id</string>
-						<string key="doStartSession:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="doMessages:">
-							<string key="name">doMessages:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="doStartSession:">
-							<string key="name">doStartSession:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="fileTableView">UITableView</string>
-						<string key="loginButton">UIBarButtonItem</string>
-						<string key="sessionButton">UIBarButtonItem</string>
-						<string key="titleLabel">UILabel</string>
-						<string key="toolbar">UIToolbar</string>
-						<string key="welcomeContent">UIView</string>
-						<string key="workspaceContent">UIView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="fileTableView">
-							<string key="name">fileTableView</string>
-							<string key="candidateClassName">UITableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="loginButton">
-							<string key="name">loginButton</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="sessionButton">
-							<string key="name">sessionButton</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="titleLabel">
-							<string key="name">titleLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="toolbar">
-							<string key="name">toolbar</string>
-							<string key="candidateClassName">UIToolbar</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="welcomeContent">
-							<string key="name">welcomeContent</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="workspaceContent">
-							<string key="name">workspaceContent</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/DetailsViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">MGSplitViewController</string>
-					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="showMasterPopover:">id</string>
-						<string key="toggleMasterBeforeDetail:">id</string>
-						<string key="toggleMasterView:">id</string>
-						<string key="toggleSplitOrientation:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="showMasterPopover:">
-							<string key="name">showMasterPopover:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleMasterBeforeDetail:">
-							<string key="name">toggleMasterBeforeDetail:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleMasterView:">
-							<string key="name">toggleMasterView:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleSplitOrientation:">
-							<string key="name">toggleSplitOrientation:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="delegate">id</string>
-						<string key="detailViewController">UIViewController</string>
-						<string key="masterViewController">UIViewController</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="delegate">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="detailViewController">
-							<string key="name">detailViewController</string>
-							<string key="candidateClassName">UIViewController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="masterViewController">
-							<string key="name">masterViewController</string>
-							<string key="candidateClassName">UIViewController</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MGSplitViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">Rc2AppDelegate</string>
 					<string key="superclassName">UIResponder</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="endSession:">id</string>
-						<string key="flipMasterView:">UIView</string>
 						<string key="logout:">id</string>
 						<string key="showGrading:">id</string>
 						<string key="showMessages:">id</string>
@@ -578,10 +517,6 @@
 						<object class="IBActionInfo" key="endSession:">
 							<string key="name">endSession:</string>
 							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="flipMasterView:">
-							<string key="name">flipMasterView:</string>
-							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBActionInfo" key="logout:">
 							<string key="name">logout:</string>
@@ -604,30 +539,17 @@
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="detailsController">DetailsViewController</string>
-						<string key="navController">UINavigationController</string>
-						<string key="splitController">MGSplitViewController</string>
-						<string key="window">UIWindow</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="detailsController">
-							<string key="name">detailsController</string>
-							<string key="candidateClassName">DetailsViewController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="navController">
-							<string key="name">navController</string>
-							<string key="candidateClassName">UINavigationController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="splitController">
-							<string key="name">splitController</string>
-							<string key="candidateClassName">MGSplitViewController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="window">
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">window</string>
+						<string key="NS.object.0">UIWindow</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">window</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
 							<string key="name">window</string>
 							<string key="candidateClassName">UIWindow</string>
 						</object>
-					</dictionary>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/Rc2AppDelegate.h</string>
@@ -652,8 +574,9 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="gear.png">{20, 20}</string>
+			<string key="gear.png">{22, 22}</string>
 			<string key="grade-tbar.png">{20, 20}</string>
+			<string key="home-tbar.png">{44, 32}</string>
 			<string key="message-tbar-down.png">{44, 32}</string>
 			<string key="message-tbar.png">{44, 32}</string>
 			<string key="wspace-tbar.png">{20, 20}</string>
