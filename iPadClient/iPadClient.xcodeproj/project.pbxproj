@@ -11,6 +11,10 @@
 		0809BF6F14C5F1AC009CEC57 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF6C14C5F1AB009CEC57 /* Rc2.xcdatamodeld */; };
 		080A2F4A1566E8AD0018371A /* NotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 080A2F491566E8AD0018371A /* NotificationCell.m */; };
 		080A2F4C1566E91D0018371A /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 080A2F4B1566E91D0018371A /* NotificationCell.xib */; };
+		080A2F551566ED820018371A /* PHRefreshGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 080A2F4F1566ED820018371A /* PHRefreshGestureRecognizer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		080A2F561566ED820018371A /* PHRefreshTriggerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 080A2F511566ED820018371A /* PHRefreshTriggerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		080A2F571566ED820018371A /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 080A2F531566ED820018371A /* blackArrow.png */; };
+		080A2F581566ED820018371A /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 080A2F541566ED820018371A /* blackArrow@2x.png */; };
 		0815945E14E2F47A0067E83C /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815945C14E2F47A0067E83C /* gear.png */; };
 		0815945F14E2F47A0067E83C /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815945D14E2F47A0067E83C /* gear@2x.png */; };
 		0815946414E2F6630067E83C /* iSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0815946214E2F6630067E83C /* iSettingsController.m */; };
@@ -255,6 +259,12 @@
 		080A2F481566E8AD0018371A /* NotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationCell.h; path = source/NotificationCell.h; sourceTree = SOURCE_ROOT; };
 		080A2F491566E8AD0018371A /* NotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationCell.m; path = source/NotificationCell.m; sourceTree = SOURCE_ROOT; };
 		080A2F4B1566E91D0018371A /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NotificationCell.xib; path = source/NotificationCell.xib; sourceTree = SOURCE_ROOT; };
+		080A2F4E1566ED820018371A /* PHRefreshGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRefreshGestureRecognizer.h; sourceTree = "<group>"; };
+		080A2F4F1566ED820018371A /* PHRefreshGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRefreshGestureRecognizer.m; sourceTree = "<group>"; };
+		080A2F501566ED820018371A /* PHRefreshTriggerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRefreshTriggerView.h; sourceTree = "<group>"; };
+		080A2F511566ED820018371A /* PHRefreshTriggerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRefreshTriggerView.m; sourceTree = "<group>"; };
+		080A2F531566ED820018371A /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
+		080A2F541566ED820018371A /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
 		0815945C14E2F47A0067E83C /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = resources/gear.png; sourceTree = SOURCE_ROOT; };
 		0815945D14E2F47A0067E83C /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gear@2x.png"; path = "resources/gear@2x.png"; sourceTree = SOURCE_ROOT; };
 		0815946114E2F6630067E83C /* iSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iSettingsController.h; path = source/iSettingsController.h; sourceTree = SOURCE_ROOT; };
@@ -617,6 +627,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		080A2F4D1566ED820018371A /* PHRefreshGestureRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				080A2F4E1566ED820018371A /* PHRefreshGestureRecognizer.h */,
+				080A2F4F1566ED820018371A /* PHRefreshGestureRecognizer.m */,
+				080A2F501566ED820018371A /* PHRefreshTriggerView.h */,
+				080A2F511566ED820018371A /* PHRefreshTriggerView.m */,
+				080A2F521566ED820018371A /* resources */,
+			);
+			name = PHRefreshGestureRecognizer;
+			path = source/PHRefreshGestureRecognizer;
+			sourceTree = "<group>";
+		};
+		080A2F521566ED820018371A /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				080A2F531566ED820018371A /* blackArrow.png */,
+				080A2F541566ED820018371A /* blackArrow@2x.png */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
 		0818EE78155D892900159291 /* top level controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1072,6 +1104,7 @@
 				08581882155465840025DA07 /* HockeyKit-ios */,
 				0828966715471D7E00A6B6C2 /* json */,
 				08EE41011436441F004FDBB8 /* WebSocketClient */,
+				080A2F4D1566ED820018371A /* PHRefreshGestureRecognizer */,
 				08661A261405AC170087BD34 /* MGSplitViewController */,
 				08349F111404706A00B629B4 /* ASIHTTPRequest */,
 			);
@@ -1288,6 +1321,8 @@
 				0818EE8C155DBEF600159291 /* GradingViewController.xib in Resources */,
 				0818EEB81561A44E00159291 /* StudentAssignmentCell.xib in Resources */,
 				080A2F4C1566E91D0018371A /* NotificationCell.xib in Resources */,
+				080A2F571566ED820018371A /* blackArrow.png in Resources */,
+				080A2F581566ED820018371A /* blackArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1440,6 +1475,8 @@
 				0818EEB21561A19D00159291 /* RCStudentAssignment.m in Sources */,
 				0818EEB61561A41D00159291 /* StudentAssignmentCell.m in Sources */,
 				080A2F4A1566E8AD0018371A /* NotificationCell.m in Sources */,
+				080A2F551566ED820018371A /* PHRefreshGestureRecognizer.m in Sources */,
+				080A2F561566ED820018371A /* PHRefreshTriggerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

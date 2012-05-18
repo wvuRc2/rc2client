@@ -15,4 +15,5 @@
 -(void)showWorkspaces;
 -(void)showGrading;
 -(void)handleGradingUrl:(NSURL*)url;
+-(void)reloadNotifications;
 @end

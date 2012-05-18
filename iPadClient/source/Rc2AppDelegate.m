@@ -167,6 +167,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
 	NSLog(@"got note:%@", userInfo);
+	[self.rootController reloadNotifications];
 }
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error

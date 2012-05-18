@@ -90,6 +90,11 @@
 	[self switchToController:self.gradingController];
 }
 
+-(void)reloadNotifications
+{
+	[self.welcomeController reloadNotifications];
+}
+
 -(void)switchToController:(UIViewController*)vc
 {
 	if (vc == self.currentController)
