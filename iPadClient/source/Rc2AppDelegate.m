@@ -95,6 +95,8 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	AudioSessionInitialize(NULL, NULL, MyAudioInterruptionCallback, (__bridge void*)self);
 	SInt32 category = kAudioSessionCategory_PlayAndRecord;
 	AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(category), &category);
+	UInt32 mixProp = true;
+	AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryMixWithOthers, sizeof(mixProp), &mixProp);
 	AudioSessionSetActive(true);
 	
 	//FIXME: temporary

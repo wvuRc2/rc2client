@@ -62,6 +62,7 @@ enum { eTree_Theme, eTree_Keyboard };
 	self.emailField.text = [settings objectForKey:@"email"];
 	self.smsField.text = [settings objectForKey:@"smsphone"];
 	self.twitterField.text = [settings objectForKey:@"twitter"];
+	self.emailNoteSwitch.on = [[settings objectForKey:@"noteByEmail"] boolValue];
 	ThemeEngine *te = [ThemeEngine sharedInstance];
 	Theme *curTheme = te.currentTheme;
 	self.themeLabel.text = curTheme.name;
@@ -85,6 +86,14 @@ enum { eTree_Theme, eTree_Keyboard };
 -(IBAction)dismiss:(id)sender
 {
 	[self.containingPopover dismissPopoverAnimated:YES];
+}
+
+-(IBAction)emailNoteChanged:(id)sender
+{
+	if (![self updateUserSetting:@"noteByEmail" withValue:[NSNumber numberWithBool:self.emailNoteSwitch.on]])
+	{
+		self.emailNoteSwitch.on = !self.emailNoteSwitch.on;
+	}
 }
 
 -(BOOL)updateUserSetting:(NSString*)name withValue:(id)val
@@ -137,7 +146,7 @@ enum { eTree_Theme, eTree_Keyboard };
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	if (section == 0)
-		return 3;
+		return 4;
 	if (section == 1)
 		return 2;
 	return 0;
@@ -149,6 +158,8 @@ enum { eTree_Theme, eTree_Keyboard };
 		if (indexPath.row == 0)
 			return self.emailCell;
 		if (indexPath.row == 1)
+			return self.emailNoteCell;
+		if (indexPath.row == 2)
 			return self.twitterCell;
 		return self.smsCell;
 	} else if (indexPath.section == 1) {
@@ -228,6 +239,8 @@ enum { eTree_Theme, eTree_Keyboard };
 @synthesize twitterField;
 @synthesize smsCell;
 @synthesize smsField;
+@synthesize emailNoteCell;
+@synthesize emailNoteSwitch;
 @synthesize keyboardLabel;
 @synthesize themeLabel;
 @synthesize containingPopover;

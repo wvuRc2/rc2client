@@ -11,12 +11,13 @@
 			<string key="NS.object.0">1181</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
+			<string>IBProxyObject</string>
+			<string>IBUILabel</string>
+			<string>IBUISwitch</string>
 			<string>IBUITextField</string>
 			<string>IBUITableView</string>
 			<string>IBUITableViewCell</string>
 			<string>IBUIView</string>
-			<string>IBUILabel</string>
-			<string>IBProxyObject</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -477,6 +478,70 @@
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 				<reference key="IBUIContentView" ref="743079902"/>
 			</object>
+			<object class="IBUITableViewCell" id="264756012">
+				<reference key="NSNextResponder"/>
+				<int key="NSvFlags">292</int>
+				<array class="NSMutableArray" key="NSSubviews">
+					<object class="IBUIView" id="450260933">
+						<reference key="NSNextResponder" ref="264756012"/>
+						<int key="NSvFlags">256</int>
+						<array class="NSMutableArray" key="NSSubviews">
+							<object class="IBUILabel" id="987604353">
+								<reference key="NSNextResponder" ref="450260933"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{20, 11}, {155, 21}}</string>
+								<reference key="NSSuperview" ref="450260933"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="273714103"/>
+								<string key="NSReuseIdentifierKey">_NS:345</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">7</int>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<string key="IBUIText">Email Notifications:</string>
+								<reference key="IBUITextColor" ref="546056300"/>
+								<nil key="IBUIHighlightedColor"/>
+								<int key="IBUIBaselineAdjustment">1</int>
+								<float key="IBUIMinimumFontSize">10</float>
+								<reference key="IBUIFontDescription" ref="505473686"/>
+								<reference key="IBUIFont" ref="174594592"/>
+							</object>
+							<object class="IBUISwitch" id="273714103">
+								<reference key="NSNextResponder" ref="450260933"/>
+								<int key="NSvFlags">289</int>
+								<string key="NSFrame">{{206, 8}, {94, 27}}</string>
+								<reference key="NSSuperview" ref="450260933"/>
+								<reference key="NSWindow"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<bool key="IBUIOn">YES</bool>
+							</object>
+						</array>
+						<string key="NSFrameSize">{320, 43}</string>
+						<reference key="NSSuperview" ref="264756012"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="987604353"/>
+						<string key="NSReuseIdentifierKey">_NS:396</string>
+						<reference key="IBUIBackgroundColor" ref="283952296"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIClipsSubviews">YES</bool>
+						<int key="IBUIContentMode">4</int>
+						<bool key="IBUIMultipleTouchEnabled">YES</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+					</object>
+				</array>
+				<string key="NSFrameSize">{320, 44}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="450260933"/>
+				<string key="NSReuseIdentifierKey">_NS:385</string>
+				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+				<reference key="IBUIContentView" ref="450260933"/>
+			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
@@ -578,6 +643,22 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">emailNoteCell</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="264756012"/>
+					</object>
+					<int key="connectionID">44</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">emailNoteSwitch</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="273714103"/>
+					</object>
+					<int key="connectionID">45</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">dataSource</string>
 						<reference key="source" ref="760833816"/>
 						<reference key="destination" ref="841351856"/>
@@ -615,6 +696,15 @@
 						<reference key="destination" ref="841351856"/>
 					</object>
 					<int key="connectionID">39</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">emailNoteChanged:</string>
+						<reference key="source" ref="273714103"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">13</int>
+					</object>
+					<int key="connectionID">46</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -748,6 +838,26 @@
 						<reference key="object" ref="11095871"/>
 						<reference key="parent" ref="700155640"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">40</int>
+						<reference key="object" ref="264756012"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="987604353"/>
+							<reference ref="273714103"/>
+						</array>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">email note cell</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">42</int>
+						<reference key="object" ref="987604353"/>
+						<reference key="parent" ref="264756012"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">43</int>
+						<reference key="object" ref="273714103"/>
+						<reference key="parent" ref="264756012"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -770,6 +880,9 @@
 				<string key="34.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="35.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="40.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="42.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
@@ -777,7 +890,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">39</int>
+			<int key="maxID">46</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -798,6 +911,8 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="emailCell">UITableViewCell</string>
 						<string key="emailField">UITextField</string>
+						<string key="emailNoteCell">UITableViewCell</string>
+						<string key="emailNoteSwitch">UISwitch</string>
 						<string key="keyboardCell">UITableViewCell</string>
 						<string key="keyboardLabel">UILabel</string>
 						<string key="settingsTable">UITableView</string>
@@ -816,6 +931,14 @@
 						<object class="IBToOneOutletInfo" key="emailField">
 							<string key="name">emailField</string>
 							<string key="candidateClassName">UITextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="emailNoteCell">
+							<string key="name">emailNoteCell</string>
+							<string key="candidateClassName">UITableViewCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="emailNoteSwitch">
+							<string key="name">emailNoteSwitch</string>
+							<string key="candidateClassName">UISwitch</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="keyboardCell">
 							<string key="name">keyboardCell</string>

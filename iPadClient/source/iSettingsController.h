@@ -15,6 +15,8 @@
 @property (nonatomic, strong) IBOutlet UITableViewCell *emailCell;
 @property (nonatomic, strong) IBOutlet UITableViewCell *twitterCell;
 @property (nonatomic, strong) IBOutlet UITableViewCell *smsCell;
+@property (nonatomic, strong) IBOutlet UITableViewCell *emailNoteCell;
+@property (nonatomic, strong) IBOutlet UISwitch *emailNoteSwitch;
 @property (nonatomic, strong) IBOutlet UILabel *keyboardLabel;
 @property (nonatomic, strong) IBOutlet UILabel *themeLabel;
 @property (nonatomic, strong) IBOutlet UITextField *emailField;
