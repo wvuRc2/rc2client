@@ -88,7 +88,7 @@
 		NSArray *classes = [[Rc2Server sharedInstance] classesTaught];
 		if ([classes count] > 0) {
 			if (![ma containsObject:self.gradingButton]) {
-				[ma insertObject:self.gradingButton atIndex:[ma count] - 3];
+				[ma insertObject:self.gradingButton atIndex:[ma count] - 4];
 			}
 		} else {
 			[ma removeObject:self.gradingButton];

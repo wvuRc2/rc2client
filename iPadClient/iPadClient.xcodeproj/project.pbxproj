@@ -1311,7 +1311,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nif [[ ${CONFIGURATION} == \"Archive\" ]]; then\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" resources/rc2-Info.plist)\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" resources/rc2-Info.plist\nfi\n";
+			shellScript = "#!/bin/bash\nif [[ ${CONFIGURATION} == \"Archive\" ]]; then\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" ${INFOPLIST_FILE})\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" ${INFOPLIST_FILE}\nfi\n";
 		};
 		08DFFDA414896B9A008D1399 /* compile scss files */ = {
 			isa = PBXShellScriptBuildPhase;

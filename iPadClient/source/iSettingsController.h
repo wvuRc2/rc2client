@@ -10,7 +10,6 @@
 
 @interface iSettingsController : UIViewController<UITextFieldDelegate>
 @property (nonatomic, strong) IBOutlet UITableView *settingsTable;
-@property (nonatomic, strong) IBOutlet UITableViewCell *passwordCell;
 @property (nonatomic, strong) IBOutlet UITableViewCell *keyboardCell;
 @property (nonatomic, strong) IBOutlet UITableViewCell *themeCell;
 @property (nonatomic, strong) IBOutlet UITableViewCell *emailCell;

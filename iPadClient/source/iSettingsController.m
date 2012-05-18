@@ -11,6 +11,7 @@
 #import "ThemeEngine.h"
 #import "Vyana-ios/AMNavigationTreeController.h"
 #import "Rc2Server.h"
+#import "ASIFormDataRequest.h"
 
 enum { eTree_Theme, eTree_Keyboard };
 
@@ -86,9 +87,43 @@ enum { eTree_Theme, eTree_Keyboard };
 	[self.containingPopover dismissPopoverAnimated:YES];
 }
 
+-(BOOL)updateUserSetting:(NSString*)name withValue:(id)val
+{
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"user"];
+	[req setRequestMethod:@"PUT"];
+	[req appendPostData:[[[NSDictionary dictionaryWithObject:val forKey:name] JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req startSynchronous];
+	if (req.responseStatusCode == 200) {
+		NSDictionary *d = [req.responseString JSONValue];
+		int status = [[d objectForKey:@"status"] integerValue];
+		if (0 == status)
+			return YES;
+		if (2 == status)
+			[UIAlertView showAlertWithTitle:@"Warning" message:[d objectForKey:@"message"]];
+		else
+			[UIAlertView showAlertWithTitle:@"Error" message:[d objectForKey:@"message"]];
+	} else {
+		[UIAlertView showAlertWithTitle:@"Error" message:@"unknown error contacting server"];
+	}
+	return NO;
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];
+	if (textField == self.twitterField) {
+		if (![self updateUserSetting:@"twitter" withValue:textField.text]) {
+			textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"twitter"];
+		}
+	} else if (textField == self.smsField) {
+		if (![self updateUserSetting:@"smsphone" withValue:textField.text]) {
+			textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"smsphone"];
+		}
+	} else if (textField == self.emailField) {
+		if (![self updateUserSetting:@"email" withValue:textField.text]) {
+			textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"email"];
+		}
+	}
 	return NO;
 }
 
@@ -185,7 +220,6 @@ enum { eTree_Theme, eTree_Keyboard };
 }
 
 @synthesize settingsTable;
-@synthesize passwordCell;
 @synthesize keyboardCell;
 @synthesize themeCell;
 @synthesize emailCell;

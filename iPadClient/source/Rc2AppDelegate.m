@@ -97,6 +97,8 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(category), &category);
 	AudioSessionSetActive(true);
 	
+	//FIXME: temporary
+	application.applicationIconBadgeNumber = 0;
 	return YES;
 }
 
@@ -160,12 +162,22 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	 */
 }
 
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+	NSLog(@"got note:%@", userInfo);
+}
+
+-(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+	NSLog(@"failed to reg: %@", error);
+}
+
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
 	self.pushToken = deviceToken;
 	ASIFormDataRequest *theReq = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"user"];
 	[theReq setRequestMethod:@"PUT"];
-	NSDictionary *d = [NSDictionary dictionaryWithObject:[deviceToken base64EncodedString] forKey:@"token"];
+	NSDictionary *d = [NSDictionary dictionaryWithObject:[deviceToken hexidecimalString] forKey:@"token"];
 	[theReq appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	[theReq addRequestHeader:@"Content-Type" value:@"application/json"];
 	[theReq startAsynchronous];
