@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		080433E8150AAD020065426A /* RCImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 080433E7150AAD020065426A /* RCImageCache.m */; };
 		0809BF6F14C5F1AC009CEC57 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF6C14C5F1AB009CEC57 /* Rc2.xcdatamodeld */; };
+		080A2F4A1566E8AD0018371A /* NotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 080A2F491566E8AD0018371A /* NotificationCell.m */; };
+		080A2F4C1566E91D0018371A /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 080A2F4B1566E91D0018371A /* NotificationCell.xib */; };
 		0815945E14E2F47A0067E83C /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815945C14E2F47A0067E83C /* gear.png */; };
 		0815945F14E2F47A0067E83C /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815945D14E2F47A0067E83C /* gear@2x.png */; };
 		0815946414E2F6630067E83C /* iSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0815946214E2F6630067E83C /* iSettingsController.m */; };
@@ -250,6 +252,9 @@
 		080433E7150AAD020065426A /* RCImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageCache.m; path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/MacClient/../SharedCode/rc2/RCImageCache.m"; sourceTree = "<absolute>"; };
 		0809BF6D14C5F1AC009CEC57 /* v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = v2.xcdatamodel; sourceTree = "<group>"; };
 		0809BF6E14C5F1AC009CEC57 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
+		080A2F481566E8AD0018371A /* NotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationCell.h; path = source/NotificationCell.h; sourceTree = SOURCE_ROOT; };
+		080A2F491566E8AD0018371A /* NotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationCell.m; path = source/NotificationCell.m; sourceTree = SOURCE_ROOT; };
+		080A2F4B1566E91D0018371A /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NotificationCell.xib; path = source/NotificationCell.xib; sourceTree = SOURCE_ROOT; };
 		0815945C14E2F47A0067E83C /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = resources/gear.png; sourceTree = SOURCE_ROOT; };
 		0815945D14E2F47A0067E83C /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gear@2x.png"; path = "resources/gear@2x.png"; sourceTree = SOURCE_ROOT; };
 		0815946114E2F6630067E83C /* iSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iSettingsController.h; path = source/iSettingsController.h; sourceTree = SOURCE_ROOT; };
@@ -1038,6 +1043,9 @@
 				0818EEB41561A41D00159291 /* StudentAssignmentCell.h */,
 				0818EEB51561A41D00159291 /* StudentAssignmentCell.m */,
 				0818EEB71561A44E00159291 /* StudentAssignmentCell.xib */,
+				080A2F481566E8AD0018371A /* NotificationCell.h */,
+				080A2F491566E8AD0018371A /* NotificationCell.m */,
+				080A2F4B1566E91D0018371A /* NotificationCell.xib */,
 			);
 			name = "views & cells";
 			sourceTree = "<group>";
@@ -1279,6 +1287,7 @@
 				0818EE87155DB9CA00159291 /* grade-tbar@2x.png in Resources */,
 				0818EE8C155DBEF600159291 /* GradingViewController.xib in Resources */,
 				0818EEB81561A44E00159291 /* StudentAssignmentCell.xib in Resources */,
+				080A2F4C1566E91D0018371A /* NotificationCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1430,6 +1439,7 @@
 				0818EE8B155DBEF600159291 /* GradingViewController.m in Sources */,
 				0818EEB21561A19D00159291 /* RCStudentAssignment.m in Sources */,
 				0818EEB61561A41D00159291 /* StudentAssignmentCell.m in Sources */,
+				080A2F4A1566E8AD0018371A /* NotificationCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

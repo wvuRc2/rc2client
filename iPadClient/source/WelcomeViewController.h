@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AbstractTopViewController.h"
 
-@interface WelcomeViewController : AbstractTopViewController
+@interface WelcomeViewController : AbstractTopViewController<UITableViewDataSource,UITableViewDelegate>
 
 @end

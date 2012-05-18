@@ -26,6 +26,7 @@
 #define kServerHostKey @"ServerHostKey"
 
 NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNotification";
+NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNotification";
 
 #pragma mark -
 
@@ -847,6 +848,9 @@ NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNoti
 		[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
 		self.loggedIn=YES;
 		handler(YES, rsp);
+		[[NSNotificationCenter defaultCenter] postNotificationName:NotificationsReceivedNotification 
+															object:self 
+														  userInfo:[NSDictionary dictionaryWithObject:[rsp objectForKey:@"notes"] forKey:@"notes"]];
 	}
 }
 

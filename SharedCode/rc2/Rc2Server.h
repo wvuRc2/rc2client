@@ -30,6 +30,8 @@ typedef void (^Rc2SessionCompletionHandler)(BOOL success, NSString *message);
 typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 extern NSString * const WorkspaceItemsChangedNotification;
+//following is posted after all other login steps are complete
+extern NSString * const NotificationsReceivedNotification;
 
 @interface Rc2Server : NSObject
 #pragma mark - class methods
