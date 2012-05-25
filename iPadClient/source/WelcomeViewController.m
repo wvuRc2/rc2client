@@ -112,6 +112,36 @@
 	return cell;
 }
 
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle 
+	forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (UITableViewCellEditingStyleDelete == editingStyle) {
+		NSDictionary *note = [self.notes objectAtIndex:indexPath.row];
+		ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"notify/%@", [note objectForKey:@"id"]]];
+		[req setRequestMethod:@"DELETE"];
+		[req setTimeOutSeconds:3];
+		[req startSynchronous];
+		NSString *msg=nil;
+		if (req.responseStatusCode == 200) {
+			NSDictionary *d = [req.responseString JSONValue];
+			if ([d objectForKey:@"status"] && [[d objectForKey:@"status"] intValue] == 0) {
+				//worked
+				[self.notes removeObjectAtIndex:indexPath.row];
+				[self.noteTable deleteRowsAtIndexPaths:ARRAY(indexPath) withRowAnimation:UITableViewRowAnimationBottom];
+			} else
+				msg = [d objectForKey:@"message"];
+		} else
+			msg = @"Unknown server error";
+		if (msg)
+			[UIAlertView showAlertWithTitle:@"Error Deleting Notification" message:msg];
+	}
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return UITableViewCellEditingStyleDelete;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 76;
