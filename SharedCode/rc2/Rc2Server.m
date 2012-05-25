@@ -794,18 +794,25 @@ NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNoti
 
 -(void)syncMessages:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/messages", [self baseUrl]]];
-	ASIHTTPRequest *theReq = [self requestWithURL:url];
+	ASIHTTPRequest *theReq = [self requestWithRelativeURL:@"messages"];
 	__weak ASIHTTPRequest *req = theReq;
 	[req setCompletionBlock:^{
+		if (req.responseStatusCode != 200) {
+			hblock(NO, @"invalid server response");
+			return;
+		}
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		if (![self responseIsValidJSON:req]) {
 			hblock(NO, @"server sent back invalid response");
 			return;
 		}
 		NSDictionary *rsp = [respStr JSONValue];
-		[RCMessage syncFromJsonArray:[rsp objectForKey:@"messages"]];
-		hblock(![[rsp objectForKey:@"status"] boolValue], nil);
+		if ([rsp objectForKey:@"status"] && [[rsp objectForKey:@"status"] intValue] == 0) {
+			[RCMessage syncFromJsonArray:[rsp objectForKey:@"messages"]];
+			hblock(YES, nil);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
 	}];
 	[req setFailedBlock:^{
 		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);

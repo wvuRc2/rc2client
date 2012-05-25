@@ -48,12 +48,11 @@
 		self.dateRead = [self marksCheapAssDateParserCauseCocoaSux:dr];
 	self.sender = [dict objectForKey:@"sender"];
 	self.priority = [dict objectForKey:@"priority"];
-	NSString *ds = [dict objectForKey:@"dateSentStr"];
-	self.dateSent = [self marksCheapAssDateParserCauseCocoaSux:ds];
+	self.dateSent = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"dateSent"] doubleValue] / 1000.0];
 	self.subject = [dict objectForKey:@"subject"];
 	self.body = [dict objectForKey:@"body"];
 	self.version = [dict objectForKey:@"version"];
-	self.rcptmsgId = [dict objectForKey:@"rcptmsgId"];
+	self.rcptmsgId = [dict objectForKey:@"id"];
 }
 
 @end
