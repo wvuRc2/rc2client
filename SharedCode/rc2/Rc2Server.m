@@ -19,9 +19,8 @@
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 #import "NSObject+SBJSON.h"
 #import "NSString+SBJSON.h"
-#else
-#import "RCMessage.h"
 #endif
+#import "RCMessage.h"
 
 #define kServerHostKey @"ServerHostKey"
 
@@ -773,21 +772,20 @@ NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNoti
 
 #pragma mark - messages
 
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-#else
 -(void)markMessageRead:(RCMessage*)message
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/message/%@/read", [self baseUrl], message.rcptmsgId]];
-	ASIHTTPRequest *req = [self requestWithURL:url];
+	ASIHTTPRequest *req = [self requestWithRelativeURL:[NSString stringWithFormat:@"message/%@", message.rcptmsgId]];
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[@"{}" dataUsingEncoding:NSUTF8StringEncoding]];
 	req.requestMethod = @"PUT";
+	
 	[req startAsynchronous];
 	message.dateRead = [NSDate date];
 }
 
 -(void)markMessageDeleted:(RCMessage*)message
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@fd/message/%@", [self baseUrl], message.rcptmsgId]];
-	ASIHTTPRequest *req = [self requestWithURL:url];
+	ASIHTTPRequest *req = [self requestWithRelativeURL:[NSString stringWithFormat:@"message/%@", message.rcptmsgId]];
 	req.requestMethod = @"DELETE";
 	[req startAsynchronous];
 }
@@ -819,7 +817,6 @@ NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNoti
 	}];
 	[req startAsynchronous];
 }
-#endif
 
 #pragma mark - login/logout
 

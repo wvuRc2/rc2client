@@ -26,6 +26,8 @@
 		08056E3C1448D59C0002766D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08056E3B1448D59B0002766D /* QuartzCore.framework */; };
 		08056E5C1448EC410002766D /* RCMacToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08056E5B1448EC410002766D /* RCMacToolbarItem.m */; };
 		0809BF2514B50086009CEC57 /* MultiFileImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF2414B50086009CEC57 /* MultiFileImporter.m */; };
+		080A2F5B157013D50018371A /* _RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 080A2F5A157013D50018371A /* _RCMessage.m */; };
+		080A2F5F157013E30018371A /* RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 080A2F5E157013E30018371A /* RCMessage.m */; };
 		0815947914E5B9AF0067E83C /* RCMUserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0815947814E5B9AF0067E83C /* RCMUserListCell.m */; };
 		0815948214E5C3F90067E83C /* hand-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815947E14E5C3F90067E83C /* hand-green.png */; };
 		0815948314E5C3F90067E83C /* hand-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815947F14E5C3F90067E83C /* hand-green@2x.png */; };
@@ -215,6 +217,10 @@
 		0809BF2314B50086009CEC57 /* MultiFileImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiFileImporter.h; sourceTree = "<group>"; };
 		0809BF2414B50086009CEC57 /* MultiFileImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFileImporter.m; sourceTree = "<group>"; };
 		0809BF6514BF8EEB009CEC57 /* v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = v2.xcdatamodel; sourceTree = "<group>"; };
+		080A2F59157013D50018371A /* _RCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCMessage.h; sourceTree = "<group>"; };
+		080A2F5A157013D50018371A /* _RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCMessage.m; sourceTree = "<group>"; };
+		080A2F5D157013E30018371A /* RCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMessage.h; sourceTree = "<group>"; };
+		080A2F5E157013E30018371A /* RCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMessage.m; sourceTree = "<group>"; };
 		0815947714E5B9AF0067E83C /* RCMUserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMUserListCell.h; sourceTree = "<group>"; };
 		0815947814E5B9AF0067E83C /* RCMUserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMUserListCell.m; sourceTree = "<group>"; };
 		0815947E14E5C3F90067E83C /* hand-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hand-green.png"; sourceTree = "<group>"; };
@@ -821,6 +827,8 @@
 				08FE8A2F141575F500672474 /* RCSession.m */,
 				085E7B1814EED6F600036A9E /* RCSessionUser.h */,
 				085E7B1914EED6F600036A9E /* RCSessionUser.m */,
+				080A2F5D157013E30018371A /* RCMessage.h */,
+				080A2F5E157013E30018371A /* RCMessage.m */,
 				08FE8A30141575F500672474 /* RCWorkspace.h */,
 				08FE8A31141575F500672474 /* RCWorkspace.m */,
 				08FE8A32141575F500672474 /* RCWorkspaceFolder.h */,
@@ -849,6 +857,8 @@
 			children = (
 				08FE8A20141575F500672474 /* _RCFile.h */,
 				08FE8A21141575F500672474 /* _RCFile.m */,
+				080A2F59157013D50018371A /* _RCMessage.h */,
+				080A2F5A157013D50018371A /* _RCMessage.m */,
 				08A406121451AEFE00DBA662 /* _RCSavedSession.h */,
 				08A406131451AEFE00DBA662 /* _RCSavedSession.m */,
 				082945371496AA7700E593C7 /* _RCWorkspaceCache.h */,
@@ -1143,6 +1153,8 @@
 				08BA99B4154B0C9700B6CFC1 /* RCCourse.m in Sources */,
 				08581860154B279C0025DA07 /* RCAssignment.m in Sources */,
 				0858187E1551C2C40025DA07 /* RCAssignmentFile.m in Sources */,
+				080A2F5B157013D50018371A /* _RCMessage.m in Sources */,
+				080A2F5F157013E30018371A /* RCMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -101,6 +101,7 @@
 
 -(IBAction)doDeleteMessage:(id)sender
 {
+	[[Rc2Server sharedInstance] markMessageDeleted:[self.messages objectAtIndex:self.selRowIdx]];
 	[self.tableView beginUpdates];
 	[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:self.selRowIdx inSection:0]]
 						  withRowAnimation:UITableViewRowAnimationFade];
