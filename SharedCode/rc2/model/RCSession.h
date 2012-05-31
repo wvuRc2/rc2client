@@ -49,6 +49,7 @@
 -(void)requestModeChange:(NSString*)newMode;
 -(void)executeScript:(NSString*)script scriptName:(NSString*)sname;
 -(void)executeSweave:(NSString*)fname script:(NSString*)script;
+-(void)executeSas:(RCFile*)file;
 -(void)sendChatMessage:(NSString*)message;
 -(void)requestUserList;
 

@@ -502,6 +502,8 @@
 			js = [NSString stringWithFormat:@"iR.appendImages(%@)",
 				  [adjustedImages JSONRepresentation]];
 		}
+	} else if ([cmd isEqualToString:@"sasoutput"]) {
+		NSLog(@"sas returned %@", [dict objectForKey:@"file"]);
 	} else if ([cmd isEqualToString:@"chat"]) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:kChatMessageNotification object:nil 
 														  userInfo:dict];

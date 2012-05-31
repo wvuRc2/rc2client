@@ -140,6 +140,14 @@
 	self.timeOfLastTraffic = [NSDate date];
 }
 
+-(void)executeSas:(RCFile*)file
+{
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"executeSas", @"cmd", file.fileId, @"fileId", 
+						  file.name, @"fname", nil];
+	[_ws sendText:[dict JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
+}
+
 -(void)sendChatMessage:(NSString *)message
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"chat", @"cmd",

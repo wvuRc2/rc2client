@@ -315,6 +315,37 @@
 	self.richEditor.editable = !limited;
 }
 
+-(void)executeSas
+{
+	if (self.currentFile.locallyModified) {
+		//force a sync of the file
+		UIView *rootView = self.view.superview;
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
+		hud.labelText = @"Sending File to Server…";
+		[[Rc2Server sharedInstance] saveFile:self.currentFile 
+								   workspace:[[Rc2Server sharedInstance] currentSession].workspace 
+						   completionHandler:^(BOOL success, id results) 
+		 {
+			 [MBProgressHUD hideHUDForView:rootView animated:YES];
+			 if (success) {
+				 [self.fileController.tableView reloadData];
+				 [self.session executeSas:self.currentFile];
+			 } else {
+				 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Saving"
+																 message:results
+																delegate:nil
+													   cancelButtonTitle:@"OK"
+													   otherButtonTitles:nil];
+				 [alert show];
+			 }
+			 [self updateDocumentState];
+		 }];
+		
+	} else {
+		[self.session executeSas:self.currentFile];
+	}
+}
+
 #pragma mark - actions
 
 -(IBAction)doExecute:(id)sender
@@ -322,6 +353,8 @@
 	NSString *src = self.richEditor.attributedString.string;
 	if ([self.currentFile.name hasSuffix:@".Rnw"])
 		[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:src];
+	else if ([self.currentFile.name hasSuffix:@".sas"])
+		[self executeSas];
 	else
 		[[Rc2Server sharedInstance].currentSession executeScript:src scriptName:self.currentFile.name];
 }
@@ -438,7 +471,7 @@
 			//make sure has a file extension
 			NSString *str = [alert textFieldAtIndex:0].text;
 			NSString *ext = [str pathExtension];
-			if (![ext isEqualToString:@"R"] && ![ext isEqualToString:@"RnW"] && ![ext isEqualToString:@"txt"])
+			if (![[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
 				str = [str stringByAppendingPathExtension:@"R"];
 			NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
 			RCFile *file = [RCFile insertInManagedObjectContext:moc];

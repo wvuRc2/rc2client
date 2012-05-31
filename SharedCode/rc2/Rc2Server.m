@@ -87,7 +87,7 @@ NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNoti
 	static NSArray *fileExts=nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		fileExts = [[NSMutableArray alloc] initWithObjects:@"txt", @"R", @"Rnw", @"RnW", @"csv", @"tsv", @"tab", nil];
+		fileExts = [[NSMutableArray alloc] initWithObjects:@"txt", @"R", @"Rnw", @"RnW", @"csv", @"tsv", @"tab", @"sas", @"lst", @"log",nil];
 	});
 	return fileExts;
 }
@@ -97,7 +97,7 @@ NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNoti
 	static NSArray *fileExts=nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		fileExts = [[NSMutableArray alloc] initWithObjects:@"txt", @"R", @"Rnw", @"RnW", @"csv", @"tsv", @"tab", @"pdf", nil];
+		fileExts = [[NSMutableArray alloc] initWithObjects:@"txt", @"R", @"Rnw", @"RnW", @"csv", @"tsv", @"tab", @"pdf", @"sas", nil];
 	});
 	return fileExts;
 }
