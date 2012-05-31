@@ -503,7 +503,12 @@
 				  [adjustedImages JSONRepresentation]];
 		}
 	} else if ([cmd isEqualToString:@"sasoutput"]) {
-		NSLog(@"sas returned %@", [dict objectForKey:@"file"]);
+		NSArray *fileInfo = [dict objectForKey:@"files"];
+		for (NSDictionary *fd in fileInfo) {
+			[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
+		}
+		js = [NSString stringWithFormat:@"iR.echoInput('%@')", [self escapeForJS:[NSString stringWithFormat:@"sas returned files:%@",
+																				  [[fileInfo valueForKeyPath:@"name"] componentsJoinedByString:@","]]]];
 	} else if ([cmd isEqualToString:@"chat"]) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:kChatMessageNotification object:nil 
 														  userInfo:dict];
