@@ -385,13 +385,14 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 		[listener use];
 		return;
 	} else if (WebNavigationTypeLinkClicked == navType) {
+		NSString *urlStr = [[request URL] absoluteString];
 		//it is a url. if it for a fragment on the loaded url, use it
 		if ([[request URL] fragment] &&
-			[[[request URL] absoluteString] hasPrefix: [aWebView mainFrameURL]])
+			[urlStr hasPrefix: [aWebView mainFrameURL]])
 		{
 			[listener use];
 			return;
-		} else if ([[[request URL] absoluteString] hasPrefix: @"http://rc2.stat.wvu.edu/"]) {
+		} else if ([urlStr hasPrefix: @"http://rc2.stat.wvu.edu/"]) {
 			[listener use];
 			return;
 		} else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {

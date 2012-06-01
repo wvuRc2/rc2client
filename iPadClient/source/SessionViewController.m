@@ -40,6 +40,7 @@
 @property (nonatomic, strong) DoodleViewController *doodle;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *doodleButton;
 @property (nonatomic, strong) id themeToken;
+@property (nonatomic, copy) NSString *webTmpFileDirectory;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL showingProgress;
 @property (nonatomic, assign) BOOL autoReconnect;
@@ -332,7 +333,24 @@
 	self.autoReconnect=NO;
 	[_session closeWebSocket];
 	[self saveSessionState];
+	if (self.webTmpFileDirectory) {
+		[[NSFileManager defaultManager] removeItemAtPath:self.webTmpFileDirectory error:nil];
+		self.webTmpFileDirectory=nil;
+	}
 	[(id)[UIApplication sharedApplication].delegate endSession:sender];
+}
+
+// adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
+-(NSString*)webTmpFilePath:(NSString*)filePath
+{
+	NSFileManager *fm = [[NSFileManager alloc] init];
+	if (nil == self.webTmpFileDirectory) {
+		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
+		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:filePath.lastPathComponent] stringByAppendingPathExtension:@"txt"];
+	[fm copyItemAtPath:filePath toPath:newPath error:nil];
+	return newPath;
 }
 
 #pragma mark - state management
@@ -403,6 +421,20 @@
 			[self displayPdfFile:file];
 		else
 			[self loadAndDisplayPdfFile:file];
+		return;
+	}
+	if (![imgPath hasSuffix:@".png"]) {
+		//a sas file most likely
+		NSString *filename = imgPath.lastPathComponent;
+		//what to do? see if it is an acceptable text file suffix. If so, have webview display it
+		if ([[Rc2Server acceptableTextFileSuffixes] containsObject:filename.pathExtension]) {
+			NSInteger fid = [[filename stringByDeletingPathExtension] integerValue];
+			RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:fid]];
+			if (file) {
+				NSString *tmpPath = [self webTmpFilePath:file.fileContentsPath];
+				[self.consoleController.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:tmpPath]]];
+			}
+		}
 		return;
 	}
 
@@ -479,9 +511,6 @@
 		js = [NSString stringWithFormat:@"iR.userLeftSession('%@', '%@')", 
 			  [self escapeForJS:[dict objectForKey:@"user"]],
 			  [self escapeForJS:[dict objectForKey:@"userid"]]];
-	} else if ([cmd isEqualToString:@"userList"]) {
-		js = [NSString stringWithFormat:@"iR.updateUserList(JSON.parse('%@'))", 
-			  [[[dict objectForKey:@"data"] objectForKey:@"users"] JSONRepresentation]];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpPath = [dict objectForKey:@"helpPath"];
@@ -507,8 +536,10 @@
 		for (NSDictionary *fd in fileInfo) {
 			[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
 		}
-		js = [NSString stringWithFormat:@"iR.echoInput('%@')", [self escapeForJS:[NSString stringWithFormat:@"sas returned files:%@",
-																				  [[fileInfo valueForKeyPath:@"name"] componentsJoinedByString:@","]]]];
+		js = [NSString stringWithFormat:@"iR.appendSasFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
+		for (NSDictionary *fd in fileInfo) {
+			[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
+		}
 	} else if ([cmd isEqualToString:@"chat"]) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:kChatMessageNotification object:nil 
 														  userInfo:dict];
@@ -615,4 +646,5 @@
 @synthesize audioEngine;
 @synthesize doodle;
 @synthesize doodleButton;
+@synthesize webTmpFileDirectory=_webTmpFileDirectory;
 @end

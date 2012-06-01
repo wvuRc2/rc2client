@@ -212,7 +212,8 @@
 	}
 	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"$('#themecss').attr('href','%@')",
 														  [[ThemeEngine sharedInstance] currentTheme].cssfile]];
-	self.backButton.enabled = [self.webView.request.URL.scheme hasPrefix:@"http"];
+	NSString *scheme = self.webView.request.URL.scheme;
+	self.backButton.enabled = [scheme hasPrefix:@"http"] || ([scheme hasPrefix:@"file"] && [self.webView.request.URL.pathExtension isEqualToString:@"txt"]);
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request 
@@ -223,10 +224,13 @@
 	if ([[request.URL scheme] isEqualToString:@"rc2"])
 		[self.session.delegate performConsoleAction:[[request.URL absoluteString] substringFromIndex:6]];
 	else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
+		NSString *urlStr = request.URL.absoluteString;
 		NSString *path = [request.URL path];
-		if ([request.URL.absoluteString hasSuffix:@".pdf"]) {
+		if ([urlStr hasSuffix:@".pdf"]) {
 			path = request.URL.absoluteString;
 			path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
+		} else if (![urlStr.pathExtension isEqualToString:@"png"]) {
+			path = urlStr.lastPathComponent;
 		}
 		[self.session.delegate displayImage:path];
 	} else if ([[[request URL] absoluteString] hasPrefix:@"http://rc2.stat.wvu.edu/"]) {

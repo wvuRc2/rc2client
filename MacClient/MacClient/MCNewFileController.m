@@ -30,7 +30,10 @@
 		case 1: //Rnw
 			fname = [fname stringByAppendingPathExtension:@"Rnw"];
 			break;
-		case 2: //txt
+		case 2: //sas
+			fname = [fname stringByAppendingPathExtension:@"sas"];
+			break;
+		case 3: //txt
 			fname = [fname stringByAppendingPathExtension:@"txt"];
 			break;
 		default:

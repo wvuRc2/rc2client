@@ -58,6 +58,7 @@
 @property (nonatomic, strong) id usersToken;
 @property (nonatomic, strong) id modeChangeToken;
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
+@property (nonatomic, strong) NSString *webTmpFileDirectory;
 -(void)prepareForSession;
 -(void)completeSessionStartup:(id)response;
 -(NSString*)escapeForJS:(NSString*)str;
@@ -206,6 +207,10 @@
 		[self saveSessionState];
 		[self.audioEngine tearDownAudio];
 		[ti popActionMenu:self.addMenu];
+		if (self.webTmpFileDirectory) {
+			[[NSFileManager defaultManager] removeItemAtPath:self.webTmpFileDirectory error:nil];
+			self.webTmpFileDirectory=nil;
+		}
 	}
 	if (newSuperview != nil) {
 		if (self.session.initialFileSelection) {
@@ -308,6 +313,8 @@
 	//is the current file R or Rnw?
 	if ([self.selectedFile.name hasSuffix:@".Rnw"]) {
 		[self.session executeSweave:self.selectedFile.name script:self.editView.string];
+	} else if ([self.selectedFile.name hasSuffix:@".sas"]) {
+		[self.session executeSas:self.selectedFile];
 	} else {
 		[self.session executeScript:self.editView.string scriptName:self.selectedFile.name];
 	}
@@ -357,7 +364,8 @@
 {
 	MCNewFileController *nfc = [[MCNewFileController alloc] init];
 	nfc.completionHandler = ^(NSString *fname) {
-		[self handleNewFile:fname];
+		if (fname.length > 0)
+			[self handleNewFile:fname];
 	};
 	[NSApp beginSheet:nfc.window modalForWindow:self.view.window completionHandler:^(NSInteger idx) {
 		//have the block keep a reference of nfc until complete
@@ -550,6 +558,19 @@
 	[self.editView setEditable: self.selectedFile.readOnlyValue ? NO : YES];
 }
 
+// adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
+-(NSString*)webTmpFilePath:(NSString*)filePath
+{
+	NSFileManager *fm = [[NSFileManager alloc] init];
+	if (nil == self.webTmpFileDirectory) {
+		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
+		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:filePath.lastPathComponent] stringByAppendingPathExtension:@"txt"];
+	[fm copyItemAtPath:filePath toPath:newPath error:nil];
+	return newPath;
+}
+
 #pragma mark - session delegate
 
 -(void)connectionOpened
@@ -601,9 +622,6 @@
 		js = [NSString stringWithFormat:@"iR.userLeftSession('%@', '%@')", 
 			  [self escapeForJS:[dict objectForKey:@"user"]],
 			  [self escapeForJS:[dict objectForKey:@"userid"]]];
-	} else if ([cmd isEqualToString:@"userlist"]) {
-		js = [NSString stringWithFormat:@"iR.updateUserList(JSON.parse('%@'))", 
-			  [[[dict objectForKey:@"data"] objectForKey:@"users"] JSONRepresentation]];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpPath = [dict objectForKey:@"helpPath"];
@@ -629,6 +647,12 @@
 		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@, '%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid,
 			  [self escapeForJS:[dict objectForKey:@"filename"]]];
 		[self.session.workspace updateFileId:fileid];
+	} else if ([cmd isEqualToString:@"sasoutput"]) {
+		NSArray *fileInfo = [dict objectForKey:@"files"];
+		for (NSDictionary *fd in fileInfo) {
+			[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
+		}
+		js = [NSString stringWithFormat:@"iR.appendSasFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
 	}
 	if (js) {
 		[self.outputController executeJavaScript:js];
@@ -713,9 +737,23 @@
 //		[pvc view]; //load from nib
 //		[pvc loadPdf:file.fileContentsPath];
 //		[(AppDelegate*)[NSApp delegate] showViewController:pvc];
-	} else {
+	} else if ([url.absoluteString hasSuffix:@".png"]) {
 		//for now. we may want to handle multiple images at once
 		[self displayImage:[url path]];
+	} else {
+		NSString *filename = url.absoluteString.lastPathComponent;
+		//what to do? see if it is an acceptable text file suffix. If so, have webview display it
+		if ([[Rc2Server acceptableTextFileSuffixes] containsObject:filename.pathExtension]) {
+			NSInteger fid = [[filename stringByDeletingPathExtension] integerValue];
+			RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:fid]];
+			if (file) {
+				NSString *tmpPath = [self webTmpFilePath:file.fileContentsPath];
+				[self.outputController.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:tmpPath]]];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[self.outputController.view.layer setNeedsDisplay];
+				});
+			}
+		}
 	}
 }
 
@@ -986,6 +1024,7 @@
 @synthesize modeChangeToken;
 @synthesize audioEngine;
 @synthesize backButton;
+@synthesize webTmpFileDirectory=_webTmpFileDirectory;
 @end
 
 @implementation SessionView
