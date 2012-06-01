@@ -341,15 +341,22 @@
 }
 
 // adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
--(NSString*)webTmpFilePath:(NSString*)filePath
+-(NSString*)webTmpFilePath:(RCFile*)file
 {
 	NSFileManager *fm = [[NSFileManager alloc] init];
 	if (nil == self.webTmpFileDirectory) {
 		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
 		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
 	}
-	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:filePath.lastPathComponent] stringByAppendingPathExtension:@"txt"];
-	[fm copyItemAtPath:filePath toPath:newPath error:nil];
+	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:@"txt"];
+	NSError *err=nil;
+	if (![fm fileExistsAtPath:file.fileContentsPath]) {
+		NSString *fileContents = [[Rc2Server sharedInstance] fetchFileContentsSynchronously:file];
+		if (![fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
+			Rc2LogError(@"failed to write web tmp file:%@", err);
+	} else if (![fm copyItemAtPath:file.fileContentsPath toPath:newPath error:&err]) {
+		Rc2LogError(@"error copying file:%@", err);
+	}
 	return newPath;
 }
 
@@ -431,7 +438,7 @@
 			NSInteger fid = [[filename stringByDeletingPathExtension] integerValue];
 			RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:fid]];
 			if (file) {
-				NSString *tmpPath = [self webTmpFilePath:file.fileContentsPath];
+				NSString *tmpPath = [self webTmpFilePath:file];
 				[self.consoleController.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:tmpPath]]];
 			}
 		}

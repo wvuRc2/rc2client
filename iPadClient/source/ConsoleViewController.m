@@ -231,6 +231,7 @@
 			path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
 		} else if (![urlStr.pathExtension isEqualToString:@"png"]) {
 			path = urlStr.lastPathComponent;
+			self.lastPageContent = [self.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];
 		}
 		[self.session.delegate displayImage:path];
 	} else if ([[[request URL] absoluteString] hasPrefix:@"http://rc2.stat.wvu.edu/"]) {
