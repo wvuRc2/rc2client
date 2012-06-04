@@ -472,15 +472,17 @@
 			[(UIPopoverController*)self.parentViewController dismissPopoverAnimated:YES];
 			//make sure has a file extension
 			NSString *str = [alert textFieldAtIndex:0].text;
-			NSString *ext = [str pathExtension];
-			if (![[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
-				str = [str stringByAppendingPathExtension:@"R"];
-			NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
-			RCFile *file = [RCFile insertInManagedObjectContext:moc];
-			file.name = str;
-			file.fileContents = @"";
-			[[[Rc2Server sharedInstance] currentSession].workspace addFile:file];
-			[self performSelectorOnMainThread:@selector(loadFile:) withObject:file waitUntilDone:NO];
+			if (str.length > 0) {
+				NSString *ext = [str pathExtension];
+				if (![[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
+					str = [str stringByAppendingPathExtension:@"R"];
+				NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
+				RCFile *file = [RCFile insertInManagedObjectContext:moc];
+				file.name = str;
+				file.fileContents = @"";
+				[[[Rc2Server sharedInstance] currentSession].workspace addFile:file];
+				[self performSelectorOnMainThread:@selector(loadFile:) withObject:file waitUntilDone:NO];
+			}
 		}
 		blockSelf.currentAlert=nil;
 	}];
