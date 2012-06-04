@@ -18,6 +18,8 @@
 }
 @property (nonatomic, strong) IBOutlet UIWebView *webView;
 @property (nonatomic, strong) NSString *lastPageContent;
+@property (nonatomic, strong) NSLock *queueLock;
+@property (nonatomic, strong) NSMutableArray *jsQueue;
 @property (nonatomic, strong) id sessionKvoToken;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
 -(void)sessionModeChanged;
@@ -27,6 +29,8 @@
 @synthesize webView=_webView;
 @synthesize session=_session;
 @synthesize actionSheet=_actionSheet;
+@synthesize jsQueue=_jsQueue;
+@synthesize queueLock=_queueLock;
 @synthesize toolbar;
 @synthesize textField;
 @synthesize executeButton;
@@ -35,15 +39,6 @@
 @synthesize lastPageContent;
 @synthesize sessionKvoToken;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-	if (self) {
-		// Custom initialization
-	}
-	return self;
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -51,6 +46,8 @@
 	[super viewDidLoad];
 	_didSetGraphUrl=NO;
 	self.webView.delegate = self;
+	self.queueLock = [[NSLock alloc] init];
+	self.jsQueue = [[NSMutableArray alloc] init];
 /*	UIScrollView* sv = nil;
 	for(UIView* v in self.webView.subviews){
 		if([v isKindOfClass:[UIScrollView class]]) {
@@ -111,7 +108,24 @@
 
 -(NSString*)evaluateJavaScript:(NSString*)script
 {
-	return [self.webView stringByEvaluatingJavaScriptFromString:script];
+	if (self.webView.canGoBack)
+		[self.webView goBack];
+	if ([self.webView.request.URL.path.lastPathComponent isEqualToString:@"console.html"]) {
+		if (self.lastPageContent) {
+			[self insertSavedContent:self.lastPageContent];
+			self.lastPageContent=nil;
+			//loading will be true to script will get queued
+		}
+	}
+	[self.queueLock lock];
+	if (self.webView.loading || self.jsQueue.count > 0) {
+		[self.jsQueue addObject:script];
+		[self.queueLock unlock];
+		return @"";
+	}
+	NSString *res = [self.webView stringByEvaluatingJavaScriptFromString:script];
+	[self.queueLock unlock];
+	return res;
 }
 
 -(void)loadHelpURL:(NSURL*)url
@@ -124,6 +138,21 @@
 	[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
+-(void)executeQueuedJavaScript
+{
+	[self.queueLock lock];
+	if (self.jsQueue.count > 0) {
+		NSString *js = self.jsQueue.firstObject;
+		[self.jsQueue removeObjectAtIndex:0];
+		[self.webView stringByEvaluatingJavaScriptFromString:js];
+		if (self.jsQueue.count > 0) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self executeQueuedJavaScript];
+			});
+		}
+	}
+	[self.queueLock unlock];
+}
 
 #pragma mark - actions
 
@@ -227,6 +256,13 @@
 		NSString *ss = [self themedStyleSheet];
 		[self.webView stringByEvaluatingJavaScriptFromString:ss];
 	}
+	[self.queueLock lock];
+	if ([self.jsQueue count] > 0) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self executeQueuedJavaScript];
+		});
+	}
+	[self.queueLock unlock];
 	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"$('#themecss').attr('href','%@')",
 														  [[ThemeEngine sharedInstance] currentTheme].cssfile]];
 	NSString *scheme = self.webView.request.URL.scheme;
