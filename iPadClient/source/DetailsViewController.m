@@ -31,6 +31,7 @@ enum {
 	BOOL _didNibCheck;
 }
 @property (nonatomic, strong) NSMutableArray *rc2Tokens;
+@property (nonatomic, copy) NSArray *files;
 @property (nonatomic, strong) NSString *wspaceFilesToken;
 @property (nonatomic, strong) RCWorkspace *selectedWorkspace;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
@@ -80,6 +81,9 @@ enum {
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	self.files = [self.selectedWorkspace.files sortedArrayUsingComparator:^(RCFile *file1, RCFile *file2) {
+		return [file1.name compare:file2.name];
+	}];
 	if (!_didNibCheck) {
 		self.rc2Tokens = [NSMutableArray array];
 		self.dateFormatter = [[NSDateFormatter alloc] init];
@@ -157,7 +161,7 @@ enum {
 	Rc2AppDelegate *del = (Rc2AppDelegate*)[[UIApplication sharedApplication] delegate];
 	RCFile *selFile=nil;
 	if (self.selectedIndex)
-		selFile = [self.selectedWorkspace.files objectAtIndex:self.selectedIndex.row];
+		selFile = [self.files objectAtIndex:self.selectedIndex.row];
 	[del startSession:selFile];
 }
 
@@ -249,6 +253,9 @@ enum {
 -(void)handleFileUpdate:(RCWorkspace*)wspace
 {
 	ZAssert(wspace == self.selectedWorkspace, @"got file callback for non-selected workspace");
+	self.files = [wspace.files sortedArrayUsingComparator:^(RCFile *file1, RCFile *file2) {
+		return [file1.name compare:file2.name];
+	}];
 	[self.fileTableView reloadData];
 }
 
@@ -265,6 +272,9 @@ enum {
 		self.wspaceFilesToken=nil;
 	}
 	self.selectedWorkspace = wspace;
+	self.files = [wspace.files sortedArrayUsingComparator:^(RCFile *file1, RCFile *file2) {
+		return [file1.name compare:file2.name];
+	}];
 	__block __weak DetailsViewController *blockSelf = self;
 	if (nil == wspace) {
 		if (self.currentView == self.workspaceContent) {
@@ -391,7 +401,7 @@ enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [self.selectedWorkspace.files count];
+	return [self.files count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -399,7 +409,7 @@ enum {
 	FileDetailsCell *cell = [FileDetailsCell cellForTableView:tableView];
 	cell.dateFormatter = self.dateFormatter;
 
-	RCFile *file = [self.selectedWorkspace.files objectAtIndex:indexPath.row];
+	RCFile *file = [self.files objectAtIndex:indexPath.row];
 	[cell showValuesForFile:file];
 	return cell;
 }
@@ -409,7 +419,7 @@ enum {
 	if ([indexPath isEqual:self.selectedIndex]) {
 		if (self.selectedIndex && [NSDate timeIntervalSinceReferenceDate] - _lastTapTime < 0.4) {
 			//count it as a double tap
-			RCFile *selFile = [self.selectedWorkspace.files objectAtIndex:self.selectedIndex.row];
+			RCFile *selFile = [self.files objectAtIndex:self.selectedIndex.row];
 			if ([selFile.name hasSuffix:@".pdf"]) {
 				[(Rc2AppDelegate*)TheApp.delegate displayPdfFile:selFile];
 			} else {
@@ -446,4 +456,5 @@ enum {
 @synthesize currentView;
 @synthesize rc2Tokens;
 @synthesize selectedIndex;
+@synthesize files=_files;
 @end

@@ -48,7 +48,9 @@
 	self.tableView.doubleTapHandler = ^(AMTableView *tv) {
 		[blockSelf handleDoubleTap];
 	};
-	self.files = [[Rc2Server sharedInstance] currentSession].workspace.files;
+	self.files = [[[Rc2Server sharedInstance] currentSession].workspace.files sortedArrayUsingComparator:^(RCFile *file1, RCFile *file2) {
+		return [file1.name compare:file2.name];
+	}];
 	//add dropbox item to toolbar
 	UISegmentedControl *button = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObject:@""]];
 	button.momentary = YES;
@@ -82,7 +84,9 @@
 
 -(void)reloadData
 {
-	self.files = [[Rc2Server sharedInstance] currentSession].workspace.files;
+	self.files = [[[Rc2Server sharedInstance] currentSession].workspace.files sortedArrayUsingComparator:^(RCFile *file1, RCFile *file2) {
+		return [file1.name compare:file2.name];
+	}];
 	[self.tableView reloadData];
 }
 
