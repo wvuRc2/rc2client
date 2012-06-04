@@ -367,8 +367,7 @@
 -(void)saveSessionState
 {
 	RCSavedSession *savedState = _session.savedSessionState;
-	savedState.consoleHtml = [self.consoleController.webView stringByEvaluatingJavaScriptFromString:
-							  @"$('#consoleOutputGenerated').html()"];
+	savedState.consoleHtml = [self.consoleController evaluateJavaScript:@"$('#consoleOutputGenerated').html()"];
 	savedState.currentFile = self.editorController.currentFile;
 	if (nil == savedState.currentFile)
 		savedState.inputText = [self.editorController keyboardWantsContentString]; //FIXME: hack. need better way
@@ -417,7 +416,7 @@
 {
 	action = [action stringbyRemovingPercentEscapes];
 	NSString *cmd = [NSString stringWithFormat:@"iR.appendConsoleText('%@')", action];
-	[self.consoleController.webView stringByEvaluatingJavaScriptFromString:cmd];
+	[self.consoleController evaluateJavaScript:cmd];
 }
 
 -(void)displayImage:(NSString*)imgPath
@@ -441,7 +440,7 @@
 			RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:fid]];
 			if (file) {
 				NSString *tmpPath = [self webTmpFilePath:file];
-				[self.consoleController.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:tmpPath]]];
+				[self.consoleController loadLocalFileURL:[NSURL fileURLWithPath:tmpPath]];
 			}
 		}
 		return;
@@ -527,7 +526,7 @@
 			js = [NSString stringWithFormat:@"iR.appendHelpCommand('%@', '%@')", 
 				  [self escapeForJS:[dict objectForKey:@"helpTopic"]],
 				  [self escapeForJS:helpUrl.absoluteString]];
-			[self.consoleController.webView loadRequest:[NSURLRequest requestWithURL:helpUrl]];
+			[self.consoleController loadHelpURL:helpUrl];
 		} else if ([dict objectForKey:@"complexResults"]) {
 			js = [NSString stringWithFormat:@"iR.appendComplexResults(%@)",
 				  [self escapeForJS:[dict objectForKey:@"json"]]];
@@ -559,8 +558,8 @@
 		[self.session.workspace updateFileId:fileid];
 	}
 	if (js) {
-		[self.consoleController.webView stringByEvaluatingJavaScriptFromString:js];
-		[self.consoleController.webView stringByEvaluatingJavaScriptFromString:@"scroll(0,document.body.scrollHeight)"];
+		[self.consoleController evaluateJavaScript:js];
+		[self.consoleController evaluateJavaScript:@"scroll(0,document.body.scrollHeight)"];
 	}
 }
 

@@ -16,6 +16,7 @@
 @interface ConsoleViewController() {
 	BOOL _didSetGraphUrl;
 }
+@property (nonatomic, strong) IBOutlet UIWebView *webView;
 @property (nonatomic, strong) NSString *lastPageContent;
 @property (nonatomic, strong) id sessionKvoToken;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
@@ -107,6 +108,22 @@
 	self.actionButton.enabled = !restricted;
 	self.backButton.enabled = !restricted;
 }
+
+-(NSString*)evaluateJavaScript:(NSString*)script
+{
+	return [self.webView stringByEvaluatingJavaScriptFromString:script];
+}
+
+-(void)loadHelpURL:(NSURL*)url
+{
+	[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+}
+
+-(void)loadLocalFileURL:(NSURL*)url
+{
+	[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+}
+
 
 #pragma mark - actions
 

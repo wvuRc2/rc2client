@@ -12,7 +12,6 @@
 @class RCSavedSession;
 
 @interface ConsoleViewController : UIViewController<UIWebViewDelegate>
-@property (nonatomic, strong) IBOutlet UIWebView *webView;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, strong) IBOutlet UITextField *textField;
 @property (nonatomic, strong) IBOutlet UIButton *executeButton;
@@ -25,6 +24,10 @@
 -(IBAction)doActionSheet:(id)sender;
 -(IBAction)doExecute:(id)sender;
 -(IBAction)doBack:(id)sender;
+
+-(NSString*)evaluateJavaScript:(NSString*)script;
+-(void)loadHelpURL:(NSURL*)url;
+-(void)loadLocalFileURL:(NSURL*)url;
 @end
 
 @interface ConsoleView : UIView
