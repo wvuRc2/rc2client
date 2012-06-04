@@ -17,6 +17,5 @@
 @property (strong, nonatomic) IBOutlet UIView *welcomeContent;
 
 -(IBAction)doStartSession:(id)sender;
--(IBAction)doMessages:(id)sender;
 -(void)refreshDetails;
 @end

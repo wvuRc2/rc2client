@@ -43,12 +43,14 @@
 	[self.kvoTokens addObject:[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
 		[blockSelf adjustInterfaceBasedOnLogin];
 	}]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messagesUpdated:) name:MessagesUpdatedNotification object:nil];
 	[self adjustInterfaceBasedOnLogin];
 }
 
 -(void)viewDidUnload
 {
 	[super viewDidUnload];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MessagesUpdatedNotification object:nil];
 	self.themeChangeNotice=nil;
 }
 
@@ -101,6 +103,49 @@
 {
 	
 }
+
+-(UIImage*)editMessageImage:(UIImage*)origImage messageCount:(NSInteger)count
+{
+	UIGraphicsBeginImageContext(origImage.size);
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
+	[origImage drawAtPoint:CGPointZero];
+	CGContextTranslateCTM(ctx, 0, origImage.size.height);
+	CGContextScaleCTM(ctx, 1, -1);
+	CGContextSelectFont(ctx, "Helvetica-Bold", 10, kCGEncodingMacRoman);
+	CGContextSetTextDrawingMode(ctx, kCGTextFillStroke);
+	CGContextSetStrokeColorWithColor(ctx, [UIColor whiteColor].CGColor);
+	CGContextSetFillColorWithColor(ctx, [UIColor whiteColor].CGColor);
+	char str[48];
+	sprintf(str, "%d", count);
+	CGPoint pt = {30, 18};
+	if (count > 9) {
+		pt.x = 27;
+		pt.y = 18;
+	}
+	CGContextShowTextAtPoint(ctx, pt.x, pt.y, str, strlen(str));
+	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	return newImage;
+}
+
+-(void)messagesUpdated:(NSNotification*)note
+{
+	UIButton *theButton = (UIButton*)self.messagesButton.customView;
+	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
+	NSInteger count = [moc countForEntityName:@"RCMessage" withPredicate:@"dateRead = nil"];
+	if (count < 1) {
+		[theButton setImage:[UIImage imageNamed:@"message-tbar"] forState:UIControlStateNormal];
+		[theButton setImage:[UIImage imageNamed:@"message-tbar-down"] forState:UIControlStateHighlighted];
+	} else {
+		if (count > 100)
+			count = 99;
+		UIImage *img = [self editMessageImage:[UIImage imageNamed:@"message-tbar-badged"] messageCount:count];
+		[theButton setImage:img forState:UIControlStateNormal];
+		img = [self editMessageImage:[UIImage imageNamed:@"message-tbar-badged-down"] messageCount:count];
+		[theButton setImage:img forState:UIControlStateHighlighted];
+	}
+}
+
 
 @synthesize isettingsPopover=_isettingsPopover;
 @synthesize isettingsController=_isettingsController;

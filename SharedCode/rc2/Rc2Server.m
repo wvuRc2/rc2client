@@ -26,6 +26,7 @@
 
 NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNotification";
 NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNotification";
+NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 #pragma mark -
 
@@ -808,6 +809,7 @@ NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNoti
 		if ([rsp objectForKey:@"status"] && [[rsp objectForKey:@"status"] intValue] == 0) {
 			[RCMessage syncFromJsonArray:[rsp objectForKey:@"messages"]];
 			hblock(YES, nil);
+			[[NSNotificationCenter defaultCenter] postNotificationName:MessagesUpdatedNotification object:self];
 		} else {
 			hblock(NO, [rsp objectForKey:@"message"]);
 		}

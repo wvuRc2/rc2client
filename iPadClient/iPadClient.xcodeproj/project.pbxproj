@@ -168,8 +168,6 @@
 		08A7CFE31414A58A000ACA1D /* trash32.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A7CFE21414A58A000ACA1D /* trash32.png */; };
 		08A7CFE61414A689000ACA1D /* trash32-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A7CFE51414A689000ACA1D /* trash32-down.png */; };
 		08AE4E7C1413EE0300963C52 /* badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4E7B1413EE0300963C52 /* badge.png */; };
-		08AE4E81141406B100963C52 /* MessageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08AE4E80141406B100963C52 /* MessageController.m */; };
-		08AE4E831414078C00963C52 /* MessageController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4E821414078C00963C52 /* MessageController.xib */; };
 		08AE4E851414142D00963C52 /* message-tbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4E841414142D00963C52 /* message-tbar.png */; };
 		08AE4E8714141D2700963C52 /* message-tbar-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4E8614141D2700963C52 /* message-tbar-down.png */; };
 		08AE4E8A1414261B00963C52 /* message-tbar-badged-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 08AE4E881414261B00963C52 /* message-tbar-badged-down.png */; };
@@ -498,9 +496,6 @@
 		08A7CFE21414A58A000ACA1D /* trash32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = trash32.png; path = resources/trash32.png; sourceTree = SOURCE_ROOT; };
 		08A7CFE51414A689000ACA1D /* trash32-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "trash32-down.png"; path = "resources/trash32-down.png"; sourceTree = SOURCE_ROOT; };
 		08AE4E7B1413EE0300963C52 /* badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = badge.png; path = resources/badge.png; sourceTree = SOURCE_ROOT; };
-		08AE4E7F141406B100963C52 /* MessageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageController.h; path = source/MessageController.h; sourceTree = SOURCE_ROOT; };
-		08AE4E80141406B100963C52 /* MessageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageController.m; path = source/MessageController.m; sourceTree = SOURCE_ROOT; };
-		08AE4E821414078C00963C52 /* MessageController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageController.xib; path = source/MessageController.xib; sourceTree = SOURCE_ROOT; };
 		08AE4E841414142D00963C52 /* message-tbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "message-tbar.png"; path = "resources/message-tbar.png"; sourceTree = SOURCE_ROOT; };
 		08AE4E8614141D2700963C52 /* message-tbar-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "message-tbar-down.png"; path = "resources/message-tbar-down.png"; sourceTree = SOURCE_ROOT; };
 		08AE4E881414261B00963C52 /* message-tbar-badged-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "message-tbar-badged-down.png"; path = "resources/message-tbar-badged-down.png"; sourceTree = SOURCE_ROOT; };
@@ -762,9 +757,6 @@
 				0818EE6A155D771B00159291 /* RootViewController.m */,
 				0818EE78155D892900159291 /* top level controllers */,
 				0818EE83155DAB4900159291 /* workspace controllers */,
-				08AE4E7F141406B100963C52 /* MessageController.h */,
-				08AE4E80141406B100963C52 /* MessageController.m */,
-				08AE4E821414078C00963C52 /* MessageController.xib */,
 				088A76C91406A15F003D6A3F /* session related controllers */,
 				08DD23021411C0D500217C1A /* secondary controllers */,
 				08D55EF11406601000E9D981 /* views & cells */,
@@ -1266,7 +1258,6 @@
 				08DD23B81412C54C00217C1A /* DropboxImportCell.xib in Resources */,
 				08DD23BA1412E10100217C1A /* importCheck.png in Resources */,
 				08AE4E7C1413EE0300963C52 /* badge.png in Resources */,
-				08AE4E831414078C00963C52 /* MessageController.xib in Resources */,
 				08AE4E851414142D00963C52 /* message-tbar.png in Resources */,
 				08AE4E8714141D2700963C52 /* message-tbar-down.png in Resources */,
 				08AE4E8A1414261B00963C52 /* message-tbar-badged-down.png in Resources */,
@@ -1423,7 +1414,6 @@
 				08DD23B61412C36E00217C1A /* DropboxImportCell.m in Sources */,
 				08DD23BD1413CC6B00217C1A /* _RCMessage.m in Sources */,
 				08DD23C01413CC7A00217C1A /* RCMessage.m in Sources */,
-				08AE4E81141406B100963C52 /* MessageController.m in Sources */,
 				08AE4E921414374C00963C52 /* MessageListCell.m in Sources */,
 				08FE88991414F92F00672474 /* BottomViewController.m in Sources */,
 				08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */,
