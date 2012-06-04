@@ -164,6 +164,8 @@
 	NSMutableAttributedString *astr = [self.richEditor.attributedString mutableCopy];
 	[astr replaceCharactersInRange:rng withString:str];
 	self.richEditor.attributedString = astr;
+	DTTextRange *dtrng = [[DTTextRange alloc] initWithNSRange:NSMakeRange(rng.location + str.length, 0)];
+	self.richEditor.selectedTextRange = dtrng;
 }
 
 -(void)keyboardWants2DeleteCharactersInRange:(NSRange)rng
@@ -251,7 +253,7 @@
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSManagedObjectContext *moc = self.currentFile.managedObjectContext;
 			[moc deleteObject:self.currentFile];
-			[self loadFileData:nil];
+			[self loadFileData:self.session.workspace.files.firstObject];
 			[[[Rc2Server sharedInstance] currentSession].workspace refreshFiles];
 			self.fileController=nil;
 			self.filePopover=nil;

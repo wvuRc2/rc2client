@@ -350,6 +350,8 @@
 	}
 	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:@"txt"];
 	NSError *err=nil;
+	if ([fm fileExistsAtPath:newPath])
+		[fm removeItemAtPath:newPath error:nil];
 	if (![fm fileExistsAtPath:file.fileContentsPath]) {
 		NSString *fileContents = [[Rc2Server sharedInstance] fetchFileContentsSynchronously:file];
 		if (![fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
