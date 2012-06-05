@@ -13,7 +13,5 @@
 +(id)sharedInstance;
 
 -(NSAttributedString*)syntaxHighlightCode:(NSAttributedString*)sourceStr ofType:(NSString*)fileExtension;
--(NSAttributedString*)syntaxHighlightRCode:(NSAttributedString*)sourceStr;
--(NSAttributedString*)syntaxHighlightLatexCode:(NSAttributedString*)sourceStr;
 
 @end

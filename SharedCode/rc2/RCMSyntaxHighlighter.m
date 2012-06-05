@@ -22,23 +22,14 @@
 @property (nonatomic, strong) NSRegularExpression *latexCommentRegex;
 @property (nonatomic, strong) NSRegularExpression *latexKeywordRegex;
 @property (nonatomic, strong) NSRegularExpression *nowebChunkRegex;
+@property (nonatomic, strong) NSRegularExpression *sasCommentRegex;
+@property (nonatomic, strong) NSRegularExpression *sasKeywordRegex;
 @property (nonatomic, strong) NSDictionary *commentAttrs;
 @property (nonatomic, strong) NSDictionary *keywordAttrs;
 @property (nonatomic, strong) NSDictionary *functionAttrs;
 @end
 
 @implementation RCMSyntaxHighlighter
-
-@synthesize quoteRegex;
-@synthesize commentRegex;
-@synthesize functionRegex;
-@synthesize keywordRegex;
-@synthesize commentAttrs;
-@synthesize keywordAttrs;
-@synthesize functionAttrs;
-@synthesize latexCommentRegex;
-@synthesize latexKeywordRegex;
-@synthesize nowebChunkRegex;
 
 +(id)sharedInstance
 {
@@ -92,6 +83,17 @@
 	return self;
 }
 
+-(void)setupSasRegexps
+{
+	NSError *err=nil;
+	self.sasCommentRegex = [NSRegularExpression regularExpressionWithPattern:@"^\\s*\\*.*;\\s*\n" options:0 error:&err];
+	if (err)
+		Rc2LogError(@"error compiling sas comment regex: %@", err);
+	self.sasKeywordRegex = [NSRegularExpression regularExpressionWithPattern:@"\\b(data|out|run|proc|var|end|output|normal|sort|quit|keep|drop|retain|format|class|set|table|merge|if|else|then|descending|eq|ne|avg|sum|model|input|=||<|>|\\-|\\+|\\*|\\/)\\b" options:0 error:&err];
+	if (err)
+		Rc2LogError(@"error compiling keyword regex: %@", err);
+}
+
 -(void)cacheAttributes
 {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
@@ -112,6 +114,8 @@
 		return [self syntaxHighlightRCode:sourceStr];
 	else if ([fileExtension isEqualToString:@"RnW"] || [fileExtension isEqualToString:@"Rnw"])
 		return [self syntaxHighlightLatexCode:sourceStr];
+	else if ([fileExtension isEqualToString:@"sas"])
+		return [self syntaxHighlightSasCode:sourceStr];
 	return sourceStr;
 }
 
@@ -131,19 +135,56 @@
 	[self.keywordRegex enumerateMatchesInString:astr.string options:0 range:NSMakeRange(0, astr.length) 
 									 usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
 	 {
-		[astr addAttributes:keywordAttrs range:[results rangeAtIndex:1]];
+		[astr addAttributes:self.keywordAttrs range:[results rangeAtIndex:1]];
 	 }];
 	[self.functionRegex enumerateMatchesInString:astr.string options:0 range:NSMakeRange(0, astr.length) 
 									  usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
 	 {
-		 [astr addAttributes:functionAttrs range:[results rangeAtIndex:1]];
+		 [astr addAttributes:self.functionAttrs range:[results rangeAtIndex:1]];
 	 }];
 	[self.commentRegex enumerateMatchesInString:astr.string options:0 range:NSMakeRange(0, astr.length) 
 									 usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
 	 {
-		 [astr addAttributes:commentAttrs range:results.range];
+		 [astr addAttributes:self.commentAttrs range:results.range];
 	 }];
 
+	//replace back the strings
+	for (NSString *key in quotes.allKeys) {
+		NSRange rng = [astr.string rangeOfString:key];
+		[astr replaceCharactersInRange:rng withString:[quotes objectForKey:key]];
+	}
+	
+	return astr;
+}
+
+-(NSAttributedString*)syntaxHighlightSasCode:(NSAttributedString*)sourceStr
+{
+	NSMutableAttributedString *astr = [sourceStr mutableCopy];
+	NSMutableDictionary *quotes = [NSMutableDictionary dictionary];
+	
+	if (nil == self.sasKeywordRegex)
+		[self setupSasRegexps];
+	
+	int nextQuoteIndex=1;
+	NSTextCheckingResult *tcr = [self.quoteRegex firstMatchInString:astr.string options:0 range:NSMakeRange(0, astr.length)];
+	while (tcr) {
+		NSString *key = [NSString stringWithFormat:@"~`%d`~", nextQuoteIndex++];
+		[quotes setObject:[astr.string substringWithRange:tcr.range] forKey:key];
+		[astr replaceCharactersInRange:tcr.range withString:key];
+		tcr = [self.quoteRegex firstMatchInString:astr.string options:0 range:NSMakeRange(0, astr.length)];
+	}
+	[self.sasKeywordRegex enumerateMatchesInString:astr.string options:0 range:NSMakeRange(0, astr.length) 
+									 usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
+	 {
+		 [astr addAttributes:self.keywordAttrs range:[results rangeAtIndex:1]];
+	 }];
+	[self.sasCommentRegex enumerateMatchesInString:astr.string options:0 range:NSMakeRange(0, astr.length) 
+									 usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
+	 {
+		 NSLog(@"found a sas comment");
+		 [astr addAttributes:self.commentAttrs range:results.range];
+	 }];
+	
 	//replace back the strings
 	for (NSString *key in quotes.allKeys) {
 		NSRange rng = [astr.string rangeOfString:key];
@@ -182,13 +223,13 @@
 		[self.latexCommentRegex enumerateMatchesInString:astr.string options:0 range:NSMakeRange(0, astr.length) 
 										 usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
 		{
-			[astr addAttributes:commentAttrs range:[results rangeAtIndex:1]];
+			[astr addAttributes:self.commentAttrs range:[results rangeAtIndex:1]];
 		}];
 		
 		[self.latexKeywordRegex enumerateMatchesInString:astr.string options:0 range:NSMakeRange(0, astr.length) 
 											  usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
 		{
-			[astr addAttributes:keywordAttrs range:[results rangeAtIndex:0]];
+			[astr addAttributes:self.keywordAttrs range:[results rangeAtIndex:0]];
 		}];
 
 		//add back in chunks with highlighting
@@ -204,4 +245,17 @@
 	}
 	return sourceStr;
 }
+
+@synthesize quoteRegex=_quoteRegex;
+@synthesize latexCommentRegex=_latexCommentRegex;
+@synthesize commentAttrs=_commentAttrs;
+@synthesize commentRegex=_commentRegex;
+@synthesize latexKeywordRegex=_latexKeywordRegex;
+@synthesize functionAttrs=_functionAttrs;
+@synthesize keywordAttrs=_keywordAttrs;
+@synthesize keywordRegex=_keywordRegex;
+@synthesize nowebChunkRegex=_nowebChunkRegex;
+@synthesize functionRegex=_functionRegex;
+@synthesize sasCommentRegex=_sasCommentRegex;
+@synthesize sasKeywordRegex=_sasKeywordRegex;
 @end

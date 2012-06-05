@@ -550,10 +550,7 @@
 {
 	id astr = [srcStr mutableCopy];
 	[astr addAttributes:self.editView.textAttributes range:NSMakeRange(0, [astr length])];
-	if ([self.selectedFile.name hasSuffix:@".Rnw"])
-		astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightLatexCode:astr];
-	else if ([self.selectedFile.name hasSuffix:@".R"])
-		astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightRCode:astr];
+	astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:astr ofType:self.selectedFile.name.pathExtension];
 	[self.editView.textStorage setAttributedString:astr];
 	[self.editView setEditable: self.selectedFile.readOnlyValue ? NO : YES];
 }
