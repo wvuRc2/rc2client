@@ -271,7 +271,7 @@
 		[self didChangeValueForKey:@"users"];
 	} else if ([cmd isEqualToString:@"clopenfile"]) {
 		RCFile *file = [self.workspace fileWithId:[dict objectForKey:@"fileId"]];
-		[self.delegate displayFile:file];
+		[self.delegate displayEditorFile:file];
 	}
 }
 

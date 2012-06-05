@@ -193,7 +193,9 @@
 
 -(BOOL)contentsLoaded
 {
-	return nil != self.fileContents;
+	if (self.isTextFile)
+		return nil != self.fileContents;
+	return [[NSFileManager defaultManager] fileExistsAtPath:self.fileContentsPath];
 }
 
 -(NSString*)currentContents

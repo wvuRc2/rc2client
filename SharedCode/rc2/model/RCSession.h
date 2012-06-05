@@ -73,5 +73,6 @@
 -(void)processBinaryMessage:(NSData*)data;
 -(void)performConsoleAction:(NSString*)action;
 -(void)displayImage:(NSString*)imgPath;
--(void)displayFile:(RCFile*)file;
+-(void)displayEditorFile:(RCFile*)file;
+-(void)displayLinkedFile:(NSString*)path;
 @end

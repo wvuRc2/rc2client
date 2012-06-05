@@ -697,7 +697,12 @@
 	[self.imageController displayImage:[NSNumber numberWithInt:[idStr intValue]]];
 }
 
--(void)displayFile:(RCFile*)file
+-(void)displayLinkedFile:(NSString*)path
+{
+	
+}
+
+-(void)displayEditorFile:(RCFile*)file
 {
 	self.selectedFile = file;
 }

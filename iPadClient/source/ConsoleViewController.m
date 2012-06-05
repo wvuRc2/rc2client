@@ -48,6 +48,8 @@
 	self.webView.delegate = self;
 	self.queueLock = [[NSLock alloc] init];
 	self.jsQueue = [[NSMutableArray alloc] init];
+	self.backButton.enabled = NO;
+	[self insertSavedContent:@""];
 /*	UIScrollView* sv = nil;
 	for(UIView* v in self.webView.subviews){
 		if([v isKindOfClass:[UIScrollView class]]) {
@@ -80,6 +82,8 @@
 	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
 }
 
+#pragma mark - meat & potatos
+
 -(void)insertSavedContent:(NSString*)contentHtml
 {
 	NSURL *url = [[NSBundle mainBundle] URLForResource:@"console" withExtension:@"html" subdirectory:@"console"];
@@ -92,6 +96,17 @@
 	}
 }
 
+-(void)saveCurrentContent
+{
+	self.lastPageContent = [self.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];	
+}
+
+-(BOOL)currentPageIsConsole
+{
+	NSString *path = self.webView.request.URL.path.lastPathComponent;
+	return [path isEqualToString:@"console"] || [path isEqualToString:@"console.html"];
+}
+
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
 	[self insertSavedContent:savedState.consoleHtml];
@@ -99,22 +114,16 @@
 
 -(void)sessionModeChanged
 {
-	BOOL restricted = self.session.restrictedMode;
-	[self.textField setEnabled:!restricted];
-	self.executeButton.enabled = !restricted;
-	self.actionButton.enabled = !restricted;
-	self.backButton.enabled = !restricted;
+	[self adjustInterface];
 }
 
 -(NSString*)evaluateJavaScript:(NSString*)script
 {
-	if (self.webView.canGoBack)
-		[self.webView goBack];
-	if ([self.webView.request.URL.path.lastPathComponent isEqualToString:@"console.html"]) {
+	if (![self currentPageIsConsole]) {
 		if (self.lastPageContent) {
 			[self insertSavedContent:self.lastPageContent];
 			self.lastPageContent=nil;
-			//loading will be true to script will get queued
+			//loading will be true so script will get queued
 		}
 	}
 	[self.queueLock lock];
@@ -135,6 +144,7 @@
 
 -(void)loadLocalFileURL:(NSURL*)url
 {
+	[self saveCurrentContent];
 	[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
@@ -152,6 +162,20 @@
 		}
 	}
 	[self.queueLock unlock];
+}
+
+-(void)adjustInterface
+{
+	BOOL restricted = self.session.restrictedMode;
+	[self.textField setEnabled:!restricted];
+	self.executeButton.enabled = !restricted;
+	self.actionButton.enabled = !restricted;
+	if (restricted)
+		self.backButton.enabled = NO;
+	else {
+		NSString *scheme = self.webView.request.URL.scheme;
+		self.backButton.enabled = [scheme hasPrefix:@"http"] || ([scheme hasPrefix:@"file"] && ![self currentPageIsConsole]);	
+	}
 }
 
 #pragma mark - actions
@@ -192,6 +216,7 @@
 {
 	[self.webView stringByEvaluatingJavaScriptFromString:@"iR.clearConsole()"];
 	[[RCImageCache sharedInstance] clearCache];
+	self.lastPageContent=@"";
 }
 
 -(IBAction)doBack:(id)sender
@@ -201,6 +226,8 @@
 	else if (self.lastPageContent) {
 		[self insertSavedContent:self.lastPageContent];
 		self.lastPageContent=nil;
+	} else {
+		[self insertSavedContent:@""];
 	}
 }
 
@@ -265,8 +292,7 @@
 	[self.queueLock unlock];
 	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"$('#themecss').attr('href','%@')",
 														  [[ThemeEngine sharedInstance] currentTheme].cssfile]];
-	NSString *scheme = self.webView.request.URL.scheme;
-	self.backButton.enabled = [scheme hasPrefix:@"http"] || ([scheme hasPrefix:@"file"] && [self.webView.request.URL.pathExtension isEqualToString:@"txt"]);
+	[self adjustInterface];
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request 
@@ -279,6 +305,8 @@
 	else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
 		NSString *urlStr = request.URL.absoluteString;
 		NSString *path = [request.URL path];
+//	NSLog(@"rc2img url='%@', path='%@'", urlStr, path);
+//FIXME: non image urls have 2 slashes, not 3. that's why path is an empty string.
 		if ([urlStr hasSuffix:@".pdf"]) {
 			path = request.URL.absoluteString;
 			path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
@@ -287,8 +315,10 @@
 			self.lastPageContent = [self.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];
 		}
 		[self.session.delegate displayImage:path];
+	} else if ([[[request URL] scheme] isEqualToString:@"rc2file"]) {
+		[self.session.delegate displayLinkedFile:request.URL.path];
 	} else if ([[[request URL] absoluteString] hasPrefix:@"http://rc2.stat.wvu.edu/"]) {
-		self.lastPageContent = [self.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];
+		[self saveCurrentContent];
 		return YES;
 	}
 	return NO;

@@ -87,8 +87,13 @@
 		imgPath = [imgPath stringByAppendingPathExtension:@"png"];
 	NSFileManager *fm = [NSFileManager defaultManager];
 	NSString *fpath = [self.imgCachePath stringByAppendingPathComponent:imgPath];
-	if (![fm fileExistsAtPath:fpath])
-		return NO;
+	if (![fm fileExistsAtPath:fpath]) {
+		//see if it exist as a file from the server
+		fpath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:[@"files/" stringByAppendingString:imgPath]];
+		if (![fm fileExistsAtPath:fpath])
+			return NO;
+		imageIdStr = imgPath; //use full file name as cache name
+	}
 	RCImage *img = [[RCImage alloc] initWithPath:fpath];
 	NSString *cachedName = [self.metaData objectForKey:img.imageId];
 	if (cachedName)

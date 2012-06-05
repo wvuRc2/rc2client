@@ -395,6 +395,8 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 		} else if ([urlStr hasPrefix: @"http://rc2.stat.wvu.edu/"]) {
 			[listener use];
 			return;
+		} else if ([[[request URL] scheme] isEqualToString:@"rc2file"]) {
+			[self.session.delegate displayLinkedFile:request.URL.path];
 		} else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
 			//displaying a pdf
 			[self.delegate handleImageRequest:[request URL]];

@@ -422,31 +422,6 @@
 
 -(void)displayImage:(NSString*)imgPath
 {
-	if ([imgPath hasSuffix:@".pdf"]) {
-		//we want to show the pdf
-		NSString *path = [imgPath stringByDeletingPathExtension];
-		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[path integerValue]]];
-		if (file.contentsLoaded)
-			[self displayPdfFile:file];
-		else
-			[self loadAndDisplayPdfFile:file];
-		return;
-	}
-	if (![imgPath hasSuffix:@".png"]) {
-		//a sas file most likely
-		NSString *filename = imgPath.lastPathComponent;
-		//what to do? see if it is an acceptable text file suffix. If so, have webview display it
-		if ([[Rc2Server acceptableTextFileSuffixes] containsObject:filename.pathExtension]) {
-			NSInteger fid = [[filename stringByDeletingPathExtension] integerValue];
-			RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:fid]];
-			if (file) {
-				NSString *tmpPath = [self webTmpFilePath:file];
-				[self.consoleController loadLocalFileURL:[NSURL fileURLWithPath:tmpPath]];
-			}
-		}
-		return;
-	}
-
 	if ([imgPath hasPrefix:@"/"])
 		imgPath = [imgPath substringFromIndex:1];
 	
@@ -474,7 +449,41 @@
 	[self.imgController loadImage1:[[RCImageCache sharedInstance] imageWithId:imgPath]];
 }
 
--(void)displayFile:(RCFile*)file
+-(void)displayLinkedFile:(NSString*)urlPath
+{
+	NSString *fileIdStr = urlPath.lastPathComponent.stringByDeletingPathExtension;
+	if ([urlPath hasSuffix:@".pdf"]) {
+		//we want to show the pdf
+		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
+		if (file.contentsLoaded)
+			[self displayPdfFile:file];
+		else
+			[self loadAndDisplayPdfFile:file];
+		return;
+	}
+	//a sas file most likely
+	NSString *filename = urlPath.lastPathComponent;
+	NSString *fileExt = filename.pathExtension;
+	//what to do? see if it is an acceptable text file suffix. If so, have webview display it
+	if ([[Rc2Server acceptableTextFileSuffixes] containsObject:fileExt]) {
+		NSInteger fid = [[filename stringByDeletingPathExtension] integerValue];
+		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:fid]];
+		if (file) {
+			NSString *tmpPath = [self webTmpFilePath:file];
+			[self.consoleController loadLocalFileURL:[NSURL fileURLWithPath:tmpPath]];
+		}
+	} else if ([fileExt isEqualToString:@"png"]) {
+		//show as an image
+		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
+		if (file) {
+			if (!file.contentsLoaded)
+				[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:file];
+			[self displayImage:urlPath];
+		}
+	}
+}
+
+-(void)displayEditorFile:(RCFile*)file
 {
 	[self.editorController loadFile:file];
 }

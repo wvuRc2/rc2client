@@ -17,6 +17,7 @@
 
 -(id)initWithPath:(NSString*)aPath
 {
+	static NSInteger sNextFileId=-1;
 	self = [super init];
 	self.path = aPath;
 #ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
@@ -29,6 +30,8 @@
 	NSString *pathc = aPath.lastPathComponent;
 	if (![pathc containsCharacterNotInSet:[NSCharacterSet decimalDigitCharacterSet]])
 		self.imageId = [NSNumber numberWithInt:[pathc intValue]];
+	else
+		self.imageId = [NSNumber numberWithInteger:sNextFileId--];
 	self.name = pathc;
 	return self;
 }
