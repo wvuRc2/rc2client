@@ -64,6 +64,7 @@
 	barButton.action = @selector(doDropboxImport:);
 //	self.toolbar.tintColor = [UIColor clearColor];
 	self.toolbar.items = [self.toolbar.items arrayByAddingObject:barButton];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:RCWorkspaceFilesFetchedNotification object:nil];
 }
 
 - (void)viewDidUnload

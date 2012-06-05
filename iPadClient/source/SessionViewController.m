@@ -146,6 +146,7 @@
 		[self.editorController loadFile:self.session.initialFileSelection showProgress:NO];
 	[self.consoleController restoreSessionState:savedState];
 	[[RCImageCache sharedInstance] cacheImagesReferencedInHTML:savedState.consoleHtml];
+	[self.session.workspace refreshFiles];
 	if (!self.session.socketOpen) {
 		RunAfterDelay(0.2, ^{
 			MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];

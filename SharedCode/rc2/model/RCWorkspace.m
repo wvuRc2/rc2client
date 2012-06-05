@@ -113,9 +113,7 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 	RCFile *file = [self fileWithId:fileId];
 	if (file) {
 		//FIXME: this doesn't update metadata
-		NSString *contents = [[Rc2Server sharedInstance] fetchFileContentsSynchronously:file];
-		[contents writeToFile:[file fileContentsPath] atomically:NO encoding:NSUTF8StringEncoding error:nil];
-		file.fileContents = contents;
+		[file updateContentsFromServer];
 	} else {
 		//FIXME: for now, we're just refreshing them all
 		[self refreshFiles];

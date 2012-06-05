@@ -258,6 +258,7 @@
 			NSManagedObjectContext *moc = self.currentFile.managedObjectContext;
 			[moc deleteObject:self.currentFile];
 			[self loadFileData:self.session.workspace.files.firstObject];
+			//FIXME: shouldn't need to refresh when all we did was delete a file
 			[[[Rc2Server sharedInstance] currentSession].workspace refreshFiles];
 			self.fileController=nil;
 			self.filePopover=nil;

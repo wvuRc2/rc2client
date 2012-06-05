@@ -509,6 +509,16 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	[self.requestQueue addOperation:req];
 }
 
+-(void)fetchBinaryFileContentsSynchronously:(RCFile*)file
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl],
+									   file.fileId]];
+	ASIHTTPRequest *theReq = [self requestWithURL:url];
+	__weak ASIHTTPRequest *req = theReq;
+	req.downloadDestinationPath = file.fileContentsPath;
+	[req startSynchronous];
+}
+
 -(NSString*)fetchFileContentsSynchronously:(RCFile*)file
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl],

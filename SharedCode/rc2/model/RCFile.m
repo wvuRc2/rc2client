@@ -42,7 +42,8 @@
 	self.readOnlyValue = [[dict objectForKey:@"readonly"] boolValue];
 	NSDate *lm = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"timestamp"] integerValue]];
 	//flush contents if file has been updated
-	//FIXME: what is the proper handling here?
+	if ([lm laterDate:self.lastModified])
+		[[NSFileManager defaultManager] removeItemAtPath:self.fileContentsPath error:nil];
 	self.lastModified = lm;
 	if (!self.isInserted && [lm timeIntervalSince1970] > [self.localLastModified timeIntervalSince1970]) {
 		self.fileContents=nil;
@@ -58,14 +59,23 @@
 
 -(void)updateContentsFromServer
 {
-	if (self.isTextFile && nil == self.fileContents) {
-		NSLog(@"fetching content for %@", self.name);
-		[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id results) {
-			if (success)
-				self.fileContents = results;
-			else
-				NSLog(@"error fetching content");
-		}];
+	if (self.isTextFile) {
+		if (nil == self.fileContents) {
+			NSLog(@"fetching content for %@", self.name);
+			[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id results) {
+				if (success) {
+					self.fileContents = results;
+					[results writeToFile:self.fileContentsPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
+				} else
+					NSLog(@"error fetching content");
+			}];
+		}
+	} else {
+		//just delete cached copy and refetch for binary files
+		[[NSFileManager defaultManager] removeItemAtPath:self.fileContentsPath error:nil];
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+			[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:self];
+		});
 	}
 }
 

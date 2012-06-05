@@ -123,6 +123,7 @@ extern NSString * const MessagesUpdatedNotification;
 -(void)fetchBinaryFileContents:(RCFile*)file toPath:(NSString*)destPath progress:(id)progressView
 			 completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(NSString*)fetchFileContentsSynchronously:(RCFile*)file;
+-(void)fetchBinaryFileContentsSynchronously:(RCFile*)file;
 
 #pragma mark - preperation
 
