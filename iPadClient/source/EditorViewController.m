@@ -237,8 +237,12 @@
 	}
 	self.currentFile = file;
 	self.docTitleLabel.text = file.name;
-	if (file.currentContents.length < 1)
-		NSLog(@"why is there an empty file?");
+	if (file.currentContents.length < 1) {
+		file.localEdits = @"\n"; //if empty, our default font won't be used by richEditor
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.richEditor becomeFirstResponder]; //since it is an empty file, let them start filling it
+		});
+	}
 	[self updateTextContents:[[NSAttributedString alloc] initWithString:file.currentContents]];
 	[self updateDocumentState];
 	if (self.session.isClassroomMode && !self.session.restrictedMode) {
