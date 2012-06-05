@@ -82,7 +82,9 @@
 
 -(BOOL)loadImageIntoCache:(NSString*)imageIdStr
 {
-	NSString *imgPath = [imageIdStr stringByAppendingPathExtension:@"png"];
+	NSString *imgPath = imageIdStr;
+	if (![imgPath hasSuffix:@".png"])
+		imgPath = [imgPath stringByAppendingPathExtension:@"png"];
 	NSFileManager *fm = [NSFileManager defaultManager];
 	NSString *fpath = [self.imgCachePath stringByAppendingPathComponent:imgPath];
 	if (![fm fileExistsAtPath:fpath])
@@ -100,7 +102,7 @@
 	if (nil == html)
 		return;
 	NSError *err=nil;
-	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///([0-9]+)" options:0 error:&err];
+	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///([0-9]+).png" options:0 error:&err];
 	ZAssert(nil == err, @"error compiling regex: %@", [err localizedDescription]);
 	[regex enumerateMatchesInString:html options:0 range:NSMakeRange(0, [html length]) 
 						 usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) 
@@ -142,7 +144,7 @@
 {
 	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
 	for (NSDictionary *imgDict in inArray) {
-		[outArray addObject:[NSString stringWithFormat:@"rc2img:///%@", [imgDict objectForKey:@"id"]]];
+		[outArray addObject:[NSString stringWithFormat:@"rc2img:///%@.png", [imgDict objectForKey:@"id"]]];
 	}
 	[self cacheImages:inArray];
 	return outArray;

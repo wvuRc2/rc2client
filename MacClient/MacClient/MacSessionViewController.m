@@ -696,7 +696,8 @@
 	};
 	NSRect r = NSMakeRect(__curImgPoint.x+16, self.outputController.webView.frame.size.height - __curImgPoint.y - 16, 1, 1);
 	[self.imagePopover showRelativeToRect:r ofView:self.outputController.webView preferredEdge:NSMaxXEdge];
-	[self.imageController displayImage:[NSNumber numberWithInt:[[imgPath lastPathComponent] intValue]]];
+	NSString *idStr = [imgPath.lastPathComponent stringByDeletingPathExtension];
+	[self.imageController displayImage:[NSNumber numberWithInt:[idStr intValue]]];
 }
 
 -(void)displayFile:(RCFile*)file
@@ -726,7 +727,7 @@
 	}
 	NSMutableArray *imgArray = [NSMutableArray arrayWithCapacity:imageUrls.count];
 	for (NSString *path in imageUrls) {
-		NSString *imgId = [path lastPathComponent];
+		NSString *imgId = [[path lastPathComponent] stringByDeletingPathExtension];
 		RCImage *img = [[RCImageCache sharedInstance] imageWithId:imgId];
 		if (img)
 			[imgArray addObject:img];

@@ -46,6 +46,7 @@
 	NSInteger idx = [self.imageArray indexOfFirstObjectWithValue:imageId forKey:@"imageId"];
 	if (idx < 0 || idx > self.imageArray.count)
 		idx = 0;
+	ZAssert(self.imageArray.count > 0, @"empty image array");
 	[self.imageArrayController setSelectionIndex:idx];
 	self.displayedImageName = [[self.imageArray objectAtIndex:idx] name];
 }
