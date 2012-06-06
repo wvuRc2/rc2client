@@ -47,6 +47,8 @@
 		imgName = @"console/pdf";
 	else if ([file.name hasSuffix:@".sas"])
 		imgName = @"console/sasfile";
+	else if ([file.name hasSuffix:@".png"])
+		imgName = @"console/png";
 	self.imgView.image = [UIImage imageNamed:imgName];
 	self.permissionView.image = file.permissionImage;
 }
