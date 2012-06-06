@@ -164,12 +164,13 @@ iR.appendSasFiles = function(fileArray) {
 			var aFile = fileArray[i]
 			var anchorElem = document.createElement("a");
 			var elem = document.createElement('img');
-			elem.setAttribute('src', 'sasfile.png');
+			elem.setAttribute('src', (aFile['ext'] === '.png') ? 'png.png' : 'sasfile.png');
 			elem.setAttribute('height', 32);
 			elem.setAttribute('width', 32);
 			elem.setAttribute('rc2fileId', aFile['fileId']);
 			anchorElem.appendChild(elem);
 			anchorElem.setAttribute('class', 'genImg');
+			console.log('sas file ext = ' + aFile['ext']);
 			anchorElem.setAttribute('href', 'rc2file:///' + aFile['fileId'] + aFile['ext']);
 			ic.appendChild(anchorElem);
 			var span = document.createElement("span");

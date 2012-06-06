@@ -396,7 +396,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 			[listener use];
 			return;
 		} else if ([[[request URL] scheme] isEqualToString:@"rc2file"]) {
-			[self.session.delegate displayLinkedFile:request.URL.path];
+			[self.delegate displayLinkedFile:request.URL.path];
 		} else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
 			//displaying a pdf
 			[self.delegate handleImageRequest:[request URL]];

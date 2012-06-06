@@ -16,6 +16,7 @@
 -(void)handleImageRequest:(NSURL*)url;
 -(void)previewImages:(NSArray*)imageUrls atPoint:(NSPoint)pt;
 -(void)executeConsoleCommand:(NSString*)command;
+-(void)displayLinkedFile:(NSString*)filePath;
 @end
 
 @interface MCWebOutputController : AMViewController<NSTextFieldDelegate>
