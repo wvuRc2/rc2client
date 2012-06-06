@@ -103,6 +103,16 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	return fileExts;
 }
 
++(NSArray*)acceptableImageFileSuffixes
+{
+	static NSArray *fileExts=nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		fileExts = [[NSMutableArray alloc] initWithObjects:@"png", @"jpg", @"gif", nil];
+	});
+	return fileExts;
+}
+
 -(id)init
 {
 	self = [super init];

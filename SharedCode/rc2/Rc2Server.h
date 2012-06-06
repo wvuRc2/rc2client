@@ -41,6 +41,7 @@ extern NSString * const MessagesUpdatedNotification;
 
 +(NSArray*)acceptableTextFileSuffixes;
 +(NSArray*)acceptableImportFileSuffixes;
++(NSArray*)acceptableImageFileSuffixes;
 
 #pragma mark - properties
 

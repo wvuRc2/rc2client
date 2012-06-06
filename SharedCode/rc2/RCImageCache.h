@@ -9,10 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @class RCImage;
+@class RCFile;
 
 @interface RCImageCache : NSObject
 +(id)sharedInstance;
--(BOOL)loadImageIntoCache:(NSString*)imageId;
+
+-(RCImage*)loadImageIntoCache:(NSString*)imageId;
+-(RCImage*)loadImageFileIntoCache:(RCFile*)file;
+
 -(void)cacheImagesReferencedInHTML:(NSString*)html;
 -(void)cacheImages:(NSArray*)imgDicts; //json dicts from server
 -(NSArray*)allImages;

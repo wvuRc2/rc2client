@@ -8,13 +8,14 @@
 
 #import "RCImageCache.h"
 #import "RCImage.h"
+#import "RCFile.h"
 #import "Rc2Server.h"
 #import "ASIHTTPRequest.h"
 
 @interface RCImageCache()
 @property (nonatomic, strong) NSString *imgCachePath;
 @property (nonatomic, strong) NSMutableDictionary *metaData;
-@property (nonatomic, strong) NSMutableDictionary *imgCache;
+@property (nonatomic, strong) NSMutableDictionary *imgCache; //key is string of image id (or path if from an RCFile)
 @property (nonatomic, strong) NSOperationQueue *dloadQueue;
 @end
 
@@ -51,13 +52,16 @@
 		self.imgCache = [NSMutableDictionary dictionary];
 		self.dloadQueue = [[NSOperationQueue alloc] init];
 		self.metaData = [[[NSUserDefaults standardUserDefaults] objectForKey:kPref_ImageMetaData] mutableCopy];
+		//FIXME: we used to keep numbers in here. this can be removed mid-June as both Jim and I will be using strings
+		if ([self.metaData.allKeys.firstObject isKindOfClass:[NSNumber class]])
+			[self.metaData removeAllObjects];
 	}
 	return self;
 }
 
--(void)saveFileName:(NSString*)fname forId:(NSNumber*)imageId
+-(void)saveFileName:(NSString*)fname forId:(NSString*)imageIdStr
 {
-	[self.metaData setObject:fname forKey:imageId];
+	[self.metaData setObject:fname forKey:imageIdStr];
 	[[NSUserDefaults standardUserDefaults] setObject:self.metaData forKey:kPref_ImageMetaData];
 }
 
@@ -80,26 +84,28 @@
 	return [self.imgCache allValues];
 }
 
--(BOOL)loadImageIntoCache:(NSString*)imageIdStr
+-(RCImage*)loadImageIntoCache:(NSString*)imageIdStr
 {
 	NSString *imgPath = imageIdStr;
 	if (![imgPath hasSuffix:@".png"])
 		imgPath = [imgPath stringByAppendingPathExtension:@"png"];
-	NSFileManager *fm = [NSFileManager defaultManager];
 	NSString *fpath = [self.imgCachePath stringByAppendingPathComponent:imgPath];
-	if (![fm fileExistsAtPath:fpath]) {
-		//see if it exist as a file from the server
-		fpath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:[@"files/" stringByAppendingString:imgPath]];
-		if (![fm fileExistsAtPath:fpath])
-			return NO;
-		imageIdStr = imgPath; //use full file name as cache name
-	}
+	if (![[NSFileManager defaultManager] fileExistsAtPath:fpath])
+		return nil;
 	RCImage *img = [[RCImage alloc] initWithPath:fpath];
-	NSString *cachedName = [self.metaData objectForKey:img.imageId];
+	NSString *cachedName = [self.metaData objectForKey:img.imageId.description];
 	if (cachedName)
 		img.name = cachedName;
 	[self.imgCache setObject:img forKey:imageIdStr];
-	return YES;
+	return img;
+}
+
+-(RCImage*)loadImageFileIntoCache:(RCFile*)file
+{
+	RCImage *img = [[RCImage alloc] initWithPath:file.fileContentsPath];
+	img.name = file.name;
+	[self.imgCache setObject:img forKey:img.imageId.description];
+	return img;
 }
 
 -(void)cacheImagesReferencedInHTML:(NSString*)html
@@ -139,7 +145,7 @@
 			if ([img.name indexOf:@"#"] != NSNotFound)
 				img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
 			[[[RCImageCache sharedInstance] imgCache] setObject:img forKey:img.imageId.description];
-			[[RCImageCache sharedInstance] saveFileName:img.name forId:img.imageId];
+			[[RCImageCache sharedInstance] saveFileName:img.name forId:img.imageId.description];
 		}];
 		[self.dloadQueue addOperation:req];
 	}

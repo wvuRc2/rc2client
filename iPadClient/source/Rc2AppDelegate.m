@@ -400,6 +400,10 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 -(void)displayPdfFile:(RCFile*)file
 {
 	ZAssert([file.name hasSuffix:@".pdf"], @"non-pdf file pased to displayPdf:");
+	if (![[NSFileManager defaultManager] fileExistsAtPath:file.fileContentsPath]) {
+		Rc2LogWarn(@"displayPdfFile: called without content downloaded");
+		[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:file];
+	}
 	UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:
 											[NSURL fileURLWithPath:[file fileContentsPath]]];
 	dic.delegate = (id)self;

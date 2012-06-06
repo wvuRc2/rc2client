@@ -420,15 +420,26 @@
 	[self.consoleController evaluateJavaScript:cmd];
 }
 
--(void)displayImage:(NSString*)imgPath
+-(void)displayImage:(NSString *)imgPath
 {
-	if ([imgPath hasPrefix:@"/"])
-		imgPath = [imgPath substringFromIndex:1];
-	
-	if (![[RCImageCache sharedInstance] loadImageIntoCache:imgPath]) {
-		//FIXME: display alert
-		Rc2LogWarn(@"image does not exist: %@", imgPath);
-		return;
+	[self displayImageWithPathOrFile:imgPath];
+}
+
+-(void)displayImageWithPathOrFile:(id)fileOrPath
+{
+	RCImage *img=nil;
+	if ([fileOrPath isKindOfClass:[RCFile class]]) {
+		img = [[RCImageCache sharedInstance] loadImageFileIntoCache:fileOrPath];
+	} else {
+		if ([fileOrPath hasPrefix:@"/"])
+			fileOrPath = [fileOrPath substringFromIndex:1];
+		
+		img = [[RCImageCache sharedInstance] loadImageIntoCache:fileOrPath];
+		if (nil == img) {
+			//FIXME: display alert
+			Rc2LogWarn(@"image does not exist: %@", fileOrPath);
+			return;
+		}
 	}
 	
 	if (nil == self.imgController)
@@ -446,7 +457,7 @@
 	};
 	[self presentModalViewController:self.imgController animated:YES];
 	[self.imgController loadImages];
-	[self.imgController loadImage1:[[RCImageCache sharedInstance] imageWithId:imgPath]];
+	[self.imgController loadImage1:img];
 }
 
 -(void)displayLinkedFile:(NSString*)urlPath
@@ -472,13 +483,13 @@
 			NSString *tmpPath = [self webTmpFilePath:file];
 			[self.consoleController loadLocalFileURL:[NSURL fileURLWithPath:tmpPath]];
 		}
-	} else if ([fileExt isEqualToString:@"png"]) {
+	} else if ([[Rc2Server acceptableImageFileSuffixes] containsObject:fileExt]) {
 		//show as an image
 		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
 		if (file) {
 			if (!file.contentsLoaded)
 				[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:file];
-			[self displayImage:urlPath];
+			[self displayImageWithPathOrFile:file];
 		}
 	}
 }
