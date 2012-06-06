@@ -373,9 +373,28 @@
 
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress
 {
+	UIView *rootView = self.view.superview;
+	MBProgressHUD *hud = nil;
+
 	[self.filePopover dismissPopoverAnimated:YES];
 	if ([file.name hasSuffix:@".pdf"]) {
-		[(Rc2AppDelegate*)TheApp.delegate displayPdfFile:file];
+		if (file.contentsLoaded)
+			[(Rc2AppDelegate*)TheApp.delegate displayPdfFile:file];
+		else {
+			if (showProgress)
+				hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
+			hud.labelText = [NSString stringWithFormat:@"Loading %@…", file.name];
+			[[Rc2Server sharedInstance] fetchBinaryFileContents:file toPath:file.fileContentsPath progress:nil 
+											  completionHandler:^(BOOL success, id results)
+			{
+				if (showProgress)
+					[MBProgressHUD hideHUDForView:rootView animated:YES];
+				if (success)
+					[self loadFile:file showProgress:showProgress];
+				else
+					Rc2LogWarn(@"failed to fetch pdf '%@' from server:%@", file.name, results);
+			}];
+		}
 		return;
 	} else if (!file.isTextFile) {
 		//FIXME: need to do something else when file is not a text file. Likely a pdf file.
@@ -385,8 +404,6 @@
 		[self loadFileData:file];
 	} else {
 		//need to load with a progress HUD
-		UIView *rootView = self.view.superview;
-		MBProgressHUD *hud = nil;
 		if (showProgress)
 			hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
 		hud.labelText = @"Loading…";
