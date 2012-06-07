@@ -94,6 +94,7 @@
 {
 	[super updateForNewTheme:theme];
 	self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+	self.noteTable.layer.backgroundColor = [theme colorForKey:@"MessageBackground"].CGColor;
 	[self.view setNeedsDisplay];
 }
 

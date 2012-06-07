@@ -19,6 +19,10 @@
 	</dict>
 	<key>colors</key>
 	<dict>
+		<key>NoteCellStart</key>
+		<string>e5d28d</string>
+		<key>NoteCellEnd</key>
+		<string>eadba2</string>
 		<key>PriorityColors</key>
 		<array>
 			<string>db0404</string>
@@ -28,7 +32,7 @@
 			<string>3e1ce9</string>
 		</array>
 		<key>MessageBackground</key>
-		<string>ebc4dc</string>
+		<string>efe5bc</string>
 		<key>MessageCellStart</key>
 		<string>d7ba4f</string>
 		<key>MessageCellEnd</key>
@@ -56,7 +60,7 @@
 		<key>MasterCellSelectedEnd</key>
 		<string>c2e8f5</string>
 		<key>SessionPaneSplitterStart</key>
-		<string>#e1bf82</string>
+		<string>e1bf82</string>
 		<key>SessionPaneSplitterEnd</key>
 		<string>dbdf81</string>
 	</dict>
