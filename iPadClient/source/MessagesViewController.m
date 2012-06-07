@@ -11,12 +11,14 @@
 #import "MessageListCell.h"
 #import "RCMessage.h"
 #import "Rc2Server.h"
+#import "SendMessageViewController.h"
 
 @interface MessagesViewController () <UITableViewDelegate,UITableViewDataSource> {
 	BOOL _didLoad;
 }
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) SendMessageViewController *composeController;
 @property (nonatomic, copy) NSArray *messages;
 @property (nonatomic, copy) NSArray *flagImages;
 @property (nonatomic, assign) NSInteger selRowIdx;
@@ -97,6 +99,18 @@
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	self.messages = [moc fetchObjectsForEntityName:@"RCMessage" withPredicate:nil sortDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"dateSent" ascending:NO])];
 	[self.tableView reloadData];
+}
+
+-(IBAction)doComposeMessage:(id)sender
+{
+	__weak MessagesViewController *blockSelf = self;
+	self.composeController = [[SendMessageViewController alloc] init];
+	self.composeController.completionBlock = ^(NSInteger success) {
+		[blockSelf dismissModalViewControllerAnimated:YES];
+		blockSelf.composeController=nil;
+	};
+	self.composeController.modalPresentationStyle = UIModalPresentationPageSheet;
+	[self presentModalViewController:self.composeController animated:YES];
 }
 
 -(IBAction)doDeleteMessage:(id)sender
@@ -203,6 +217,6 @@
 @synthesize selRowIdx=_selRowIdx;
 @synthesize extraHeight=_extraHeight;
 @synthesize normalBG=_normalBG;
-
+@synthesize composeController=_composeController;
 
 @end

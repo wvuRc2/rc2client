@@ -147,6 +147,9 @@
 		0872E5F41407B91500B1A6CF /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0872E5F31407B91500B1A6CF /* MessageUI.framework */; };
 		0872E5F61407BB9E00B1A6CF /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0872E5F51407BB9E00B1A6CF /* AssetsLibrary.framework */; };
 		0872E5FC1407C0E500B1A6CF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0872E5FB1407C0E400B1A6CF /* AVFoundation.framework */; };
+		087C3A2F1580FF3F00ECA7C8 /* SendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 087C3A2D1580FF3F00ECA7C8 /* SendMessageViewController.m */; };
+		087C3A301580FF3F00ECA7C8 /* SendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 087C3A2E1580FF3F00ECA7C8 /* SendMessageViewController.xib */; };
+		087C3A3315810B0000ECA7C8 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 087C3A3215810B0000ECA7C8 /* mailsent.caf */; };
 		087CE9031402E86100C9F758 /* Icon72.png in Resources */ = {isa = PBXBuildFile; fileRef = 087CE9021402E86100C9F758 /* Icon72.png */; };
 		088A76C714069A40003D6A3F /* ImageHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 088A76C614069A40003D6A3F /* ImageHolderView.m */; };
 		088A76CD1406A194003D6A3F /* SessionFilesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088A76CB1406A194003D6A3F /* SessionFilesController.m */; };
@@ -466,6 +469,10 @@
 		0872E5F31407B91500B1A6CF /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0872E5F51407BB9E00B1A6CF /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0872E5FB1407C0E400B1A6CF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		087C3A2C1580FF3F00ECA7C8 /* SendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SendMessageViewController.h; path = source/SendMessageViewController.h; sourceTree = SOURCE_ROOT; };
+		087C3A2D1580FF3F00ECA7C8 /* SendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SendMessageViewController.m; path = source/SendMessageViewController.m; sourceTree = SOURCE_ROOT; };
+		087C3A2E1580FF3F00ECA7C8 /* SendMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SendMessageViewController.xib; path = source/SendMessageViewController.xib; sourceTree = SOURCE_ROOT; };
+		087C3A3215810B0000ECA7C8 /* mailsent.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mailsent.caf; path = resources/mailsent.caf; sourceTree = SOURCE_ROOT; };
 		087CE9021402E86100C9F758 /* Icon72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon72.png; path = resources/Icon72.png; sourceTree = SOURCE_ROOT; };
 		088A76C514069A40003D6A3F /* ImageHolderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageHolderView.h; path = source/ImageHolderView.h; sourceTree = SOURCE_ROOT; };
 		088A76C614069A40003D6A3F /* ImageHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageHolderView.m; path = source/ImageHolderView.m; sourceTree = SOURCE_ROOT; };
@@ -775,6 +782,7 @@
 				08447F891416D82D00A8DDF8 /* ThemeEngine.plist */,
 				08BA998D154739B000B6CFC1 /* DefaultDefaults.plist */,
 				08BA999015473C1100B6CFC1 /* Inconsolata.otf */,
+				087C3A3215810B0000ECA7C8 /* mailsent.caf */,
 				08DD231B14125B0700217C1A /* Keyboard.xib */,
 				08DD231F1412641B00217C1A /* leftSym.txt */,
 				08349EBD1403311500B629B4 /* rightSym.txt */,
@@ -1086,6 +1094,9 @@
 				08DD23AF1412BBDC00217C1A /* DropboxImportController.h */,
 				08DD23B01412BBDD00217C1A /* DropboxImportController.m */,
 				08DD23B11412BBDD00217C1A /* DropboxImportController.xib */,
+				087C3A2C1580FF3F00ECA7C8 /* SendMessageViewController.h */,
+				087C3A2D1580FF3F00ECA7C8 /* SendMessageViewController.m */,
+				087C3A2E1580FF3F00ECA7C8 /* SendMessageViewController.xib */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -1314,6 +1325,8 @@
 				080A2F4C1566E91D0018371A /* NotificationCell.xib in Resources */,
 				080A2F571566ED820018371A /* blackArrow.png in Resources */,
 				080A2F581566ED820018371A /* blackArrow@2x.png in Resources */,
+				087C3A301580FF3F00ECA7C8 /* SendMessageViewController.xib in Resources */,
+				087C3A3315810B0000ECA7C8 /* mailsent.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1467,6 +1480,7 @@
 				080A2F4A1566E8AD0018371A /* NotificationCell.m in Sources */,
 				080A2F551566ED820018371A /* PHRefreshGestureRecognizer.m in Sources */,
 				080A2F561566ED820018371A /* PHRefreshTriggerView.m in Sources */,
+				087C3A2F1580FF3F00ECA7C8 /* SendMessageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
