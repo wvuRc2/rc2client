@@ -35,10 +35,9 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 @property (nonatomic, copy, readwrite) NSString *currentLogin;
 @property (nonatomic, readwrite) BOOL isAdmin;
 @property (nonatomic, strong, readwrite) NSNumber *currentUserId;
-@property (nonatomic, copy, readwrite) NSArray *usersPermissions;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
-@property (nonatomic, copy, readwrite) NSArray *classesTaught;
-@property (nonatomic, copy, readwrite) NSArray *assignmentsToGrade;
+@property (nonatomic, strong) NSMutableDictionary *cachedData;
+@property (nonatomic, strong) NSMutableDictionary *cachedDataTimestamps;
 @property (nonatomic, strong) NSMutableDictionary *wsItemsById;
 @property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
 @property (nonatomic, strong) NSOperationQueue *requestQueue;
@@ -49,25 +48,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 #pragma mark -
 
 @implementation Rc2Server
-
-#pragma mark - synthesizers
-
-@synthesize serverHost=_serverHost;
-@synthesize loggedIn=_loggedIn;
-@synthesize workspaceItems=_workspaceItems;
-@synthesize classesTaught=_classesTaught;
-@synthesize assignmentsToGrade=_assignmentsToGrade;
-@synthesize wsItemsById=_wsItemsById;
-@synthesize selectedWorkspace=_selectedWorkspace;
-@synthesize currentSession=_currentSession;
-@synthesize userSettings=_userSettings;
-@synthesize currentLogin=_currentLogin;
-@synthesize remoteLogger=_remoteLogger;
-@synthesize currentUserId=_currentUserId;
-@synthesize isAdmin=_isAdmin;
-@synthesize usersPermissions=_usersPermissions;
-@synthesize requestQueue=_requestQueue;
-@synthesize jsonParser=_jsonParser;
 
 #pragma mark - init
 
@@ -131,6 +111,8 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	[DDLog addLogger:self.remoteLogger];
 	self.requestQueue = [[NSOperationQueue alloc] init];
 	self.requestQueue.maxConcurrentOperationCount = 4;
+	self.cachedDataTimestamps = [[NSMutableDictionary alloc] init];
+	self.cachedData = [[NSMutableDictionary alloc] init];
 	return self;
 }
 
@@ -858,11 +840,11 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		//success
 		self.currentLogin=user;
 		self.currentUserId = [rsp objectForKey:@"userid"];
-		self.userSettings = [rsp objectForKey:@"settings"];
-		self.usersPermissions = [rsp objectForKey:@"permissions"];
 		self.isAdmin = [[rsp objectForKey:@"isAdmin"] boolValue];
-		self.classesTaught = [RCCourse classesFromJSONArray:[rsp objectForKey:@"classes"]];
-		self.assignmentsToGrade = [rsp objectForKey:@"tograde"];
+		self.userSettings = [rsp objectForKey:@"settings"];
+		[self.cachedData setObject:[rsp objectForKey:@"permissions"] forKey:@"permissions"];
+		[self.cachedData setObject:[RCCourse classesFromJSONArray:[rsp objectForKey:@"classes"]] forKey:@"classesTaught"];
+		[self.cachedData setObject:[rsp objectForKey:@"tograde"] forKey:@"tograde"];
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
@@ -907,7 +889,86 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	self.loggedIn=NO;
 	self.currentLogin=nil;
 	self.remoteLogger.logHost=nil;
+	[self.cachedData removeAllObjects];
+	[self.cachedDataTimestamps removeAllObjects];
 	//FIXME: need to send a logout request to server
 }
+
+#pragma mark - accessors
+
+-(NSArray*)usersPermissions
+{
+	return [self.cachedData objectForKey:@"permissions"];
+}
+
+-(NSArray*)classesTaught
+{
+	return [self.cachedData objectForKey:@"classesTaught"];
+}
+
+-(NSArray*)assignmentsToGrade
+{
+	return [self.cachedData objectForKey:@"tograde"];
+}
+
+-(NSArray*)messageRecipients
+{
+	NSArray *rcpts = [self.cachedData objectForKey:@"messageRecipients"];
+	NSDate *date = [self.cachedDataTimestamps objectForKey:@"messageRecipients"];
+	if (rcpts && ([NSDate timeIntervalSinceReferenceDate] - date.timeIntervalSinceReferenceDate > 300)) {
+		//if data is less than 5 minutes old, use it
+		return rcpts;
+	}
+	ASIHTTPRequest *req = [self requestWithRelativeURL:@"messages?pm"];
+	__unsafe_unretained ASIHTTPRequest *blockReq = req;
+	if (rcpts) {
+		//old data, return it but trigger a refresh. KVO can be used to get the update
+		[req setCompletionBlock:^{
+			if (blockReq.responseStatusCode == 200)
+				[[Rc2Server sharedInstance] handleMessageRcpts:[blockReq.responseString JSONValue]];
+		}];
+		[req startAsynchronous];
+		return rcpts;
+	}
+	//we need to fetch them synchronously
+	[req startSynchronous];
+	if (req.responseStatusCode != 200) {
+		Rc2LogError(@"error fetching message rcpt list: %d", req.responseStatusCode);
+		return nil;
+	}
+	return [self handleMessageRcpts:[req.responseString JSONValue]];
+}
+
+-(NSArray*)handleMessageRcpts:(NSDictionary*)resp
+{
+	if (nil == [resp objectForKey:@"rcpts"]) {
+		Rc2LogWarn(@"server returned no message rcpts");
+		return nil;
+	}
+	NSArray *rcpts = [resp objectForKey:@"rcpts"];
+	[self willChangeValueForKey:@"messageRecipients"];
+	[self.cachedDataTimestamps setObject:[NSDate date] forKey:@"messageRecipients"];
+	[self.cachedData setObject:rcpts forKey:@"messageRecipients"];
+	[self didChangeValueForKey:@"messageRecipients"];
+	return rcpts;
+}
+
+#pragma mark - synthesizers
+
+@synthesize serverHost=_serverHost;
+@synthesize loggedIn=_loggedIn;
+@synthesize workspaceItems=_workspaceItems;
+@synthesize wsItemsById=_wsItemsById;
+@synthesize selectedWorkspace=_selectedWorkspace;
+@synthesize currentSession=_currentSession;
+@synthesize userSettings=_userSettings;
+@synthesize currentLogin=_currentLogin;
+@synthesize remoteLogger=_remoteLogger;
+@synthesize currentUserId=_currentUserId;
+@synthesize isAdmin=_isAdmin;
+@synthesize requestQueue=_requestQueue;
+@synthesize jsonParser=_jsonParser;
+@synthesize cachedData=_cachedData;
+@synthesize cachedDataTimestamps=_cachedDataTimestamps;
 
 @end

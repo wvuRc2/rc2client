@@ -59,6 +59,7 @@ extern NSString * const MessagesUpdatedNotification;
 @property (nonatomic, copy, readonly) NSArray *assignmentsToGrade;
 @property (nonatomic, strong) RCWorkspace *selectedWorkspace;
 @property (nonatomic, strong) RCSession *currentSession;
+@property (nonatomic, strong, readonly) NSArray *messageRecipients;
 
 #pragma mark - basic request operations
 //this method should be called on any request being sent to the rc2 server

@@ -7,6 +7,7 @@
 //
 
 #import "SendMessageViewController.h"
+#import "Rc2Server.h"
 
 @interface SendMessageViewController () <UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate>
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
@@ -36,6 +37,12 @@
 	self.subjectField.text = @"";
 	self.bodyTextView.text = @"";
 	self.sendButton.enabled = NO;
+	NSArray *rcpts = [[Rc2Server sharedInstance] messageRecipients];
+	if ([rcpts count] > 0) {
+		self.toLabel.text = [rcpts.firstObject objectForKey:@"name"];
+	} else {
+		//need to show a popup
+	}
 }
 
 - (void)viewDidUnload
