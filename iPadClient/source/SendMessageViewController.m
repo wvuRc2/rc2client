@@ -8,6 +8,7 @@
 
 #import "SendMessageViewController.h"
 #import "Rc2Server.h"
+#import "Vyana-ios/AMNavigationTreeController.h"
 
 @interface SendMessageViewController () <UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate>
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
@@ -17,7 +18,10 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *sendButton;
 @property (nonatomic, strong) IBOutlet UITextView *bodyTextView;
 @property (nonatomic, strong) IBOutlet UITextField *subjectField;
-@property (nonatomic, strong) IBOutlet UILabel *toLabel;
+@property (nonatomic, strong) IBOutlet UITextField *toField;
+@property (nonatomic, strong) AMNavigationTreeController *rcptController;
+@property (nonatomic, strong) UIPopoverController *rcptPopover;
+@property (nonatomic, strong) NSMutableArray *selectedRcpts;
 @end
 
 @implementation SendMessageViewController
@@ -37,11 +41,18 @@
 	self.subjectField.text = @"";
 	self.bodyTextView.text = @"";
 	self.sendButton.enabled = NO;
+	self.selectedRcpts = [[NSMutableArray alloc] init];
 	NSArray *rcpts = [[Rc2Server sharedInstance] messageRecipients];
-	if ([rcpts count] > 0) {
-		self.toLabel.text = [rcpts.firstObject objectForKey:@"name"];
+	if ([rcpts count] == 1) {
+		self.toField.text = [rcpts.firstObject objectForKey:@"name"];
 	} else {
-		//need to show a popup
+		//need to use a popup
+		AMNavigationTreeController *tc = [[AMNavigationTreeController alloc] init];
+		self.rcptController = tc;
+		tc.contentItems = rcpts;
+		tc.keyForCellText = @"name";
+		tc.delegate = (id)self;
+		tc.contentSizeForViewInPopover = CGSizeMake(300, 250);
 	}
 }
 
@@ -57,7 +68,28 @@
 	return YES;
 }
 
+#pragma mark - meat & potatos
+
+-(void)navTree:(AMNavigationTreeController*)navTree leafItemTouched:(id)item
+{
+	[self.rcptPopover dismissPopoverAnimated:YES];
+	self.rcptPopover=nil;
+	self.toField.text = [item objectForKey:@"name"];
+	[self.selectedRcpts addObject:item];
+}
+
 #pragma mark - actions
+
+-(IBAction)popupRcpts:(id)sender
+{
+	if (self.rcptPopover) {
+		[self.rcptPopover dismissPopoverAnimated:YES];
+		self.rcptPopover=nil;
+	} else {
+		self.rcptPopover = [[UIPopoverController alloc] initWithContentViewController:self.rcptController];
+		[self.rcptPopover presentPopoverFromRect:self.toField.frame inView:self.toCell permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+	}
+}
 
 -(IBAction)cancel:(id)sender
 {
@@ -118,6 +150,16 @@
 	return YES;
 }
 
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+	if (textField == self.toField) {
+		if (self.rcptController)
+			[self popupRcpts:nil];
+		return NO;
+	}
+	return YES;
+}
+
 -(void)textViewDidChange:(UITextView *)textView
 {
 	self.sendButton.enabled = textView.text.length > 0 && self.subjectField.text.length > 0;
@@ -137,7 +179,10 @@
 @synthesize sendButton=_sendButton;
 @synthesize toCell=_toCell;
 @synthesize bodyTextView=_bodyTextView;
-@synthesize toLabel=_toLabel;
+@synthesize toField=_toField;
 @synthesize subjectField=_subjectField;
 @synthesize completionBlock=_completionBlock;
+@synthesize rcptController=_rcptController;
+@synthesize rcptPopover=_rcptPopover;
+@synthesize selectedRcpts=_selectedRcpts;
 @end
