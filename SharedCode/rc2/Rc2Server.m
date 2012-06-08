@@ -945,7 +945,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		Rc2LogWarn(@"server returned no message rcpts");
 		return nil;
 	}
-	NSArray *rcpts = [resp objectForKey:@"rcpts"];
+	NSArray *rcpts = [[resp objectForKey:@"rcpts"] sortedArrayUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES])];
 	[self willChangeValueForKey:@"messageRecipients"];
 	[self.cachedDataTimestamps setObject:[NSDate date] forKey:@"messageRecipients"];
 	[self.cachedData setObject:rcpts forKey:@"messageRecipients"];

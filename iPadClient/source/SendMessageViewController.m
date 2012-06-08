@@ -56,8 +56,10 @@
 	tapg.numberOfTapsRequired = 1;
 	[self.toField addGestureRecognizer:tapg];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toFieldResized:) name:JSTokenFieldFrameDidChangeNotification object:self.toField];
-	NSMutableArray *rcpts = [[[Rc2Server sharedInstance] messageRecipients] mutableCopy];
-	[rcpts addObjectsFromArray:[Rc2Server sharedInstance].classesTaught];
+	NSArray *rcpts = [[Rc2Server sharedInstance] messageRecipients];
+	NSArray *classes = [Rc2Server sharedInstance].classesTaught;
+	if (classes) //classes first in order
+		rcpts = [classes arrayByAddingObjectsFromArray:rcpts];
 	self.availableRcpts = rcpts;
 	if ([rcpts count] == 1) {
 		[self.toField addTokenWithTitle:[rcpts.firstObject objectForKey:@"name"] representedObject:rcpts.firstObject];
