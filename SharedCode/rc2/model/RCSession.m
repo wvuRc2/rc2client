@@ -279,14 +279,12 @@
 
 -(void)didOpen
 {
-	NSLog(@"ws open");
 	self.socketOpen = YES;
 	[self.delegate connectionOpened];
 }
 
 - (void) didClose:(NSUInteger) aStatusCode message:(NSString*) aMessage error:(NSError*) aError;
 {
-	NSLog(@"ws close");
 	self.socketOpen = NO;
 	[self.delegate connectionClosed];
 }

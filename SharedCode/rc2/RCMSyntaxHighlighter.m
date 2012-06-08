@@ -181,7 +181,6 @@
 	[self.sasCommentRegex enumerateMatchesInString:astr.string options:0 range:NSMakeRange(0, astr.length) 
 									 usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
 	 {
-		 NSLog(@"found a sas comment");
 		 [astr addAttributes:self.commentAttrs range:results.range];
 	 }];
 	

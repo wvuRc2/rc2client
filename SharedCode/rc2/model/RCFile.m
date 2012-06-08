@@ -61,7 +61,6 @@
 {
 	if (self.isTextFile) {
 		if (nil == self.fileContents) {
-			NSLog(@"fetching content for %@", self.name);
 			[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id results) {
 				if (success) {
 					self.fileContents = results;

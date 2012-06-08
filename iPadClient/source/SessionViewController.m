@@ -142,8 +142,10 @@
 	self.editorController.session = self.session;
 	[self.editorController view];
 	[self.editorController restoreSessionState:savedState];
-	if (self.session.initialFileSelection)
+	if (self.session.initialFileSelection) {
+NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name);
 		[self.editorController loadFile:self.session.initialFileSelection showProgress:NO];
+	}
 	[self.consoleController restoreSessionState:savedState];
 	[[RCImageCache sharedInstance] cacheImagesReferencedInHTML:savedState.consoleHtml];
 	[self.session.workspace refreshFiles];
