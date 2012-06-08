@@ -109,6 +109,7 @@
 		[blockSelf dismissModalViewControllerAnimated:YES];
 		blockSelf.composeController=nil;
 	};
+	self.composeController.priorityImages = self.flagImages;
 	self.composeController.modalPresentationStyle = UIModalPresentationPageSheet;
 	[self presentModalViewController:self.composeController animated:YES];
 }

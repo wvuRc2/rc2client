@@ -10,4 +10,5 @@
 
 @interface SendMessageViewController : UIViewController
 @property (nonatomic, copy) BasicBlock1IntArg completionBlock; //BOOL success
+@property (nonatomic, copy) NSArray *priorityImages;
 @end

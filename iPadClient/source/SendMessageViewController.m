@@ -22,8 +22,11 @@
 @property (nonatomic, strong) IBOutlet UITextField *subjectField;
 @property (nonatomic, strong) IBOutlet JSTokenField *toField;
 @property (nonatomic, strong) IBOutlet UIButton *addRcptButton;
+@property (nonatomic, strong) IBOutlet UIButton *priorityImage;
 @property (nonatomic, strong) AMNavigationTreeController *rcptController;
-@property (nonatomic, strong) UIPopoverController *rcptPopover;
+@property (nonatomic, strong) AMNavigationTreeController *priorityController;
+@property (nonatomic, strong) UIPopoverController *currentPopover;
+@property (nonatomic, strong) NSDictionary *selectedPriority;
 @property (nonatomic, copy) NSArray *availableRcpts;
 @end
 
@@ -90,9 +93,14 @@
 
 -(void)navTree:(AMNavigationTreeController*)navTree leafItemTouched:(id)item
 {
-	[self.rcptPopover dismissPopoverAnimated:YES];
-	self.rcptPopover=nil;
-	[self.toField addTokenWithTitle:[item valueForKey:@"name"] representedObject:item];
+	[self.currentPopover dismissPopoverAnimated:YES];
+	self.currentPopover=nil;
+	if (navTree == self.rcptController) {
+		[self.toField addTokenWithTitle:[item valueForKey:@"name"] representedObject:item];
+	} else if (navTree == self.priorityController) {
+		[self.priorityImage setImage:[navTree.selectedItem objectForKey:@"img"] forState:UIControlStateNormal];
+		self.selectedPriority = navTree.selectedItem;
+	}
 }
 
 -(void)toFieldResized:(NSNotification*)note
@@ -102,24 +110,46 @@
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
-	self.rcptPopover=nil;
+	self.currentPopover=nil;
 }
 
 #pragma mark - actions
 
+-(IBAction)showPriorityPopup:(id)sender
+{
+	if (nil == self.priorityController) {
+		AMNavigationTreeController *tc = [[AMNavigationTreeController alloc] init];
+		self.priorityController = tc;
+		NSArray *imgs = self.priorityImages;
+		tc.contentItems = ARRAY(
+								[NSDictionary dictionaryWithObjectsAndKeys:@"High", @"name", [imgs objectAtIndex:3], @"img", nil],
+								[NSDictionary dictionaryWithObjectsAndKeys:@"Normal", @"name", [imgs objectAtIndex:2], @"img", nil],
+								[NSDictionary dictionaryWithObjectsAndKeys:@"Low", @"name", [imgs objectAtIndex:1], @"img", nil]
+		);
+		tc.keyForCellText = @"name";
+		tc.keyForCellImage = @"img";
+		tc.delegate = (id)self;
+		tc.contentSizeForViewInPopover = CGSizeMake(160, 140);
+	}
+	self.currentPopover = [[UIPopoverController alloc] initWithContentViewController:self.priorityController];
+	self.currentPopover.delegate = self;
+	[self.currentPopover presentPopoverFromRect:self.priorityImage.frame inView:self.subjectCell
+					   permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];	
+}
+
 -(IBAction)showRcptsPopup:(id)sender
 {
-	if (self.rcptPopover) {
-		[self.rcptPopover dismissPopoverAnimated:YES];
-		self.rcptPopover=nil;
+	if (self.currentPopover) {
+		[self.currentPopover dismissPopoverAnimated:YES];
+		self.currentPopover=nil;
 		return;
 	}
 	NSMutableArray *avail = [self.availableRcpts mutableCopy];
 	[avail removeObjectsInArray:[self.toField valueForKeyPath:@"tokens.representedObject"]];
 	self.rcptController.contentItems = avail;
-	self.rcptPopover = [[UIPopoverController alloc] initWithContentViewController:self.rcptController];
-	self.rcptPopover.delegate = self;
-	[self.rcptPopover presentPopoverFromRect:self.addRcptButton.frame inView:self.toCell 
+	self.currentPopover = [[UIPopoverController alloc] initWithContentViewController:self.rcptController];
+	self.currentPopover.delegate = self;
+	[self.currentPopover presentPopoverFromRect:self.addRcptButton.frame inView:self.toCell 
 					permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];	
 }
 
@@ -176,8 +206,8 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.row == 2) {
-		return self.tableView.bounds.size.height - 98;
+	if (indexPath.row == 3) {
+		return self.tableView.bounds.size.height - 54 - (self.toField.frame.size.height + 13);
 	}
 	if (indexPath.row == 0) {
 		return self.toField.frame.size.height + 13;
@@ -213,7 +243,11 @@
 @synthesize subjectField=_subjectField;
 @synthesize completionBlock=_completionBlock;
 @synthesize rcptController=_rcptController;
-@synthesize rcptPopover=_rcptPopover;
+@synthesize currentPopover=_currentPopover;
 @synthesize addRcptButton=_addRcptButton;
 @synthesize availableRcpts=_availableRcpts;
+@synthesize priorityImages=_priorityImages;
+@synthesize priorityImage=_priorityImage;
+@synthesize priorityController=_priorityController;
+@synthesize selectedPriority=_selectedPriority;
 @end
