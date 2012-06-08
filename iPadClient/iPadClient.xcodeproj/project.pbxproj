@@ -150,6 +150,12 @@
 		087C3A2F1580FF3F00ECA7C8 /* SendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 087C3A2D1580FF3F00ECA7C8 /* SendMessageViewController.m */; };
 		087C3A301580FF3F00ECA7C8 /* SendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 087C3A2E1580FF3F00ECA7C8 /* SendMessageViewController.xib */; };
 		087C3A3315810B0000ECA7C8 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 087C3A3215810B0000ECA7C8 /* mailsent.caf */; };
+		087C3A4115825E9700ECA7C8 /* JSTokenButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 087C3A3A15825E9700ECA7C8 /* JSTokenButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		087C3A4215825E9700ECA7C8 /* JSTokenField.m in Sources */ = {isa = PBXBuildFile; fileRef = 087C3A3C15825E9700ECA7C8 /* JSTokenField.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		087C3A4315825E9700ECA7C8 /* tokenHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 087C3A3D15825E9700ECA7C8 /* tokenHighlighted.png */; };
+		087C3A4415825E9700ECA7C8 /* tokenHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 087C3A3E15825E9700ECA7C8 /* tokenHighlighted@2x.png */; };
+		087C3A4515825E9700ECA7C8 /* tokenNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 087C3A3F15825E9700ECA7C8 /* tokenNormal.png */; };
+		087C3A4615825E9700ECA7C8 /* tokenNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 087C3A4015825E9700ECA7C8 /* tokenNormal@2x.png */; };
 		087CE9031402E86100C9F758 /* Icon72.png in Resources */ = {isa = PBXBuildFile; fileRef = 087CE9021402E86100C9F758 /* Icon72.png */; };
 		088A76C714069A40003D6A3F /* ImageHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 088A76C614069A40003D6A3F /* ImageHolderView.m */; };
 		088A76CD1406A194003D6A3F /* SessionFilesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088A76CB1406A194003D6A3F /* SessionFilesController.m */; };
@@ -473,6 +479,14 @@
 		087C3A2D1580FF3F00ECA7C8 /* SendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SendMessageViewController.m; path = source/SendMessageViewController.m; sourceTree = SOURCE_ROOT; };
 		087C3A2E1580FF3F00ECA7C8 /* SendMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SendMessageViewController.xib; path = source/SendMessageViewController.xib; sourceTree = SOURCE_ROOT; };
 		087C3A3215810B0000ECA7C8 /* mailsent.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mailsent.caf; path = resources/mailsent.caf; sourceTree = SOURCE_ROOT; };
+		087C3A3915825E9700ECA7C8 /* JSTokenButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTokenButton.h; sourceTree = "<group>"; };
+		087C3A3A15825E9700ECA7C8 /* JSTokenButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTokenButton.m; sourceTree = "<group>"; };
+		087C3A3B15825E9700ECA7C8 /* JSTokenField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTokenField.h; sourceTree = "<group>"; };
+		087C3A3C15825E9700ECA7C8 /* JSTokenField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTokenField.m; sourceTree = "<group>"; };
+		087C3A3D15825E9700ECA7C8 /* tokenHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tokenHighlighted.png; sourceTree = "<group>"; };
+		087C3A3E15825E9700ECA7C8 /* tokenHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tokenHighlighted@2x.png"; sourceTree = "<group>"; };
+		087C3A3F15825E9700ECA7C8 /* tokenNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tokenNormal.png; sourceTree = "<group>"; };
+		087C3A4015825E9700ECA7C8 /* tokenNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tokenNormal@2x.png"; sourceTree = "<group>"; };
 		087CE9021402E86100C9F758 /* Icon72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon72.png; path = resources/Icon72.png; sourceTree = SOURCE_ROOT; };
 		088A76C514069A40003D6A3F /* ImageHolderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageHolderView.h; path = source/ImageHolderView.h; sourceTree = SOURCE_ROOT; };
 		088A76C614069A40003D6A3F /* ImageHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageHolderView.m; path = source/ImageHolderView.m; sourceTree = SOURCE_ROOT; };
@@ -1004,6 +1018,22 @@
 			path = source/MGSplitViewController;
 			sourceTree = "<group>";
 		};
+		087C3A3815825E9700ECA7C8 /* JSTokenField */ = {
+			isa = PBXGroup;
+			children = (
+				087C3A3915825E9700ECA7C8 /* JSTokenButton.h */,
+				087C3A3A15825E9700ECA7C8 /* JSTokenButton.m */,
+				087C3A3B15825E9700ECA7C8 /* JSTokenField.h */,
+				087C3A3C15825E9700ECA7C8 /* JSTokenField.m */,
+				087C3A3D15825E9700ECA7C8 /* tokenHighlighted.png */,
+				087C3A3E15825E9700ECA7C8 /* tokenHighlighted@2x.png */,
+				087C3A3F15825E9700ECA7C8 /* tokenNormal.png */,
+				087C3A4015825E9700ECA7C8 /* tokenNormal@2x.png */,
+			);
+			name = JSTokenField;
+			path = source/JSTokenField;
+			sourceTree = "<group>";
+		};
 		088A76C91406A15F003D6A3F /* session related controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1108,6 +1138,7 @@
 				0828966715471D7E00A6B6C2 /* json */,
 				08EE41011436441F004FDBB8 /* WebSocketClient */,
 				080A2F4D1566ED820018371A /* PHRefreshGestureRecognizer */,
+				087C3A3815825E9700ECA7C8 /* JSTokenField */,
 				08661A261405AC170087BD34 /* MGSplitViewController */,
 				08349F111404706A00B629B4 /* ASIHTTPRequest */,
 			);
@@ -1327,6 +1358,10 @@
 				080A2F581566ED820018371A /* blackArrow@2x.png in Resources */,
 				087C3A301580FF3F00ECA7C8 /* SendMessageViewController.xib in Resources */,
 				087C3A3315810B0000ECA7C8 /* mailsent.caf in Resources */,
+				087C3A4315825E9700ECA7C8 /* tokenHighlighted.png in Resources */,
+				087C3A4415825E9700ECA7C8 /* tokenHighlighted@2x.png in Resources */,
+				087C3A4515825E9700ECA7C8 /* tokenNormal.png in Resources */,
+				087C3A4615825E9700ECA7C8 /* tokenNormal@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1481,6 +1516,8 @@
 				080A2F551566ED820018371A /* PHRefreshGestureRecognizer.m in Sources */,
 				080A2F561566ED820018371A /* PHRefreshTriggerView.m in Sources */,
 				087C3A2F1580FF3F00ECA7C8 /* SendMessageViewController.m in Sources */,
+				087C3A4115825E9700ECA7C8 /* JSTokenButton.m in Sources */,
+				087C3A4215825E9700ECA7C8 /* JSTokenField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

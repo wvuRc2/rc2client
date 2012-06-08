@@ -9,8 +9,10 @@
 #import "SendMessageViewController.h"
 #import "Rc2Server.h"
 #import "Vyana-ios/AMNavigationTreeController.h"
+#import "JSTokenField.h"
+#import "JSTokenButton.h"
 
-@interface SendMessageViewController () <UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate>
+@interface SendMessageViewController () <UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,JSTokenFieldDelegate,UIPopoverControllerDelegate>
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UITableViewCell *toCell;
 @property (nonatomic, strong) IBOutlet UITableViewCell *subjectCell;
@@ -18,10 +20,11 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *sendButton;
 @property (nonatomic, strong) IBOutlet UITextView *bodyTextView;
 @property (nonatomic, strong) IBOutlet UITextField *subjectField;
-@property (nonatomic, strong) IBOutlet UITextField *toField;
+@property (nonatomic, strong) IBOutlet JSTokenField *toField;
+@property (nonatomic, strong) IBOutlet UIButton *addRcptButton;
 @property (nonatomic, strong) AMNavigationTreeController *rcptController;
 @property (nonatomic, strong) UIPopoverController *rcptPopover;
-@property (nonatomic, strong) NSMutableArray *selectedRcpts;
+@property (nonatomic, copy) NSArray *availableRcpts;
 @end
 
 @implementation SendMessageViewController
@@ -33,6 +36,11 @@
 	return self;
 }
 
+-(void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - view lifecycle
 
 - (void)viewDidLoad
@@ -41,10 +49,19 @@
 	self.subjectField.text = @"";
 	self.bodyTextView.text = @"";
 	self.sendButton.enabled = NO;
-	self.selectedRcpts = [[NSMutableArray alloc] init];
-	NSArray *rcpts = [[Rc2Server sharedInstance] messageRecipients];
+	self.toField.delegate = self;
+	self.toField.label.text = @"To:";
+	self.toField.textField.enabled=NO;
+	UITapGestureRecognizer *tapg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toFieldTapped:)];
+	tapg.numberOfTapsRequired = 1;
+	[self.toField addGestureRecognizer:tapg];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toFieldResized:) name:JSTokenFieldFrameDidChangeNotification object:self.toField];
+	NSMutableArray *rcpts = [[[Rc2Server sharedInstance] messageRecipients] mutableCopy];
+	[rcpts addObjectsFromArray:[Rc2Server sharedInstance].classesTaught];
+	self.availableRcpts = rcpts;
 	if ([rcpts count] == 1) {
-		self.toField.text = [rcpts.firstObject objectForKey:@"name"];
+		[self.toField addTokenWithTitle:[rcpts.firstObject objectForKey:@"name"] representedObject:rcpts.firstObject];
+		self.addRcptButton.hidden=YES;
 	} else {
 		//need to use a popup
 		AMNavigationTreeController *tc = [[AMNavigationTreeController alloc] init];
@@ -59,8 +76,7 @@
 - (void)viewDidUnload
 {
 	[super viewDidUnload];
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:JSTokenFieldFrameDidChangeNotification object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -74,20 +90,45 @@
 {
 	[self.rcptPopover dismissPopoverAnimated:YES];
 	self.rcptPopover=nil;
-	self.toField.text = [item objectForKey:@"name"];
-	[self.selectedRcpts addObject:item];
+	[self.toField addTokenWithTitle:[item valueForKey:@"name"] representedObject:item];
+}
+
+-(void)toFieldResized:(NSNotification*)note
+{
+	[self.tableView reloadRowsAtIndexPaths:ARRAY([NSIndexPath indexPathForRow:0 inSection:0]) withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+	self.rcptPopover=nil;
 }
 
 #pragma mark - actions
 
--(IBAction)popupRcpts:(id)sender
+-(IBAction)showRcptsPopup:(id)sender
 {
 	if (self.rcptPopover) {
 		[self.rcptPopover dismissPopoverAnimated:YES];
 		self.rcptPopover=nil;
-	} else {
-		self.rcptPopover = [[UIPopoverController alloc] initWithContentViewController:self.rcptController];
-		[self.rcptPopover presentPopoverFromRect:self.toField.frame inView:self.toCell permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+		return;
+	}
+	NSMutableArray *avail = [self.availableRcpts mutableCopy];
+	[avail removeObjectsInArray:[self.toField valueForKeyPath:@"tokens.representedObject"]];
+	self.rcptController.contentItems = avail;
+	self.rcptPopover = [[UIPopoverController alloc] initWithContentViewController:self.rcptController];
+	self.rcptPopover.delegate = self;
+	[self.rcptPopover presentPopoverFromRect:self.addRcptButton.frame inView:self.toCell 
+					permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];	
+}
+
+-(void)toFieldTapped:(UIGestureRecognizer*)grecog
+{
+	if (nil == self.rcptController)
+		return;
+	id deepView = [self.toField hitTest:[grecog locationInView:self.toField] withEvent:nil];
+	if ([deepView isKindOfClass:[JSTokenButton class]]) {
+		[self.toField removeTokenForString:[[deepView representedObject] valueForKey:@"name"]];
+		return;
 	}
 }
 
@@ -136,6 +177,9 @@
 	if (indexPath.row == 2) {
 		return self.tableView.bounds.size.height - 98;
 	}
+	if (indexPath.row == 0) {
+		return self.toField.frame.size.height + 13;
+	}
 	return 44;
 }
 
@@ -150,25 +194,9 @@
 	return YES;
 }
 
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
-	if (textField == self.toField) {
-		if (self.rcptController)
-			[self popupRcpts:nil];
-		return NO;
-	}
-	return YES;
-}
-
 -(void)textViewDidChange:(UITextView *)textView
 {
 	self.sendButton.enabled = textView.text.length > 0 && self.subjectField.text.length > 0;
-}
-
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-	self.sendButton.enabled = self.bodyTextView.text.length > 0 && self.subjectField.text.length > 0;
-	return YES;
 }
 
 #pragma mark - synthesizers
@@ -184,5 +212,6 @@
 @synthesize completionBlock=_completionBlock;
 @synthesize rcptController=_rcptController;
 @synthesize rcptPopover=_rcptPopover;
-@synthesize selectedRcpts=_selectedRcpts;
+@synthesize addRcptButton=_addRcptButton;
+@synthesize availableRcpts=_availableRcpts;
 @end
