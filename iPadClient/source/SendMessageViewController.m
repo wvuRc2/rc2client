@@ -11,6 +11,9 @@
 #import "Vyana-ios/AMNavigationTreeController.h"
 #import "JSTokenField.h"
 #import "JSTokenButton.h"
+#import "RCCourse.h"
+#import "RCUser.h"
+#import "ASIFormDataRequest.h"
 
 @interface SendMessageViewController () <UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,JSTokenFieldDelegate,UIPopoverControllerDelegate>
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
@@ -29,6 +32,8 @@
 @property (nonatomic, strong) NSDictionary *selectedPriority;
 @property (nonatomic, copy) NSArray *availableRcpts;
 @end
+
+#define NSNUM(x) [NSNumber numberWithInteger:x]
 
 @implementation SendMessageViewController
 
@@ -122,9 +127,9 @@
 		self.priorityController = tc;
 		NSArray *imgs = self.priorityImages;
 		tc.contentItems = ARRAY(
-								[NSDictionary dictionaryWithObjectsAndKeys:@"High", @"name", [imgs objectAtIndex:3], @"img", nil],
-								[NSDictionary dictionaryWithObjectsAndKeys:@"Normal", @"name", [imgs objectAtIndex:2], @"img", nil],
-								[NSDictionary dictionaryWithObjectsAndKeys:@"Low", @"name", [imgs objectAtIndex:1], @"img", nil]
+			[NSDictionary dictionaryWithObjectsAndKeys:@"High", @"name", [imgs objectAtIndex:3], @"img", NSNUM(3), @"val", nil],
+			[NSDictionary dictionaryWithObjectsAndKeys:@"Normal", @"name", [imgs objectAtIndex:2], @"img", NSNUM(2), @"val", nil],
+			[NSDictionary dictionaryWithObjectsAndKeys:@"Low", @"name", [imgs objectAtIndex:1], @"img", NSNUM(1), @"val", nil]
 		);
 		tc.keyForCellText = @"name";
 		tc.keyForCellImage = @"img";
@@ -179,7 +184,41 @@
 		
 	});
 	AudioServicesPlaySystemSound(soundId);
-	NSLog(@"sound should've played");
+	if ([self.subjectField isFirstResponder])
+		[self.subjectField resignFirstResponder];
+	if ([self.bodyTextView isFirstResponder])
+		[self.bodyTextView resignFirstResponder];
+	NSMutableDictionary *msg = [[NSMutableDictionary alloc] init];
+	[msg setObject:self.subjectField.text forKey:@"subject"];
+	[msg setObject:self.bodyTextView.text forKey:@"body"];
+	NSNumber *priority = [self.selectedPriority objectForKey:@"val"];
+	if (nil == priority)
+		priority = [NSNumber numberWithInt:2];
+	[msg setObject:priority forKey:@"priority"];
+	NSMutableArray *userRcpts = [NSMutableArray array];
+	NSMutableArray *classRcpts = [NSMutableArray array];
+	for (id rcpt in [self.toField valueForKeyPath:@"tokens.representedObject"]) {
+		if ([rcpt isKindOfClass:[RCCourse class]])
+			[classRcpts addObject:[rcpt courseId]];
+		else
+			[userRcpts addObject:[rcpt objectForKey:@"id"]];
+	}
+	[msg setObject:userRcpts forKey:@"userRcpts"];
+	[msg setObject:classRcpts forKey:@"classRcpts"];
+	//send the message
+	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"messages"];
+	__weak ASIFormDataRequest *blockReq = req;
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[[msg JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req setCompletionBlock:^{
+		if(blockReq.responseStatusCode != 200) {
+			[UIAlertView showAlertWithTitle:@"Error sending message" message:blockReq.error.localizedDescription];
+		} else {
+			//FIXME: handle any error returned in json from server
+			NSLog(@"server responded with:%@", blockReq.responseString);
+		}
+	}];
+	[req startAsynchronous];
 	self.completionBlock(YES);
 }
 
@@ -206,7 +245,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.row == 3) {
+	if (indexPath.row == 2) {
 		return self.tableView.bounds.size.height - 54 - (self.toField.frame.size.height + 13);
 	}
 	if (indexPath.row == 0) {

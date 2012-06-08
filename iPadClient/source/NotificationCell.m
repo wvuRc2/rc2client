@@ -77,7 +77,7 @@
 {
 	_note = note;
 	self.typeLabel.text = [self stringForType:[[note objectForKey:@"notetype"] intValue]];
-	self.messageLabel.text = [note objectForKey:@"details"];
+	self.messageLabel.text = [note objectForKey:@"message"];
 	NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[note objectForKey:@"datecreated"] doubleValue] / 1000];
 	self.dateLabel.text = [self.dateFormatter stringFromDate:date];
 }
