@@ -47,6 +47,7 @@
 //@property (nonatomic, strong) NSOperationQueue *dloadQueue;
 @property (nonatomic, strong) NSMenu *addMenu;
 @property (nonatomic, strong) MCWebOutputController *outputController;
+@property (nonatomic, strong) NSArray *fileArray;
 @property (nonatomic, strong) RCFile *selectedFile;
 @property (nonatomic, copy) NSString *scratchString;
 @property (nonatomic, strong) NSPopover *imagePopover;
@@ -71,9 +72,6 @@
 @end
 
 @implementation MacSessionViewController
-@synthesize session=__session;
-@synthesize selectedFile=__selFile;
-@synthesize restrictedMode=_restrictedMode;
 
 -(id)initWithSession:(RCSession*)aSession
 {
@@ -84,7 +82,8 @@
 		self.session.delegate = self;
 		self.scratchString=@"";
 		self.users = [NSArray array];
-		for (RCFile *file in self.session.workspace.files)
+		self.fileArray = [self.session.workspace.files sortedArrayUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES])];
+		for (RCFile *file in self.fileArray)
 			[file updateContentsFromServer];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
@@ -154,7 +153,7 @@
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[blockSelf.fileTableView reloadData];
 				if (blockSelf.fileIdJustImported) {
-					NSUInteger idx = [blockSelf.session.workspace.files indexOfObjectWithValue:blockSelf.fileIdJustImported usingSelector:@selector(fileId)];
+					NSUInteger idx = [blockSelf.fileArray indexOfObjectWithValue:blockSelf.fileIdJustImported usingSelector:@selector(fileId)];
 					if (NSNotFound != idx) {
 						[blockSelf.fileTableView amSelectRow:idx byExtendingSelection:NO];
 					}
@@ -674,10 +673,8 @@
 	[self.outputController executeJavaScript:cmd];	
 }
 
--(void)displayImage:(NSString*)imgPath
+-(void)setupImageDisplay:(NSArray*)imgArray
 {
-	if ([imgPath hasPrefix:@"/"])
-		imgPath = [imgPath substringFromIndex:1];
 	if (nil == self.imageController)
 		self.imageController = [[RCMImageViewer alloc] init];
 	if (nil == self.imagePopover) {
@@ -686,20 +683,64 @@
 	}
 	__unsafe_unretained MacSessionViewController *blockSelf = self;
 	self.imagePopover.contentViewController = self.imageController;
-	self.imageController.imageArray = self.currentImageGroup;
+	self.imageController.imageArray = imgArray;
 	self.imageController.workspace = self.session.workspace;
 	self.imageController.detailsBlock = ^{
 		[blockSelf showImageDetails:nil];	
 	};
 	NSRect r = NSMakeRect(__curImgPoint.x+16, self.outputController.webView.frame.size.height - __curImgPoint.y - 16, 1, 1);
 	[self.imagePopover showRelativeToRect:r ofView:self.outputController.webView preferredEdge:NSMaxXEdge];
+}
+
+
+-(void)displayImage:(NSString*)imgPath
+{
+	if ([imgPath hasPrefix:@"/"])
+		imgPath = [imgPath substringFromIndex:1];
+	[self setupImageDisplay:self.currentImageGroup];
 	NSString *idStr = [imgPath.lastPathComponent stringByDeletingPathExtension];
 	[self.imageController displayImage:[NSNumber numberWithInt:[idStr intValue]]];
 }
 
--(void)displayLinkedFile:(NSString*)path
+-(void)displayLinkedFile:(NSString*)urlPath atPoint:(NSPoint)pt
 {
-	
+	__curImgPoint = pt;
+	[self displayLinkedFile:urlPath];
+	__curImgPoint = NSZeroPoint;
+}
+
+-(void)displayLinkedFile:(NSString*)urlPath
+{
+	NSString *fileIdStr = urlPath.lastPathComponent.stringByDeletingPathExtension;
+	if ([urlPath hasSuffix:@".pdf"]) {
+		//we want to show the pdf
+		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
+		if (!file.contentsLoaded)
+			[file updateContentsFromServer];
+		[self.outputController loadLocalFile:file];
+		return;
+	}
+	//a sas file most likely
+	NSString *filename = urlPath.lastPathComponent;
+	NSString *fileExt = filename.pathExtension;
+	//what to do? see if it is an acceptable text file suffix. If so, have webview display it
+	if ([[Rc2Server acceptableTextFileSuffixes] containsObject:fileExt]) {
+		NSInteger fid = [[filename stringByDeletingPathExtension] integerValue];
+		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:fid]];
+		if (file) {
+			[self.outputController loadLocalFile:file];
+		}
+	} else if ([[Rc2Server acceptableImageFileSuffixes] containsObject:fileExt]) {
+		//show as an image
+		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
+		if (file) {
+			if (!file.contentsLoaded)
+				[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:file];
+			RCImage *img = [[RCImageCache sharedInstance] loadImageFileIntoCache:file];
+			[self setupImageDisplay:ARRAY(img)];
+			[self.imageController displayImage:img.imageId];
+		}
+	}
 }
 
 -(void)displayEditorFile:(RCFile*)file
@@ -848,14 +889,14 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-	RCFile *file = [self.session.workspace.files objectAtIndexNoExceptions:[self.fileTableView selectedRow]];
+	RCFile *file = [self.fileArray objectAtIndexNoExceptions:[self.fileTableView selectedRow]];
 	self.selectedFile = file;
 }
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	if (tableView == self.fileTableView)
-		return self.session.workspace.files.count;
+		return self.fileArray.count;
 	return [self.users count];
 }
 
@@ -866,7 +907,7 @@
 		view.objectValue = [self.users objectAtIndex:row];
 		return view;
 	}
-	RCFile *file = [self.session.workspace.files objectAtIndexNoExceptions:row];
+	RCFile *file = [self.fileArray objectAtIndexNoExceptions:row];
 	RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
 	view.objectValue = file;
 	__unsafe_unretained MacSessionViewController *blockSelf = self;
@@ -887,7 +928,7 @@
 {
 	if (aTableView == self.userTableView)
 		return NO;
-	RCFile *file = [self.session.workspace.files objectAtIndex:rowIndexes.firstIndex];
+	RCFile *file = [self.fileArray objectAtIndex:rowIndexes.firstIndex];
 	NSArray *pitems = ARRAY([NSURL fileURLWithPath:file.fileContentsPath]);
 	[pboard writeObjects:pitems];
 	return YES;
@@ -902,7 +943,7 @@
 
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation
 {
-	[MultiFileImporter acceptTableViewFileDrop:tableView dragInfo:info existingFiles:self.session.workspace.files 
+	[MultiFileImporter acceptTableViewFileDrop:tableView dragInfo:info existingFiles:self.fileArray 
 							 completionHandler:^(NSArray *urls, BOOL replaceExisting)
 	 {
 		 MultiFileImporter *mfi = [[MultiFileImporter alloc] init];
@@ -971,7 +1012,7 @@
 	} else
 		self.scratchString = self.editView.string;
 	RCFile *oldFile = __selFile;
-	NSInteger oldFileIdx = [self.session.workspace.files indexOfObject:oldFile];
+	NSInteger oldFileIdx = [self.fileArray indexOfObject:oldFile];
 	if (oldFileIdx < 0)
 		oldFileIdx = 0;
 	__selFile = selectedFile;
@@ -1021,6 +1062,10 @@
 	return self.restrictedMode;
 }
 
+@synthesize session=__session;
+@synthesize selectedFile=__selFile;
+@synthesize restrictedMode=_restrictedMode;
+@synthesize fileArray=_fileArray;
 @synthesize contentSplitView;
 @synthesize fileTableView;
 @synthesize outputController;

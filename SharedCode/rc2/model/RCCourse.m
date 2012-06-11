@@ -13,7 +13,7 @@
 +(NSArray*)classesFromJSONArray:(NSArray*)json
 {
 	if ([json count] < 1)
-		return nil;
+		return [NSArray array];
 	NSMutableArray *a = [NSMutableArray arrayWithCapacity:json.count];
 	for (NSDictionary *cd in json) {
 		RCCourse *aClass = [[RCCourse alloc] initWithDictionary:cd];

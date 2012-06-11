@@ -844,7 +844,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		self.userSettings = [rsp objectForKey:@"settings"];
 		[self.cachedData setObject:[rsp objectForKey:@"permissions"] forKey:@"permissions"];
 		[self.cachedData setObject:[RCCourse classesFromJSONArray:[rsp objectForKey:@"classes"]] forKey:@"classesTaught"];
-		[self.cachedData setObject:[rsp objectForKey:@"tograde"] forKey:@"tograde"];
+		[self.cachedData setObjectIgnoringNil:[rsp objectForKey:@"tograde"] forKey:@"tograde"];
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)

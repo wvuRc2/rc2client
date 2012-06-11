@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "RCMAppConstants.h"
 #import "RCImageCache.h"
+#import "RCFile.h"
 #import <Quartz/Quartz.h>
 
 @interface MCWebOutputController() {
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) NSMenuItem *viewSourceMenuItem;
 @property (nonatomic, strong) NSMutableArray *commandHistory;
 @property (nonatomic, strong) NSMutableArray *outputQueue;
+@property (nonatomic, copy) NSString *webTmpFileDirectory;
 -(void)loadContent;
 -(void)viewSource:(id)sender;
 -(void)jserror:(id)err;
@@ -45,6 +47,14 @@
 	}
 	
 	return self;
+}
+
+-(void)dealloc
+{
+	if (self.webTmpFileDirectory) {
+		[[NSFileManager defaultManager] removeItemAtPath:self.webTmpFileDirectory error:nil];
+		self.webTmpFileDirectory=nil;
+	}
 }
 
 -(void)awakeFromNib
@@ -73,6 +83,8 @@
 	}
 	return NO;
 }
+
+#pragma mark - meat & potatos
 
 -(void)viewSource:(id)sender
 {
@@ -164,6 +176,39 @@
 -(void)jserror:(id)err
 {
 	NSLog(@"err=%@", err);
+}
+
+// adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
+-(NSString*)webTmpFilePath:(RCFile*)file
+{
+	NSFileManager *fm = [[NSFileManager alloc] init];
+	if (nil == self.webTmpFileDirectory) {
+		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
+		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:@"txt"];
+	NSError *err=nil;
+	if ([fm fileExistsAtPath:newPath])
+		[fm removeItemAtPath:newPath error:nil];
+	if (!file.contentsLoaded)
+		[file updateContentsFromServer];
+	if (![fm fileExistsAtPath:file.fileContentsPath]) {
+		if (![file.fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
+			Rc2LogError(@"failed to write web tmp file:%@", err);
+	} else if (![fm copyItemAtPath:file.fileContentsPath toPath:newPath error:&err]) {
+		Rc2LogError(@"error copying file:%@", err);
+	}
+	return newPath;
+}
+
+-(void)loadLocalFile:(RCFile*)file
+{
+	NSString *filePath = file.fileContentsPath;
+	if (![file.name hasSuffix:@".pdf"]) {
+		//we need to adjust the path to use
+		filePath = [self webTmpFilePath:file];
+	}
+	[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:filePath]]];
 }
 
 #pragma mark - actions
@@ -396,7 +441,8 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 			[listener use];
 			return;
 		} else if ([[[request URL] scheme] isEqualToString:@"rc2file"]) {
-			[self.delegate displayLinkedFile:request.URL.path];
+			NSRect imgRect = [[[actionInformation objectForKey:WebActionElementKey] objectForKey:@"WebElementImageRect"] rectValue];
+			[self.delegate displayLinkedFile:request.URL.path atPoint:imgRect.origin];
 		} else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
 			//displaying a pdf
 			[self.delegate handleImageRequest:[request URL]];
@@ -461,4 +507,5 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 @synthesize historyHasItems;
 @synthesize restrictedMode;
 @synthesize outputQueue=_outputQueue;
+@synthesize webTmpFileDirectory=_webTmpFileDirectory;
 @end

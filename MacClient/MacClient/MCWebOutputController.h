@@ -10,13 +10,14 @@
 
 @class RCSavedSession;
 @class RCMConsoleTextField;
+@class RCFile;
 
 @protocol MCWebOutputDelegate <NSObject>
 -(BOOL)restricted;
 -(void)handleImageRequest:(NSURL*)url;
 -(void)previewImages:(NSArray*)imageUrls atPoint:(NSPoint)pt;
 -(void)executeConsoleCommand:(NSString*)command;
--(void)displayLinkedFile:(NSString*)filePath;
+-(void)displayLinkedFile:(NSString*)filePath atPoint:(NSPoint)pt;
 @end
 
 @interface MCWebOutputController : AMViewController<NSTextFieldDelegate>
@@ -43,5 +44,6 @@
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 
 -(void)executeJavaScript:(NSString*)js;
+-(void)loadLocalFile:(RCFile*)file;
 
 @end
