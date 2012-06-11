@@ -707,6 +707,15 @@
 	self.selectedFile = file;
 }
 
+-(void)workspaceFileUpdated:(RCFile*)file
+{
+	if (self.selectedFile.fileId.intValue == file.fileId.intValue) {
+		//we need to reload the contents of the file
+		__selFile = nil; //force to treat as new file, i.e. don't save current edits
+		self.selectedFile = file;
+	}
+}
+
 -(void)processBinaryMessage:(NSData*)data
 {
 	[self.audioEngine processBinaryMessage:data];
@@ -957,7 +966,7 @@
 			;
 		else if ([__selFile.fileContents isEqualToString:self.editView.string])
 			[__selFile setLocalEdits:nil];
-		else
+		else 
 			[__selFile setLocalEdits:self.editView.string];
 	} else
 		self.scratchString = self.editView.string;

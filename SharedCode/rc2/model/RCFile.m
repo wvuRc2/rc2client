@@ -42,8 +42,12 @@
 	self.readOnlyValue = [[dict objectForKey:@"readonly"] boolValue];
 	NSDate *lm = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"timestamp"] integerValue]];
 	//flush contents if file has been updated
-	if ([lm laterDate:self.lastModified])
+	if (lm.timeIntervalSinceNow > self.lastModified.timeIntervalSinceNow) {
 		[[NSFileManager defaultManager] removeItemAtPath:self.fileContentsPath error:nil];
+		self.fileContents=nil;
+		//FIXME: we are dumping uer's local edits. we should probably ask them something
+		self.localEdits=nil;
+	}
 	self.lastModified = lm;
 	if (!self.isInserted && [lm timeIntervalSince1970] > [self.localLastModified timeIntervalSince1970]) {
 		self.fileContents=nil;

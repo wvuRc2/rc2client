@@ -75,4 +75,5 @@
 -(void)displayImage:(NSString*)imgPath;
 -(void)displayEditorFile:(RCFile*)file;
 -(void)displayLinkedFile:(NSString*)path;
+-(void)workspaceFileUpdated:(RCFile*)file;
 @end

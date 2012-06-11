@@ -496,6 +496,13 @@ NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name
 	}
 }
 
+-(void)workspaceFileUpdated:(RCFile*)file
+{
+	if (file.fileId.intValue == self.editorController.currentFile.fileId.intValue) {
+		[self.editorController loadFile:file];
+	}
+}
+
 -(void)displayEditorFile:(RCFile*)file
 {
 	[self.editorController loadFile:file];

@@ -272,6 +272,15 @@
 	} else if ([cmd isEqualToString:@"clopenfile"]) {
 		RCFile *file = [self.workspace fileWithId:[dict objectForKey:@"fileId"]];
 		[self.delegate displayEditorFile:file];
+	} else if ([cmd isEqualToString:@"fileupdate"]) {
+		RCFile *file = [self.workspace fileWithId:[dict objectForKey:@"fileId"]];
+		if (file) {
+			NSLog(@"file date is %@, updated date is %@", file.lastModified, [dict objectForKey:@"file"]);
+			[file updateWithDictionary:[dict objectForKey:@"file"]];
+			[self.delegate workspaceFileUpdated:file];
+		} else { //a new file
+			[self.workspace refreshFiles];
+		}
 	}
 }
 
