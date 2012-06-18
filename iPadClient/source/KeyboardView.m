@@ -306,7 +306,8 @@ enum {
 				break;
 			case kKeyCodeDelete:
 				if (isConsole) {
-					self.consoleField.text = [curText substringToIndex:curText.length-2];
+					if (curText.length > 0)
+						self.consoleField.text = [curText substringToIndex:curText.length-1];
 				} else if (rng.location > 0) {
 					[self.delegate keyboardWants2DeleteCharactersInRange:NSMakeRange(rng.location-1, 1)];
 					[self.delegate keyboardWants2SetRange:NSMakeRange(rng.location-1, 0)];
