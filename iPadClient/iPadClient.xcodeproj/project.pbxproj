@@ -19,6 +19,7 @@
 		0815945F14E2F47A0067E83C /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0815945D14E2F47A0067E83C /* gear@2x.png */; };
 		0815946414E2F6630067E83C /* iSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0815946214E2F6630067E83C /* iSettingsController.m */; };
 		0815946514E2F6630067E83C /* iSettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0815946314E2F6630067E83C /* iSettingsController.xib */; };
+		0817070A159A283D001B346F /* KeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 08170709159A283D001B346F /* KeyboardToolbar.m */; };
 		0818EE1F155B207000159291 /* graded.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE1B155B207000159291 /* graded.png */; };
 		0818EE20155B207000159291 /* graded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE1C155B207000159291 /* graded@2x.png */; };
 		0818EE21155B207000159291 /* turnedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE1D155B207000159291 /* turnedin.png */; };
@@ -238,8 +239,6 @@
 		08EE411D1436441F004FDBB8 /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41141436441F004FDBB8 /* WebSocketMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE4159143A1ABC004FDBB8 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */; };
 		08F566691407073E00229A39 /* _RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F566681407073E00229A39 /* _RCFile.m */; };
-		08FE88991414F92F00672474 /* BottomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FE88971414F92F00672474 /* BottomViewController.m */; };
-		08FE889A1414F92F00672474 /* BottomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08FE88981414F92F00672474 /* BottomViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -277,6 +276,8 @@
 		0815946114E2F6630067E83C /* iSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iSettingsController.h; path = source/iSettingsController.h; sourceTree = SOURCE_ROOT; };
 		0815946214E2F6630067E83C /* iSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iSettingsController.m; path = source/iSettingsController.m; sourceTree = SOURCE_ROOT; };
 		0815946314E2F6630067E83C /* iSettingsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = iSettingsController.xib; path = source/iSettingsController.xib; sourceTree = SOURCE_ROOT; };
+		08170707159A2823001B346F /* KeyboardToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyboardToolbar.h; path = source/KeyboardToolbar.h; sourceTree = SOURCE_ROOT; };
+		08170709159A283D001B346F /* KeyboardToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeyboardToolbar.m; path = source/KeyboardToolbar.m; sourceTree = SOURCE_ROOT; };
 		0818EE1B155B207000159291 /* graded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = graded.png; path = ../SharedImages/graded.png; sourceTree = SOURCE_ROOT; };
 		0818EE1C155B207000159291 /* graded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "graded@2x.png"; path = "../SharedImages/graded@2x.png"; sourceTree = SOURCE_ROOT; };
 		0818EE1D155B207000159291 /* turnedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = turnedin.png; path = ../SharedImages/turnedin.png; sourceTree = SOURCE_ROOT; };
@@ -605,9 +606,6 @@
 		08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = SOURCE_ROOT; };
 		08F566671407073E00229A39 /* _RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _RCFile.h; path = ../SharedCode/rc2/model/generated/_RCFile.h; sourceTree = SOURCE_ROOT; };
 		08F566681407073E00229A39 /* _RCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _RCFile.m; path = ../SharedCode/rc2/model/generated/_RCFile.m; sourceTree = SOURCE_ROOT; };
-		08FE88961414F92F00672474 /* BottomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomViewController.h; path = source/BottomViewController.h; sourceTree = SOURCE_ROOT; };
-		08FE88971414F92F00672474 /* BottomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomViewController.m; path = source/BottomViewController.m; sourceTree = SOURCE_ROOT; };
-		08FE88981414F92F00672474 /* BottomViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BottomViewController.xib; path = source/BottomViewController.xib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1054,9 +1052,6 @@
 				088A76CA1406A194003D6A3F /* SessionFilesController.h */,
 				088A76CB1406A194003D6A3F /* SessionFilesController.m */,
 				088A76CC1406A194003D6A3F /* SessionFilesController.xib */,
-				08FE88961414F92F00672474 /* BottomViewController.h */,
-				08FE88971414F92F00672474 /* BottomViewController.m */,
-				08FE88981414F92F00672474 /* BottomViewController.xib */,
 				085E7B1014EEC2F000036A9E /* ControlViewController.h */,
 				085E7B1114EEC2F000036A9E /* ControlViewController.m */,
 				085E7B1214EEC2F000036A9E /* ControlViewController.xib */,
@@ -1127,6 +1122,8 @@
 				087C3A2C1580FF3F00ECA7C8 /* SendMessageViewController.h */,
 				087C3A2D1580FF3F00ECA7C8 /* SendMessageViewController.m */,
 				087C3A2E1580FF3F00ECA7C8 /* SendMessageViewController.xib */,
+				08170707159A2823001B346F /* KeyboardToolbar.h */,
+				08170709159A283D001B346F /* KeyboardToolbar.m */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -1313,7 +1310,6 @@
 				08AE4EB21414593800963C52 /* messageCellBGTop.png in Resources */,
 				08A7CFE31414A58A000ACA1D /* trash32.png in Resources */,
 				08A7CFE61414A689000ACA1D /* trash32-down.png in Resources */,
-				08FE889A1414F92F00672474 /* BottomViewController.xib in Resources */,
 				08447F741415DE8F00A8DDF8 /* themes in Resources */,
 				08447F8A1416D82D00A8DDF8 /* ThemeEngine.plist in Resources */,
 				08B44978142CFE9A0064005D /* rightAlphap.txt in Resources */,
@@ -1463,7 +1459,6 @@
 				08DD23BD1413CC6B00217C1A /* _RCMessage.m in Sources */,
 				08DD23C01413CC7A00217C1A /* RCMessage.m in Sources */,
 				08AE4E921414374C00963C52 /* MessageListCell.m in Sources */,
-				08FE88991414F92F00672474 /* BottomViewController.m in Sources */,
 				08447F6F1415CBF300A8DDF8 /* ThemeEngine.m in Sources */,
 				08A6FF4E142F8BA300E8AB4B /* RC2RemoteLogger.m in Sources */,
 				08EE41151436441F004FDBB8 /* AsyncSocket.m in Sources */,
@@ -1518,6 +1513,7 @@
 				087C3A2F1580FF3F00ECA7C8 /* SendMessageViewController.m in Sources */,
 				087C3A4115825E9700ECA7C8 /* JSTokenButton.m in Sources */,
 				087C3A4215825E9700ECA7C8 /* JSTokenField.m in Sources */,
+				0817070A159A283D001B346F /* KeyboardToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

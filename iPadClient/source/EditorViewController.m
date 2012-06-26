@@ -21,8 +21,9 @@
 #import "SessionEditView.h"
 #import "RCMSyntaxHighlighter.h"
 #import "DTTextRange.h"
+#import "KeyboardToolbar.h"
 
-@interface EditorViewController() {
+@interface EditorViewController() <KeyboardToolbarDelegate> {
 	CGRect _oldTextFrame;
 	CGFloat _oldHeight;
 	BOOL _viewLoaded;
@@ -30,6 +31,7 @@
 }
 @property (nonatomic, strong) IBOutlet SessionEditView *richEditor;
 @property (nonatomic, strong) NSDictionary *defaultTextAttrs;
+@property (nonatomic, strong) KeyboardToolbar *keyboardToolbar;
 @property (nonatomic, strong) SessionFilesController *fileController;
 @property (nonatomic, strong) UIPopoverController *filePopover;
 @property (nonatomic, strong) NSMutableArray *currentActionItems;
@@ -132,6 +134,11 @@
 			if (str)
 				[[Rc2Server sharedInstance].currentSession executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
 		};
+		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
+		self.keyboardToolbar.delegate = self;
+		self.richEditor.inputAccessoryView = self.keyboardToolbar.view;
+		self.richEditor.autocapitalizationType = UITextAutocapitalizationTypeNone;
+		self.richEditor.autocorrectionType = UITextAutocorrectionTypeNo;
 		_viewLoaded=YES;
 	}
 }
@@ -157,7 +164,28 @@
 	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
 }
 
-#pragma mark - keyboard delegate
+#pragma mark - keybard toolbar delegate
+
+-(void)keyboardToolbar:(KeyboardToolbar*)tbar insertString:(NSString*)str
+{
+	NSMutableAttributedString *astr = [self.richEditor.attributedString mutableCopy];
+	NSRange rng = NSMakeRange(astr.length, 0);
+	[astr replaceCharactersInRange:rng withString:str];
+	self.richEditor.attributedString = astr;
+	DTTextRange *dtrng = [[DTTextRange alloc] initWithNSRange:NSMakeRange(rng.location + str.length, 0)];
+	self.richEditor.selectedTextRange = dtrng;	
+}
+
+-(void)keyboardToolbarExecute:(KeyboardToolbar*)tbar
+{
+	[self.richEditor resignFirstResponder];
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC);
+	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+		[self doExecute:tbar];
+	});
+}
+
+#pragma mark - keyboard delegate (old)
 
 -(void)keyboardWants2ReplaceCharactersInRange:(NSRange)rng with:(NSString*)str
 {
@@ -657,4 +685,5 @@
 @synthesize sessionHandToken;
 @synthesize defaultTextAttrs=_defaultTextAttrs;
 @synthesize currentAlert=_currentAlert;
+@synthesize keyboardToolbar=_keyboardToolbar;
 @end

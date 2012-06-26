@@ -15,6 +15,7 @@
 #import "EditorViewController.h"
 #import "ConsoleViewController.h"
 #import "KeyboardView.h"
+#import "KeyboardToolbar.h"
 #import "Rc2Server.h"
 #import "ASIHTTPRequest.h"
 #import "ImageDisplayController.h"
@@ -29,7 +30,7 @@
 #import "RCAudioChatEngine.h"
 #import "DoodleViewController.h"
 
-@interface SessionViewController() {
+@interface SessionViewController() <KeyboardToolbarDelegate> {
 	RCSession *_session;
 }
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
@@ -39,6 +40,7 @@
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) DoodleViewController *doodle;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *doodleButton;
+@property (nonatomic, strong) KeyboardToolbar *consoleKeyboardToolbar;
 @property (nonatomic, strong) id themeToken;
 @property (nonatomic, copy) NSString *webTmpFileDirectory;
 @property (nonatomic, assign) BOOL reconnecting;
@@ -50,8 +52,6 @@
 -(void)loadAndDisplayPdfFile:(RCFile*)file;
 -(void)appRestored:(NSNotification*)note;
 -(void)appEnteringBackground:(NSNotification*)note;
--(void)loadKeyboard;
--(void)keyboardPrefsChanged:(NSNotification*)note;
 @end
 
 #pragma mark -
@@ -74,8 +74,6 @@
 													 name: UIApplicationWillEnterForegroundNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnteringBackground:) 
 													 name: UIApplicationDidEnterBackgroundNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardPrefsChanged:) 
-													 name: KeyboardPrefsChangedNotification object:nil];
 	}
 	return self;
 }
@@ -102,7 +100,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self loadKeyboard];
 	self.titleLabel.text = self.session.workspace.name;
 	CGFloat splitPos = [[_session settingForKey:@"splitPosition"] floatValue];
 	if (splitPos < 300 || splitPos > 1024)
@@ -139,6 +136,9 @@
 	RCSavedSession *savedState = self.session.savedSessionState;
 	self.consoleController.session = self.session;
 	[self.consoleController view]; //force loading
+	self.consoleKeyboardToolbar = [[KeyboardToolbar alloc] init];
+	self.consoleController.textField.inputAccessoryView = self.consoleKeyboardToolbar.view;
+	self.consoleKeyboardToolbar.delegate = self;
 	self.editorController.session = self.session;
 	[self.editorController view];
 	[self.editorController restoreSessionState:savedState];
@@ -240,23 +240,23 @@ NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name
 	[self.audioEngine toggleMicrophone];
 }
 
-#pragma mark - meat & potatoes
+#pragma mark - console keyboard toolbar delegate
 
--(void)loadKeyboard
+-(void)keyboardToolbar:(KeyboardToolbar*)tbar insertString:(NSString*)str
 {
-	//remove existing keyboard
-	[self.keyboardView removeFromSuperview];
-	[[NSBundle mainBundle] loadNibNamed:@"Keyboard" owner:self options:nil];
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	if ([defaults boolForKey:kPrefLefty])
-		self.keyboardView.keyboardStyle = eKeyboardStyle_LeftHanded;
-	[self.keyboardView layoutKeyboard];
-	[self.editorController setInputView:self.keyboardView];
-	self.keyboardView.delegate = self.editorController;
-	self.keyboardView.executeDelegate = self;
-	self.keyboardView.consoleField = self.consoleController.textField;
-	self.consoleController.textField.inputView = self.keyboardView;
 }
+
+-(void)keyboardToolbarExecute:(KeyboardToolbar*)tbar
+{
+	[self.consoleController.textField resignFirstResponder];
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC);
+	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+		[self.consoleController doExecute:tbar];
+	});
+}
+
+
+#pragma mark - meat & potatoes
 
 -(void)handleKeyCode:(unichar)code
 {
@@ -385,11 +385,6 @@ NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name
 {
 	[self saveSessionState];
 	[[NSUserDefaults standardUserDefaults] setObject:_session.workspace.wspaceId forKey:@"currentSessionWspaceId"];
-}
-
--(void)keyboardPrefsChanged:(NSNotification*)note
-{
-	[self loadKeyboard];
 }
 
 #pragma mark - session delegate
@@ -660,26 +655,27 @@ NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name
 	return _session;
 }
 
-@synthesize titleLabel;
-@synthesize button1;
-@synthesize keyboardView;
-@synthesize splitController;
-@synthesize editorController;
-@synthesize consoleController;
-@synthesize jsQuiteRExp;
-@synthesize imgController;
-@synthesize reconnecting;
-@synthesize autoReconnect;
-@synthesize bottomController;
-@synthesize themeToken;
-@synthesize showingProgress;
-@synthesize controlButton;
-@synthesize toolbar;
-@synthesize controlPopover;
-@synthesize controlController;
-@synthesize mikeButton;
-@synthesize audioEngine;
-@synthesize doodle;
-@synthesize doodleButton;
+@synthesize titleLabel=_titleLabel;
+@synthesize button1=_button1;
+@synthesize keyboardView=_keyboardView;
+@synthesize splitController=_splitController;
+@synthesize editorController=_editorController;
+@synthesize consoleController=_consoleController;
+@synthesize controlButton=_controlButton;
+@synthesize toolbar=_toolbar;
+@synthesize mikeButton=_mikeButton;
 @synthesize webTmpFileDirectory=_webTmpFileDirectory;
+@synthesize consoleKeyboardToolbar=_consoleKeyboardToolbar;
+@synthesize showingProgress=_showingProgress;
+@synthesize imgController=_imgController;
+@synthesize reconnecting=_reconnecting;
+@synthesize doodleButton=_doodleButton;
+@synthesize audioEngine=_audioEngine;
+@synthesize jsQuiteRExp=_jsQuiteRExp;
+@synthesize controlController=_controlController;
+@synthesize controlPopover=_controlPopover;
+@synthesize autoReconnect=_autoReconnect;
+@synthesize themeToken=_themeToken;
+@synthesize doodle=_doodle;
+
 @end
