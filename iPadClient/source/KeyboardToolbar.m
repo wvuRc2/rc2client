@@ -13,10 +13,14 @@
 #define kTagExecute 1001
 
 @interface KeyboardToolbar()
-@property (nonatomic, strong) UINib *tbarNib;
+@property (nonatomic, strong) UIView *buttonView;
 @property (nonatomic, strong) GradientButton *executeButton;
 @property (nonatomic, copy) NSArray *buttonColors;
 @property (nonatomic, copy) NSArray *buttonColorsHighlighted;
+@property (nonatomic, copy) NSArray *panels;
+@property (nonatomic, strong) NSMutableDictionary *tagsToKeyStrings;
+@property (nonatomic, strong) UIView *currentPanel;
+@property (nonatomic) NSInteger currentPanelIndex;
 @end
 
 @implementation KeyboardToolbar 
@@ -24,7 +28,6 @@
 -(id)init
 {
 	if ((self = [super init])) {
-		self.tbarNib = [UINib nibWithNibName:@"KeyboardToolbar" bundle:[NSBundle mainBundle]];
 		UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 53)];
 		self.view = v;
 		v.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -35,15 +38,116 @@
 		self.executeButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 		self.executeButton.tag = kTagExecute;
 		[v addSubview:self.executeButton];
+		UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024-100, 53)];
+		buttonView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
+		buttonView.layer.masksToBounds=YES;
+		[self.view addSubview:buttonView];
+		self.buttonView = buttonView;
+		self.tagsToKeyStrings = [NSMutableDictionary dictionary];
+		NSArray *panelDicts = [[NSUserDefaults standardUserDefaults] objectForKey:@"KeyToolbar"];
+		NSMutableArray *panelViews = [NSMutableArray arrayWithCapacity:panelDicts.count];
+		for (NSDictionary *panelDict in panelDicts)
+			[panelViews addObject:[self panelViewForDict:panelDict]];
+		self.panels = panelViews;
+		[self switchToPanel:self.panels.firstObject toTheLeft:YES];
+		UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToLeft:)];
+		leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+		leftSwipe.numberOfTouchesRequired = 2;
+		leftSwipe.delaysTouchesBegan = YES;
+		[v addGestureRecognizer:leftSwipe];
+		UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToRight:)];
+		rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+		rightSwipe.numberOfTouchesRequired = 2;
+		rightSwipe.delaysTouchesBegan = YES;
+		[v addGestureRecognizer:rightSwipe];
+		
 	}
 	return self;
+}
+
+-(void)switchToPanel:(UIView*)panel toTheLeft:(BOOL)toTheLeft
+{
+	CGRect r = self.buttonView.bounds;
+	r.size.width -= 100;
+	r.origin.x = 10;
+	panel.frame = r;
+	if (self.currentPanel) {
+		UIView *oldView = self.currentPanel;
+		CGFloat viewWidth = self.buttonView.bounds.size.width;
+		CGRect nDestRect = r;
+		CGRect nStartRect = r;
+		CGRect oDestRect = oldView.frame;
+		if (toTheLeft) {
+			nStartRect.origin.x += viewWidth + 10;
+			oDestRect.origin.x -= viewWidth + 10;
+		} else {
+			nStartRect.origin.x -= viewWidth + 10;
+			oDestRect.origin.x += viewWidth + 10;
+		}
+		panel.frame = nStartRect;
+		[self.buttonView addSubview:panel];
+		[UIView animateWithDuration:0.5 animations:^{
+			panel.frame = nDestRect;
+			oldView.frame = oDestRect;
+		} completion:^(BOOL completed) {
+			[oldView removeFromSuperview];
+		}];
+	} else {
+		[self.buttonView addSubview:panel];
+	}
+	self.currentPanel = panel;
+	self.currentPanelIndex = [self.panels indexOfObject:panel];
+}
+
+-(UIView*)panelViewForDict:(NSDictionary*)dict
+{
+	static dispatch_once_t onceToken;
+	static NSInteger sNextTag;
+	dispatch_once(&onceToken, ^{
+		sNextTag = 10000;
+	});
+	UIView *pview = [[UIView alloc] initWithFrame:self.view.bounds];
+	CGRect r = CGRectMake(10, 5, 60, 40);
+	for (NSDictionary *btnDict in [dict objectForKey:@"Buttons"]) {
+		GradientButton *btn = [self buttonWithFrame:r];
+		[btn setTitle:[btnDict objectForKey:@"Title"] forState:UIControlStateNormal];
+		NSString *bstr = [btnDict objectForKey:@"String"];
+		if (nil == bstr)
+			bstr = [btnDict objectForKey:@"Title"];
+		btn.tag = ++sNextTag;
+		[self.tagsToKeyStrings setObject:bstr forKey:[NSNumber numberWithInteger:btn.tag]];
+		[pview addSubview:btn];
+		r.origin.x += 70;
+	}
+	return pview;
+}
+
+-(void)swipeToLeft:(UIGestureRecognizer*)gesture
+{
+	NSInteger idx = self.currentPanelIndex - 1;
+	if (idx < 0)
+		idx = self.panels.count - 1;
+	[self switchToPanel:[self.panels objectAtIndex:idx] toTheLeft:YES];
+}
+
+-(void)swipeToRight:(UIGestureRecognizer*)gesture
+{
+	NSInteger idx = self.currentPanelIndex + 1;
+	if (idx >= self.panels.count)
+		idx = 0;
+	[self switchToPanel:[self.panels objectAtIndex:idx] toTheLeft:NO];
 }
 
 -(IBAction)buttonPressed:(id)sender
 {
 	if ([sender tag] == kTagExecute) {
 		[self.delegate keyboardToolbarExecute:self];
+	} else {
+		NSString *str = [self.tagsToKeyStrings objectForKey:[NSNumber numberWithInteger:[sender tag]]];
+		[self.delegate keyboardToolbar:self insertString:str];
 	}
+	[sender setSelected:NO];
+	[sender setHighlighted:NO];
 }
 
 -(GradientButton*)buttonWithFrame:(CGRect)frame
@@ -83,8 +187,12 @@
 
 @synthesize delegate=_delegate;
 @synthesize view=_view;
-@synthesize tbarNib=_tbarNib;
+@synthesize buttonView=_buttonView;
 @synthesize executeButton=_executeButton;
 @synthesize buttonColors=_buttonColors;
 @synthesize buttonColorsHighlighted=_buttonColorsHighlighted;
+@synthesize panels=_panels;
+@synthesize tagsToKeyStrings=_tagsToKeyStrings;
+@synthesize currentPanel=_currentPanel;
+@synthesize currentPanelIndex=_currentPanelIndex;
 @end

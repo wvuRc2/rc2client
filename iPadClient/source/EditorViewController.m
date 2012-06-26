@@ -169,7 +169,7 @@
 -(void)keyboardToolbar:(KeyboardToolbar*)tbar insertString:(NSString*)str
 {
 	NSMutableAttributedString *astr = [self.richEditor.attributedString mutableCopy];
-	NSRange rng = NSMakeRange(astr.length, 0);
+	NSRange rng = ((DTTextRange*)self.richEditor.selectedTextRange).NSRangeValue;
 	[astr replaceCharactersInRange:rng withString:str];
 	self.richEditor.attributedString = astr;
 	DTTextRange *dtrng = [[DTTextRange alloc] initWithNSRange:NSMakeRange(rng.location + str.length, 0)];

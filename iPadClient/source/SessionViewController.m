@@ -244,6 +244,9 @@ NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name
 
 -(void)keyboardToolbar:(KeyboardToolbar*)tbar insertString:(NSString*)str
 {
+	UITextField *tf = self.consoleController.textField;
+	UITextRange *trng = tf.selectedTextRange;
+	[tf replaceRange:trng withText:str];
 }
 
 -(void)keyboardToolbarExecute:(KeyboardToolbar*)tbar
