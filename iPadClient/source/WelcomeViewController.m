@@ -39,6 +39,10 @@
 	[super viewDidLoad];
 	PHRefreshGestureRecognizer *gr = [[PHRefreshGestureRecognizer alloc] initWithTarget:self action:@selector(pullToRefresh:)];
 	[self.noteTable addGestureRecognizer:gr];
+	self.noteTable.autoresizingMask = 0;
+	if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+		self.noteTable.frame = CGRectMake(134, 90, 500, 800);
+	}
 }
 
 - (void)viewDidUnload
@@ -51,6 +55,21 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	CGRect newFrame = CGRectMake(262, 90, 500, 460);
+	if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
+		newFrame.origin.x = 134;
+		newFrame.size.height = 800;
+	}
+	[UIView animateWithDuration:duration animations:^{
+		self.noteTable.frame = newFrame;
+	} completion:^(BOOL finished) {
+		[self.noteTable reloadData];
+	}];
 }
 
 #pragma mark - meat & potatos

@@ -18,6 +18,7 @@
 }
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) IBOutlet UIButton *composeButton;
 @property (nonatomic, strong) SendMessageViewController *composeController;
 @property (nonatomic, copy) NSArray *messages;
 @property (nonatomic, copy) NSArray *flagImages;
@@ -57,6 +58,12 @@
 			[blockSelf updateForNewTheme:theme];
 		}];
 		self.themeChangeNotice=tn;
+		self.tableView.autoresizingMask=0;
+		self.composeButton.autoresizingMask=0;
+		if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+			self.tableView.frame = CGRectMake(134, 147, 500, 718);
+			self.composeButton.frame = CGRectMake(134, CGRectGetMaxY(self.tableView.frame) + 8, 87, 37);
+		}
 		_didLoad=YES;
 	}
 	[[Rc2Server sharedInstance] syncMessages:^(BOOL success, id results) {
@@ -76,6 +83,25 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	CGRect newFrame = CGRectMake(262, 147, 500, 454);
+	CGRect btnFrame = CGRectMake(262, 609, 87, 37);
+	if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
+		newFrame.origin.x = 134;
+		newFrame.size.height = 718;
+		btnFrame.origin.x = 134;
+		btnFrame.origin.y = CGRectGetMaxY(newFrame) + 8;
+	}
+	[UIView animateWithDuration:duration animations:^{
+		self.tableView.frame = newFrame;
+		self.composeButton.frame = btnFrame;
+	} completion:^(BOOL finished) {
+		[self.tableView reloadData];
+	}];
 }
 
 -(void)updateForNewTheme:(Theme*)theme
@@ -219,5 +245,5 @@
 @synthesize extraHeight=_extraHeight;
 @synthesize normalBG=_normalBG;
 @synthesize composeController=_composeController;
-
+@synthesize composeButton=_composeButton;
 @end
