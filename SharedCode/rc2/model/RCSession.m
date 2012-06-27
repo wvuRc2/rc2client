@@ -295,6 +295,7 @@
 {
 	self.socketOpen = NO;
 	[self.delegate connectionClosed];
+	_ws=nil;
 }
 
 - (void) didReceiveError:(NSError*) error
