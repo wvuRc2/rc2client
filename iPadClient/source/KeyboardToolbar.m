@@ -39,7 +39,7 @@
 		self.executeButton.tag = kTagExecute;
 		[v addSubview:self.executeButton];
 		UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024-100, 53)];
-		buttonView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
+		buttonView.autoresizingMask = 0;
 		buttonView.layer.masksToBounds=YES;
 		[self.view addSubview:buttonView];
 		self.buttonView = buttonView;
@@ -52,17 +52,34 @@
 		[self switchToPanel:self.panels.firstObject toTheLeft:YES];
 		UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToLeft:)];
 		leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-		leftSwipe.numberOfTouchesRequired = 2;
+		leftSwipe.numberOfTouchesRequired = 1;
 		leftSwipe.delaysTouchesBegan = YES;
+		leftSwipe.cancelsTouchesInView = YES;
 		[v addGestureRecognizer:leftSwipe];
 		UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToRight:)];
 		rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-		rightSwipe.numberOfTouchesRequired = 2;
+		rightSwipe.numberOfTouchesRequired = 1;
 		rightSwipe.delaysTouchesBegan = YES;
+		rightSwipe.cancelsTouchesInView = YES;
 		[v addGestureRecognizer:rightSwipe];
-		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 	}
 	return self;
+}
+
+-(void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)orientationDidChange:(NSNotification*)note
+{
+	CGRect r = self.buttonView.frame;
+	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+		r.size.width = 924;
+	else
+		r.size.width = 668;
+	self.buttonView.frame = r;
 }
 
 -(void)switchToPanel:(UIView*)panel toTheLeft:(BOOL)toTheLeft
@@ -108,8 +125,14 @@
 	});
 	UIView *pview = [[UIView alloc] initWithFrame:self.view.bounds];
 	CGRect r = CGRectMake(10, 5, 60, 40);
+	if ([[dict objectForKey:@"ButtonWidth"] integerValue] > 0)
+		r.size.width = [[dict objectForKey:@"ButtonWidth"] integerValue];
 	for (NSDictionary *btnDict in [dict objectForKey:@"Buttons"]) {
-		GradientButton *btn = [self buttonWithFrame:r];
+		CGRect btnFrame = r;
+		NSInteger customWidth = [[btnDict objectForKey:@"Width"] integerValue];
+		if (customWidth > 0)
+			btnFrame.size.width = customWidth;
+		GradientButton *btn = [self buttonWithFrame:btnFrame];
 		[btn setTitle:[btnDict objectForKey:@"Title"] forState:UIControlStateNormal];
 		NSString *bstr = [btnDict objectForKey:@"String"];
 		if (nil == bstr)
@@ -117,7 +140,7 @@
 		btn.tag = ++sNextTag;
 		[self.tagsToKeyStrings setObject:bstr forKey:[NSNumber numberWithInteger:btn.tag]];
 		[pview addSubview:btn];
-		r.origin.x += 70;
+		r.origin.x += 10 + btnFrame.size.width;
 	}
 	return pview;
 }
@@ -138,6 +161,12 @@
 	[self switchToPanel:[self.panels objectAtIndex:idx] toTheLeft:NO];
 }
 
+-(IBAction)buttonNotPressed:(id)sender
+{
+	[sender setSelected:NO];
+	[sender setHighlighted:NO];
+}
+
 -(IBAction)buttonPressed:(id)sender
 {
 	if ([sender tag] == kTagExecute) {
@@ -146,8 +175,10 @@
 		NSString *str = [self.tagsToKeyStrings objectForKey:[NSNumber numberWithInteger:[sender tag]]];
 		[self.delegate keyboardToolbar:self insertString:str];
 	}
-	[sender setSelected:NO];
-	[sender setHighlighted:NO];
+	dispatch_async(dispatch_get_main_queue(), ^(void) {
+		[sender setSelected:NO];
+		[sender setHighlighted:NO];
+	});
 }
 
 -(GradientButton*)buttonWithFrame:(CGRect)frame
@@ -166,6 +197,7 @@
 	button.layer.shadowOpacity = 0.8;
 	button.layer.shadowRadius = 1;
 	[button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+	[button addTarget:self action:@selector(buttonNotPressed:) forControlEvents:UIControlEventTouchUpOutside];
 	return button;
 }
 

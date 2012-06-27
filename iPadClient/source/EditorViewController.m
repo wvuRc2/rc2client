@@ -139,6 +139,7 @@
 		self.richEditor.inputAccessoryView = self.keyboardToolbar.view;
 		self.richEditor.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		self.richEditor.autocorrectionType = UITextAutocorrectionTypeNo;
+		self.richEditor.layer.masksToBounds=YES;
 		_viewLoaded=YES;
 	}
 }

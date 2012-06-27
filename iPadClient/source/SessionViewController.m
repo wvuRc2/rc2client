@@ -404,12 +404,15 @@ NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name
 
 -(void)connectionClosed
 {
+	Rc2LogInfo(@"ws closed");
 	if (!_session.socketOpen && !self.reconnecting && self.autoReconnect) {
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 		hud.labelText = @"Reconnecting…";
 		self.reconnecting=YES;
 		self.showingProgress=YES;
-		[self.session startWebSocket];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.session startWebSocket];
+		});
 	}
 }
 

@@ -72,6 +72,8 @@
 		<dict>
 			<key>Name</key>
 			<string>Numbers</string>
+			<key>ButtonWidth</key>
+			<integer>52</integer>
 			<key>Buttons</key>
 			<array>
 				<dict>
@@ -113,6 +115,51 @@
 				<dict>
 					<key>Title</key>
 					<string>0</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Name</key>
+			<string>Operators</string>
+			<key>ButtonWidth</key>
+			<integer>52</integer>
+			<key>Buttons</key>
+			<array>
+				<dict>
+					<key>Title</key>
+					<string>+</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>-</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>*</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>/</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>&lt;</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>&gt;</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>=</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>&quot;</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>'</string>
 				</dict>
 			</array>
 		</dict>
