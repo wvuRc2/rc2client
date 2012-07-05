@@ -32,7 +32,7 @@
 #import "RCImageCache.h"
 #import "NoodleLineNumberView.h"
 
-@interface MacSessionViewController() {
+@interface MacSessionViewController() <NSPopoverDelegate> {
 	CGFloat __fileListWidth;
 	NSPoint __curImgPoint;
 	BOOL __didInit;
@@ -314,6 +314,8 @@
 		[self.session executeSweave:self.selectedFile.name script:self.editView.string];
 	} else if ([self.selectedFile.name hasSuffix:@".sas"]) {
 		[self.session executeSas:self.selectedFile];
+	} else if ([self.selectedFile.name hasSuffix:@".Rmd"]) {
+			[self.session executeSweave:self.selectedFile.name script:self.editView.string];
 	} else {
 		[self.session executeScript:self.editView.string scriptName:self.selectedFile.name];
 	}
@@ -563,7 +565,10 @@
 		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
 		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
 	}
-	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:@"txt"];
+	NSString *ext = @"txt";
+	if ([file.name hasSuffix:@".html"])
+		ext = @"html";
+	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:ext];
 	if ([fm fileExistsAtPath:newPath])
 		[fm removeItemAtPath:newPath error:nil];
 	if (![fm fileExistsAtPath:file.fileContentsPath]) {
@@ -653,7 +658,7 @@
 		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@, '%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid,
 			  [self escapeForJS:[dict objectForKey:@"filename"]]];
 		[self.session.workspace updateFileId:fileid];
-	} else if ([cmd isEqualToString:@"sasoutput"]) {
+	} else if ([cmd isEqualToString:@"sasoutput"] || [cmd isEqualToString:@"Rmarkdown"]) {
 		NSArray *fileInfo = [dict objectForKey:@"files"];
 		for (NSDictionary *fd in fileInfo) {
 			[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
@@ -680,6 +685,7 @@
 	if (nil == self.imagePopover) {
 		self.imagePopover = [[NSPopover alloc] init];
 		self.imagePopover.behavior = NSPopoverBehaviorSemitransient;
+		self.imagePopover.delegate = self;
 	}
 	__unsafe_unretained MacSessionViewController *blockSelf = self;
 	self.imagePopover.contentViewController = self.imageController;
@@ -689,7 +695,9 @@
 		[blockSelf showImageDetails:nil];	
 	};
 	NSRect r = NSMakeRect(__curImgPoint.x+16, self.outputController.webView.frame.size.height - __curImgPoint.y - 16, 1, 1);
-	[self.imagePopover showRelativeToRect:r ofView:self.outputController.webView preferredEdge:NSMaxXEdge];
+	[self.imagePopover showRelativeToRect:r ofView:self.view preferredEdge:NSMaxXEdge];
+//	[self.imagePopover showRelativeToRect:r ofView:self.outputController.webView preferredEdge:NSMaxXEdge];
+	NSLog(@"shown:%d", self.imagePopover.shown);
 }
 
 
@@ -697,8 +705,12 @@
 {
 	if ([imgPath hasPrefix:@"/"])
 		imgPath = [imgPath substringFromIndex:1];
-	[self setupImageDisplay:self.currentImageGroup];
 	NSString *idStr = [imgPath.lastPathComponent stringByDeletingPathExtension];
+	NSArray *imgArray = self.currentImageGroup;
+	if (imgArray.count < 1) {
+		imgArray = [NSArray arrayWithObject:[[RCImageCache sharedInstance] imageWithId:idStr]];
+	}
+	[self setupImageDisplay:imgArray];
 	[self.imageController displayImage:[NSNumber numberWithInt:[idStr intValue]]];
 }
 
@@ -825,6 +837,23 @@
 	NSString *txt = [self.editView.string substringWithRange:[self.editView selectedRange]];
 	if (txt.length > 0)
 		[self executeConsoleCommand:[NSString stringWithFormat:@"help(%@)", txt]];
+}
+
+#pragma mark - image popover delegate
+
+-(void)popoverDidShow:(NSNotification*)note
+{
+	NSLog(@"popover shown");
+}
+
+-(void)popoverDidClose:(NSNotification*)note
+{
+	NSLog(@"popover closed");
+}
+
+- (void)popoverWillShow:(NSNotification *)notification
+{
+	NSLog(@"popover will show");
 }
 
 #pragma mark - text view delegate
@@ -1092,6 +1121,7 @@
 @synthesize audioEngine;
 @synthesize backButton;
 @synthesize webTmpFileDirectory=_webTmpFileDirectory;
+
 @end
 
 @implementation SessionView

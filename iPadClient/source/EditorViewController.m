@@ -391,6 +391,8 @@
 		[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:src];
 	else if ([self.currentFile.name hasSuffix:@".sas"])
 		[self executeSas];
+	else if ([self.currentFile.name hasSuffix:@".Rmd"])
+		[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:src];
 	else
 		[[Rc2Server sharedInstance].currentSession executeScript:src scriptName:self.currentFile.name];
 }

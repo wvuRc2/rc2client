@@ -354,7 +354,10 @@ NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name
 		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
 		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
 	}
-	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:@"txt"];
+	NSString *ext = @"txt";
+	if ([file.name hasSuffix:@".html"])
+		ext = @"html";
+	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:ext];
 	NSError *err=nil;
 	if ([fm fileExistsAtPath:newPath])
 		[fm removeItemAtPath:newPath error:nil];
@@ -570,7 +573,7 @@ NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name
 			js = [NSString stringWithFormat:@"iR.appendImages(%@)",
 				  [adjustedImages JSONRepresentation]];
 		}
-	} else if ([cmd isEqualToString:@"sasoutput"]) {
+	} else if ([cmd isEqualToString:@"sasoutput"] || [cmd isEqualToString:@"Rmarkdown"]) {
 		NSArray *fileInfo = [dict objectForKey:@"files"];
 		for (NSDictionary *fd in fileInfo) {
 			[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];

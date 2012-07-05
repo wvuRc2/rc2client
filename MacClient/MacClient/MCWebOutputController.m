@@ -186,7 +186,10 @@
 		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
 		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
 	}
-	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:@"txt"];
+	NSString *ext = @"txt";
+	if ([file.name hasSuffix:@".html"])
+		ext = @"html";
+	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:ext];
 	NSError *err=nil;
 	if ([fm fileExistsAtPath:newPath])
 		[fm removeItemAtPath:newPath error:nil];

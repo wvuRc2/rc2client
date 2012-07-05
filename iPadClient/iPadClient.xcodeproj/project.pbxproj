@@ -20,6 +20,7 @@
 		0815946414E2F6630067E83C /* iSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0815946214E2F6630067E83C /* iSettingsController.m */; };
 		0815946514E2F6630067E83C /* iSettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0815946314E2F6630067E83C /* iSettingsController.xib */; };
 		0817070A159A283D001B346F /* KeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 08170709159A283D001B346F /* KeyboardToolbar.m */; };
+		08170729159CE7E1001B346F /* MLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 08170728159CE7E0001B346F /* MLReachability.m */; };
 		0818EE1F155B207000159291 /* graded.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE1B155B207000159291 /* graded.png */; };
 		0818EE20155B207000159291 /* graded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE1C155B207000159291 /* graded@2x.png */; };
 		0818EE21155B207000159291 /* turnedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0818EE1D155B207000159291 /* turnedin.png */; };
@@ -278,6 +279,8 @@
 		0815946314E2F6630067E83C /* iSettingsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = iSettingsController.xib; path = source/iSettingsController.xib; sourceTree = SOURCE_ROOT; };
 		08170707159A2823001B346F /* KeyboardToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyboardToolbar.h; path = source/KeyboardToolbar.h; sourceTree = SOURCE_ROOT; };
 		08170709159A283D001B346F /* KeyboardToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeyboardToolbar.m; path = source/KeyboardToolbar.m; sourceTree = SOURCE_ROOT; };
+		08170727159CE7E0001B346F /* MLReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLReachability.h; path = ../SharedCode/MLReachability.h; sourceTree = "<group>"; };
+		08170728159CE7E0001B346F /* MLReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLReachability.m; path = ../SharedCode/MLReachability.m; sourceTree = "<group>"; };
 		0818EE1B155B207000159291 /* graded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = graded.png; path = ../SharedImages/graded.png; sourceTree = SOURCE_ROOT; };
 		0818EE1C155B207000159291 /* graded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "graded@2x.png"; path = "../SharedImages/graded@2x.png"; sourceTree = SOURCE_ROOT; };
 		0818EE1D155B207000159291 /* turnedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = turnedin.png; path = ../SharedImages/turnedin.png; sourceTree = SOURCE_ROOT; };
@@ -1131,6 +1134,8 @@
 		08DD23AE1412B65A00217C1A /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				08170727159CE7E0001B346F /* MLReachability.h */,
+				08170728159CE7E0001B346F /* MLReachability.m */,
 				08581882155465840025DA07 /* HockeyKit-ios */,
 				0828966715471D7E00A6B6C2 /* json */,
 				08EE41011436441F004FDBB8 /* WebSocketClient */,
@@ -1514,6 +1519,7 @@
 				087C3A4115825E9700ECA7C8 /* JSTokenButton.m in Sources */,
 				087C3A4215825E9700ECA7C8 /* JSTokenField.m in Sources */,
 				0817070A159A283D001B346F /* KeyboardToolbar.m in Sources */,
+				08170729159CE7E1001B346F /* MLReachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

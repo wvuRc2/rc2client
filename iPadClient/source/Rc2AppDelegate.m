@@ -19,6 +19,7 @@
 #import "ASIFormDataRequest.h"
 #import "MBProgressHUD.h"
 #import "AppConstants.h"
+#import "MLReachability.h"
 #import <objc/runtime.h>
 
 @interface UITableView (DoubleClick)
@@ -29,6 +30,7 @@
 	NSManagedObjectModel *__mom;
 	NSInteger _curKeyFile;
 }
+@property (nonatomic, strong) MLReachability *reachability;
 @property (nonatomic, strong) RootViewController *rootController;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *myPsc;
 @property (nonatomic, strong) LoginController *authController;
@@ -70,6 +72,16 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[[BWHockeyManager sharedHockeyManager] setAppIdentifier:@"1ecec8cd34e796a9159794e9e86610ee"];
 	[[BWHockeyManager sharedHockeyManager] setDelegate:self];
 #endif
+	
+	self.reachability = [MLReachability reachabilityForInternetConnection];
+	self.reachability.reachableBlock = ^(MLReachability *reach){
+		Rc2AppDelegate *del = (Rc2AppDelegate*)[UIApplication sharedApplication].delegate;
+		[del networkReachable];
+	};
+	self.reachability.unreachableBlock = ^(MLReachability *reach){
+		Rc2AppDelegate *del = (Rc2AppDelegate*)[UIApplication sharedApplication].delegate;
+		[del networkUnreachable];
+	};
 	
 	self.rootController = [[RootViewController alloc] init];
 	self.window.rootViewController = self.rootController;
@@ -213,6 +225,18 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[[Rc2Server sharedInstance] logout];
 	[self.rootController showWelcome];
 	[self promptForLogin];
+}
+
+#pragma mark - reachability
+
+-(void)networkReachable
+{
+	NSLog(@"network became reachable:%@", self.reachability.currentReachabilityString);
+}
+
+-(void)networkUnreachable
+{
+	NSLog(@"network became unreachable:%@", self.reachability.currentReachabilityString);	
 }
 
 #pragma mark - meat & potatoes
@@ -550,6 +574,7 @@ NSLog(@"completeSessionStartup: set init file to %@", selFile.name);
 @synthesize myPsc;
 @synthesize dropboxCompletionBlock;
 @synthesize rootController=_rootController;
+@synthesize reachability=_reachability;
 @end
 
 @implementation UITableView (DoubleClick)

@@ -161,6 +161,10 @@
 					<key>Title</key>
 					<string>'</string>
 				</dict>
+				<dict>
+					<key>Title</key>
+					<string>`</string>
+				</dict>
 			</array>
 		</dict>
 	</array>
