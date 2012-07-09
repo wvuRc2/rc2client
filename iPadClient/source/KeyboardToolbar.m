@@ -9,13 +9,20 @@
 #import "KeyboardToolbar.h"
 #import <QuartzCore/QuartzCore.h>
 #import "GradientButton.h"
+#import <objc/runtime.h>
 
 #define kTagExecute 1001
 
-@interface KeyboardButton : NSObject
+@interface ButtonPanel : UIView
+@property (nonatomic, copy) NSString *panelName;
+@end
+
+@interface KeyboardButton : GradientButton
 @property (copy) NSString *string;
+@property CGRect landscapeFrame;
+@property CGRect portraitFrame;
 @property (assign) SEL selector;
--(id)initWithDictionary:(NSDictionary*)dict;
+-(void)setupWithDictionary:(NSDictionary*)dict;
 @end
 
 @interface KeyboardToolbar()
@@ -23,7 +30,6 @@
 @property (nonatomic, copy) NSArray *buttonColors;
 @property (nonatomic, copy) NSArray *buttonColorsHighlighted;
 @property (nonatomic, copy) NSArray *panels;
-@property (nonatomic, strong) NSMutableDictionary *tagsToKeyButtons;
 @property (nonatomic, strong) UIView *currentPanel;
 @property (nonatomic) NSInteger currentPanelIndex;
 @end
@@ -43,10 +49,9 @@
 		buttonView.layer.masksToBounds=YES;
 		[self.view addSubview:buttonView];
 		self.buttonView = buttonView;
-		self.tagsToKeyButtons = [NSMutableDictionary dictionary];
 		NSArray *panelDicts = [[NSUserDefaults standardUserDefaults] objectForKey:@"KeyToolbar"];
 		NSMutableArray *panelViews = [NSMutableArray arrayWithCapacity:panelDicts.count];
-		for (NSDictionary *panelDict in panelDicts)
+		for (NSDictionary *panelDict in panelDicts) 
 			[panelViews addObject:[self panelViewForDict:panelDict]];
 		self.panels = panelViews;
 		[self switchToPanel:self.panels.firstObject toTheLeft:YES];
@@ -75,18 +80,45 @@
 -(void)orientationDidChange:(NSNotification*)note
 {
 	CGRect r = self.buttonView.frame;
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+	BOOL isLandscape = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
+	if (isLandscape)
 		r.size.width = 1014;
 	else
 		r.size.width = 758;
 	self.buttonView.frame = r;
+	for (UIView *aView in self.currentPanel.subviews) {
+		if (![aView isKindOfClass:[KeyboardButton class]])
+			continue;
+		KeyboardButton *kbtn = (KeyboardButton*)aView;
+		kbtn.frame = isLandscape ? kbtn.landscapeFrame : kbtn.portraitFrame;
+	}
+}
+
+-(void)switchToPanelForFileExtension:(NSString*)fileExtension
+{
+	NSString *panelName=nil;
+	if ([fileExtension isEqualToString:@"Rnw"])
+		panelName = @"Latex";
+	if (panelName) {
+		for (ButtonPanel *panel in self.panels) {
+			NSLog(@"comparing '%@' to '%@'", panelName, panel.panelName);
+			if ([panel.panelName isEqualToString:panelName] && panel != self.currentPanel) {
+				NSInteger idx = [self.panels indexOfObject:panel];
+				[self switchToPanel:panel toTheLeft:self.currentPanelIndex > idx];
+				return;
+			}
+		}
+	} else {
+		if (self.currentPanelIndex > 0)
+			[self switchToPanel:[self.panels objectAtIndex:0] toTheLeft:YES];
+	}
 }
 
 -(void)switchToPanel:(UIView*)panel toTheLeft:(BOOL)toTheLeft
 {
 	CGRect r = self.buttonView.bounds;
-	r.size.width -= 10;
-	r.origin.x = 10;
+	r.size.width -= 2;
+	r.origin.x = 2;
 	panel.frame = r;
 	if (self.currentPanel) {
 		UIView *oldView = self.currentPanel;
@@ -116,33 +148,30 @@
 	self.currentPanelIndex = [self.panels indexOfObject:panel];
 }
 
--(UIView*)panelViewForDict:(NSDictionary*)dict
+-(ButtonPanel*)panelViewForDict:(NSDictionary*)dict
 {
 	static dispatch_once_t onceToken;
 	static NSInteger sNextTag;
 	dispatch_once(&onceToken, ^{
 		sNextTag = 10000;
 	});
-	UIView *pview = [[UIView alloc] initWithFrame:self.view.bounds];
-	CGRect r = CGRectMake(10, 5, 60, 40);
-	if ([[dict objectForKey:@"ButtonWidth"] integerValue] > 0)
-		r.size.width = [[dict objectForKey:@"ButtonWidth"] integerValue];
+	BOOL isLandscape = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
+	ButtonPanel *pview = [[ButtonPanel alloc] initWithFrame:self.view.bounds];
+	CGRect pRect = CGRectMake(6, 5, 56, 40);
+	CGRect lRect = CGRectMake(6, 5, 80, 40);
 	for (NSDictionary *btnDict in [dict objectForKey:@"Buttons"]) {
-		CGRect btnFrame = r;
-		NSInteger customWidth = [[btnDict objectForKey:@"Width"] integerValue];
-		if (customWidth > 0)
-			btnFrame.size.width = customWidth;
-		GradientButton *btn = [self buttonWithFrame:btnFrame];
+		CGRect btnFrame = isLandscape ? lRect : pRect;
+		KeyboardButton *btn = [self buttonWithFrame:btnFrame];
+		[btn setupWithDictionary:btnDict];
 		[btn setTitle:[btnDict objectForKey:@"Title"] forState:UIControlStateNormal];
-		NSString *bstr = [btnDict objectForKey:@"String"];
-		if (nil == bstr)
-			bstr = [btnDict objectForKey:@"Title"];
 		btn.tag = ++sNextTag;
-		KeyboardButton *kbtn = [[KeyboardButton alloc] initWithDictionary:btnDict];
-		[self.tagsToKeyButtons setObject:kbtn forKey:[NSNumber numberWithInteger:btn.tag]];
+		btn.portraitFrame = pRect;
+		btn.landscapeFrame = lRect;
 		[pview addSubview:btn];
-		r.origin.x += 10 + btnFrame.size.width;
+		pRect.origin.x += 13 + pRect.size.width;
+		lRect.origin.x += 13 + lRect.size.width;
 	}
+	pview.panelName = [dict objectForKey:@"Name"];
 	return pview;
 }
 
@@ -173,10 +202,8 @@
 
 -(IBAction)buttonPressed:(id)sender
 {
-	if ([sender tag] == kTagExecute) {
-		[self.delegate keyboardToolbarExecute:self];
-	} else {
-		KeyboardButton *kbtn = [self.tagsToKeyButtons objectForKey:[NSNumber numberWithInteger:[sender tag]]];
+	if ([sender isKindOfClass:[KeyboardButton class]]) {
+		KeyboardButton *kbtn = sender;
 		if (kbtn.string)
 			[self.delegate keyboardToolbar:self insertString:kbtn.string];
 		else if (kbtn.selector && [self.delegate respondsToSelector:kbtn.selector])
@@ -190,9 +217,9 @@
 
 #pragma clang diagnostic pop
 
--(GradientButton*)buttonWithFrame:(CGRect)frame
+-(KeyboardButton*)buttonWithFrame:(CGRect)frame
 {
-	GradientButton *button = [[GradientButton alloc] initWithFrame:frame];
+	KeyboardButton *button = [[KeyboardButton alloc] initWithFrame:frame];
 	button.normalGradientLocations = ARRAY([NSNumber numberWithFloat:0], [NSNumber numberWithFloat:1.0]);
 	button.highlightGradientLocations = button.normalGradientLocations;
 	button.normalGradientColors = self.buttonColors;
@@ -202,7 +229,7 @@
 	button.cornerRadius = 6;
 	button.layer.masksToBounds = NO;
 	button.layer.shadowColor = [UIColor blackColor].CGColor;
-	button.layer.shadowOffset = CGSizeMake(1, 3);
+	button.layer.shadowOffset = CGSizeMake(1, 1);
 	button.layer.shadowOpacity = 0.8;
 	button.layer.shadowRadius = 1;
 	[button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -232,22 +259,25 @@
 @synthesize buttonColors=_buttonColors;
 @synthesize buttonColorsHighlighted=_buttonColorsHighlighted;
 @synthesize panels=_panels;
-@synthesize tagsToKeyButtons=_tagsToKeyButtons;
 @synthesize currentPanel=_currentPanel;
 @synthesize currentPanelIndex=_currentPanelIndex;
 @end
 
 @implementation KeyboardButton
--(id)initWithDictionary:(NSDictionary *)dict
+-(void)setupWithDictionary:(NSDictionary*)dict
 {
-	self = [super init];
 	self.string = [dict objectForKey:@"String"];
 	if ([dict objectForKey:@"Selector"]) {
 		self.selector = NSSelectorFromString([dict objectForKey:@"Selector"]);
 		self.string = nil;
 	}
-	return self;
 }
 @synthesize string=_string;
 @synthesize selector=_selector;
+@synthesize landscapeFrame=_landscapeFrame;
+@synthesize portraitFrame=_portraitFrame;
+@end
+
+@implementation ButtonPanel
+@synthesize panelName=_panelName;
 @end

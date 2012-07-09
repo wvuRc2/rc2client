@@ -13,6 +13,7 @@
 @interface KeyboardToolbar : NSObject
 @property (nonatomic, weak) id<KeyboardToolbarDelegate> delegate;
 @property (nonatomic, strong) UIView *view;
+-(void)switchToPanelForFileExtension:(NSString*)fileExtension;
 @end
 
 @protocol KeyboardToolbarDelegate <NSObject>

@@ -623,7 +623,8 @@
 		srcStr = self.richEditor.attributedString;
 	NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
 	[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
-	self.richEditor.attributedText = astr;	
+	self.richEditor.attributedText = astr;
+	[self.keyboardToolbar switchToPanelForFileExtension:self.currentFile.name.pathExtension];
 }
 
 - (void)textViewDidChange:(UITextView *)tview
