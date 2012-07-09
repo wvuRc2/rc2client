@@ -26,6 +26,7 @@
 @property (nonatomic, strong) IBOutlet MGSplitViewController *splitController;
 @property (nonatomic, strong) IBOutlet EditorViewController *editorController;
 @property (nonatomic, strong) IBOutlet ConsoleViewController *consoleController;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *executeButton;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *controlButton;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *mikeButton;
 @property (weak, nonatomic, readonly) RCSession *session;

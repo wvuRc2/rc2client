@@ -39,7 +39,6 @@
 @property (nonatomic, strong) UIPopoverController *controlPopover;
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) DoodleViewController *doodle;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *doodleButton;
 @property (nonatomic, strong) KeyboardToolbar *consoleKeyboardToolbar;
 @property (nonatomic, strong) id themeToken;
 @property (nonatomic, copy) NSString *webTmpFileDirectory;
@@ -141,9 +140,11 @@
 	self.consoleKeyboardToolbar.delegate = self;
 	self.editorController.session = self.session;
 	[self.editorController view];
+	self.editorController.executeButton = self.executeButton;
+	self.editorController.executeButton.target = self.editorController;
+	self.editorController.executeButton.action = @selector(doExecute:);
 	[self.editorController restoreSessionState:savedState];
 	if (self.session.initialFileSelection) {
-NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name);
 		[self.editorController loadFile:self.session.initialFileSelection showProgress:NO];
 	}
 	[self.consoleController restoreSessionState:savedState];
@@ -160,9 +161,11 @@ NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name
 		});
 	}
 	if (![[[Rc2Server sharedInstance] usersPermissions] containsObject:@"CROOM_SESS"]) {
-		NSArray *a = self.toolbar.items;
-		a = [a arrayByRemovingObjectAtIndex:[a indexOfObject:self.doodleButton]];
-		[self.toolbar setItems:a animated:NO];
+		NSArray *a = self.editorController.toolbar.items;
+		a = [a arrayByRemovingObjectAtIndex:[a indexOfObject:self.editorController.doodleButton]];
+		[self.editorController.toolbar setItems:a animated:NO];
+	} else {
+		self.editorController.doodleBlock = ^{ [blockSelf showDoodleView:nil]; };
 	}
 }
 
@@ -678,7 +681,6 @@ NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name
 @synthesize showingProgress=_showingProgress;
 @synthesize imgController=_imgController;
 @synthesize reconnecting=_reconnecting;
-@synthesize doodleButton=_doodleButton;
 @synthesize audioEngine=_audioEngine;
 @synthesize jsQuiteRExp=_jsQuiteRExp;
 @synthesize controlController=_controlController;
@@ -686,5 +688,5 @@ NSLog(@"session loading initial file:%@", self.session.initialFileSelection.name
 @synthesize autoReconnect=_autoReconnect;
 @synthesize themeToken=_themeToken;
 @synthesize doodle=_doodle;
-
+@synthesize executeButton=_executeButton;
 @end

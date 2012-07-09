@@ -186,6 +186,15 @@
 	});
 }
 
+//doesn't work with rich editor.
+-(void)arrowUp
+{
+	UITextRange *curRange = self.richEditor.selectedTextRange;
+	UITextRange *extRange = [self.richEditor characterRangeByExtendingPosition:curRange.start inDirection:UITextLayoutDirectionDown];
+	UITextRange *newRange = [self.richEditor textRangeFromPosition:extRange.start toPosition:extRange.start];
+	self.richEditor.selectedTextRange = newRange;
+}
+
 #pragma mark - keyboard delegate (old)
 
 -(void)keyboardWants2ReplaceCharactersInRange:(NSRange)rng with:(NSString*)str
@@ -239,9 +248,7 @@
 
 -(void)updateDocumentState
 {
-	RCSession *session = [Rc2Server sharedInstance].currentSession;
 	self.executeButton.enabled = self.richEditor.attributedString.length > 0;
-	self.syncButtonItem.enabled = session.hasWritePerm && self.currentFile.locallyModified;
 	if (self.currentFile && currentFile.readOnlyValue) {
 		[self.richEditor setEditable:NO];
 	} else {
@@ -345,7 +352,6 @@
 {
 	bool limited = self.session.restrictedMode;
 	self.actionButtonItem.enabled = !limited;
-	self.syncButtonItem.enabled = !limited;
 	self.executeButton.enabled = !limited;
 	self.openFileButtonItem.enabled = !limited;
 	self.richEditor.editable = !limited;
@@ -386,6 +392,8 @@
 
 -(IBAction)doExecute:(id)sender
 {
+	if ([self.richEditor isFirstResponder])
+		[self.richEditor resignFirstResponder];
 	NSString *src = self.richEditor.attributedString.string;
 	if ([self.currentFile.name hasSuffix:@".Rnw"])
 		[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:src];
@@ -612,6 +620,11 @@
 		[self.session raiseHand];
 }
 
+-(IBAction)showDoodleView:(id)sender
+{
+	self.doodleBlock();
+}
+
 #pragma mark - delegate methods
 
 -(void)dismissSessionsFilesController
@@ -682,11 +695,13 @@
 @synthesize importController;
 @synthesize dropboxCache;
 @synthesize actionSheet;
-@synthesize syncButtonItem;
+@synthesize doodleButton;
 @synthesize sessionKvoToken;
 @synthesize handButton;
 @synthesize sessionHandToken;
 @synthesize defaultTextAttrs=_defaultTextAttrs;
 @synthesize currentAlert=_currentAlert;
 @synthesize keyboardToolbar=_keyboardToolbar;
+@synthesize toolbar=_toolbar;
+@synthesize doodleBlock=_doodleBlock;
 @end

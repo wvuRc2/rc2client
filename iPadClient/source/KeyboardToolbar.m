@@ -12,13 +12,18 @@
 
 #define kTagExecute 1001
 
+@interface KeyboardButton : NSObject
+@property (copy) NSString *string;
+@property (assign) SEL selector;
+-(id)initWithDictionary:(NSDictionary*)dict;
+@end
+
 @interface KeyboardToolbar()
 @property (nonatomic, strong) UIView *buttonView;
-@property (nonatomic, strong) GradientButton *executeButton;
 @property (nonatomic, copy) NSArray *buttonColors;
 @property (nonatomic, copy) NSArray *buttonColorsHighlighted;
 @property (nonatomic, copy) NSArray *panels;
-@property (nonatomic, strong) NSMutableDictionary *tagsToKeyStrings;
+@property (nonatomic, strong) NSMutableDictionary *tagsToKeyButtons;
 @property (nonatomic, strong) UIView *currentPanel;
 @property (nonatomic) NSInteger currentPanelIndex;
 @end
@@ -33,17 +38,12 @@
 		v.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		v.backgroundColor = [UIColor colorWithHexString:@"9c9ca6"];
 		[self cacheGradients];
-		self.executeButton = [self buttonWithFrame:CGRectMake(1024-90, 5, 80, 40)];
-		[self.executeButton setTitle:@"Execute" forState:UIControlStateNormal];
-		self.executeButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-		self.executeButton.tag = kTagExecute;
-		[v addSubview:self.executeButton];
-		UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024-100, 53)];
+		UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024-10, 53)];
 		buttonView.autoresizingMask = 0;
 		buttonView.layer.masksToBounds=YES;
 		[self.view addSubview:buttonView];
 		self.buttonView = buttonView;
-		self.tagsToKeyStrings = [NSMutableDictionary dictionary];
+		self.tagsToKeyButtons = [NSMutableDictionary dictionary];
 		NSArray *panelDicts = [[NSUserDefaults standardUserDefaults] objectForKey:@"KeyToolbar"];
 		NSMutableArray *panelViews = [NSMutableArray arrayWithCapacity:panelDicts.count];
 		for (NSDictionary *panelDict in panelDicts)
@@ -76,16 +76,16 @@
 {
 	CGRect r = self.buttonView.frame;
 	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		r.size.width = 924;
+		r.size.width = 1014;
 	else
-		r.size.width = 668;
+		r.size.width = 758;
 	self.buttonView.frame = r;
 }
 
 -(void)switchToPanel:(UIView*)panel toTheLeft:(BOOL)toTheLeft
 {
 	CGRect r = self.buttonView.bounds;
-	r.size.width -= 100;
+	r.size.width -= 10;
 	r.origin.x = 10;
 	panel.frame = r;
 	if (self.currentPanel) {
@@ -138,7 +138,8 @@
 		if (nil == bstr)
 			bstr = [btnDict objectForKey:@"Title"];
 		btn.tag = ++sNextTag;
-		[self.tagsToKeyStrings setObject:bstr forKey:[NSNumber numberWithInteger:btn.tag]];
+		KeyboardButton *kbtn = [[KeyboardButton alloc] initWithDictionary:btnDict];
+		[self.tagsToKeyButtons setObject:kbtn forKey:[NSNumber numberWithInteger:btn.tag]];
 		[pview addSubview:btn];
 		r.origin.x += 10 + btnFrame.size.width;
 	}
@@ -167,19 +168,27 @@
 	[sender setHighlighted:NO];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 -(IBAction)buttonPressed:(id)sender
 {
 	if ([sender tag] == kTagExecute) {
 		[self.delegate keyboardToolbarExecute:self];
 	} else {
-		NSString *str = [self.tagsToKeyStrings objectForKey:[NSNumber numberWithInteger:[sender tag]]];
-		[self.delegate keyboardToolbar:self insertString:str];
+		KeyboardButton *kbtn = [self.tagsToKeyButtons objectForKey:[NSNumber numberWithInteger:[sender tag]]];
+		if (kbtn.string)
+			[self.delegate keyboardToolbar:self insertString:kbtn.string];
+		else if (kbtn.selector && [self.delegate respondsToSelector:kbtn.selector])
+			[self.delegate performSelector:kbtn.selector];
 	}
 	dispatch_async(dispatch_get_main_queue(), ^(void) {
 		[sender setSelected:NO];
 		[sender setHighlighted:NO];
 	});
 }
+
+#pragma clang diagnostic pop
 
 -(GradientButton*)buttonWithFrame:(CGRect)frame
 {
@@ -220,11 +229,25 @@
 @synthesize delegate=_delegate;
 @synthesize view=_view;
 @synthesize buttonView=_buttonView;
-@synthesize executeButton=_executeButton;
 @synthesize buttonColors=_buttonColors;
 @synthesize buttonColorsHighlighted=_buttonColorsHighlighted;
 @synthesize panels=_panels;
-@synthesize tagsToKeyStrings=_tagsToKeyStrings;
+@synthesize tagsToKeyButtons=_tagsToKeyButtons;
 @synthesize currentPanel=_currentPanel;
 @synthesize currentPanelIndex=_currentPanelIndex;
+@end
+
+@implementation KeyboardButton
+-(id)initWithDictionary:(NSDictionary *)dict
+{
+	self = [super init];
+	self.string = [dict objectForKey:@"String"];
+	if ([dict objectForKey:@"Selector"]) {
+		self.selector = NSSelectorFromString([dict objectForKey:@"Selector"]);
+		self.string = nil;
+	}
+	return self;
+}
+@synthesize string=_string;
+@synthesize selector=_selector;
 @end

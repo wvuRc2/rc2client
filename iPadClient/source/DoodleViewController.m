@@ -17,7 +17,7 @@
 
 -(void)loadView
 {
-	DoodleView *v = [[DoodleView alloc] initWithFrame:CGRectMake(0, 44, 768, 980)];
+	DoodleView *v = [[DoodleView alloc] initWithFrame:CGRectMake(0, 44, 768, 936)];
 	self.view = v;
 	v.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
 }
@@ -27,7 +27,7 @@
 	[super viewDidAppear:animated];
 	CGRect f = self.view.superview.bounds;
 	f.origin.y += 44;
-	f.size.height -= 44;
+	f.size.height -= 88;
 	self.view.frame = f;
 }
 
