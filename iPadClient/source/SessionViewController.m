@@ -668,13 +668,12 @@
 }
 
 @synthesize titleLabel=_titleLabel;
-@synthesize button1=_button1;
 @synthesize keyboardView=_keyboardView;
 @synthesize splitController=_splitController;
 @synthesize editorController=_editorController;
 @synthesize consoleController=_consoleController;
 @synthesize controlButton=_controlButton;
-@synthesize toolbar=_toolbar;
+//@synthesize toolbar=_toolbar;
 @synthesize mikeButton=_mikeButton;
 @synthesize webTmpFileDirectory=_webTmpFileDirectory;
 @synthesize consoleKeyboardToolbar=_consoleKeyboardToolbar;
