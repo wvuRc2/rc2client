@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KeyboardView.h"
 
 @class RCFile;
 @class RCSavedSession;
 @class RCSession;
 
-@interface EditorViewController : UIViewController<KeyboardViewDelegate,UIPopoverControllerDelegate,UITextViewDelegate>
+@interface EditorViewController : UIViewController<UIPopoverControllerDelegate,UITextViewDelegate>
 //@property (nonatomic, strong) IBOutlet UITextView *textView;
 @property (nonatomic, weak) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *executeButton;
@@ -39,6 +38,7 @@
 
 -(void)setInputView:(id)inputView;
 -(BOOL)isEditorFirstResponder;
+-(NSString*)editorContents;
 
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress;
 -(void)loadFile:(RCFile*)file; //shows progress

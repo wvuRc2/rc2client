@@ -66,8 +66,6 @@
 		082DC04113EC99E5008EAA99 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082DC03F13EC99E5008EAA99 /* MainWindow.xib */; };
 		082DC04413EC99E5008EAA99 /* SessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 082DC04313EC99E5008EAA99 /* SessionViewController.m */; };
 		082DC04713EC99E5008EAA99 /* SessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082DC04513EC99E5008EAA99 /* SessionViewController.xib */; };
-		082DC04F13EC9EB2008EAA99 /* KeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082DC04E13EC9EB2008EAA99 /* KeyboardView.m */; };
-		082DC05613ECA3AA008EAA99 /* KeyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 082DC05513ECA3AA008EAA99 /* KeyButton.m */; };
 		08349EBE1403311500B629B4 /* rightSym.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08349EBD1403311500B629B4 /* rightSym.txt */; };
 		08349EC1140339F300B629B4 /* rightAlpha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08349EC0140339F300B629B4 /* rightAlpha.txt */; };
 		08349EC3140384D700B629B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08349EC2140384D700B629B4 /* QuartzCore.framework */; };
@@ -351,10 +349,6 @@
 		082DC04213EC99E5008EAA99 /* SessionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SessionViewController.h; path = source/SessionViewController.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		082DC04313EC99E5008EAA99 /* SessionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = SessionViewController.m; path = source/SessionViewController.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		082DC04613EC99E5008EAA99 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SessionViewController.xib; sourceTree = "<group>"; };
-		082DC04D13EC9EB2008EAA99 /* KeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = KeyboardView.h; path = source/KeyboardView.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		082DC04E13EC9EB2008EAA99 /* KeyboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = KeyboardView.m; path = source/KeyboardView.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		082DC05413ECA3AA008EAA99 /* KeyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = KeyButton.h; path = source/KeyButton.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		082DC05513ECA3AA008EAA99 /* KeyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = KeyButton.m; path = source/KeyButton.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		08317A0F1427E200009701C6 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = ../3rdParty/testflight/libTestFlight.a; sourceTree = "<group>"; };
 		08349EBD1403311500B629B4 /* rightSym.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rightSym.txt; path = resources/rightSym.txt; sourceTree = SOURCE_ROOT; };
 		08349EC0140339F300B629B4 /* rightAlpha.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rightAlpha.txt; path = resources/rightAlpha.txt; sourceTree = SOURCE_ROOT; };
@@ -1069,10 +1063,6 @@
 		08D55EF11406601000E9D981 /* views & cells */ = {
 			isa = PBXGroup;
 			children = (
-				082DC04D13EC9EB2008EAA99 /* KeyboardView.h */,
-				082DC04E13EC9EB2008EAA99 /* KeyboardView.m */,
-				082DC05413ECA3AA008EAA99 /* KeyButton.h */,
-				082DC05513ECA3AA008EAA99 /* KeyButton.m */,
 				088A76D41406AF9D003D6A3F /* MBProgressHUD.h */,
 				088A76D51406AF9D003D6A3F /* MBProgressHUD.m */,
 				08AE4E901414374B00963C52 /* MessageListCell.h */,
@@ -1421,8 +1411,6 @@
 				082DC03B13EC99E5008EAA99 /* main.m in Sources */,
 				082DC03E13EC99E5008EAA99 /* Rc2AppDelegate.m in Sources */,
 				082DC04413EC99E5008EAA99 /* SessionViewController.m in Sources */,
-				082DC04F13EC9EB2008EAA99 /* KeyboardView.m in Sources */,
-				082DC05613ECA3AA008EAA99 /* KeyButton.m in Sources */,
 				08349ECB14042FDA00B629B4 /* LoginController.m in Sources */,
 				08349EDA14044ACC00B629B4 /* Rc2Server.m in Sources */,
 				08349F281404706B00B629B4 /* ASIAuthenticationDialog.m in Sources */,

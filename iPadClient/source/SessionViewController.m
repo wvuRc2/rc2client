@@ -14,7 +14,6 @@
 #import "MGSplitDividerView.h"
 #import "EditorViewController.h"
 #import "ConsoleViewController.h"
-#import "KeyboardView.h"
 #import "KeyboardToolbar.h"
 #import "Rc2Server.h"
 #import "ASIHTTPRequest.h"
@@ -202,7 +201,6 @@
 //	[self.splitController.view setNeedsLayout];
 	self.splitController.vertical = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
 	[self.splitController layoutSubviewsForInterfaceOrientation:TheApp.statusBarOrientation withAnimation:NO];
-	[self.keyboardView setIsLandscape:UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation)];
 }
 
 #pragma mark - actions
@@ -266,9 +264,7 @@
 
 -(void)handleKeyCode:(unichar)code
 {
-	if ([self.editorController isEditorFirstResponder])
-		[self.editorController handleKeyCode:code];
-	else if ([self.consoleController.textField isFirstResponder]) {
+	if ([self.consoleController.textField isFirstResponder]) {
 		switch (code) {
 			case 0xeaa0: //execute
 				[self.consoleController.textField resignFirstResponder];
@@ -382,7 +378,7 @@
 	savedState.consoleHtml = [self.consoleController evaluateJavaScript:@"$('#consoleOutputGenerated').html()"];
 	savedState.currentFile = self.editorController.currentFile;
 	if (nil == savedState.currentFile)
-		savedState.inputText = [self.editorController keyboardWantsContentString]; //FIXME: hack. need better way
+		savedState.inputText = [self.editorController editorContents];
 }
 
 -(void)appRestored:(NSNotification*)note
@@ -668,7 +664,6 @@
 }
 
 @synthesize titleLabel=_titleLabel;
-@synthesize keyboardView=_keyboardView;
 @synthesize splitController=_splitController;
 @synthesize editorController=_editorController;
 @synthesize consoleController=_consoleController;

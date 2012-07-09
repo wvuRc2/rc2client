@@ -10,19 +10,17 @@
 #import "AbstractTopViewController.h"
 #import "MGSplitViewController.h"
 #import "RCSession.h"
-#import "KeyboardView.h"
 
 @class EditorViewController;
 @class ConsoleViewController;
 
-@interface SessionViewController : AbstractTopViewController<MGSplitViewControllerDelegate,RCSessionDelegate,KeyboardExecuteDelegate,UIDocumentInteractionControllerDelegate> {
+@interface SessionViewController : AbstractTopViewController<MGSplitViewControllerDelegate,RCSessionDelegate,UIDocumentInteractionControllerDelegate> {
 	IBOutlet UITextField *textField;
 	IBOutlet UITextView *textView;
 }
 -(id)initWithSession:(RCSession*)session;
 //@property (nonatomic, weak) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
-@property (nonatomic, strong) IBOutlet KeyboardView *keyboardView;
 @property (nonatomic, strong) IBOutlet MGSplitViewController *splitController;
 @property (nonatomic, strong) IBOutlet EditorViewController *editorController;
 @property (nonatomic, strong) IBOutlet ConsoleViewController *consoleController;

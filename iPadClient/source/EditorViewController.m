@@ -195,45 +195,6 @@
 	self.richEditor.selectedTextRange = newRange;
 }
 
-#pragma mark - keyboard delegate (old)
-
--(void)keyboardWants2ReplaceCharactersInRange:(NSRange)rng with:(NSString*)str
-{
-	NSMutableAttributedString *astr = [self.richEditor.attributedString mutableCopy];
-	[astr replaceCharactersInRange:rng withString:str];
-	self.richEditor.attributedString = astr;
-	DTTextRange *dtrng = [[DTTextRange alloc] initWithNSRange:NSMakeRange(rng.location + str.length, 0)];
-	self.richEditor.selectedTextRange = dtrng;
-}
-
--(void)keyboardWants2DeleteCharactersInRange:(NSRange)rng
-{
-	NSMutableAttributedString *astr = [self.richEditor.attributedString mutableCopy];
-	[astr deleteCharactersInRange:rng];
-	self.richEditor.attributedString = astr;
-}
-
--(NSRange)keyboardWants2GetRange
-{
-	return ((DTTextRange*)self.richEditor.selectedTextRange).NSRangeValue;
-}
-
--(void)keyboardWants2SetRange:(NSRange)rng
-{
-	DTTextRange *aRange = [[DTTextRange alloc] initWithNSRange:rng];
-	self.richEditor.selectedTextRange = aRange;
-}
-
--(NSString*)keyboardWantsContentString
-{
-	return self.richEditor.attributedString.string;
-}
-
--(void)keyboardWants2DismissFirstResponder
-{
-	[self.richEditor resignFirstResponder];
-}
-
 #pragma mark - meat & potatoes
 
 -(void)setInputView:(id)inputView
@@ -244,6 +205,11 @@
 -(BOOL)isEditorFirstResponder
 {
 	return self.richEditor.isFirstResponder;
+}
+
+-(NSString*)editorContents
+{
+	return [self.richEditor.attributedString string];
 }
 
 -(void)updateDocumentState
