@@ -11,6 +11,6 @@
       location = "group:MacClient/MacClient.xcodeproj">
    </FileRef>
    <FileRef
-      location = "container:../../../../svn-agilemonks/trunk/Vyana/Vyana.xcodeproj">
+      location = "container:../Vyana/Vyana.xcodeproj">
    </FileRef>
 </Workspace>
