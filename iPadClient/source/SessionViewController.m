@@ -160,11 +160,9 @@
 		});
 	}
 	if (![[[Rc2Server sharedInstance] usersPermissions] containsObject:@"CROOM_SESS"]) {
-		NSArray *a = self.editorController.toolbar.items;
-		a = [a arrayByRemovingObjectAtIndex:[a indexOfObject:self.editorController.doodleButton]];
-		[self.editorController.toolbar setItems:a animated:NO];
-	} else {
-		self.editorController.doodleBlock = ^{ [blockSelf showDoodleView:nil]; };
+		NSArray *a = self.toolbar.items;
+		a = [a arrayByRemovingObjectAtIndex:[a indexOfObject:self.doodleButton]];
+		[self.toolbar setItems:a animated:NO];
 	}
 }
 
@@ -683,4 +681,5 @@
 @synthesize themeToken=_themeToken;
 @synthesize doodle=_doodle;
 @synthesize executeButton=_executeButton;
+@synthesize doodleButton=_doodleButton;
 @end

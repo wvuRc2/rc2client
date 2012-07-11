@@ -48,6 +48,14 @@
 	self.welcomeController.view.frame = self.view.bounds;
 }
 
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	if (self.currentController != self.welcomeController) {
+		[self.welcomeController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	}
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;

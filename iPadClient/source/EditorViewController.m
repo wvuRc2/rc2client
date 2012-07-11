@@ -586,11 +586,6 @@
 		[self.session raiseHand];
 }
 
--(IBAction)showDoodleView:(id)sender
-{
-	self.doodleBlock();
-}
-
 #pragma mark - delegate methods
 
 -(void)dismissSessionsFilesController
@@ -662,7 +657,6 @@
 @synthesize importController;
 @synthesize dropboxCache;
 @synthesize actionSheet;
-@synthesize doodleButton;
 @synthesize sessionKvoToken;
 @synthesize handButton;
 @synthesize sessionHandToken;
@@ -670,5 +664,4 @@
 @synthesize currentAlert=_currentAlert;
 @synthesize keyboardToolbar=_keyboardToolbar;
 @synthesize toolbar=_toolbar;
-@synthesize doodleBlock=_doodleBlock;
 @end

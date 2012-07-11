@@ -18,12 +18,10 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *executeButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *actionButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *openFileButtonItem;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *doodleButton;
 @property (nonatomic, strong) IBOutlet UILabel *docTitleLabel;
 @property (nonatomic, strong) IBOutlet UIButton *handButton;
 @property (nonatomic, strong) RCFile *currentFile;
 @property (nonatomic, strong) RCSession *session;
-@property (nonatomic, copy) BasicBlock doodleBlock;
 
 -(IBAction)doExecute:(id)sender;
 -(IBAction)doShowFiles:(id)sender;

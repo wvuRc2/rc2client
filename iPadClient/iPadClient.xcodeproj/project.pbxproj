@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		080433E8150AAD020065426A /* RCImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 080433E7150AAD020065426A /* RCImageCache.m */; };
+		0805871815ADFB2C00EEE68B /* doodle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0805871615ADFB2C00EEE68B /* doodle.png */; };
+		0805871915ADFB2C00EEE68B /* doodle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0805871715ADFB2C00EEE68B /* doodle@2x.png */; };
 		0809BF6F14C5F1AC009CEC57 /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0809BF6C14C5F1AB009CEC57 /* Rc2.xcdatamodeld */; };
 		080A2F4A1566E8AD0018371A /* NotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 080A2F491566E8AD0018371A /* NotificationCell.m */; };
 		080A2F4C1566E91D0018371A /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 080A2F4B1566E91D0018371A /* NotificationCell.xib */; };
@@ -259,6 +261,8 @@
 /* Begin PBXFileReference section */
 		080433E6150AAD020065426A /* RCImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageCache.h; path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/MacClient/../SharedCode/rc2/RCImageCache.h"; sourceTree = "<absolute>"; };
 		080433E7150AAD020065426A /* RCImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageCache.m; path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/MacClient/../SharedCode/rc2/RCImageCache.m"; sourceTree = "<absolute>"; };
+		0805871615ADFB2C00EEE68B /* doodle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = doodle.png; path = resources/doodle.png; sourceTree = SOURCE_ROOT; };
+		0805871715ADFB2C00EEE68B /* doodle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "doodle@2x.png"; path = "resources/doodle@2x.png"; sourceTree = SOURCE_ROOT; };
 		0809BF6D14C5F1AC009CEC57 /* v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = v2.xcdatamodel; sourceTree = "<group>"; };
 		0809BF6E14C5F1AC009CEC57 /* Rc2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rc2.xcdatamodel; sourceTree = "<group>"; };
 		080A2F481566E8AD0018371A /* NotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationCell.h; path = source/NotificationCell.h; sourceTree = SOURCE_ROOT; };
@@ -921,6 +925,8 @@
 		0860C54214103D2E00582C7D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				0805871615ADFB2C00EEE68B /* doodle.png */,
+				0805871715ADFB2C00EEE68B /* doodle@2x.png */,
 				08E187561559AB4000B08C56 /* lock.png */,
 				08E187571559AB4000B08C56 /* lock@2x.png */,
 				0818EE1B155B207000159291 /* graded.png */,
@@ -1353,6 +1359,8 @@
 				087C3A4415825E9700ECA7C8 /* tokenHighlighted@2x.png in Resources */,
 				087C3A4515825E9700ECA7C8 /* tokenNormal.png in Resources */,
 				087C3A4615825E9700ECA7C8 /* tokenNormal@2x.png in Resources */,
+				0805871815ADFB2C00EEE68B /* doodle.png in Resources */,
+				0805871915ADFB2C00EEE68B /* doodle@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,6 +27,7 @@
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *executeButton;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *controlButton;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *mikeButton;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *doodleButton;
 @property (weak, nonatomic, readonly) RCSession *session;
 
 -(IBAction)showControls:(id)sender;
