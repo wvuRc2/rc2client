@@ -207,7 +207,7 @@ WebSocketWaitingState waitingState;
         else
         {
             NSMutableArray* fragments = [NSMutableArray array];
-            NSUInteger fragmentCount = messageLength / self.maxPayloadSize;
+            unsigned int fragmentCount = messageLength / self.maxPayloadSize;
             if (messageLength % self.maxPayloadSize)
             {
                 fragmentCount++;
@@ -217,7 +217,7 @@ WebSocketWaitingState waitingState;
             for (int i = 0; i < fragmentCount; i++)
             {
                 WebSocketFragment* fragment = nil;
-                NSUInteger fragmentLength = self.maxPayloadSize;
+                unsigned int fragmentLength = self.maxPayloadSize;
                 if (i == 0)
                 {
                     fragment = [WebSocketFragment fragmentWithOpCode:aOpCode isFinal:NO payload:[aMessage subdataWithRange:NSMakeRange(i * self.maxPayloadSize, fragmentLength)]];
@@ -288,7 +288,7 @@ WebSocketWaitingState waitingState;
         case MessageOpCodeText:
             if (aFragment.isFinal)
             {
-                [self dispatchTextMessageReceived:[[NSString alloc] initWithData:aFragment.payloadData encoding:NSUTF8StringEncoding]];
+                [self dispatchTextMessageReceived:[[[NSString alloc] initWithData:aFragment.payloadData encoding:NSUTF8StringEncoding] autorelease]];
             }
             break;
         case MessageOpCodeBinary:
@@ -326,7 +326,7 @@ WebSocketWaitingState waitingState;
         switch (messageOpCode) 
         {            
             case MessageOpCodeText:
-                [self dispatchTextMessageReceived:[[NSString alloc] initWithData:messageData encoding:NSUTF8StringEncoding]];
+                [self dispatchTextMessageReceived:[[[NSString alloc] initWithData:messageData encoding:NSUTF8StringEncoding] autorelease]];
                 break;
             case MessageOpCodeBinary:
                 [self dispatchBinaryMessageReceived:messageData];
@@ -427,7 +427,7 @@ WebSocketWaitingState waitingState;
     // Initialize the context.
     CC_SHA1_Init(&ctx);
     // Perform the hash.
-    CC_SHA1_Update(&ctx, (void *)[aPlainText bytes], (CC_LONG)[aPlainText length]);
+    CC_SHA1_Update(&ctx, (void *)[aPlainText bytes], [aPlainText length]);
     // Finalize the output.
     CC_SHA1_Final(hashBytes, &ctx);
     
@@ -466,12 +466,6 @@ WebSocketWaitingState waitingState;
 
 - (NSString*) getRequest: (NSString*) aRequestPath
 {
-	//mlilback hack to stick in cookies
-//	NSArray *cks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-	NSArray *cks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:url];
-	NSDictionary *cookies = [NSHTTPCookie requestHeaderFieldsWithCookies:cks];
-	NSString *cookieHeader = [cookies objectForKey:@"Cookie"];
-
     [self generateSecKeys];
     if (self.protocols && self.protocols.count > 0)
     {
@@ -493,13 +487,12 @@ WebSocketWaitingState waitingState;
                     "Upgrade: WebSocket\r\n"
                     "Connection: Upgrade\r\n"
                     "Host: %@\r\n"
-					"Cookie: %@\r\n"
                     "Sec-WebSocket-Origin: %@\r\n"
                     "Sec-WebSocket-Protocol: %@\r\n"
                     "Sec-WebSocket-Key: %@\r\n"
                     "Sec-WebSocket-Version: 7\r\n"
                     "\r\n",
-                    aRequestPath, [self buildHost], cookieHeader, self.origin, protocolFragment, wsSecKey];
+                    aRequestPath, [self buildHost], self.origin, protocolFragment, wsSecKey];
         }
     }
     
@@ -511,9 +504,8 @@ WebSocketWaitingState waitingState;
             "Sec-WebSocket-Origin: %@\r\n"
             "Sec-WebSocket-Key: %@\r\n"
             "Sec-WebSocket-Version: 7\r\n"
-			"Cookie: %@\r\n"
             "\r\n",
-            aRequestPath, [self buildHost], self.origin, wsSecKey, cookieHeader];
+            aRequestPath, [self buildHost], self.origin, wsSecKey];
 }
 
 - (void) generateSecKeys
@@ -653,7 +645,7 @@ WebSocketWaitingState waitingState;
             readystate = WebSocketReadyStateClosing;
             [self dispatchFailure:aError];
         case WebSocketReadyStateClosing:
-            closingError = aError; 
+            closingError = [aError retain]; 
     }
 }
 
@@ -699,7 +691,7 @@ WebSocketWaitingState waitingState;
 {
     if (aTag == TagHandshake) 
     {
-        NSString* response = [[NSString alloc] initWithData:aData encoding:NSASCIIStringEncoding];
+        NSString* response = [[[NSString alloc] initWithData:aData encoding:NSASCIIStringEncoding] autorelease];
         if ([self isUpgradeResponse: response]) 
         {
             //grab protocol from server
@@ -731,9 +723,13 @@ WebSocketWaitingState waitingState;
 
 
 #pragma mark Lifecycle
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
+
 + (id) webSocketWithURLString:(NSString*) aUrlString delegate:(id<WebSocket07Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake
 {
-    return [[[self class] alloc] initWithURLString:aUrlString delegate:aDelegate origin:aOrigin protocols:aProtocols tlsSettings:aTlsSettings verifyHandshake:aVerifyHandshake];
+    return [[[[self class] alloc] initWithURLString:aUrlString delegate:aDelegate origin:aOrigin protocols:aProtocols tlsSettings:aTlsSettings verifyHandshake:aVerifyHandshake] autorelease];
 }
 
 - (id) initWithURLString:(NSString *) aUrlString delegate:(id<WebSocket07Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake
@@ -749,7 +745,7 @@ WebSocketWaitingState waitingState;
         }
         
         //apply properties
-        url = tempUrl;
+        url = [tempUrl retain];
         self.delegate = aDelegate;
         isSecure = [self.url.scheme isEqualToString:@"wss"];
         if (aOrigin)
@@ -762,11 +758,11 @@ WebSocketWaitingState waitingState;
         }
         if (aProtocols)
         {
-            protocols = aProtocols;
+            protocols = [aProtocols retain];
         }
         if (aTlsSettings)
         {
-            tlsSettings = aTlsSettings;
+            tlsSettings = [aTlsSettings retain];
         }
         verifyHandshake = aVerifyHandshake;
         socket = [[AsyncSocket alloc] initWithDelegate:self];
@@ -778,11 +774,26 @@ WebSocketWaitingState waitingState;
     }
     return self;
 }
+#pragma clang diagnostic pop
+
 
 -(void) dealloc 
 {
     socket.delegate = nil;
     [socket disconnect];
+    [socket release];
+    [delegate release];
+    [url release];
+    [origin release];
+    [closingError release];
+    [protocols release];
+    [tlsSettings release];
+    [pendingFragments release];
+    [closeMessage release];
+    [wsSecKey release];
+    [wsSecKeyHandshake release];
+    [serverProtocol release];
+    [super dealloc];
 }
 
 @end

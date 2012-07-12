@@ -175,6 +175,10 @@
 		088A7701140C3833003D6A3F /* buttonLight.png in Resources */ = {isa = PBXBuildFile; fileRef = 088A7700140C3833003D6A3F /* buttonLight.png */; };
 		088AC26514BA62D00094D134 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088AC26414BA62D00094D134 /* DropboxSDK.framework */; };
 		089C0B141458E51800DF9984 /* RCWorkspaceShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 089C0B131458E51800DF9984 /* RCWorkspaceShare.m */; };
+		08A4F4F315AF393B00C37962 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4F4F015AF393B00C37962 /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08A4F4F415AF393B00C37962 /* HandshakeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4F4F215AF393B00C37962 /* HandshakeHeader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08A4F50215AF396500C37962 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4F50115AF396500C37962 /* WebSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08A4F50515AF397700C37962 /* WebSocketConnectConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4F50415AF397700C37962 /* WebSocketConnectConfig.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08A6FF4E142F8BA300E8AB4B /* RC2RemoteLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A6FF4D142F8BA300E8AB4B /* RC2RemoteLogger.m */; };
 		08A7CFE31414A58A000ACA1D /* trash32.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A7CFE21414A58A000ACA1D /* trash32.png */; };
 		08A7CFE61414A689000ACA1D /* trash32-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A7CFE51414A689000ACA1D /* trash32-down.png */; };
@@ -235,7 +239,7 @@
 		08EE41161436441F004FDBB8 /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41051436441F004FDBB8 /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE41171436441F004FDBB8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41071436441F004FDBB8 /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE41181436441F004FDBB8 /* WebSocket00.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE410A1436441F004FDBB8 /* WebSocket00.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08EE41191436441F004FDBB8 /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE410C1436441F004FDBB8 /* WebSocket07.m */; };
+		08EE41191436441F004FDBB8 /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE410C1436441F004FDBB8 /* WebSocket07.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE411C1436441F004FDBB8 /* WebSocketFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41121436441F004FDBB8 /* WebSocketFragment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE411D1436441F004FDBB8 /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE41141436441F004FDBB8 /* WebSocketMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08EE4159143A1ABC004FDBB8 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08EE4158143A1ABC004FDBB8 /* Default-Portrait~ipad.png */; };
@@ -514,6 +518,14 @@
 		088AC26414BA62D00094D134 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = ../3rdParty/DropboxSDK.framework; sourceTree = "<group>"; };
 		089C0B121458E51800DF9984 /* RCWorkspaceShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceShare.h; sourceTree = "<group>"; };
 		089C0B131458E51800DF9984 /* RCWorkspaceShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceShare.m; sourceTree = "<group>"; };
+		08A4F4EF15AF393B00C37962 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		08A4F4F015AF393B00C37962 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		08A4F4F115AF393B00C37962 /* HandshakeHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandshakeHeader.h; sourceTree = "<group>"; };
+		08A4F4F215AF393B00C37962 /* HandshakeHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandshakeHeader.m; sourceTree = "<group>"; };
+		08A4F50015AF396500C37962 /* WebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket.h; sourceTree = "<group>"; };
+		08A4F50115AF396500C37962 /* WebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocket.m; sourceTree = "<group>"; };
+		08A4F50315AF397700C37962 /* WebSocketConnectConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketConnectConfig.h; sourceTree = "<group>"; };
+		08A4F50415AF397700C37962 /* WebSocketConnectConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketConnectConfig.m; sourceTree = "<group>"; };
 		08A6FF4C142F8BA300E8AB4B /* RC2RemoteLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RC2RemoteLogger.h; path = ../SharedCode/rc2/RC2RemoteLogger.h; sourceTree = SOURCE_ROOT; };
 		08A6FF4D142F8BA300E8AB4B /* RC2RemoteLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RC2RemoteLogger.m; path = ../SharedCode/rc2/RC2RemoteLogger.m; sourceTree = SOURCE_ROOT; };
 		08A7CFE21414A58A000ACA1D /* trash32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = trash32.png; path = resources/trash32.png; sourceTree = SOURCE_ROOT; };
@@ -1160,11 +1172,17 @@
 			children = (
 				08EE41021436441F004FDBB8 /* AsyncSocket.h */,
 				08EE41031436441F004FDBB8 /* AsyncSocket.m */,
+				08A4F4EF15AF393B00C37962 /* GCDAsyncSocket.h */,
+				08A4F4F015AF393B00C37962 /* GCDAsyncSocket.m */,
+				08A4F4F115AF393B00C37962 /* HandshakeHeader.h */,
+				08A4F4F215AF393B00C37962 /* HandshakeHeader.m */,
 				08EE41041436441F004FDBB8 /* MutableQueue.h */,
 				08EE41051436441F004FDBB8 /* MutableQueue.m */,
 				08EE41061436441F004FDBB8 /* NSData+Base64.h */,
 				08EE41071436441F004FDBB8 /* NSData+Base64.m */,
 				08EE41081436441F004FDBB8 /* UnittWebSocketClient-Prefix.pch */,
+				08A4F50015AF396500C37962 /* WebSocket.h */,
+				08A4F50115AF396500C37962 /* WebSocket.m */,
 				08EE41091436441F004FDBB8 /* WebSocket00.h */,
 				08EE410A1436441F004FDBB8 /* WebSocket00.m */,
 				08EE410B1436441F004FDBB8 /* WebSocket07.h */,
@@ -1173,6 +1191,8 @@
 				08EE410E1436441F004FDBB8 /* WebSocket08.m */,
 				08EE410F1436441F004FDBB8 /* WebSocket10.h */,
 				08EE41101436441F004FDBB8 /* WebSocket10.m */,
+				08A4F50315AF397700C37962 /* WebSocketConnectConfig.h */,
+				08A4F50415AF397700C37962 /* WebSocketConnectConfig.m */,
 				08EE41111436441F004FDBB8 /* WebSocketFragment.h */,
 				08EE41121436441F004FDBB8 /* WebSocketFragment.m */,
 				08EE41131436441F004FDBB8 /* WebSocketMessage.h */,
@@ -1516,6 +1536,10 @@
 				087C3A4215825E9700ECA7C8 /* JSTokenField.m in Sources */,
 				0817070A159A283D001B346F /* KeyboardToolbar.m in Sources */,
 				08170729159CE7E1001B346F /* MLReachability.m in Sources */,
+				08A4F4F315AF393B00C37962 /* GCDAsyncSocket.m in Sources */,
+				08A4F4F415AF393B00C37962 /* HandshakeHeader.m in Sources */,
+				08A4F50215AF396500C37962 /* WebSocket.m in Sources */,
+				08A4F50515AF397700C37962 /* WebSocketConnectConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

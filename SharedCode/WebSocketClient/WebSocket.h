@@ -1,8 +1,8 @@
 //
-//  WebSocket08.h
+//  WebSocket.h
 //  UnittWebSocketClient
 //
-//  Created by Josh Morris on 5/3/11.
+//  Created by Josh Morris on 9/26/11.
 //  Copyright 2011 UnitT Software. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -18,13 +18,16 @@
 //  the License.
 //
 
+
 #import <Foundation/Foundation.h>
 #import "AsyncSocket.h"
+#import "GCDAsyncSocket.h"
 #import <Security/Security.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
 #import "NSData+Base64.h"
 #import "MutableQueue.h"
+#import "WebSocketConnectConfig.h"
 
 
 enum 
@@ -40,13 +43,28 @@ enum
                                                 //because it has received a type of data it cannot accept 
                                                 //(e.g. an endpoint that understands only text data MAY 
                                                 //send this if it receives a binary message)
-    WebSocketCloseStatusMessageTooLarge = 1004, //indicates that an endpoint is terminating the connection
-                                               //because it has received a message that is too large
+    WebSocketCloseStatusLegacyMessageTooLarge = 1004, //indicates that an endpoint is terminating the connection
+                                                //because it has received a message that is too large (prior to rfc6455)
     WebSocketCloseStatusNormalButMissingStatus = 1005, //designated for use in applications expecting a status code 
                                                        //to indicate that no status code was actually present
-    WebSocketCloseStatusAbnormalButMissingStatus = 1006 //designated for use in	applications expecting a status code
-                                                        //to indicate that the connection was closed abnormally, e.g.
-                                                        //without sending or receiving a Close control frame.
+    WebSocketCloseStatusAbnormalButMissingStatus = 1006, //designated for use in applications expecting a status code
+                                                         //to indicate that the connection was closed abnormally, e.g.
+                                                         //without sending or receiving a Close control frame.
+    WebSocketCloseStatusInvalidData = 1007, //indicates that an endpoint is terminating the connection because it has
+                                           //received data that is invalid, ex: supposed be UTF-8 (such as in a text frame)
+                                           // that was in fact not valid UTF-8
+    WebSocketCloseStatusViolatesPolicy = 1008, //indicates that an endpoint is terminating the connection because it has
+                                         // received a message that violates its policy.  This is a generic status code
+                                         // that can be returned when there is no other more suitable status code
+                                         // or if there is a need to hide specific details about the policy.
+    WebSocketCloseStatusMessageTooLarge = 1009, //indicates that an endpoint is terminating the connection
+                                                //because it has received a message that is too large
+    WebSocketCloseStatusMissingExtensions = 1010, //indicates that an endpoint (client) is terminating the connection because
+                                                // it has expected the server to negotiate one or more extension, but the
+                                                // server didn't return them in the response message of the WebSocket handshake
+    WebSocketCloseStatusServerError = 1011, //indicates that a server is terminating the connection because it encountered an
+                                            // unexpected condition that prevented it from fulfilling the request
+    WebSocketCloseStatusTlsHandshakeError = 1015 //indicate that the connection was closed due to a failure to perform a TLS handshake
 };
 typedef NSUInteger WebSocketCloseStatus;
 
@@ -60,8 +78,7 @@ enum
 typedef NSUInteger WebSocketReadyState;
 
 
-__attribute__((deprecated))
-@protocol WebSocket08Delegate <NSObject>
+@protocol WebSocketDelegate <NSObject>
 
 /**
  * Called when the web socket connects and is ready for reading and writing.
@@ -98,66 +115,39 @@ __attribute__((deprecated))
 @end
 
 
-__attribute__((deprecated))
-@interface WebSocket08 : NSObject 
+@interface WebSocket : NSObject 
 {
-@private
-    id<WebSocket08Delegate> delegate;
-    NSURL* url;
-    NSString* origin;
+@protected
     AsyncSocket* socket;
-    WebSocketReadyState readystate;
+    GCDAsyncSocket *gcdSocket;
     NSError* closingError;
-    BOOL isSecure;
-    NSTimeInterval timeout;
-    NSDictionary* tlsSettings;
-    NSArray* protocols;
-    NSString* serverProtocol;
     NSString* wsSecKey;
     NSString* wsSecKeyHandshake;
-    BOOL verifyHandshake;
-    NSUInteger maxPayloadSize;
     MutableQueue* pendingFragments;
     BOOL isClosing;
     NSUInteger closeStatusCode;
     NSString* closeMessage;
     BOOL sendCloseInfoToListener;
-    NSTimeInterval closeTimeout;
+    NSMutableData* fragmentBuffer;
+@private
+    id<WebSocketDelegate> delegate;
+    WebSocketReadyState readystate;
+    WebSocketConnectConfig* config;
+    dispatch_queue_t wsQueue;
+    dispatch_queue_t delegateQueue;
+    NSTimer* pingTimer;
 }
 
 
 /**
  * Callback delegate for websocket events.
  **/
-@property(nonatomic,retain) id<WebSocket08Delegate> delegate;
+@property(nonatomic,retain) id<WebSocketDelegate> delegate;
 
 /**
- * Max size of the payload. Any messages larger will be sent as fragments.
+ * Config info for the websocket connection.
  **/
-@property(nonatomic,assign) NSUInteger maxPayloadSize;
-
-/**
- * Timeout used for sending messages, not establishing the socket connection. A
- * value of -1 will result in no timeouts being applied.
- **/
-@property(nonatomic,assign) NSTimeInterval timeout;
-
-/**
- * Timeout used for the closing handshake. If this timeout is exceeded, the socket
- * will be forced closed. A value of -1 will result in no timeouts being applied.
- **/
-@property(nonatomic,assign) NSTimeInterval closeTimeout;
-
-/**
- * URL of the websocket
- **/
-@property(nonatomic,readonly) NSURL* url;
-
-/**
- * Origin is used more in a browser setting, but it is intended to prevent cross-site scripting. If
- * nil, the client will fill this in using the url provided by the websocket.
- **/
-@property(nonatomic,readonly) NSString* origin;
+@property(nonatomic,retain) WebSocketConnectConfig* config;
 
 /**
  * Represents the state of the connection. It can have the following values:
@@ -169,46 +159,10 @@ __attribute__((deprecated))
 @property(nonatomic,readonly) WebSocketReadyState readystate;
 
 
-/**
- * Settings for securing the connection using SSL/TLS.
- * 
- * The possible keys and values for the TLS settings are well documented.
- * Some possible keys are:
- * - kCFStreamSSLLevel
- * - kCFStreamSSLAllowsExpiredCertificates
- * - kCFStreamSSLAllowsExpiredRoots
- * - kCFStreamSSLAllowsAnyRoot
- * - kCFStreamSSLValidatesCertificateChain
- * - kCFStreamSSLPeerName
- * - kCFStreamSSLCertificates
- * - kCFStreamSSLIsServer
- * 
- * Please refer to Apple's documentation for associated values, as well as other possible keys.
- * 
- * If the value is nil or an empty dictionary, then the websocket cannot be secured.
- **/
-@property(nonatomic,readonly) NSDictionary* tlsSettings;
-
-/**
- * The subprotocols supported by the client. Each subprotocol is represented by an NSString.
- **/
-@property(nonatomic,readonly) NSArray* protocols;
-
-/**
- * True if the client should verify the handshake values sent by the server. Since many of
- * the web socket servers may not have been updated to support this, set to false to ignore
- * and simply accept the connection to the server.
- **/
-@property(nonatomic,readonly) BOOL verifyHandshake; 
-
-/**
- * The subprotocol selected by the server, nil if none was selected
- **/
-@property(nonatomic,readonly) NSString* serverProtocol;
-
-
-+ (id) webSocketWithURLString:(NSString*) aUrlString delegate:(id<WebSocket08Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake;
-- (id) initWithURLString:(NSString *) aUrlString delegate:(id<WebSocket08Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake;
++ (id) webSocketWithConfig:(WebSocketConnectConfig*) aConfig delegate:(id<WebSocketDelegate>) aDelegate;
+- (id) initWithConfig:(WebSocketConnectConfig*) aConfig delegate:(id<WebSocketDelegate>) aDelegate;
++ (id) webSocketWithConfig:(WebSocketConnectConfig*) aConfig queue:(dispatch_queue_t) aDispatchQueue delegate:(id<WebSocketDelegate>) aDelegate;
+- (id) initWithConfig:(WebSocketConnectConfig*) aConfig queue:(dispatch_queue_t) aDispatchQueue delegate:(id<WebSocketDelegate>) aDelegate;
 
 
 /**
@@ -241,7 +195,8 @@ __attribute__((deprecated))
  */
 - (void) sendPing:(NSData*)message;
 
-extern NSString *const WebSocket08Exception;
-extern NSString *const WebSocket08ErrorDomain;
+
+extern NSString *const WebSocketException;
+extern NSString *const WebSocketErrorDomain;
 
 @end

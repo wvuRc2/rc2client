@@ -1,8 +1,8 @@
 //
-//  NSMutableArray+QueueAddition.h
+//  HandshakeHeader.h
 //  UnittWebSocketClient
 //
-//  Created by Josh Morris on 6/16/11.
+//  Created by Josh Morris on 10/2/11.
 //  Copyright 2011 UnitT Software. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -20,16 +20,19 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface MutableQueue : NSObject
+@interface HandshakeHeader : NSObject
 {
-    NSMutableArray* items;
+    NSString* key;
+    NSString* value;
 }
 
-- (NSUInteger) count;
-- (id) dequeue;
-- (void) enqueue:(id) aObject;
-- (id) lastObject;
-- (void) removeLastObject;
+@property (copy) NSString* key;
+@property (copy) NSString* value;
+
++ (id) header;
++ (id) headerWithValue:(NSString*) aValue forKey:(NSString*) aKey;
+- (id) initWithValue:(NSString*) aValue forKey:(NSString*) aKey;
+
+- (BOOL) keyMatchesCaseInsensitiveString:(NSString*) aStringToCompare;
 
 @end

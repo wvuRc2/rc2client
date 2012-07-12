@@ -24,7 +24,11 @@
 @implementation MutableQueue
 
 #pragma mark Queue
-- (id) dequeue 
+- (NSUInteger)count {
+    return items.count;
+}
+
+- (id) dequeue
 {
     if ([items count] == 0) 
     {
@@ -48,6 +52,11 @@
 {
     return [items lastObject];
 }
+
+- (void) removeLastObject {
+    [items removeLastObject];
+}
+
 
 #pragma mark Lifecycle
 - (id) init 

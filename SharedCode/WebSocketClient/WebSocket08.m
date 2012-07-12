@@ -40,6 +40,7 @@ typedef NSUInteger WebSocketWaitingState;
 - (void) dispatchBinaryMessageReceived:(NSData*) aMessage;
 - (void) continueReadingMessageStream;
 - (NSString*) buildOrigin;
+- (NSString*) buildPort;
 - (NSString*) getRequest: (NSString*) aRequestPath;
 - (NSData*) getSHA1:(NSData*) aPlainText;
 - (void) generateSecKeys;
@@ -151,9 +152,9 @@ WebSocketWaitingState waitingState;
     {
         closeStatusCode = aStatusCode;
         payload = [NSMutableData data];
-        unsigned char current = (unsigned char)(aStatusCode%0x100);
+        unsigned char current = (unsigned char)(aStatusCode/0x100);
         [payload appendBytes:&current length:1];
-        current = (unsigned char)(aStatusCode/0x100);
+        current = (unsigned char)(aStatusCode%0x100);
         [payload appendBytes:&current length:1];
         if (aMessage)
         {
@@ -224,6 +225,10 @@ WebSocketWaitingState waitingState;
                 else if (i == fragmentCount - 1)
                 {
                     fragmentLength = messageLength % self.maxPayloadSize;
+                    if (fragmentLength == 0)
+                    {
+                        fragmentLength = self.maxPayloadSize;
+                    }
                     fragment = [WebSocketFragment fragmentWithOpCode:MessageOpCodeContinuation isFinal:YES payload:[aMessage subdataWithRange:NSMakeRange(i * self.maxPayloadSize, fragmentLength)]];
                 }
                 else
@@ -382,27 +387,30 @@ WebSocketWaitingState waitingState;
         fragment = [WebSocketFragment fragmentWithData:aData];
         [pendingFragments enqueue:fragment];
     }
-    else if (fragment)
+    else
     {
+        //append the data
         [fragment.fragment appendData:aData];
-        if (fragment.isValid) 
+    }
+
+    NSAssert(fragment != nil, @"Websocket fragment should never be nil");
+
+    //parse the data, if possible
+    if (fragment.canBeParsed)
+    {
+        [fragment parseContent];
+
+        //if we have a complete fragment, handle it
+        if (fragment.isValid)
         {
-            [fragment parseContent];
+            [self handleCompleteFragment:fragment];
         }
     }
-    
-    
-    //if we have a complete fragment, handle it
-    if (fragment.isValid) 
+
+    //if we have extra data, handle it
+    if (fragment.messageLength > 0 && ([aData length] > fragment.messageLength))
     {
-        //handle complete fragment
-        [self handleCompleteFragment:fragment];
-        
-        //if we have extra data, handle it
-        if ([aData length] > fragment.messageLength)
-        {
-            [self handleMessageData:[aData subdataWithRange:NSMakeRange(fragment.messageLength, [aData length] - fragment.messageLength)]];
-        }
+        [self handleMessageData:[aData subdataWithRange:NSMakeRange(fragment.messageLength, [aData length] - fragment.messageLength)]];
     }
 }
 
@@ -429,6 +437,31 @@ WebSocketWaitingState waitingState;
     if (hashBytes) free(hashBytes);
     
     return hash;
+}
+
+- (NSString*) buildOrigin
+{
+    if (self.url.port && [self.url.port intValue] != 80 && [self.url.port intValue] != 443)
+    {
+        return [NSString stringWithFormat:@"%@://%@:%i%@", isSecure ? @"https" : @"http", self.url.host, [self.url.port intValue], self.url.path ? self.url.path : @""];
+    }
+    
+    return [NSString stringWithFormat:@"%@://%@%@", isSecure ? @"https" : @"http", self.url.host, self.url.path ? self.url.path : @""];
+}
+
+- (NSString*) buildHost
+{
+    if (self.url.port)
+    {
+        if ([self.url.port intValue] == 80 || [self.url.port intValue] == 443)
+        {
+            return self.url.host;
+        }
+        
+        return [NSString stringWithFormat:@"%@:%i", self.url.host, [self.url.port intValue]];
+    }
+    
+    return self.url.host;
 }
 
 - (NSString*) getRequest: (NSString*) aRequestPath
@@ -459,7 +492,7 @@ WebSocketWaitingState waitingState;
                     "Sec-WebSocket-Key: %@\r\n"
                     "Sec-WebSocket-Version: 8\r\n"
                     "\r\n",
-                    aRequestPath, self.url.host, self.origin, protocolFragment, wsSecKey];
+                    aRequestPath, [self buildHost], self.origin, protocolFragment, wsSecKey];
         }
     }
     
@@ -472,7 +505,7 @@ WebSocketWaitingState waitingState;
             "Sec-WebSocket-Key: %@\r\n"
             "Sec-WebSocket-Version: 8\r\n"
             "\r\n",
-            aRequestPath, self.url.host, self.origin, wsSecKey];
+            aRequestPath, [self buildHost], self.origin, wsSecKey];
 }
 
 - (void) generateSecKeys
@@ -568,7 +601,6 @@ WebSocketWaitingState waitingState;
     if (delegate)
     {
         [delegate didClose:aStatusCode message:aMessage error:aError];
-        [aError release];
     }
 }
 
@@ -647,7 +679,10 @@ WebSocketWaitingState waitingState;
     
     //continue with handshake
     NSString *requestPath = self.url.path;
-    if (self.url.query) 
+    if (requestPath == nil || requestPath.length == 0) {
+        requestPath = @"/";
+    }
+    if (self.url.query)
     {
         requestPath = [requestPath stringByAppendingFormat:@"?%@", self.url.query];
     }
@@ -699,6 +734,9 @@ WebSocketWaitingState waitingState;
 
 
 #pragma mark Lifecycle
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 + (id) webSocketWithURLString:(NSString*) aUrlString delegate:(id<WebSocket08Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake
 {
     return [[[[self class] alloc] initWithURLString:aUrlString delegate:aDelegate origin:aOrigin protocols:aProtocols tlsSettings:aTlsSettings verifyHandshake:aVerifyHandshake] autorelease];
@@ -746,16 +784,7 @@ WebSocketWaitingState waitingState;
     }
     return self;
 }
-
-- (NSString*) buildOrigin
-{
-    if (self.url.port && [self.url.port intValue] != 80 && [self.url.port intValue] != 443)
-    {
-        return [NSString stringWithFormat:@"%@://%@:%i%@", isSecure ? @"https" : @"http", self.url.host, [self.url.port intValue], self.url.path ? self.url.path : @""];
-    }
-    
-    return [NSString stringWithFormat:@"%@://%@%@", isSecure ? @"https" : @"http", self.url.host, self.url.path ? self.url.path : @""];
-}
+#pragma clang diagnostic pop
 
 -(void) dealloc 
 {
@@ -770,6 +799,9 @@ WebSocketWaitingState waitingState;
     [tlsSettings release];
     [pendingFragments release];
     [closeMessage release];
+    [wsSecKey release];
+    [wsSecKeyHandshake release];
+    [serverProtocol release];
     [super dealloc];
 }
 

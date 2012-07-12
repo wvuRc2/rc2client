@@ -47,7 +47,7 @@ enum
     WebSocketCloseStatusAbnormalButMissingStatus = 1006, //designated for use in	applications expecting a status code
                                                         //to indicate that the connection was closed abnormally, e.g.
                                                         //without sending or receiving a Close control frame.
-    WebSocketCloseStatusInvalidUtf8 = 1007 //indicates that an endpoint is terminating the connection because it has 
+    WebSocketCloseStatusInvalidData = 1007 //indicates that an endpoint is terminating the connection because it has
                                            //received data that was supposed to be UTF-8 (such as in a text frame) that 
                                            //was in fact not valid UTF-8
 };
@@ -63,6 +63,7 @@ enum
 typedef NSUInteger WebSocketReadyState;
 
 
+__attribute__((deprecated))
 @protocol WebSocket10Delegate <NSObject>
 
 /**
@@ -100,10 +101,11 @@ typedef NSUInteger WebSocketReadyState;
 @end
 
 
+__attribute__((deprecated))
 @interface WebSocket10 : NSObject 
 {
 @private
-//    id<WebSocket10Delegate> delegate;
+    id<WebSocket10Delegate> delegate;
     NSURL* url;
     NSString* origin;
     AsyncSocket* socket;
@@ -130,7 +132,7 @@ typedef NSUInteger WebSocketReadyState;
 /**
  * Callback delegate for websocket events.
  **/
-@property(nonatomic,unsafe_unretained) id<WebSocket10Delegate> delegate;
+@property(nonatomic,retain) id<WebSocket10Delegate> delegate;
 
 /**
  * Max size of the payload. Any messages larger will be sent as fragments.

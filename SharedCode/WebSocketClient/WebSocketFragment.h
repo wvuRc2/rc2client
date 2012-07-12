@@ -57,6 +57,9 @@ typedef NSInteger PayloadLength;
     int mask;
     int payloadStart;
     int payloadLength;
+    BOOL isRSV1;
+    BOOL isRSV2;
+    BOOL isRSV3;
     PayloadType payloadType;
     NSData* payloadData;
     MessageOpCode opCode;
@@ -70,23 +73,34 @@ typedef NSInteger PayloadLength;
 @property (nonatomic,readonly) BOOL isValid;
 @property (nonatomic,readonly) BOOL canBeParsed;
 @property (nonatomic,readonly) BOOL isHeaderValid;
+@property (nonatomic,assign) BOOL isRSV1;
+@property (nonatomic,assign) BOOL isRSV2;
+@property (nonatomic,assign) BOOL isRSV3;
 @property (nonatomic,assign) int mask;
 @property (nonatomic,assign) MessageOpCode opCode;
 @property (nonatomic,retain) NSData* payloadData;
 @property (nonatomic,assign) PayloadType payloadType;
 @property (nonatomic,retain) NSMutableData* fragment;
 @property (nonatomic,readonly) NSUInteger messageLength;
+@property (nonatomic,readonly) int payloadLength;
+@property (nonatomic,readonly) int payloadStart;
 
 @property (nonatomic,readonly) BOOL isDataValid;
 
 - (int) generateMask;
 - (NSData*) mask:(int) aMask data:(NSData*) aData;
 - (NSData*) mask:(int) aMask data:(NSData*) aData range:(NSRange) aRange;
+- (void) maskInPlace:(int) aMask data:(NSMutableData*) aData range:(NSRange) aRange;
 - (NSData*) unmask:(int) aMask data:(NSData*) aData;
 - (NSData*) unmask:(int) aMask data:(NSData*) aData range:(NSRange) aRange;
+- (void) unmaskInPlace:(int) aMask data:(NSMutableData*) aData range:(NSRange) aRange;
 
 - (void) parseHeader;
+- (BOOL) parseHeader:(NSData*) aData from:(NSUInteger) aOffset;
 - (void) parseContent;
+
+- (BOOL) parseContent:(NSData*) aData;
+
 - (void) buildFragment;
 
 + (id) fragmentWithOpCode:(MessageOpCode) aOpCode isFinal:(BOOL) aIsFinal payload:(NSData*) aPayload;

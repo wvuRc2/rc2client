@@ -20,7 +20,6 @@
 
 #import "WebSocket00.h"
 
-int randFromRange(int min, int max);
 
 @interface WebSocket00(Private)
 - (void) dispatchFailure:(NSError*) aError;
@@ -29,6 +28,7 @@ int randFromRange(int min, int max);
 - (void) dispatchMessageReceived:(NSString*) aMessage;
 - (void) readNextMessage;
 - (NSString*) buildOrigin;
+- (NSString*) buildHost;
 - (NSString*) getRequest:(NSString*) aRequestPath;
 - (NSData*) getMD5:(NSData*) aPlainText;
 - (void) generateSecKeys;
@@ -58,6 +58,7 @@ enum
 @synthesize protocols;
 @synthesize verifyHandshake;
 @synthesize serverProtocol;
+@synthesize useKeys;
 
 
 #pragma mark Public Interface
@@ -112,19 +113,38 @@ enum
 - (NSData*) getMD5:(NSData*) aPlainText 
 {
     unsigned char result[16];
-    CC_MD5( aPlainText.bytes, (CC_LONG)[aPlainText length], result );
+    CC_MD5( aPlainText.bytes, [aPlainText length], result );
     return [NSData dataWithBytes:result length:16];
+}
+
+- (NSString*) buildOrigin
+{
+    if (self.url.port && [self.url.port intValue] != 80 && [self.url.port intValue] != 443)
+    {
+        return [NSString stringWithFormat:@"%@://%@:%i%@", isSecure ? @"https" : @"http", self.url.host, [self.url.port intValue], self.url.path ? self.url.path : @""];
+    }
+    
+    return [NSString stringWithFormat:@"%@://%@%@", isSecure ? @"https" : @"http", self.url.host, self.url.path ? self.url.path : @""];
+}
+
+- (NSString*) buildHost
+{
+    if (self.url.port)
+    {
+        if ([self.url.port intValue] == 80 || [self.url.port intValue] == 443)
+        {
+            return self.url.host;
+        }
+        
+        return [NSString stringWithFormat:@"%@:%i", self.url.host, [self.url.port intValue]];
+    }
+    
+    return self.url.host;
 }
 
 // TODO: use key1, key2, key3 handshake stuff
 - (NSString*) getRequest: (NSString*) aRequestPath
 {
-	//mlilback hack to stick in cookies
-//	NSArray *cks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-	NSArray *cks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:url];
-	NSDictionary *cookies = [NSHTTPCookie requestHeaderFieldsWithCookies:cks];
-	NSString *cookieHeader = [cookies objectForKey:@"Cookie"];
-
     [self generateSecKeys];
     if (self.protocols && self.protocols.count > 0)
     {
@@ -147,10 +167,9 @@ enum
                     "Connection: Upgrade\r\n"
                     "Host: %@\r\n"
                     "Origin: %@\r\n"
-					"Cookie: %@\r\n"
                     "Sec-WebSocket-Protocol: %@\r\n"
                     "\r\n",
-                    aRequestPath, self.url.host, self.origin, cookieHeader, protocolFragment];
+                    aRequestPath, [self buildHost], self.origin, protocolFragment];
         }
     }
     
@@ -160,21 +179,8 @@ enum
             "Connection: Upgrade\r\n"
             "Host: %@\r\n"
             "Origin: %@\r\n"
-			"Cookie: %@\r\n"
             "\r\n",
-            aRequestPath, self.url.host, self.origin, cookieHeader];
-    /*
-    return [NSString stringWithFormat:@"GET %@ HTTP/1.1\r\n"
-            "Upgrade: WebSocket\r\n"
-            "Connection: Upgrade\r\n"
-            "Host: %@\r\n"
-            "Origin: %@\r\n"
-            "Sec-WebSocket-Key1: %@\r\n"
-            "Sec-WebSocket-Key2: %@\r\n"
-            "Sec-WebSocket-Version: 0\r\n"
-            "\r\n@",
-            aRequestPath, self.url.host, self.origin, key1, key2, [[NSString alloc] initWithData:[NSData dataWithBytes:&key3 length:8] encoding:NSASCIIStringEncoding]];
-     */
+            aRequestPath, [self buildHost], self.origin];
 }
 
 int randFromRange(int min, int max)
@@ -184,12 +190,13 @@ int randFromRange(int min, int max)
 
 - (NSData*) createRandomBytes
 {
-    unsigned char bytes[8];
+    NSMutableData* result = [NSMutableData data];
     for (int i = 0; i < 8; i++) 
     {
-        bytes[i] = randFromRange(0, 255) & 0xFF;
+        unichar byte = randFromRange(48,122);
+        [result appendBytes:&byte length:1];
     }
-    return [NSData dataWithBytes:bytes length:8]; 
+    return result;
 }
 
 - (NSString*) insertRandomCharacters: (NSString*) aString
@@ -201,10 +208,10 @@ int randFromRange(int min, int max)
     
     for (int i = 0; i < count; i++) 
     {
-        int split = randFromRange(1, (int)[result length] - 1);
+        int split = randFromRange(1, [result length] - 1);
         NSString* part1 = [result substringWithRange:NSMakeRange(0, split)];
         NSString* part2 = [result substringWithRange:NSMakeRange(split, [result length] - split)];
-        result = [NSString stringWithFormat:@"%@%c%@", part1, [letters characterAtIndex: randFromRange(0, (int)[letters length])], part2];
+        result = [NSString stringWithFormat:@"%@%c%@", part1, [letters characterAtIndex: randFromRange(0, [letters length])], part2];
     }
     
     return result;
@@ -215,7 +222,7 @@ int randFromRange(int min, int max)
     NSString* result = aString;
     for (int i = 0; i < aSpaces; i++) 
     {
-        int split = randFromRange(1, (int)[result length] - 1);
+        int split = randFromRange(1, [result length] - 1);
         NSString* part1 = [result substringWithRange:NSMakeRange(0, split)];
         NSString* part2 = [result substringWithRange:NSMakeRange(split, [result length] - split)];
         result = [NSString stringWithFormat:@"%@ %@", part1, part2];
@@ -244,10 +251,10 @@ int randFromRange(int min, int max)
     key1 = [self insertRandomCharacters:key1];
     key2 = [self insertRandomCharacters:key2];
     
-    key1 = [self insertSpaces:spaces1 string:key1];
-    key2 = [self insertSpaces:spaces2 string:key2];
+    key1 = [[self insertSpaces:spaces1 string:key1] copy];
+    key2 = [[self insertSpaces:spaces2 string:key2] copy];
     
-    key3 = [self createRandomBytes];
+    key3 = [[self createRandomBytes] retain];
     
     NSMutableData* challenge = [NSMutableData data];
     int key1int = [key1 intValue];
@@ -261,7 +268,6 @@ int randFromRange(int min, int max)
 
 - (BOOL) isUpgradeResponse: (NSString*) aResponse
 {
-    //NSLog(@"Handshake Response:\n%@", aResponse);
     //a HTTP 101 response is the only valid one
     if ([aResponse hasPrefix:@"HTTP/1.1 101"])
     {        
@@ -338,7 +344,6 @@ int randFromRange(int min, int max)
     if (delegate)
     {
         [delegate didClose: aError];
-        [aError release];
     }
 }
 
@@ -398,12 +403,15 @@ int randFromRange(int min, int max)
     
     //continue with handshake
     NSString *requestPath = self.url.path;
-    if (self.url.query) 
+    if (requestPath == nil || requestPath.length == 0) {
+        requestPath = @"/";
+    }
+    NSLog(@"Request path: %@", requestPath);
+    if (self.url.query)
     {
         requestPath = [requestPath stringByAppendingFormat:@"?%@", self.url.query];
     }
     NSString* getRequest = [self getRequest: requestPath];
-    //NSLog(@"Handshake Request: %@", getRequest);
     [aSocket writeData:[getRequest dataUsingEncoding:NSASCIIStringEncoding] withTimeout:self.timeout tag:TagHandshake];
 }
 
@@ -452,12 +460,20 @@ int randFromRange(int min, int max)
 
 
 #pragma mark Lifecycle
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 + (id) webSocketWithURLString:(NSString*) aUrlString delegate:(id<WebSocket00Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake
 {
     return [[[[self class] alloc] initWithURLString:aUrlString delegate:aDelegate origin:aOrigin protocols:aProtocols tlsSettings:aTlsSettings verifyHandshake:aVerifyHandshake] autorelease];
 }
 
-// TODO: add verify handshake info 
++ (id) webSocketWithURLString:(NSString*) aUrlString delegate:(id<WebSocket00Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake useKeys:(BOOL) aUseKeys
+{
+    return [[[[self class] alloc] initWithURLString:aUrlString delegate:aDelegate origin:aOrigin protocols:aProtocols tlsSettings:aTlsSettings verifyHandshake:aVerifyHandshake useKeys:aUseKeys] autorelease];
+}
+
+
 - (id) initWithURLString:(NSString *) aUrlString delegate:(id<WebSocket00Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake
 {
     self = [super init];
@@ -491,21 +507,53 @@ int randFromRange(int min, int max)
             tlsSettings = [aTlsSettings retain];
         }
         verifyHandshake = NO;
+        useKeys = false;
         socket = [[AsyncSocket alloc] initWithDelegate:self];
         self.timeout = 30.0;
     }
     return self;
 }
 
-- (NSString*) buildOrigin
+- (id) initWithURLString:(NSString *) aUrlString delegate:(id<WebSocket00Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake useKeys:(BOOL) aUseKeys
 {
-    if (self.url.port && [self.url.port intValue] != 80 && [self.url.port intValue] != 443)
+    self = [super init];
+    if (self) 
     {
-        return [NSString stringWithFormat:@"%@://%@:%i%@", isSecure ? @"https" : @"http", self.url.host, [self.url.port intValue], self.url.path ? self.url.path : @""];
+        //validate
+        NSURL* tempUrl = [NSURL URLWithString:aUrlString];
+        if (![tempUrl.scheme isEqualToString:@"ws"] && ![tempUrl.scheme isEqualToString:@"wss"]) 
+        {
+            [NSException raise:WebSocket00Exception format:@"Unsupported protocol %@",tempUrl.scheme];
+        }
+        
+        //apply properties
+        url = [tempUrl retain];
+        self.delegate = aDelegate;
+        isSecure = [self.url.scheme isEqualToString:@"wss"];
+        if (aOrigin)
+        {
+            origin = [aOrigin copy];
+        }
+        else
+        {
+            origin = [[self buildOrigin] copy];
+        }
+        if (aProtocols)
+        {
+            protocols = [aProtocols retain];
+        }
+        if (aTlsSettings)
+        {
+            tlsSettings = [aTlsSettings retain];
+        }
+        verifyHandshake = NO;
+        useKeys = aUseKeys;
+        socket = [[AsyncSocket alloc] initWithDelegate:self];
+        self.timeout = 30.0;
     }
-    
-    return [NSString stringWithFormat:@"%@://%@%@", isSecure ? @"https" : @"http", self.url.host, self.url.path ? self.url.path : @""];
+    return self;
 }
+#pragma clang diagnostic pop
 
 -(void) dealloc 
 {
@@ -518,6 +566,11 @@ int randFromRange(int min, int max)
     [closingError release];
     [protocols release];
     [tlsSettings release];
+    [key1 release];
+    [key2 release];
+    [key3 release];
+    [serverHandshake release];
+    [serverProtocol release];
     [super dealloc];
 }
 

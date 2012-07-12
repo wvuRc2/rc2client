@@ -16,10 +16,13 @@
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
 #import "RCFile.h"
+#import "WebSocket.h"
+#import "WebSocketConnectConfig.h"
+#import "HandshakeHeader.h"
 
-@interface RCSession() {
+@interface RCSession() <WebSocketDelegate> {
 	NSMutableDictionary *_settings;
-	WebSocket07 *_ws;
+	WebSocket *_ws;
 }
 @property (nonatomic, copy, readwrite) NSArray *users;
 @property (nonatomic, strong, readwrite) RCSessionUser *currentUser;
@@ -93,9 +96,19 @@
 #else
 	urlStr = [urlStr stringByAppendingFormat:@"?wid=%@&client=ios&build=%@", self.workspace.wspaceId, build];
 #endif
-	_ws = [WebSocket07 webSocketWithURLString:urlStr delegate:self origin:nil 
-									 protocols:nil tlsSettings:nil verifyHandshake:YES];
-	_ws.timeout = -1;
+	WebSocketConnectConfig * config = [WebSocketConnectConfig config];
+	config.url = [NSURL URLWithString:urlStr];
+	config.timeout = -1;
+	config.keepAlive = 10.0;
+	config.maxPayloadSize = 1024;
+	config.version = WebSocketVersion07;
+	config.headers = [NSMutableArray array];
+	//add cookies
+	NSArray *cks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:config.url];
+	NSDictionary *cookies = [NSHTTPCookie requestHeaderFieldsWithCookies:cks];
+	NSString *cookieHeader = [cookies objectForKey:@"Cookie"];
+	[config.headers addObject:[HandshakeHeader headerWithValue:cookieHeader forKey:@"Cookie"]];
+	_ws = [WebSocket webSocketWithConfig:config delegate:self];
 	[_ws open];
 	RunAfterDelay(10, ^{
 		if (!self.socketOpen && _ws) {

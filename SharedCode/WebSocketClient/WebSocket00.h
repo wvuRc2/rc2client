@@ -36,6 +36,7 @@ enum
 typedef NSUInteger WebSocketReadyState;
 
 
+__attribute__((deprecated))
 @protocol WebSocket00Delegate <NSObject>
 
 /**
@@ -62,10 +63,11 @@ typedef NSUInteger WebSocketReadyState;
 @end
 
 
+__attribute__((deprecated))
 @interface WebSocket00 : NSObject 
 {
 @private
-//    id<WebSocket00Delegate> delegate;
+    id<WebSocket00Delegate> delegate;
     NSURL* url;
     NSString* origin;
     AsyncSocket* socket;
@@ -81,13 +83,14 @@ typedef NSUInteger WebSocketReadyState;
     NSData* key3;
     NSData* serverHandshake;
     BOOL verifyHandshake;
+    BOOL useKeys;
 }
 
 
 /**
  * Callback delegate for websocket events.
  **/
-@property(nonatomic,unsafe_unretained) id<WebSocket00Delegate> delegate;
+@property(nonatomic,retain) id<WebSocket00Delegate> delegate;
 
 /**
  * Timeout used for sending messages, not establishing the socket connection. A
@@ -99,6 +102,11 @@ typedef NSUInteger WebSocketReadyState;
  * URL of the websocket
  **/
 @property(nonatomic,readonly) NSURL* url;
+
+/**
+ * True if you want to send the hixie76 keys. Default is false.
+ **/
+@property(nonatomic,readonly) BOOL useKeys;
 
 /**
  * Origin is used more in a browser setting, but it is intended to prevent cross-site scripting. If
@@ -155,7 +163,9 @@ typedef NSUInteger WebSocketReadyState;
 
 
 + (id) webSocketWithURLString:(NSString*) aUrlString delegate:(id<WebSocket00Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake;
++ (id) webSocketWithURLString:(NSString*) aUrlString delegate:(id<WebSocket00Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake useKeys:(BOOL) aUseKeys;
 - (id) initWithURLString:(NSString *) aUrlString delegate:(id<WebSocket00Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake;
+- (id) initWithURLString:(NSString *) aUrlString delegate:(id<WebSocket00Delegate>) aDelegate origin:(NSString*) aOrigin protocols:(NSArray*) aProtocols tlsSettings:(NSDictionary*) aTlsSettings verifyHandshake:(BOOL) aVerifyHandshake useKeys:(BOOL) aUseKeys;
 
 
 /**

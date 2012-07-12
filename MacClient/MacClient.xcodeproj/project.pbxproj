@@ -97,6 +97,10 @@
 		08A4064214534C6500DBA662 /* RCWorkspaceShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4064114534C6500DBA662 /* RCWorkspaceShare.m */; };
 		08A4064614538DC300DBA662 /* RCMUserSearchPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4064414538DC300DBA662 /* RCMUserSearchPopupController.m */; };
 		08A4064714538DC300DBA662 /* RCMUserSearchPopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08A4064514538DC300DBA662 /* RCMUserSearchPopupController.xib */; };
+		08A4F4FA15AF395100C37962 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4F4F715AF395100C37962 /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08A4F4FB15AF395100C37962 /* HandshakeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4F4F915AF395100C37962 /* HandshakeHeader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08A4F4FF15AF395D00C37962 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4F4FE15AF395D00C37962 /* WebSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08A4F50815AF398200C37962 /* WebSocketConnectConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A4F50715AF398200C37962 /* WebSocketConnectConfig.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08ADF5B0144B918B00F787E6 /* RCMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5AF144B918B00F787E6 /* RCMTextView.m */; };
 		08ADF5BE144BA2ED00F787E6 /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADF5BD144BA2ED00F787E6 /* RCMAppConstants.m */; };
 		08B630C714E070770053DD74 /* RCMRolePermController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B630C514E070760053DD74 /* RCMRolePermController.m */; };
@@ -320,6 +324,14 @@
 		08A4064314538DC300DBA662 /* RCMUserSearchPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMUserSearchPopupController.h; sourceTree = "<group>"; };
 		08A4064414538DC300DBA662 /* RCMUserSearchPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMUserSearchPopupController.m; sourceTree = "<group>"; };
 		08A4064514538DC300DBA662 /* RCMUserSearchPopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMUserSearchPopupController.xib; sourceTree = "<group>"; };
+		08A4F4F615AF395100C37962 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		08A4F4F715AF395100C37962 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		08A4F4F815AF395100C37962 /* HandshakeHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandshakeHeader.h; sourceTree = "<group>"; };
+		08A4F4F915AF395100C37962 /* HandshakeHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandshakeHeader.m; sourceTree = "<group>"; };
+		08A4F4FD15AF395D00C37962 /* WebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket.h; sourceTree = "<group>"; };
+		08A4F4FE15AF395D00C37962 /* WebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocket.m; sourceTree = "<group>"; };
+		08A4F50615AF398200C37962 /* WebSocketConnectConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketConnectConfig.h; sourceTree = "<group>"; };
+		08A4F50715AF398200C37962 /* WebSocketConnectConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketConnectConfig.m; sourceTree = "<group>"; };
 		08ADF5AE144B918B00F787E6 /* RCMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMTextView.h; sourceTree = "<group>"; };
 		08ADF5AF144B918B00F787E6 /* RCMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMTextView.m; sourceTree = "<group>"; };
 		08ADF5BA144B9F2600F787E6 /* MacClientNotes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = MacClientNotes.rtf; path = MacClient/MacClientNotes.rtf; sourceTree = "<group>"; };
@@ -624,11 +636,17 @@
 			children = (
 				08EE411F14364CAF004FDBB8 /* AsyncSocket.h */,
 				08EE412014364CAF004FDBB8 /* AsyncSocket.m */,
+				08A4F4F615AF395100C37962 /* GCDAsyncSocket.h */,
+				08A4F4F715AF395100C37962 /* GCDAsyncSocket.m */,
+				08A4F4F815AF395100C37962 /* HandshakeHeader.h */,
+				08A4F4F915AF395100C37962 /* HandshakeHeader.m */,
 				08EE412114364CAF004FDBB8 /* MutableQueue.h */,
 				08EE412214364CAF004FDBB8 /* MutableQueue.m */,
 				08EE412314364CAF004FDBB8 /* NSData+Base64.h */,
 				08EE412414364CAF004FDBB8 /* NSData+Base64.m */,
 				08EE412514364CAF004FDBB8 /* UnittWebSocketClient-Prefix.pch */,
+				08A4F4FD15AF395D00C37962 /* WebSocket.h */,
+				08A4F4FE15AF395D00C37962 /* WebSocket.m */,
 				08EE412614364CAF004FDBB8 /* WebSocket00.h */,
 				08EE412714364CAF004FDBB8 /* WebSocket00.m */,
 				08EE412814364CAF004FDBB8 /* WebSocket07.h */,
@@ -637,6 +655,8 @@
 				08EE412B14364CAF004FDBB8 /* WebSocket08.m */,
 				08EE412C14364CAF004FDBB8 /* WebSocket10.h */,
 				08EE412D14364CAF004FDBB8 /* WebSocket10.m */,
+				08A4F50615AF398200C37962 /* WebSocketConnectConfig.h */,
+				08A4F50715AF398200C37962 /* WebSocketConnectConfig.m */,
 				08EE412E14364CAF004FDBB8 /* WebSocketFragment.h */,
 				08EE412F14364CAF004FDBB8 /* WebSocketFragment.m */,
 				08EE413014364CAF004FDBB8 /* WebSocketMessage.h */,
@@ -1155,6 +1175,10 @@
 				0858187E1551C2C40025DA07 /* RCAssignmentFile.m in Sources */,
 				080A2F5B157013D50018371A /* _RCMessage.m in Sources */,
 				080A2F5F157013E30018371A /* RCMessage.m in Sources */,
+				08A4F4FA15AF395100C37962 /* GCDAsyncSocket.m in Sources */,
+				08A4F4FB15AF395100C37962 /* HandshakeHeader.m in Sources */,
+				08A4F4FF15AF395D00C37962 /* WebSocket.m in Sources */,
+				08A4F50815AF398200C37962 /* WebSocketConnectConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
