@@ -57,7 +57,7 @@
 		085818AD155469700025DA07 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085818AC155469700025DA07 /* HockeySDK.framework */; };
 		085818AE1554699A0025DA07 /* HockeySDK.framework in Copy Fworks */ = {isa = PBXBuildFile; fileRef = 085818AC155469700025DA07 /* HockeySDK.framework */; };
 		085E7B1A14EED6F600036A9E /* RCSessionUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E7B1914EED6F600036A9E /* RCSessionUser.m */; };
-		085E7B3214F56C3200036A9E /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE412914364CAF004FDBB8 /* WebSocket07.m */; };
+		085E7B3214F56C3200036A9E /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EE412914364CAF004FDBB8 /* WebSocket07.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0861760A14994EAB00450EE9 /* syncArrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 0861760914994EAB00450EE9 /* syncArrows.png */; };
 		086176111499531700450EE9 /* RCMSessionFileCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 086176101499531700450EE9 /* RCMSessionFileCellView.m */; };
 		08617613149955CF00450EE9 /* syncArrowsSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 08617612149955CF00450EE9 /* syncArrowsSelected.png */; };
@@ -282,8 +282,8 @@
 		0861761E149BE37A00450EE9 /* RCMImageDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMImageDetailController.h; sourceTree = "<group>"; };
 		0861761F149BE37A00450EE9 /* RCMImageDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMImageDetailController.m; sourceTree = "<group>"; };
 		08617620149BE37A00450EE9 /* RCMImageDetailController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMImageDetailController.xib; sourceTree = "<group>"; };
-		086246971501180700A71853 /* RCAudioChatEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCAudioChatEngine.h; path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/iPadClient/../SharedCode/rc2/RCAudioChatEngine.h"; sourceTree = "<absolute>"; };
-		086246981501180700A71853 /* RCAudioChatEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCAudioChatEngine.m; path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/iPadClient/../SharedCode/rc2/RCAudioChatEngine.m"; sourceTree = "<absolute>"; };
+		086246971501180700A71853 /* RCAudioChatEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCAudioChatEngine.h; path = ../SharedCode/rc2/RCAudioChatEngine.h; sourceTree = "<group>"; };
+		086246981501180700A71853 /* RCAudioChatEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCAudioChatEngine.m; path = ../SharedCode/rc2/RCAudioChatEngine.m; sourceTree = "<group>"; };
 		088D7F8514F83CAF005C62AF /* bighand-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-blue.png"; sourceTree = "<group>"; };
 		088D7F8614F83CAF005C62AF /* bighand-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-blue@2x.png"; sourceTree = "<group>"; };
 		088D7F8714F83CAF005C62AF /* bighand-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bighand-green.png"; sourceTree = "<group>"; };
@@ -1265,12 +1265,12 @@
 				CODE_SIGN_IDENTITY = rc2sign;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Rc2Client-dewfyvrozuowhgchoqvbtqkdvzut/Build/Products/Debug\"",
 					"\"$(SRCROOT)/../3rdParty\"",
 					"\"$(SRCROOT)/../3rdParty/HockeySDK-Mac\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MacClient/MacClient-Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "MacClient/MacClient-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -1290,12 +1290,12 @@
 				CODE_SIGN_IDENTITY = rc2sign;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Rc2Client-dewfyvrozuowhgchoqvbtqkdvzut/Build/Products/Debug\"",
 					"\"$(SRCROOT)/../3rdParty\"",
 					"\"$(SRCROOT)/../3rdParty/HockeySDK-Mac\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MacClient/MacClient-Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "MacClient/MacClient-Info.plist";
 				LIBRARY_SEARCH_PATHS = (

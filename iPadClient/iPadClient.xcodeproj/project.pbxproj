@@ -263,8 +263,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		080433E6150AAD020065426A /* RCImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageCache.h; path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/MacClient/../SharedCode/rc2/RCImageCache.h"; sourceTree = "<absolute>"; };
-		080433E7150AAD020065426A /* RCImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageCache.m; path = "/Users/mlilback/working/svn-wvu/trunk/rc2/Client/MacClient/../SharedCode/rc2/RCImageCache.m"; sourceTree = "<absolute>"; };
+		080433E6150AAD020065426A /* RCImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageCache.h; path = ../SharedCode/rc2/RCImageCache.h; sourceTree = "<group>"; };
+		080433E7150AAD020065426A /* RCImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageCache.m; path = ../SharedCode/rc2/RCImageCache.m; sourceTree = "<group>"; };
 		0805871615ADFB2C00EEE68B /* doodle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = doodle.png; path = resources/doodle.png; sourceTree = SOURCE_ROOT; };
 		0805871715ADFB2C00EEE68B /* doodle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "doodle@2x.png"; path = "resources/doodle@2x.png"; sourceTree = SOURCE_ROOT; };
 		0809BF6D14C5F1AC009CEC57 /* v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = v2.xcdatamodel; sourceTree = "<group>"; };
