@@ -1193,7 +1193,6 @@ WebSocketWaitingState waitingState;
     if (delegateQueue) {
         dispatch_release(delegateQueue);
     }
-    [pingTimer release];
     [super dealloc];
 }
 
