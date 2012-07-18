@@ -120,6 +120,15 @@
 		self.localEdits=nil;
 }
 
+-(void)prepareForDeletion
+{
+	[super prepareForDeletion];
+	NSFileManager *fm = [NSFileManager defaultManager];
+	NSString *cachePath = self.fileContentsPath;
+	if ([fm fileExistsAtPath:cachePath])
+		[fm removeItemAtPath:cachePath error:nil];
+}
+
 -(void)didSave
 {
 	[super didSave];
