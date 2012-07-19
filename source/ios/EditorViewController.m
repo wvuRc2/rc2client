@@ -20,8 +20,8 @@
 #import "DropboxImportController.h"
 #import "SessionEditView.h"
 #import "RCMSyntaxHighlighter.h"
-#import "DTTextRange.h"
 #import "KeyboardToolbar.h"
+#import <CoreText/CoreText.h>
 
 @interface EditorViewController() <KeyboardToolbarDelegate> {
 	CGRect _oldTextFrame;
@@ -101,7 +101,7 @@
 	self.richEditor.frame=frame;
 	self.richEditor.frame = _oldTextFrame;
 	[UIView commitAnimations]; 
-	self.currentFile.localEdits = self.richEditor.attributedString.string;
+	self.currentFile.localEdits = self.richEditor.text;
 	[self updateDocumentState];
 }
 
@@ -118,19 +118,13 @@
 											 selector:@selector(keyboardHiding:)
 												 name:UIKeyboardWillHideNotification object:nil];
 		self.docTitleLabel.text = @"Untitled Document";
-		self.richEditor.defaultFontFamily = @"Inconsolata";
-		CTFontRef fnt = CTFontCreateWithName(CFSTR("Inconsolata"), 18.0, NULL);
+		self.richEditor.font = [UIFont fontWithName:@"Inconsolata" size:18.0];
 		self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
-								 (__bridge id)fnt, (NSString*)kCTFontAttributeName,
+								 [UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName,
 								 nil];
-		CFRelease(fnt);
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(richTextChanged:) 
-													 name:DTRichTextEditorTextDidBeginEditingNotification 
-												   object:self.richEditor];
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
 			//FIXME: need to sanitize the input string
-			DTTextRange *tr = (DTTextRange*)editView.selectedTextRange;
-			NSString *str = [editView.attributedString.string substringWithRange:tr.NSRangeValue];
+			NSString *str = [editView textInRange:editView.selectedTextRange];
 			if (str)
 				[[Rc2Server sharedInstance].currentSession executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
 		};
@@ -170,11 +164,10 @@
 -(void)keyboardToolbar:(KeyboardToolbar*)tbar insertString:(NSString*)str
 {
 	NSMutableAttributedString *astr = [self.richEditor.attributedString mutableCopy];
-	NSRange rng = ((DTTextRange*)self.richEditor.selectedTextRange).NSRangeValue;
+	NSRange rng = self.richEditor.selectedRange;
 	[astr replaceCharactersInRange:rng withString:str];
 	self.richEditor.attributedString = astr;
-	DTTextRange *dtrng = [[DTTextRange alloc] initWithNSRange:NSMakeRange(rng.location + str.length, 0)];
-	self.richEditor.selectedTextRange = dtrng;	
+	self.richEditor.selectedRange = NSMakeRange(rng.location + str.length, 0);
 }
 
 -(void)keyboardToolbarExecute:(KeyboardToolbar*)tbar
@@ -618,7 +611,7 @@
 		srcStr = self.richEditor.attributedString;
 	NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
 	[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
-	self.richEditor.attributedText = astr;
+	self.richEditor.attributedString = astr;
 	[self.keyboardToolbar switchToPanelForFileExtension:self.currentFile.name.pathExtension];
 }
 

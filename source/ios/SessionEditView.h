@@ -6,9 +6,8 @@
 //  Copyright 2012 Agile Monks. All rights reserved.
 //
 
-#import "DTRichTextEditor.h"
-
-@interface SessionEditView : DTRichTextEditorView
+@interface SessionEditView : UITextView
 @property (nonatomic, copy) void (^helpBlock)(SessionEditView *editView);
+@property (nonatomic, copy) NSAttributedString *attributedString;
 -(IBAction)showHelp:(id)sender;
 @end

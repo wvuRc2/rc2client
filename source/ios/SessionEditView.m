@@ -32,5 +32,20 @@
 		self.helpBlock(self);
 }
 
+-(NSAttributedString*)attributedString
+{
+	if ([self respondsToSelector:@selector(attributedText)])
+		return [self attributedText];
+	return [[NSAttributedString alloc] initWithString:self.text];
+}
+
+-(void)setAttributedString:(NSAttributedString *)attributedString
+{
+	if ([self respondsToSelector:@selector(attributedText)])
+		self.attributedText = attributedString;
+	else
+		self.text = attributedString.string;
+}
+
 @synthesize helpBlock=_helpBlock;
 @end
