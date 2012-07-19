@@ -66,7 +66,7 @@
 	[req appendPostData:[[args JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	[req startSynchronous];
 	if (req.responseStatusCode != 200) {
-		[NSAlert displayAlertWithTitle:@"Server Error" details:[NSString stringWithFormat:@"server returned %@", req.responseStatusCode]];
+		[NSAlert displayAlertWithTitle:@"Server Error" details:[NSString stringWithFormat:@"server returned %d", req.responseStatusCode]];
 		return;
 	}
 	NSDictionary *dict = [req.responseString JSONValue];
@@ -86,7 +86,7 @@
 	[req setRequestMethod:@"DELETE"];
 	[req startSynchronous];
 	if (req.responseStatusCode != 200) {
-		[NSAlert displayAlertWithTitle:@"Server Error" details:[NSString stringWithFormat:@"server returned %@", req.responseStatusCode]];
+		[NSAlert displayAlertWithTitle:@"Server Error" details:[NSString stringWithFormat:@"server returned %d", req.responseStatusCode]];
 		return;
 	}
 	NSDictionary *dict = [req.responseString JSONValue];

@@ -449,9 +449,9 @@
 		self.imgController = [[ImageDisplayController alloc] init];
 	self.imgController.allImages = [[[RCImageCache sharedInstance] allImages] sortedArrayUsingComparator:^(RCImage *obj1, RCImage *obj2) {
 		if (obj1.timestamp > obj2.timestamp)
-			return NSOrderedAscending;
+			return (NSComparisonResult)NSOrderedAscending;
 		if (obj2.timestamp > obj1.timestamp)
-			return NSOrderedDescending;
+			return (NSComparisonResult)NSOrderedDescending;
 		return [obj1.name caseInsensitiveCompare:obj2.name];
 	}];
 	__unsafe_unretained SessionViewController *blockSelf = self;

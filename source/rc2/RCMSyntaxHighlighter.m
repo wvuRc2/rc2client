@@ -240,7 +240,7 @@
 		
 		return astr;
 	} @catch (NSException *e) {
-		Rc2LogWarn(@"exception highlighting sweave", e);
+		Rc2LogWarn(@"exception highlighting sweave:%@", e);
 	}
 	return sourceStr;
 }

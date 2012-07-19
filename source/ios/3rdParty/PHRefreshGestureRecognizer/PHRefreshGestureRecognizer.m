@@ -161,11 +161,12 @@ NSString * const PHRefreshResetGestureAnimationKey  = @"PHRefreshResetGestureAni
         return;
     }
     
-    if (_triggerFlags.isBoundToScrollView)
+    if (_triggerFlags.isBoundToScrollView) {
         if (self.scrollView.contentOffset.y < -64)
             self.refreshState = PHRefreshTriggered;
         else if (self.state != UIGestureRecognizerStateRecognized)
             self.refreshState = PHRefreshIdle;
+	}
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
@@ -176,7 +177,7 @@ NSString * const PHRefreshResetGestureAnimationKey  = @"PHRefreshResetGestureAni
         return;
     }
     
-    if (_triggerFlags.isBoundToScrollView)
+    if (_triggerFlags.isBoundToScrollView) {
         if (self.refreshState == PHRefreshTriggered)
         {
             self.refreshState = PHRefreshLoading;
@@ -185,6 +186,7 @@ NSString * const PHRefreshResetGestureAnimationKey  = @"PHRefreshResetGestureAni
             self.refreshState = PHRefreshIdle;
             self.state = UIGestureRecognizerStateFailed;
         }
+	}
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;

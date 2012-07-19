@@ -51,7 +51,7 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 	MAZeroingWeakRef *weakRef = [MAZeroingWeakRef refWithTarget:self];
 	OSStatus err = AudioQueueNewInput(&_audioDesc, MyAudioInputCallback, (__bridge_retained void*)weakRef, NULL, NULL, 0, &_inputQueue);
 	if (err != noErr) {
-		Rc2LogError(@"failed to create input audio queue: %d", err);
+		Rc2LogError(@"failed to create input audio queue: %d", (int)err);
 		//TODO: inform user
 	}
 	for (int i=0; i < 3; i++) {
@@ -75,7 +75,7 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 	OSStatus err = AudioQueueNewOutput(&_audioDesc, MyOutputCallback, (__bridge void*)self, NULL, NULL, 0, &_outputQueue);
 	if (noErr != err) {
 		//TODO: report error
-		Rc2LogError(@"error starting audio output queue:%d", err);
+		Rc2LogError(@"error starting audio output queue:%d", (int)err);
 	}
 }
 
@@ -234,7 +234,7 @@ static void MyOutputCallback(void *inUserData, AudioQueueRef inAQ,AudioQueueBuff
 		NSData *data = [me popNextAudioOutPacket];
 		if (nil == data || data.length < 1)
 			return;
-		inCompleteAQBuffer->mAudioDataByteSize = data.length;
+		inCompleteAQBuffer->mAudioDataByteSize = (UInt32)data.length;
 		[data getBytes:inCompleteAQBuffer->mAudioData length:inCompleteAQBuffer->mAudioDataByteSize];
 		AudioQueueEnqueueBuffer(inAQ, inCompleteAQBuffer, 0, NULL);
 	}

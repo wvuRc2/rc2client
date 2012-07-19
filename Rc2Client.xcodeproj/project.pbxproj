@@ -82,7 +82,7 @@
 		084594BC15B5F53900297C9D /* EMKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B215B5F53900297C9D /* EMKeychainItem.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		084594BD15B5F53900297C9D /* NoodleLineNumberMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B415B5F53900297C9D /* NoodleLineNumberMarker.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		084594BE15B5F53900297C9D /* NoodleLineNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B615B5F53900297C9D /* NoodleLineNumberView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		084594BF15B5F53900297C9D /* PXSourceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B915B5F53900297C9D /* PXSourceList.m */; };
+		084594BF15B5F53900297C9D /* PXSourceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B915B5F53900297C9D /* PXSourceList.m */; settings = {COMPILER_FLAGS = "-Wno-format"; }; };
 		084594D015B5F71500297C9D /* bighand-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594C015B5F71500297C9D /* bighand-blue.png */; };
 		084594D115B5F71500297C9D /* bighand-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594C115B5F71500297C9D /* bighand-blue@2x.png */; };
 		084594D215B5F71500297C9D /* bighand-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594C215B5F71500297C9D /* bighand-green.png */; };
@@ -267,7 +267,7 @@
 		08D2453115B5DAE90064A9FA /* NSString+HockeyAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2451D15B5DAE90064A9FA /* NSString+HockeyAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2453215B5DAE90064A9FA /* PSAppStoreHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2451F15B5DAE90064A9FA /* PSAppStoreHeader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2453315B5DAE90064A9FA /* PSStoreButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2452115B5DAE90064A9FA /* PSStoreButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2453415B5DAE90064A9FA /* PSWebTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2452315B5DAE90064A9FA /* PSWebTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08D2453415B5DAE90064A9FA /* PSWebTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2452315B5DAE90064A9FA /* PSWebTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-format"; }; };
 		08D2453515B5DAE90064A9FA /* UIImage+HockeyAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2452515B5DAE90064A9FA /* UIImage+HockeyAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2453615B5DAE90064A9FA /* Hockey.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08D2452615B5DAE90064A9FA /* Hockey.bundle */; };
 		08D2453915B5DAE90064A9FA /* README.mkdown in Resources */ = {isa = PBXBuildFile; fileRef = 08D2452B15B5DAE90064A9FA /* README.mkdown */; };
@@ -381,14 +381,14 @@
 		08D2466815B5EE670064A9FA /* HandshakeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456415B5DB270064A9FA /* HandshakeHeader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466915B5EE670064A9FA /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456615B5DB270064A9FA /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466A15B5EE670064A9FA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456815B5DB270064A9FA /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2466B15B5EE670064A9FA /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456B15B5DB270064A9FA /* WebSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2466C15B5EE670064A9FA /* WebSocket00.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456D15B5DB270064A9FA /* WebSocket00.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2466D15B5EE670064A9FA /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456F15B5DB270064A9FA /* WebSocket07.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2466E15B5EE670064A9FA /* WebSocket08.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457115B5DB270064A9FA /* WebSocket08.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2466F15B5EE670064A9FA /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457915B5DB270064A9FA /* WebSocketMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2467015B5EE950064A9FA /* WebSocket10.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457315B5DB270064A9FA /* WebSocket10.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08D2466B15B5EE670064A9FA /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456B15B5DB270064A9FA /* WebSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32 -Wno-format"; }; };
+		08D2466C15B5EE670064A9FA /* WebSocket00.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456D15B5DB270064A9FA /* WebSocket00.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
+		08D2466D15B5EE670064A9FA /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456F15B5DB270064A9FA /* WebSocket07.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
+		08D2466E15B5EE670064A9FA /* WebSocket08.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457115B5DB270064A9FA /* WebSocket08.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
+		08D2466F15B5EE670064A9FA /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457915B5DB270064A9FA /* WebSocketMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
+		08D2467015B5EE950064A9FA /* WebSocket10.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457315B5DB270064A9FA /* WebSocket10.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
 		08D2467115B5EE950064A9FA /* WebSocketConnectConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457515B5DB270064A9FA /* WebSocketConnectConfig.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2467215B5EE950064A9FA /* WebSocketFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457715B5DB270064A9FA /* WebSocketFragment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08D2467215B5EE950064A9FA /* WebSocketFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457715B5DB270064A9FA /* WebSocketFragment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
 		08D2467A15B5EF630064A9FA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2467315B5EF530064A9FA /* AudioToolbox.framework */; };
 		08D2467B15B5EF630064A9FA /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2467415B5EF530064A9FA /* Quartz.framework */; };
 		08D2467C15B5EF630064A9FA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2467515B5EF540064A9FA /* QuartzCore.framework */; };
@@ -1980,7 +1980,7 @@
 		08D2431615B5D04D0064A9FA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Agile Monks";
 			};
 			buildConfigurationList = 08D2431915B5D04D0064A9FA /* Build configuration list for PBXProject "Rc2Client" */;
@@ -2675,6 +2675,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = rc2sign;
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
@@ -2705,6 +2706,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = rc2sign;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2735,6 +2737,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = rc2sign;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
