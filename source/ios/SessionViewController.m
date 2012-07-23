@@ -10,8 +10,8 @@
 #import "AppConstants.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
-#import "MGSplitViewController.h"
-#import "MGSplitDividerView.h"
+#import "AMResizableSplitViewController.h"
+#import "AMResizableSplitterView.h"
 #import "EditorViewController.h"
 #import "ConsoleViewController.h"
 #import "KeyboardToolbar.h"
@@ -29,9 +29,10 @@
 #import "RCAudioChatEngine.h"
 #import "DoodleViewController.h"
 
-@interface SessionViewController() <KeyboardToolbarDelegate> {
+@interface SessionViewController() <KeyboardToolbarDelegate,AMResizableSplitViewControllerDelegate> {
 	RCSession *_session;
 }
+@property (nonatomic, strong) IBOutlet AMResizableSplitViewController *splitController;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) ImageDisplayController *imgController;
 @property (nonatomic, strong) ControlViewController *controlController;
@@ -103,34 +104,30 @@
 	if (splitPos < 300 || splitPos > 1024)
 		splitPos = 512;
 	
+	self.splitController = [[AMResizableSplitViewController alloc] init];
+	self.splitController.delegate = self;
+	self.splitController.controller1 = self.editorController;
+	self.splitController.controller2 = self.consoleController;
 	// Calc splitViewController's view's frame:
 	CGRect rec = self.view.bounds;
 	rec.origin.y += 44;
 	rec.size.height -= 44;
 	self.splitController.view.frame = rec;
-	self.splitController.showsMasterInPortrait = YES;
-	self.splitController.splitPosition = splitPos;
-	self.splitController.allowsDraggingDivider = YES;
-	self.splitController.dividerStyle = MGSplitViewDividerStylePaneSplitter;
-	self.splitController.delegate = self;
+	self.splitController.splitterPosition = splitPos;
+	[self addChildViewController:self.splitController];
 	[self.view addSubview:self.splitController.view];
-	RunAfterDelay(0.4, ^{
-		self.splitController.vertical = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
-		[self.splitController layoutSubviewsForInterfaceOrientation:TheApp.statusBarOrientation withAnimation:NO];
-	});
-	
+	[self.splitController didMoveToParentViewController:self];
+
 	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
-	self.splitController.dividerView.lightColor = [theme colorForKey:@"SessionPaneSplitterStart"];
-	self.splitController.dividerView.darkColor = [theme colorForKey:@"SessionPaneSplitterEnd"];
+	self.splitController.splitterView.backgroundColor = [theme colorForKey:@"SessionPaneSplitterStart"];
+//	self.splitController.dividerView.darkColor = [theme colorForKey:@"SessionPaneSplitterEnd"];
 	__weak SessionViewController *blockSelf = self;
 	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
-		blockSelf.splitController.dividerView.lightColor = [aTheme colorForKey:@"SessionPaneSplitterStart"];
-		blockSelf.splitController.dividerView.darkColor = [aTheme colorForKey:@"SessionPaneSplitterEnd"];
+		blockSelf.splitController.splitterView.backgroundColor = [aTheme colorForKey:@"SessionPaneSplitterStart"];
+//		blockSelf.splitController.dividerView.darkColor = [aTheme colorForKey:@"SessionPaneSplitterEnd"];
 	}];
 	self.themeToken = tn;
-	[self.splitController.dividerView addShineLayer:self.splitController.dividerView.layer 
-											 bounds:self.splitController.dividerView.bounds];
-	
+
 	RCSavedSession *savedState = self.session.savedSessionState;
 	self.consoleController.session = self.session;
 	[self.consoleController view]; //force loading
@@ -180,7 +177,7 @@
 //    return UIInterfaceOrientationIsLandscape(ior);
 	return YES;
 }
-
+/*
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 	[self.splitController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -200,7 +197,7 @@
 	self.splitController.vertical = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
 	[self.splitController layoutSubviewsForInterfaceOrientation:TheApp.statusBarOrientation withAnimation:NO];
 }
-
+*/
 #pragma mark - actions
 
 -(IBAction)showDoodleView:(id)sender
@@ -237,6 +234,14 @@
 		[self.mikeButton setImage:[UIImage imageNamed:@"mike"]];
 	}
 	[self.audioEngine toggleMicrophone];
+}
+
+#pragma mark - split view delegate
+
+-(void)willMoveSplitter:(AMResizableSplitViewController*)controller
+{
+	if ([self.editorController isEditorFirstResponder])
+		[self.editorController editorResignFirstResponder];
 }
 
 #pragma mark - console keyboard toolbar delegate
@@ -332,7 +337,7 @@
 {
 	if (self.controlPopover.popoverVisible)
 		[self.controlPopover dismissPopoverAnimated:YES];
-	[_session setSetting:[NSNumber numberWithFloat:self.splitController.splitPosition] forKey:@"splitPosition"];
+	[_session setSetting:[NSNumber numberWithFloat:self.splitController.splitterPosition] forKey:@"splitPosition"];
 	self.autoReconnect=NO;
 	[_session closeWebSocket];
 	[self saveSessionState];

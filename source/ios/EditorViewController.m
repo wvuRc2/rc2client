@@ -24,8 +24,6 @@
 #import <CoreText/CoreText.h>
 
 @interface EditorViewController() <KeyboardToolbarDelegate> {
-	CGRect _oldTextFrame;
-	CGFloat _oldHeight;
 	BOOL _viewLoaded;
 	BOOL _handUp;
 }
@@ -75,32 +73,18 @@
 
 -(void)keyboardVisible:(NSNotification*)note
 {
+	BOOL isLand = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
 	NSDictionary *userInfo = [note userInfo];
-	NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-	CGRect keyboardRect = [aValue CGRectValue];
-	keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
-	CGFloat keyboardTop = keyboardRect.origin.y;
-	_oldHeight=self.richEditor.bounds.size.height;
-	CGRect frame = self.richEditor.frame;
-	_oldTextFrame=frame;
-	frame.size.height = keyboardTop-frame.origin.y;
-	self.richEditor.frame=frame;
+	CGSize kbsize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+	UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, isLand? kbsize.width : kbsize.height, 0);
+	self.richEditor.contentInset = insets;
+	self.richEditor.scrollIndicatorInsets = insets;
 }
 
 -(void)keyboardHiding:(NSNotification*)note
 {
-	NSDictionary *userInfo = [note userInfo];
-	CGRect frame = self.richEditor.frame;
-	frame.size.height=_oldHeight;
-	NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-	NSTimeInterval animationDuration;
-	[animationDurationValue getValue:&animationDuration];
-	// Animate the resize of the text view's frame in sync with the keyboard's appearance.
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:animationDuration];
-	self.richEditor.frame=frame;
-	self.richEditor.frame = _oldTextFrame;
-	[UIView commitAnimations]; 
+	self.richEditor.contentInset = UIEdgeInsetsZero;
+	self.richEditor.scrollIndicatorInsets = UIEdgeInsetsZero;
 	self.currentFile.localEdits = self.richEditor.text;
 	[self updateDocumentState];
 }
@@ -198,6 +182,11 @@
 -(BOOL)isEditorFirstResponder
 {
 	return self.richEditor.isFirstResponder;
+}
+
+-(void)editorResignFirstResponder
+{
+	[self.richEditor resignFirstResponder];
 }
 
 -(NSString*)editorContents

@@ -36,6 +36,7 @@
 
 -(void)setInputView:(id)inputView;
 -(BOOL)isEditorFirstResponder;
+-(void)editorResignFirstResponder;
 -(NSString*)editorContents;
 
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress;

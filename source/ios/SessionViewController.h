@@ -21,7 +21,6 @@
 -(id)initWithSession:(RCSession*)session;
 //@property (nonatomic, weak) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
-@property (nonatomic, strong) IBOutlet MGSplitViewController *splitController;
 @property (nonatomic, strong) IBOutlet EditorViewController *editorController;
 @property (nonatomic, strong) IBOutlet ConsoleViewController *consoleController;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *executeButton;

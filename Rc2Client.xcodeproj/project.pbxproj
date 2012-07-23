@@ -395,6 +395,8 @@
 		08D2467F15B5EF630064A9FA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2467815B5EF5B0064A9FA /* SystemConfiguration.framework */; };
 		08D2468015B5EF630064A9FA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2467915B5EF5F0064A9FA /* WebKit.framework */; };
 		08D2468315B5EFDD0064A9FA /* Vyana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
+		08DF3D5115BDBC79000A339D /* AMResizableSplitterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D4E15BDBC79000A339D /* AMResizableSplitterView.m */; };
+		08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -931,6 +933,10 @@
 		08D2467815B5EF5B0064A9FA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		08D2467915B5EF5F0064A9FA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		08D2468215B5EFCE0064A9FA /* Vyana.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vyana.framework; path = ../Debug/Vyana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		08DF3D4D15BDBC79000A339D /* AMResizableSplitterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMResizableSplitterView.h; path = ../../../../AMResizableSplitterViewController/CustomSplitView/AMResizableSplitterView.h; sourceTree = "<group>"; };
+		08DF3D4E15BDBC79000A339D /* AMResizableSplitterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMResizableSplitterView.m; path = ../../../../AMResizableSplitterViewController/CustomSplitView/AMResizableSplitterView.m; sourceTree = "<group>"; };
+		08DF3D4F15BDBC79000A339D /* AMResizableSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMResizableSplitViewController.h; path = ../../../../AMResizableSplitterViewController/CustomSplitView/AMResizableSplitViewController.h; sourceTree = "<group>"; };
+		08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMResizableSplitViewController.m; path = ../../../../AMResizableSplitterViewController/CustomSplitView/AMResizableSplitViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1374,6 +1380,7 @@
 		08D243F015B5D78A0064A9FA /* ios 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
+				08DF3D5315BDBC80000A339D /* AMResizableSplitterViewController */,
 				08D2451015B5DAE90064A9FA /* HockeyKit-ios */,
 				08D243F115B5D78A0064A9FA /* CoolButton.h */,
 				08D243F215B5D78A0064A9FA /* CoolButton.m */,
@@ -1795,6 +1802,17 @@
 				08D2467915B5EF5F0064A9FA /* WebKit.framework */,
 			);
 			name = "Mac Frameworks";
+			sourceTree = "<group>";
+		};
+		08DF3D5315BDBC80000A339D /* AMResizableSplitterViewController */ = {
+			isa = PBXGroup;
+			children = (
+				08DF3D4D15BDBC79000A339D /* AMResizableSplitterView.h */,
+				08DF3D4E15BDBC79000A339D /* AMResizableSplitterView.m */,
+				08DF3D4F15BDBC79000A339D /* AMResizableSplitViewController.h */,
+				08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */,
+			);
+			name = AMResizableSplitterViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2241,6 +2259,8 @@
 				08D245F615B5DCD70064A9FA /* MLReachability.m in Sources */,
 				08D2461415B5E0660064A9FA /* ControlViewController.m in Sources */,
 				08D2461515B5E0750064A9FA /* DropboxImportController.m in Sources */,
+				08DF3D5115BDBC79000A339D /* AMResizableSplitterView.m in Sources */,
+				08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2455,7 +2475,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "3037D4F1-AA52-4D89-ABC1-C5CBE44CA3E6";
+				PROVISIONING_PROFILE = "48CD4623-1096-4DDE-91F0-8F8850B08B4F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2483,7 +2503,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "3037D4F1-AA52-4D89-ABC1-C5CBE44CA3E6";
+				PROVISIONING_PROFILE = "48CD4623-1096-4DDE-91F0-8F8850B08B4F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2532,7 +2552,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "3037D4F1-AA52-4D89-ABC1-C5CBE44CA3E6";
+				PROVISIONING_PROFILE = "48CD4623-1096-4DDE-91F0-8F8850B08B4F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Archive;
