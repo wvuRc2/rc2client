@@ -66,6 +66,7 @@
 												   frame:self.view.bounds];
 		self.view.backgroundColor = [theme colorForKey:@"MasterBackground"];
 		id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
+			blockSelf.view.backgroundColor = [aTheme colorForKey:@"MasterBackground"];
 			[[ThemeEngine sharedInstance] addBackgroundLayer:blockSelf.view.layer 
 													 withKey:@"MasterBackground"
 													   frame:blockSelf.view.bounds];

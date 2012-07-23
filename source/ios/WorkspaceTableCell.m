@@ -45,7 +45,6 @@
 						   (id)[theme colorForKey:@"MasterCellSelectedStart"].CGColor,
 						   (id)[theme colorForKey:@"MasterCellSelectedEnd"].CGColor, nil];
 	_bgLayer = [CALayer layer];
-	_bgLayer.backgroundColor = [theme colorForKey:@"MasterCell"].CGColor;
 	_bgLayer.cornerRadius = 13;
 	CGRect bgRect = CGRectInset([self frame], 4, 4);
 	_bgLayer.frame = bgRect;
@@ -69,7 +68,6 @@
 
 -(void)updateForNewTheme:(Theme*)theme
 {
-	_bgLayer.backgroundColor = [theme colorForKey:@"MasterCell"].CGColor;
 	self.normalColors = [NSArray arrayWithObjects:
 						 (id)[theme colorForKey:@"MasterCellStart"].CGColor,
 						 (id)[theme colorForKey:@"MasterCellEnd"].CGColor, nil];
