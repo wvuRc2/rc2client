@@ -160,14 +160,16 @@
 	CGRect pRect = CGRectMake(6, 5, 56, 40);
 	CGRect lRect = CGRectMake(6, 5, 80, 40);
 	for (NSDictionary *btnDict in [dict objectForKey:@"Buttons"]) {
-		CGRect btnFrame = isLandscape ? lRect : pRect;
-		KeyboardButton *btn = [self buttonWithFrame:btnFrame];
-		[btn setupWithDictionary:btnDict];
-		[btn setTitle:[btnDict objectForKey:@"Title"] forState:UIControlStateNormal];
-		btn.tag = ++sNextTag;
-		btn.portraitFrame = pRect;
-		btn.landscapeFrame = lRect;
-		[pview addSubview:btn];
+		if (nil == [btnDict objectForKey:@"Empty"]) {
+			CGRect btnFrame = isLandscape ? lRect : pRect;
+			KeyboardButton *btn = [self buttonWithFrame:btnFrame];
+			[btn setupWithDictionary:btnDict];
+			[btn setTitle:[btnDict objectForKey:@"Title"] forState:UIControlStateNormal];
+			btn.tag = ++sNextTag;
+			btn.portraitFrame = pRect;
+			btn.landscapeFrame = lRect;
+			[pview addSubview:btn];
+		}
 		pRect.origin.x += 13 + pRect.size.width;
 		lRect.origin.x += 13 + lRect.size.width;
 	}

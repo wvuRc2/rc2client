@@ -210,6 +210,61 @@
 				</dict>
 			</array>
 		</dict>
+		<dict>
+			<key>Name</key>
+			<string>Cursor</string>
+			<key>Buttons</key>
+			<array>
+				<dict>
+					<key>Empty</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>Empty</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>Empty</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>Empty</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>Empty</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>Empty</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>←</string>
+					<key>Selector</key>
+					<string>leftArrow</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>→</string>
+					<key>Selector</key>
+					<string>rightArrow</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>↑</string>
+					<key>Selector</key>
+					<string>upArrow</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>↓</string>
+					<key>Selector</key>
+					<string>downArrow</string>
+				</dict>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>

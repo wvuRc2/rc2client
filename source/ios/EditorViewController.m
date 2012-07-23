@@ -74,11 +74,13 @@
 -(void)keyboardVisible:(NSNotification*)note
 {
 	BOOL isLand = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
-	NSDictionary *userInfo = [note userInfo];
-	CGSize kbsize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-	UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, isLand? kbsize.width : kbsize.height, 0);
-	self.richEditor.contentInset = insets;
-	self.richEditor.scrollIndicatorInsets = insets;
+	if (isLand) {
+		NSDictionary *userInfo = [note userInfo];
+		CGSize kbsize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+		UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, kbsize.width, 0);
+		self.richEditor.contentInset = insets;
+		self.richEditor.scrollIndicatorInsets = insets;
+	}
 }
 
 -(void)keyboardHiding:(NSNotification*)note
@@ -170,6 +172,38 @@
 	UITextRange *extRange = [self.richEditor characterRangeByExtendingPosition:curRange.start inDirection:UITextLayoutDirectionDown];
 	UITextRange *newRange = [self.richEditor textRangeFromPosition:extRange.start toPosition:extRange.start];
 	self.richEditor.selectedTextRange = newRange;
+}
+
+-(void)upArrow
+{
+	UITextPosition *pos = self.richEditor.selectedTextRange.start;
+	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionUp offset:1];
+	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
+	self.richEditor.selectedTextRange = rng;
+}
+
+-(void)downArrow
+{
+	UITextPosition *pos = self.richEditor.selectedTextRange.start;
+	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionDown offset:1];
+	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
+	self.richEditor.selectedTextRange = rng;
+}
+
+-(void)leftArrow
+{
+	UITextPosition *pos = self.richEditor.selectedTextRange.start;
+	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionLeft offset:1];
+	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
+	self.richEditor.selectedTextRange = rng;
+}
+
+-(void)rightArrow
+{
+	UITextPosition *pos = self.richEditor.selectedTextRange.start;
+	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionRight offset:1];
+	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
+	self.richEditor.selectedTextRange = rng;
 }
 
 #pragma mark - meat & potatoes
