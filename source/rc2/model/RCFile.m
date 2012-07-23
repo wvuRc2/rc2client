@@ -69,8 +69,10 @@
 				if (success) {
 					self.fileContents = results;
 					[results writeToFile:self.fileContentsPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
+					AMFileSizeTransformer *trans = [[AMFileSizeTransformer alloc] init];
+					self.sizeString = [trans transformedValue:[NSNumber numberWithLong:[results length]]];
 				} else
-					NSLog(@"error fetching content");
+					Rc2LogError(@"error fetching content for file %@", self.fileId);
 			}];
 		}
 	} else {
@@ -143,8 +145,6 @@
 		return;
 	if ([edits isEqualToString:self.fileContents])
 		edits = nil;
-	if (edits && edits.length < 1)
-		NSLog(@"why are we saving local edits of length < 1?");
 	[self willChangeValueForKey:@"localEdits"];
 	[self setPrimitiveLocalEdits:[edits copy]];
 	[self didChangeValueForKey:@"localEdits"];
@@ -192,7 +192,7 @@
 	self.localAttributes = [NSPropertyListSerialization dataWithPropertyList:attrs format:NSPropertyListXMLFormat_v1_0 
 																	 options:0 error:&err];
 	if (err)
-		NSLog(@"got error saving local attrs: %@", err);
+		Rc2LogError(@"got error saving local attrs: %@", err);
 }
 
 -(BOOL)isTextFile
