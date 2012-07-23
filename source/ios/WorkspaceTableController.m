@@ -49,6 +49,7 @@
 
 -(void)dealloc
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NotificationsReceivedNotification object:nil];
 	[self freeMemory];
 }
 
@@ -59,6 +60,7 @@
 	[super viewDidLoad];
 	if (!_didInitialLoad) {
 		_didInitialLoad=YES;
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginChanged:) name:NotificationsReceivedNotification object:nil];
 		__block __weak WorkspaceTableController *blockSelf = self;
 		Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 		[[ThemeEngine sharedInstance] addBackgroundLayer:self.view.layer 
@@ -152,6 +154,11 @@
 }
 
 #pragma mark - meat & potatos
+
+-(void)loginChanged:(NSNotification*)note
+{
+	self.workspaceItems = [[Rc2Server sharedInstance] workspaceItems];
+}
 
 -(void)clearSelection
 {
