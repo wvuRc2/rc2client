@@ -105,9 +105,11 @@
 												 name:UIKeyboardWillHideNotification object:nil];
 		self.docTitleLabel.text = @"Untitled Document";
 		self.richEditor.font = [UIFont fontWithName:@"Inconsolata" size:18.0];
-		self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
-								 [UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName,
-								 nil];
+		if ([self.richEditor respondsToSelector:@selector(attributedText)]) {
+			self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+									 [UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName,
+									 nil];
+		}
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
 			//FIXME: need to sanitize the input string
 			NSString *str = [editView textInRange:editView.selectedTextRange];
@@ -632,9 +634,12 @@
 {
 	if (nil == srcStr)
 		srcStr = self.richEditor.attributedString;
-	NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
-	[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
-	self.richEditor.attributedString = astr;
+	if ([self.richEditor respondsToSelector:@selector(attributedText)]) {
+		NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
+		[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
+		srcStr = astr;
+	}
+	self.richEditor.attributedString = srcStr;
 	[self.keyboardToolbar switchToPanelForFileExtension:self.currentFile.name.pathExtension];
 }
 
