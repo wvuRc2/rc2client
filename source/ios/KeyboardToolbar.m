@@ -269,6 +269,8 @@
 -(void)setupWithDictionary:(NSDictionary*)dict
 {
 	self.string = [dict objectForKey:@"String"];
+	if (nil == self.string)
+		self.string = [dict objectForKey:@"Title"];
 	if ([dict objectForKey:@"Selector"]) {
 		self.selector = NSSelectorFromString([dict objectForKey:@"Selector"]);
 		self.string = nil;
