@@ -230,6 +230,7 @@ enum {
 														 task:^(id theWspace, NSDictionary *changes) {
 			[blockSelf performSelectorOnMainThread:@selector(handleFileUpdate:) withObject:theWspace waitUntilDone:NO];
 		}];
+		[self.fileTableView reloadData];
 	}
 	self.sessionButton.enabled = self.currentView == self.workspaceContent;
 }
