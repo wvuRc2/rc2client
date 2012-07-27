@@ -103,6 +103,9 @@
 		084594E415B5F7A300297C9D /* ir.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08D2450715B5DA9F0064A9FA /* ir.js */; };
 		084594E515B5F7A600297C9D /* console.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08D2450515B5DA9F0064A9FA /* console.html */; };
 		0845950315B5FA4400297C9D /* console in Resources */ = {isa = PBXBuildFile; fileRef = 0845950215B5FA4400297C9D /* console */; };
+		088392DB15C30B4700C56576 /* graph.svg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 088392D715C30B1F00C56576 /* graph.svg */; };
+		088392DC15C30B6100C56576 /* graph.svg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 088392D715C30B1F00C56576 /* graph.svg */; };
+		088392DD15C30FD700C56576 /* standard.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08D2450915B5DA9F0064A9FA /* standard.css */; };
 		08D2432415B5D04D0064A9FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432315B5D04D0064A9FA /* UIKit.framework */; };
 		08D2432615B5D04D0064A9FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432515B5D04D0064A9FA /* Foundation.framework */; };
 		08D2432815B5D04D0064A9FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432715B5D04D0064A9FA /* CoreGraphics.framework */; };
@@ -418,6 +421,7 @@
 			dstPath = console;
 			dstSubfolderSpec = 7;
 			files = (
+				088392DC15C30B6100C56576 /* graph.svg in CopyFiles */,
 				084594E315B5F79E00297C9D /* jquery-1.6.1.min.js in CopyFiles */,
 				084594E415B5F7A300297C9D /* ir.js in CopyFiles */,
 				084594E515B5F7A600297C9D /* console.html in CopyFiles */,
@@ -430,6 +434,8 @@
 			dstPath = console;
 			dstSubfolderSpec = 7;
 			files = (
+				088392DD15C30FD700C56576 /* standard.css in CopyFiles */,
+				088392DB15C30B4700C56576 /* graph.svg in CopyFiles */,
 				08D2460D15B5DEFA0064A9FA /* console.html in CopyFiles */,
 				08D2460E15B5DEFC0064A9FA /* jquery-1.6.1.min.js in CopyFiles */,
 				08D2460F15B5DEFF0064A9FA /* ir.js in CopyFiles */,
@@ -568,6 +574,7 @@
 		084594CE15B5F71500297C9D /* turnedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = turnedin.png; path = resources/sharedImages/turnedin.png; sourceTree = SOURCE_ROOT; };
 		084594CF15B5F71500297C9D /* turnedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "turnedin@2x.png"; path = "resources/sharedImages/turnedin@2x.png"; sourceTree = SOURCE_ROOT; };
 		0845950215B5FA4400297C9D /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/mac/console; sourceTree = SOURCE_ROOT; };
+		088392D715C30B1F00C56576 /* graph.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = graph.svg; sourceTree = "<group>"; };
 		08D2431F15B5D04D0064A9FA /* Rc².app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rc².app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08D2432315B5D04D0064A9FA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		08D2432515B5D04D0064A9FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1540,6 +1547,7 @@
 		08D2450315B5DA9F0064A9FA /* shared console */ = {
 			isa = PBXGroup;
 			children = (
+				088392D715C30B1F00C56576 /* graph.svg */,
 				08D2450415B5DA9F0064A9FA /* chat.html */,
 				08D2450515B5DA9F0064A9FA /* console.html */,
 				08D2450615B5DA9F0064A9FA /* greyscale.css */,

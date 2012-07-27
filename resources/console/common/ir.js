@@ -27,7 +27,7 @@ iR.selectionEnd = 0;
 iR.userid = 0;
 iR.settings = {maxHistLen: 20};
 iR.isiPad = navigator.userAgent.match(/iPad/i) !== null;
-iR.graphFileUrl = 'graph.png';
+iR.graphFileUrl = 'graph.svg';
 
 iR.currentTimestamp = function() {
 	var now = new Date();
@@ -141,6 +141,7 @@ iR.appendImages = function(imgArray) {
 		elem.setAttribute('src', iR.graphFileUrl);
 		elem.setAttribute('height', 32);
 		elem.setAttribute('width', 32);
+		elem.setAttribute('class', 'gimglink');
 		var anchorElem = document.createElement("a");
 		anchorElem.setAttribute("href", imgArray[i]);
 		anchorElem.appendChild(elem);
