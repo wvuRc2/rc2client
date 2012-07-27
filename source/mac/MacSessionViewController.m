@@ -60,6 +60,7 @@
 @property (nonatomic, strong) id modeChangeToken;
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) NSString *webTmpFileDirectory;
+@property (nonatomic, strong) NSWindow *blockingWindow;
 -(void)prepareForSession;
 -(void)completeSessionStartup:(id)response;
 -(NSString*)escapeForJS:(NSString*)str;
@@ -376,8 +377,10 @@
 
 -(IBAction)saveFileEdits:(id)sender
 {
-	if (self.selectedFile.isTextFile)
-		[self.selectedFile setLocalEdits:self.editView.string];
+	if (self.selectedFile.isTextFile) {
+		self.selectedFile.localEdits = self.editView.string;
+		[self syncFile:self.selectedFile];
+	}
 }
 
 -(IBAction)showImageDetails:(id)sender
@@ -505,6 +508,9 @@
 	ZAssert(file.isTextFile, @"asked to sync non-text file");
 	self.statusMessage = [NSString stringWithFormat:@"Saving %@ to server…", file.name];
 	self.busy=YES;
+	int64_t delayInSeconds = 2.0;
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 	[[Rc2Server sharedInstance] saveFile:file workspace:self.session.workspace completionHandler:^(BOOL success, RCFile *theFile) {
 		self.busy=NO;
 		if (success) {
@@ -515,6 +521,7 @@
 			self.statusMessage = [NSString stringWithFormat:@"Unknown error while saving %@ to server:%@", file.name, (NSString*)theFile];
 		}
 	}];
+	});
 }
 
 -(void)completeSessionStartup:(id)response
@@ -1073,6 +1080,30 @@
 	self.modeLabel.stringValue = fancyMode;
 	[self.modePopUp selectItemWithTitle:fancyMode];
 	self.restrictedMode = ![mode isEqualToString:kMode_Share] && !(self.session.currentUser.master || self.session.currentUser.control);
+}
+
+-(void)setBusy:(BOOL)busy
+{
+	if (self.view.window != nil) {
+		if (busy) {
+			if (self.blockingWindow == nil) {
+				CGRect wRect = self.view.window.frame;
+				CGRect cRect = [self.view.window.contentView frame];
+				CGRect rect = CGRectMake(wRect.origin.x, wRect.origin.y, cRect.size.width, cRect.size.height);
+				self.blockingWindow = [[NSWindow alloc] initWithContentRect:rect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
+				self.blockingWindow.backgroundColor = [NSColor blackColor];
+				[self.blockingWindow setOpaque:NO];
+				self.blockingWindow.alphaValue = 0.1;
+			}
+			[self.blockingWindow orderFront:self];
+			[self.view.window addChildWindow:self.blockingWindow ordered:NSWindowAbove];
+		} else {
+			[self.view.window removeChildWindow:self.blockingWindow];
+			[self.blockingWindow orderOut:self];
+			self.blockingWindow=nil;
+		}
+	}
+	[super setBusy:busy];
 }
 
 -(NSView*)rightStatusView
