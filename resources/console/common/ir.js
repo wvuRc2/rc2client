@@ -104,7 +104,7 @@ iR.appendPdf = function(pdfurl, fileId, filename) {
 		var anchorElem = document.createElement("a");
 		anchorElem.setAttribute("href", pdfurl);
 		var elem = document.createElement('img');
-		elem.setAttribute('src', 'pdf.png');
+		elem.setAttribute('src', 'pdf-file.png');
 		elem.setAttribute('height', 32);
 		elem.setAttribute('width', 32);
 		elem.setAttribute('rc2fileId', fileId);
@@ -165,7 +165,7 @@ iR.appendSasFiles = function(fileArray) {
 			var aFile = fileArray[i]
 			var anchorElem = document.createElement("a");
 			var elem = document.createElement('img');
-			elem.setAttribute('src', (aFile['ext'] === '.png') ? 'png.png' : 'sasfile.png');
+			elem.setAttribute('src', (aFile['ext'] === '.png') ? 'png-file.png' : 'sas-file.png');
 			elem.setAttribute('height', 32);
 			elem.setAttribute('width', 32);
 			elem.setAttribute('rc2fileId', aFile['fileId']);

@@ -106,6 +106,9 @@
 		088392DB15C30B4700C56576 /* graph.svg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 088392D715C30B1F00C56576 /* graph.svg */; };
 		088392DC15C30B6100C56576 /* graph.svg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 088392D715C30B1F00C56576 /* graph.svg */; };
 		088392DD15C30FD700C56576 /* standard.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08D2450915B5DA9F0064A9FA /* standard.css */; };
+		088392DF15C31C8100C56576 /* rc2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 088392DE15C31C8100C56576 /* rc2@2x.png */; };
+		088392E015C31C8100C56576 /* rc2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 088392DE15C31C8100C56576 /* rc2@2x.png */; };
+		088392E215C31F8000C56576 /* Icon144.png in Resources */ = {isa = PBXBuildFile; fileRef = 088392E115C31F8000C56576 /* Icon144.png */; };
 		08D2432415B5D04D0064A9FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432315B5D04D0064A9FA /* UIKit.framework */; };
 		08D2432615B5D04D0064A9FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432515B5D04D0064A9FA /* Foundation.framework */; };
 		08D2432815B5D04D0064A9FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432715B5D04D0064A9FA /* CoreGraphics.framework */; };
@@ -575,6 +578,8 @@
 		084594CF15B5F71500297C9D /* turnedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "turnedin@2x.png"; path = "resources/sharedImages/turnedin@2x.png"; sourceTree = SOURCE_ROOT; };
 		0845950215B5FA4400297C9D /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/mac/console; sourceTree = SOURCE_ROOT; };
 		088392D715C30B1F00C56576 /* graph.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = graph.svg; sourceTree = "<group>"; };
+		088392DE15C31C8100C56576 /* rc2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rc2@2x.png"; sourceTree = "<group>"; };
+		088392E115C31F8000C56576 /* Icon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon144.png; sourceTree = "<group>"; };
 		08D2431F15B5D04D0064A9FA /* Rc².app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rc².app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08D2432315B5D04D0064A9FA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		08D2432515B5D04D0064A9FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1499,6 +1504,7 @@
 				08D2448515B5D8F20064A9FA /* home-tbar-down.png */,
 				08D2448615B5D8F20064A9FA /* home-tbar.png */,
 				08D2448715B5D8F20064A9FA /* Icon72.png */,
+				088392E115C31F8000C56576 /* Icon144.png */,
 				08D2448815B5D8F20064A9FA /* importCheck.png */,
 				08D2448915B5D8F20064A9FA /* lock.png */,
 				08D2448A15B5D8F20064A9FA /* lock@2x.png */,
@@ -1512,6 +1518,7 @@
 				08D2449215B5D8F20064A9FA /* mike.png */,
 				08D2449315B5D8F20064A9FA /* mikeOff.png */,
 				08D2449415B5D8F20064A9FA /* rc2.png */,
+				088392DE15C31C8100C56576 /* rc2@2x.png */,
 				08D2449515B5D8F20064A9FA /* RDoc.png */,
 				08D2449615B5D8F20064A9FA /* revert.png */,
 				08D2449715B5D8F20064A9FA /* RnWDoc.png */,
@@ -1998,6 +2005,8 @@
 				08D2458315B5DB270064A9FA /* LICENSE in Resources */,
 				08D2461615B5E0780064A9FA /* DropboxImportController.xib in Resources */,
 				08D2461715B5E07C0064A9FA /* ControlViewController.xib in Resources */,
+				088392DF15C31C8100C56576 /* rc2@2x.png in Resources */,
+				088392E215C31F8000C56576 /* Icon144.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2060,6 +2069,7 @@
 				084594DE15B5F71500297C9D /* turnedin.png in Resources */,
 				084594DF15B5F71500297C9D /* turnedin@2x.png in Resources */,
 				0845950315B5FA4400297C9D /* console in Resources */,
+				088392E015C31C8100C56576 /* rc2@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

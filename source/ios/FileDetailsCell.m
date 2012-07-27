@@ -40,15 +40,15 @@
 
 	NSString *imgName = @"doc";
 	if ([file.name hasSuffix:@".R"])
-		imgName = @"RDoc";
+		imgName = @"console/r-file";
 	else if ([file.name hasSuffix:@".Rnw"])
-		imgName = @"RnWDoc";
+		imgName = @"console/Rnw-file";
 	else if ([file.name hasSuffix:@".pdf"])
-		imgName = @"console/pdf";
+		imgName = @"console/pdf-file";
 	else if ([file.name hasSuffix:@".sas"])
-		imgName = @"console/sasfile";
+		imgName = @"console/sas-file";
 	else if ([file.name hasSuffix:@".png"])
-		imgName = @"console/png";
+		imgName = @"console/png-file";
 	self.imgView.image = [UIImage imageNamed:imgName];
 	self.permissionView.image = file.permissionImage;
 }
