@@ -158,8 +158,6 @@
 															bundle: nil title: @"Fonts" identifier:@"fonts" imageName:NSImageNameFontPanel]];
 	}
 	[prefsController showWindow:sender];
-	[[NSArray array] objectAtIndex:21];
-	NSBeep();
 }
 
 #pragma mark - meat & potatoes
