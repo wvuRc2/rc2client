@@ -23,7 +23,13 @@
 	//stick ourselves in the responder chain
 	[self setNextResponder: [self.view nextResponder]];
 	[self.view setNextResponder: self];
-	self.wsheetFont = [_prefs unarchiveObjectForKey:kPref_EditorFont];
+	id fontName = [_prefs objectForKey:kPref_EditorFont];
+	if (![fontName isKindOfClass:[NSString class]])
+		fontName = @"Menlo";
+	CGFloat fntSize = [_prefs floatForKey:kPref_EditorFontSize];
+	if ((fntSize < 9) || (fntSize > 72))
+		fntSize = 13.0;
+	self.wsheetFont = [NSFont fontWithName:fontName size:fntSize];
 	self.wsheetFontField.font = self.wsheetFont;
 	self.wsheetFontField.backgroundColor = [NSColor colorWithHexString:[_prefs objectForKey:kPref_EditorBGColor]];
 	self.wsheetFontField.textColor = [NSColor colorWithHexString:[_prefs objectForKey:kPref_EditorFontColor]];
@@ -64,7 +70,8 @@
 	self.wsheetFontField.font = self.wsheetFont;
 	self.wsheetFontDescription = [NSString stringWithFormat:@"%@ %1.1f",
 								self.wsheetFont.fontName, self.wsheetFont.pointSize];
-	[_prefs archiveObject:self.wsheetFont forKey:kPref_EditorFont];
+	[_prefs setObject:self.wsheetFont.fontName forKey:kPref_EditorFont];
+	[_prefs setFloat:self.wsheetFont.pointSize forKey:kPref_EditorFontSize];
 }
 
 - (BOOL)control:(NSControl *)control textShouldBeginEditing:(NSText *)fieldEditor

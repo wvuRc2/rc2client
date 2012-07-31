@@ -17,7 +17,14 @@
 
 -(void)awakeFromNib
 {
-	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_EditorFont];
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+	id fontName =[prefs objectForKey:kPref_EditorFont];
+	if (![fontName isKindOfClass:[NSString class]])
+		fontName = @"Menlo";
+	CGFloat fntSize = [prefs floatForKey:kPref_EditorFontSize];
+	if ((fntSize < 9) || (fntSize > 72))
+		fntSize = 13;
+	NSFont *fnt = [NSFont fontWithName:fontName size:fntSize];
 	if (nil == fnt)
 		fnt = [NSFont userFixedPitchFontOfSize:12.0];
 	[self setFont:fnt];
@@ -141,7 +148,15 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSColor *fgcolor = [NSColor colorWithHexString:[defaults objectForKey:kPref_EditorFontColor]];
 	NSColor *bgcolor = [NSColor colorWithHexString:[defaults objectForKey:kPref_EditorBGColor]];
-	NSFont *font = [defaults unarchiveObjectForKey:kPref_EditorFont];
+	id fontName =[defaults objectForKey:kPref_EditorFont];
+	if (![fontName isKindOfClass:[NSString class]])
+		fontName = @"Menlo";
+	CGFloat fntSize = [defaults floatForKey:kPref_EditorFontSize];
+	if ((fntSize < 9) || (fntSize > 72))
+		fntSize = 13;
+	NSFont *font = [NSFont fontWithName:fontName size:fntSize];
+	if (nil == font)
+		font = [NSFont userFixedPitchFontOfSize:12.0];
 	self.textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName,
 						   fgcolor, NSForegroundColorAttributeName, 
 						   bgcolor, NSBackgroundColorAttributeName, 
