@@ -10,6 +10,7 @@
 #import "RCMAppConstants.h"
 
 @interface RCMTextView()
+@property (nonatomic, strong) NSMutableSet *kvoTokens;
 -(NSUInteger)findMatchingParen:(NSUInteger)closeLoc string:(NSString*)str;
 @end
 
@@ -17,7 +18,7 @@
 
 -(void)awakeFromNib
 {
-	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_EditorFont];
+	NSFont *fnt = nil;//[[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_EditorFont];
 	if (nil == fnt)
 		fnt = [NSFont userFixedPitchFontOfSize:12.0];
 	[self setFont:fnt];
@@ -36,9 +37,21 @@
 -(void)viewDidMoveToWindow
 {
 	if (nil == self.window) {
+		[self.kvoTokens removeAllObjects];
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];		
 	} else {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontPrefsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
+		__unsafe_unretained RCMTextView *blockSelf = self;
+		NSUserDefaultsController *dc = [NSUserDefaultsController sharedUserDefaultsController];
+		[self.kvoTokens addObject:[dc addObserverForKeyPath:[@"values." stringByAppendingString:kPref_EditorFont] task:^(id obj, NSDictionary *change) {
+			[blockSelf fontPrefsChanged:nil];
+		}]];
+		[self.kvoTokens addObject:[dc addObserverForKeyPath:[@"values." stringByAppendingString:kPref_EditorBGColor] task:^(id obj, NSDictionary *change) {
+			[blockSelf fontPrefsChanged:nil];
+		}]];
+		[self.kvoTokens addObject:[dc addObserverForKeyPath:[@"values." stringByAppendingString:kPref_EditorFontColor] task:^(id obj, NSDictionary *change) {
+			[blockSelf fontPrefsChanged:nil];
+		}]];
+//		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontPrefsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
 	}
 }
 
