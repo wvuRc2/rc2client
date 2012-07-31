@@ -20,6 +20,10 @@
 #import "MultiFileImporter.h"
 #import "RCMAppConstants.h"
 
+@interface NonScrollingScrollView : NSScrollView
+
+@end
+
 @interface WorkspaceViewController()
 @property (nonatomic, strong) NSMutableSet *kvoTokens;
 @property (nonatomic, copy) NSArray *sections;
@@ -324,11 +328,13 @@
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
 	NSDictionary *d = [self.sections objectAtIndex:row];
-	WorkspaceCellView *view = [tableView viewAtColumn:0 row:row makeIfNecessary:NO];
-	CGFloat h = [[d objectForKey:@"expanded"] boolValue] ? [view expandedHeight] : 27;
-	if (0 == h)
-		h = 27;
-	return h;
+	//we used to ask the WorkspaceCellView, but that is no longer allowed in 10.8. So instead,
+	// we hard-code the logic for the height here
+	if ([[d objectForKey:@"expanded"] boolValue]) {
+		NSArray *contentArray = [self.workspace valueForKey:[d objectForKey:@"childAttr"]];
+		return 48 + (19 * fmaxf(3, contentArray.count + 1));
+	}
+	return 27;
 }
 
 #pragma mark - synthesizers
@@ -342,3 +348,14 @@
 @synthesize ignoreSectionReloads;
 @synthesize selectedFile;
 @end
+
+@implementation NonScrollingScrollView
+
+-(void)scrollWheel:(NSEvent *)theEvent
+{
+	[self.nextResponder scrollWheel:theEvent];
+}
+
+@end
+
+
