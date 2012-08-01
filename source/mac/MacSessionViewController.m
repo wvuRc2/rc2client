@@ -1064,7 +1064,7 @@
 			[self.fileTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:oldFileIdx] byExtendingSelection:NO];
 			[self tableViewSelectionDidChange:nil];
 		});
-	} else {
+	} else if (selectedFile.isTextFile) {
 		NSString *newTxt = self.scratchString;
 		if (selectedFile)
 			newTxt = selectedFile.currentContents;
