@@ -632,6 +632,11 @@
 		} else {
 			js = [NSString stringWithFormat:@"iR.displayError('%@')", errmsg];
 		}
+	} else if ([cmd isEqualToString:@"status"]) {
+		if ([[dict objectForKey:@"busy"] boolValue])
+			self.statusMessage = @"Server status: busy";
+		else
+			self.statusMessage = @"Server status: idle";
 	} else if ([cmd isEqualToString:@"join"]) {
 		js = [NSString stringWithFormat:@"iR.userJoinedSession('%@', '%@')", 
 			  [self escapeForJS:[dict objectForKey:@"user"]],
