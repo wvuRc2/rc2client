@@ -108,6 +108,7 @@
 	NSDictionary *cookies = [NSHTTPCookie requestHeaderFieldsWithCookies:cks];
 	NSString *cookieHeader = [cookies objectForKey:@"Cookie"];
 	[config.headers addObject:[HandshakeHeader headerWithValue:cookieHeader forKey:@"Cookie"]];
+	[config.headers addObject:[HandshakeHeader headerWithValue:@"1" forKey:@"Rc2-API-Version"]];
 	_ws = [WebSocket webSocketWithConfig:config delegate:self];
 	[_ws open];
 	RunAfterDelay(10, ^{
