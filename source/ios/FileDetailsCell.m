@@ -43,6 +43,8 @@
 		imgName = @"console/r-file";
 	else if ([file.name hasSuffix:@".Rnw"])
 		imgName = @"console/Rnw-file";
+	else if ([file.name hasSuffix:@".Rmd"])
+		imgName = @"console/Rmd-file";
 	else if ([file.name hasSuffix:@".pdf"])
 		imgName = @"console/pdf-file";
 	else if ([file.name hasSuffix:@".sas"])

@@ -2504,6 +2504,7 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "48CD4623-1096-4DDE-91F0-8F8850B08B4F";
+				SDKROOT = iphoneos6.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2528,6 +2529,7 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "48CD4623-1096-4DDE-91F0-8F8850B08B4F";
+				SDKROOT = iphoneos6.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2574,6 +2576,7 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "48CD4623-1096-4DDE-91F0-8F8850B08B4F";
+				SDKROOT = iphoneos6.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Archive;
