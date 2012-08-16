@@ -50,7 +50,69 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>R</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+				<string>public.plain-text</string>
+				<string>public.text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Sweave source code</string>
+			<key>UTTypeIconFile</key>
+			<string>Rnw</string>
+			<key>UTTypeIdentifier</key>
+			<string>edu.wvu.stat.rc2.Sweave</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
 					<string>Rnw</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+				<string>public.plain-text</string>
+				<string>public.text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>R markdown source code</string>
+			<key>UTTypeIconFile</key>
+			<string>Rmd</string>
+			<key>UTTypeIdentifier</key>
+			<string>edu.wvu.stat.rc2.Rmd</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>Rmd</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+				<string>public.plain-text</string>
+				<string>public.text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>sas source code</string>
+			<key>UTTypeIconFile</key>
+			<string>sas</string>
+			<key>UTTypeIdentifier</key>
+			<string>edu.wvu.stat.rc2.sas</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>sas</string>
 				</array>
 			</dict>
 		</dict>

@@ -31,7 +31,6 @@
 		0845942515B5F22700297C9D /* openother.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941315B5F22700297C9D /* openother.png */; };
 		0845942615B5F22700297C9D /* Rdoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0845941415B5F22700297C9D /* Rdoc.icns */; };
 		0845942715B5F22700297C9D /* RLogo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0845941515B5F22700297C9D /* RLogo.icns */; };
-		0845942815B5F22700297C9D /* RnW.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0845941615B5F22700297C9D /* RnW.icns */; };
 		0845942915B5F22700297C9D /* syncArrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941715B5F22700297C9D /* syncArrows.png */; };
 		0845942A15B5F22700297C9D /* syncArrowsSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941815B5F22700297C9D /* syncArrowsSelected.png */; };
 		0845942B15B5F22700297C9D /* webback.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941915B5F22700297C9D /* webback.png */; };
@@ -103,6 +102,9 @@
 		084594E415B5F7A300297C9D /* ir.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08D2450715B5DA9F0064A9FA /* ir.js */; };
 		084594E515B5F7A600297C9D /* console.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08D2450515B5DA9F0064A9FA /* console.html */; };
 		0845950315B5FA4400297C9D /* console in Resources */ = {isa = PBXBuildFile; fileRef = 0845950215B5FA4400297C9D /* console */; };
+		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
+		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
+		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
 		088392DB15C30B4700C56576 /* graph.svg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 088392D715C30B1F00C56576 /* graph.svg */; };
 		088392DC15C30B6100C56576 /* graph.svg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 088392D715C30B1F00C56576 /* graph.svg */; };
 		088392DD15C30FD700C56576 /* standard.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08D2450915B5DA9F0064A9FA /* standard.css */; };
@@ -477,7 +479,6 @@
 		0845941315B5F22700297C9D /* openother.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = openother.png; path = resources/mac/openother.png; sourceTree = SOURCE_ROOT; };
 		0845941415B5F22700297C9D /* Rdoc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rdoc.icns; path = resources/mac/Rdoc.icns; sourceTree = SOURCE_ROOT; };
 		0845941515B5F22700297C9D /* RLogo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = RLogo.icns; path = resources/mac/RLogo.icns; sourceTree = SOURCE_ROOT; };
-		0845941615B5F22700297C9D /* RnW.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = RnW.icns; path = resources/mac/RnW.icns; sourceTree = SOURCE_ROOT; };
 		0845941715B5F22700297C9D /* syncArrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrows.png; path = resources/mac/syncArrows.png; sourceTree = SOURCE_ROOT; };
 		0845941815B5F22700297C9D /* syncArrowsSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrowsSelected.png; path = resources/mac/syncArrowsSelected.png; sourceTree = SOURCE_ROOT; };
 		0845941915B5F22700297C9D /* webback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = webback.png; path = resources/mac/webback.png; sourceTree = SOURCE_ROOT; };
@@ -580,6 +581,9 @@
 		084594CE15B5F71500297C9D /* turnedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = turnedin.png; path = resources/sharedImages/turnedin.png; sourceTree = SOURCE_ROOT; };
 		084594CF15B5F71500297C9D /* turnedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "turnedin@2x.png"; path = "resources/sharedImages/turnedin@2x.png"; sourceTree = SOURCE_ROOT; };
 		0845950215B5FA4400297C9D /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/mac/console; sourceTree = SOURCE_ROOT; };
+		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
+		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
+		086D6EBE15DD500D00EF28F1 /* Rnw.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rnw.icns; path = resources/mac/Rnw.icns; sourceTree = SOURCE_ROOT; };
 		088392D715C30B1F00C56576 /* graph.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = graph.svg; sourceTree = "<group>"; };
 		088392DE15C31C8100C56576 /* rc2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rc2@2x.png"; sourceTree = "<group>"; };
 		088392E115C31F8000C56576 /* Icon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon144.png; sourceTree = "<group>"; };
@@ -1063,7 +1067,9 @@
 				0845941315B5F22700297C9D /* openother.png */,
 				0845941415B5F22700297C9D /* Rdoc.icns */,
 				0845941515B5F22700297C9D /* RLogo.icns */,
-				0845941615B5F22700297C9D /* RnW.icns */,
+				086D6EBE15DD500D00EF28F1 /* Rnw.icns */,
+				086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */,
+				086D6EBB15DD4EFA00EF28F1 /* sas.icns */,
 				0845941715B5F22700297C9D /* syncArrows.png */,
 				0845941815B5F22700297C9D /* syncArrowsSelected.png */,
 				0845941915B5F22700297C9D /* webback.png */,
@@ -2044,7 +2050,6 @@
 				0845942515B5F22700297C9D /* openother.png in Resources */,
 				0845942615B5F22700297C9D /* Rdoc.icns in Resources */,
 				0845942715B5F22700297C9D /* RLogo.icns in Resources */,
-				0845942815B5F22700297C9D /* RnW.icns in Resources */,
 				0845942915B5F22700297C9D /* syncArrows.png in Resources */,
 				0845942A15B5F22700297C9D /* syncArrowsSelected.png in Resources */,
 				0845942B15B5F22700297C9D /* webback.png in Resources */,
@@ -2082,6 +2087,9 @@
 				084594DF15B5F71500297C9D /* turnedin@2x.png in Resources */,
 				0845950315B5FA4400297C9D /* console in Resources */,
 				088392E015C31C8100C56576 /* rc2@2x.png in Resources */,
+				086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */,
+				086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */,
+				086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
