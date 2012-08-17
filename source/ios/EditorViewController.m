@@ -39,6 +39,7 @@
 @property (nonatomic, strong) UIAlertView *currentAlert;
 @property (nonatomic, strong) id sessionKvoToken;
 @property (nonatomic, strong) id sessionHandToken;
+@property BOOL syncInProgress;
 -(void)keyboardVisible:(NSNotification*)note;
 -(void)keyboardHiding:(NSNotification*)note;
 -(void)updateDocumentState;
@@ -348,6 +349,7 @@
 		UIView *rootView = self.view.superview;
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
 		hud.labelText = @"Sending File to Server…";
+		self.syncInProgress = YES;
 		[[Rc2Server sharedInstance] saveFile:self.currentFile 
 								   workspace:[[Rc2Server sharedInstance] currentSession].workspace 
 						   completionHandler:^(BOOL success, id results) 
@@ -365,6 +367,7 @@
 				 [alert show];
 			 }
 			 [self updateDocumentState];
+			self.syncInProgress = NO;
 		 }];
 		
 	} else {
@@ -397,6 +400,8 @@
 
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress
 {
+	if (self.syncInProgress)
+		return;
 	UIView *rootView = self.view.superview;
 	MBProgressHUD *hud = nil;
 
