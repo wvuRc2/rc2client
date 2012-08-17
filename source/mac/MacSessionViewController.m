@@ -675,7 +675,7 @@
 		for (NSDictionary *fd in fileInfo) {
 			[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
 		}
-		js = [NSString stringWithFormat:@"iR.appendSasFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
+		js = [NSString stringWithFormat:@"iR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
 	}
 	if (js) {
 		[self.outputController executeJavaScript:js];

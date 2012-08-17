@@ -64,17 +64,15 @@
 -(void)updateContentsFromServer
 {
 	if (self.isTextFile) {
-		if (nil == self.fileContents) {
-			[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id results) {
-				if (success) {
-					self.fileContents = results;
-					[results writeToFile:self.fileContentsPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
-					AMFileSizeTransformer *trans = [[AMFileSizeTransformer alloc] init];
-					self.sizeString = [trans transformedValue:[NSNumber numberWithLong:[results length]]];
-				} else
-					Rc2LogError(@"error fetching content for file %@", self.fileId);
-			}];
-		}
+		[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id results) {
+			if (success) {
+				self.fileContents = results;
+				[results writeToFile:self.fileContentsPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
+				AMFileSizeTransformer *trans = [[AMFileSizeTransformer alloc] init];
+				self.sizeString = [trans transformedValue:[NSNumber numberWithLong:[results length]]];
+			} else
+				Rc2LogError(@"error fetching content for file %@", self.fileId);
+		}];
 	} else {
 		//just delete cached copy and refetch for binary files
 		[[NSFileManager defaultManager] removeItemAtPath:self.fileContentsPath error:nil];

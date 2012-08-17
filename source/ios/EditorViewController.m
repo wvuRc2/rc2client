@@ -233,7 +233,7 @@
 -(void)updateDocumentState
 {
 	self.executeButton.enabled = self.richEditor.attributedString.length > 0;
-	if (self.currentFile && currentFile.readOnlyValue) {
+	if (self.currentFile && _currentFile.readOnlyValue) {
 		[self.richEditor setEditable:NO];
 	} else {
 		[self.richEditor setEditable:YES];
@@ -341,7 +341,7 @@
 	self.richEditor.editable = !limited;
 }
 
--(void)executeSas
+-(void)executeBlockAfterSave:(BasicBlock)block
 {
 	if (self.currentFile.locallyModified) {
 		//force a sync of the file
@@ -351,11 +351,11 @@
 		[[Rc2Server sharedInstance] saveFile:self.currentFile 
 								   workspace:[[Rc2Server sharedInstance] currentSession].workspace 
 						   completionHandler:^(BOOL success, id results) 
-		 {
-			 [MBProgressHUD hideHUDForView:rootView animated:YES];
-			 if (success) {
-				 [self.fileController.tableView reloadData];
-				 [self.session executeSas:self.currentFile];
+		{
+			[MBProgressHUD hideHUDForView:rootView animated:YES];
+			if (success) {
+				[self.fileController.tableView reloadData];
+				block();
 			 } else {
 				 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Saving"
 																 message:results
@@ -368,7 +368,7 @@
 		 }];
 		
 	} else {
-		[self.session executeSas:self.currentFile];
+		block();
 	}
 }
 
@@ -379,14 +379,15 @@
 	if ([self.richEditor isFirstResponder])
 		[self.richEditor resignFirstResponder];
 	NSString *src = self.richEditor.attributedString.string;
-	if ([self.currentFile.name hasSuffix:@".Rnw"])
-		[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:src];
-	else if ([self.currentFile.name hasSuffix:@".sas"])
-		[self executeSas];
-	else if ([self.currentFile.name hasSuffix:@".Rmd"])
-		[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:src];
-	else
+	if ([self.currentFile.name hasSuffix:@".Rnw"] || [self.currentFile.name hasSuffix:@".Rmd"]) {
+		[self executeBlockAfterSave:^{
+			[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:src];
+		}];
+	} else if ([self.currentFile.name hasSuffix:@".sas"]) {
+		[self executeBlockAfterSave:^{ [self.session executeSas:self.currentFile]; }];
+	} else {
 		[[Rc2Server sharedInstance].currentSession executeScript:src scriptName:self.currentFile.name];
+	}
 }
 
 -(void)loadFile:(RCFile*)file
@@ -648,7 +649,7 @@
 	[self updateDocumentState];
 }
 
-#pragma mark - synthesizers
+#pragma mark - accessors
 
 -(void)setSession:(RCSession*)sess
 {
@@ -664,25 +665,4 @@
 	}];
 }
 
-@synthesize session=_session;
-@synthesize richEditor=_richEditor;
-//@synthesize textView;
-@synthesize fileController;
-@synthesize filePopover;
-@synthesize docTitleLabel;
-@synthesize actionButtonItem;
-@synthesize openFileButtonItem;
-@synthesize currentFile;
-@synthesize executeButton;
-@synthesize currentActionItems;
-@synthesize importController;
-@synthesize dropboxCache;
-@synthesize actionSheet;
-@synthesize sessionKvoToken;
-@synthesize handButton;
-@synthesize sessionHandToken;
-@synthesize defaultTextAttrs=_defaultTextAttrs;
-@synthesize currentAlert=_currentAlert;
-@synthesize keyboardToolbar=_keyboardToolbar;
-@synthesize toolbar=_toolbar;
 @end

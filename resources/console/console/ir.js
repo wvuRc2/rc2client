@@ -155,7 +155,17 @@ iR.appendImages = function(imgArray) {
 	//	$('#' + divname + " a.genImg").lightBox({fixedNavigation:true});
 };
 
-iR.appendSasFiles = function(fileArray) {
+iR.fileImgForExtension = function(ext) {
+	if (ext === '.png')
+		return 'png-file.png';
+	if (ext === '.sas')
+		return 'sas-file.png';
+	if (ext === '.html')
+		return 'html-file.png';
+	return 'plain-file.png';
+}
+
+iR.appendFiles = function(fileArray) {
 	try {
 		var ic = document.createElement('div');
 		var divname = 'sas' + new Date().getTime();
@@ -165,7 +175,7 @@ iR.appendSasFiles = function(fileArray) {
 			var aFile = fileArray[i]
 			var anchorElem = document.createElement("a");
 			var elem = document.createElement('img');
-			elem.setAttribute('src', (aFile['ext'] === '.png') ? 'png-file.png' : 'sas-file.png');
+			elem.setAttribute('src', iR.fileImgForExtension(aFile['ext']));
 			elem.setAttribute('height', 32);
 			elem.setAttribute('width', 32);
 			elem.setAttribute('rc2fileId', aFile['fileId']);
