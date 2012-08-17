@@ -22,22 +22,11 @@
 @property (nonatomic, strong) NSMutableArray *jsQueue;
 @property (nonatomic, strong) id sessionKvoToken;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
+@property BOOL haveExternalKeyboard;
 -(void)sessionModeChanged;
 @end
 
 @implementation ConsoleViewController
-@synthesize webView=_webView;
-@synthesize session=_session;
-@synthesize actionSheet=_actionSheet;
-@synthesize jsQueue=_jsQueue;
-@synthesize queueLock=_queueLock;
-@synthesize toolbar;
-@synthesize textField;
-@synthesize executeButton;
-@synthesize actionButton;
-@synthesize backButton;
-@synthesize lastPageContent;
-@synthesize sessionKvoToken;
 
 #pragma mark - View lifecycle
 
@@ -58,7 +47,9 @@
 			sv.bounces = NO;
 		}
 	}
-*/}
+*/
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+}
 
 - (void)viewDidUnload
 {
@@ -80,6 +71,15 @@
 -(void)didReceiveMemoryWarning
 {
 	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
+}
+
+-(void)keyboardWillShow:(NSNotification*)note
+{
+	CGRect endFrame = [[note.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+	if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+		self.haveExternalKeyboard = endFrame.origin.y != 0;
+	else
+		self.haveExternalKeyboard = self.textField.inputAccessoryView.frame.size.height == 768 - endFrame.origin.x;
 }
 
 #pragma mark - meat & potatos
@@ -182,7 +182,8 @@
 
 -(IBAction)doExecute:(id)sender
 {
-	[self.textField resignFirstResponder];
+	if (!self.haveExternalKeyboard)
+		[self.textField resignFirstResponder];
 	[[Rc2Server sharedInstance].currentSession executeScript:self.textField.text scriptName:nil];
 }
 
@@ -252,7 +253,8 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)aTextField
 {
-	[self.textField resignFirstResponder];
+	if (!self.haveExternalKeyboard)
+		[self.textField resignFirstResponder];
 	[self doExecute:aTextField];
 	return NO;
 }
