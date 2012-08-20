@@ -465,7 +465,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	for (NSMenuItem *mi in defaultMenuItems) {
 //		if (mi.tag == WebMenuItemPDFSinglePage)
 //			[items addObject:mi];
-		if (mi.tag == 2024 || mi.tag == WebMenuItemTagGoBack || mi.tag == WebMenuItemTagGoForward)
+		if (mi.tag == WebMenuItemTagGoBack || mi.tag == WebMenuItemTagGoForward || [@"Inspect Element" isEqualToString:mi.title])
 			[items addObject:mi];
 	}
 	DOMNode *node = [element objectForKey:@"WebElementDOMNode"];

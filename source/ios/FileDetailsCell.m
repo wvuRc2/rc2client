@@ -40,7 +40,7 @@
 
 	NSString *imgName = @"doc";
 	if ([file.name hasSuffix:@".R"])
-		imgName = @"console/r-file";
+		imgName = @"console/R-file";
 	else if ([file.name hasSuffix:@".Rnw"])
 		imgName = @"console/Rnw-file";
 	else if ([file.name hasSuffix:@".Rmd"])
