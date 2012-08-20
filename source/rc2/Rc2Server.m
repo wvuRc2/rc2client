@@ -579,7 +579,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 			[req setRequestMethod:@"PUT"];
 		[req addRequestHeader:@"Content-Type" value:@"application/json"];
 		NSMutableDictionary *d = [NSMutableDictionary dictionary];
-		[d setObject:file.localEdits forKey:@"contents"];
+		[d setObject:file.currentContents forKey:@"contents"];
 		[d setObject:file.name forKey:@"name"];
 		[d setObject:file.name.pathExtension forKey:@"type"];
 		[d setObject:workspace.wspaceId forKey:@"wspaceid"];
@@ -874,6 +874,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		[[Rc2Server sharedInstance] handleLoginResponse:req forUser:user completionHandler:hblock];
 	}];
 	[req setFailedBlock:^{
+		Rc2LogError(@"login request failed:%@", req.error);
 		NSString *msg = [NSString stringWithFormat:@"server returned %d", req.responseStatusCode];
 		if (req.responseStatusCode == 0)
 			msg = @"Server not responding";
