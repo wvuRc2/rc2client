@@ -26,6 +26,13 @@
 	return self;
 }
 
+-(void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MessagesUpdatedNotification object:nil];
+	[self.kvoTokens removeAllObjects];
+	self.themeChangeNotice=nil;
+}
+
 -(void)freeUpMemory
 {
 	[self.kvoTokens removeAllObjects];
@@ -34,7 +41,7 @@
 -(void)viewDidLoad
 {
 	[super viewDidLoad];
-	__unsafe_unretained AbstractTopViewController *blockSelf = self;
+	__weak AbstractTopViewController *blockSelf = self;
 	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
 		[blockSelf updateForNewTheme:theme];
 	}];
@@ -47,12 +54,6 @@
 	[self adjustInterfaceBasedOnLogin];
 }
 
--(void)viewDidUnload
-{
-	[super viewDidUnload];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MessagesUpdatedNotification object:nil];
-	self.themeChangeNotice=nil;
-}
 
 -(void)viewWillAppear:(BOOL)animated
 {

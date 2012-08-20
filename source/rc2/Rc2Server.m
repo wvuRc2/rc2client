@@ -587,12 +587,17 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		[req setCompletionBlock:^{
 			NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 			NSDictionary *dict = [self.jsonParser objectWithString:respStr];
+			NSInteger status = [[dict objectForKey:@"status"] integerValue];
 			if (dict) {
-				NSString *oldContents = file.localEdits;
-				[file updateWithDictionary:[dict objectForKey:@"file"]];
-				file.fileContents = oldContents;
-				[file discardEdits];
-				hblock(YES, file);
+				if (status == 0) {
+					NSString *oldContents = file.localEdits;
+					[file updateWithDictionary:[dict objectForKey:@"file"]];
+					file.fileContents = oldContents;
+					[file discardEdits];
+					hblock(YES, file);
+				} else {
+					hblock(NO, [dict objectForKey:@"message"]);
+				}
 			} else {
 				hblock(NO, respStr);
 			}

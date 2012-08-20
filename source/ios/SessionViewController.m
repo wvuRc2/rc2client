@@ -77,8 +77,9 @@
 	return self;
 }
 
--(void)freeMemory
+-(void)freeUpMemory
 {
+	[super freeUpMemory];
 	self.audioEngine=nil;
 	self.themeToken=nil;
 	self.jsQuiteRExp=nil;
@@ -90,7 +91,6 @@
 - (void)dealloc
 {
 	self.session.delegate=nil;
-	[self freeMemory];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -161,12 +161,6 @@
 		a = [a arrayByRemovingObjectAtIndex:[a indexOfObject:self.doodleButton]];
 		[self.toolbar setItems:a animated:NO];
 	}
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-	[self freeMemory];
 }
 
 #pragma mark - orientations & rotation
