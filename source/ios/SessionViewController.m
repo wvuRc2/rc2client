@@ -513,88 +513,19 @@
 	[self.audioEngine processBinaryMessage:data];
 }
 
+-(void)executeJavascript:(NSString*)js
+{
+	[self.consoleController evaluateJavaScript:js];
+	[self.consoleController evaluateJavaScript:@"scroll(0,document.body.scrollHeight)"];
+}
+
+-(void)loadHelpURL:(NSURL*)url
+{
+	[self.consoleController loadHelpURL:url];
+}
 
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString
 {
-	NSString *cmd = [dict objectForKey:@"msg"];
-	NSString *js=@"";
-//	Rc2LogInfo(@"processing ws command: %@", cmd);
-	if ([cmd isEqualToString:@"userid"]) {
-		js = [NSString stringWithFormat:@"iR.setUserid(%@)", [dict objectForKey:@"userid"]];
-		if (!self.session.currentUser.master) {
-			//remove control item from toolbar
-			NSMutableArray *items = [self.toolbar.items mutableCopy];
-			[items removeObject:self.controlButton];
-			[self.toolbar setItems:items];
-		}
-	} else if ([cmd isEqualToString:@"echo"]) {
-		js = [NSString stringWithFormat:@"iR.echoInput('%@', '%@', %@)", 
-			  	[self escapeForJS:[dict objectForKey:@"script"]],
-			  [self escapeForJS:[dict objectForKey:@"username"]],
-			  [self escapeForJS:[dict objectForKey:@"user"]]];
-	} else if ([cmd isEqualToString:@"error"]) {
-		NSString *errmsg = [[dict objectForKey:@"error"] stringByTrimmingWhitespace];
-		errmsg = [self escapeForJS:errmsg];
-		if ([errmsg indexOf:@"\n"] > 0) {
-			errmsg = [errmsg stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
-			js = [NSString stringWithFormat:@"iR.displayFormattedError('%@')", errmsg];
-		} else {
-			js = [NSString stringWithFormat:@"iR.displayError('%@')", errmsg];
-		}
-	} else if ([cmd isEqualToString:@"join"]) {
-		js = [NSString stringWithFormat:@"iR.userJoinedSession('%@', '%@')", 
-			  [self escapeForJS:[dict objectForKey:@"user"]],
-			  [self escapeForJS:[dict objectForKey:@"userid"]]];
-	} else if ([cmd isEqualToString:@"left"]) {
-		js = [NSString stringWithFormat:@"iR.userLeftSession('%@', '%@')", 
-			  [self escapeForJS:[dict objectForKey:@"user"]],
-			  [self escapeForJS:[dict objectForKey:@"userid"]]];
-	} else if ([cmd isEqualToString:@"results"]) {
-		if ([dict objectForKey:@"helpPath"]) {
-			NSString *helpPath = [dict objectForKey:@"helpPath"];
-			NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://rc2.stat.wvu.edu/Rdocs/%@.html", helpPath]];
-			js = [NSString stringWithFormat:@"iR.appendHelpCommand('%@', '%@')", 
-				  [self escapeForJS:[dict objectForKey:@"helpTopic"]],
-				  [self escapeForJS:helpUrl.absoluteString]];
-			[self.consoleController loadHelpURL:helpUrl];
-		} else if ([dict objectForKey:@"complexResults"]) {
-			js = [NSString stringWithFormat:@"iR.appendComplexResults(%@)",
-				  [self escapeForJS:[dict objectForKey:@"json"]]];
-		} else if ([dict objectForKey:@"json"]) {
-			js = [NSString stringWithFormat:@"iR.appendResults(%@)",
-				  [self escapeForJS:[dict objectForKey:@"json"]]];
-		}
-		if ([[dict objectForKey:@"imageUrls"] count] > 0) {
-			NSArray *adjustedImages = [[RCImageCache sharedInstance] adjustImageArray:[dict objectForKey:@"imageUrls"]];
-			js = [NSString stringWithFormat:@"iR.appendImages(%@)",
-				  [adjustedImages JSONRepresentation]];
-		}
-		if ([[dict objectForKey:@"files"] count] > 0) {
-			NSArray *fileInfo = [dict objectForKey:@"files"];
-			for (NSDictionary *fd in fileInfo) {
-				[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
-			}
-			js = [js stringByAppendingFormat:@"\niR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
-		}
-	} else if ([cmd isEqualToString:@"sasoutput"]) {
-		NSArray *fileInfo = [dict objectForKey:@"files"];
-		for (NSDictionary *fd in fileInfo) {
-			[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
-		}
-		js = [NSString stringWithFormat:@"iR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
-	} else if ([cmd isEqualToString:@"chat"]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:kChatMessageNotification object:nil 
-														  userInfo:dict];
-	} else if ([cmd isEqualToString:@"sweaveresults"]) {
-		NSNumber *fileid = [dict objectForKey:@"fileId"];
-		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@, '%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid,
-			  [self escapeForJS:[dict objectForKey:@"filename"]]];
-		[self.session.workspace updateFileId:fileid];
-	}
-	if ([js length]) {
-		[self.consoleController evaluateJavaScript:js];
-		[self.consoleController evaluateJavaScript:@"scroll(0,document.body.scrollHeight)"];
-	}
 }
 
 -(void)handleWebSocketError:(NSError*)error

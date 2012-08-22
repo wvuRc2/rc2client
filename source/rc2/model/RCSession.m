@@ -16,6 +16,7 @@
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
 #import "RCFile.h"
+#import "RCImageCache.h"
 #import "WebSocket.h"
 #import "WebSocketConnectConfig.h"
 #import "HandshakeHeader.h"
@@ -255,17 +256,48 @@
 	[self didChangeValueForKey:@"users"];
 }
 
+-(NSString*)escapeForJS:(NSString*)str
+{
+	if ([str isKindOfClass:[NSString class]]) {
+		str = [str stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+		return [str stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
+	}
+	return [str description];
+}
+
 -(void)internallyProcessMessage:(NSDictionary*)dict json:(NSString*)json
 {
 	NSString *cmd = [dict objectForKey:@"msg"];
+	NSString *js=@"";
 	if ([cmd isEqualToString:@"userid"]) {
 		self.userid = [dict objectForKey:@"userid"];
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
 		[self setMode:[dict valueForKeyPath:@"session.mode"]];
+		js = [NSString stringWithFormat:@"iR.setUserid(%@)", [dict objectForKey:@"userid"]];
+	} else if ([cmd isEqualToString:@"echo"]) {
+		js = [NSString stringWithFormat:@"iR.echoInput('%@', '%@', %@)", 
+			  [self escapeForJS:[dict objectForKey:@"script"]],
+			  [self escapeForJS:[dict objectForKey:@"username"]],
+			  [self escapeForJS:[dict objectForKey:@"user"]]];
+	} else if ([cmd isEqualToString:@"error"]) {
+		NSString *errmsg = [[dict objectForKey:@"error"] stringByTrimmingWhitespace];
+		errmsg = [self escapeForJS:errmsg];
+		if ([errmsg indexOf:@"\n"] > 0) {
+			errmsg = [errmsg stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+			js = [NSString stringWithFormat:@"iR.displayFormattedError('%@')", errmsg];
+		} else {
+			js = [NSString stringWithFormat:@"iR.displayError('%@')", errmsg];
+		}
 	} else if ([cmd isEqualToString:@"join"]) {
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
+		js = [NSString stringWithFormat:@"iR.userJoinedSession('%@', '%@')", 
+			  [self escapeForJS:[dict objectForKey:@"user"]],
+			  [self escapeForJS:[dict objectForKey:@"userid"]]];
 	} else if ([cmd isEqualToString:@"left"]) {
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
+		js = [NSString stringWithFormat:@"iR.userLeftSession('%@', '%@')", 
+			  [self escapeForJS:[dict objectForKey:@"user"]],
+			  [self escapeForJS:[dict objectForKey:@"userid"]]];
 	} else if ([cmd isEqualToString:@"userlist"]) {
 		[self updateUsers:[dict valueForKeyPath:@"data.users"]];
 		[self setMode:[dict valueForKeyPath:@"data.mode"]];
@@ -294,7 +326,47 @@
 		} else { //a new file
 			[self.workspace refreshFiles];
 		}
+	} else if ([cmd isEqualToString:@"results"]) {
+		if ([dict objectForKey:@"helpPath"]) {
+			NSString *helpPath = [dict objectForKey:@"helpPath"];
+			NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://rc2.stat.wvu.edu/Rdocs/%@.html", helpPath]];
+			[self.delegate loadHelpURL:helpUrl];
+			js = [NSString stringWithFormat:@"iR.appendHelpCommand('%@', '%@')", 
+				  [self escapeForJS:[dict objectForKey:@"helpTopic"]],
+				  [self escapeForJS:helpUrl.absoluteString]];
+		} else if ([dict objectForKey:@"complexResults"]) {
+			js = [NSString stringWithFormat:@"iR.appendComplexResults(%@)",
+				  [self escapeForJS:[dict objectForKey:@"json"]]];
+		} else if ([dict objectForKey:@"json"]) {
+			js = [NSString stringWithFormat:@"iR.appendResults(%@)",
+				  [self escapeForJS:[dict objectForKey:@"json"]]];
+		}
+		if ([[dict objectForKey:@"imageUrls"] count] > 0) {
+			NSArray *adjustedImages = [[RCImageCache sharedInstance] adjustImageArray:[dict objectForKey:@"imageUrls"]];
+			js = [NSString stringWithFormat:@"iR.appendImages(%@)",
+				  [adjustedImages JSONRepresentation]];
+		}
+		if ([[dict objectForKey:@"files"] count] > 0) {
+			NSArray *fileInfo = [dict objectForKey:@"files"];
+			for (NSDictionary *fd in fileInfo) {
+				[self.workspace updateFileId:[fd objectForKey:@"fileId"]];
+			}
+			js = [js stringByAppendingFormat:@"\niR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
+		}
+	} else if ([cmd isEqualToString:@"sweaveresults"]) {
+		NSNumber *fileid = [dict objectForKey:@"fileId"];
+		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@, '%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid,
+			  [self escapeForJS:[dict objectForKey:@"filename"]]];
+		[self.workspace updateFileId:fileid];
+	} else if ([cmd isEqualToString:@"sasoutput"]) {
+		NSArray *fileInfo = [dict objectForKey:@"files"];
+		for (NSDictionary *fd in fileInfo) {
+			[self.workspace updateFileId:[fd objectForKey:@"fileId"]];
+		}
+		js = [NSString stringWithFormat:@"iR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
 	}
+	if ([js length] > 0)
+		[self.delegate executeJavascript:js];
 }
 
 #pragma mark - websocket delegate

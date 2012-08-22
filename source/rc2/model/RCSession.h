@@ -52,6 +52,8 @@
 -(void)sendChatMessage:(NSString*)message;
 -(void)requestUserList;
 
+-(NSString*)escapeForJS:(NSString*)str;
+
 -(void)raiseHand;
 -(void)lowerHand;
 
@@ -75,4 +77,6 @@
 -(void)displayEditorFile:(RCFile*)file;
 -(void)displayLinkedFile:(NSString*)path;
 -(void)workspaceFileUpdated:(RCFile*)file;
+-(void)executeJavascript:(NSString*)js;
+-(void)loadHelpURL:(NSURL*)url;
 @end
