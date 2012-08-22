@@ -517,7 +517,7 @@
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString
 {
 	NSString *cmd = [dict objectForKey:@"msg"];
-	NSString *js=nil;
+	NSString *js=@"";
 //	Rc2LogInfo(@"processing ws command: %@", cmd);
 	if ([cmd isEqualToString:@"userid"]) {
 		js = [NSString stringWithFormat:@"iR.setUserid(%@)", [dict objectForKey:@"userid"]];
@@ -569,7 +569,14 @@
 			js = [NSString stringWithFormat:@"iR.appendImages(%@)",
 				  [adjustedImages JSONRepresentation]];
 		}
-	} else if ([cmd isEqualToString:@"sasoutput"] || [cmd isEqualToString:@"Rmarkdown"]) {
+		if ([[dict objectForKey:@"files"] count] > 0) {
+			NSArray *fileInfo = [dict objectForKey:@"files"];
+			for (NSDictionary *fd in fileInfo) {
+				[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
+			}
+			js = [js stringByAppendingFormat:@"\niR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
+		}
+	} else if ([cmd isEqualToString:@"sasoutput"]) {
 		NSArray *fileInfo = [dict objectForKey:@"files"];
 		for (NSDictionary *fd in fileInfo) {
 			[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
@@ -584,7 +591,7 @@
 			  [self escapeForJS:[dict objectForKey:@"filename"]]];
 		[self.session.workspace updateFileId:fileid];
 	}
-	if (js) {
+	if ([js length]) {
 		[self.consoleController evaluateJavaScript:js];
 		[self.consoleController evaluateJavaScript:@"scroll(0,document.body.scrollHeight)"];
 	}

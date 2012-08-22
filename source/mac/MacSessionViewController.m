@@ -614,7 +614,7 @@
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString
 {
 	NSString *cmd = [dict objectForKey:@"msg"];
-	NSString *js=nil;
+	NSString *js=@"";
 //	Rc2LogInfo(@"processing ws command: %@", cmd);
 	if ([cmd isEqualToString:@"userid"]) {
 		js = [NSString stringWithFormat:@"iR.setUserid(%@)", [dict objectForKey:@"userid"]];
@@ -665,19 +665,26 @@
 			js = [NSString stringWithFormat:@"iR.appendImages(%@)",
 				  [adjustedImages JSONRepresentation]];
 		}
+		if ([[dict objectForKey:@"files"] count] > 0) {
+			NSArray *fileInfo = [dict objectForKey:@"files"];
+			for (NSDictionary *fd in fileInfo) {
+				[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
+			}
+			js = [js stringByAppendingFormat:@"\niR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
+		}
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {
 		NSNumber *fileid = [dict objectForKey:@"fileId"];
 		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@, '%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid,
 			  [self escapeForJS:[dict objectForKey:@"filename"]]];
 		[self.session.workspace updateFileId:fileid];
-	} else if ([cmd isEqualToString:@"sasoutput"] || [cmd isEqualToString:@"Rmarkdown"]) {
+	} else if ([cmd isEqualToString:@"sasoutput"]) {
 		NSArray *fileInfo = [dict objectForKey:@"files"];
 		for (NSDictionary *fd in fileInfo) {
 			[self.session.workspace updateFileId:[fd objectForKey:@"fileId"]];
 		}
 		js = [NSString stringWithFormat:@"iR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
 	}
-	if (js) {
+	if ([js length] > 0) {
 		[self.outputController executeJavaScript:js];
 		[self.outputController executeJavaScript:@"scroll(0,document.body.scrollHeight)"];
 	}
