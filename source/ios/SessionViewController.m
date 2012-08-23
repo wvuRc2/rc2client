@@ -29,9 +29,7 @@
 #import "RCAudioChatEngine.h"
 #import "DoodleViewController.h"
 
-@interface SessionViewController() <KeyboardToolbarDelegate,AMResizableSplitViewControllerDelegate> {
-	RCSession *_session;
-}
+@interface SessionViewController() <KeyboardToolbarDelegate,AMResizableSplitViewControllerDelegate>
 @property (nonatomic, strong) IBOutlet AMResizableSplitViewController *splitController;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) ImageDisplayController *imgController;
@@ -42,6 +40,7 @@
 @property (nonatomic, strong) KeyboardToolbar *consoleKeyboardToolbar;
 @property (nonatomic, strong) id themeToken;
 @property (nonatomic, copy) NSString *webTmpFileDirectory;
+@property (weak, nonatomic, readwrite) RCSession *session;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL showingProgress;
 @property (nonatomic, assign) BOOL autoReconnect;
@@ -167,31 +166,9 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
 {
-    // Return YES for supported orientations
-//    return UIInterfaceOrientationIsLandscape(ior);
 	return YES;
 }
-/*
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-	[self.splitController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-	//FIXME: the interface rotation would look better if done here, but the split controller some how looses
-	// the splitter. until I muck around with that code, it just won't look so great.
-}
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)oldOrient
-{
-	[self.splitController didRotateFromInterfaceOrientation:oldOrient];	
-//	UIInterfaceOrientation curOrient = [TheApp statusBarOrientation];
-//	if (curOrient != oldOrient && curOrient != UIDeviceOrientationUnknown) {
-//		[self.splitController toggleSplitOrientation:self];
-//		self.keyboardView.isLandscape = UIDeviceOrientationIsLandscape(curOrient);
-//	}
-//	[self.splitController.view setNeedsLayout];
-	self.splitController.vertical = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
-	[self.splitController layoutSubviewsForInterfaceOrientation:TheApp.statusBarOrientation withAnimation:NO];
-}
-*/
 #pragma mark - actions
 
 -(IBAction)showDoodleView:(id)sender
@@ -591,32 +568,4 @@
 	return proposedPosition;
 }
 
-#pragma mark - accessors
-
--(RCSession*)session 
-{
-	return _session;
-}
-
-@synthesize titleLabel=_titleLabel;
-@synthesize splitController=_splitController;
-@synthesize editorController=_editorController;
-@synthesize consoleController=_consoleController;
-@synthesize controlButton=_controlButton;
-//@synthesize toolbar=_toolbar;
-@synthesize mikeButton=_mikeButton;
-@synthesize webTmpFileDirectory=_webTmpFileDirectory;
-@synthesize consoleKeyboardToolbar=_consoleKeyboardToolbar;
-@synthesize showingProgress=_showingProgress;
-@synthesize imgController=_imgController;
-@synthesize reconnecting=_reconnecting;
-@synthesize audioEngine=_audioEngine;
-@synthesize jsQuiteRExp=_jsQuiteRExp;
-@synthesize controlController=_controlController;
-@synthesize controlPopover=_controlPopover;
-@synthesize autoReconnect=_autoReconnect;
-@synthesize themeToken=_themeToken;
-@synthesize doodle=_doodle;
-@synthesize executeButton=_executeButton;
-@synthesize doodleButton=_doodleButton;
 @end

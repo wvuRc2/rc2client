@@ -337,16 +337,6 @@
 	return 27;
 }
 
-#pragma mark - synthesizers
-
-@synthesize workspace;
-@synthesize sectionsTableView;
-@synthesize kvoTokens;
-@synthesize sections;
-@synthesize addPopover;
-@synthesize addController;
-@synthesize ignoreSectionReloads;
-@synthesize selectedFile;
 @end
 
 @implementation NonScrollingScrollView
