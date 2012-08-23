@@ -117,6 +117,11 @@
 			if (str)
 				[[Rc2Server sharedInstance].currentSession executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
 		};
+		self.richEditor.executeBlock = ^(SessionEditView *editView) {
+			NSString *str = [editView textInRange:editView.selectedTextRange];
+			if ([str length] > 0)
+				[[Rc2Server sharedInstance].currentSession executeScript:str scriptName:nil];
+		};
 		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
 		self.keyboardToolbar.delegate = self;
 		self.richEditor.inputAccessoryView = self.keyboardToolbar.view;

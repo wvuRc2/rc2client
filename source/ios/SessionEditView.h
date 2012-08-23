@@ -8,6 +8,7 @@
 
 @interface SessionEditView : UITextView
 @property (nonatomic, copy) void (^helpBlock)(SessionEditView *editView);
+@property (nonatomic, copy) void (^executeBlock)(SessionEditView *editView);
 @property (nonatomic, copy) NSAttributedString *attributedString;
 -(IBAction)showHelp:(id)sender;
 @end

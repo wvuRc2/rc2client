@@ -14,16 +14,21 @@
 {
 	[super awakeFromNib];
 	UIMenuController *mc = [UIMenuController sharedMenuController];
-	UIMenuItem *mi = [[UIMenuItem alloc] initWithTitle:@"Help" action:@selector(showHelp:)];
-	NSArray *items = [NSArray arrayWithObject:mi];
-	mc.menuItems = items;
+	mc.menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Execute" action:@selector(executeSelection:)],
+						  [[UIMenuItem alloc] initWithTitle:@"Help" action:@selector(showHelp:)]];
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
-	if (action == @selector(showHelp:))
+	if (action == @selector(showHelp:) || action == @selector(executeSelection:))
 		return YES;
 	return [super canPerformAction:action withSender:sender];
+}
+
+-(IBAction)executeSelection:(id)sender
+{
+	if (self.executeBlock)
+		self.executeBlock(self);
 }
 
 -(IBAction)showHelp:(id)sender
