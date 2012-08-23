@@ -61,14 +61,6 @@
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) NSString *webTmpFileDirectory;
 @property (nonatomic, strong) NSWindow *blockingWindow;
--(void)prepareForSession;
--(void)completeSessionStartup:(id)response;
--(void)handleFileImport:(NSURL*)fileUrl;
--(void)handleNewFile:(NSString*)fileName;
--(BOOL)fileListVisible;
--(void)syncFile:(RCFile*)file;
--(void)setMode:(NSString*)mode;
--(void)modeChanged;
 @end
 
 @implementation MacSessionViewController
@@ -91,6 +83,7 @@
 		self.modeChangeToken = [aSession addObserverForKeyPath:@"mode" task:^(id obj, NSDictionary *change) {
 			[blockSelf modeChanged];
 		}];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workspaceFilesChanged:) name:RCWorkspaceFilesFetchedNotification object:self.session.workspace];
 	}
 	return self;
 }
@@ -100,6 +93,7 @@
 //	[self.outputController.webView unbind:@"enabled"];
 	self.contentSplitView.delegate=nil;
 	[self unregisterAllNotificationTokens];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)awakeFromNib
@@ -439,6 +433,12 @@
 	[self setMode:self.session.mode];
 }
 
+-(void)workspaceFilesChanged:(NSNotification*)note
+{
+	self.fileArray = [self.session.workspace.files sortedArrayUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES])];
+	[self.fileTableView reloadData];
+}
+
 -(void)handleNewFile:(NSString*)fileName
 {
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
@@ -489,9 +489,9 @@
 {
 	[[Rc2Server sharedInstance] deleteFile:self.selectedFile workspace:self.session.workspace completionHandler:^(BOOL success, id results)
 	{
-		if (success)
-			self.selectedFile = nil;
-		else
+		if (success) {
+			self.selectedFile = self.fileArray.firstObject;
+		} else
 			[NSAlert displayAlertWithTitle:@"Error" details:@"An unknown error occurred while deleting the selected file."];
 	}];
 }
@@ -715,7 +715,7 @@
 {
 	if (self.selectedFile.fileId.intValue == file.fileId.intValue) {
 		//we need to reload the contents of the file
-		__selFile = nil; //force to treat as new file, i.e. don't save current edits
+		_selectedFile = nil; //force to treat as new file, i.e. don't save current edits
 		self.selectedFile = file;
 	}
 }
@@ -869,8 +869,10 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-	RCFile *file = [self.fileArray objectAtIndexNoExceptions:[self.fileTableView selectedRow]];
-	self.selectedFile = file;
+	if ([notification object] == self.fileTableView) {
+		RCFile *file = [self.fileArray objectAtIndexNoExceptions:[self.fileTableView selectedRow]];
+		self.selectedFile = file;
+	}
 }
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -967,39 +969,41 @@
 	} 
 }
 
-#pragma mark - accessors/synthesizers
+#pragma mark - accessors
 
 -(void)setSession:(RCSession *)session
 {
-	if (__session == session)
+	if (_session == session)
 		return;
-	if (__session) {
-		[__session closeWebSocket];
-		__session.delegate=nil;
+	if (_session) {
+		[_session closeWebSocket];
+		_session.delegate=nil;
 	}
-	__session = session;
+	_session = session;
 }
 
 -(void)setSelectedFile:(RCFile *)selectedFile
 {
-	if (__selFile) {
-		if (__selFile.readOnlyValue)
+	if (_selectedFile) {
+		if (_selectedFile.readOnlyValue)
 			;
-		else if ([__selFile.fileContents isEqualToString:self.editView.string])
-			[__selFile setLocalEdits:nil];
+		else if ([_selectedFile.fileContents isEqualToString:self.editView.string])
+			[_selectedFile setLocalEdits:nil];
 		else 
-			[__selFile setLocalEdits:self.editView.string];
+			[_selectedFile setLocalEdits:self.editView.string];
 	} else
 		self.scratchString = self.editView.string;
-	RCFile *oldFile = __selFile;
+	RCFile *oldFile = _selectedFile;
 	NSInteger oldFileIdx = [self.fileArray indexOfObject:oldFile];
 	if (oldFileIdx < 0)
 		oldFileIdx = 0;
-	__selFile = selectedFile;
-	if ([selectedFile.name hasSuffix:@".pdf"]) {
+	_selectedFile = selectedFile;
+	if (nil == selectedFile) {
+		[self setEditViewTextWithHighlighting:nil];
+	} else if ([selectedFile.name hasSuffix:@".pdf"]) {
 		[(AppDelegate*)[NSApp delegate] displayPdfFile:selectedFile];
 		RunAfterDelay(0.2, ^{
-			__selFile=nil;
+			_selectedFile=nil;
 			[self.fileTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:oldFileIdx] byExtendingSelection:NO];
 			[self tableViewSelectionDidChange:nil];
 		});
@@ -1065,37 +1069,6 @@
 {
 	return self.restrictedMode;
 }
-
-@synthesize session=__session;
-@synthesize selectedFile=__selFile;
-@synthesize restrictedMode=_restrictedMode;
-@synthesize fileArray=_fileArray;
-@synthesize contentSplitView;
-@synthesize fileTableView;
-@synthesize outputController;
-@synthesize addMenu;
-@synthesize fileContainerView;
-@synthesize editView;
-@synthesize executeButton;
-@synthesize scratchString;
-@synthesize jsQuiteRExp;
-//@synthesize dloadQueue;
-@synthesize imagePopover;
-@synthesize imageController;
-@synthesize currentImageGroup;
-@synthesize fileIdJustImported;
-@synthesize fullscreenToken;
-@synthesize selectedLeftViewIndex;
-@synthesize userTableView;
-@synthesize users;
-@synthesize modePopUp;
-@synthesize rightContainer;
-@synthesize modeLabel;
-@synthesize usersToken;
-@synthesize modeChangeToken;
-@synthesize audioEngine;
-@synthesize backButton;
-@synthesize webTmpFileDirectory=_webTmpFileDirectory;
 
 @end
 
