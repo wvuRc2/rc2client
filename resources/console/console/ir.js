@@ -70,6 +70,10 @@ iR.echoInput = function(txt, username, userid) {
 	iR.appendConsoleText(html);
 };
 
+iR.echoStdout = function(txt) {
+	iR.appendConsoleText('<div class="stdoutMsg">' + txt + '</div>');
+};
+
 iR.appendHelpCommand = function(topic, pageUrl) {
 	if (topic.length > 0) {
 		iR.appendConsoleText('<div class="helpMsg"><a href="' + pageUrl + '">HELP: ' + topic + '</a></div>');
@@ -576,9 +580,5 @@ iR.doSetup = function() {
 		//restore handlers for any image groups
 		$(".imgGroup").mouseenter(function() {iR.previewImage(this); });
 		$(".imgGroup").mouseleave(function() {iR.closeImagePreview(this); });
-		$(window).error(function (msg, url, line) {
-						//iR.appendConsoleText("<p>msg:" + msg + "</p>");
-						Rc2.handleError(msg + '; line=' + line);
-						});
 	}
 };

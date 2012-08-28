@@ -173,11 +173,6 @@
 	[self.delegate previewImages:nil atPoint:NSZeroPoint];
 }
 
--(void)jserror:(id)err
-{
-	NSLog(@"err=%@", err);
-}
-
 // adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
 -(NSString*)webTmpFilePath:(RCFile*)file
 {
@@ -362,8 +357,6 @@
 		return @"preview";
 	else if (sel == @selector(closePreview:))
 		return @"closePreview";
-	else if (sel == @selector(jserror:))
-		return @"handleError";
 	return nil;
 }
 
@@ -372,8 +365,6 @@
 	if (sel == @selector(previewImage:images:))
 		return NO;
 	else if (sel == @selector(closePreview:))
-		return NO;
-	else if (sel == @selector(jserror:))
 		return NO;
 	return YES;
 }

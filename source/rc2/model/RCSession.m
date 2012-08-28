@@ -340,6 +340,11 @@
 		} else if ([dict objectForKey:@"json"]) {
 			js = [NSString stringWithFormat:@"iR.appendResults(%@)",
 				  [self escapeForJS:[dict objectForKey:@"json"]]];
+		} else if ([dict objectForKey:@"stdout"]) {
+			NSString *sostr = [self escapeForJS:[dict objectForKey:@"string"]];
+			//FIXME: this seems buggy. seems like all \ escapes need to be re-escaped or we need to send json or something encoded
+			sostr = [sostr stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+			js = [NSString stringWithFormat:@"iR.echoStdout('%@')", sostr];
 		}
 		if ([[dict objectForKey:@"imageUrls"] count] > 0) {
 			NSArray *adjustedImages = [[RCImageCache sharedInstance] adjustImageArray:[dict objectForKey:@"imageUrls"]];
