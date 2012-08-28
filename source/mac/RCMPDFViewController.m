@@ -8,6 +8,10 @@
 
 #import "RCMPDFViewController.h"
 #import "RCFile.h"
+#import "AppDelegate.h"
+
+@interface RCMPDFView : PDFView
+@end
 
 @interface RCMPDFViewController()
 @property (nonatomic, strong) RCFile *theFile;
@@ -29,7 +33,7 @@
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc addObserver:self selector:@selector(handlePdfNotification:) name:PDFViewDisplayModeChangedNotification object:self.pdfView];
 }
-		 
+
 -(void)loadPdf:(NSString*)filePath
 {
 	PDFDocument *doc = [[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:filePath]];
@@ -59,4 +63,27 @@
 
 @synthesize pdfView;
 @synthesize theFile;
+@end
+
+@implementation RCMPDFView
+-(void)scrollWheel:(NSEvent *)evt
+{
+	if ([NSEvent isSwipeTrackingFromScrollEventsEnabled]) {
+		[self enumerateSubviewsOfClass:[NSScrollView class] block:^(id aView, BOOL *stop) {
+			*stop=YES;
+			NSScrollView *sv = aView;
+			if (sv.documentVisibleRect.origin.x == 0 && evt.deltaX > 0) {
+				//they want to go back
+				[evt trackSwipeEventWithOptions:NSEventSwipeTrackingLockDirection dampenAmountThresholdMin:0 max:1
+								   usingHandler:^(CGFloat gestureAmount, NSEventPhase phase, BOOL isComplete, BOOL *stop)
+				{
+					if (phase == NSEventPhaseEnded)
+						[[TheApp delegate] popCurrentViewController];
+				}];
+			}
+		}];
+	}
+	[super scrollWheel:evt];
+}
+
 @end

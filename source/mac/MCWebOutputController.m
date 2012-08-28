@@ -28,11 +28,6 @@
 @property (nonatomic, strong) NSMutableArray *commandHistory;
 @property (nonatomic, strong) NSMutableArray *outputQueue;
 @property (nonatomic, copy) NSString *webTmpFileDirectory;
--(void)loadContent;
--(void)viewSource:(id)sender;
--(void)jserror:(id)err;
--(void)addToCommandHistory:(NSString*)command;
--(void)adjustCommandHistoryMenu:(NSNotification*)note;
 @end
 
 @implementation MCWebOutputController

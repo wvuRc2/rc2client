@@ -207,7 +207,8 @@
 	}
 	if (newSuperview != nil) {
 		if (self.session.initialFileSelection) {
-			self.selectedFile = self.session.initialFileSelection;
+			if (self.session.initialFileSelection.isTextFile)
+				self.selectedFile = self.session.initialFileSelection;
 			self.session.initialFileSelection = nil;
 		}
 	}
@@ -995,7 +996,7 @@
 		self.scratchString = self.editView.string;
 	RCFile *oldFile = _selectedFile;
 	NSInteger oldFileIdx = [self.fileArray indexOfObject:oldFile];
-	if (oldFileIdx < 0)
+	if (oldFileIdx == NSNotFound)
 		oldFileIdx = 0;
 	_selectedFile = selectedFile;
 	if (nil == selectedFile) {

@@ -217,6 +217,11 @@
 	[self showViewController:pvc];
 }
 
+-(void)popCurrentViewController
+{
+	[self.mainWindowController.navController popViewControllerAnimated:YES];
+}
+
 -(void)showViewController:(AMViewController*)controller
 {
 	[self.mainWindowController.navController pushViewController:controller animated:YES];
