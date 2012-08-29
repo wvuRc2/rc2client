@@ -170,6 +170,14 @@
 
 #pragma mark - accessors
 
+-(void)setName:(NSString *)name
+{
+	[self willChangeValueForKey:@"name"];
+	[self setPrimitiveName:name];
+	[self didChangeValueForKey:@"name"];
+	self.fileType = [Rc2FileType fileTypeWithExtension:self.name.pathExtension];
+}
+
 -(NSMutableDictionary*)localAttrs
 {
 	if (nil == self.attrCache) {

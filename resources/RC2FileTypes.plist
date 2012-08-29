@@ -54,6 +54,22 @@
 		</dict>
 		<dict>
 			<key>Extension</key>
+			<string>sas</string>
+			<key>Name</key>
+			<string>Sas file</string>
+			<key>Description</key>
+			<string>Sas source file (.sas)</string>
+			<key>IconName</key>
+			<string>sas</string>
+			<key>IsTextFile</key>
+			<true/>
+			<key>Importable</key>
+			<true/>
+			<key>Creatable</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
 			<string>txt</string>
 			<key>Name</key>
 			<string>Text</string>
@@ -73,22 +89,6 @@
 			<string>CSV file</string>
 			<key>Description</key>
 			<string>Comma Separated Values (.csv)</string>
-			<key>IsTextFile</key>
-			<true/>
-			<key>Importable</key>
-			<true/>
-			<key>Creatable</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>Extension</key>
-			<string>sas</string>
-			<key>Name</key>
-			<string>Sas file</string>
-			<key>Description</key>
-			<string>Sas source file (.sas)</string>
-			<key>IconName</key>
-			<string>sas</string>
 			<key>IsTextFile</key>
 			<true/>
 			<key>Importable</key>

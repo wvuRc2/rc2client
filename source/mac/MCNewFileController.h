@@ -9,8 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MCNewFileController : NSWindowController<NSTextFieldDelegate>
-@property (nonatomic, strong) IBOutlet NSTextField *fileNameField;
-@property (nonatomic, strong) IBOutlet NSPopUpButton *fileTypePopup;
 @property (nonatomic, copy) NSString *fileName;
 @property (nonatomic) NSInteger fileTypeTag;
 @property (nonatomic) BOOL canCreate;

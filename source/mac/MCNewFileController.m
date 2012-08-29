@@ -7,12 +7,22 @@
 //
 
 #import "MCNewFileController.h"
+#import "Rc2FileType.h"
+
+@interface MCNewFileController()
+@property (nonatomic, strong) IBOutlet NSTextField *fileNameField;
+@property (nonatomic, strong) IBOutlet NSPopUpButton *fileTypePopup;
+@property (nonatomic, strong) IBOutlet Rc2FileType *selectedFileType;
+@property (nonatomic, copy) IBOutlet NSArray *availableFileTypes;
+@end
 
 @implementation MCNewFileController
 
 - (id)init
 {
 	if ((self = [super initWithWindowNibName:@"MCNewFileController"])) {
+		self.availableFileTypes = [Rc2FileType creatableFileTypes];
+		self.selectedFileType = [Rc2FileType fileTypeWithExtension:@"R"];
 	}
 	
 	return self;
@@ -26,22 +36,7 @@
 -(IBAction)createFile:(id)sender
 {
 	NSString *fname = [self.fileName stringByDeletingPathExtension];
-	switch (self.fileTypeTag) {
-		case 1: //Rnw
-			fname = [fname stringByAppendingPathExtension:@"Rnw"];
-			break;
-		case 2: //Rmd
-			fname = [fname stringByAppendingPathExtension:@"Rmd"];
-			break;
-		case 3: //sas
-			fname = [fname stringByAppendingPathExtension:@"sas"];
-			break;
-		case 4: //txt
-			fname = [fname stringByAppendingPathExtension:@"txt"];
-			break;
-		default:
-			fname = [fname stringByAppendingPathExtension:@"R"];
-	}
+	fname = [fname stringByAppendingPathExtension:self.selectedFileType.extension];
 	self.completionHandler(fname);
 	[self close];
 }
