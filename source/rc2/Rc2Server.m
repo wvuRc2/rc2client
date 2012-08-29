@@ -21,6 +21,7 @@
 #import "NSString+SBJSON.h"
 #endif
 #import "RCMessage.h"
+#import "Rc2FileType.h"
 
 #define kServerHostKey @"ServerHostKey"
 
@@ -65,32 +66,17 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 +(NSArray*)acceptableTextFileSuffixes
 {
-	static NSArray *fileExts=nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		fileExts = [[NSMutableArray alloc] initWithObjects:@"txt", @"R", @"Rnw", @"Rmd", @"csv", @"tsv", @"tab", @"sas", @"lst", @"log",@"html",nil];
-	});
-	return fileExts;
+	return [[Rc2FileType textFileTypes] valueForKey:@"extension"];
 }
 
 +(NSArray*)acceptableImportFileSuffixes
 {
-	static NSArray *fileExts=nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		fileExts = [[NSMutableArray alloc] initWithObjects:@"txt", @"R", @"Rnw", @"Rmd", @"csv", @"tsv", @"tab", @"pdf", @"sas", nil];
-	});
-	return fileExts;
+	return [[Rc2FileType importableFileTypes] valueForKey:@"extension"];
 }
 
 +(NSArray*)acceptableImageFileSuffixes
 {
-	static NSArray *fileExts=nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		fileExts = [[NSMutableArray alloc] initWithObjects:@"png", @"jpg", @"gif", nil];
-	});
-	return fileExts;
+	return [[Rc2FileType imageFileTypes] valueForKey:@"extension"];
 }
 
 -(id)init

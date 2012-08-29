@@ -8,8 +8,10 @@
 
 #import "RCFile.h"
 #import "Rc2Server.h"
+#import "Rc2FileType.h"
 
 @interface RCFile()
+@property (nonatomic, readwrite) Rc2FileType *fileType;
 @property (nonatomic, readwrite) BOOL locallyModified;
 @property (nonatomic, strong) NSMutableDictionary *attrCache;
 @end
@@ -93,6 +95,7 @@
 -(void)awakeFromInsert
 {
 	[super awakeFromInsert];
+	self.fileType = [Rc2FileType fileTypeWithExtension:self.name.pathExtension];
 	if (nil == self.lastModified)
 		self.lastModified = [NSDate date];
 	if (nil == self.sizeString)
@@ -106,6 +109,7 @@
 -(void)awakeFromFetch
 {
 	[super awakeFromFetch];
+	self.fileType = [Rc2FileType fileTypeWithExtension:self.name.pathExtension];
 	if (nil == self.readOnly)
 		self.readOnly = [NSNumber numberWithBool:NO];
 	if (!self.isTextFile)
@@ -195,10 +199,7 @@
 
 -(BOOL)isTextFile
 {
-	NSString *ext = self.name.pathExtension;
-	if ([[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
-		return YES;
-	return NO;
+	return self.fileType.isTextFile;
 }
 
 -(BOOL)contentsLoaded
@@ -234,23 +235,7 @@
 
 -(id)fileIcon
 {
-	#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-		NSString *ext = [self.name pathExtension];
-		if ([ext isEqualToString:@"R"])
-			return [NSImage imageNamed:@"Rdoc"];
-		else if ([ext isEqualToString:@"RnW"])
-			return [NSImage imageNamed:@"RnW"];
-		NSImage *img = [[NSWorkspace sharedWorkspace] iconForFileType:ext];
-		[img setSize:NSMakeSize(48, 48)];
-		return img;
-	#else
-		NSString *imgName = @"doc";
-		if ([self.name hasSuffix:@".R"])
-			imgName = @"RDoc";
-		else if ([self.name hasSuffix:@".RnW"])
-			imgName = @"RnWDoc";
-		return [UIImage imageNamed:imgName];
-	#endif
+	return self.fileType.fileImage;
 }
 
 -(id)permissionImage
@@ -276,6 +261,7 @@
 	return fullPath;
 }
 
+@synthesize fileType=_fileType;
 @synthesize attrCache;
 @synthesize locallyModified;
 @end

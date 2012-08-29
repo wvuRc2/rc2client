@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FileTypes</key>
+	<array>
+		<dict>
+			<key>Extension</key>
+			<string>R</string>
+			<key>Name</key>
+			<string>R file</string>
+			<key>Description</key>
+			<string>R source File (.R)</string>
+			<key>IconName</key>
+			<string>Rdoc</string>
+			<key>IsTextFile</key>
+			<true/>
+			<key>Importable</key>
+			<true/>
+			<key>Creatable</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>Rnw</string>
+			<key>Name</key>
+			<string>Sweave</string>
+			<key>Description</key>
+			<string>Sweave source file (.Rnw)</string>
+			<key>IconName</key>
+			<string>Rnw</string>
+			<key>IsTextFile</key>
+			<true/>
+			<key>Importable</key>
+			<true/>
+			<key>Creatable</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>Rmd</string>
+			<key>Name</key>
+			<string>R markdown</string>
+			<key>Description</key>
+			<string>R markdown file (.Rmd)</string>
+			<key>IconName</key>
+			<string>Rmd</string>
+			<key>IsTextFile</key>
+			<true/>
+			<key>Importable</key>
+			<true/>
+			<key>Creatable</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>txt</string>
+			<key>Name</key>
+			<string>Text</string>
+			<key>Description</key>
+			<string>Text file (.txt)</string>
+			<key>IsTextFile</key>
+			<true/>
+			<key>Importable</key>
+			<true/>
+			<key>Creatable</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>csv</string>
+			<key>Name</key>
+			<string>CSV file</string>
+			<key>Description</key>
+			<string>Comma Separated Values (.csv)</string>
+			<key>IsTextFile</key>
+			<true/>
+			<key>Importable</key>
+			<true/>
+			<key>Creatable</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>sas</string>
+			<key>Name</key>
+			<string>Sas file</string>
+			<key>Description</key>
+			<string>Sas source file (.sas)</string>
+			<key>IconName</key>
+			<string>sas</string>
+			<key>IsTextFile</key>
+			<true/>
+			<key>Importable</key>
+			<true/>
+			<key>Creatable</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>lst</string>
+			<key>Name</key>
+			<string>Sas lst file</string>
+			<key>IsTextFile</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>log</string>
+			<key>Name</key>
+			<string>Log file</string>
+			<key>IsTextFile</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>html</string>
+			<key>Name</key>
+			<string>HTML file</string>
+			<key>Description</key>
+			<string>HTML source file (.html)</string>
+			<key>IsTextFile</key>
+			<true/>
+			<key>Importable</key>
+			<true/>
+			<key>Creatable</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>pdf</string>
+			<key>Name</key>
+			<string>PDF</string>
+			<key>IsTextFile</key>
+			<false/>
+			<key>Importable</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>png</string>
+			<key>Name</key>
+			<string>PNG image</string>
+			<key>Importable</key>
+			<false/>
+			<key>IsImage</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>jpg</string>
+			<key>Name</key>
+			<string>JPEG image</string>
+			<key>Importable</key>
+			<false/>
+			<key>IsImage</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>gif</string>
+			<key>Name</key>
+			<string>GIF image</string>
+			<key>Importable</key>
+			<false/>
+			<key>IsImage</key>
+			<true/>
+		</dict>
+	</array>
+</dict>
+</plist>

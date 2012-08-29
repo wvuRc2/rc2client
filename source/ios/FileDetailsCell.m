@@ -8,6 +8,7 @@
 
 #import "FileDetailsCell.h"
 #import "RCFile.h"
+#import "Rc2FileType.h"
 
 @implementation FileDetailsCell
 @synthesize nameLabel;
@@ -38,20 +39,7 @@
 	else
 		self.localLastModLabel.text = @"-";
 
-	NSString *imgName = @"doc";
-	if ([file.name hasSuffix:@".R"])
-		imgName = @"console/R-file";
-	else if ([file.name hasSuffix:@".Rnw"])
-		imgName = @"console/Rnw-file";
-	else if ([file.name hasSuffix:@".Rmd"])
-		imgName = @"console/Rmd-file";
-	else if ([file.name hasSuffix:@".pdf"])
-		imgName = @"console/pdf-file";
-	else if ([file.name hasSuffix:@".sas"])
-		imgName = @"console/sas-file";
-	else if ([file.name hasSuffix:@".png"])
-		imgName = @"console/png-file";
-	self.imgView.image = [UIImage imageNamed:imgName];
+	self.imgView.image = file.fileType.image;
 	self.permissionView.image = file.permissionImage;
 }
 
