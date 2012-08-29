@@ -304,7 +304,6 @@
 
 -(IBAction)executeScript:(id)sender
 {
-	//is the current file R or Rnw?
 	if ([self.selectedFile.name hasSuffix:@".Rnw"]) {
 		[self.session executeSweave:self.selectedFile.name script:self.editView.string];
 	} else if ([self.selectedFile.name hasSuffix:@".sas"]) {
