@@ -110,13 +110,17 @@
 
 -(NSAttributedString*)syntaxHighlightCode:(NSAttributedString*)sourceStr ofType:(NSString*)fileExtension
 {
+	CFTimeInterval startTime = CFAbsoluteTimeGetCurrent();
+	id retVal = sourceStr;
 	if ([fileExtension isEqualToString:@"R"])
-		return [self syntaxHighlightRCode:sourceStr];
+		retVal = [self syntaxHighlightRCode:sourceStr];
 	else if ([fileExtension isEqualToString:@"RnW"] || [fileExtension isEqualToString:@"Rnw"])
-		return [self syntaxHighlightLatexCode:sourceStr];
+		retVal = [self syntaxHighlightLatexCode:sourceStr];
 	else if ([fileExtension isEqualToString:@"sas"])
-		return [self syntaxHighlightSasCode:sourceStr];
-	return sourceStr;
+		retVal = [self syntaxHighlightSasCode:sourceStr];
+	double junk;
+	NSLog(@"syntax higlight took %d milliseconds", (short)(modf(CFAbsoluteTimeGetCurrent() - startTime, &junk)*1000));
+	return retVal;
 }
 
 -(NSAttributedString*)syntaxHighlightRCode:(NSAttributedString*)sourceStr

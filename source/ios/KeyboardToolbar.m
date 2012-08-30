@@ -101,7 +101,6 @@
 		panelName = @"Latex";
 	if (panelName) {
 		for (ButtonPanel *panel in self.panels) {
-			NSLog(@"comparing '%@' to '%@'", panelName, panel.panelName);
 			if ([panel.panelName isEqualToString:panelName] && panel != self.currentPanel) {
 				NSInteger idx = [self.panels indexOfObject:panel];
 				[self switchToPanel:panel toTheLeft:self.currentPanelIndex > idx];

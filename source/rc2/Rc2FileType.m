@@ -92,7 +92,7 @@
 -(NSString*)details { return [self.data objectForKey:@"Description"]; }
 -(NSString*)iconName { return [self.data objectForKey:@"IconName"]; }
 
--(BOOL)isTextFile { return [[self.data objectForKey:@"isTextFile"] boolValue]; }
+-(BOOL)isTextFile { return [[self.data objectForKey:@"IsTextFile"] boolValue]; }
 -(BOOL)isImportable  { return [[self.data objectForKey:@"Importable"] boolValue]; }
 -(BOOL)isCreatable  { return [[self.data objectForKey:@"Creatable"] boolValue]; }
 -(BOOL)isImage  { return [[self.data objectForKey:@"IsImage"] boolValue]; }

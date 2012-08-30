@@ -599,7 +599,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		[req setPostValue:file.name forKey:@"name"];
 		[req setPostValue:self.currentUserId forKey:@"userid"];
 		[req setPostValue:workspace.wspaceId forKey:@"wspaceid"];
-		[req setPostValue:file.localEdits forKey:@"content"];
+		[req setFile:file.fileContentsPath forKey:@"content"];
 		[req setCompletionBlock:^{
 			NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 			NSDictionary *dict = [respStr JSONValue];
