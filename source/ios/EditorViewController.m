@@ -259,7 +259,7 @@
 -(void)loadFileData:(RCFile*)file
 {
 	if (self.currentFile != nil && self.currentFile != file) {
-		self.currentFile.localEdits = self.richEditor.attributedString.string;
+		self.currentFile.localEdits = self.richEditor.text;
 	}
 	self.currentFile = file;
 	self.docTitleLabel.text = file.name;

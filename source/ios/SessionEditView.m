@@ -8,7 +8,9 @@
 
 #import "SessionEditView.h"
 
-@implementation SessionEditView
+@implementation SessionEditView {
+	BOOL _isRich;
+}
 
 -(void)awakeFromNib
 {
@@ -52,7 +54,7 @@
 
 -(void)setAttributedString:(NSAttributedString *)attributedString
 {
-	if ([self respondsToSelector:@selector(attributedText)])
+	if ([self respondsToSelector:@selector(attributedText)] && attributedString.length < 8200)
 		self.attributedText = attributedString;
 	else
 		self.text = attributedString.string;
