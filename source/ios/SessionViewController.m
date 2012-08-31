@@ -135,9 +135,9 @@
 	self.consoleKeyboardToolbar.delegate = self;
 	self.editorController.session = self.session;
 	[self.editorController view];
-	self.editorController.executeButton = self.executeButton;
-	self.editorController.executeButton.target = self.editorController;
-	self.editorController.executeButton.action = @selector(doExecute:);
+//	self.editorController.executeButton = self.executeButton;
+//	self.editorController.executeButton.target = self.editorController;
+//	self.editorController.executeButton.action = @selector(doExecute:);
 	[self.editorController restoreSessionState:savedState];
 	if (self.session.initialFileSelection) {
 		[self.editorController loadFile:self.session.initialFileSelection showProgress:NO];
