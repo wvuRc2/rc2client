@@ -75,13 +75,6 @@
 	self.studentDetailsView.alpha = 0;
 }
 
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
@@ -391,21 +384,4 @@
 	_selectedStudent=sel;
 	[self adjustStudentDetails];
 }
-
-@synthesize classPicker=_classPicker;
-@synthesize assignmentPicker=_assignmentPicker;
-@synthesize qualifySegControl=_qualifySegControl;
-@synthesize dueAssignmentIds=_dueAssignmentIds;
-@synthesize studentTableView=_studentTableView;
-@synthesize students=_students;
-@synthesize kvoTokens=_kvoTokens;
-@synthesize selectedStudent=_selectedStudent;
-@synthesize studentDetailsView=_studentDetailsView;
-@synthesize studentNameLabel=_studentNameLabel;
-@synthesize gradeField=_gradeField;
-@synthesize filePicker=_filePicker;
-@synthesize pdfButton=_pdfButton;
-@synthesize myCachePath=_myCachePath;
-@synthesize interactionController=_interactionController;
-@synthesize pdfUrlData=_pdfUrlData;
 @end

@@ -71,6 +71,4 @@
 	CGContextStrokePath(ctx);
 }
 
-@synthesize currentPath;
-@synthesize paths=_paths;
 @end

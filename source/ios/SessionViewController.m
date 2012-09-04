@@ -44,12 +44,6 @@
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL showingProgress;
 @property (nonatomic, assign) BOOL autoReconnect;
--(void)saveSessionState;
--(NSString*)escapeForJS:(NSString*)str;
--(void)displayPdfFile:(RCFile*)file;
--(void)loadAndDisplayPdfFile:(RCFile*)file;
--(void)appRestored:(NSNotification*)note;
--(void)appEnteringBackground:(NSNotification*)note;
 @end
 
 #pragma mark -
@@ -74,17 +68,6 @@
 													 name: UIApplicationDidEnterBackgroundNotification object:nil];
 	}
 	return self;
-}
-
--(void)freeUpMemory
-{
-	[super freeUpMemory];
-	self.audioEngine=nil;
-	self.themeToken=nil;
-	self.jsQuiteRExp=nil;
-	self.imgController=nil;
-	self.editorController=nil;
-	self.consoleController=nil;
 }
 
 - (void)dealloc

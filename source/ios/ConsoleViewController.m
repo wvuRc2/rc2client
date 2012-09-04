@@ -51,17 +51,6 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 }
 
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	self.webView.delegate = nil;
-	self.webView=nil;
-	self.session=nil;
-	self.toolbar=nil;
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	// Return YES for supported orientations

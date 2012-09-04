@@ -29,28 +29,14 @@
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
-	self = [super initWithStyle:style];
-	if (self) {
-		// Custom initialization
-	}
-	return self;
-}
-
--(void)freeMemory
-{
-	if (self.loggedInToken)
-		[[Rc2Server sharedInstance] removeObserverWithBlockToken:self.loggedInToken];
-	self.loggedInToken=nil;
-	self.workspaceItems=nil;
-    self.addButton=nil;
-	self.parentItem=nil;
-	self.themeChangeNotice=nil;
+	return [super initWithStyle:style];
 }
 
 -(void)dealloc
 {
+	if (self.loggedInToken)
+		[[Rc2Server sharedInstance] removeObserverWithBlockToken:self.loggedInToken];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NotificationsReceivedNotification object:nil];
-	[self freeMemory];
 }
 
 #pragma mark - View lifecycle
@@ -87,12 +73,6 @@
 		lpr.minimumPressDuration = 0.5;
 		[self.tableView addGestureRecognizer:lpr];
 	}
-}
-
-- (void)viewDidUnload
-{
-	[self freeMemory];
-	[super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -336,14 +316,4 @@
 	_workspaceItems = [items copy];
 	[self.tableView reloadData];
 }
-
-@synthesize workspaceItems=_workspaceItems;
-@synthesize currentSelection=_currentSelection;
-@synthesize currentAlert=_currentAlert;
-@synthesize actionSheet=_actionSheet;
-@synthesize loggedInToken;
-@synthesize addSheet;
-@synthesize addButton;
-@synthesize parentItem;
-@synthesize themeChangeNotice;
 @end

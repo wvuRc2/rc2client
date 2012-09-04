@@ -25,7 +25,4 @@
 //registered so subclasses can respond to theme changes. also called from viewDidLoad so intiial values can be set
 -(void)updateForNewTheme:(Theme*)theme;
 
-//this is called in dealloc, also should be called in viewDidUnload
--(void)freeUpMemory;
-
 @end

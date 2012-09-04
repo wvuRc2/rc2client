@@ -83,12 +83,6 @@
 	}
 }
 
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:JSTokenFieldFrameDidChangeNotification object:nil];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
@@ -269,24 +263,4 @@
 {
 	self.sendButton.enabled = textView.text.length > 0 && self.subjectField.text.length > 0;
 }
-
-#pragma mark - synthesizers
-
-@synthesize tableView=_tableView;
-@synthesize bodyCell=_bodyCell;
-@synthesize subjectCell=_subjectCell;
-@synthesize sendButton=_sendButton;
-@synthesize toCell=_toCell;
-@synthesize bodyTextView=_bodyTextView;
-@synthesize toField=_toField;
-@synthesize subjectField=_subjectField;
-@synthesize completionBlock=_completionBlock;
-@synthesize rcptController=_rcptController;
-@synthesize currentPopover=_currentPopover;
-@synthesize addRcptButton=_addRcptButton;
-@synthesize availableRcpts=_availableRcpts;
-@synthesize priorityImages=_priorityImages;
-@synthesize priorityImage=_priorityImage;
-@synthesize priorityController=_priorityController;
-@synthesize selectedPriority=_selectedPriority;
 @end

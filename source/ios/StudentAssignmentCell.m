@@ -35,9 +35,4 @@
 	self.gradeLabel.text = [st.grade description];
 }
 
-@synthesize student=_student;
-@synthesize nameLabel=_nameLabel;
-@synthesize dateLabel=_dateLabel;
-@synthesize turnedInLabel=_turnedInLabel;
-@synthesize gradeLabel=_gradeLabel;
 @end

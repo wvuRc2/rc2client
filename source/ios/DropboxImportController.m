@@ -21,7 +21,6 @@
 @property (nonatomic, strong) NSMutableDictionary *currentDownload;
 @property (nonatomic, strong) MBProgressHUD *currentProgress;
 @property (nonatomic, strong) RCFile *lastFileImported;
--(void)freeMemory;
 -(IBAction)userDone:(id)sender;
 -(IBAction)importFile:(id)sender;
 @end
@@ -35,23 +34,6 @@
 		// Custom initialization
 	}
 	return self;
-}
-
--(void)dealloc
-{
-	[self freeMemory];
-}
-
--(void)freeMemory
-{
-	self.lastFileImported=nil;
-	self.currentDownload=nil;
-	self.currentProgress=nil;
-	self.fileTable=nil;
-	self.entries=nil;
-	self.restClient=nil;
-	self.metaData=nil;
-	self.dropboxCache=nil;
 }
 
 #pragma mark - View lifecycle
@@ -81,12 +63,6 @@
 	} else {
 		[self.fileTable reloadData];
 	}
-}
-
-- (void)viewDidUnload
-{
-	[self freeMemory];
-	[super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -228,16 +204,4 @@
 {
 	[(id)self.navigationController.delegate userDone:self.lastFileImported];
 }
-
-#pragma mark - synthesizers
-
-@synthesize fileTable;
-@synthesize thePath;
-@synthesize metaData;
-@synthesize entries;
-@synthesize restClient;
-@synthesize dropboxCache;
-@synthesize currentDownload;
-@synthesize currentProgress;
-@synthesize lastFileImported;
 @end

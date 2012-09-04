@@ -19,13 +19,7 @@
 -(void)handleDoubleTap;
 @end
 
-@implementation SessionFilesController {
-}
-@synthesize tableView;
-@synthesize files=_files;
-@synthesize delegate;
-@synthesize toolbar;
-@synthesize dateFormatter;
+@implementation SessionFilesController
 
 - (id)init
 {
@@ -65,15 +59,6 @@
 //	self.toolbar.tintColor = [UIColor clearColor];
 	self.toolbar.items = [self.toolbar.items arrayByAddingObject:barButton];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:RCWorkspaceFilesFetchedNotification object:nil];
-}
-
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	self.dateFormatter=nil;
-	self.files=nil;
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

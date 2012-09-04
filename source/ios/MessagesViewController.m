@@ -73,13 +73,6 @@
 	}];
 }
 
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
@@ -232,18 +225,4 @@
 		return self.extraHeight;
 	return 113;
 }
-
-@synthesize tableView=_tableView;
-@synthesize imageView=_imageView;
-@synthesize messages=_messages;
-@synthesize flagImages=_flagImages;
-@synthesize selectedBG=_selectedBG;
-@synthesize currentSelection=_currentSelection;
-@synthesize defaultHeight=_defaultHeight;
-@synthesize themeChangeNotice=_themeChangeNotice;
-@synthesize selRowIdx=_selRowIdx;
-@synthesize extraHeight=_extraHeight;
-@synthesize normalBG=_normalBG;
-@synthesize composeController=_composeController;
-@synthesize composeButton=_composeButton;
 @end

@@ -129,10 +129,4 @@
 		[self.gradingController handleUrl:url];
 	}
 }
-
-@synthesize welcomeController=_welcomeController;
-@synthesize currentController=_currentController;
-@synthesize messageController=_messageController;
-@synthesize workspaceController=_workspaceController;
-@synthesize gradingController=_gradingController;
 @end

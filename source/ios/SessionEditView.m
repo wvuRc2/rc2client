@@ -52,5 +52,4 @@
 		self.text = attributedString.string;
 }
 
-@synthesize helpBlock=_helpBlock;
 @end

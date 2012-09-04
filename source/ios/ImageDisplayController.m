@@ -70,11 +70,7 @@
 
 - (id)init
 {
-	self = [super initWithNibName:@"ImageDisplayController" bundle:nil];
-	if (self) {
-		// Custom initialization
-	}
-	return self;
+	return [super initWithNibName:@"ImageDisplayController" bundle:nil];
 }
 
 
@@ -96,16 +92,6 @@
 	self.holder4.delegate=self;
 	self.whatUp.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kLastUpKey];
 	[self adjustLayout];
-}
-
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	self.actionSheet=nil;
-	self.holder1=nil;
-	self.holder2=nil;
-	self.holder3=nil;
-	self.holder4=nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior

@@ -46,14 +46,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 @implementation Rc2AppDelegate
 
-@synthesize window=_window;
-@synthesize authController=_authController;
-@synthesize sessionController=_sessionController;
-@synthesize currentMasterView;
-@synthesize messageListView;
-@synthesize keyboardRestClient;
-@synthesize pushToken;
-
 #pragma mark - app delegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -571,10 +563,6 @@ NSLog(@"completeSessionStartup: set init file to %@", selFile.name);
 	return psc;
 }
 
-@synthesize myPsc;
-@synthesize dropboxCompletionBlock;
-@synthesize rootController=_rootController;
-@synthesize reachability=_reachability;
 @end
 
 @implementation UITableView (DoubleClick)

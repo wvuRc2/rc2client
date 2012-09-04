@@ -132,16 +132,6 @@
 	}
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-	_viewLoaded=NO;
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	self.fileController=nil;
-	self.filePopover=nil;
-	self.importController=nil;
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations

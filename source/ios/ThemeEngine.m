@@ -85,8 +85,6 @@
 @end
 
 @implementation ThemeEngine
-@synthesize currentTheme=_currentTheme;
-@synthesize customRequest=_customRequest;
 +(ThemeEngine*)sharedInstance
 {
 	static dispatch_once_t pred;
@@ -217,12 +215,9 @@
 @end
 
 @implementation ThemeNotifyTracker
-@synthesize block;
 @end
 
 @implementation CustomTheme
-@synthesize defaultTheme;
-@synthesize customData;
 -(NSString*)name { return @"Custom"; }
 -(BOOL)isCustom { return YES; }
 -(void)reloadTheme:(NSData*)data

@@ -254,14 +254,6 @@
 	self.buttonColorsHighlighted = a;
 }
 
-@synthesize delegate=_delegate;
-@synthesize view=_view;
-@synthesize buttonView=_buttonView;
-@synthesize buttonColors=_buttonColors;
-@synthesize buttonColorsHighlighted=_buttonColorsHighlighted;
-@synthesize panels=_panels;
-@synthesize currentPanel=_currentPanel;
-@synthesize currentPanelIndex=_currentPanelIndex;
 @end
 
 @implementation KeyboardButton
@@ -275,12 +267,7 @@
 		self.string = nil;
 	}
 }
-@synthesize string=_string;
-@synthesize selector=_selector;
-@synthesize landscapeFrame=_landscapeFrame;
-@synthesize portraitFrame=_portraitFrame;
 @end
 
 @implementation ButtonPanel
-@synthesize panelName=_panelName;
 @end

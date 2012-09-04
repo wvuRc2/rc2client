@@ -15,7 +15,6 @@
 @end
 
 @implementation ControlViewController
-@synthesize session=_session;
 
 - (id)init
 {
@@ -35,11 +34,6 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-}
-
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -101,7 +95,4 @@
 	}]];
 }
 
-@synthesize modeControl;
-@synthesize kvoTokens;
-@synthesize userTable;
 @end

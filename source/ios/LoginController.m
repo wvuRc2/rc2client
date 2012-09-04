@@ -46,13 +46,6 @@
 	[(IPadButton*)self.loginButton setIsLightStyle:YES];
 }
 
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
 {
 	return YES;
@@ -127,12 +120,4 @@
 	[alert show];
 }
 
-#pragma mark - synthesizers
-
-@synthesize useridField;
-@synthesize passwordField;
-@synthesize loginButton;
-@synthesize busyWheel;
-@synthesize loginCompleteHandler;
-@synthesize hostControl;
 @end

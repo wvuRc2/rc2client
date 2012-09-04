@@ -23,14 +23,6 @@
 
 @implementation MessageListCell
 
-@synthesize gl;
-@synthesize normalColors;
-@synthesize selectedColors;
-@synthesize themeChangeNotice;
-
-
-
-
 -(void)awakeFromNib
 {
 	self.dateFormatter = [[NSDateFormatter alloc] init];
@@ -67,12 +59,12 @@
     // Set its bounds to be the same of its parent
 	CGRect r = self.bounds;
 	r.size.height += 200;
-    [gl setBounds:r];
+    [_gl setBounds:r];
     // Center the layer inside the parent layer
-    [gl setPosition:CGPointMake([self bounds].size.width/2, [self bounds].size.height/2)];
+    [_gl setPosition:CGPointMake([self bounds].size.width/2, [self bounds].size.height/2)];
     // Insert the layer at position zero to make sure the 
     // text of the button is not obscured
-    [[self layer] insertSublayer:gl atIndex:0];
+    [[self layer] insertSublayer:_gl atIndex:0];
 	// Set the layer's corner radius
     [[self layer] setCornerRadius:18.0f];
     // Turn on masking
@@ -80,7 +72,7 @@
     // Display a border around the button 
     // with a 1.0 pixel width
 //    [[self layer] setBorderWidth:1.0f];
-	[gl setColors:self.normalColors];
+	[_gl setColors:self.normalColors];
 	self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
 }
 
@@ -120,9 +112,9 @@
 -(void)setIsSelected:(BOOL)selected
 {
 	if (selected) {
-		[gl setColors:self.selectedColors];
+		[_gl setColors:self.selectedColors];
 	} else {
-		[gl setColors:self.normalColors];
+		[_gl setColors:self.normalColors];
 	}
 }
 
@@ -143,17 +135,6 @@
 	[self.bodyView setNeedsDisplay];
 	return self.defaultCellHeight + sz.height + 20; //some margin
 }
-
-@synthesize subjectLabel;
-@synthesize fromLabel;
-@synthesize dateLabel;
-@synthesize priorityFlag;
-@synthesize bodyView;
-@synthesize dateFormatter;
-@synthesize priorityImages;
-@synthesize view;
-@synthesize theMessage;
-@synthesize deleteButton;
 @end
 
 

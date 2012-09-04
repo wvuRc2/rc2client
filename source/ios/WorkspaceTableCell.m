@@ -17,18 +17,9 @@
 @property (nonatomic, strong) NSArray *selectedColors;
 @property (nonatomic, strong) CAGradientLayer *gl;
 @property (nonatomic, strong) id themeChangeNotice;
--(void)updateForNewTheme:(Theme*)theme;
 @end
 
 @implementation WorkspaceTableCell
-@synthesize imageView;
-@synthesize label;
-@synthesize item=_item;
-@synthesize drawSelected=_drawSelected;
-@synthesize normalColors;
-@synthesize selectedColors;
-@synthesize gl;
-@synthesize themeChangeNotice;
 
 -(void)awakeFromNib
 {
@@ -55,11 +46,11 @@
 
 	// Initialize the gradient layer
     self.gl = [CAGradientLayer layer];
-    [gl setBounds:bgRect];
-    [gl setPosition:CGPointMake([self bounds].size.width/2, [self bounds].size.height/2)];
-    [self.layer insertSublayer:gl atIndex:1];
+    [_gl setBounds:bgRect];
+    [_gl setPosition:CGPointMake([self bounds].size.width/2, [self bounds].size.height/2)];
+    [self.layer insertSublayer:_gl atIndex:1];
     [[self layer] setCornerRadius:13.0f];
-	[gl setColors:self.normalColors];
+	[_gl setColors:self.normalColors];
 
 	
 	self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -74,40 +65,35 @@
 	self.selectedColors = [NSArray arrayWithObjects:
 						   (id)[theme colorForKey:@"MasterCellSelectedStart"].CGColor,
 						   (id)[theme colorForKey:@"MasterCellSelectedEnd"].CGColor, nil];
-	[gl setColors:self.normalColors];
+	[_gl setColors:self.normalColors];
 	if (_drawSelected)
-		[gl setColors:self.selectedColors];
+		[_gl setColors:self.selectedColors];
 	if (self.item) {
 		//adjust images
 		UIColor *tintColor = [theme colorForKey:@"MasterImageTint"];
-		imageView.image = [[UIImage imageNamed: self.item.isFolder ? @"folder" : @"workspace"] imageTintedWithColor:tintColor];
-		imageView.highlightedImage = [UIImage imageNamed: self.item.isFolder ? @"folder" : @"workspaceHi"];
+		self.imageView.image = [[UIImage imageNamed: self.item.isFolder ? @"folder" : @"workspace"] imageTintedWithColor:tintColor];
+		self.imageView.highlightedImage = [UIImage imageNamed: self.item.isFolder ? @"folder" : @"workspaceHi"];
 	}
 	[self setNeedsDisplay];
-}
-
--(void)dealloc
-{
-	self.item=nil;
 }
 
 -(void)setDrawSelected:(BOOL)seld
 {
 	_drawSelected=seld;
 	if (_drawSelected)
-		[gl setColors:self.selectedColors];
+		[self.gl setColors:self.selectedColors];
 	else
-		[gl setColors:self.normalColors];
+		[self.gl setColors:self.normalColors];
 }
 
 -(void)setItem:(RCWorkspaceItem *)anItem
 {
 	_item = anItem;
-	label.text = anItem.name;
+	self.label.text = anItem.name;
 	
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	UIColor *tintColor = [theme colorForKey:@"MasterImageTint"];
-	imageView.image = [[UIImage imageNamed: anItem.isFolder ? @"folder" : @"workspace"] imageTintedWithColor:tintColor];
-	imageView.highlightedImage = [UIImage imageNamed: anItem.isFolder ? @"folder" : @"workspaceHi"];
+	self.imageView.image = [[UIImage imageNamed: anItem.isFolder ? @"folder" : @"workspace"] imageTintedWithColor:tintColor];
+	self.imageView.highlightedImage = [UIImage imageNamed: anItem.isFolder ? @"folder" : @"workspaceHi"];
 }
 @end

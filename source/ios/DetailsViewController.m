@@ -39,7 +39,6 @@ enum {
 @end
 
 @implementation DetailsViewController
-@synthesize selectedWorkspace=_selectedWorkspace;
 
 #pragma mark - init/alloc
 
@@ -49,22 +48,12 @@ enum {
 	return self;
 }
 
--(void)freeUpMemory
+-(void)dealloc
 {
-	[super freeUpMemory];
-	self.dateFormatter=nil;
-	self.dateFormatter=nil;
 	for (id aToken in self.rc2Tokens)
 		[[Rc2Server sharedInstance] removeObserverWithBlockToken:aToken];
 	self.rc2Tokens=nil;
-    self.workspaceContent=nil;
-    self.welcomeContent=nil;
-	self.actionSheet=nil;
-}
-
--(void)dealloc
-{
-	[self freeUpMemory];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:kTableViewDoubleClickedNotification object:nil];
 }
 
 #pragma mark - View lifecycle
@@ -102,14 +91,6 @@ enum {
 		self.currentView = self.welcomeContent;
 		_didNibCheck=YES;
 	}
-}
-
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	[self freeUpMemory];
-	self.fileTableView.allowsSelection = NO;
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kTableViewDoubleClickedNotification object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
@@ -295,19 +276,4 @@ enum {
 	return 75.0;
 }
 
-#pragma mark - synthesizers
-
-@synthesize dateFormatter;
-@synthesize titleLabel;
-@synthesize wspaceFilesToken;
-@synthesize loginButton;
-@synthesize sessionButton;
-@synthesize fileTableView;
-@synthesize workspaceContent;
-@synthesize welcomeContent;
-@synthesize actionSheet;
-@synthesize currentView;
-@synthesize rc2Tokens;
-@synthesize selectedIndex;
-@synthesize files=_files;
 @end

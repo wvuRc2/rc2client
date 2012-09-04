@@ -70,13 +70,6 @@ enum { eTree_Theme, eTree_Keyboard };
 																							target:self action:@selector(dismiss:)];
 }
 
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	// Return YES for supported orientations
@@ -230,21 +223,4 @@ enum { eTree_Theme, eTree_Keyboard };
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-@synthesize settingsTable;
-@synthesize keyboardCell;
-@synthesize themeCell;
-@synthesize emailCell;
-@synthesize emailField;
-@synthesize twitterCell;
-@synthesize twitterField;
-@synthesize smsCell;
-@synthesize smsField;
-@synthesize emailNoteCell;
-@synthesize emailNoteSwitch;
-@synthesize keyboardLabel;
-@synthesize themeLabel;
-@synthesize containingPopover;
-@synthesize treeController;
-@synthesize keyboards;
-@synthesize themes;
 @end

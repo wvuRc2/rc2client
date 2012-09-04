@@ -11,13 +11,6 @@
 #import "Rc2FileType.h"
 
 @implementation FileDetailsCell
-@synthesize nameLabel;
-@synthesize sizeLabel;
-@synthesize imgView;
-@synthesize lastModLabel;
-@synthesize localLastModLabel;
-@synthesize dateFormatter;
-@synthesize permissionView;
 
 -(CGFloat)rowHeight
 {

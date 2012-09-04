@@ -10,7 +10,6 @@
 #import "RCImage.h"
 
 @interface ImagePickerController ()
-
 @end
 
 @implementation ImagePickerController
@@ -27,11 +26,6 @@
 {
 	[super viewDidLoad];
 	//self.clearsSelectionOnViewWillAppear = NO;
-}
-
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -73,7 +67,4 @@
 		self.selectionHandler();
 }
 
-@synthesize images=_images;
-@synthesize selectedImage=_selectedImage;
-@synthesize selectionHandler=_selectionHandler;
 @end

@@ -25,21 +25,6 @@ static const CGFloat kKeyboardHeight = 354;
 @end
 
 @implementation ImageHolderView
-@synthesize image=_image;
-@synthesize imageView=_imageView;
-@synthesize scrollView=_scrollView;
-@synthesize nameLabel=_nameLabel;
-@synthesize barView;
-@synthesize actionButton;
-@synthesize delegate;
-@synthesize dateLabel;
-@synthesize dateFormatter;
-
--(void)dealloc
-{
-	self.image=nil;
-}
-
 -(void)awakeFromNib
 {
 	CGRect frame = self.frame;

@@ -46,7 +46,4 @@
 	self.accessoryView = self.statusImage;
 }
 
-@synthesize textLabel;
-@synthesize statusImage;
-@synthesize importButton;
 @end

@@ -82,11 +82,4 @@
 	self.dateLabel.text = [self.dateFormatter stringFromDate:date];
 }
 
-@synthesize note=_note;
-@synthesize typeLabel=_typeLabel;
-@synthesize dateLabel=_dateLabel;
-@synthesize messageLabel=_messageLabel;
-@synthesize dateFormatter=_dateFormatter;
-@synthesize themeChangeNotice=_themeChangeNotice;
-@synthesize gl=_gl;
 @end

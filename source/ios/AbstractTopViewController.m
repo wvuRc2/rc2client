@@ -33,11 +33,6 @@
 	self.themeChangeNotice=nil;
 }
 
--(void)freeUpMemory
-{
-	[self.kvoTokens removeAllObjects];
-}
-
 -(void)viewDidLoad
 {
 	[super viewDidLoad];
@@ -146,14 +141,4 @@
 		[theButton setImage:img forState:UIControlStateHighlighted];
 	}
 }
-
-
-@synthesize isettingsPopover=_isettingsPopover;
-@synthesize isettingsController=_isettingsController;
-@synthesize messagesButton=_messagesButton;
-@synthesize homeButton=_homeButton;
-@synthesize kvoTokens=_kvoTokens;
-@synthesize themeChangeNotice=_themeChangeNotice;
-@synthesize gradingButton=_gradingButton;
-@synthesize toolbar=_toolbar;
 @end

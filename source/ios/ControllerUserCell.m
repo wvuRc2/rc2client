@@ -10,9 +10,6 @@
 #import "RCSessionUser.h"
 
 @implementation ControllerUserCell
-@synthesize user=_user;
-@synthesize nameLabel;
-@synthesize handButton;
 
 -(void)setUser:(RCSessionUser *)user
 {

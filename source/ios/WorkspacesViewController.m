@@ -63,12 +63,6 @@
 	// Do any additional setup after loading the view.
 }
 
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	// Release any retained subviews of the main view.
-}
-
 -(void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
@@ -89,9 +83,4 @@
 {
 	return NO;
 }
-
-@synthesize splitController=_splitController;
-@synthesize detailsController=_detailsController;
-@synthesize navController=_navController;
-@synthesize rootWorkspaceController=_rootWorkspaceController;
 @end

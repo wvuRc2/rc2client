@@ -45,13 +45,6 @@
 	}
 }
 
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
@@ -166,8 +159,4 @@
 {
 	return 76;
 }
-
-@synthesize noteTable=_noteTable;
-@synthesize notes=_notes;
-@synthesize dateFormatter=_dateFormatter;
 @end
