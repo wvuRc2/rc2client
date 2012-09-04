@@ -8,9 +8,7 @@
 
 #import "SessionEditView.h"
 
-@implementation SessionEditView {
-	BOOL _isRich;
-}
+@implementation SessionEditView
 
 -(void)awakeFromNib
 {
@@ -38,13 +36,7 @@
 	if (self.helpBlock)
 		self.helpBlock(self);
 }
-/*
-- (UITextPosition *)positionFromPosition:(UITextPosition *)position inDirection:(UITextLayoutDirection)direction offset:(NSInteger)offset
-{
-	NSLog(@"pfp:%d / %d", direction, offset);
-	return [super positionFromPosition:position inDirection:direction offset:offset];
-}
-*/
+
 -(NSAttributedString*)attributedString
 {
 	if ([self respondsToSelector:@selector(attributedText)])
