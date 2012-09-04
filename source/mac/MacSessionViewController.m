@@ -243,6 +243,8 @@
 		return self.session.hasWritePerm;
 	} else if (action == @selector(saveFileEdits:)) {
 		return self.selectedFile.isTextFile && ![self.editView.string isEqualToString:self.selectedFile.currentContents];
+	} else if (action == @selector(revert:)) {
+		return self.selectedFile.isTextFile && ![self.editView.string isEqualToString:self.selectedFile.fileContents];
 	} else if (action == @selector(toggleUsers:)) {
 		return YES;
 	} else if (action == @selector(changeMode:)) {
@@ -374,6 +376,12 @@
 		self.selectedFile.localEdits = self.editView.string;
 		[self syncFile:self.selectedFile];
 	}
+}
+
+-(IBAction)revert:(id)sender
+{
+	if (self.selectedFile.isTextFile)
+		[self setEditViewTextWithHighlighting:[NSAttributedString attributedStringWithString:self.selectedFile.fileContents attributes:nil]];
 }
 
 -(IBAction)showImageDetails:(id)sender
