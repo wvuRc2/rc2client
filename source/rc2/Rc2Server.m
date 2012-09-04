@@ -438,10 +438,10 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	NSSet *newFiles = [moc fetchObjectsForEntityName:@"RCFile" withPredicate:@"fileId == 0 and wspaceId == %@",
 					   self.selectedWorkspace.wspaceId];
 	[entries addObjectsFromArray:[newFiles allObjects]];
+	[entries sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
 	return entries;
 }
 
-//++COPIED++
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@/files", [self baseUrl],
@@ -461,6 +461,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		NSSet *newFiles = [moc fetchObjectsForEntityName:@"RCFile" withPredicate:@"fileId == 0 and wspaceId == %@",
 						   self.selectedWorkspace.wspaceId];
 		[entries addObjectsFromArray:[newFiles allObjects]];
+		[entries sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
 		hblock(![[rsp objectForKey:@"status"] boolValue], entries);
 	}];
 	[req setFailedBlock:^{
