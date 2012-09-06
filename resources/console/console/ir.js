@@ -99,6 +99,16 @@ iR.closeImagePreview = function(imgGroup) {
 	Rc2.closePreview(imgGroup);
 };
 
+iR.prepareImageUrl = function(imgAnchor) {
+	var str = imgAnchor.attr('href')
+	if (str.indexOf('&') > 0) {
+		//remove existing location info
+		str = str.substring(0, str.indexOf('&'))
+	}
+	str = str + "&pos=" + imgAnchor.offset().left + "," + imgAnchor.offset().top;
+	imgAnchor.attr('href', str)
+}
+
 iR.appendPdf = function(pdfurl, fileId, filename) {
 	try {
 		var ic = document.createElement('div');
@@ -133,11 +143,11 @@ iR.appendImages = function(imgArray) {
 	var ic = document.createElement('div');
 	var divname = 'img' + new Date().getTime();
 	ic.setAttribute('id', divname);
-	if (!iR.isiPad) {
-		$(ic).addClass("imgGroup");
-		$(ic).mouseenter(function() {iR.previewImage(this); });
-		$(ic).mouseleave(function() {iR.closeImagePreview(this); });
-	}
+//	if (!iR.isiPad) {
+//		$(ic).addClass("imgGroup");
+//		$(ic).mouseenter(function() {iR.previewImage(this); });
+//		$(ic).mouseleave(function() {iR.closeImagePreview(this); });
+//	}
 	for (var i=0; i < imgArray.length; i++) {
 		var ispan = document.createElement('span');
 		ispan.setAttribute('class', 'Rimg');
@@ -577,8 +587,9 @@ iR.decreaseFontSize = function() {
 
 iR.doSetup = function() {
 	if (!iR.isiPad) {
+		$('body').delegate('.genImg', 'click', function() {iR.prepareImageUrl($(this))})
 		//restore handlers for any image groups
-		$(".imgGroup").mouseenter(function() {iR.previewImage(this); });
-		$(".imgGroup").mouseleave(function() {iR.closeImagePreview(this); });
+//		$(".imgGroup").mouseenter(function() {iR.previewImage(this); });
+//		$(".imgGroup").mouseleave(function() {iR.closeImagePreview(this); });
 	}
 };

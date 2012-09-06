@@ -390,7 +390,10 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		RCMMultiImageController	*ivc = [[RCMMultiImageController alloc] init];
 		[ivc view];
-		ivc.availableImages = [[RCImageCache sharedInstance] allImages];
+		if (_currentImageGroup.count > 0)
+			ivc.availableImages = _currentImageGroup;
+		else
+			ivc.availableImages = [[RCImageCache sharedInstance] allImages];
 		AppDelegate *del = [TheApp delegate];
 		[del showViewController:ivc];
 		[ivc setDisplayedImages: self.currentImageGroup];
@@ -653,10 +656,8 @@
 	self.imageController.detailsBlock = ^{
 		[blockSelf showImageDetails:nil];	
 	};
-	NSRect r = NSMakeRect(__curImgPoint.x+16, self.outputController.webView.frame.size.height - __curImgPoint.y - 16, 1, 1);
+	NSRect r = NSMakeRect(__curImgPoint.x+16, self.outputController.webView.frame.size.height - __curImgPoint.y +40, 1, 1);
 	[self.imagePopover showRelativeToRect:r ofView:self.view preferredEdge:NSMaxXEdge];
-//	[self.imagePopover showRelativeToRect:r ofView:self.outputController.webView preferredEdge:NSMaxXEdge];
-	NSLog(@"shown:%d", self.imagePopover.shown);
 }
 
 
@@ -667,7 +668,8 @@
 	NSString *idStr = [imgPath.lastPathComponent stringByDeletingPathExtension];
 	NSArray *imgArray = self.currentImageGroup;
 	if (imgArray.count < 1) {
-		imgArray = [NSArray arrayWithObject:[[RCImageCache sharedInstance] imageWithId:idStr]];
+		RCImage *img = [[RCImageCache sharedInstance] imageWithId:idStr];
+		imgArray = [NSArray arrayWithObject:img];
 	}
 	[self setupImageDisplay:imgArray];
 	[self.imageController displayImage:[NSNumber numberWithInt:[idStr intValue]]];
@@ -756,12 +758,26 @@
 			[imgArray addObject:img];
 	}
 	self.currentImageGroup = imgArray;
-	__curImgPoint = pt;
+	//pt is relative to output view. we need to make relative to our view
+	__curImgPoint = [self.view convertPoint:pt fromView:self.outputController.view];
 }
 
 -(void)handleImageRequest:(NSURL*)url
 {
-	if ([url.absoluteString hasSuffix:@".pdf"]) {
+	NSString *urlStr = url.absoluteString;
+	if ([urlStr rangeOfString:@"?"].length > 0) {
+		NSRange posRng = [urlStr rangeOfString:@"&pos="];
+		if (posRng.length > 0) {
+			NSArray *coords = [[urlStr substringFromIndex:posRng.location+5] componentsSeparatedByString:@","];
+			__curImgPoint.x = [[coords objectAtIndex:0] integerValue];
+			__curImgPoint.y = [[coords objectAtIndex:1] integerValue];
+			__curImgPoint = [self.view convertPoint:__curImgPoint fromView:self.outputController.view];
+			NSString *imgPath = [urlStr substringToIndex:posRng.location];
+			_currentImageGroup = [[RCImageCache sharedInstance] groupImagesForLinkPath:imgPath];
+		}
+		urlStr = [urlStr substringToIndex:[urlStr rangeOfString:@"?"].location];
+	}
+	if ([urlStr hasSuffix:@".pdf"]) {
 		//we want to show the pdf
 		NSString *path = [url.absoluteString stringByDeletingPathExtension];
 		path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
@@ -771,7 +787,7 @@
 //		[pvc view]; //load from nib
 //		[pvc loadPdf:file.fileContentsPath];
 //		[(AppDelegate*)[NSApp delegate] showViewController:pvc];
-	} else if ([url.absoluteString hasSuffix:@".png"]) {
+	} else if ([urlStr hasSuffix:@".png"]) {
 		//for now. we may want to handle multiple images at once
 		[self displayImage:[url path]];
 	} else {

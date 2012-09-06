@@ -135,8 +135,10 @@
 	[regex enumerateMatchesInString:html options:0 range:NSMakeRange(0, [html length]) 
 						 usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) 
 	 {
-		 NSString *fname = [html substringWithRange:[match rangeAtIndex:1]];
-		 [[RCImageCache sharedInstance] loadImageIntoCache:fname];
+		NSString *fname = [html substringWithRange:[match rangeAtIndex:1]];
+		 if (nil == [[RCImageCache sharedInstance] loadImageIntoCache:fname]) {
+			 //TODO: we don't have this image cached. we need to fire off a background task to download and then load it
+		 }
 	 }];
 }
 

@@ -404,7 +404,6 @@
 			return;
 		}
 		imgGroup = [[RCImageCache sharedInstance] groupImagesForLinkPath:fileOrPath];
-		NSLog(@"imgGroup has %d images", imgGroup.count);
 	}
 	
 	if (nil == self.imgController)
@@ -426,6 +425,7 @@
 	};
 	[self presentModalViewController:self.imgController animated:YES];
 	[self.imgController loadImages];
+	//TODO: need to load the other images that should be shown for this group.
 	if (imgGroup)
 		[self.imgController setImageDisplayCount:imgGroup.count];
 }
