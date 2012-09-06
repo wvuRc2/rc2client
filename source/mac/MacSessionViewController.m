@@ -424,6 +424,7 @@
 	if (nil == savedState.currentFile)
 		savedState.inputText = self.editView.string;
 	[savedState setBoolProperty:self.fileListVisible forKey:@"fileListVisible"];
+	[savedState.managedObjectContext save:nil];
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState

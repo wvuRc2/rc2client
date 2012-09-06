@@ -178,7 +178,6 @@
 		[outArray addObject:[NSString stringWithFormat:@"rc2img:///%@.png?%@", [imgDict objectForKey:@"id"], grpName]];
 	}
 	[[self.metaData objectForKey:@"groups"] setObject:[inArray valueForKeyPath:@"id"] forKey:grpName];
-	NSLog(@"md=%@", self.metaData);
 	[self cacheImages:inArray];
 	return outArray;
 }
