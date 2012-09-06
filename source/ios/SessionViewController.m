@@ -390,6 +390,7 @@
 -(void)displayImageWithPathOrFile:(id)fileOrPath
 {
 	RCImage *img=nil;
+	NSArray *imgGroup=nil;
 	if ([fileOrPath isKindOfClass:[RCFile class]]) {
 		img = [[RCImageCache sharedInstance] loadImageFileIntoCache:fileOrPath];
 	} else {
@@ -402,24 +403,31 @@
 			Rc2LogWarn(@"image does not exist: %@", fileOrPath);
 			return;
 		}
+		imgGroup = [[RCImageCache sharedInstance] groupImagesForLinkPath:fileOrPath];
+		NSLog(@"imgGroup has %d images", imgGroup.count);
 	}
 	
 	if (nil == self.imgController)
 		self.imgController = [[ImageDisplayController alloc] init];
-	self.imgController.allImages = [[[RCImageCache sharedInstance] allImages] sortedArrayUsingComparator:^(RCImage *obj1, RCImage *obj2) {
-		if (obj1.timestamp > obj2.timestamp)
-			return (NSComparisonResult)NSOrderedAscending;
-		if (obj2.timestamp > obj1.timestamp)
-			return (NSComparisonResult)NSOrderedDescending;
-		return [obj1.name caseInsensitiveCompare:obj2.name];
-	}];
+	if (imgGroup.count > 0) {
+			self.imgController.allImages = imgGroup;
+	} else {
+		self.imgController.allImages = [[[RCImageCache sharedInstance] allImages] sortedArrayUsingComparator:^(RCImage *obj1, RCImage *obj2) {
+			if (obj1.timestamp > obj2.timestamp)
+				return (NSComparisonResult)NSOrderedAscending;
+			if (obj2.timestamp > obj1.timestamp)
+				return (NSComparisonResult)NSOrderedDescending;
+			return [obj1.name caseInsensitiveCompare:obj2.name];
+		}];
+	}
 	__unsafe_unretained SessionViewController *blockSelf = self;
 	self.imgController.closeHandler = ^{
 		[blockSelf dismissModalViewControllerAnimated:YES];
 	};
 	[self presentModalViewController:self.imgController animated:YES];
 	[self.imgController loadImages];
-	[self.imgController loadImage1:img];
+	if (imgGroup)
+		[self.imgController setImageDisplayCount:imgGroup.count];
 }
 
 -(void)displayLinkedFile:(NSString*)urlPath
@@ -473,10 +481,10 @@
 	[self.audioEngine processBinaryMessage:data];
 }
 
--(void)executeJavascript:(NSString*)js
+-(NSString*)executeJavascript:(NSString*)js
 {
 	[self.consoleController evaluateJavaScript:js];
-	[self.consoleController evaluateJavaScript:@"scroll(0,document.body.scrollHeight)"];
+	return [self.consoleController evaluateJavaScript:@"scroll(0,document.body.scrollHeight)"];
 }
 
 -(void)loadHelpURL:(NSURL*)url

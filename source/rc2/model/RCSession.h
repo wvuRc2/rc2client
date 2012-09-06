@@ -77,6 +77,6 @@
 -(void)displayEditorFile:(RCFile*)file;
 -(void)displayLinkedFile:(NSString*)path;
 -(void)workspaceFileUpdated:(RCFile*)file;
--(void)executeJavascript:(NSString*)js;
+-(NSString*)executeJavascript:(NSString*)js;
 -(void)loadHelpURL:(NSURL*)url;
 @end

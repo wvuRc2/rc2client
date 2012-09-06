@@ -22,6 +22,6 @@
 -(NSArray*)allImages;
 -(NSArray*)adjustImageArray:(NSArray*)inArray;
 -(RCImage*)imageWithId:(NSString*)imgId;
-
+-(NSArray*)groupImagesForLinkPath:(NSString*)group;
 -(void)clearCache;
 @end

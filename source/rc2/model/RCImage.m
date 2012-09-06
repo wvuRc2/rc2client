@@ -9,11 +9,6 @@
 #import "RCImage.h"
 
 @implementation RCImage
-@synthesize name;
-@synthesize path;
-@synthesize image;
-@synthesize timestamp;
-@synthesize imageId;
 
 -(id)initWithPath:(NSString*)aPath
 {
@@ -34,5 +29,10 @@
 		self.imageId = [NSNumber numberWithInteger:sNextFileId--];
 	self.name = pathc;
 	return self;
+}
+
+-(void)setName:(NSString *)name
+{
+	_name = [name copy];
 }
 @end

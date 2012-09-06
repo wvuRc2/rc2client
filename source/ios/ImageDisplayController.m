@@ -56,17 +56,6 @@
 @end
 
 @implementation ImageDisplayController
-@synthesize whatUp;
-@synthesize holder1;
-@synthesize holder2;
-@synthesize holder3;
-@synthesize holder4;
-@synthesize allImages;
-@synthesize actionSheet;
-@synthesize actionImage;
-@synthesize closeHandler;
-@synthesize imagePicker;
-@synthesize imagePopover;
 
 - (id)init
 {
@@ -120,6 +109,15 @@
 				break;
 		}
 	}];
+}
+
+-(void)setImageDisplayCount:(NSInteger)imgCount
+{
+	ZAssert(imgCount > 0, @"invalid image count");
+	if (imgCount > 3)
+		imgCount = 3; //convert a 4 to a 3
+	self.whatUp.selectedSegmentIndex = imgCount-1; //convert to zero-based
+	[self adjustLayout];
 }
 
 -(void)adjustLayout

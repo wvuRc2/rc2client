@@ -608,10 +608,10 @@
 	[self presentError:error];
 }
 
--(void)executeJavascript:(NSString*)js
+-(NSString*)executeJavascript:(NSString*)js
 {
 	[self.outputController executeJavaScript:js];
-	[self.outputController executeJavaScript:@"scroll(0,document.body.scrollHeight)"];
+	return [self.outputController executeJavaScript:@"scroll(0,document.body.scrollHeight)"];
 }
 
 -(void)loadHelpURL:(NSURL*)url

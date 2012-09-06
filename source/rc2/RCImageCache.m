@@ -6,6 +6,10 @@
 //  Copyright 2012 West Virginia University. All rights reserved.
 //
 
+/*	metaData stores file ids mapped to file names that were user edited.
+ 	Also stores img groups using groupname as key, array of image ids as value. These are in the groups dict
+ */
+
 #import "RCImageCache.h"
 #import "RCImage.h"
 #import "RCFile.h"
@@ -51,12 +55,20 @@
 		self.imgCachePath = [cacheUrl path];
 		self.imgCache = [NSMutableDictionary dictionary];
 		self.dloadQueue = [[NSOperationQueue alloc] init];
-		self.metaData = [[[NSUserDefaults standardUserDefaults] objectForKey:kPref_ImageMetaData] mutableCopy];
-		//FIXME: we used to keep numbers in here. this can be removed mid-June as both Jim and I will be using strings
-		if ([self.metaData.allKeys.firstObject isKindOfClass:[NSNumber class]])
-			[self.metaData removeAllObjects];
+		[self resetMetadata];
 	}
 	return self;
+}
+
+-(void)resetMetadata
+{
+	if (nil == self.metaData) {
+		self.metaData = [[[NSUserDefaults standardUserDefaults] objectForKey:kPref_ImageMetaData] mutableCopy];
+		if (nil == self.metaData)
+			self.metaData = [NSMutableDictionary dictionary];
+	}
+	[self.metaData removeAllObjects];
+	[self.metaData setObject:[NSMutableDictionary dictionary] forKey:@"groups"];
 }
 
 -(void)saveFileName:(NSString*)fname forId:(NSString*)imageIdStr
@@ -67,7 +79,7 @@
 
 -(void)clearCache
 {
-	[self.metaData removeAllObjects];
+	[self resetMetadata];
 	[[NSUserDefaults standardUserDefaults] setObject:self.metaData forKey:kPref_ImageMetaData];
 	NSFileManager *fm = [[NSFileManager alloc] init];
 	NSError *err=nil;
@@ -89,6 +101,11 @@
 	NSString *imgPath = imageIdStr;
 	if (![imgPath hasSuffix:@".png"])
 		imgPath = [imgPath stringByAppendingPathExtension:@"png"];
+	NSRange queryRng = [imgPath rangeOfString:@"?ig"];
+	if (queryRng.location != NSNotFound) {
+		//need to strip query string off end
+		imgPath = [imgPath substringToIndex:queryRng.location];
+	}
 	NSString *fpath = [self.imgCachePath stringByAppendingPathComponent:imgPath];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:fpath])
 		return nil;
@@ -153,21 +170,31 @@
 
 -(NSArray*)adjustImageArray:(NSArray*)inArray
 {
+	NSString *grpName = [NSString stringWithFormat:@"ig%1.2f", [NSDate timeIntervalSinceReferenceDate]];
 	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
 	for (NSDictionary *imgDict in inArray) {
-		[outArray addObject:[NSString stringWithFormat:@"rc2img:///%@.png", [imgDict objectForKey:@"id"]]];
+		[outArray addObject:[NSString stringWithFormat:@"rc2img:///%@.png?%@", [imgDict objectForKey:@"id"], grpName]];
 	}
+	[[self.metaData objectForKey:@"groups"] setObject:[inArray valueForKeyPath:@"id"] forKey:grpName];
+	NSLog(@"md=%@", self.metaData);
 	[self cacheImages:inArray];
 	return outArray;
+}
+
+-(NSArray*)groupImagesForLinkPath:(NSString*)group
+{
+	group = [group substringFromIndex:[group rangeOfString:@"?ig"].location+1];
+	NSArray *imageIds = [[self.metaData objectForKey:@"groups"] objectForKey:group];
+	if (imageIds.count < 1)
+		return nil;
+	NSMutableArray *outImages = [NSMutableArray arrayWithCapacity:imageIds.count];
+	for (id anId in imageIds)
+		[outImages addObject:[self imageWithId:[anId description]]];
+	return [outImages copy];
 }
 
 -(RCImage*)imageWithId:(NSString*)imgId
 {
 	return [self.imgCache objectForKey:imgId];
 }
-
-@synthesize imgCache=_imgCache;
-@synthesize imgCachePath=_imgCachePath;
-@synthesize dloadQueue=_dloadQueue;
-@synthesize metaData=_metaData;
 @end

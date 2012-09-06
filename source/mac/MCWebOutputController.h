@@ -43,7 +43,7 @@
 -(void)saveSessionState:(RCSavedSession*)savedState;
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 
--(void)executeJavaScript:(NSString*)js;
+-(NSString*)executeJavaScript:(NSString*)js;
 -(void)loadLocalFile:(RCFile*)file;
 
 @end

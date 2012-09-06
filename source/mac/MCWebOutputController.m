@@ -121,7 +121,7 @@
 	self.historyHasItems = self.commandHistory.count > 0;
 }
 
--(void)executeJavaScript:(NSString*)js
+-(NSString*)executeJavaScript:(NSString*)js
 {
 	//following would force relayout to fix any clipping bugs b/c webkit in a layer-backed window
 	//[[[[sender mainFrame] frameView] documentView] setNeedsLayout:YES]
@@ -138,9 +138,9 @@
 		[self.outputQueue addObject:js];
 	} else {
 		//ok to do it
-		[self.webView stringByEvaluatingJavaScriptFromString:js];
+		return [self.webView stringByEvaluatingJavaScriptFromString:js];
 	}
-	
+	return @"";
 }
 
 -(void)previewImage:(DOMElement*)imgGroupElem images:(WebScriptObject*)images
