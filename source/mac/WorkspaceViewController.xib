@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1080</int>
-		<string key="IBDocument.SystemVersion">12A269</string>
+		<string key="IBDocument.SystemVersion">12B19</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2818</string>
 		<string key="IBDocument.AppKitVersion">1187</string>
 		<string key="IBDocument.HIToolboxVersion">624.00</string>
@@ -214,7 +214,6 @@
 								<string key="NSFrame">{{1, 119}, {223, 15}}</string>
 								<reference key="NSSuperview" ref="871321042"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:1847</string>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSsFlags">1</int>
@@ -403,7 +402,7 @@
 													<int key="NSvFlags">256</int>
 													<string key="NSFrameSize">{506, 76}</string>
 													<reference key="NSSuperview" ref="844985565"/>
-													<reference key="NSNextKeyView" ref="215660170"/>
+													<reference key="NSNextKeyView" ref="857359755"/>
 													<string key="NSReuseIdentifierKey">_NS:1828</string>
 													<bool key="NSEnabled">YES</bool>
 													<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -618,7 +617,7 @@
 									</array>
 									<string key="NSFrame">{{4, 25}, {508, 94}}</string>
 									<reference key="NSSuperview" ref="432882455"/>
-									<reference key="NSNextKeyView" ref="857359755"/>
+									<reference key="NSNextKeyView" ref="844985565"/>
 									<string key="NSReuseIdentifierKey">_NS:1824</string>
 									<int key="NSsFlags">154162</int>
 									<reference key="NSVScroller" ref="9207776"/>
@@ -770,7 +769,7 @@
 													<int key="NSvFlags">256</int>
 													<string key="NSFrameSize">{506, 76}</string>
 													<reference key="NSSuperview" ref="898845613"/>
-													<reference key="NSNextKeyView" ref="393539502"/>
+													<reference key="NSNextKeyView" ref="117738386"/>
 													<string key="NSReuseIdentifierKey">_NS:1828</string>
 													<bool key="NSEnabled">YES</bool>
 													<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -994,7 +993,7 @@
 									</array>
 									<string key="NSFrame">{{4, 25}, {508, 94}}</string>
 									<reference key="NSSuperview" ref="911690621"/>
-									<reference key="NSNextKeyView" ref="117738386"/>
+									<reference key="NSNextKeyView" ref="898845613"/>
 									<string key="NSReuseIdentifierKey">_NS:1824</string>
 									<int key="NSsFlags">133682</int>
 									<reference key="NSVScroller" ref="319306584"/>
@@ -1917,11 +1916,16 @@
 					<string key="className">WorkspaceViewController</string>
 					<string key="superclassName">MacClientAbstractViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="doOpenSession:">id</string>
 						<string key="doRefreshFileList:">id</string>
 						<string key="exportFile:">id</string>
 						<string key="importFile:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="doOpenSession:">
+							<string key="name">doOpenSession:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="doRefreshFileList:">
 							<string key="name">doRefreshFileList:</string>
 							<string key="candidateClassName">id</string>

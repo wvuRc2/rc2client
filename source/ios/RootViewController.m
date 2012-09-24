@@ -114,7 +114,7 @@
 							   options:UIViewAnimationOptionTransitionCrossDissolve
 							animations:^{} 
 							completion:^(BOOL finished) {
-								self.currentController = vc;
+										self.currentController = vc;
 							}];
 }
 
