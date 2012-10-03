@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
@@ -426,6 +427,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMAppConstants.h; path = source/mac/RCMAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMAppConstants.m; path = source/mac/RCMAppConstants.m; sourceTree = SOURCE_ROOT; };
@@ -971,6 +973,7 @@
 				08D2468015B5EF630064A9FA /* WebKit.framework in Frameworks */,
 				08D2461F15B5EBC20064A9FA /* Cocoa.framework in Frameworks */,
 				084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */,
+				082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1779,6 +1782,7 @@
 		08D2468115B5EF770064A9FA /* Mac Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				082CEE8E161C8C8900E01F48 /* FScript.framework */,
 				084593D415B5F09500297C9D /* HockeySDK.framework */,
 				08D2468215B5EFCE0064A9FA /* Vyana.framework */,
 				08D2461E15B5EBC20064A9FA /* Cocoa.framework */,
@@ -2568,6 +2572,7 @@
 					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
 					"\"$(SRCROOT)/3rdParty/HockeySDK-Mac\"",
 					"$(BUILT_PRODUCTS_DIR)",
+					"\"$(SRCROOT)/3rdParty\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2600,6 +2605,7 @@
 					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
 					"\"$(SRCROOT)/3rdParty/HockeySDK-Mac\"",
 					"$(BUILT_PRODUCTS_DIR)",
+					"\"$(SRCROOT)/3rdParty\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2631,6 +2637,7 @@
 					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
 					"\"$(SRCROOT)/3rdParty/HockeySDK-Mac\"",
 					"$(BUILT_PRODUCTS_DIR)",
+					"\"$(SRCROOT)/3rdParty\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

@@ -66,7 +66,14 @@
 	[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f4225a0ff7ed8fe53eb30f4a29a21689" companyName:@"WVU Statistics Dept" crashReportManagerDelegate:self];
 	[[BITHockeyManager sharedHockeyManager] setExceptionInterceptionEnabled:YES];
 	[[BITHockeyManager sharedHockeyManager] startManager];
-	
+
+#ifdef DEBUG
+	//if F-Script is available, install in menu bar
+	Class fscriptClz = NSClassFromString(@"FScriptMenuItem");
+	if (fscriptClz)
+		[[NSApp mainMenu] addItem:[[fscriptClz alloc] init]];
+#endif
+
 	NSString *fileCache = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:fileCache])
 		[[NSFileManager defaultManager] createDirectoryAtPath:fileCache withIntermediateDirectories:YES attributes:nil error:nil];
