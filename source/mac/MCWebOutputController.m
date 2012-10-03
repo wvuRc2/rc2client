@@ -56,6 +56,7 @@
 {
 	if (!__didInit) {
 		[[WebPreferences standardPreferences] setUsesPageCache:YES];
+		self.view.translatesAutoresizingMaskIntoConstraints = NO;
 		[self loadContent];
 		self.clearMenuItem = [[NSMenuItem alloc] initWithTitle:@"Clear Output" action:@selector(doClear:) keyEquivalent:@""];
 		self.saveAsMenuItem = [[NSMenuItem alloc] initWithTitle:@"Save As…" action:@selector(saveSelectedPDF:) keyEquivalent:@""];

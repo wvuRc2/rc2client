@@ -31,6 +31,7 @@
 #import "RCAudioChatEngine.h"
 #import "RCImageCache.h"
 #import "NoodleLineNumberView.h"
+#import "MacSessionView.h"
 
 @interface MacSessionViewController() <NSPopoverDelegate> {
 	CGFloat __fileListWidth;
@@ -101,9 +102,7 @@
 	[super awakeFromNib];
 	if (!__didInit) {
 		self.outputController = [[MCWebOutputController alloc] init];
-		NSView *croot = [self.contentSplitView.subviews objectAtIndex:1];
-		[croot addSubview:self.outputController.view];
-		self.outputController.view.frame = croot.bounds;
+		[self.sessionView embedOutputView:self.outputController.view];
 		self.outputController.delegate = (id)self;
 		if (!self.session.socketOpen) {
 			self.busy = YES;
@@ -277,31 +276,12 @@
 
 -(IBAction)toggleFileList:(id)sender
 {
-	__movingFileList=YES;
-	NSRect fileRect = self.fileContainerView.frame;
-	NSRect contentRect = self.contentSplitView.frame;
-	CGFloat offset = __fileListWidth;
-	if (self.fileContainerView.frame.origin.x < 0) {
-		fileRect.origin.x += offset;
-		contentRect.origin.x += offset;
-		contentRect.size.width -= offset;
-	} else {
-		fileRect.origin.x -= offset;
-		contentRect.origin.x -= offset;
-		contentRect.size.width += offset;
-	}
-	if (self.view.window) {
-		[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-			[self.fileContainerView.animator setFrame:fileRect];
-			[self.contentSplitView.animator setFrame:contentRect];
-		} completionHandler:^{
-			__movingFileList=NO;
-		}];
-	} else {
-		[self.fileContainerView setFrame:fileRect];
-		[self.contentSplitView setFrame:contentRect];
-		__movingFileList=NO;
-	}
+	NSRect r = self.sessionView.leftView.frame;
+	if (r.size.width < 171)
+		r.size.width = 171;
+	else
+		r.size.width = 0;
+	[[self.sessionView.leftView animator] setFrame:r];
 }
 
 -(IBAction)executeScript:(id)sender
@@ -560,7 +540,8 @@
 	id astr = [srcStr mutableCopy];
 	[astr addAttributes:self.editView.textAttributes range:NSMakeRange(0, [astr length])];
 	astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:astr ofType:self.selectedFile.name.pathExtension];
-	[self.editView.textStorage setAttributedString:astr];
+	if (astr)
+		[self.editView.textStorage setAttributedString:astr];
 	[self.editView setEditable: self.selectedFile.readOnlyValue ? NO : YES];
 }
 
@@ -1095,7 +1076,9 @@
 	return self.restrictedMode;
 }
 
-@end
+-(MacSessionView*)sessionView
+{
+	return (MacSessionView*)self.view;
+}
 
-@implementation SessionView
 @end

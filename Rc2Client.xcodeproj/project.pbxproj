@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		082CEE9E161CC84A00E01F48 /* MacSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MacSessionView.m */; };
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
@@ -428,6 +429,8 @@
 
 /* Begin PBXFileReference section */
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
+		082CEE9C161CC84A00E01F48 /* MacSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacSessionView.h; path = source/mac/MacSessionView.h; sourceTree = SOURCE_ROOT; };
+		082CEE9D161CC84A00E01F48 /* MacSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacSessionView.m; path = source/mac/MacSessionView.m; sourceTree = SOURCE_ROOT; };
 		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMAppConstants.h; path = source/mac/RCMAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMAppConstants.m; path = source/mac/RCMAppConstants.m; sourceTree = SOURCE_ROOT; };
@@ -1062,6 +1065,8 @@
 				0845944615B5F2BC00297C9D /* MCWebOutputController.h */,
 				0845944715B5F2BC00297C9D /* MCWebOutputController.m */,
 				0845944815B5F2BC00297C9D /* MCWebOutputController.xib */,
+				082CEE9C161CC84A00E01F48 /* MacSessionView.h */,
+				082CEE9D161CC84A00E01F48 /* MacSessionView.m */,
 			);
 			name = "top controllers";
 			sourceTree = "<group>";
@@ -2365,6 +2370,7 @@
 				084594BE15B5F53900297C9D /* NoodleLineNumberView.m in Sources */,
 				084594BF15B5F53900297C9D /* PXSourceList.m in Sources */,
 				08C99AC415EE9CDF002D430D /* Rc2FileType.m in Sources */,
+				082CEE9E161CC84A00E01F48 /* MacSessionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
