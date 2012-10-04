@@ -36,15 +36,14 @@
 	[super awakeFromNib];
 	self.editorWidthConstraint.priority = NSLayoutPriorityDragThatCannotResizeWindow;
 	self.editorWidthConstraint.constant = 400;
-	NSRect r = NSInsetRect(self.splitterView.bounds, -2, 0);
-	NSTrackingArea *ta = [[NSTrackingArea alloc] initWithRect:r options:NSTrackingCursorUpdate|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self.splitterView userInfo:nil];
-	[self.splitterView addTrackingArea:ta];
 }
 
 -(void)mouseDown:(NSEvent *)evt
 {
 	NSPoint loc = [self convertPoint:evt.locationInWindow fromView:nil];
-	if (NSPointInRect(loc, self.splitterView.frame)) {
+	NSRect f = NSInsetRect(self.splitterView.frame, -2, 0);
+	if (NSPointInRect(loc, f)) {
+		NSLog(@"pt in rect");
 		_dragging = YES;
 		self.dragTrackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingCursorUpdate|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
 		[self addTrackingArea:self.dragTrackingArea];
@@ -74,7 +73,9 @@
 
 -(void)cursorUpdate:(NSEvent *)event
 {
-	[[NSCursor resizeLeftRightCursor] set];
+	if (self.dragTrackingArea) {
+		[[NSCursor resizeLeftRightCursor] set];
+	}
 }
 
 -(void)embedOutputView:(NSView *)newView
@@ -110,6 +111,8 @@
 -(void)awakeFromNib
 {
 	self.wantsLayer = YES;
+	NSTrackingArea *ta = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingCursorUpdate|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+	[self addTrackingArea:ta];
 }
 
 -(void)drawRect:(NSRect)dirtyRect
