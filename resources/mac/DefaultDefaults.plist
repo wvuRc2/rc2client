@@ -26,5 +26,7 @@
 	<string>FFFFFF</string>
 	<key>EditorFontDisplayName</key>
 	<string>Menlo</string>
+	<key>EditorWordWrap</key>
+	<true/>
 </dict>
 </plist>

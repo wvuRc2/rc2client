@@ -27,6 +27,7 @@ extern NSString * const RCMToolbarItem_Users;
 #define kPref_EditorFontSize @"EditorFontSize"
 #define kPref_EditorFontColor @"EditorFontColor"
 #define kPref_EditorBGColor @"EditorBGColor"
+#define kPref_EditorWordWrap @"EditorWordWrap"
 
 @interface RCMAppConstants : NSObject
 //array of all preference keys that should be removed when users chooses to reset all warnings

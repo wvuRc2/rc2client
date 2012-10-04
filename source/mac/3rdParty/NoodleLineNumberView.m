@@ -424,7 +424,8 @@
 		
 		yinset = [view textContainerInset].height;        
         visibleRect = [[[self scrollView] contentView] bounds];
-		visibleRect.origin.y -= 52; //mlilback - change required for Lion
+		if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_7)
+			visibleRect.origin.y -= 52; //mlilback - change required for Lion
         
         textAttributes = [self textAttributes];
 		

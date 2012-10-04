@@ -29,9 +29,14 @@
 	if (nil == fnt)
 		fnt = [NSFont userFixedPitchFontOfSize:12.0];
 	[self setFont:fnt];
-	[self.textContainer setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
-	[self.textContainer setWidthTracksTextView:NO];
-	[self setHorizontallyResizable:YES];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:kPref_EditorWordWrap]) {
+		[self.textContainer setWidthTracksTextView:YES];
+		[self setHorizontallyResizable:NO];
+	} else {
+		[self.textContainer setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+		[self.textContainer setWidthTracksTextView:NO];
+		[self setHorizontallyResizable:YES];
+	}
 //	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontPrefsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
 	[self fontPrefsChanged:nil];
 }
@@ -60,6 +65,16 @@
 		}]];
 //		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontPrefsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
 	}
+}
+
+-(BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	SEL action = menuItem.action;
+	if (action == @selector(toggleWordWrap:)) {
+		menuItem.state = self.wordWrapEnabled ? NSOnState : NSOffState;
+		return YES;
+	}
+	return [super validateMenuItem:menuItem];
 }
 
 -(void)print:(id)sender
@@ -177,6 +192,25 @@
 	[self setTypingAttributes:self.textAttributes];
 	self.backgroundColor = bgcolor;
 	[(id)self.delegate recolorText];
+}
+
+-(IBAction)toggleWordWrap:(id)sender
+{
+	if (self.textContainer.widthTracksTextView) {
+		self.textContainer.widthTracksTextView = NO;
+		self.textContainer.containerSize = NSMakeSize(FLT_MAX, FLT_MAX);
+		[self setHorizontallyResizable:YES];
+	} else {
+		self.textContainer.containerSize = NSMakeSize(200, FLT_MAX);
+		self.textContainer.widthTracksTextView = YES;
+	}
+	[self didChangeText];
+	[[NSUserDefaults standardUserDefaults] setBool:self.wordWrapEnabled forKey:kPref_EditorWordWrap];
+}
+
+-(BOOL)wordWrapEnabled
+{
+	return self.textContainer.widthTracksTextView;
 }
 
 @synthesize textAttributes;

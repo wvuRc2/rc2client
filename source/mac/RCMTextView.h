@@ -15,4 +15,7 @@
 
 @interface RCMTextView : NSTextView
 @property (nonatomic, copy) NSDictionary *textAttributes;
+@property (nonatomic, readonly) BOOL wordWrapEnabled;
+
+-(IBAction)toggleWordWrap:(id)sender;
 @end
