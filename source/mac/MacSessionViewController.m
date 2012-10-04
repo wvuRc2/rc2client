@@ -225,6 +225,7 @@
 -(void)viewDidMoveToWindow
 {
 	[self.view.window makeFirstResponder:self.editView];
+	[self.view.window visualizeConstraints:self.view.constraints];
 }
 
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
@@ -404,6 +405,7 @@
 	if (nil == savedState.currentFile)
 		savedState.inputText = self.editView.string;
 	[savedState setBoolProperty:self.fileListVisible forKey:@"fileListVisible"];
+	[savedState setProperty:[NSNumber numberWithDouble:self.sessionView.editorWidth] forKey:@"editorWidth"];
 	[savedState.managedObjectContext save:nil];
 }
 
@@ -415,6 +417,7 @@
 	} else if ([savedState.inputText length] > 0) {
 		self.editView.string = savedState.inputText;
 	}
+	self.sessionView.editorWidth = [[savedState propertyForKey:@"editorWidth"] doubleValue];
 	__fileListInitiallyVisible = [savedState boolPropertyForKey:@"fileListVisible"];
 	[[RCImageCache sharedInstance] cacheImagesReferencedInHTML:savedState.consoleHtml];
 }
