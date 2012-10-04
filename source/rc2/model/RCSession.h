@@ -31,6 +31,7 @@
 @property (nonatomic, assign, readonly) BOOL hasWritePerm;
 @property (assign) BOOL handRaised;
 @property (assign) BOOL restrictedMode;
+@property (nonatomic) BOOL variablesVisible;
 @property (nonatomic, readonly) BOOL isClassroomMode;
 
 -(id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp;

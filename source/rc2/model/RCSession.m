@@ -424,10 +424,21 @@
 	[defaults setObject:_settings forKey:[NSString stringWithFormat:@"session_%@", self.workspace.wspaceId]];
 }
 
+#pragma mark - accessors
+
 -(void)setMode:(NSString*)theMode
 {
 	_mode = [theMode copy];
 	self.restrictedMode = ![theMode isEqualToString:kMode_Share] && !(self.currentUser.master || self.currentUser.control);
+}
+
+-(void)setVariablesVisible:(BOOL)visible
+{
+	if (_variablesVisible != visible) {
+		_variablesVisible = visible;
+		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"watchvariables", @"cmd", [NSNumber numberWithBool:visible], @"watch", nil];
+		[_ws sendText:[dict JSONRepresentation]];
+	}
 }
 
 -(BOOL)isClassroomMode

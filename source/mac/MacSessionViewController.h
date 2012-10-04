@@ -25,7 +25,7 @@
 @property (nonatomic, strong) IBOutlet NSView *rightContainer;
 @property (nonatomic, strong) IBOutlet RCMTextView *editView;
 @property (nonatomic, strong) IBOutlet NSButton *executeButton;
-@property (assign) NSInteger selectedLeftViewIndex;
+@property (nonatomic) NSInteger selectedLeftViewIndex;
 @property (nonatomic, assign) BOOL restrictedMode;
 
 -(id)initWithSession:(RCSession*)aSession;

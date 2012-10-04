@@ -60,6 +60,7 @@
 @property (nonatomic, strong) id fullscreenToken;
 @property (nonatomic, strong) id usersToken;
 @property (nonatomic, strong) id modeChangeToken;
+@property (nonatomic, strong) id variablesVisibleToken;
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) NSString *webTmpFileDirectory;
 @property (nonatomic, strong) NSWindow *blockingWindow;
@@ -173,6 +174,13 @@
 			dispatch_async(dispatch_get_main_queue(), ^{
 				blockSelf.users = blockSelf.session.users;
 				[blockSelf.userTableView reloadData];
+			});
+		}];
+		self.variablesVisibleToken = [self.sessionView addObserverForKeyPath:@"leftViewVisible" task:^(id obj, NSDictionary *change)
+		{
+			dispatch_async(dispatch_get_main_queue(), ^{
+				blockSelf.session.variablesVisible = blockSelf.sessionView.leftViewVisible &&
+					blockSelf.selectedLeftViewIndex == 1;
 			});
 		}];
 		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
@@ -1036,6 +1044,12 @@
 {
 	_restrictedMode = rmode;
 	self.outputController.restrictedMode = rmode;
+}
+
+-(void)setSelectedLeftViewIndex:(NSInteger)idx
+{
+	_selectedLeftViewIndex = idx;
+	self.session.variablesVisible = self.sessionView.leftViewVisible && idx == 1;
 }
 
 -(BOOL)restricted

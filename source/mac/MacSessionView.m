@@ -36,6 +36,9 @@
 	[super awakeFromNib];
 	self.editorWidthConstraint.priority = NSLayoutPriorityDragThatCannotResizeWindow;
 	self.editorWidthConstraint.constant = 400;
+	CABasicAnimation *anim = [CABasicAnimation animation];
+	anim.delegate = self;
+	[self.leftXConstraint setAnimations:@{@"constant": anim}];
 }
 
 -(void)mouseDown:(NSEvent *)evt
@@ -85,6 +88,18 @@
 	NSDictionary *dict = NSDictionaryOfVariableBindings(newView);
 	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[newView]-0-|" options:0 metrics:nil views:dict]];
 	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[newView]-0-|" options:0 metrics:nil views:dict]];
+}
+
+-(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+	if (flag) {
+		//even though the animation is reported stopped, the left view was still at -17 instead of 0.
+		// so we impose a delay to make sure it is back to zero
+		RunAfterDelay(0.1, ^{
+			[self willChangeValueForKey:@"leftViewVisible"];
+			[self didChangeValueForKey:@"leftViewVisible"];
+		});
+	}
 }
 
 -(IBAction)toggleLeftView:(id)sender
