@@ -18,6 +18,7 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *leftXConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *editorWidthConstraint;
 @property (nonatomic, weak) IBOutlet MacSessionSplitter *splitterView;
+@property (nonatomic, strong) NSTrackingArea *dragTrackingArea;
 @end
 
 @implementation MacSessionView {
@@ -35,6 +36,9 @@
 	[super awakeFromNib];
 	self.editorWidthConstraint.priority = NSLayoutPriorityDragThatCannotResizeWindow;
 	self.editorWidthConstraint.constant = 400;
+	NSRect r = NSInsetRect(self.splitterView.bounds, -2, 0);
+	NSTrackingArea *ta = [[NSTrackingArea alloc] initWithRect:r options:NSTrackingCursorUpdate|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self.splitterView userInfo:nil];
+	[self.splitterView addTrackingArea:ta];
 }
 
 -(void)mouseDown:(NSEvent *)evt
@@ -42,6 +46,9 @@
 	NSPoint loc = [self convertPoint:evt.locationInWindow fromView:nil];
 	if (NSPointInRect(loc, self.splitterView.frame)) {
 		_dragging = YES;
+		self.dragTrackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingCursorUpdate|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+		[self addTrackingArea:self.dragTrackingArea];
+
 	}
 }
 
@@ -60,7 +67,14 @@
 {
 	if (_dragging) {
 		_dragging = NO;
+		[self removeTrackingArea:self.dragTrackingArea];
+		self.dragTrackingArea=nil;
 	}
+}
+
+-(void)cursorUpdate:(NSEvent *)event
+{
+	[[NSCursor resizeLeftRightCursor] set];
 }
 
 -(void)embedOutputView:(NSView *)newView
@@ -96,9 +110,6 @@
 -(void)awakeFromNib
 {
 	self.wantsLayer = YES;
-	NSTrackingArea *ta = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingCursorUpdate|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
-	[self addTrackingArea:ta];
-//	self.layer.backgroundColor = [NSColor blackColor].CGColor;
 }
 
 -(void)drawRect:(NSRect)dirtyRect
