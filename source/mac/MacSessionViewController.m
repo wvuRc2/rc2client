@@ -44,6 +44,7 @@
 	BOOL __toggledFileViewOnFullScreen;
 }
 @property (nonatomic, strong) IBOutlet NSButton *backButton;
+@property (nonatomic, weak) IBOutlet NSSegmentedControl *segmentControl;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 //@property (nonatomic, strong) NSOperationQueue *dloadQueue;
 @property (nonatomic, strong) NSMenu *addMenu;

@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MacSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MacSessionView.m */; };
+		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
+		082CEEB4161E2ADD00E01F48 /* variables@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB2161E2ADD00E01F48 /* variables@2x.png */; };
+		082CEEBA161E2D2600E01F48 /* files.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB6161E2D2600E01F48 /* files.png */; };
+		082CEEBB161E2D2600E01F48 /* files@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB7161E2D2600E01F48 /* files@2x.png */; };
+		082CEEBC161E2D2600E01F48 /* users.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB8161E2D2600E01F48 /* users.png */; };
+		082CEEBD161E2D2600E01F48 /* users@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB9161E2D2600E01F48 /* users@2x.png */; };
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
@@ -431,6 +437,12 @@
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MacSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacSessionView.h; path = source/mac/MacSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MacSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacSessionView.m; path = source/mac/MacSessionView.m; sourceTree = SOURCE_ROOT; };
+		082CEEB1161E2ADD00E01F48 /* variables.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = variables.png; path = resources/mac/variables.png; sourceTree = SOURCE_ROOT; };
+		082CEEB2161E2ADD00E01F48 /* variables@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "variables@2x.png"; path = "resources/mac/variables@2x.png"; sourceTree = SOURCE_ROOT; };
+		082CEEB6161E2D2600E01F48 /* files.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = files.png; path = resources/mac/files.png; sourceTree = SOURCE_ROOT; };
+		082CEEB7161E2D2600E01F48 /* files@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "files@2x.png"; path = "resources/mac/files@2x.png"; sourceTree = SOURCE_ROOT; };
+		082CEEB8161E2D2600E01F48 /* users.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = users.png; path = resources/mac/users.png; sourceTree = SOURCE_ROOT; };
+		082CEEB9161E2D2600E01F48 /* users@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "users@2x.png"; path = "resources/mac/users@2x.png"; sourceTree = SOURCE_ROOT; };
 		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMAppConstants.h; path = source/mac/RCMAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMAppConstants.m; path = source/mac/RCMAppConstants.m; sourceTree = SOURCE_ROOT; };
@@ -1019,6 +1031,12 @@
 				0845940C15B5F22700297C9D /* baccord-center.png */,
 				0845940D15B5F22700297C9D /* baccord-left.png */,
 				0845940E15B5F22700297C9D /* baccord-right.png */,
+				082CEEB6161E2D2600E01F48 /* files.png */,
+				082CEEB7161E2D2600E01F48 /* files@2x.png */,
+				082CEEB8161E2D2600E01F48 /* users.png */,
+				082CEEB9161E2D2600E01F48 /* users@2x.png */,
+				082CEEB1161E2ADD00E01F48 /* variables.png */,
+				082CEEB2161E2ADD00E01F48 /* variables@2x.png */,
 				0845940F15B5F22700297C9D /* clear.png */,
 				0845941115B5F22700297C9D /* history.png */,
 				0845941315B5F22700297C9D /* openother.png */,
@@ -2064,6 +2082,12 @@
 				08C5F3A215DEC74800B0402F /* microphone.png in Resources */,
 				08C5F3A315DEC74800B0402F /* microphoneOff.png in Resources */,
 				08C99AC815EE9D35002D430D /* RC2FileTypes.plist in Resources */,
+				082CEEB3161E2ADD00E01F48 /* variables.png in Resources */,
+				082CEEB4161E2ADD00E01F48 /* variables@2x.png in Resources */,
+				082CEEBA161E2D2600E01F48 /* files.png in Resources */,
+				082CEEBB161E2D2600E01F48 /* files@2x.png in Resources */,
+				082CEEBC161E2D2600E01F48 /* users.png in Resources */,
+				082CEEBD161E2D2600E01F48 /* users@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
