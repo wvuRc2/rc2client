@@ -33,8 +33,6 @@
 -(void)awakeFromNib
 {
 	[super awakeFromNib];
-	self.splitterView.wantsLayer = YES;
-	self.splitterView.layer.backgroundColor = [NSColor blackColor].CGColor;
 	self.editorWidthConstraint.priority = NSLayoutPriorityDragThatCannotResizeWindow;
 	self.editorWidthConstraint.constant = 400;
 }
@@ -70,8 +68,8 @@
 	newView.frame = self.outputView.bounds;
 	[self.outputView addSubview:newView];
 	NSDictionary *dict = NSDictionaryOfVariableBindings(newView);
-	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[newView]-|" options:0 metrics:nil views:dict]];
-	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[newView]-|" options:0 metrics:nil views:dict]];
+	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[newView]-0-|" options:0 metrics:nil views:dict]];
+	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[newView]-0-|" options:0 metrics:nil views:dict]];
 }
 
 -(IBAction)toggleLeftView:(id)sender
@@ -97,8 +95,22 @@
 @implementation MacSessionSplitter
 -(void)awakeFromNib
 {
+	self.wantsLayer = YES;
 	NSTrackingArea *ta = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingCursorUpdate|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
 	[self addTrackingArea:ta];
+//	self.layer.backgroundColor = [NSColor blackColor].CGColor;
+}
+
+-(void)drawRect:(NSRect)dirtyRect
+{
+	NSRect dark = self.bounds, light = self.bounds;
+	dark.size.width -= 2;
+	light.size.width = 2;
+	light.origin.x += dark.size.width;
+	[[NSColor darkGrayColor] set];
+	NSRectFill(dark);
+	[[NSColor whiteColor] set];
+	NSRectFill(light);
 }
 
 -(void)cursorUpdate:(NSEvent *)event

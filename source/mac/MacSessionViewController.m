@@ -225,7 +225,6 @@
 -(void)viewDidMoveToWindow
 {
 	[self.view.window makeFirstResponder:self.editView];
-	[self.view.window visualizeConstraints:self.view.constraints];
 }
 
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
