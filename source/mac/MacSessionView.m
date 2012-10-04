@@ -93,6 +93,11 @@
 	[[self.leftXConstraint animator] setConstant:newX];
 }
 
+-(BOOL)leftViewVisible
+{
+	return NSMinX(self.leftView.frame) >= 0;
+}
+
 -(CGFloat)editorWidth
 {
 	return self.editorWidthConstraint.constant;

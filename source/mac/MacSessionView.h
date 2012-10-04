@@ -13,6 +13,7 @@
 @property (nonatomic, strong) IBOutlet NSView *editorView;
 @property (nonatomic, strong) IBOutlet NSView *outputView;
 @property (nonatomic) CGFloat editorWidth; //for saving in session data
+@property (nonatomic, readonly) BOOL leftViewVisible;
 
 -(void)embedOutputView:(NSView*)outputView;
 -(IBAction)toggleLeftView:(id)sender;

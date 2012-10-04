@@ -93,7 +93,6 @@
 -(void)dealloc
 {
 //	[self.outputController.webView unbind:@"enabled"];
-	self.contentSplitView.delegate=nil;
 	[self unregisterAllNotificationTokens];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -120,8 +119,7 @@
 		mi = [[NSMenuItem alloc] initWithTitle:@"Import File…" action:@selector(importFile:) keyEquivalent:@""];
 		mi.target = self;
 		[self.addMenu addItem:mi];
-		//read this instead of hard-coding a value that chould change in the nib
-		__fileListWidth = self.contentSplitView.frame.origin.x;
+		__fileListWidth = 171;
 		self.audioEngine = [[RCAudioChatEngine alloc] init];
 		self.audioEngine.session = self.session;
 
@@ -160,12 +158,12 @@
 		{
 			dispatch_async(dispatch_get_main_queue(), ^{
 				if ([obj isFullScreen]) {
-					if (!blockSelf.fileListVisible) {
-						[blockSelf toggleFileList:blockSelf];
+					if (!blockSelf.sessionView.leftViewVisible) {
+						[blockSelf.sessionView toggleLeftView:blockSelf];
 						blockSelf->__toggledFileViewOnFullScreen = YES;
 					}
-				} else if (blockSelf->__toggledFileViewOnFullScreen && blockSelf.fileListVisible) {
-					[blockSelf toggleFileList:blockSelf];
+				} else if (blockSelf->__toggledFileViewOnFullScreen && blockSelf.sessionView.leftViewVisible) {
+					[blockSelf.sessionView toggleLeftView:blockSelf];
 					blockSelf->__toggledFileViewOnFullScreen = NO;
 				}
 			});
@@ -217,8 +215,8 @@
 -(void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
 	if (!__didFirstWindow) {
-		if (self.fileListVisible != __fileListInitiallyVisible)
-			[self toggleFileList:nil];
+		if (self.sessionView.leftViewVisible == __fileListInitiallyVisible)
+			[self.sessionView toggleLeftView:nil];
 		__didFirstWindow=YES;
 	}
 }
@@ -234,7 +232,7 @@
 	if (action == @selector(toggleFileList:)) {
 		if ([(id)item isKindOfClass:[NSMenuItem class]]) {
 			//adjust the title
-			[(NSMenuItem*)item setTitle:self.fileListVisible ? @"Hide File List" : @"Show File List"];
+			[(NSMenuItem*)item setTitle:self.sessionView.leftViewVisible ? @"Hide File List" : @"Show File List"];
 		}
 		return YES;
 	} else if (action == @selector(exportFile:)) {
@@ -254,11 +252,6 @@
 	return NO;
 }
 
--(BOOL)fileListVisible
-{
-	return self.fileContainerView.frame.origin.x >= 0;
-}
-
 #pragma mark - actions
 
 -(IBAction)changeMode:(id)sender
@@ -273,16 +266,6 @@
 			break;
 	}
 	[self.session requestModeChange:mode];
-}
-
--(IBAction)toggleFileList:(id)sender
-{
-	NSRect r = self.sessionView.leftView.frame;
-	if (r.size.width < 171)
-		r.size.width = 171;
-	else
-		r.size.width = 0;
-	[[self.sessionView.leftView animator] setFrame:r];
 }
 
 -(IBAction)executeScript:(id)sender
@@ -404,7 +387,7 @@
 	savedState.currentFile = self.selectedFile;
 	if (nil == savedState.currentFile)
 		savedState.inputText = self.editView.string;
-	[savedState setBoolProperty:self.fileListVisible forKey:@"fileListVisible"];
+	[savedState setBoolProperty:self.sessionView.leftViewVisible forKey:@"fileListVisible"];
 	[savedState setProperty:[NSNumber numberWithDouble:self.sessionView.editorWidth] forKey:@"editorWidth"];
 	[savedState.managedObjectContext save:nil];
 }
@@ -888,7 +871,9 @@
 {
 	if (tableView == self.fileTableView)
 		return self.fileArray.count;
-	return [self.users count];
+	if (tableView == self.userTableView)
+		return [self.users count];
+	return 0;
 }
 
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
@@ -898,13 +883,18 @@
 		view.objectValue = [self.users objectAtIndex:row];
 		return view;
 	}
-	RCFile *file = [self.fileArray objectAtIndexNoExceptions:row];
-	RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
-	view.objectValue = file;
-	__unsafe_unretained MacSessionViewController *blockSelf = self;
-	view.syncFileBlock = ^(RCFile *theFile) {
-		[blockSelf syncFile:theFile];
-	};
+	if (tableView == self.fileTableView) {
+		RCFile *file = [self.fileArray objectAtIndexNoExceptions:row];
+		RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
+		view.objectValue = file;
+		__unsafe_unretained MacSessionViewController *blockSelf = self;
+		view.syncFileBlock = ^(RCFile *theFile) {
+			[blockSelf syncFile:theFile];
+		};
+		return view;
+	}
+	NSTableCellView *view = [tableView makeViewWithIdentifier:@"variable" owner:nil];
+//	view.objectValue = [self.users objectAtIndex:row];
 	return view;
 }
 
@@ -917,7 +907,7 @@
 
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
-	if (aTableView == self.userTableView)
+	if (aTableView != self.fileTableView)
 		return NO;
 	RCFile *file = [self.fileArray objectAtIndex:rowIndexes.firstIndex];
 	NSArray *pitems = ARRAY([NSURL fileURLWithPath:file.fileContentsPath]);
@@ -927,7 +917,7 @@
 
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation
 {
-	if (tableView == self.userTableView)
+	if (tableView != self.fileTableView)
 		return NO;
 	return [MultiFileImporter validateTableViewFileDrop:info];
 }
@@ -950,32 +940,6 @@
 		 });
 	 }];
 	return YES;
-}
-
-
-#pragma mark - split view
-
--(CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMinimumPosition 
-		ofSubviewAt:(NSInteger)dividerIndex
-{
-	return 100;
-}
-
--(void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
-{
-	if (!__movingFileList) {
-		[splitView adjustSubviews];
-	} else {
-		NSView *leftView = [splitView.subviews objectAtIndex:0];
-		NSView *rightView = [splitView.subviews objectAtIndex:1];
-		NSRect leftViewFrame = leftView.frame;
-		NSRect rightViewFrame = rightView.frame;
-		CGFloat offset = splitView.frame.size.width - oldSize.width;
-		leftViewFrame.size.width += offset;
-		rightViewFrame.origin.x += offset;
-		leftView.frame = leftViewFrame;
-		rightView.frame = rightViewFrame;
-	} 
 }
 
 #pragma mark - accessors

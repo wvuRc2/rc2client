@@ -16,9 +16,9 @@
 @interface MacSessionViewController : MacClientAbstractViewController<RCSessionDelegate,NSSplitViewDelegate,NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, strong) RCSession *session;
 @property (nonatomic, readonly) MacSessionView *sessionView;
-@property (nonatomic, strong) IBOutlet NSSplitView *contentSplitView;
 @property (nonatomic, strong) IBOutlet NSTableView *fileTableView;
 @property (nonatomic, strong) IBOutlet NSTableView *userTableView;
+@property (nonatomic, strong) IBOutlet NSTableView *varTableView;
 @property (nonatomic, strong) IBOutlet NSView *fileContainerView;
 @property (nonatomic, strong) IBOutlet NSPopUpButton *modePopUp;
 @property (nonatomic, strong) IBOutlet NSTextField *modeLabel;
@@ -29,7 +29,6 @@
 @property (nonatomic, assign) BOOL restrictedMode;
 
 -(id)initWithSession:(RCSession*)aSession;
--(IBAction)toggleFileList:(id)sender;
 -(IBAction)executeScript:(id)sender;
 -(IBAction)importFile:(id)sender;
 -(IBAction)exportFile:(id)sender;
