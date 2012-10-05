@@ -23,6 +23,7 @@
 @property (nonatomic, unsafe_unretained) id<RCSessionDelegate> delegate;
 @property (nonatomic, strong) NSNumber *userid;
 @property (nonatomic, strong) RCFile *initialFileSelection;
+@property (nonatomic, copy, readonly) NSArray *variables;
 @property (nonatomic, copy, readonly) NSArray *users;
 @property (nonatomic, strong, readonly) RCSessionUser *currentUser;
 @property (nonatomic, strong, readonly) NSString *mode;
@@ -80,5 +81,5 @@
 -(void)workspaceFileUpdated:(RCFile*)file;
 -(NSString*)executeJavascript:(NSString*)js;
 -(void)loadHelpURL:(NSURL*)url;
--(void)variablesUpdated:(NSDictionary*)variables isDelta:(BOOL)delta;
+-(void)variablesUpdated;
 @end

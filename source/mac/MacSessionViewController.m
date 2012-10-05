@@ -19,6 +19,7 @@
 #import "RCImage.h"
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
+#import "RCVariable.h"
 #import "RCMTextView.h"
 #import "MCNewFileController.h"
 #import "RCMAppConstants.h"
@@ -32,6 +33,10 @@
 #import "RCImageCache.h"
 #import "NoodleLineNumberView.h"
 #import "MacSessionView.h"
+
+@interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
+@property (nonatomic, weak) RCSession *session;
+@end
 
 @interface MacSessionViewController() <NSPopoverDelegate> {
 	CGFloat __fileListWidth;
@@ -47,6 +52,7 @@
 @property (nonatomic, weak) IBOutlet NSSegmentedControl *segmentControl;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 //@property (nonatomic, strong) NSOperationQueue *dloadQueue;
+@property (nonatomic, strong) VariableTableHelper *variableHelper;
 @property (nonatomic, strong) NSMenu *addMenu;
 @property (nonatomic, strong) MCWebOutputController *outputController;
 @property (nonatomic, strong) NSArray *fileArray;
@@ -75,6 +81,8 @@
 		NSError *err=nil;
 		self.session = aSession;
 		self.session.delegate = self;
+		self.variableHelper = [[VariableTableHelper alloc] init];
+		self.variableHelper.session = aSession;
 		self.scratchString=@"";
 		self.users = [NSArray array];
 		self.fileArray = [self.session.workspace.files sortedArrayUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES])];
@@ -111,6 +119,8 @@
 			[self prepareForSession];
 		}
 //		[self.outputController.webView bind:@"enabled" toObject:self withKeyPath:@"restricted" options:nil];
+		self.varTableView.dataSource = self.variableHelper;
+		self.varTableView.delegate = self.variableHelper;
 		self.addMenu = [[NSMenu alloc] initWithTitle:@"Add a File"];
 		[self.addMenu setAutoenablesItems:NO];
 		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"New File…" action:@selector(createNewFile:) keyEquivalent:@""];
@@ -706,9 +716,9 @@
 	}
 }
 
--(void)variablesUpdated:(NSDictionary*)variables isDelta:(BOOL)delta
+-(void)variablesUpdated
 {
-	NSLog(@"variables updated:%@", variables);
+	[self.varTableView reloadData];
 }
 
 -(void)processBinaryMessage:(NSData*)data
@@ -886,6 +896,8 @@
 		return self.fileArray.count;
 	if (tableView == self.userTableView)
 		return [self.users count];
+	if (tableView == self.varTableView)
+		return [self.session.variables count];
 	return 0;
 }
 
@@ -1065,6 +1077,23 @@
 -(MacSessionView*)sessionView
 {
 	return (MacSessionView*)self.view;
+}
+
+@end
+
+@implementation VariableTableHelper
+
+-(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+	return self.session.variables.count;
+}
+
+-(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+	RCVariable *var = [self.session.variables objectAtIndex:row];
+	if ([tableColumn.identifier isEqualToString:@"name"])
+		return var.name;
+	return var.description;
 }
 
 @end

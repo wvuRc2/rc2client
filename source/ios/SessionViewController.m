@@ -481,6 +481,11 @@
 	[self.audioEngine processBinaryMessage:data];
 }
 
+-(void)variablesUpdated
+{
+	
+}
+
 -(NSString*)executeJavascript:(NSString*)js
 {
 	[self.consoleController evaluateJavaScript:js];
@@ -490,11 +495,6 @@
 -(void)loadHelpURL:(NSURL*)url
 {
 	[self.consoleController loadHelpURL:url];
-}
-
--(void)variablesUpdated:(NSDictionary*)variables isDelta:(BOOL)delta
-{
-	
 }
 
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString

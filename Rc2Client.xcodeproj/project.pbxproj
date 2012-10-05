@@ -15,6 +15,8 @@
 		082CEEBB161E2D2600E01F48 /* files@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB7161E2D2600E01F48 /* files@2x.png */; };
 		082CEEBC161E2D2600E01F48 /* users.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB8161E2D2600E01F48 /* users.png */; };
 		082CEEBD161E2D2600E01F48 /* users@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB9161E2D2600E01F48 /* users@2x.png */; };
+		082CEEC0161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
+		082CEEC1161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
@@ -443,6 +445,8 @@
 		082CEEB7161E2D2600E01F48 /* files@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "files@2x.png"; path = "resources/mac/files@2x.png"; sourceTree = SOURCE_ROOT; };
 		082CEEB8161E2D2600E01F48 /* users.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = users.png; path = resources/mac/users.png; sourceTree = SOURCE_ROOT; };
 		082CEEB9161E2D2600E01F48 /* users@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "users@2x.png"; path = "resources/mac/users@2x.png"; sourceTree = SOURCE_ROOT; };
+		082CEEBE161F685900E01F48 /* RCVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCVariable.h; sourceTree = "<group>"; };
+		082CEEBF161F685900E01F48 /* RCVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCVariable.m; sourceTree = "<group>"; };
 		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMAppConstants.h; path = source/mac/RCMAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMAppConstants.m; path = source/mac/RCMAppConstants.m; sourceTree = SOURCE_ROOT; };
@@ -1729,15 +1733,17 @@
 				08D245AF15B5DBB70064A9FA /* RCSavedSession.m */,
 				08D245B015B5DBB70064A9FA /* RCSession.h */,
 				08D245B115B5DBB70064A9FA /* RCSession.m */,
+				082CEEBE161F685900E01F48 /* RCVariable.h */,
+				082CEEBF161F685900E01F48 /* RCVariable.m */,
 				08D245B215B5DBB70064A9FA /* RCSessionUser.h */,
 				08D245B315B5DBB70064A9FA /* RCSessionUser.m */,
 				08D245B415B5DBB70064A9FA /* RCStudentAssignment.h */,
-				08D245BA15B5DBB70064A9FA /* RCWorkspaceCache.h */,
 				08D245B515B5DBB70064A9FA /* RCStudentAssignment.m */,
 				08D245B615B5DBB70064A9FA /* RCUser.h */,
 				08D245B715B5DBB70064A9FA /* RCUser.m */,
 				08D245B815B5DBB70064A9FA /* RCWorkspace.h */,
 				08D245B915B5DBB70064A9FA /* RCWorkspace.m */,
+				08D245BA15B5DBB70064A9FA /* RCWorkspaceCache.h */,
 				08D245BB15B5DBB70064A9FA /* RCWorkspaceCache.m */,
 				08D245BC15B5DBB70064A9FA /* RCWorkspaceFolder.h */,
 				08D245BD15B5DBB70064A9FA /* RCWorkspaceFolder.m */,
@@ -2298,6 +2304,7 @@
 				08DF3D5115BDBC79000A339D /* AMResizableSplitterView.m in Sources */,
 				08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */,
 				08C99AC315EE9CDF002D430D /* Rc2FileType.m in Sources */,
+				082CEEC0161F685900E01F48 /* RCVariable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2395,6 +2402,7 @@
 				084594BF15B5F53900297C9D /* PXSourceList.m in Sources */,
 				08C99AC415EE9CDF002D430D /* Rc2FileType.m in Sources */,
 				082CEE9E161CC84A00E01F48 /* MacSessionView.m in Sources */,
+				082CEEC1161F685900E01F48 /* RCVariable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

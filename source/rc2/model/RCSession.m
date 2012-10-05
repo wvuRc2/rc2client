@@ -15,6 +15,7 @@
 #endif
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
+#import "RCVariable.h"
 #import "RCFile.h"
 #import "RCImageCache.h"
 #import "WebSocket.h"
@@ -25,6 +26,7 @@
 	NSMutableDictionary *_settings;
 	WebSocket *_ws;
 }
+@property (nonatomic, copy, readwrite) NSArray *variables;
 @property (nonatomic, copy, readwrite) NSArray *users;
 @property (nonatomic, strong, readwrite) RCSessionUser *currentUser;
 @property (nonatomic, strong, readwrite) NSString *mode;
@@ -37,20 +39,6 @@
 @end
 
 @implementation RCSession
-@synthesize workspace=_workspace;
-@synthesize delegate=_delegate;
-@synthesize userid=_userid;
-@synthesize socketOpen=_socketOpen;
-@synthesize hasReadPerm;
-@synthesize hasWritePerm;
-@synthesize timeOfLastTraffic;
-@synthesize keepAliveTimer;
-@synthesize initialFileSelection;
-@synthesize users;
-@synthesize currentUser;
-@synthesize mode=_mode;
-@synthesize restrictedMode;
-@synthesize handRaised;
 
 - (id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp
 {
@@ -256,6 +244,17 @@
 	[self didChangeValueForKey:@"users"];
 }
 
+-(void)updateVariables:(NSArray*)newValues isDelta:(BOOL)delta
+{
+	NSMutableArray *vars = [NSMutableArray arrayWithCapacity:newValues.count];
+	for (NSDictionary *aDict in newValues) {
+		RCVariable *var = [[RCVariable alloc] initWithDictionary:aDict];
+		[vars addObject:var];
+	}
+	self.variables = vars;
+	[self.delegate variablesUpdated];
+}
+
 -(NSString*)escapeForJS:(NSString*)str
 {
 	if ([str isKindOfClass:[NSString class]]) {
@@ -327,7 +326,7 @@
 			[self.workspace refreshFiles];
 		}
 	} else if ([cmd isEqualToString:@"variableupdate"]) {
-		[self.delegate variablesUpdated:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
+		[self updateVariables:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpPath = [dict objectForKey:@"helpPath"];
@@ -361,7 +360,7 @@
 			js = [js stringByAppendingFormat:@"\niR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
 		}
 		if (self.variablesVisible && [dict objectForKey:@"variables"])
-			[self.delegate variablesUpdated:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
+			[self updateVariables:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {
 		NSNumber *fileid = [dict objectForKey:@"fileId"];
 		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@, '%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid,
