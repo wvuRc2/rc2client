@@ -706,6 +706,11 @@
 	}
 }
 
+-(void)variablesUpdated:(NSDictionary*)variables isDelta:(BOOL)delta
+{
+	NSLog(@"variables updated:%@", variables);
+}
+
 -(void)processBinaryMessage:(NSData*)data
 {
 	[self.audioEngine processBinaryMessage:data];

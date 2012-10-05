@@ -80,4 +80,5 @@
 -(void)workspaceFileUpdated:(RCFile*)file;
 -(NSString*)executeJavascript:(NSString*)js;
 -(void)loadHelpURL:(NSURL*)url;
+-(void)variablesUpdated:(NSDictionary*)variables isDelta:(BOOL)delta;
 @end

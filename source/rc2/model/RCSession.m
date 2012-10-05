@@ -326,6 +326,8 @@
 		} else { //a new file
 			[self.workspace refreshFiles];
 		}
+	} else if ([cmd isEqualToString:@"variableupdate"]) {
+		[self.delegate variablesUpdated:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpPath = [dict objectForKey:@"helpPath"];
@@ -358,6 +360,8 @@
 			}
 			js = [js stringByAppendingFormat:@"\niR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
 		}
+		if (self.variablesVisible && [dict objectForKey:@"variables"])
+			[self.delegate variablesUpdated:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {
 		NSNumber *fileid = [dict objectForKey:@"fileId"];
 		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@, '%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid,

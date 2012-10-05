@@ -492,6 +492,11 @@
 	[self.consoleController loadHelpURL:url];
 }
 
+-(void)variablesUpdated:(NSDictionary*)variables isDelta:(BOOL)delta
+{
+	
+}
+
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString
 {
 }
