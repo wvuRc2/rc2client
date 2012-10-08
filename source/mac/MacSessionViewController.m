@@ -1096,4 +1096,11 @@
 	return var.description;
 }
 
+-(NSString*)tableView:(NSTableView *)tableView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation
+{
+	RCVariable *var = [self.session.variables objectAtIndex:row];
+	if ([tableColumn.identifier isEqualToString:@"value"])
+		return var.summary;
+	return var.name;
+}
 @end

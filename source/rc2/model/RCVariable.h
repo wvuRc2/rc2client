@@ -28,7 +28,7 @@ typedef enum {
 	eVarType_Matrix,
 	eVarType_Array,
 	eVarType_List,
-//	eVarType_Factor
+	eVarType_Factor,
 	eVarType_DataFrame,
 	eVarType_S3Object,
 	eVarType_S4Object
@@ -38,10 +38,14 @@ typedef enum {
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, copy, readonly) NSString *className; //from R
 @property (nonatomic, readonly) NSString *description; //want different value for debugger
+@property (nonatomic, readonly) NSString *summary;
+
+@property (nonatomic, readonly) NSArray *levels; //for a factor only. nil otherwise.
 
 @property (readonly) RCVariableType type;
 @property (readonly) RCPrimitiveType primitiveType; //=Unknown if type != eVarType_Vector
 @property (nonatomic, readonly) BOOL isPrimitive;
+@property (nonatomic, readonly) BOOL isFactor;
 
 @property (nonatomic, readonly) NSInteger count;
 

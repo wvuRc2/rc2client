@@ -28,6 +28,10 @@
 			self.primitiveType = [self primitiveTypeForString:[dict objectForKey:@"type"]];
 			self.values = [dict objectForKey:@"value"];
 		}
+		if ([dict objectForKey:@"levels"]) {
+			self.type = eVarType_Factor;
+			_levels = [dict objectForKey:@"levels"];
+		}
 		self.className = [dict objectForKey:@"class"];
 	}
 	return self;
@@ -45,6 +49,8 @@
 	if (self.isPrimitive) {
 		if (self.values.count == 1)
 			return [[self.values objectAtIndex:0] description];
+	} else if (self.isFactor) {
+		return [NSString stringWithFormat:@"%@[%d]", self.className, (int)self.levels.count];
 	}
 	return [NSString stringWithFormat:@"%@[%d]", self.className, (int)self.values.count];
 }
@@ -81,4 +87,21 @@
 	return self.type == eVarType_Primitive;
 }
 
+-(BOOL)isFactor
+{
+	return self.type == eVarType_Factor;
+}
+
+-(NSString*)summary
+{
+	switch (self.type) {
+		case eVarType_Factor:
+			return [self.levels componentsJoinedByString:@", "];
+		case eVarType_Primitive:
+			return [self.values componentsJoinedByString:@","];
+		default:
+			break;
+	}
+	return nil;
+}
 @end
