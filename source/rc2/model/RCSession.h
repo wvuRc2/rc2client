@@ -59,6 +59,8 @@
 -(void)raiseHand;
 -(void)lowerHand;
 
+-(void)forceVariableRefresh;
+
 -(void)sendAudioInput:(NSData*)data;
 
 //for classroom mode

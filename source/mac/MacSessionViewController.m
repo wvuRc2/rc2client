@@ -382,6 +382,11 @@
 	});
 }
 
+-(IBAction)refreshVariables:(id)sender
+{
+	[self.session forceVariableRefresh];
+}
+
 -(IBAction)toggleHand:(id)sender
 {
 	if ([(NSButton*)sender state] == NSOnState) {
@@ -427,6 +432,13 @@
 {
 	//our mode changed. that means we possibly need to adjust
 	[self setMode:self.session.mode];
+}
+
+-(void)clearJustChangedVariables
+{
+	for (RCVariable *var in self.session.variables)
+		var.justUpdated = NO;
+	[self.varTableView reloadData];
 }
 
 -(void)workspaceFilesChanged:(NSNotification*)note
@@ -616,6 +628,13 @@
 			self.statusMessage = @"Server status: busy";
 		else
 			self.statusMessage = @"Server status: idle";
+	} else if ([cmd isEqualToString:@"results"]) {
+		if ([dict count] > 1) {
+			for (RCVariable *oldVar in self.session.variables)
+				oldVar.justUpdated = NO;
+			//not an empty result
+			[self variablesUpdated];
+		}
 	}
 }
 
@@ -1094,6 +1113,24 @@
 	if ([tableColumn.identifier isEqualToString:@"name"])
 		return var.name;
 	return var.description;
+}
+
+-(NSIndexSet*)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes
+{
+	return nil;
+}
+
+-(void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+	RCVariable *var = [self.session.variables objectAtIndex:row];
+	if ([tableColumn.identifier isEqualToString:@"value"] && var.justUpdated) {
+		[cell setBackgroundColor:[NSColor greenColor]];
+		[cell setDrawsBackground:YES];
+	} else {
+		[cell setDrawsBackground:NO];
+		[cell setBackgroundColor:[NSColor whiteColor]];
+		[cell setTextColor:[NSColor blackColor]];
+	}
 }
 
 -(NSString*)tableView:(NSTableView *)tableView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation

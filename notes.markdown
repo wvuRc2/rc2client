@@ -8,6 +8,14 @@ Double tap opens session with specified document selected
 Login error messages now provide more details
 LDAP authentication supported
 
+# variable display
+
+when receiving delta updates, a variable that was rm()'d isn't removed from the list. If a value was removed, we need to include
+info to delete it from client display
+
+need to clear updateUpdated anytime results are received (value no longer unchanged)
+
+
 # Rc2 iOS App #
 
 0x2328 - keyboard key

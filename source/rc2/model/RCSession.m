@@ -185,6 +185,12 @@
 	self.timeOfLastTraffic = [NSDate date];
 }
 
+-(void)forceVariableRefresh
+{
+	NSDictionary *dict = @{@"cmd":@"watchvariables", @"watch": [NSNumber numberWithBool:TRUE]};
+	[_ws sendText:[dict JSONRepresentation]];
+}
+
 -(void)sendFileOpened:(RCFile*)file
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"clcommand", @"cmd", @"openfile", @"subcmd",
@@ -244,12 +250,29 @@
 	[self didChangeValueForKey:@"users"];
 }
 
--(void)updateVariables:(NSArray*)newValues isDelta:(BOOL)delta
+-(void)updateVariables:(NSDictionary*)variableDict isDelta:(BOOL)delta
 {
-	NSMutableArray *vars = [NSMutableArray arrayWithCapacity:newValues.count];
+	NSArray *newValues = [variableDict objectForKey:@"values"];
+	NSMutableArray *vars = delta ? [self.variables mutableCopy] : [[NSMutableArray alloc] initWithCapacity:newValues.count];
+	for (RCVariable *oldVar in vars)
+		oldVar.justUpdated = NO;
 	for (NSDictionary *aDict in newValues) {
+		NSUInteger idx = [self.variables indexOfFirstObjectWithValue:[aDict objectForKey:@"name"] forKey:@"name"];
 		RCVariable *var = [[RCVariable alloc] initWithDictionary:aDict];
-		[vars addObject:var];
+		if (delta && idx != NSNotFound) {
+			var.justUpdated = YES;
+			[vars replaceObjectAtIndex:idx withObject:var];
+		} else {
+			if (delta)
+				var.justUpdated = YES;
+			[vars addObject:var];
+		}
+	}
+	NSArray *delKeys = [variableDict objectForKey:@"deleted"];
+	for (NSString *aKey in delKeys) {
+		NSUInteger idx = [vars indexOfFirstObjectWithValue:aKey forKey:@"name"];
+		if (idx != NSNotFound)
+			[vars removeObjectAtIndex:idx];
 	}
 	self.variables = vars;
 	[self.delegate variablesUpdated];
@@ -439,7 +462,7 @@
 {
 	if (_variablesVisible != visible) {
 		_variablesVisible = visible;
-		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"watchvariables", @"cmd", [NSNumber numberWithBool:visible], @"watch", nil];
+		NSDictionary *dict = @{@"cmd":@"watchvariables", @"watch": [NSNumber numberWithBool:_variablesVisible]};
 		[_ws sendText:[dict JSONRepresentation]];
 	}
 }
