@@ -16,6 +16,7 @@
 @property (readwrite) RCVariableType type;
 @property (readwrite) RCPrimitiveType primitiveType; //=Unknown if type != eVarType_Vector
 @property BOOL summaryIsDescription;
+@property BOOL notAVector;
 @end
 
 @implementation RCVariable
@@ -38,6 +39,7 @@
 		self.name = [dict objectForKey:@"name"];
 		self.className = [dict objectForKey:@"class"];
 		BOOL primitive = [[dict objectForKey:@"primitive"] boolValue];
+		self.notAVector = [[dict objectForKey:@"notAVector"] boolValue];
 		if (primitive) {
 			self.type = eVarType_Primitive;
 			self.primitiveType = [self primitiveTypeForString:[dict objectForKey:@"type"]];
@@ -72,7 +74,9 @@
 -(NSString*)description
 {
 	if (self.isPrimitive) {
-		if (self.values.count == 1)
+		if (self.notAVector)
+			return self.className;
+		if (self.values.count == 1 && self.primitiveType != ePrimType_Raw)
 			return [[self.values objectAtIndex:0] description];
 	} else if (self.isFactor) {
 		return [NSString stringWithFormat:@"%@[%d]", self.className, (int)self.levels.count];
@@ -80,6 +84,8 @@
 		return  [self.values objectAtIndex:1];
 	} else if (self.isDateTime) {
 		return [(NSDate*)[self.values objectAtIndex:0] descriptionWithCalendarFormat:@"%Y-%m-%d %H:%M:%S" timeZone:nil locale:nil];
+	} else if (self.notAVector) {
+		return self.className;
 	}
 	return [NSString stringWithFormat:@"%@[%d]", self.className, (int)self.values.count];
 }
@@ -116,6 +122,8 @@
 
 -(void)decodeSupportedObjects:(NSDictionary*)dict
 {
+	if ([[dict objectForKey:@"S4"] boolValue])
+		self.type = eVarType_S4Object;
 	NSString *cname = [dict objectForKey:@"class"];
 	if ([cname isEqualToString:@"Date"]) {
 		//store the string version as second value
@@ -131,6 +139,12 @@
 		}
 	} else if ([cname isEqualToString:@"POSIXct"] || [cname isEqualToString:@"POSIXlt"]) {
 		self.values = @[[NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"value"] doubleValue]]];
+		self.summaryIsDescription = YES;
+	} else if ([cname isEqualToString:@"environment"]) {
+		self.type = eVarType_Environment;
+		self.summaryIsDescription = YES;
+	} else if ([cname isEqualToString:@"function"]) {
+		self.type = eVarType_Function;
 		self.summaryIsDescription = YES;
 	}
 }
@@ -150,6 +164,8 @@
 			return ePrimType_Boolean;
 		case 'c':
 			return ePrimType_Complex;
+		case 'r':
+			return ePrimType_Raw;
 		case 'n':
 			return ePrimType_Null;
 		default:
@@ -190,7 +206,15 @@
 		case eVarType_Factor:
 			return [self.levels componentsJoinedByString:@", "];
 		case eVarType_Primitive:
+		{
+			switch(self.primitiveType) {
+				case ePrimType_Raw:
+					return @"binary data";
+				default:
+					break;
+			}
 			return [self.values componentsJoinedByString:@", "];
+		}
 		default:
 			if (self.summaryIsDescription)
 				return self.description;

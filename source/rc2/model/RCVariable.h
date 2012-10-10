@@ -29,6 +29,8 @@ typedef enum {
 	eVarType_List,
 	eVarType_Factor,
 	eVarType_DataFrame,
+	eVarType_Environment,
+	eVarType_Function,
 	eVarType_S3Object,
 	eVarType_S4Object
 } RCVariableType;
