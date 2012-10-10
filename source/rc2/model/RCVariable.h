@@ -17,8 +17,7 @@ typedef enum {
 	ePrimType_Complex,
 	ePrimType_Raw,
 	ePrimType_Null,
-	ePrimType_NA,
-	ePrimType_Infinity
+	ePrimType_NA
 } RCPrimitiveType;
 
 typedef enum {

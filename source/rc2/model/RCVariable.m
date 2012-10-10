@@ -42,8 +42,16 @@
 			self.type = eVarType_Primitive;
 			self.primitiveType = [self primitiveTypeForString:[dict objectForKey:@"type"]];
 			self.values = [dict objectForKey:@"value"];
-			if (self.primitiveType == ePrimType_Double)
-				[self adjustSpecialDoubleValues];
+			switch (self.primitiveType) {
+				case ePrimType_Double:
+					[self adjustSpecialDoubleValues];
+					break;
+				case ePrimType_Null:
+					self.values = @[[NSNull null]];
+					break;
+				default:
+					break;
+			}
 		} else if ([dict objectForKey:@"levels"]) {
 			self.type = eVarType_Factor;
 			_levels = [dict objectForKey:@"levels"];
@@ -142,6 +150,8 @@
 			return ePrimType_Boolean;
 		case 'c':
 			return ePrimType_Complex;
+		case 'n':
+			return ePrimType_Null;
 		default:
 			return ePrimType_Unknown;
 	}
