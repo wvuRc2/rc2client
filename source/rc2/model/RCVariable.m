@@ -42,6 +42,33 @@
 			self.type = eVarType_Primitive;
 			self.primitiveType = [self primitiveTypeForString:[dict objectForKey:@"type"]];
 			self.values = [dict objectForKey:@"value"];
+			if (self.primitiveType == ePrimType_Double) {
+				//special handling for inifinty and NaN
+				NSUInteger idx = [self.values indexOfObjectPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
+					if ([obj isKindOfClass:[NSString class]]) {
+						*stop = YES;
+							return YES;
+					}
+					return NO;
+				}];
+				if (idx != NSNotFound) {
+					//has special values
+					NSMutableArray *ma = self.values.mutableCopy;
+					for (int i=0; i < ma.count; i++) {
+					    id obj = [ma objectAtIndex:i];
+						    if ([obj isKindOfClass:[NSString class]]) {
+					        if ([obj isEqualToString:@"Inf"])
+					            [ma replaceObjectAtIndex:idx withObject:(__bridge NSNumber*)kCFNumberPositiveInfinity];
+					        else if ([obj isEqualToString:@"-Inf"])
+								            [ma replaceObjectAtIndex:idx withObject:(__bridge NSNumber*)kCFNumberNegativeInfinity];
+					        else
+								            [ma replaceObjectAtIndex:idx withObject:(__bridge NSNumber*)kCFNumberNaN];
+							    }
+					}
+					self.values = ma;
+					NSLog(@"transformed numbers: %@", self.values);
+				}
+			}
 		} else if ([dict objectForKey:@"levels"]) {
 			self.type = eVarType_Factor;
 			_levels = [dict objectForKey:@"levels"];
