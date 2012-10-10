@@ -46,6 +46,8 @@ typedef enum {
 @property (readonly) RCPrimitiveType primitiveType; //=Unknown if type != eVarType_Vector
 @property (nonatomic, readonly) BOOL isPrimitive;
 @property (nonatomic, readonly) BOOL isFactor;
+@property (nonatomic, readonly) BOOL isDate;
+@property (nonatomic, readonly) BOOL isDateTime;
 @property (nonatomic) BOOL justUpdated; //for client to manage, not used internally
 
 @property (nonatomic, readonly) NSInteger count;

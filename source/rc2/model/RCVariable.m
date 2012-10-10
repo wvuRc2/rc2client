@@ -7,6 +7,7 @@
 //
 
 #import "RCVariable.h"
+#import <xlocale.h>
 
 @interface RCVariable ()
 @property (nonatomic, copy, readwrite) NSString *name;
@@ -14,25 +15,39 @@
 @property (nonatomic, copy) NSArray *values;
 @property (readwrite) RCVariableType type;
 @property (readwrite) RCPrimitiveType primitiveType; //=Unknown if type != eVarType_Vector
+@property BOOL summaryIsDescription;
 @end
 
 @implementation RCVariable
+
++(NSDateFormatter*)dateFormatter
+{
+	static dispatch_once_t onceToken;
+	static NSDateFormatter *dateFormatter;
+	dispatch_once(&onceToken, ^{
+		dateFormatter = [[NSDateFormatter alloc] init];
+		dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+		dateFormatter.dateFormat = @"%yyyy-%MM-%DD";
+	});
+	return dateFormatter;
+}
 
 -(id)initWithDictionary:(NSDictionary*)dict
 {
 	if ((self = [super init])) {
 		self.name = [dict objectForKey:@"name"];
+		self.className = [dict objectForKey:@"class"];
 		BOOL primitive = [[dict objectForKey:@"primitive"] boolValue];
 		if (primitive) {
 			self.type = eVarType_Primitive;
 			self.primitiveType = [self primitiveTypeForString:[dict objectForKey:@"type"]];
 			self.values = [dict objectForKey:@"value"];
-		}
-		if ([dict objectForKey:@"levels"]) {
+		} else if ([dict objectForKey:@"levels"]) {
 			self.type = eVarType_Factor;
 			_levels = [dict objectForKey:@"levels"];
+		} else {
+			[self decodeSupportedObjects:dict];
 		}
-		self.className = [dict objectForKey:@"class"];
 	}
 	return self;
 }
@@ -51,11 +66,36 @@
 			return [[self.values objectAtIndex:0] description];
 	} else if (self.isFactor) {
 		return [NSString stringWithFormat:@"%@[%d]", self.className, (int)self.levels.count];
+	} else if (self.isDate) {
+		return  [self.values objectAtIndex:1];
+	} else if (self.isDateTime) {
+		return [(NSDate*)[self.values objectAtIndex:0] descriptionWithCalendarFormat:@"%Y-%m-%d %H:%M:%S" timeZone:nil locale:nil];
 	}
 	return [NSString stringWithFormat:@"%@[%d]", self.className, (int)self.values.count];
 }
 
 #pragma mark - private
+
+-(void)decodeSupportedObjects:(NSDictionary*)dict
+{
+	NSString *cname = [dict objectForKey:@"class"];
+	if ([cname isEqualToString:@"Date"]) {
+		//store the string version as second value
+		struct tm tmtime;
+		bzero(&tmtime, sizeof(tmtime));
+		strptime_l([[dict objectForKey:@"value"] UTF8String], "%F", &tmtime, NULL);
+		NSDate *dval = [NSDate dateWithTimeIntervalSince1970:mktime(&tmtime)];
+		if (dval) {
+			self.values = @[dval, [dict objectForKey:@"value"]];
+			self.summaryIsDescription = YES;
+		} else {
+			Rc2LogWarn(@"failed to parse date object:%@", dict);
+		}
+	} else if ([cname isEqualToString:@"POSIXct"] || [cname isEqualToString:@"POSIXlt"]) {
+		self.values = @[[NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"value"] doubleValue]]];
+		self.summaryIsDescription = YES;
+	}
+}
 
 -(RCPrimitiveType)primitiveTypeForString:(NSString*)str
 {
@@ -92,6 +132,16 @@
 	return self.type == eVarType_Factor;
 }
 
+-(BOOL)isDate
+{
+	return [self.className isEqualToString:@"Date"];
+}
+
+-(BOOL)isDateTime
+{
+	return [self.className isEqualToString:@"POSIXct"] || [self.className isEqualToString:@"POSIXlt"];
+}
+
 -(NSString*)summary
 {
 	switch (self.type) {
@@ -100,6 +150,8 @@
 		case eVarType_Primitive:
 			return [self.values componentsJoinedByString:@","];
 		default:
+			if (self.summaryIsDescription)
+				return self.description;
 			break;
 	}
 	return nil;
