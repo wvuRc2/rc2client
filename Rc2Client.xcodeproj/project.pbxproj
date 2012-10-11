@@ -106,6 +106,8 @@
 		084594DD15B5F71500297C9D /* rc2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CD15B5F71500297C9D /* rc2@2x.png */; };
 		084594DE15B5F71500297C9D /* turnedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CE15B5F71500297C9D /* turnedin.png */; };
 		084594DF15B5F71500297C9D /* turnedin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CF15B5F71500297C9D /* turnedin@2x.png */; };
+		084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
+		084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
@@ -572,6 +574,8 @@
 		084594CD15B5F71500297C9D /* rc2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rc2@2x.png"; path = "resources/sharedImages/rc2@2x.png"; sourceTree = SOURCE_ROOT; };
 		084594CE15B5F71500297C9D /* turnedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = turnedin.png; path = resources/sharedImages/turnedin.png; sourceTree = SOURCE_ROOT; };
 		084594CF15B5F71500297C9D /* turnedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "turnedin@2x.png"; path = "resources/sharedImages/turnedin@2x.png"; sourceTree = SOURCE_ROOT; };
+		084D39B51627300F00B8A06B /* RCDataFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDataFrame.h; sourceTree = "<group>"; };
+		084D39B61627300F00B8A06B /* RCDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDataFrame.m; sourceTree = "<group>"; };
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBE15DD500D00EF28F1 /* Rnw.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rnw.icns; path = resources/mac/Rnw.icns; sourceTree = SOURCE_ROOT; };
@@ -1735,6 +1739,8 @@
 				08D245B115B5DBB70064A9FA /* RCSession.m */,
 				082CEEBE161F685900E01F48 /* RCVariable.h */,
 				082CEEBF161F685900E01F48 /* RCVariable.m */,
+				084D39B51627300F00B8A06B /* RCDataFrame.h */,
+				084D39B61627300F00B8A06B /* RCDataFrame.m */,
 				08D245B215B5DBB70064A9FA /* RCSessionUser.h */,
 				08D245B315B5DBB70064A9FA /* RCSessionUser.m */,
 				08D245B415B5DBB70064A9FA /* RCStudentAssignment.h */,
@@ -2305,6 +2311,7 @@
 				08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */,
 				08C99AC315EE9CDF002D430D /* Rc2FileType.m in Sources */,
 				082CEEC0161F685900E01F48 /* RCVariable.m in Sources */,
+				084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2403,6 +2410,7 @@
 				08C99AC415EE9CDF002D430D /* Rc2FileType.m in Sources */,
 				082CEE9E161CC84A00E01F48 /* MacSessionView.m in Sources */,
 				082CEEC1161F685900E01F48 /* RCVariable.m in Sources */,
+				084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

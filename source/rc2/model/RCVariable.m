@@ -8,6 +8,7 @@
 
 #import "RCVariable.h"
 #import <xlocale.h>
+#import "RCDataFrame.h"
 
 @interface RCVariable ()
 @property (nonatomic, copy, readwrite) NSString *name;
@@ -15,7 +16,6 @@
 @property (nonatomic, copy) NSArray *values;
 @property (readwrite) RCVariableType type;
 @property (readwrite) RCPrimitiveType primitiveType; //=Unknown if type != eVarType_Vector
-@property BOOL summaryIsDescription;
 @property BOOL notAVector;
 @end
 
@@ -31,6 +31,13 @@
 		dateFormatter.dateFormat = @"%yyyy-%MM-%DD";
 	});
 	return dateFormatter;
+}
+
++(id)variableWithDictionary:(NSDictionary*)dict
+{
+	if ([[dict objectForKey:@"class"] isEqualToString:@"data.frame"])
+		return [[RCDataFrame alloc] initWithDictionary:dict];
+	return [[RCVariable alloc] initWithDictionary:dict];
 }
 
 -(id)initWithDictionary:(NSDictionary*)dict

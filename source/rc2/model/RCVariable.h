@@ -55,6 +55,10 @@ typedef enum {
 
 -(RCVariable*)valueAtIndex:(NSUInteger)idx;
 
++(id)variableWithDictionary:(NSDictionary*)dict;
 
+//for subclasses to override
 -(id)initWithDictionary:(NSDictionary*)dict;
+-(void)decodeSupportedObjects:(NSDictionary*)dict;
+@property BOOL summaryIsDescription;
 @end

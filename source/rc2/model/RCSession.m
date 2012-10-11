@@ -258,7 +258,7 @@
 		oldVar.justUpdated = NO;
 	for (NSDictionary *aDict in newValues) {
 		NSUInteger idx = [self.variables indexOfFirstObjectWithValue:[aDict objectForKey:@"name"] forKey:@"name"];
-		RCVariable *var = [[RCVariable alloc] initWithDictionary:aDict];
+		RCVariable *var = [RCVariable variableWithDictionary:aDict];
 		if (delta && idx != NSNotFound) {
 			var.justUpdated = YES;
 			[vars replaceObjectAtIndex:idx withObject:var];
