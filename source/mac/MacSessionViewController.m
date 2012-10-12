@@ -35,7 +35,7 @@
 #import "MacSessionView.h"
 
 @interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
-@property (nonatomic, weak) RCSession *session;
+@property (nonatomic, copy) NSArray *data;
 @end
 
 @interface MacSessionViewController() <NSPopoverDelegate> {
@@ -82,7 +82,6 @@
 		self.session = aSession;
 		self.session.delegate = self;
 		self.variableHelper = [[VariableTableHelper alloc] init];
-		self.variableHelper.session = aSession;
 		self.scratchString=@"";
 		self.users = [NSArray array];
 		self.fileArray = [self.session.workspace.files sortedArrayUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES])];
@@ -789,6 +788,31 @@
 
 -(void)variablesUpdated
 {
+	NSMutableArray *ma = [NSMutableArray arrayWithCapacity:self.session.variables.count + 5];
+	NSMutableArray *data = [NSMutableArray array];
+	NSMutableArray *values = [NSMutableArray array];
+	NSMutableArray *funcs = [NSMutableArray array];
+	for (RCVariable *var in self.session.variables) {
+		if (var.treatAsContainerType)
+			[data addObject:var];
+		else if (var.type == eVarType_Function)
+			[funcs addObject:var];
+		else
+			[values addObject:var];
+	}
+	if (values.count > 0) {
+		[ma addObject:@"Values"];
+		[ma addObjectsFromArray:values];
+	}
+	if (data.count > 0) {
+		[ma addObject:@"Data"];
+		[ma addObjectsFromArray:data];
+	}
+	if (funcs.count > 0) {
+		[ma addObject:@"Functions"];
+		[ma addObjectsFromArray:funcs];
+	}
+	self.variableHelper.data = ma;
 	[self.varTableView reloadData];
 }
 
@@ -1156,15 +1180,39 @@
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	return self.session.variables.count;
+	return self.data.count;
 }
-
+/*
 -(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	RCVariable *var = [self.session.variables objectAtIndex:row];
 	if ([tableColumn.identifier isEqualToString:@"name"])
 		return var.name;
 	return var.description;
+}
+*/
+-(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+	RCVariable *var = [self.data objectAtIndex:row];
+	BOOL grpRow = [var isKindOfClass:[NSString class]];
+	BOOL isVal = [tableColumn.identifier isEqualToString:@"value"];
+	NSTableCellView *view = [tableView makeViewWithIdentifier:isVal ? @"varValueView" : @"varNameView" owner:self];
+	view.textField.stringValue = [tableColumn.identifier isEqualToString:@"name"] ? [var name] : [var description];
+	if (!grpRow && isVal) {
+		if ([var justUpdated]) {
+			[view.textField setBackgroundColor:[NSColor greenColor]];
+			[view.textField setDrawsBackground:YES];
+		} else {
+			[view.textField setBackgroundColor:[NSColor whiteColor]];
+			[view.textField setDrawsBackground:NO];
+		}
+		if (isVal && !grpRow) {
+			view.textField.toolTip = [var summary];
+		} else {
+			view.textField.toolTip = @"";
+		}
+	}
+	return view;
 }
 
 -(NSIndexSet*)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes
@@ -1174,8 +1222,8 @@
 
 -(void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	RCVariable *var = [self.session.variables objectAtIndex:row];
-	if ([tableColumn.identifier isEqualToString:@"value"] && var.justUpdated) {
+	id var = [self.data objectAtIndex:row];
+	if ([tableColumn.identifier isEqualToString:@"value"] && ![var isKindOfClass:[NSString class]] && [var justUpdated]) {
 		[cell setBackgroundColor:[NSColor greenColor]];
 		[cell setDrawsBackground:YES];
 	} else {
@@ -1185,9 +1233,14 @@
 	}
 }
 
+-(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
+{
+	return [[self.data objectAtIndex:row] isKindOfClass:[NSString class]];
+}
+
 -(NSString*)tableView:(NSTableView *)tableView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation
 {
-	RCVariable *var = [self.session.variables objectAtIndex:row];
+	RCVariable *var = [self.data objectAtIndex:row];
 	if ([tableColumn.identifier isEqualToString:@"value"])
 		return var.summary;
 	return var.name;

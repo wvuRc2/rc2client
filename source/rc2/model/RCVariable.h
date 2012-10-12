@@ -52,6 +52,7 @@ typedef enum {
 @property (nonatomic) BOOL justUpdated; //for client to manage, not used internally
 
 @property (nonatomic, readonly) NSInteger count;
+@property (nonatomic, readonly) BOOL treatAsContainerType; //for display to the user under the "data" heading
 
 -(RCVariable*)valueAtIndex:(NSUInteger)idx;
 

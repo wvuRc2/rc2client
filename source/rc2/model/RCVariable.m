@@ -147,6 +147,10 @@
 	} else if ([cname isEqualToString:@"POSIXct"] || [cname isEqualToString:@"POSIXlt"]) {
 		self.values = @[[NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"value"] doubleValue]]];
 		self.summaryIsDescription = YES;
+	} else if ([cname isEqualToString:@"matrix"]) {
+		self.type = eVarType_Matrix;
+	} else if ([cname isEqualToString:@"array"]) {
+		self.type = eVarType_Array;
 	} else if ([cname isEqualToString:@"environment"]) {
 		self.type = eVarType_Environment;
 		self.summaryIsDescription = YES;
@@ -205,6 +209,18 @@
 -(BOOL)isDateTime
 {
 	return [self.className isEqualToString:@"POSIXct"] || [self.className isEqualToString:@"POSIXlt"];
+}
+
+-(BOOL)treatAsContainerType
+{
+	switch (self.type) {
+		case eVarType_Array:
+		case eVarType_DataFrame:
+		case eVarType_Matrix:
+			return true;
+		default:
+			return false;
+	}
 }
 
 -(NSString*)summary
