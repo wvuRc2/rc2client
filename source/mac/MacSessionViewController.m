@@ -49,9 +49,10 @@
 	BOOL __toggledFileViewOnFullScreen;
 }
 @property (nonatomic, strong) IBOutlet NSButton *backButton;
-@property (nonatomic, weak) IBOutlet NSSegmentedControl *segmentControl;
+@property (nonatomic, weak) IBOutlet NSButton *tbFilesButton;
+@property (nonatomic, weak) IBOutlet NSButton *tbVarsButton;
+@property (nonatomic, weak) IBOutlet NSButton *tbUsersButton;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
-//@property (nonatomic, strong) NSOperationQueue *dloadQueue;
 @property (nonatomic, strong) VariableTableHelper *variableHelper;
 @property (nonatomic, strong) NSMenu *addMenu;
 @property (nonatomic, strong) MCWebOutputController *outputController;
@@ -134,14 +135,14 @@
 		self.audioEngine = [[RCAudioChatEngine alloc] init];
 		self.audioEngine.session = self.session;
 
-		NSImage *timg = [NSImage imageNamed:NSImageNameGoLeftTemplate];
-		[timg setSize:NSMakeSize(16, 16)];
-		NSImage *img = [[NSImage alloc] initWithSize:NSMakeSize(32, 32)];
-		[img lockFocus];
-		[timg drawInRect:NSMakeRect(8, 8, 16, 16) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-		[img unlockFocus];
-		[img setTemplate:YES];
-		self.backButton.image = img;
+//		NSImage *timg = [NSImage imageNamed:NSImageNameGoLeftTemplate];
+//		[timg setSize:NSMakeSize(16, 16)];
+//		NSImage *img = [[NSImage alloc] initWithSize:NSMakeSize(32, 32)];
+//		[img lockFocus];
+//		[timg drawInRect:NSMakeRect(8, 8, 16, 16) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+//		[img unlockFocus];
+//		[img setTemplate:YES];
+//		self.backButton.image = img;
 		
 		//line numbers
 		NoodleLineNumberView *lnv = [[NoodleLineNumberView alloc] initWithScrollView:self.editView.enclosingScrollView];
@@ -233,8 +234,11 @@
 -(void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
 	if (!__didFirstWindow) {
-		if (self.sessionView.leftViewVisible == __fileListInitiallyVisible)
+		if ((self.sessionView.leftViewVisible && !__fileListInitiallyVisible) ||
+			(!self.sessionView.leftViewVisible && __fileListInitiallyVisible))
+		{
 			[self.sessionView toggleLeftView:nil];
+		}
 		__didFirstWindow=YES;
 	}
 }
@@ -271,6 +275,34 @@
 }
 
 #pragma mark - actions
+
+-(IBAction)tbTabButtonPressed:(NSButton*)sender
+{
+	if (sender == self.tbFilesButton) {
+		self.tbVarsButton.state = NSOffState;
+		self.tbUsersButton.state = NSOffState;
+		if (sender.state == NSOnState)
+			self.selectedLeftViewIndex = 0;
+		else
+			[self.sessionView toggleLeftView:sender];
+	} else if (sender == self.tbVarsButton) {
+		self.tbUsersButton.state = NSOffState;
+		self.tbFilesButton.state = NSOffState;
+		if (sender.state == NSOnState)
+			self.selectedLeftViewIndex = 1;
+		else
+			[self.sessionView toggleLeftView:sender];
+	} else if (sender == self.tbUsersButton) {
+		self.tbVarsButton.state = NSOffState;
+		self.tbFilesButton.state = NSOffState;
+		if (sender.state)
+			self.selectedLeftViewIndex = 2;
+		else
+			[self.sessionView toggleLeftView:sender];
+	}
+	if (sender.state == NSOnState && !self.sessionView.leftViewVisible)
+		[self.sessionView toggleLeftView:sender];
+}
 
 -(IBAction)changeMode:(id)sender
 {
@@ -411,6 +443,7 @@
 	if (nil == savedState.currentFile)
 		savedState.inputText = self.editView.string;
 	[savedState setBoolProperty:self.sessionView.leftViewVisible forKey:@"fileListVisible"];
+	[savedState setProperty:@(self.selectedLeftViewIndex) forKey:@"selLeftViewIdx"];
 	[savedState setProperty:[NSNumber numberWithDouble:self.sessionView.editorWidth] forKey:@"editorWidth"];
 	[savedState.managedObjectContext save:nil];
 }
@@ -425,7 +458,24 @@
 	}
 	self.sessionView.editorWidth = [[savedState propertyForKey:@"editorWidth"] doubleValue];
 	__fileListInitiallyVisible = [savedState boolPropertyForKey:@"fileListVisible"];
+	self.selectedLeftViewIndex = [[savedState propertyForKey:@"selLeftViewIdx"] intValue];
+	[self adjustLeftViewButtonsToMatchState];
 	[[RCImageCache sharedInstance] cacheImagesReferencedInHTML:savedState.consoleHtml];
+}
+
+-(void)adjustLeftViewButtonsToMatchState
+{
+	self.tbFilesButton.state = NSOffState;
+	self.tbVarsButton.state = NSOffState;
+	self.tbUsersButton.state = NSOffState;
+	if (__fileListInitiallyVisible) {
+		if (self.selectedLeftViewIndex == 0)
+			self.tbFilesButton.state = NSOnState;
+		else if (self.selectedLeftViewIndex == 1)
+			self.tbVarsButton.state = NSOnState;
+		else
+			self.tbUsersButton.state = NSOnState;
+	}
 }
 
 -(void)modeChanged
@@ -595,6 +645,8 @@
 	self.statusMessage = @"Connected";
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.session requestUserList];
+		if (self.selectedLeftViewIndex == 1)
+			[self.session forceVariableRefresh];
 	});
 //	[self.audioEngine playDataFromFile:@"/Users/mlilback/Desktop/rc2audio.plist"];
 }
