@@ -7,6 +7,7 @@
 //
 
 #import "MacSessionView.h"
+#import "RCSavedSession.h"
 
 @interface MacSessionEditView : NSView
 @end
@@ -40,6 +41,22 @@
 	anim.delegate = self;
 	[self.leftXConstraint setAnimations:@{@"constant": anim}];
 }
+
+-(void)saveSessionState:(RCSavedSession*)sessionState
+{
+	[sessionState setProperty:@(self.editorWidthConstraint.constant) forKey:@"editorWidthConstant"];
+	NSLog(@"saving width to:%1.1f", self.editorWidthConstraint.constant);
+}
+
+-(void)restoreSessionState:(RCSavedSession*)savedState
+{
+	CGFloat ew = [[savedState propertyForKey:@"editorWidthConstant"] doubleValue];
+	if (ew < 300 || ew > 1000)
+		ew = 400;
+	NSLog(@"restoring width to:%1.1f", ew);
+	self.editorWidthConstraint.constant = ew;
+}
+
 
 -(void)mouseDown:(NSEvent *)evt
 {
@@ -104,7 +121,7 @@
 
 -(IBAction)toggleLeftView:(id)sender
 {
-	CGFloat newX = NSMinX(self.leftView.frame) >= 0 ? -171 : 0;
+	CGFloat newX = NSMinX(self.leftView.frame) >= 0 ? -214 : 0;
 	[[self.leftXConstraint animator] setConstant:newX];
 }
 

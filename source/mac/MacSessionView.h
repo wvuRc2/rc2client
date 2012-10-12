@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class RCSavedSession;
+
 @interface MacSessionView : AMControlledView
 @property (nonatomic, strong) IBOutlet NSView *leftView;
 @property (nonatomic, strong) IBOutlet NSView *editorView;
@@ -17,4 +19,7 @@
 
 -(void)embedOutputView:(NSView*)outputView;
 -(IBAction)toggleLeftView:(id)sender;
+
+-(void)saveSessionState:(RCSavedSession*)sessionState;
+-(void)restoreSessionState:(RCSavedSession*)savedState;
 @end

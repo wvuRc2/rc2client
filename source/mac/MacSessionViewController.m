@@ -39,7 +39,6 @@
 @end
 
 @interface MacSessionViewController() <NSPopoverDelegate> {
-	CGFloat __fileListWidth;
 	NSPoint __curImgPoint;
 	BOOL __didInit;
 	BOOL __movingFileList;
@@ -131,7 +130,6 @@
 		mi = [[NSMenuItem alloc] initWithTitle:@"Import File…" action:@selector(importFile:) keyEquivalent:@""];
 		mi.target = self;
 		[self.addMenu addItem:mi];
-		__fileListWidth = 171;
 		self.audioEngine = [[RCAudioChatEngine alloc] init];
 		self.audioEngine.session = self.session;
 
@@ -445,6 +443,7 @@
 	[savedState setBoolProperty:self.sessionView.leftViewVisible forKey:@"fileListVisible"];
 	[savedState setProperty:@(self.selectedLeftViewIndex) forKey:@"selLeftViewIdx"];
 	[savedState setProperty:[NSNumber numberWithDouble:self.sessionView.editorWidth] forKey:@"editorWidth"];
+	[self.sessionView saveSessionState:savedState];
 	[savedState.managedObjectContext save:nil];
 }
 
@@ -456,6 +455,7 @@
 	} else if ([savedState.inputText length] > 0) {
 		self.editView.string = savedState.inputText;
 	}
+	[self.sessionView restoreSessionState:savedState];
 	self.sessionView.editorWidth = [[savedState propertyForKey:@"editorWidth"] doubleValue];
 	__fileListInitiallyVisible = [savedState boolPropertyForKey:@"fileListVisible"];
 	self.selectedLeftViewIndex = [[savedState propertyForKey:@"selLeftViewIdx"] intValue];
