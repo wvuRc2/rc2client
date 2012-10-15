@@ -17,6 +17,8 @@
 		082CEEBD161E2D2600E01F48 /* users@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB9161E2D2600E01F48 /* users@2x.png */; };
 		082CEEC0161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
 		082CEEC1161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
+		083AAEE8162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
+		083AAEE9162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
@@ -449,6 +451,8 @@
 		082CEEB9161E2D2600E01F48 /* users@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "users@2x.png"; path = "resources/mac/users@2x.png"; sourceTree = SOURCE_ROOT; };
 		082CEEBE161F685900E01F48 /* RCVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCVariable.h; sourceTree = "<group>"; };
 		082CEEBF161F685900E01F48 /* RCVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCVariable.m; sourceTree = "<group>"; };
+		083AAEE6162CA73E0037AAB3 /* MAKVONotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAKVONotificationCenter.h; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.h; sourceTree = "<group>"; };
+		083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAKVONotificationCenter.m; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.m; sourceTree = "<group>"; };
 		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMAppConstants.h; path = source/mac/RCMAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMAppConstants.m; path = source/mac/RCMAppConstants.m; sourceTree = SOURCE_ROOT; };
@@ -1564,6 +1568,8 @@
 				08C5F39215DEC50A00B0402F /* console */,
 				08D245F415B5DCD70064A9FA /* MLReachability.h */,
 				08D245F515B5DCD70064A9FA /* MLReachability.m */,
+				083AAEE6162CA73E0037AAB3 /* MAKVONotificationCenter.h */,
+				083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */,
 				08D2459715B5DBB70064A9FA /* rc2 */,
 				08D2453A15B5DB270064A9FA /* ASIHTTPRequest */,
 				08D2455115B5DB270064A9FA /* json */,
@@ -2312,6 +2318,7 @@
 				08C99AC315EE9CDF002D430D /* Rc2FileType.m in Sources */,
 				082CEEC0161F685900E01F48 /* RCVariable.m in Sources */,
 				084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */,
+				083AAEE8162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2411,6 +2418,7 @@
 				082CEE9E161CC84A00E01F48 /* MacSessionView.m in Sources */,
 				082CEEC1161F685900E01F48 /* RCVariable.m in Sources */,
 				084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */,
+				083AAEE9162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

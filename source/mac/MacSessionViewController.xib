@@ -1253,7 +1253,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{219, 5}, {221, 14}}</string>
 						<reference key="NSSuperview" ref="581032746"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="878555490"/>
 						<string key="NSReuseIdentifierKey">_NS:3944</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1274,7 +1273,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<int key="NSvFlags">289</int>
 						<string key="NSFrame">{{317, 4}, {122, 15}}</string>
 						<reference key="NSSuperview" ref="581032746"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:868</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1349,7 +1347,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</array>
 				<string key="NSFrameSize">{437, 22}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="1023014179"/>
 				<string key="NSReuseIdentifierKey">_NS:1192</string>
 				<string key="NSClassName">NSView</string>
@@ -6032,6 +6029,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="646.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="647.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="650.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="672.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">ToolTip</string>
+					<object class="IBToolTipAttribute" key="NS.object.0">
+						<string key="name">ToolTip</string>
+						<reference key="object" ref="959948105"/>
+						<string key="toolTip">Back to previous screen</string>
+					</object>
+				</object>
 				<array key="672.IBNSViewMetadataConstraints">
 					<reference ref="997277234"/>
 					<reference ref="576458348"/>
@@ -6040,6 +6045,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="672.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="673.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="677.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="731.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">ToolTip</string>
+					<object class="IBToolTipAttribute" key="NS.object.0">
+						<string key="name">ToolTip</string>
+						<reference key="object" ref="385983904"/>
+						<string key="toolTip">files</string>
+					</object>
+				</object>
 				<array key="731.IBNSViewMetadataConstraints">
 					<reference ref="256835685"/>
 					<reference ref="782612595"/>
@@ -6048,6 +6061,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="731.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="732.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="734.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="745.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">ToolTip</string>
+					<object class="IBToolTipAttribute" key="NS.object.0">
+						<string key="name">ToolTip</string>
+						<reference key="object" ref="287350285"/>
+						<string key="toolTip">variables</string>
+					</object>
+				</object>
 				<array key="745.IBNSViewMetadataConstraints">
 					<reference ref="771071389"/>
 					<reference ref="409886495"/>
@@ -6069,6 +6090,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</array>
 				<boolean value="NO" key="77.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="775.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">ToolTip</string>
+					<object class="IBToolTipAttribute" key="NS.object.0">
+						<string key="name">ToolTip</string>
+						<reference key="object" ref="38524084"/>
+						<string key="toolTip">users</string>
+					</object>
+				</object>
 				<array key="775.IBNSViewMetadataConstraints">
 					<reference ref="468390805"/>
 				</array>
@@ -6079,6 +6108,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="789.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="790.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="802.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="816.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">ToolTip</string>
+					<object class="IBToolTipAttribute" key="NS.object.0">
+						<string key="name">ToolTip</string>
+						<reference key="object" ref="485542270"/>
+						<string key="toolTip">raise your hand</string>
+					</object>
+				</object>
 				<array key="816.IBNSViewMetadataConstraints">
 					<reference ref="727673583"/>
 					<reference ref="794494084"/>
@@ -6093,6 +6130,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</array>
 				<boolean value="NO" key="82.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="827.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">ToolTip</string>
+					<object class="IBToolTipAttribute" key="NS.object.0">
+						<string key="name">ToolTip</string>
+						<reference key="object" ref="497659969"/>
+						<string key="toolTip">toggle audio recording</string>
+					</object>
+				</object>
 				<array key="827.IBNSViewMetadataConstraints">
 					<reference ref="941478773"/>
 					<reference ref="556065835"/>
@@ -6108,6 +6153,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="881.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="882.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="883.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="884.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">ToolTip</string>
+					<object class="IBToolTipAttribute" key="NS.object.0">
+						<string key="name">ToolTip</string>
+						<reference key="object" ref="548919890"/>
+						<string key="toolTip">back to previous page</string>
+					</object>
+				</object>
 				<array key="884.IBNSViewMetadataConstraints">
 					<reference ref="371470796"/>
 					<reference ref="841882933"/>
@@ -6126,6 +6179,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<boolean value="NO" key="89.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="89.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="896.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">ToolTip</string>
+					<object class="IBToolTipAttribute" key="NS.object.0">
+						<string key="name">ToolTip</string>
+						<reference key="object" ref="180497886"/>
+						<string key="toolTip">open in external browser</string>
+					</object>
+				</object>
 				<array key="896.IBNSViewMetadataConstraints">
 					<reference ref="1003991774"/>
 					<reference ref="990617550"/>
@@ -6148,6 +6209,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</array>
 				<string key="91.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="92.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="926.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">ToolTip</string>
+					<object class="IBToolTipAttribute" key="NS.object.0">
+						<string key="name">ToolTip</string>
+						<reference key="object" ref="589534947"/>
+						<string key="toolTip">clear the output console</string>
+					</object>
+				</object>
 				<array key="926.IBNSViewMetadataConstraints">
 					<reference ref="699261822"/>
 					<reference ref="314454873"/>
@@ -6329,11 +6398,17 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string key="superclassName">MacClientAbstractViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeMode:">id</string>
+						<string key="contextualHelp:">id</string>
 						<string key="createNewFile:">id</string>
+						<string key="deleteFile:">id</string>
 						<string key="executeScript:">id</string>
 						<string key="exportFile:">id</string>
 						<string key="importFile:">id</string>
+						<string key="refreshVariables:">id</string>
+						<string key="revert:">id</string>
 						<string key="saveFileEdits:">id</string>
+						<string key="showImageDetails:">id</string>
+						<string key="tbTabButtonPressed:">NSButton</string>
 						<string key="toggleHand:">id</string>
 						<string key="toggleMicrophone:">id</string>
 					</dictionary>
@@ -6342,8 +6417,16 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">changeMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="contextualHelp:">
+							<string key="name">contextualHelp:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="createNewFile:">
 							<string key="name">createNewFile:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="deleteFile:">
+							<string key="name">deleteFile:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="executeScript:">
@@ -6358,9 +6441,25 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">importFile:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="refreshVariables:">
+							<string key="name">refreshVariables:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="revert:">
+							<string key="name">revert:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="saveFileEdits:">
 							<string key="name">saveFileEdits:</string>
 							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showImageDetails:">
+							<string key="name">showImageDetails:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="tbTabButtonPressed:">
+							<string key="name">tbTabButtonPressed:</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
 						<object class="IBActionInfo" key="toggleHand:">
 							<string key="name">toggleHand:</string>

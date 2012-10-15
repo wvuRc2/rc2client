@@ -33,6 +33,7 @@
 #import "RCImageCache.h"
 #import "NoodleLineNumberView.h"
 #import "MacSessionView.h"
+#import "MAKVONotificationCenter.h"
 
 @interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, copy) NSArray *data;
@@ -63,10 +64,6 @@
 @property (nonatomic, strong) NSArray *currentImageGroup;
 @property (nonatomic, strong) NSArray *users;
 @property (nonatomic, strong) NSNumber *fileIdJustImported;
-@property (nonatomic, strong) id fullscreenToken;
-@property (nonatomic, strong) id usersToken;
-@property (nonatomic, strong) id modeChangeToken;
-@property (nonatomic, strong) id variablesVisibleToken;
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) NSString *webTmpFileDirectory;
 @property (nonatomic, strong) NSWindow *blockingWindow;
@@ -89,10 +86,7 @@
 			[file updateContentsFromServer];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
-		__unsafe_unretained MacSessionViewController *blockSelf = self;
-		self.modeChangeToken = [aSession addObserverForKeyPath:@"mode" task:^(id obj, NSDictionary *change) {
-			[blockSelf modeChanged];
-		}];
+		[self observeTarget:aSession keyPath:@"mode" selector:@selector(modeChanged) userInfo:nil options:0];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workspaceFilesChanged:) name:RCWorkspaceFilesFetchedNotification object:self.session.workspace];
 	}
 	return self;
@@ -148,7 +142,12 @@
 		
 		//caches
 		__unsafe_unretained MacSessionViewController *blockSelf = self;
-		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:RCWorkspaceFilesFetchedNotification 
+		[self observeTarget:self.sessionView keyPath:@"leftViewVisible" options:0 block:^(MAKVONotification *notification) {
+			blockSelf.session.variablesVisible = blockSelf.sessionView.leftViewVisible &&
+			blockSelf.selectedLeftViewIndex == 1;
+			[blockSelf adjustLeftViewButtonsToMatchState:NO];
+		}];
+		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:RCWorkspaceFilesFetchedNotification
 														  object:nil queue:nil usingBlock:^(NSNotification *note)
 		{
 			dispatch_async(dispatch_get_main_queue(), ^{
@@ -163,10 +162,9 @@
 				}
 			});
 		}]];
-		self.fullscreenToken = [[NSApp delegate] addObserverForKeyPath:@"isFullScreen" task:^(id obj, NSDictionary *change)
-		{
+		[self observeTarget:[NSApp delegate] keyPath:@"isFullScreen" options:0 block:^(MAKVONotification *notification) {
 			dispatch_async(dispatch_get_main_queue(), ^{
-				if ([obj isFullScreen]) {
+				if ([notification.target isFullScreen]) {
 					if (!blockSelf.sessionView.leftViewVisible) {
 						[blockSelf.sessionView toggleLeftView:blockSelf];
 						blockSelf->__toggledFileViewOnFullScreen = YES;
@@ -177,18 +175,10 @@
 				}
 			});
 		}];
-		self.usersToken = [self.session addObserverForKeyPath:@"users" task:^(id obj, NSDictionary *change)
-		{
+		[self observeTarget:self.session keyPath:@"users" options:0 block:^(MAKVONotification *notification) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				blockSelf.users = blockSelf.session.users;
 				[blockSelf.userTableView reloadData];
-			});
-		}];
-		self.variablesVisibleToken = [self.sessionView addObserverForKeyPath:@"leftViewVisible" task:^(id obj, NSDictionary *change)
-		{
-			dispatch_async(dispatch_get_main_queue(), ^{
-				blockSelf.session.variablesVisible = blockSelf.sessionView.leftViewVisible &&
-					blockSelf.selectedLeftViewIndex == 1;
 			});
 		}];
 		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
@@ -248,10 +238,10 @@
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
 	SEL action = [item action];
-	if (action == @selector(toggleFileList:)) {
+	if (action == @selector(toggleLeftSideView:)) {
 		if ([(id)item isKindOfClass:[NSMenuItem class]]) {
 			//adjust the title
-			[(NSMenuItem*)item setTitle:self.sessionView.leftViewVisible ? @"Hide File List" : @"Show File List"];
+			[(NSMenuItem*)item setTitle:self.sessionView.leftViewVisible ? @"Hide Left View" : @"Show Left View"];
 		}
 		return YES;
 	} else if (action == @selector(exportFile:)) {
@@ -266,12 +256,41 @@
 		return YES;
 	} else if (action == @selector(changeMode:)) {
 		return self.session.currentUser.master;
-	} else if (action == @selector(contextualHelp:)) 
+	} else if (action == @selector(toggleFiles:)) {
+		if (self.selectedLeftViewIndex == 0)
+			return NO;
+	} else if (action == @selector(toggleVariables:)) {
+		if (self.selectedLeftViewIndex == 1)
+			return NO;
+	} else if (action == @selector(toggleUsers:)) {
+		if (self.selectedLeftViewIndex == 2)
+			return NO;
+	} else if (action == @selector(contextualHelp:)) {
 		return YES;
-	return NO;
+	} return NO;
 }
 
 #pragma mark - actions
+
+-(IBAction)toggleLeftSideView:(id)sender
+{
+	[self.sessionView toggleLeftView:sender];
+}
+
+-(IBAction)toggleFiles:(id)sender
+{
+	[self tbTabButtonPressed:self.tbFilesButton];
+}
+
+-(IBAction)toggleUsers:(id)sender
+{
+	[self tbTabButtonPressed:self.tbUsersButton];
+}
+
+-(IBAction)toggleVariables:(id)sender
+{
+	[self tbTabButtonPressed:self.tbVarsButton];
+}
 
 -(IBAction)tbTabButtonPressed:(NSButton*)sender
 {
@@ -458,22 +477,33 @@
 	self.sessionView.editorWidth = [[savedState propertyForKey:@"editorWidth"] doubleValue];
 	__fileListInitiallyVisible = [savedState boolPropertyForKey:@"fileListVisible"];
 	self.selectedLeftViewIndex = [[savedState propertyForKey:@"selLeftViewIdx"] intValue];
-	[self adjustLeftViewButtonsToMatchState];
+	[self adjustLeftViewButtonsToMatchState:YES];
 	[[RCImageCache sharedInstance] cacheImagesReferencedInHTML:savedState.consoleHtml];
 }
 
--(void)adjustLeftViewButtonsToMatchState
+-(void)adjustLeftViewButtonsToMatchState:(BOOL)forTheFirstTime
 {
 	self.tbFilesButton.state = NSOffState;
 	self.tbVarsButton.state = NSOffState;
 	self.tbUsersButton.state = NSOffState;
-	if (__fileListInitiallyVisible) {
-		if (self.selectedLeftViewIndex == 0)
-			self.tbFilesButton.state = NSOnState;
-		else if (self.selectedLeftViewIndex == 1)
-			self.tbVarsButton.state = NSOnState;
-		else
-			self.tbUsersButton.state = NSOnState;
+	if (forTheFirstTime) {
+		if (__fileListInitiallyVisible) {
+			if (self.selectedLeftViewIndex == 0)
+				self.tbFilesButton.state = NSOnState;
+			else if (self.selectedLeftViewIndex == 1)
+				self.tbVarsButton.state = NSOnState;
+			else
+				self.tbUsersButton.state = NSOnState;
+		}
+	} else {
+		if (self.sessionView.leftViewVisible) {
+			if (self.selectedLeftViewIndex == 0)
+				self.tbFilesButton.state = NSOnState;
+			else if (self.selectedLeftViewIndex == 1)
+				self.tbVarsButton.state = NSOnState;
+			else
+				self.tbUsersButton.state = NSOnState;
+		}
 	}
 }
 
@@ -603,6 +633,8 @@
 -(void)setEditViewTextWithHighlighting:(NSAttributedString*)srcStr
 {
 	id astr = [srcStr mutableCopy];
+	if (astr == nil)
+		astr = [NSMutableAttributedString attributedStringWithString:@"" attributes:nil];
 	[astr addAttributes:self.editView.textAttributes range:NSMakeRange(0, [astr length])];
 	astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:astr ofType:self.selectedFile.name.pathExtension];
 	if (astr)
