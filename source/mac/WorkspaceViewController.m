@@ -43,6 +43,7 @@
 		self.workspace = aWorkspace;
 		self.kvoTokens = [NSMutableSet set];
 		__unsafe_unretained WorkspaceViewController *blockSelf = self;
+		
 		[self.kvoTokens addObject:[self.workspace addObserverForKeyPath:@"files" task:^(id obj, NSDictionary *change)
 	   {
 		   if (!blockSelf.ignoreSectionReloads) {

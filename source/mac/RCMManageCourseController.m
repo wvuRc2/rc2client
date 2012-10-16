@@ -21,7 +21,6 @@
 @property (nonatomic, strong) IBOutlet NSTableView *assignTable;
 @property (nonatomic, strong) IBOutlet NSTableView *fileTable;
 @property (nonatomic, strong) IBOutlet NSTableView *studentTable;
-@property (nonatomic, strong) NSMutableSet *kvoTokens;
 @property (nonatomic, strong) id curSelToken;
 @property (nonatomic, strong) RCAssignment *selectedAssignment;
 @property (nonatomic, strong) RCAssignmentFile *selectedFile;
@@ -32,7 +31,6 @@
 -(id)init
 {
  	if ((self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil])) {
-		self.kvoTokens = [NSMutableSet set];
 		self.assignSortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
 		self.students = [NSMutableArray array];
 	}
@@ -390,15 +388,4 @@
 	[self.studentTable reloadData];
 }
 
-@synthesize theCourse=_theCourse;
-@synthesize assignments=_assignments;
-@synthesize kvoTokens=_kvoTokens;
-@synthesize selectedAssignment=_selectedAssignment;
-@synthesize curSelToken=_curSelToken;
-@synthesize assignTable=_assignTable;
-@synthesize fileTable=_fileTable;
-@synthesize selectedFile=_selectedFile;
-@synthesize assignSortDescriptors=_assignSortDescriptors;
-@synthesize studentTable=_studentTable;
- @synthesize students=_students;
 @end
