@@ -12,11 +12,15 @@
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
 #import "RCImageCache.h"
+#import "MAKVONotificationCenter.h"
+#import "VariableListViewController.h"
 
 @interface ConsoleViewController() {
 	BOOL _didSetGraphUrl;
 }
 @property (nonatomic, strong) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) VariableListViewController *variableController;
+@property (nonatomic, strong) UIPopoverController *varablePopover;
 @property (nonatomic, strong) NSString *lastPageContent;
 @property (nonatomic, strong) NSLock *queueLock;
 @property (nonatomic, strong) NSMutableArray *jsQueue;
@@ -39,15 +43,6 @@
 	self.jsQueue = [[NSMutableArray alloc] init];
 	self.backButton.enabled = NO;
 	[self insertSavedContent:@""];
-/*	UIScrollView* sv = nil;
-	for(UIView* v in self.webView.subviews){
-		if([v isKindOfClass:[UIScrollView class]]) {
-			sv = (UIScrollView*) v;
-			sv.scrollEnabled = NO;
-			sv.bounces = NO;
-		}
-	}
-*/
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 }
 
@@ -167,7 +162,27 @@
 	}
 }
 
+-(void)variablesUpdated
+{
+	[self.variableController variablesUpdated];
+}
+
 #pragma mark - actions
+
+-(IBAction)doShowVariables:(id)sender
+{
+	if (nil == self.varablePopover) {
+		self.variableController = [[VariableListViewController alloc] init];
+		self.varablePopover = [[UIPopoverController alloc] initWithContentViewController:self.variableController];
+	}
+	if (self.varablePopover.isPopoverVisible) {
+		[self.varablePopover dismissPopoverAnimated:YES];
+	} else {
+		[self.varablePopover presentPopoverFromBarButtonItem:sender
+									permittedArrowDirections:UIPopoverArrowDirectionUp|UIPopoverArrowDirectionRight
+													animated:YES];
+	}
+}
 
 -(IBAction)doExecute:(id)sender
 {
@@ -256,8 +271,6 @@
 		NSURL *theUrl = [[NSBundle mainBundle] URLForResource:@"graph" withExtension:@"png" subdirectory:@"console"];
 		NSString *url = [theUrl absoluteString];
 		url = [url stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-//		NSString *cmd = [NSString stringWithFormat:@"iR.graphFileUrl = '%@'", url];
-//		[self.webView stringByEvaluatingJavaScriptFromString:cmd];
 		_didSetGraphUrl=YES;
 		CGRect f = self.webView.frame;
 		if (f.origin.x < 10)
@@ -296,8 +309,6 @@
 	else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
 		NSString *urlStr = request.URL.absoluteString;
 		NSString *path = [request.URL path];
-//	NSLog(@"rc2img url='%@', path='%@'", urlStr, path);
-//FIXME: non image urls have 2 slashes, not 3. that's why path is an empty string.
 		if ([urlStr hasSuffix:@".pdf"]) {
 			path = request.URL.absoluteString;
 			path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
@@ -321,9 +332,8 @@
 {
 	self.sessionKvoToken = nil;
 	_session = sess;
-	__unsafe_unretained ConsoleViewController *blockSelf = self;
-	self.sessionKvoToken = [sess addObserverForKeyPath:@"restrictedMode" task:^(id obj, NSDictionary *dict) {
-		[blockSelf sessionModeChanged];
+	self.sessionKvoToken = [self observeTarget:sess keyPath:@"restrictedMode" options:0 block:^(MAKVONotification *note) {
+		[[note observer] sessionModeChanged];
 	}];
 }
 

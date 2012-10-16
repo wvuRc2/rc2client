@@ -19,6 +19,12 @@
 		082CEEC1161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
 		083AAEE8162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
 		083AAEE9162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
+		083AAEED162DDCE30037AAB3 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 083AAEEB162DDCE30037AAB3 /* variables.png */; };
+		083AAEEE162DDCE30037AAB3 /* variables@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 083AAEEC162DDCE30037AAB3 /* variables@2x.png */; };
+		083AAEF2162DDECF0037AAB3 /* VariableListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */; };
+		083AAEF3162DDECF0037AAB3 /* VariableListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083AAEF1162DDECF0037AAB3 /* VariableListViewController.xib */; };
+		083AAEF6162DE7870037AAB3 /* BasicVariableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEF5162DE7870037AAB3 /* BasicVariableCell.m */; };
+		083AAEF8162DE7B10037AAB3 /* BasicVariableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083AAEF7162DE7B10037AAB3 /* BasicVariableCell.xib */; };
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
@@ -453,6 +459,14 @@
 		082CEEBF161F685900E01F48 /* RCVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCVariable.m; sourceTree = "<group>"; };
 		083AAEE6162CA73E0037AAB3 /* MAKVONotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAKVONotificationCenter.h; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.h; sourceTree = "<group>"; };
 		083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAKVONotificationCenter.m; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.m; sourceTree = "<group>"; };
+		083AAEEB162DDCE30037AAB3 /* variables.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = variables.png; sourceTree = "<group>"; };
+		083AAEEC162DDCE30037AAB3 /* variables@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "variables@2x.png"; sourceTree = "<group>"; };
+		083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableListViewController.h; path = source/ios/VariableListViewController.h; sourceTree = "<group>"; };
+		083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VariableListViewController.m; path = source/ios/VariableListViewController.m; sourceTree = "<group>"; };
+		083AAEF1162DDECF0037AAB3 /* VariableListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VariableListViewController.xib; path = source/ios/VariableListViewController.xib; sourceTree = "<group>"; };
+		083AAEF4162DE7870037AAB3 /* BasicVariableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BasicVariableCell.h; path = source/ios/BasicVariableCell.h; sourceTree = "<group>"; };
+		083AAEF5162DE7870037AAB3 /* BasicVariableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BasicVariableCell.m; path = source/ios/BasicVariableCell.m; sourceTree = "<group>"; };
+		083AAEF7162DE7B10037AAB3 /* BasicVariableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BasicVariableCell.xib; path = source/ios/BasicVariableCell.xib; sourceTree = "<group>"; };
 		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMAppConstants.h; path = source/mac/RCMAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMAppConstants.m; path = source/mac/RCMAppConstants.m; sourceTree = SOURCE_ROOT; };
@@ -1339,6 +1353,9 @@
 				08D2438F15B5D5B90064A9FA /* ConsoleViewController.h */,
 				08D2439015B5D5B90064A9FA /* ConsoleViewController.m */,
 				08D2439115B5D5B90064A9FA /* ConsoleViewController.xib */,
+				083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */,
+				083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */,
+				083AAEF1162DDECF0037AAB3 /* VariableListViewController.xib */,
 				08D2439415B5D5E20064A9FA /* ImageDisplayController.h */,
 				08D2439515B5D5E20064A9FA /* ImageDisplayController.m */,
 				08D2439615B5D5E20064A9FA /* ImageDisplayController.xib */,
@@ -1382,6 +1399,9 @@
 		08D243C215B5D6780064A9FA /* views and cells */ = {
 			isa = PBXGroup;
 			children = (
+				083AAEF4162DE7870037AAB3 /* BasicVariableCell.h */,
+				083AAEF5162DE7870037AAB3 /* BasicVariableCell.m */,
+				083AAEF7162DE7B10037AAB3 /* BasicVariableCell.xib */,
 				08D243C415B5D7590064A9FA /* ControllerUserCell.h */,
 				08D243C515B5D7590064A9FA /* ControllerUserCell.m */,
 				08D243C615B5D7590064A9FA /* ControllerUserCell.xib */,
@@ -1501,6 +1521,8 @@
 		08D2446D15B5D8F20064A9FA /* images */ = {
 			isa = PBXGroup;
 			children = (
+				083AAEEB162DDCE30037AAB3 /* variables.png */,
+				083AAEEC162DDCE30037AAB3 /* variables@2x.png */,
 				08D2446E15B5D8F20064A9FA /* 1up.png */,
 				08D2446F15B5D8F20064A9FA /* 2up.png */,
 				08D2447015B5D8F20064A9FA /* 4up.png */,
@@ -1901,7 +1923,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0450;
-				ORGANIZATIONNAME = "Agile Monks";
+				ORGANIZATIONNAME = "West Virginia University";
 			};
 			buildConfigurationList = 08D2431915B5D04D0064A9FA /* Build configuration list for PBXProject "Rc2Client" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2034,6 +2056,10 @@
 				08C5F39E15DEC70A00B0402F /* hand-grey.png in Resources */,
 				08C5F39F15DEC70A00B0402F /* hand-grey@2x.png in Resources */,
 				08C99AC715EE9D35002D430D /* RC2FileTypes.plist in Resources */,
+				083AAEED162DDCE30037AAB3 /* variables.png in Resources */,
+				083AAEEE162DDCE30037AAB3 /* variables@2x.png in Resources */,
+				083AAEF3162DDECF0037AAB3 /* VariableListViewController.xib in Resources */,
+				083AAEF8162DE7B10037AAB3 /* BasicVariableCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2319,6 +2345,8 @@
 				082CEEC0161F685900E01F48 /* RCVariable.m in Sources */,
 				084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */,
 				083AAEE8162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */,
+				083AAEF2162DDECF0037AAB3 /* VariableListViewController.m in Sources */,
+				083AAEF6162DE7870037AAB3 /* BasicVariableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

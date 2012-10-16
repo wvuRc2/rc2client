@@ -90,7 +90,7 @@
 	} else if (self.isDate) {
 		return  [self.values objectAtIndex:1];
 	} else if (self.isDateTime) {
-		return [(NSDate*)[self.values objectAtIndex:0] descriptionWithCalendarFormat:@"%Y-%m-%d %H:%M:%S" timeZone:nil locale:nil];
+		return [self.values objectAtIndex:1]; //date formatted as string
 	} else if (self.notAVector) {
 		return self.className;
 	}

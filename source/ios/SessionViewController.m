@@ -483,7 +483,7 @@
 
 -(void)variablesUpdated
 {
-	
+	[self.consoleController variablesUpdated];
 }
 
 -(NSString*)executeJavascript:(NSString*)js

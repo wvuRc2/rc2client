@@ -28,6 +28,7 @@
 -(NSString*)evaluateJavaScript:(NSString*)script;
 -(void)loadHelpURL:(NSURL*)url;
 -(void)loadLocalFileURL:(NSURL*)url;
+-(void)variablesUpdated;
 @end
 
 @interface ConsoleView : UIView
