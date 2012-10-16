@@ -90,7 +90,13 @@
 	} else if (self.isDate) {
 		return  [self.values objectAtIndex:1];
 	} else if (self.isDateTime) {
-		return [self.values objectAtIndex:1]; //date formatted as string
+		static NSDateFormatter *dateFormatter;
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			dateFormatter = [[NSDateFormatter alloc] init];
+			[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+		});
+		return [dateFormatter stringFromDate:[self.values objectAtIndex:0]];
 	} else if (self.notAVector) {
 		return self.className;
 	}
