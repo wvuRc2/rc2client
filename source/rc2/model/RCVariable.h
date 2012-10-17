@@ -41,8 +41,6 @@ typedef enum {
 @property (nonatomic, readonly) NSString *description; //want different value for debugger
 @property (nonatomic, readonly) NSString *summary;
 
-@property (nonatomic, readonly) NSArray *levels; //for a factor only. nil otherwise.
-
 @property (readonly) RCVariableType type;
 @property (readonly) RCPrimitiveType primitiveType; //=Unknown if type != eVarType_Vector
 @property (nonatomic, readonly) BOOL isPrimitive;
@@ -51,7 +49,9 @@ typedef enum {
 @property (nonatomic, readonly) BOOL isDateTime;
 @property (nonatomic) BOOL justUpdated; //for client to manage, not used internally
 
-@property (nonatomic, readonly) NSInteger count;
+@property (nonatomic, readonly) NSInteger length; //how many items on server
+@property (nonatomic, readonly) NSInteger count; //how many are accessible via valueAtIndex:
+
 @property (nonatomic, readonly) BOOL treatAsContainerType; //for display to the user under the "data" heading
 
 -(RCVariable*)valueAtIndex:(NSUInteger)idx;

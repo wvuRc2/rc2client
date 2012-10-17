@@ -43,8 +43,6 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	if (section == 1) {
-		if (self.variable.isFactor)
-			return self.variable.levels.count;
 		return self.variable.count;
 	}
 	return 1;
@@ -65,10 +63,7 @@
 		if (nil == cell)
 			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dvalue"];
 		id val=nil;
-		if (self.variable.isFactor)
-			val = [self.variable.levels objectAtIndex:indexPath.row];
-		else
-			val = [self.variable valueAtIndex:indexPath.row];
+		val = [self.variable valueAtIndex:indexPath.row];
 		cell.textLabel.text = [val description];
 	}
 	return cell;

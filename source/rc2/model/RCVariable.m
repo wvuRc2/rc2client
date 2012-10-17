@@ -47,6 +47,7 @@
 		self.className = [dict objectForKey:@"class"];
 		BOOL primitive = [[dict objectForKey:@"primitive"] boolValue];
 		self.notAVector = [[dict objectForKey:@"notAVector"] boolValue];
+		_length = [[dict objectForKey:@"length"] intValue];
 		if (primitive) {
 			self.type = eVarType_Primitive;
 			self.primitiveType = [self primitiveTypeForString:[dict objectForKey:@"type"]];
@@ -63,7 +64,7 @@
 			}
 		} else if ([dict objectForKey:@"levels"]) {
 			self.type = eVarType_Factor;
-			_levels = [dict objectForKey:@"levels"];
+			_values = [dict objectForKey:@"levels"];
 		} else {
 			[self decodeSupportedObjects:dict];
 		}
@@ -86,7 +87,7 @@
 		if (self.values.count == 1 && self.primitiveType != ePrimType_Raw)
 			return [[self.values objectAtIndex:0] description];
 	} else if (self.isFactor) {
-		return [NSString stringWithFormat:@"%@[%d]", self.className, (int)self.levels.count];
+		return [NSString stringWithFormat:@"%@[%d]", self.className, (int)self.values.count];
 	} else if (self.isDate) {
 		return  [self.values objectAtIndex:1];
 	} else if (self.isDateTime) {
@@ -100,7 +101,7 @@
 	} else if (self.notAVector) {
 		return self.className;
 	}
-	return [NSString stringWithFormat:@"%@[%d]", self.className, (int)self.values.count];
+	return [NSString stringWithFormat:@"%@[%d]", self.className, (int)self.length];
 }
 
 #pragma mark - private
@@ -233,7 +234,7 @@
 {
 	switch (self.type) {
 		case eVarType_Factor:
-			return [self.levels componentsJoinedByString:@", "];
+			return [self.values componentsJoinedByString:@", "];
 		case eVarType_Primitive:
 		{
 			switch(self.primitiveType) {
