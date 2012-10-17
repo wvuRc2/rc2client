@@ -87,6 +87,11 @@
 		[self.refreshControl endRefreshing];
 }
 
+-(void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+	[self.navigationController popToRootViewControllerAnimated:NO];
+}
+
 #pragma mark - table view methods
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

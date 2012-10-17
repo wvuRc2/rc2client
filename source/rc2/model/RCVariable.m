@@ -163,7 +163,7 @@
 		self.summaryIsDescription = YES;
 	} else if ([cname isEqualToString:@"function"]) {
 		self.type = eVarType_Function;
-		self.summaryIsDescription = YES;
+		self.values = [NSArray arrayWithObject:[dict objectForKey:@"body"]];
 	}
 }
 
@@ -230,6 +230,13 @@
 	}
 }
 
+-(NSString*)functionBody
+{
+	if (self.type == eVarType_Function)
+		return [self.values objectAtIndex:0];
+	return nil;
+}
+
 -(NSString*)summary
 {
 	switch (self.type) {
@@ -245,6 +252,8 @@
 			}
 			return [self.values componentsJoinedByString:@", "];
 		}
+		case eVarType_Function:
+			return [self.values objectAtIndex:0];
 		default:
 			if (self.summaryIsDescription)
 				return self.description;

@@ -58,6 +58,9 @@ typedef enum {
 
 +(id)variableWithDictionary:(NSDictionary*)dict;
 
+//convience methods for specific variable types
+@property (nonatomic, readonly) NSString *functionBody;
+
 //for subclasses to override
 -(id)initWithDictionary:(NSDictionary*)dict;
 -(void)decodeSupportedObjects:(NSDictionary*)dict;

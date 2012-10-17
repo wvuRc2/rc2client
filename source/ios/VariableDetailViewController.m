@@ -8,6 +8,7 @@
 
 #import "VariableDetailViewController.h"
 #import "RCVariable.h"
+#import "FunctionVariableSummaryCell.h"
 
 @interface VariableDetailViewController ()
 
@@ -26,6 +27,8 @@
 {
 	[super viewDidLoad];
 	self.navigationItem.title = self.variable.name;
+	UINib *nib = [UINib nibWithNibName:@"FunctionVariableSummaryCell" bundle:nil];
+	[self.tableView registerNib:nib forCellReuseIdentifier:@"function"];
 }
 
 -(CGSize)contentSizeForViewInPopover
@@ -52,12 +55,17 @@
 {
 	UITableViewCell *cell=nil;
 	if (indexPath.section == 0) {
-		//summary cell
-		cell = [tableView dequeueReusableCellWithIdentifier:@"summary"];
-		if (nil == cell)
-			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"summary"];
-		cell.textLabel.text = self.variable.name;
-		cell.detailTextLabel.text = self.variable.description;
+		if (_variable.type == eVarType_Function) {
+			cell = [tableView dequeueReusableCellWithIdentifier:@"function"];
+			[(FunctionVariableSummaryCell*)cell setVariable:self.variable];
+		} else {
+			//summary cell
+			cell = [tableView dequeueReusableCellWithIdentifier:@"summary"];
+			if (nil == cell)
+				cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"summary"];
+			cell.textLabel.text = self.variable.name;
+			cell.detailTextLabel.text = self.variable.description;
+		}
 	} else {
 		cell = [tableView dequeueReusableCellWithIdentifier:@"dvalue"];
 		if (nil == cell)
@@ -67,6 +75,19 @@
 		cell.textLabel.text = [val description];
 	}
 	return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (indexPath.section == 0) {
+		switch (_variable.type) {
+			case eVarType_Function:
+				return 297;
+			default:
+				;
+		}
+	}
+	return 44;
 }
 
 @end

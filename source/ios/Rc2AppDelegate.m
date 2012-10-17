@@ -258,7 +258,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:results];
 	[Rc2Server sharedInstance].currentSession = session;
 	session.initialFileSelection = selFile;
-NSLog(@"completeSessionStartup: set init file to %@", selFile.name);
 	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
 	if (keylayout != eKeyboardLayout_Standard) {
 		_curKeyFile=0;
