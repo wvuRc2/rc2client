@@ -71,7 +71,12 @@
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="614855757"/>
 							</object>
-							<object class="IBUIBarButtonItem" id="887637072">
+							<object class="IBUIBarButtonItem" id="558835906">
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<reference key="IBUIToolbar" ref="614855757"/>
+								<int key="IBUISystemItemIdentifier">5</int>
+							</object>
+							<object class="IBUIBarButtonItem" id="359256503">
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">variables.png</string>
@@ -79,11 +84,6 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="614855757"/>
-							</object>
-							<object class="IBUIBarButtonItem" id="558835906">
-								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUIToolbar" ref="614855757"/>
-								<int key="IBUISystemItemIdentifier">5</int>
 							</object>
 							<object class="IBUIBarButtonItem" id="831299667">
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -280,7 +280,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">doShowVariables:</string>
-						<reference key="source" ref="887637072"/>
+						<reference key="source" ref="359256503"/>
 						<reference key="destination" ref="841351856"/>
 					</object>
 					<int key="connectionID">25</int>
@@ -328,7 +328,7 @@
 							<reference ref="831299667"/>
 							<reference ref="558835906"/>
 							<reference ref="332719536"/>
-							<reference ref="887637072"/>
+							<reference ref="359256503"/>
 						</array>
 						<reference key="parent" ref="766721923"/>
 					</object>
@@ -359,7 +359,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">24</int>
-						<reference key="object" ref="887637072"/>
+						<reference key="object" ref="359256503"/>
 						<reference key="parent" ref="614855757"/>
 					</object>
 				</array>
@@ -408,10 +408,7 @@
 						<string key="doActionSheet:">id</string>
 						<string key="doBack:">id</string>
 						<string key="doClear:">id</string>
-						<string key="doDecreaseFont:">id</string>
 						<string key="doExecute:">id</string>
-						<string key="doIncreaseFont:">id</string>
-						<string key="doShowVariables:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="doActionSheet:">
@@ -426,20 +423,8 @@
 							<string key="name">doClear:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="doDecreaseFont:">
-							<string key="name">doDecreaseFont:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="doExecute:">
 							<string key="name">doExecute:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="doIncreaseFont:">
-							<string key="name">doIncreaseFont:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="doShowVariables:">
-							<string key="name">doShowVariables:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

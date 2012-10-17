@@ -10,6 +10,7 @@
 #import "BasicVariableCell.h"
 #import "RCSession.h"
 #import "RCVariable.h"
+#import "VariableDetailViewController.h"
 
 @interface VariableListViewController ()
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -33,6 +34,7 @@
 	self.refreshControl = [[UIRefreshControl alloc] init];
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refresh Variables"];
 	[self.refreshControl addTarget:self action:@selector(forceRefresh) forControlEvents:UIControlEventValueChanged];
+	self.navigationItem.title = NSLocalizedString(@"Variables", @"");
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -49,7 +51,7 @@
 
 -(CGSize)contentSizeForViewInPopover
 {
-	return CGSizeMake(360, 500);
+	return CGSizeMake(360, 600);
 }
 
 -(void)forceRefresh
@@ -116,6 +118,15 @@
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	return [[self.tableData objectAtIndex:section] objectForKey:@"name"];
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	VariableDetailViewController *detail = [[VariableDetailViewController alloc] init];
+	NSDictionary *section = [self.tableData objectAtIndex:indexPath.section];
+	RCVariable *var = [[section objectForKey:@"data"] objectAtIndex:indexPath.row];
+	detail.variable = var;
+	[self.navigationController pushViewController:detail animated:YES];
 }
 
 @end

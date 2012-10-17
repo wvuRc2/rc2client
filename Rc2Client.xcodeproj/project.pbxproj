@@ -25,6 +25,7 @@
 		083AAEF3162DDECF0037AAB3 /* VariableListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083AAEF1162DDECF0037AAB3 /* VariableListViewController.xib */; };
 		083AAEF6162DE7870037AAB3 /* BasicVariableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEF5162DE7870037AAB3 /* BasicVariableCell.m */; };
 		083AAEF8162DE7B10037AAB3 /* BasicVariableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083AAEF7162DE7B10037AAB3 /* BasicVariableCell.xib */; };
+		083AAEFC162EFFBF0037AAB3 /* VariableDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEFA162EFFBF0037AAB3 /* VariableDetailViewController.m */; };
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
@@ -467,6 +468,8 @@
 		083AAEF4162DE7870037AAB3 /* BasicVariableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BasicVariableCell.h; path = source/ios/BasicVariableCell.h; sourceTree = "<group>"; };
 		083AAEF5162DE7870037AAB3 /* BasicVariableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BasicVariableCell.m; path = source/ios/BasicVariableCell.m; sourceTree = "<group>"; };
 		083AAEF7162DE7B10037AAB3 /* BasicVariableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BasicVariableCell.xib; path = source/ios/BasicVariableCell.xib; sourceTree = "<group>"; };
+		083AAEF9162EFFBE0037AAB3 /* VariableDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableDetailViewController.h; path = source/ios/VariableDetailViewController.h; sourceTree = "<group>"; };
+		083AAEFA162EFFBF0037AAB3 /* VariableDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VariableDetailViewController.m; path = source/ios/VariableDetailViewController.m; sourceTree = "<group>"; };
 		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMAppConstants.h; path = source/mac/RCMAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMAppConstants.m; path = source/mac/RCMAppConstants.m; sourceTree = SOURCE_ROOT; };
@@ -1356,6 +1359,8 @@
 				083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */,
 				083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */,
 				083AAEF1162DDECF0037AAB3 /* VariableListViewController.xib */,
+				083AAEF9162EFFBE0037AAB3 /* VariableDetailViewController.h */,
+				083AAEFA162EFFBF0037AAB3 /* VariableDetailViewController.m */,
 				08D2439415B5D5E20064A9FA /* ImageDisplayController.h */,
 				08D2439515B5D5E20064A9FA /* ImageDisplayController.m */,
 				08D2439615B5D5E20064A9FA /* ImageDisplayController.xib */,
@@ -2347,6 +2352,7 @@
 				083AAEE8162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */,
 				083AAEF2162DDECF0037AAB3 /* VariableListViewController.m in Sources */,
 				083AAEF6162DE7870037AAB3 /* BasicVariableCell.m in Sources */,
+				083AAEFC162EFFBF0037AAB3 /* VariableDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -36,7 +36,7 @@
 
 -(NSString*)description
 {
-	return [NSString stringWithFormat:@"data frame(%ld,%ld)", self.rowCount, self.columnNames.count];;
+	return [NSString stringWithFormat:@"data frame(%d,%d)", (int)self.rowCount, (int)self.columnNames.count];;
 }
 
 -(NSString*)summary

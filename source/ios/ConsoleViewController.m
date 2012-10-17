@@ -174,7 +174,8 @@
 	if (nil == self.varablePopover) {
 		self.variableController = [[VariableListViewController alloc] init];
 		self.variableController.session = self.session;
-		self.varablePopover = [[UIPopoverController alloc] initWithContentViewController:self.variableController];
+		UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.variableController];
+		self.varablePopover = [[UIPopoverController alloc] initWithContentViewController:nav];
 		self.varablePopover.delegate = self.variableController;
 	}
 	if (self.varablePopover.isPopoverVisible) {
