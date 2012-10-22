@@ -128,6 +128,10 @@
 		088392E815C3276C00C56576 /* 4up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 088392E515C3276C00C56576 /* 4up@2x.png */; };
 		08B74C2B1635C08800083F9A /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2A1635C08800083F9A /* RCMatrix.m */; };
 		08B74C2C1635C08800083F9A /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2A1635C08800083F9A /* RCMatrix.m */; };
+		08B74C311635CA8700083F9A /* VariableSpreadsheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2F1635CA8700083F9A /* VariableSpreadsheetController.m */; };
+		08B74C321635CA8700083F9A /* VariableSpreadsheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C301635CA8700083F9A /* VariableSpreadsheetController.xib */; };
+		08B74C3D1635CF4B00083F9A /* SpreadsheetScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C3C1635CF4B00083F9A /* SpreadsheetScroller.m */; };
+		08B74C411635D14800083F9A /* SpreadsheetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C401635D14800083F9A /* SpreadsheetCell.m */; };
 		08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F38E15DEB59C00B0402F /* rc2app.icns */; };
 		08C5F39315DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
 		08C5F39415DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
@@ -613,6 +617,13 @@
 		088392E515C3276C00C56576 /* 4up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4up@2x.png"; sourceTree = "<group>"; };
 		08B74C291635C08800083F9A /* RCMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMatrix.h; sourceTree = "<group>"; };
 		08B74C2A1635C08800083F9A /* RCMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMatrix.m; sourceTree = "<group>"; };
+		08B74C2E1635CA8700083F9A /* VariableSpreadsheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableSpreadsheetController.h; path = source/ios/VariableSpreadsheetController.h; sourceTree = "<group>"; };
+		08B74C2F1635CA8700083F9A /* VariableSpreadsheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VariableSpreadsheetController.m; path = source/ios/VariableSpreadsheetController.m; sourceTree = "<group>"; };
+		08B74C301635CA8700083F9A /* VariableSpreadsheetController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VariableSpreadsheetController.xib; path = source/ios/VariableSpreadsheetController.xib; sourceTree = "<group>"; };
+		08B74C3B1635CF4B00083F9A /* SpreadsheetScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpreadsheetScroller.h; path = source/ios/SpreadsheetScroller.h; sourceTree = "<group>"; };
+		08B74C3C1635CF4B00083F9A /* SpreadsheetScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpreadsheetScroller.m; path = source/ios/SpreadsheetScroller.m; sourceTree = "<group>"; };
+		08B74C3F1635D14800083F9A /* SpreadsheetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpreadsheetCell.h; path = source/ios/SpreadsheetCell.h; sourceTree = "<group>"; };
+		08B74C401635D14800083F9A /* SpreadsheetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpreadsheetCell.m; path = source/ios/SpreadsheetCell.m; sourceTree = "<group>"; };
 		08C5F38E15DEB59C00B0402F /* rc2app.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = rc2app.icns; path = resources/mac/rc2app.icns; sourceTree = SOURCE_ROOT; };
 		08C5F39215DEC50A00B0402F /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console/console; sourceTree = "<group>"; };
 		08C5F3A015DEC74800B0402F /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = microphone.png; path = resources/mac/microphone.png; sourceTree = SOURCE_ROOT; };
@@ -1370,6 +1381,9 @@
 				083AAEF1162DDECF0037AAB3 /* VariableListViewController.xib */,
 				083AAEF9162EFFBE0037AAB3 /* VariableDetailViewController.h */,
 				083AAEFA162EFFBF0037AAB3 /* VariableDetailViewController.m */,
+				08B74C2E1635CA8700083F9A /* VariableSpreadsheetController.h */,
+				08B74C2F1635CA8700083F9A /* VariableSpreadsheetController.m */,
+				08B74C301635CA8700083F9A /* VariableSpreadsheetController.xib */,
 				08D2439415B5D5E20064A9FA /* ImageDisplayController.h */,
 				08D2439515B5D5E20064A9FA /* ImageDisplayController.m */,
 				08D2439615B5D5E20064A9FA /* ImageDisplayController.xib */,
@@ -1413,6 +1427,10 @@
 		08D243C215B5D6780064A9FA /* views and cells */ = {
 			isa = PBXGroup;
 			children = (
+				08B74C3B1635CF4B00083F9A /* SpreadsheetScroller.h */,
+				08B74C3C1635CF4B00083F9A /* SpreadsheetScroller.m */,
+				08B74C3F1635D14800083F9A /* SpreadsheetCell.h */,
+				08B74C401635D14800083F9A /* SpreadsheetCell.m */,
 				083AAEF4162DE7870037AAB3 /* BasicVariableCell.h */,
 				083AAEF5162DE7870037AAB3 /* BasicVariableCell.m */,
 				083AAEF7162DE7B10037AAB3 /* BasicVariableCell.xib */,
@@ -2080,6 +2098,7 @@
 				083AAEF3162DDECF0037AAB3 /* VariableListViewController.xib in Resources */,
 				083AAEF8162DE7B10037AAB3 /* BasicVariableCell.xib in Resources */,
 				083AAF02162F48210037AAB3 /* FunctionVariableSummaryCell.xib in Resources */,
+				08B74C321635CA8700083F9A /* VariableSpreadsheetController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2370,6 +2389,9 @@
 				083AAEFC162EFFBF0037AAB3 /* VariableDetailViewController.m in Sources */,
 				083AAF00162F480C0037AAB3 /* FunctionVariableSummaryCell.m in Sources */,
 				08B74C2B1635C08800083F9A /* RCMatrix.m in Sources */,
+				08B74C311635CA8700083F9A /* VariableSpreadsheetController.m in Sources */,
+				08B74C3D1635CF4B00083F9A /* SpreadsheetScroller.m in Sources */,
+				08B74C411635D14800083F9A /* SpreadsheetCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
