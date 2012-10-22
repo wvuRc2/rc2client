@@ -33,6 +33,12 @@
 	self.ssheetCellSize = CGSizeMake(80, 40);
 }
 
+-(CGSize)contentSizeForViewInPopover
+{
+	return CGSizeMake(360, 600);
+}
+
+
 -(NSArray*)ssheetColumnTitles
 {
 	return [self.variable columnNames];
@@ -50,6 +56,8 @@
 
 -(NSString*)ssheetContentForRow:(NSInteger)row column:(NSInteger)col
 {
+	if (col == -1)
+		return [[self.variable rowNames] objectAtIndex:row];
 	return [self.variable valueAtRow:row column:col];
 }
 

@@ -14,6 +14,7 @@
 @interface SpreadsheetScroller : UIScrollView<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIScrollView *headerView;
 @property (nonatomic, weak) id<SpreadsheetDataSource> dataSource;
+@property BOOL showRowHeaders; //defaults to YES
 @end
 
 @protocol SpreadsheetDataSource <NSObject>
@@ -21,6 +22,7 @@
 -(NSArray*)ssheetColumnTitles;
 -(NSInteger)ssheetRowCount;
 -(NSInteger)ssheetColumnCount;
+//column will be -1 for row header
 -(NSString*)ssheetContentForRow:(NSInteger)row column:(NSInteger)col;
 @end
 
