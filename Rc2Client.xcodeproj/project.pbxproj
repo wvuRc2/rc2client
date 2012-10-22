@@ -126,6 +126,8 @@
 		088392E615C3276C00C56576 /* 1up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 088392E315C3276C00C56576 /* 1up@2x.png */; };
 		088392E715C3276C00C56576 /* 2up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 088392E415C3276C00C56576 /* 2up@2x.png */; };
 		088392E815C3276C00C56576 /* 4up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 088392E515C3276C00C56576 /* 4up@2x.png */; };
+		08B74C2B1635C08800083F9A /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2A1635C08800083F9A /* RCMatrix.m */; };
+		08B74C2C1635C08800083F9A /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2A1635C08800083F9A /* RCMatrix.m */; };
 		08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F38E15DEB59C00B0402F /* rc2app.icns */; };
 		08C5F39315DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
 		08C5F39415DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
@@ -609,6 +611,8 @@
 		088392E315C3276C00C56576 /* 1up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1up@2x.png"; sourceTree = "<group>"; };
 		088392E415C3276C00C56576 /* 2up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2up@2x.png"; sourceTree = "<group>"; };
 		088392E515C3276C00C56576 /* 4up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4up@2x.png"; sourceTree = "<group>"; };
+		08B74C291635C08800083F9A /* RCMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMatrix.h; sourceTree = "<group>"; };
+		08B74C2A1635C08800083F9A /* RCMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMatrix.m; sourceTree = "<group>"; };
 		08C5F38E15DEB59C00B0402F /* rc2app.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = rc2app.icns; path = resources/mac/rc2app.icns; sourceTree = SOURCE_ROOT; };
 		08C5F39215DEC50A00B0402F /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console/console; sourceTree = "<group>"; };
 		08C5F3A015DEC74800B0402F /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = microphone.png; path = resources/mac/microphone.png; sourceTree = SOURCE_ROOT; };
@@ -1780,6 +1784,8 @@
 				08D245B115B5DBB70064A9FA /* RCSession.m */,
 				082CEEBE161F685900E01F48 /* RCVariable.h */,
 				082CEEBF161F685900E01F48 /* RCVariable.m */,
+				08B74C291635C08800083F9A /* RCMatrix.h */,
+				08B74C2A1635C08800083F9A /* RCMatrix.m */,
 				084D39B51627300F00B8A06B /* RCDataFrame.h */,
 				084D39B61627300F00B8A06B /* RCDataFrame.m */,
 				08D245B215B5DBB70064A9FA /* RCSessionUser.h */,
@@ -2363,6 +2369,7 @@
 				083AAEF6162DE7870037AAB3 /* BasicVariableCell.m in Sources */,
 				083AAEFC162EFFBF0037AAB3 /* VariableDetailViewController.m in Sources */,
 				083AAF00162F480C0037AAB3 /* FunctionVariableSummaryCell.m in Sources */,
+				08B74C2B1635C08800083F9A /* RCMatrix.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2463,6 +2470,7 @@
 				082CEEC1161F685900E01F48 /* RCVariable.m in Sources */,
 				084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */,
 				083AAEE9162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */,
+				08B74C2C1635C08800083F9A /* RCMatrix.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

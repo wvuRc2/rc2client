@@ -9,6 +9,7 @@
 #import "RCVariable.h"
 #import <xlocale.h>
 #import "RCDataFrame.h"
+#import "RCMatrix.h"
 
 @interface RCVariable ()
 @property (nonatomic, copy, readwrite) NSString *name;
@@ -37,6 +38,8 @@
 {
 	if ([[dict objectForKey:@"class"] isEqualToString:@"data.frame"])
 		return [[RCDataFrame alloc] initWithDictionary:dict];
+	if ([[dict objectForKey:@"class"] isEqualToString:@"matrix"])
+		return [[RCMatrix alloc] initWithDictionary:dict];
 	return [[RCVariable alloc] initWithDictionary:dict];
 }
 
@@ -156,6 +159,8 @@
 		self.summaryIsDescription = YES;
 	} else if ([cname isEqualToString:@"matrix"]) {
 		self.type = eVarType_Matrix;
+		self.values = [dict objectForKey:@"value"];
+		self.primitiveType = [self primitiveTypeForString:[dict objectForKey:@"type"]];
 	} else if ([cname isEqualToString:@"array"]) {
 		self.type = eVarType_Array;
 	} else if ([cname isEqualToString:@"environment"]) {
