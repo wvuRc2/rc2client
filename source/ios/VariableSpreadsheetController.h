@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class RCVariable;
+#import "RCVariable.h"
 
 @interface VariableSpreadsheetController : UIViewController
-@property (nonatomic, strong) id variable; //must be RCMatrix or RCDataFrame
+@property (nonatomic, strong) id<RCSpreadsheetData> variable;
 @end

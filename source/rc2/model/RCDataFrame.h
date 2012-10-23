@@ -9,6 +9,5 @@
 #import "RCVariable.h"
 
 @interface RCDataFrame : RCVariable
-@property (nonatomic, copy) NSArray *columnNames;
 
 @end

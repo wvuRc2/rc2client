@@ -8,7 +8,7 @@
 
 #import "RCVariable.h"
 
-@interface RCMatrix : RCVariable
+@interface RCMatrix : RCVariable<RCSpreadsheetData>
 @property (nonatomic, readonly) NSInteger rowCount;
 @property (nonatomic, readonly) NSInteger colCount;
 @property (nonatomic, copy, readonly) NSArray *columnNames;

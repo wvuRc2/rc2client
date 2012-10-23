@@ -28,9 +28,10 @@
 -(void)viewDidLoad
 {
 	[super viewDidLoad];
-	self.navigationItem.title = [self.variable name];
+	self.navigationItem.title = [(RCVariable*)self.variable name];
 	self.dataView.dataSource = self;
 	self.ssheetCellSize = CGSizeMake(80, 40);
+	self.dataView.showRowHeaders = self.variable.rowNames.count > 0;
 }
 
 -(CGSize)contentSizeForViewInPopover
@@ -57,7 +58,7 @@
 -(NSString*)ssheetContentForRow:(NSInteger)row column:(NSInteger)col
 {
 	if (col == -1)
-		return [[self.variable rowNames] objectAtIndex:row];
+		return [[[self.variable rowNames] objectAtIndex:row] description];
 	return [self.variable valueAtRow:row column:col];
 }
 

@@ -68,6 +68,8 @@
 
 -(void)setContent:(NSString *)content
 {
+	if (![content isKindOfClass:[NSString class]])
+		NSLog(@"bad data");
 	_content = [content copy];
 	self.label.text = content;
 }

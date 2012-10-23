@@ -66,3 +66,14 @@ typedef enum {
 -(void)decodeSupportedObjects:(NSDictionary*)dict;
 @property BOOL summaryIsDescription;
 @end
+
+@protocol RCSpreadsheetData <NSObject>
+
+@property (nonatomic, readonly) NSInteger rowCount;
+@property (nonatomic, readonly) NSInteger colCount;
+@property (nonatomic, copy, readonly) NSArray *columnNames;
+@property (nonatomic, copy, readonly) NSArray *rowNames;
+
+-(NSString*)valueAtRow:(int)row column:(int)col;
+
+@end

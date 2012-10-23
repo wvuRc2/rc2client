@@ -130,9 +130,9 @@
 {
 	NSDictionary *section = [self.tableData objectAtIndex:indexPath.section];
 	RCVariable *var = [[section objectForKey:@"data"] objectAtIndex:indexPath.row];
-	if (var.type == eVarType_Matrix) {
+	if (var.type == eVarType_Matrix || var.type == eVarType_DataFrame) {
 		VariableSpreadsheetController *ssheet = [[VariableSpreadsheetController alloc] init];
-		ssheet.variable = var;
+		ssheet.variable = (id)var;
 		[self.navigationController pushViewController:ssheet animated:YES];
 	} else {
 		VariableDetailViewController *detail = [[VariableDetailViewController alloc] init];
