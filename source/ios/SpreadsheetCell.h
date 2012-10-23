@@ -10,5 +10,5 @@
 
 @interface SpreadsheetCell : UIView
 @property (nonatomic, copy) NSString *content;
-@property BOOL isHeader;
+@property (nonatomic) BOOL isHeader;
 @end
