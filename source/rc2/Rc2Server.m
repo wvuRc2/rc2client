@@ -21,6 +21,7 @@
 #import "NSString+SBJSON.h"
 #endif
 #import "RCMessage.h"
+#import "RCProject.h"
 #import "Rc2FileType.h"
 
 #define kServerHostKey @"ServerHostKey"
@@ -37,6 +38,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 @property (nonatomic, readwrite) BOOL isAdmin;
 @property (nonatomic, strong, readwrite) NSNumber *currentUserId;
 @property (nonatomic, copy, readwrite) NSArray *workspaceItems;
+@property (nonatomic, copy, readwrite) NSArray *projects;
 @property (nonatomic, strong) NSMutableDictionary *cachedData;
 @property (nonatomic, strong) NSMutableDictionary *cachedDataTimestamps;
 @property (nonatomic, strong) NSMutableDictionary *wsItemsById;
@@ -846,6 +848,8 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 										 user, [dev systemName], [dev systemVersion], [dev model]];
 #endif
 		[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
+		//this must be done after workspace items
+		self.projects = [RCProject projectsForJsonArray:[rsp objectForKey:@"projects"] includeAdmin:self.isAdmin];
 		self.loggedIn=YES;
 		handler(YES, rsp);
 		[[NSNotificationCenter defaultCenter] postNotificationName:NotificationsReceivedNotification 

@@ -54,6 +54,7 @@ extern NSString * const MessagesUpdatedNotification;
 @property (nonatomic, readonly) NSString *connectionDescription; //login name plus host if host is not rc2
 @property (nonatomic, readonly) BOOL isAdmin;
 @property (nonatomic, copy, readonly) NSArray *workspaceItems;
+@property (nonatomic, copy, readonly) NSArray *projects;
 @property (nonatomic, copy, readonly) NSArray *usersPermissions;
 @property (nonatomic, copy, readonly) NSArray *classesTaught;
 @property (nonatomic, copy, readonly) NSArray *assignmentsToGrade;

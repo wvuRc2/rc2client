@@ -18,9 +18,11 @@
 #import "MacSessionViewController.h"
 #import "AppDelegate.h"
 #import "RCMacToolbarItem.h"
+#import "MacProjectViewController.h"
 
 @interface MacMainWindowController()
 @property (strong) NSMutableArray *kvoObservers;
+@property (nonatomic, strong) MacProjectViewController *projectController;
 @property (nonatomic, strong) MacMainViewController *mainViewController;
 @property (nonatomic, strong) MacSessionViewController *currentSessionController;
 @end
@@ -45,9 +47,13 @@
 	self.window.title = [NSString stringWithFormat:@"%@ (%@)", self.window.title, [[Rc2Server sharedInstance] connectionDescription]];
 	self.mainViewController = [[MacMainViewController alloc] init];
 	self.mainViewController.view.frame = self.detailContainer.frame;
+	self.projectController = [[MacProjectViewController alloc] init];
+	self.projectController.view.frame = self.detailContainer.frame;
 	NSView *contentView = self.window.contentView;
-	[contentView replaceSubview:self.detailContainer with:self.mainViewController.view];
-	self.navController = [[AMMacNavController alloc] initWithRootViewController:self.mainViewController];
+//	[contentView replaceSubview:self.detailContainer with:self.mainViewController.view];
+//	self.navController = [[AMMacNavController alloc] initWithRootViewController:self.mainViewController];
+	[contentView replaceSubview:self.detailContainer with:self.projectController.view];
+	self.navController = [[AMMacNavController alloc] initWithRootViewController:self.projectController];
 	self.navController.delegate = (id)self;
 	RCMacToolbarItem *addItem = [self.window.toolbar.items firstObjectWithValue:RCMToolbarItem_Add forKey:@"itemIdentifier"];
 	addItem.actionMenu = self.addToolbarMenu;
