@@ -17,6 +17,12 @@
 
 @implementation MacProjectCollectionItem
 
+-(void)dealloc
+{
+	if ([self.view isKindOfClass:[AMControlledView class]])
+		[(AMControlledView*)self.view setViewController:nil];
+}
+
 -(void)setRepresentedObject:(id)representedObject
 {
 	[super setRepresentedObject:representedObject];

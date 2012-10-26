@@ -52,7 +52,21 @@
 
 -(void)collectionView:(MacProjectCollectionView *)cview doubleClicked:(NSEvent*)event item:(id)item
 {
-	NSBeep();
+	NSRect centerRect = [cview frameForItemAtIndex:0];
+	NSSize viewSize = self.view.frame.size;
+	centerRect.origin.x = floorf((viewSize.width - centerRect.size.width) / 2);
+	centerRect.origin.y = floorf((viewSize.height - centerRect.size.height) / 2);
+	[NSAnimationContext beginGrouping];
+	[NSAnimationContext currentContext].duration = 0.4;
+	for (NSInteger i=0; i < [self.arrayController.arrangedObjects count]; i++) {
+		NSCollectionViewItem *item = [cview itemAtIndex:i];
+		[item.view.animator setFrame:centerRect];
+//		[item.view.animator setAlphaValue:0];
+	}
+	[NSAnimationContext currentContext].completionHandler = ^{
+		[self.arrayController removeObjects:self.arrayController.arrangedObjects];
+	};
+	[NSAnimationContext endGrouping];
 }
 
 -(void)collectionView:(MacProjectCollectionView*)cview deleteBackwards:(id)sender
