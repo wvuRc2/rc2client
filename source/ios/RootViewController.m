@@ -11,9 +11,10 @@
 #import "MessagesViewController.h"
 #import "WorkspacesViewController.h"
 #import "GradingViewController.h"
+#import "ProjectViewController.h"
 
 @interface RootViewController ()
-@property (nonatomic, strong) WelcomeViewController *welcomeController;
+@property (nonatomic, strong) ProjectViewController *welcomeController;
 @property (nonatomic, strong) MessagesViewController *messageController;
 @property (nonatomic, strong) WorkspacesViewController *workspaceController;
 @property (nonatomic, strong) GradingViewController *gradingController;
@@ -35,7 +36,7 @@
 	UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 760)];
 	view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 	self.view = view;
-	self.welcomeController = [[WelcomeViewController alloc] init];
+	self.welcomeController = [[ProjectViewController alloc] init];
 	[self addChildViewController:self.welcomeController];
 	[self.welcomeController didMoveToParentViewController:self];
 	[view addSubview:self.welcomeController.view];
@@ -100,7 +101,8 @@
 
 -(void)reloadNotifications
 {
-	[self.welcomeController reloadNotifications];
+//	[self.welcomeController reloadNotifications];
+	[self.welcomeController loginStatusChanged];
 }
 
 -(void)switchToController:(UIViewController*)vc
