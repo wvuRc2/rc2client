@@ -138,6 +138,7 @@
 		08B74C4B1639AEBB00083F9A /* MacProjectCollectionItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C4A1639AEBB00083F9A /* MacProjectCollectionItem.xib */; };
 		08B74C571639D3AA00083F9A /* RCProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C561639D3A900083F9A /* RCProject.m */; };
 		08B74C581639D3AA00083F9A /* RCProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C561639D3A900083F9A /* RCProject.m */; };
+		08B74C5B1639EAB800083F9A /* MacProjectCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C5A1639EAB800083F9A /* MacProjectCollectionView.m */; };
 		08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F38E15DEB59C00B0402F /* rc2app.icns */; };
 		08C5F39315DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
 		08C5F39415DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
@@ -638,6 +639,8 @@
 		08B74C4A1639AEBB00083F9A /* MacProjectCollectionItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MacProjectCollectionItem.xib; path = source/mac/MacProjectCollectionItem.xib; sourceTree = SOURCE_ROOT; };
 		08B74C551639D3A900083F9A /* RCProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCProject.h; sourceTree = "<group>"; };
 		08B74C561639D3A900083F9A /* RCProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCProject.m; sourceTree = "<group>"; };
+		08B74C591639EAB800083F9A /* MacProjectCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacProjectCollectionView.h; sourceTree = "<group>"; };
+		08B74C5A1639EAB800083F9A /* MacProjectCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacProjectCollectionView.m; sourceTree = "<group>"; };
 		08C5F38E15DEB59C00B0402F /* rc2app.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = rc2app.icns; path = resources/mac/rc2app.icns; sourceTree = SOURCE_ROOT; };
 		08C5F39215DEC50A00B0402F /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console/console; sourceTree = "<group>"; };
 		08C5F3A015DEC74800B0402F /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = microphone.png; path = resources/mac/microphone.png; sourceTree = SOURCE_ROOT; };
@@ -1140,6 +1143,8 @@
 				08B74C471639AE6500083F9A /* MacProjectCollectionItem.h */,
 				08B74C481639AE6500083F9A /* MacProjectCollectionItem.m */,
 				08B74C4A1639AEBB00083F9A /* MacProjectCollectionItem.xib */,
+				08B74C591639EAB800083F9A /* MacProjectCollectionView.h */,
+				08B74C5A1639EAB800083F9A /* MacProjectCollectionView.m */,
 				0845943115B5F29100297C9D /* MacMainViewController.h */,
 				0845943215B5F29100297C9D /* MacMainViewController.m */,
 				0845943315B5F29100297C9D /* MacMainViewController.xib */,
@@ -2522,6 +2527,7 @@
 				08B74C451639AC0E00083F9A /* MacProjectViewController.m in Sources */,
 				08B74C491639AE6500083F9A /* MacProjectCollectionItem.m in Sources */,
 				08B74C581639D3AA00083F9A /* RCProject.m in Sources */,
+				08B74C5B1639EAB800083F9A /* MacProjectCollectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

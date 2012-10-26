@@ -40,6 +40,7 @@
 			NSMutableArray *a = [NSMutableArray arrayWithCapacity:dictProjs.count];
 			for (NSDictionary *d  in dictProjs) {
 				RCProject *subp = [[RCProject alloc] initWithDictionary:d];
+				subp.parentProject = self;
 				[a addObject:subp];
 			}
 			self.subprojects = [a copy];

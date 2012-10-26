@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, strong, readonly) NSArray *workspaces;
 @property (nonatomic, strong, readonly) NSArray *subprojects;
+@property (nonatomic, weak) RCProject *parentProject;
 
 +(NSArray*)projectsForJsonArray:(NSArray*)jsonArray includeAdmin:(BOOL)admin;
 

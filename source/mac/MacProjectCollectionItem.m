@@ -7,9 +7,10 @@
 //
 
 #import "MacProjectCollectionItem.h"
+#import "MacProjectCollectionView.h"
 #import "RCProject.h"
 
-@interface MacProjectCellView : NSView
+@interface MacProjectCellView : AMControlledView
 @property (nonatomic)  BOOL selected;
 @property (nonatomic, weak) IBOutlet NSView *innerView;
 @end
@@ -19,6 +20,10 @@
 -(void)setRepresentedObject:(id)representedObject
 {
 	[super setRepresentedObject:representedObject];
+	if (nil == self.itemLabel) {
+		ZAssert([[NSBundle mainBundle] loadNibNamed:@"MacProjectCollectionItem" owner:self topLevelObjects:nil], @"failed to load nib");
+		[(AMControlledView*)self.view setViewController:self];
+	}
 	RCProject *proj = representedObject;
 	if ([proj.type isEqualToString:@"shared"])
 		self.imageView.image = [NSImage imageNamed:NSImageNameDotMac];
@@ -57,6 +62,32 @@
 	self.layer.backgroundColor = [NSColor clearColor].CGColor;
 }
 
+-(NSView*)hitTest:(NSPoint)aPoint
+{
+	if (NSPointInRect(aPoint, [self convertRect:self.bounds toView:self.superview]))
+		return self;
+	return nil;
+}
+
+-(void)mouseDown:(NSEvent *)theEvent
+{
+	if (2 == theEvent.clickCount) {
+	} else {
+		[super mouseDown:theEvent];
+	}
+}
+
+-(void)mouseUp:(NSEvent *)theEvent
+{
+	if (2 == theEvent.clickCount) {
+		id colView = [(MacProjectCollectionItem*)self.viewController collectionView];
+		id del = [colView delegate];
+		if ([del respondsToSelector:@selector(collectionView:doubleClicked:item:)]) {
+			[del collectionView:colView doubleClicked:theEvent item:self];
+		}
+	}
+}
+
 -(void)setSelected:(BOOL)selected
 {
 	_selected = selected;
@@ -66,5 +97,6 @@
 		self.layer.backgroundColor = [NSColor whiteColor].CGColor;
 	[self.layer setNeedsDisplay];
 }
+
 
 @end
