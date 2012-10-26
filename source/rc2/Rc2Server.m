@@ -395,6 +395,11 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	[self enumerateWorkspaceItemArray:self.workspaceItems stop:&stop block:block];
 }
 
+-(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId
+{
+	return [self.wsItemsById objectForKey:wspaceId];
+}
+
 #pragma mark - workspaces (legacy iPad functionality)
 
 -(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock

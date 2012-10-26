@@ -49,7 +49,7 @@
 	if (wspaces.count > 0) {
 		NSMutableArray *a = [NSMutableArray arrayWithCapacity:wspaces.count];
 		for (NSDictionary *d in wspaces) {
-			RCWorkspace *wspace = [[[Rc2Server sharedInstance] workspaceItems] firstObjectWithValue:[d objectForKey:@"id"] forKey:@"wspaceId"];
+			RCWorkspace *wspace = [[Rc2Server sharedInstance] workspaceWithId:[d objectForKey:@"id"]];
 			if (wspace)
 				[a addObject:wspace];
 		}
@@ -57,6 +57,11 @@
 	}
 	}
 	return self;
+}
+
+-(NSInteger)childCount
+{
+	return self.subprojects.count + self.workspaces.count;
 }
 
 @end

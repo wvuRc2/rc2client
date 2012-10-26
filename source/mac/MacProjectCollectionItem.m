@@ -9,6 +9,7 @@
 #import "MacProjectCollectionItem.h"
 #import "MacProjectCollectionView.h"
 #import "RCProject.h"
+#import "RCWorkspace.h"
 
 @interface MacProjectCellView : AMControlledView
 @property (nonatomic)  BOOL selected;
@@ -27,16 +28,22 @@
 {
 	[super setRepresentedObject:representedObject];
 	if (nil == self.itemLabel) {
-		ZAssert([[NSBundle mainBundle] loadNibNamed:@"MacProjectCollectionItem" owner:self topLevelObjects:nil], @"failed to load nib");
+		NSString *nibName = [representedObject isKindOfClass:[RCProject class]] ? @"MacProjectCollectionItem" : @"MacProjectItemWorkspace";
+		ZAssert([[NSBundle mainBundle] loadNibNamed:nibName owner:self topLevelObjects:nil], @"failed to load nib");
 		[(AMControlledView*)self.view setViewController:self];
 	}
-	RCProject *proj = representedObject;
-	if ([proj.type isEqualToString:@"shared"])
-		self.imageView.image = [NSImage imageNamed:NSImageNameDotMac];
-	else if ([proj.type isEqualToString:@"admin"])
-		self.imageView.image = [NSImage imageNamed:NSImageNameUserAccounts];
-	else
-		self.imageView.image = [NSImage imageNamed:NSImageNameFolder];
+	if ([representedObject isKindOfClass:[RCProject class]]) {
+		RCProject *proj = representedObject;
+		if ([proj.type isEqualToString:@"shared"])
+			self.imageView.image = [NSImage imageNamed:NSImageNameDotMac];
+		else if ([proj.type isEqualToString:@"admin"])
+			self.imageView.image = [NSImage imageNamed:NSImageNameUserAccounts];
+		else
+			self.imageView.image = [NSImage imageNamed:NSImageNameFolder];
+	} else {
+		//workspace
+		self.imageView.image = [NSImage imageNamed:NSImageNameMultipleDocuments];
+	}
 }
 
 -(void)setSelected:(BOOL)selected
@@ -89,7 +96,7 @@
 		id colView = [(MacProjectCollectionItem*)self.viewController collectionView];
 		id del = [colView delegate];
 		if ([del respondsToSelector:@selector(collectionView:doubleClicked:item:)]) {
-			[del collectionView:colView doubleClicked:theEvent item:self];
+			[del collectionView:colView doubleClicked:theEvent item:self.viewController.representedObject];
 		}
 	}
 }

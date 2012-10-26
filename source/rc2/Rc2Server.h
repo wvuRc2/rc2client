@@ -90,6 +90,8 @@ extern NSString * const MessagesUpdatedNotification;
 
 -(void)selectWorkspaceWithId:(NSNumber*)wspaceId;
 
+-(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId;
+
 //this will call block with every workspace, no matter how many folders it is nested in
 -(void)enumerateWorkspacesWithBlock:(void (^)(RCWorkspace *wspace, BOOL *stop))block;
 
