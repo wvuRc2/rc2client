@@ -9,6 +9,7 @@
 #import "ProjectViewController.h"
 #import "ProjectCell.h"
 #import "Rc2Server.h"
+#import "ThemeEngine.h"
 
 @interface ProjectViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
 @property (weak) IBOutlet UICollectionView *collectionView;
@@ -36,7 +37,6 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginStatusChanged) name:NotificationsReceivedNotification object:nil];
 	}
 	self.currentItems = [[[Rc2Server sharedInstance] projects] mutableCopy];
-	NSLog(@"got %d items", self.currentItems.count);
 	UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
 	[flow setItemSize:CGSizeMake(200, 150)];
 	[flow setScrollDirection:UICollectionViewScrollDirectionVertical];
@@ -46,10 +46,21 @@
 	[self.collectionView reloadData];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+	return YES;
+}
+
+-(void)updateForNewTheme:(Theme*)theme
+{
+	[super updateForNewTheme:theme];
+	self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+	[self.view setNeedsDisplay];
+}
+
 -(void)loginStatusChanged
 {
 	self.currentItems = [[[Rc2Server sharedInstance] projects] mutableCopy];
-	NSLog(@"note %d items", self.currentItems.count);
 	[self.collectionView reloadData];
 }
 
@@ -69,6 +80,11 @@
 	cell.project = [self.currentItems objectAtIndex:indexPath.row];
 	return cell;
 	
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+	NSLog(@"did select path:%@", indexPath);
 }
 
 @end

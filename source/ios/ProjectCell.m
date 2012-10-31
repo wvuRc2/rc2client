@@ -12,6 +12,7 @@
 @interface ProjectCell ()
 @property (weak) IBOutlet UILabel *nameLabel;
 @property (weak) IBOutlet UIImageView *imageView;
+@property (strong) IBOutlet UIView *myView;
 @end
 
 @implementation ProjectCell
@@ -20,6 +21,22 @@
 {
 	if ((self = [super initWithFrame:frame])) {
 		self = [[NSBundle mainBundle] loadNibNamed:@"ProjectCell" owner:nil options:nil].firstObject;
+/*		CALayer *layer = self.layer;
+		layer.cornerRadius = 13.0;
+		
+		layer = [CALayer layer];
+		layer.frame = CGRectInset(self.frame, 10, 10);
+		layer.shadowColor = [[UIColor blackColor] colorWithAlphaComponent:0.5].CGColor;
+		layer.shadowOpacity = 0.8;
+		layer.shadowOffset = CGSizeMake(4, -4);
+		layer.shadowRadius = 2;
+		layer.cornerRadius = 13.0;
+		layer.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.2].CGColor;
+		self.contentView.backgroundColor = [UIColor clearColor];
+		[self.contentView.layer addSublayer:layer];
+		
+//		self.layer.backgroundColor = [UIColor clearColor].CGColor;
+		self.backgroundView.backgroundColor = [UIColor clearColor]; */
 	}
 	return self;
 }

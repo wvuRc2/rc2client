@@ -350,7 +350,9 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	}
 	[rc2 loginAsUser:login password:pass completionHandler:^(BOOL success, id results) {
 		if (success) {
+#ifndef TARGET_IPHONE_SIMULATOR
 			[self registerForPushNotification];
+#endif
 			if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentSessionWspaceId"])
 				[self performSelectorOnMainThread:@selector(restoreLastSession) withObject:nil waitUntilDone:NO];
 		} else {

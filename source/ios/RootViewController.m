@@ -9,21 +9,20 @@
 #import "RootViewController.h"
 #import "WelcomeViewController.h"
 #import "MessagesViewController.h"
-#import "WorkspacesViewController.h"
 #import "GradingViewController.h"
 #import "ProjectViewController.h"
 
 @interface RootViewController ()
-@property (nonatomic, strong) ProjectViewController *welcomeController;
+@property (nonatomic, strong) WelcomeViewController *welcomeController;
+@property (nonatomic, strong) ProjectViewController *projectController;
 @property (nonatomic, strong) MessagesViewController *messageController;
-@property (nonatomic, strong) WorkspacesViewController *workspaceController;
 @property (nonatomic, strong) GradingViewController *gradingController;
 @property (nonatomic, strong) id currentController;
 @end
 
 @implementation RootViewController
 
-- (id)init
+-(id)init
 {
 	self = [super initWithNibName:nil bundle:nil];
 	if (self) {
@@ -31,16 +30,19 @@
 	return self;
 }
 
-- (void)loadView
+-(void)loadView
 {
 	UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 760)];
 	view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 	self.view = view;
-	self.welcomeController = [[ProjectViewController alloc] init];
+	self.welcomeController = [[WelcomeViewController alloc] init];
 	[self addChildViewController:self.welcomeController];
 	[self.welcomeController didMoveToParentViewController:self];
-	[view addSubview:self.welcomeController.view];
-	self.currentController = self.welcomeController;
+	self.projectController = [[ProjectViewController alloc] init];
+	[self addChildViewController:self.projectController];
+	[self.projectController didMoveToParentViewController:self];
+	[view addSubview:self.projectController.view];
+	self.currentController = self.projectController;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -79,13 +81,13 @@
 
 -(void)showWorkspaces
 {
-	if (nil == self.workspaceController) {
-		self.workspaceController = [[WorkspacesViewController alloc] init];
-		[self addChildViewController:self.workspaceController];
-		[self.workspaceController didMoveToParentViewController:self];
-		self.workspaceController.view.frame = self.view.bounds;
+	if (nil == self.projectController) {
+		self.projectController = [[ProjectViewController alloc] init];
+		[self addChildViewController:self.projectController];
+		[self.projectController didMoveToParentViewController:self];
+		self.projectController.view.frame = self.view.bounds;
 	}
-	[self switchToController:self.workspaceController];
+	[self switchToController:self.projectController];
 }
 
 -(void)showGrading
@@ -101,8 +103,7 @@
 
 -(void)reloadNotifications
 {
-//	[self.welcomeController reloadNotifications];
-	[self.welcomeController loginStatusChanged];
+	[self.welcomeController reloadNotifications];
 }
 
 -(void)switchToController:(UIViewController*)vc
