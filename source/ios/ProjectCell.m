@@ -21,8 +21,9 @@
 {
 	if ((self = [super initWithFrame:frame])) {
 		self = [[NSBundle mainBundle] loadNibNamed:@"ProjectCell" owner:nil options:nil].firstObject;
-/*		CALayer *layer = self.layer;
-		layer.cornerRadius = 13.0;
+		CALayer *layer = self.layer;
+		layer.cornerRadius = 8.0;
+		self.backgroundColor = [UIColor clearColor];
 		
 		layer = [CALayer layer];
 		layer.frame = CGRectInset(self.frame, 10, 10);
@@ -34,9 +35,8 @@
 		layer.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.2].CGColor;
 		self.contentView.backgroundColor = [UIColor clearColor];
 		[self.contentView.layer addSublayer:layer];
-		
-//		self.layer.backgroundColor = [UIColor clearColor].CGColor;
-		self.backgroundView.backgroundColor = [UIColor clearColor]; */
+
+		self.backgroundView.backgroundColor = [UIColor clearColor];
 	}
 	return self;
 }
@@ -46,4 +46,11 @@
 	_project = project;
 	self.nameLabel.text = project.name;
 }
+
+-(void)setHighlighted:(BOOL)highlighted
+{
+	[super setHighlighted:highlighted];
+	self.backgroundColor = highlighted ? [[UIColor blueColor] colorWithAlphaComponent:0.3] : [UIColor clearColor];
+}
+
 @end

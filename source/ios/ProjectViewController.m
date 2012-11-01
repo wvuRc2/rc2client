@@ -6,10 +6,12 @@
 //  Copyright (c) 2012 West Virginia University. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "ProjectViewController.h"
 #import "ProjectCell.h"
 #import "Rc2Server.h"
 #import "ThemeEngine.h"
+#import "ProjectViewLayout.h"
 
 @interface ProjectViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
 @property (weak) IBOutlet UICollectionView *collectionView;
@@ -37,7 +39,7 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginStatusChanged) name:NotificationsReceivedNotification object:nil];
 	}
 	self.currentItems = [[[Rc2Server sharedInstance] projects] mutableCopy];
-	UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
+	ProjectViewLayout *flow = [[ProjectViewLayout alloc] init];
 	[flow setItemSize:CGSizeMake(200, 150)];
 	[flow setScrollDirection:UICollectionViewScrollDirectionVertical];
 	self.collectionView.collectionViewLayout = flow;
@@ -82,9 +84,37 @@
 	
 }
 
+-(void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath
+{
+	
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath
+{
+	
+}
+
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSLog(@"did select path:%@", indexPath);
+	[(ProjectViewLayout*)collectionView.collectionViewLayout setRemoveAll:YES];
+	
+	NSMutableArray *paths = [NSMutableArray arrayWithCapacity:self.currentItems.count];
+	for (NSInteger row=self.currentItems.count-1; row >= 0; row--) {
+		if (row != indexPath.row)
+			[paths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+	}
+	id keepObject = [self.currentItems objectAtIndex:indexPath.row];
+	[collectionView performBatchUpdates:^{
+		[self.currentItems removeAllObjects];
+		[collectionView deleteItemsAtIndexPaths:paths];
+		[self.currentItems addObject:keepObject];
+	} completion:^(BOOL finished) {
+		[(ProjectViewLayout*)collectionView.collectionViewLayout setRemoveAll:NO];
+		[self.currentItems removeAllObjects];
+		[collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
+		[self.currentItems addObject:keepObject];
+		[collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
+	}];
 }
 
 @end
