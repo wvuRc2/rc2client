@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ProjectViewLayout : UICollectionViewFlowLayout
+@interface ProjectViewLayout : UICollectionViewLayout
+@property (nonatomic) CGSize itemSize;
 @property (nonatomic) BOOL removeAll;
 @end

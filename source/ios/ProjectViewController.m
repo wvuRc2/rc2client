@@ -41,7 +41,7 @@
 	self.currentItems = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	ProjectViewLayout *flow = [[ProjectViewLayout alloc] init];
 	[flow setItemSize:CGSizeMake(200, 150)];
-	[flow setScrollDirection:UICollectionViewScrollDirectionVertical];
+//	[flow setScrollDirection:UICollectionViewScrollDirectionVertical];
 	self.collectionView.collectionViewLayout = flow;
 	self.collectionView.allowsSelection = YES;
 	[self.collectionView registerClass:[ProjectCell class] forCellWithReuseIdentifier:@"project"];
@@ -100,21 +100,21 @@
 	
 	NSMutableArray *paths = [NSMutableArray arrayWithCapacity:self.currentItems.count];
 	for (NSInteger row=self.currentItems.count-1; row >= 0; row--) {
-		if (row != indexPath.row)
+//		if (row != indexPath.row)
 			[paths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
 	}
 	id keepObject = [self.currentItems objectAtIndex:indexPath.row];
-	[collectionView performBatchUpdates:^{
+//	[collectionView performBatchUpdates:^{
 		[self.currentItems removeAllObjects];
 		[collectionView deleteItemsAtIndexPaths:paths];
-		[self.currentItems addObject:keepObject];
-	} completion:^(BOOL finished) {
+//		[self.currentItems addObject:keepObject];
+//	} completion:^(BOOL finished) {
 		[(ProjectViewLayout*)collectionView.collectionViewLayout setRemoveAll:NO];
-		[self.currentItems removeAllObjects];
-		[collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
+//		[self.currentItems removeAllObjects];
+//		[collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
 		[self.currentItems addObject:keepObject];
 		[collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
-	}];
+//	}];
 }
 
 @end
