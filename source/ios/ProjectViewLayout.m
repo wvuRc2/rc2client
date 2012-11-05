@@ -40,7 +40,7 @@
 		attrs.center = nextCenter;
 		attrs.size = _itemSize;
 		nextCenter.x += widthIncrement;
-		if ((nextCenter.x + _itemSize.width + MARGIN) > maxWidth) {
+		if ((nextCenter.x + (_itemSize.width/2) + MARGIN) > maxWidth) {
 			if (col > maxCol)
 				maxCol = col;
 			col = 0; row++;
@@ -48,7 +48,14 @@
 			nextCenter.x = MARGIN + (_itemSize.width / 2);
 		}
 	}
+	if (col > maxCol)
+		maxCol = col;
 	self.contentSize = CGSizeMake(widthIncrement * (maxCol+1), MARGIN + MARGIN + ((row+1) * _itemSize.height));
+}
+
+-(BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+{
+	return YES;
 }
 
 -(CGSize)collectionViewContentSize
