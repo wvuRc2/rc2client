@@ -272,6 +272,41 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	}
 }
 
+-(void)openSession:(RCWorkspace*)wspace
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
+	if (eKeyboardLayout_Standard == keylayout) {
+		[self resetKeyboardPaths];
+	} else {
+		NSString *basePath = [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"customKeyboard"];
+		[defaults setObject:[basePath stringByAppendingString:@"1.txt"] forKey:kPrefCustomKey1URL];
+		[defaults setObject:[basePath stringByAppendingString:@"2.txt"] forKey:kPrefCustomKey2URL];
+	}
+	[Rc2Server sharedInstance].selectedWorkspace = wspace;
+	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
+	BOOL restoring = nil != savedState;
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.rootController.view animated:YES];
+	hud.labelText = restoring ? @"Restoring session…" : @"Loading…";
+	[[Rc2Server sharedInstance] prepareWorkspace:^(BOOL success, id response) {
+		if (success) {
+			double delayInSeconds = 0.1;
+			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+			dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+				[self completeSessionStartup:response selectedFile:nil];
+			});
+		} else {
+			[MBProgressHUD hideHUDForView:self.rootController.view animated:YES];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Server Error"
+															message:response
+														   delegate:nil
+												  cancelButtonTitle:@"OK"
+												  otherButtonTitles:nil];
+			[alert show];
+		}
+	}];
+}
+
 -(void)startSession:(RCFile*)initialFile
 {
 	if ([initialFile.name.pathExtension isEqualToString:@"pdf"]) {

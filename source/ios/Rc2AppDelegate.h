@@ -11,10 +11,9 @@
 
 @class SessionViewController;
 @class RCFile;
+@class RCWorkspace;
 
-@interface Rc2AppDelegate : UIResponder <UIApplicationDelegate, BWHockeyManagerDelegate> {
-
-}
+@interface Rc2AppDelegate : UIResponder <UIApplicationDelegate, BWHockeyManagerDelegate>
 
 @property (nonatomic, strong) IBOutlet UIWindow *window;
 @property (nonatomic, strong) SessionViewController *sessionController;
@@ -30,6 +29,7 @@
 -(IBAction)logout:(id)sender;
 
 -(void)promptForLogin;
+-(void)openSession:(RCWorkspace*)workspace;
 -(void)startSession:(RCFile*)initialFile;
 -(IBAction)endSession:(id)sender;
 -(void)displayPdfFile:(RCFile*)file;

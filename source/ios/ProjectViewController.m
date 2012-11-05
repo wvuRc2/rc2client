@@ -14,6 +14,7 @@
 #import "ProjectViewLayout.h"
 #import "RCProject.h"
 #import "RCWorkspace.h"
+#import "Rc2AppDelegate.h"
 
 @interface ProjectViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
 @property (weak) IBOutlet UIBarButtonItem *projectButton;
@@ -80,7 +81,8 @@
 	for (NSInteger row=cnt-1; row >= 0; row--)
 		[paths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
 	_transitioning = YES;
-	[_collectionView deleteItemsAtIndexPaths:paths];
+	if (paths.count > 0)
+		[_collectionView deleteItemsAtIndexPaths:paths];
 	[(ProjectViewLayout*)_collectionView.collectionViewLayout setRemoveAll:NO];
 	[paths removeAllObjects];
 	for (NSInteger row=0; row < _projects.count; row++)
@@ -130,11 +132,15 @@
 		RunAfterDelay(0.2, ^{
 			_transitioning = NO;
 			self.selectedProject = selProject;
-			[collectionView insertItemsAtIndexPaths:paths];
+			if (paths.count > 0)
+				[collectionView insertItemsAtIndexPaths:paths];
 			self.projectButton.enabled = YES;
 		});
 	} else {
 		//selected a workspace
+		Rc2AppDelegate *del = (Rc2AppDelegate*)[[UIApplication sharedApplication] delegate];
+		id wspace = [[_selectedProject workspaces] objectAtIndex:indexPath.row];
+		[del openSession:wspace];
 	}
 }
 

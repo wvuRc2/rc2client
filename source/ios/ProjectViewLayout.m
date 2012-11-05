@@ -94,6 +94,18 @@
 	self.previousAttrs=nil;
 }
 
+-(UICollectionViewLayoutAttributes*)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
+{
+	UICollectionViewLayoutAttributes *attrs = [super finalLayoutAttributesForDisappearingItemAtIndexPath:itemIndexPath];
+	if ([self.insertedItems containsObject:itemIndexPath]) {
+		attrs = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:itemIndexPath];
+		attrs.alpha = 0;
+		CGRect bnds = self.collectionView.bounds;
+		attrs.center = CGPointMake(bnds.size.width/2, bnds.size.height/2);
+	}
+	return attrs;
+}
+
 -(UICollectionViewLayoutAttributes*)finalLayoutAttributesForDisappearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
 {
 	UICollectionViewLayoutAttributes *attrs = [super finalLayoutAttributesForDisappearingItemAtIndexPath:itemIndexPath];
