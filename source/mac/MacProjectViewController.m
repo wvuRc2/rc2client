@@ -77,8 +77,6 @@
 	[self.pathCells addObject:[self pathCellWithTitle:project.name]];
 	[self.pathControl setPathComponentCells:self.pathCells];
 	[self.arrayController removeObjects:self.arrayController.arrangedObjects];
-	if (project.subprojects.count > 0)
-		[self.arrayController addObjects:project.subprojects];
 	if (project.workspaces.count > 0)
 		[self.arrayController addObjects:project.workspaces];
 }
@@ -90,7 +88,7 @@
 		[controller openSession:item file:nil inNewWindow:NO];
 		return;
 	}
-	if (![item isKindOfClass:[RCProject class]] || [item childCount] < 1)
+	if (![item isKindOfClass:[RCProject class]] || [[item workspaces] count] < 1)
 		return; //nothing to do
 	NSRect centerRect = [cview frameForItemAtIndex:0];
 	NSSize viewSize = self.view.frame.size;
