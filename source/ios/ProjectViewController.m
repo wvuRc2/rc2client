@@ -12,13 +12,19 @@
 #import "Rc2Server.h"
 #import "ThemeEngine.h"
 #import "ProjectViewLayout.h"
+#import "RCProject.h"
+#import "RCWorkspace.h"
 
 @interface ProjectViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
+@property (weak) IBOutlet UIBarButtonItem *projectButton;
 @property (weak) IBOutlet UICollectionView *collectionView;
-@property (strong) NSMutableArray *currentItems;
+@property (strong) NSMutableArray *projects;
+@property (strong) RCProject *selectedProject;
 @end
 
-@implementation ProjectViewController
+@implementation ProjectViewController {
+	BOOL _transitioning;
+}
 
 -(id)init
 {
@@ -38,10 +44,9 @@
 	if (![Rc2Server sharedInstance].loggedIn) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginStatusChanged) name:NotificationsReceivedNotification object:nil];
 	}
-	self.currentItems = [[[Rc2Server sharedInstance] projects] mutableCopy];
+	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	ProjectViewLayout *flow = [[ProjectViewLayout alloc] init];
 	[flow setItemSize:CGSizeMake(200, 150)];
-//	[flow setScrollDirection:UICollectionViewScrollDirectionVertical];
 	self.collectionView.collectionViewLayout = flow;
 	self.collectionView.allowsSelection = YES;
 	[self.collectionView registerClass:[ProjectCell class] forCellWithReuseIdentifier:@"project"];
@@ -62,59 +67,75 @@
 
 -(void)loginStatusChanged
 {
-	self.currentItems = [[[Rc2Server sharedInstance] projects] mutableCopy];
+	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	[self.collectionView reloadData];
 }
 
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+-(IBAction)backToProjects:(id)sender
 {
-	return 1;
+	self.projectButton.enabled = NO;
+	[(ProjectViewLayout*)self.collectionView.collectionViewLayout setRemoveAll:YES];
+	NSInteger cnt = _selectedProject.workspaces.count;
+	NSMutableArray *paths = [NSMutableArray arrayWithCapacity:cnt];
+	for (NSInteger row=cnt-1; row >= 0; row--)
+		[paths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+	_transitioning = YES;
+	[_collectionView deleteItemsAtIndexPaths:paths];
+	[(ProjectViewLayout*)_collectionView.collectionViewLayout setRemoveAll:NO];
+	[paths removeAllObjects];
+	for (NSInteger row=0; row < _projects.count; row++)
+		[paths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+	RunAfterDelay(0.2, ^{
+		_transitioning = NO;
+		self.selectedProject = nil;
+		[_collectionView insertItemsAtIndexPaths:paths];
+	});
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-	return self.currentItems.count;
+	if (_transitioning)
+		return 0;
+	if (self.selectedProject)
+		return self.selectedProject.workspaces.count;
+	return self.projects.count;
 }
 
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
 	ProjectCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"project" forIndexPath:indexPath];
-	cell.project = [self.currentItems objectAtIndex:indexPath.row];
+	if (nil == _selectedProject)
+		cell.cellItem = [self.projects objectAtIndex:indexPath.row];
+	else
+		cell.cellItem = [_selectedProject.workspaces objectAtIndex:indexPath.row];
 	return cell;
-	
-}
-
--(void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath
-{
-	
-}
-
--(void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath
-{
 	
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	[(ProjectViewLayout*)collectionView.collectionViewLayout setRemoveAll:YES];
-	
-	NSMutableArray *paths = [NSMutableArray arrayWithCapacity:self.currentItems.count];
-	for (NSInteger row=self.currentItems.count-1; row >= 0; row--) {
-//		if (row != indexPath.row)
+	if (nil == self.selectedProject) {
+		//selecting a project
+		[(ProjectViewLayout*)collectionView.collectionViewLayout setRemoveAll:YES];
+		NSMutableArray *paths = [NSMutableArray arrayWithCapacity:self.projects.count];
+		for (NSInteger row=self.projects.count-1; row >= 0; row--)
 			[paths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
-	}
-	id keepObject = [self.currentItems objectAtIndex:indexPath.row];
-//	[collectionView performBatchUpdates:^{
-		[self.currentItems removeAllObjects];
+		id selProject = [self.projects objectAtIndex:indexPath.row];
+		_transitioning = YES;
 		[collectionView deleteItemsAtIndexPaths:paths];
-//		[self.currentItems addObject:keepObject];
-//	} completion:^(BOOL finished) {
 		[(ProjectViewLayout*)collectionView.collectionViewLayout setRemoveAll:NO];
-//		[self.currentItems removeAllObjects];
-//		[collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
-		[self.currentItems addObject:keepObject];
-		[collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
-//	}];
+		[paths removeAllObjects];
+		for (NSInteger row=0; row < [selProject workspaces].count; row++)
+			[paths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+		RunAfterDelay(0.2, ^{
+			_transitioning = NO;
+			self.selectedProject = selProject;
+			[collectionView insertItemsAtIndexPaths:paths];
+			self.projectButton.enabled = YES;
+		});
+	} else {
+		//selected a workspace
+	}
 }
 
 @end

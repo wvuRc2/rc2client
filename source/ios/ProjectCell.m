@@ -8,6 +8,7 @@
 
 #import "ProjectCell.h"
 #import "RCProject.h"
+#import "RCWorkspace.h"
 
 @interface ProjectCell ()
 @property (weak) IBOutlet UILabel *nameLabel;
@@ -41,10 +42,10 @@
 	return self;
 }
 
--(void)setProject:(RCProject *)project
+-(void)setCellItem:(id)cellItem
 {
-	_project = project;
-	self.nameLabel.text = project.name;
+	_cellItem = cellItem;
+	self.nameLabel.text = [cellItem name];
 }
 
 -(void)setHighlighted:(BOOL)highlighted

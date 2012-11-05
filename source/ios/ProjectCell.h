@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class RCProject;
-
 @interface ProjectCell : UICollectionViewCell
-@property (nonatomic, strong) RCProject *project;
+@property (nonatomic, strong) id cellItem;
 @end

@@ -14,9 +14,6 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, strong, readonly) NSArray *workspaces;
-@property (nonatomic, strong, readonly) NSArray *subprojects;
-@property (nonatomic, weak) RCProject *parentProject;
-@property (readonly) NSInteger childCount; //workspaces + subprojects
 
 +(NSArray*)projectsForJsonArray:(NSArray*)jsonArray includeAdmin:(BOOL)admin;
 

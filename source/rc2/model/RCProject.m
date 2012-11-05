@@ -12,7 +12,6 @@
 
 @interface RCProject ()
 @property (nonatomic, strong, readwrite) NSArray *workspaces;
-@property (nonatomic, strong, readwrite) NSArray *subprojects;
 @end
 
 @implementation RCProject
@@ -35,33 +34,18 @@
 		self.name = [dict objectForKey:@"name"];
 		if ([[dict objectForKey:@"type"] isKindOfClass:[NSString class]])
 			self.type = [dict objectForKey:@"type"];
-		NSArray *dictProjs = [dict objectForKey:@"projects"];
-		if (dictProjs.count > 0) {
-			NSMutableArray *a = [NSMutableArray arrayWithCapacity:dictProjs.count];
-			for (NSDictionary *d  in dictProjs) {
-				RCProject *subp = [[RCProject alloc] initWithDictionary:d];
-				subp.parentProject = self;
-				[a addObject:subp];
+		NSArray *wspaces = [dict objectForKey:@"workspaces"];
+		if (wspaces.count > 0) {
+			NSMutableArray *a = [NSMutableArray arrayWithCapacity:wspaces.count];
+			for (NSDictionary *d in wspaces) {
+				RCWorkspace *wspace = [[Rc2Server sharedInstance] workspaceWithId:[d objectForKey:@"id"]];
+				if (wspace)
+					[a addObject:wspace];
 			}
-			self.subprojects = [a copy];
+			self.workspaces = [a copy];
 		}
-	NSArray *wspaces = [dict objectForKey:@"workspaces"];
-	if (wspaces.count > 0) {
-		NSMutableArray *a = [NSMutableArray arrayWithCapacity:wspaces.count];
-		for (NSDictionary *d in wspaces) {
-			RCWorkspace *wspace = [[Rc2Server sharedInstance] workspaceWithId:[d objectForKey:@"id"]];
-			if (wspace)
-				[a addObject:wspace];
-		}
-		self.workspaces = [a copy];
-	}
 	}
 	return self;
-}
-
--(NSInteger)childCount
-{
-	return self.subprojects.count + self.workspaces.count;
 }
 
 @end
