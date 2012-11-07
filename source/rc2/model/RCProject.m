@@ -48,4 +48,9 @@
 	return self;
 }
 
+-(NSString*)description
+{
+	return [NSString stringWithFormat:@"RCProject: %@, (%d workspaces)", self.name, (int)_workspaces.count];
+}
+
 @end
