@@ -198,6 +198,8 @@
 		08B74CF1163B357600083F9A /* ProjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74CF0163B357600083F9A /* ProjectCell.m */; };
 		08B74CF3163B367D00083F9A /* ProjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CF2163B367D00083F9A /* ProjectCell.xib */; };
 		08B74CF61643045F00083F9A /* ProjectViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74CF51643045F00083F9A /* ProjectViewLayout.m */; };
+		08B74CF81648615800083F9A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CF71648615800083F9A /* Localizable.strings */; };
+		08B74CF91648615800083F9A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CF71648615800083F9A /* Localizable.strings */; };
 		08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F38E15DEB59C00B0402F /* rc2app.icns */; };
 		08C5F39315DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
 		08C5F39415DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
@@ -709,6 +711,7 @@
 		08B74CF2163B367D00083F9A /* ProjectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectCell.xib; sourceTree = "<group>"; };
 		08B74CF41643045E00083F9A /* ProjectViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewLayout.h; sourceTree = "<group>"; };
 		08B74CF51643045F00083F9A /* ProjectViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewLayout.m; sourceTree = "<group>"; };
+		08B74CF71648615800083F9A /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = resources/Localizable.strings; sourceTree = "<group>"; };
 		08C5F38E15DEB59C00B0402F /* rc2app.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = rc2app.icns; path = resources/mac/rc2app.icns; sourceTree = SOURCE_ROOT; };
 		08C5F39215DEC50A00B0402F /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console/console; sourceTree = "<group>"; };
 		08C5F3A015DEC74800B0402F /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = microphone.png; path = resources/mac/microphone.png; sourceTree = SOURCE_ROOT; };
@@ -1678,6 +1681,7 @@
 		08D244E415B5D98A0064A9FA /* shared */ = {
 			isa = PBXGroup;
 			children = (
+				08B74CF71648615800083F9A /* Localizable.strings */,
 				08C5F39515DEC64600B0402F /* shared images */,
 				08C5F39215DEC50A00B0402F /* console */,
 				08D245F415B5DCD70064A9FA /* MLReachability.h */,
@@ -2162,6 +2166,7 @@
 				08B74CE9163B31F000083F9A /* wspace-tbar@2x.png in Resources */,
 				08B74CEE163B330500083F9A /* ProjectViewController.xib in Resources */,
 				08B74CF3163B367D00083F9A /* ProjectCell.xib in Resources */,
+				08B74CF81648615800083F9A /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2237,6 +2242,7 @@
 				08B74C461639AC0E00083F9A /* MacProjectViewController.xib in Resources */,
 				08B74C4B1639AEBB00083F9A /* MacProjectCollectionItem.xib in Resources */,
 				08B74C5E163AE72100083F9A /* MacProjectItemWorkspace.xib in Resources */,
+				08B74CF91648615800083F9A /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

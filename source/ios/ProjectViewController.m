@@ -18,10 +18,13 @@
 
 @interface ProjectViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
 @property (weak) IBOutlet UIBarButtonItem *projectButton;
+@property (weak) IBOutlet UIBarButtonItem *titleItem;
 @property (weak) IBOutlet UICollectionView *collectionView;
 @property (strong) NSMutableArray *projects;
 @property (strong) RCProject *selectedProject;
 @end
+
+#define CV_ANIM_DELAY 0.2
 
 @implementation ProjectViewController {
 	BOOL _transitioning;
@@ -87,10 +90,11 @@
 	[paths removeAllObjects];
 	for (NSInteger row=0; row < _projects.count; row++)
 		[paths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
-	RunAfterDelay(0.2, ^{
+	RunAfterDelay(CV_ANIM_DELAY, ^{
 		_transitioning = NO;
 		self.selectedProject = nil;
 		[_collectionView insertItemsAtIndexPaths:paths];
+		self.titleItem.title = NSLocalizedString(@"Rc2 Projects", @"");
 	});
 }
 
@@ -129,12 +133,13 @@
 		[paths removeAllObjects];
 		for (NSInteger row=0; row < [selProject workspaces].count; row++)
 			[paths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
-		RunAfterDelay(0.2, ^{
+		RunAfterDelay(CV_ANIM_DELAY, ^{
 			_transitioning = NO;
 			self.selectedProject = selProject;
 			if (paths.count > 0)
 				[collectionView insertItemsAtIndexPaths:paths];
 			self.projectButton.enabled = YES;
+			self.titleItem.title = [NSLocalizedString(@"Project Title Prefix", @"") stringByAppendingString:[selProject name]];
 		});
 	} else {
 		//selected a workspace

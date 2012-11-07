@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  Rc2Client
+
+  Created by Mark Lilback on 11/5/12.
+  Copyright (c) 2012 West Virginia University. All rights reserved.
+*/
+
+"Rc2 Projects" = "Rc² Projects";
+"Project Title Prefix" = "Project: ";
