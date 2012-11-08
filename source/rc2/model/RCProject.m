@@ -16,6 +16,16 @@
 
 @implementation RCProject
 
++(NSArray*)projectSortDescriptors
+{
+	static NSArray *sds=nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		sds = @[[NSSortDescriptor sortDescriptorWithKey:@"isAdmin" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
+	});
+	return sds;
+}
+
 +(NSArray*)projectsForJsonArray:(NSArray*)jsonArray includeAdmin:(BOOL)admin
 {
 	NSMutableArray *a = [NSMutableArray arrayWithCapacity:jsonArray.count + 1];
@@ -24,6 +34,7 @@
 	}
 	for (NSDictionary *d in jsonArray)
 		[a addObject:[[RCProject alloc] initWithDictionary:d]];
+	[a sortUsingDescriptors:[RCProject projectSortDescriptors]];
 	return a;
 }
 
@@ -53,6 +64,11 @@
 	if ([_type isEqualToString:@"admin"] || [_type isEqualToString:@"class"])
 		return NO;
 	return YES;
+}
+
+-(BOOL)isAdmin
+{
+	return [_type isEqualToString:@"admin"];
 }
 
 -(NSString*)description

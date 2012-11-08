@@ -17,6 +17,7 @@
 @property (nonatomic, readonly) BOOL canDelete;
 
 +(NSArray*)projectsForJsonArray:(NSArray*)jsonArray includeAdmin:(BOOL)admin;
++(NSArray*)projectSortDescriptors;
 
 -(id)initWithDictionary:(NSDictionary*)dict;
 

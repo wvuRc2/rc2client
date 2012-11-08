@@ -223,6 +223,93 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	[[NSNotificationCenter defaultCenter] postNotificationName:WorkspaceItemsChangedNotification object:self];
 }
 
+#pragma mark - projects
+
+-(void)createProject:(NSString*)projectName completionBlock:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@proj", [self baseUrl]]];
+	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
+	__weak ASIFormDataRequest *req = theReq;
+	NSDictionary *d = @{@"name":projectName};
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req setCompletionBlock:^{
+		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+		if (![self responseIsValidJSON:req]) {
+			hblock(NO, @"server sent back invalid response");
+			return;
+		}
+		NSDictionary *rsp = [self.jsonParser objectWithString:respStr];
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			self.projects = [RCProject projectsForJsonArray:[rsp objectForKey:@"projects"] includeAdmin:self.isAdmin];
+			hblock(YES, [self.projects firstObjectWithValue:projectName forKey:@"name"]);
+		} else {
+			hblock(NO, respStr);
+		}
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+	}];
+	[req startAsynchronous];
+}
+
+-(void)editProject:(RCProject*)project newName:(NSString*)newName completionBlock:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@proj/%@", [self baseUrl], project.projectId]];
+	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
+	__weak ASIFormDataRequest *req = theReq;
+	req.requestMethod = @"PUT";
+	NSDictionary *d = @{@"name":newName, @"id":project.projectId};
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req setCompletionBlock:^{
+		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+		if (![self responseIsValidJSON:req]) {
+			hblock(NO, @"server sent back invalid response");
+			return;
+		}
+		NSDictionary *rsp = [self.jsonParser objectWithString:respStr];
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			project.name = newName;
+			self.projects = [self.projects sortedArrayUsingDescriptors:[RCProject projectSortDescriptors]];
+			hblock(YES, project);
+		} else {
+			hblock(NO, respStr);
+		}
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+	}];
+	[req startAsynchronous];
+}
+
+//will remove it from projects array before hblock called
+-(void)deleteProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@proj/%@", [self baseUrl], project.projectId]];
+	ASIHTTPRequest *theReq = [self requestWithURL:url];
+	__weak ASIHTTPRequest *req = theReq;
+	req.requestMethod = @"DELETE";
+	[req setCompletionBlock:^{
+		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+		if (![self responseIsValidJSON:req]) {
+			hblock(NO, @"server sent back invalid response");
+			return;
+		}
+		NSDictionary *rsp = [self.jsonParser objectWithString:respStr];
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			self.projects = [self.projects arrayByRemovingObjectAtIndex:[self.projects indexOfObject:project]];
+			hblock(YES, nil);
+		} else {
+			hblock(NO, respStr);
+		}
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+	}];
+	[req startAsynchronous];
+}
+
 #pragma mark - workspaces
 
 //++COPIED++
@@ -424,18 +511,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 }
 
 #pragma mark - files
-
--(RCWorkspace*)workspaceForFile:(RCFile*)file
-{
-	__block RCWorkspace *theWspace=nil;
-	[self enumerateWorkspacesWithBlock:^(RCWorkspace *wspace, BOOL *stop) {
-		if ([wspace fileWithId:file.fileId]) {
-			theWspace = wspace;
-			*stop = YES;
-		}
-	}];
-	return theWspace;
-}
 
 -(NSArray*)processFileListResponse:(NSArray*)inEntries
 {

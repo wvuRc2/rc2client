@@ -18,6 +18,7 @@
 @class ASIHTTPRequest;
 @class ASIFormDataRequest;
 @class RCAssignment;
+@class RCProject;
 
 enum {
 	eRc2Host_Rc2=0,
@@ -84,6 +85,15 @@ extern NSString * const MessagesUpdatedNotification;
 
 -(void)logout;
 
+#pragma mark - projects
+
+//projects array is updated and hblock called with the new project
+-(void)createProject:(NSString*)projectName completionBlock:(Rc2FetchCompletionHandler)hblock;
+//updates project with the new name on success
+-(void)editProject:(RCProject*)project newName:(NSString*)newName completionBlock:(Rc2FetchCompletionHandler)hblock;
+//will remove it from projects array before hblock called
+-(void)deleteProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock;
+
 #pragma mark - workspaces
 
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace;
@@ -114,8 +124,6 @@ extern NSString * const MessagesUpdatedNotification;
 
 -(void)saveFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock;
-
--(RCWorkspace*)workspaceForFile:(RCFile*)file;
 
 //synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
 -(RCFile*)importFile:(NSURL*)fileUrl name:(NSString*)filename workspace:(RCWorkspace*)workspace error:(NSError *__autoreleasing *)outError;

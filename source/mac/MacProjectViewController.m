@@ -35,6 +35,11 @@
 	[self.pathCells addObject:[self pathCellWithTitle:@"Projects"]];
 	[self.pathControl setPathComponentCells:self.pathCells];
 	self.arrayController.content = [[[Rc2Server sharedInstance] projects] mutableCopy];
+	__weak __typeof(self) blockSelf = self;
+	[self.arrayController addObserverForKeyPath:@"selectionIndexes" task:^(id obj, NSDictionary *change) {
+		[blockSelf willChangeValueForKey:@"canDeleteSelection"];
+		[blockSelf didChangeValueForKey:@"canDeleteSelection"];
+	}];
 }
 
 #pragma mark - meat & potatos
@@ -44,6 +49,18 @@
 	NSPathComponentCell *cell = [[NSPathComponentCell alloc] init];
 	cell.title = title;
 	return cell;
+}
+
+-(BOOL)canDeleteSelection
+{
+	if (!self.arrayController.canRemove)
+		return NO;
+	id selObj = self.arrayController.selectedObjects.firstObject;
+	if (nil == selObj)
+		return NO;
+	if ([selObj isKindOfClass:[RCProject class]] & ![selObj canDelete])
+		return NO;
+	return YES;
 }
 
 #pragma mark - actions
@@ -72,12 +89,58 @@
 
 -(IBAction)createProject:(id)sender
 {
-	
+	AMStringPromptWindowController *pc = [[AMStringPromptWindowController alloc] init];
+	pc.promptString = @"Project name:";
+	pc.okButtonTitle = @"Create";
+	pc.validationBlock = ^(AMStringPromptWindowController *pcc) {
+		if (pcc.stringValue.length < 1)
+			return NO;
+		if (nil != [self.arrayController.arrangedObjects firstObjectWithValue:pcc.stringValue forKey:@"name"]) {
+			pcc.validationErrorMessage = @"A project with that name already exists";
+			return NO;
+		}
+		return YES;
+	};
+	self.busy = YES;
+	self.statusMessage = @"Creating Project";
+	[pc displayModelForWindow:self.view.window completionHandler:^(NSInteger rc) {
+		self.busy = NO;
+		self.statusMessage = nil;
+		if (rc == NSOKButton) {
+			[[Rc2Server sharedInstance] createProject:pc.stringValue completionBlock:^(BOOL success, id obj) {
+				if (success) {
+					NSInteger idx = [[Rc2Server sharedInstance].projects indexOfObject:obj];
+						[self.arrayController insertObject:obj atArrangedObjectIndex:idx];
+				} else {
+					//TODO: notify user that failed
+					Rc2LogError(@"failed to create project:%@", obj);
+				}
+			}];
+		}
+	}];
 }
 
 -(IBAction)removeSelectedProjects:(id)sender
 {
-	
+	id selObj = self.arrayController.selectedObjects.firstObject;
+	if (![self canDeleteSelection]) {
+		NSBeep();
+		return;
+	}
+	NSAlert *alert = [NSAlert alertWithMessageText:@"Confirm Delete?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Are you sure you want to delete %@ \"%@\"? This can not be undone.", [selObj isKindOfClass:[RCProject class]] ? @"project" : @"workspace", [selObj name]];
+	[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *balert, NSInteger rc) {
+		if (NSAlertDefaultReturn == rc) {
+			//TODO: remove the selected project
+			[[Rc2Server sharedInstance] deleteProject:selObj completionBlock:^(BOOL success, id obj) {
+				if (success) {
+					[self.arrayController removeObject:selObj];
+				} else {
+					//TODO: notify user that failed
+					Rc2LogError(@"failed to create project:%@", obj);
+				}
+			}];
+		}
+	}];
 }
 
 #pragma mark path control delegate
@@ -120,12 +183,7 @@
 
 -(void)collectionView:(MacProjectCollectionView*)cview deleteBackwards:(id)sender
 {
-	NSIndexSet *selSet = [cview selectionIndexes];
-	if (selSet.count < 1) {
-		NSBeep();
-		return;
-	}
-	[_arrayController removeObjectsAtArrangedObjectIndexes:selSet];
+	[self removeSelectedProjects:cview];
 }
 
 @end
