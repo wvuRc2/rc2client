@@ -37,6 +37,17 @@
 	self.arrayController.content = [[[Rc2Server sharedInstance] projects] mutableCopy];
 }
 
+#pragma mark - meat & potatos
+
+-(NSPathComponentCell*)pathCellWithTitle:(NSString*)title
+{
+	NSPathComponentCell *cell = [[NSPathComponentCell alloc] init];
+	cell.title = title;
+	return cell;
+}
+
+#pragma mark - actions
+
 -(IBAction)pathControlClicked:(id)sender
 {
 	NSUInteger idx = [self.pathCells indexOfObject:[self.pathControl clickedPathComponentCell]];
@@ -59,18 +70,19 @@
 	}
 }
 
--(IBAction)addSomeProjects:(id)sender
+-(IBAction)createProject:(id)sender
 {
-	RCProject *p1 = [[RCProject alloc] initWithDictionary:@{@"name":@"foobar"}];
-	[self.arrayController addObject:p1];
+	
 }
 
--(NSPathComponentCell*)pathCellWithTitle:(NSString*)title
+-(IBAction)removeSelectedProjects:(id)sender
 {
-	NSPathComponentCell *cell = [[NSPathComponentCell alloc] init];
-	cell.title = title;
-	return cell;
+	
 }
+
+#pragma mark path control delegate
+
+#pragma mark - collection view
 
 -(void)replaceItemsWithChildrenOf:(RCProject*)project
 {

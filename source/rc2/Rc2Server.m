@@ -955,22 +955,4 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	return rcpts;
 }
 
-#pragma mark - synthesizers
-
-@synthesize serverHost=_serverHost;
-@synthesize loggedIn=_loggedIn;
-@synthesize workspaceItems=_workspaceItems;
-@synthesize wsItemsById=_wsItemsById;
-@synthesize selectedWorkspace=_selectedWorkspace;
-@synthesize currentSession=_currentSession;
-@synthesize userSettings=_userSettings;
-@synthesize currentLogin=_currentLogin;
-@synthesize remoteLogger=_remoteLogger;
-@synthesize currentUserId=_currentUserId;
-@synthesize isAdmin=_isAdmin;
-@synthesize requestQueue=_requestQueue;
-@synthesize jsonParser=_jsonParser;
-@synthesize cachedData=_cachedData;
-@synthesize cachedDataTimestamps=_cachedDataTimestamps;
-
 @end

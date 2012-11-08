@@ -1350,6 +1350,21 @@
 			path = images;
 			sourceTree = "<group>";
 		};
+		08B74CFA164B12AB00083F9A /* Project View */ = {
+			isa = PBXGroup;
+			children = (
+				08B74CEA163B330500083F9A /* ProjectViewController.h */,
+				08B74CEB163B330500083F9A /* ProjectViewController.m */,
+				08B74CEC163B330500083F9A /* ProjectViewController.xib */,
+				08B74CEF163B357600083F9A /* ProjectCell.h */,
+				08B74CF0163B357600083F9A /* ProjectCell.m */,
+				08B74CF2163B367D00083F9A /* ProjectCell.xib */,
+				08B74CF41643045E00083F9A /* ProjectViewLayout.h */,
+				08B74CF51643045F00083F9A /* ProjectViewLayout.m */,
+			);
+			name = "Project View";
+			sourceTree = "<group>";
+		};
 		08C5F39515DEC64600B0402F /* shared images */ = {
 			isa = PBXGroup;
 			children = (
@@ -1452,6 +1467,7 @@
 			children = (
 				08D2436215B5D49C0064A9FA /* AbstractTopViewController.h */,
 				08D2436315B5D49C0064A9FA /* AbstractTopViewController.m */,
+				08B74CFA164B12AB00083F9A /* Project View */,
 				08D2436415B5D49C0064A9FA /* WelcomeViewController.h */,
 				08D2436515B5D49C0064A9FA /* WelcomeViewController.m */,
 				08D2436615B5D49C0064A9FA /* WelcomeViewController.xib */,
@@ -1463,14 +1479,6 @@
 				08D2437515B5D4F90064A9FA /* GradingViewController.h */,
 				08D2437615B5D4F90064A9FA /* GradingViewController.m */,
 				08D2437715B5D4F90064A9FA /* GradingViewController.xib */,
-				08B74CEA163B330500083F9A /* ProjectViewController.h */,
-				08B74CEB163B330500083F9A /* ProjectViewController.m */,
-				08B74CEC163B330500083F9A /* ProjectViewController.xib */,
-				08B74CEF163B357600083F9A /* ProjectCell.h */,
-				08B74CF0163B357600083F9A /* ProjectCell.m */,
-				08B74CF2163B367D00083F9A /* ProjectCell.xib */,
-				08B74CF41643045E00083F9A /* ProjectViewLayout.h */,
-				08B74CF51643045F00083F9A /* ProjectViewLayout.m */,
 			);
 			name = "top level controllers";
 			sourceTree = "<group>";

@@ -48,6 +48,13 @@
 	return self;
 }
 
+-(BOOL)canDelete
+{
+	if ([_type isEqualToString:@"admin"] || [_type isEqualToString:@"class"])
+		return NO;
+	return YES;
+}
+
 -(NSString*)description
 {
 	return [NSString stringWithFormat:@"RCProject: %@, (%d workspaces)", self.name, (int)_workspaces.count];
