@@ -12,6 +12,7 @@
 #import "RCWorkspace.h"
 #import "MacProjectCollectionView.h"
 #import "MacMainWindowController.h"
+#import "MacProjectCollectionItem.h"
 
 @interface MacProjectViewController () <ProjectCollectionDelegate>
 @property (weak) IBOutlet MacProjectCollectionView *collectionView;
@@ -44,6 +45,20 @@
 
 #pragma mark - meat & potatos
 
+-(BOOL)validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >)anItem
+{
+	SEL action = anItem.action;
+	id selObj = self.arrayController.selectedObjects.firstObject;
+	if (action == @selector(renameProject:)) {
+		return [selObj canDelete];
+	} else if (action == @selector(createProject:)) {
+		return YES;
+	} else if (action == @selector(openProject:)) {
+		return selObj != nil;
+	}
+	return NO;
+}
+
 -(NSPathComponentCell*)pathCellWithTitle:(NSString*)title
 {
 	NSPathComponentCell *cell = [[NSPathComponentCell alloc] init];
@@ -61,6 +76,33 @@
 	if ([selObj isKindOfClass:[RCProject class]] & ![selObj canDelete])
 		return NO;
 	return YES;
+}
+
+-(void)openItem:(id)item
+{
+	if (nil == item)
+		item = self.arrayController.selectedObjects.firstObject;
+	if ([item isKindOfClass:[RCWorkspace class]]) {
+		id controller = [TheApp valueForKeyPath:@"delegate.mainWindowController"];
+		[controller openSession:item file:nil inNewWindow:NO];
+		return;
+	}
+	if (![item isKindOfClass:[RCProject class]] || [[item workspaces] count] < 1)
+		return; //nothing to do
+	NSRect centerRect = [_collectionView frameForItemAtIndex:0];
+	NSSize viewSize = self.view.frame.size;
+	centerRect.origin.x = floorf((viewSize.width - centerRect.size.width) / 2);
+	centerRect.origin.y = floorf((viewSize.height - centerRect.size.height) / 2);
+	[NSAnimationContext beginGrouping];
+	[NSAnimationContext currentContext].duration = 0.4;
+	for (NSInteger i=0; i < [self.arrayController.arrangedObjects count]; i++) {
+		NSCollectionViewItem *item = [_collectionView itemAtIndex:i];
+		[item.view.animator setFrame:centerRect];
+	}
+	[NSAnimationContext currentContext].completionHandler = ^{
+		[self replaceItemsWithChildrenOf:item];
+	};
+	[NSAnimationContext endGrouping];
 }
 
 #pragma mark - actions
@@ -143,6 +185,17 @@
 	}];
 }
 
+-(IBAction)renameProject:(id)sender
+{
+	id item = [self.collectionView itemAtIndex:self.collectionView.selectionIndexes.firstIndex];
+	[item startNameEditing];
+}
+
+-(IBAction)openProject:(id)sender
+{
+	[self openItem:nil];
+}
+
 #pragma mark path control delegate
 
 #pragma mark - collection view
@@ -158,27 +211,7 @@
 
 -(void)collectionView:(MacProjectCollectionView *)cview doubleClicked:(NSEvent*)event item:(id)item
 {
-	if ([item isKindOfClass:[RCWorkspace class]]) {
-		id controller = [TheApp valueForKeyPath:@"delegate.mainWindowController"];
-		[controller openSession:item file:nil inNewWindow:NO];
-		return;
-	}
-	if (![item isKindOfClass:[RCProject class]] || [[item workspaces] count] < 1)
-		return; //nothing to do
-	NSRect centerRect = [cview frameForItemAtIndex:0];
-	NSSize viewSize = self.view.frame.size;
-	centerRect.origin.x = floorf((viewSize.width - centerRect.size.width) / 2);
-	centerRect.origin.y = floorf((viewSize.height - centerRect.size.height) / 2);
-	[NSAnimationContext beginGrouping];
-	[NSAnimationContext currentContext].duration = 0.4;
-	for (NSInteger i=0; i < [self.arrayController.arrangedObjects count]; i++) {
-		NSCollectionViewItem *item = [cview itemAtIndex:i];
-		[item.view.animator setFrame:centerRect];
-	}
-	[NSAnimationContext currentContext].completionHandler = ^{
-		[self replaceItemsWithChildrenOf:item];
-	};
-	[NSAnimationContext endGrouping];
+	[self openItem:item];
 }
 
 -(void)collectionView:(MacProjectCollectionView*)cview deleteBackwards:(id)sender

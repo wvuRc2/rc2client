@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MacProjectCollectionItem : NSCollectionViewItem
+@interface MacProjectCollectionItem : NSCollectionViewItem <NSTextFieldDelegate>
 @property (weak) IBOutlet NSTextField *itemLabel;
 
+-(void)startNameEditing;
 @end

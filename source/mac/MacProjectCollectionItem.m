@@ -13,7 +13,13 @@
 
 @interface MacProjectCellView : AMControlledView
 @property (nonatomic)  BOOL selected;
+@property (weak) IBOutlet NSTextField *itemLabel;
 @property (nonatomic, weak) IBOutlet NSView *innerView;
+-(void)startEditing;
+@end
+
+@interface MacProjectCollectionItem()
+@property BOOL canEdit;
 @end
 
 @implementation MacProjectCollectionItem
@@ -22,6 +28,22 @@
 {
 	if ([self.view isKindOfClass:[AMControlledView class]])
 		[(AMControlledView*)self.view setViewController:nil];
+}
+
+-(void)controlTextDidEndEditing:(NSNotification *)obj
+{
+	[self.itemLabel setEditable:NO];
+}
+
+-(void)startNameEditing
+{
+	if (self.canEdit)
+		[self.cellView startEditing];
+}
+
+-(MacProjectCellView*)cellView
+{
+	return (MacProjectCellView*)self.view;
 }
 
 -(void)setRepresentedObject:(id)representedObject
@@ -34,6 +56,7 @@
 	}
 	if ([representedObject isKindOfClass:[RCProject class]]) {
 		RCProject *proj = representedObject;
+		self.canEdit = proj.canDelete;
 		if ([proj.type isEqualToString:@"shared"])
 			self.imageView.image = [NSImage imageNamed:NSImageNameDotMac];
 		else if ([proj.type isEqualToString:@"admin"])
@@ -44,6 +67,8 @@
 		//workspace
 		self.imageView.image = [NSImage imageNamed:NSImageNameMultipleDocuments];
 	}
+	[self.cellView setItemLabel:self.itemLabel];
+	self.itemLabel.delegate = self;
 }
 
 -(void)setSelected:(BOOL)selected
@@ -75,8 +100,22 @@
 	self.layer.backgroundColor = [NSColor clearColor].CGColor;
 }
 
+-(void)startEditing
+{
+	//start editing the name
+	[self.itemLabel setEditable:YES];
+	[self.window makeFirstResponder:self.itemLabel];
+	NSCollectionView *colView = [(MacProjectCollectionItem*)self.viewController collectionView];
+	[colView setSelectionIndexes:nil];
+}
+
 -(NSView*)hitTest:(NSPoint)aPoint
 {
+	NSRect f = [self.superview convertRect:self.itemLabel.frame fromView:self.itemLabel.superview];
+	if (NSPointInRect(aPoint, f) && nil == self.itemLabel.currentEditor) {
+		[self startEditing];
+		return nil;
+	}
 	if (NSPointInRect(aPoint, [self convertRect:self.bounds toView:self.superview]))
 		return self;
 	return nil;
@@ -92,7 +131,7 @@
 
 -(void)mouseUp:(NSEvent *)theEvent
 {
-	if (2 == theEvent.clickCount) {
+	if (2 == theEvent.clickCount && nil == self.itemLabel.currentEditor) {
 		id colView = [(MacProjectCollectionItem*)self.viewController collectionView];
 		id del = [colView delegate];
 		if ([del respondsToSelector:@selector(collectionView:doubleClicked:item:)]) {
