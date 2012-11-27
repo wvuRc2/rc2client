@@ -1830,7 +1830,6 @@
 		08D2459715B5DBB70064A9FA /* rc2 */ = {
 			isa = PBXGroup;
 			children = (
-				08D2459815B5DBB70064A9FA /* model */,
 				08D245C215B5DBB70064A9FA /* RC2RemoteLogger.h */,
 				08D245C315B5DBB70064A9FA /* RC2RemoteLogger.m */,
 				08D245C415B5DBB70064A9FA /* Rc2Server.h */,
@@ -1844,6 +1843,7 @@
 				08C99AC115EE9CDF002D430D /* Rc2FileType.h */,
 				08C99AC215EE9CDF002D430D /* Rc2FileType.m */,
 				08C99AC615EE9D35002D430D /* RC2FileTypes.plist */,
+				08D2459815B5DBB70064A9FA /* model */,
 			);
 			name = rc2;
 			path = source/rc2;
