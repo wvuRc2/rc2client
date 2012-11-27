@@ -216,7 +216,7 @@
 
 -(void)promptToAddWorkspace:(BOOL)isFolder
 {
-	RCWorkspaceItem *selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
+/*	RCWorkspaceItem *selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
 	//prompt for workspace name
 	AMStringPromptWindowController *pwc = [[AMStringPromptWindowController alloc] init];
 	__unsafe_unretained AMStringPromptWindowController *blockPwc = pwc;
@@ -262,7 +262,7 @@
 				}
 			}];
 		}
-	}];
+	}];*/
 	
 }
 
@@ -315,8 +315,8 @@
 {
 	if (nil == item)
 		return self.rootItems.count;
-	if (item == self.workspacesItem)
-		return [[Rc2Server sharedInstance].workspaceItems count];
+//	if (item == self.workspacesItem)
+//		return [[Rc2Server sharedInstance].workspaceItems count];
 	if (item == self.classItem)
 		return [[self.classItem objectForKey:@"children"] count];
 	if (item == self.adminItem)
@@ -332,7 +332,7 @@
 		return [self.rootItems objectAtIndex:index];
 	}
 	if (item == self.workspacesItem)
-		return [[Rc2Server sharedInstance].workspaceItems objectAtIndexNoExceptions:index];
+		return nil; //[[Rc2Server sharedInstance].workspaceItems objectAtIndexNoExceptions:index];
 	if (item == self.adminItem)
 		return [[self.adminItem objectForKey:@"children"] objectAtIndexNoExceptions:index];
 	if (item == self.classItem)

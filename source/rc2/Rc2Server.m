@@ -37,7 +37,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 @property (nonatomic, copy, readwrite) NSString *currentLogin;
 @property (nonatomic, readwrite) BOOL isAdmin;
 @property (nonatomic, strong, readwrite) NSNumber *currentUserId;
-@property (nonatomic, copy, readwrite) NSArray *workspaceItems;
 @property (nonatomic, copy, readwrite) NSArray *projects;
 @property (nonatomic, strong) NSMutableDictionary *cachedData;
 @property (nonatomic, strong) NSMutableDictionary *cachedDataTimestamps;
@@ -45,7 +44,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 @property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
 @property (nonatomic, strong) NSOperationQueue *requestQueue;
 @property (nonatomic, strong) SBJsonParser *jsonParser;
--(void)updateWorkspaceItems:(NSArray*)items;
 @end
 
 #pragma mark -
@@ -312,17 +310,15 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 #pragma mark - workspaces
 
-//++COPIED++
--(void)addWorkspace:(NSString*)name parent:(RCWorkspaceFolder*)parent folder:(BOOL)isFolder
-  completionHandler:(Rc2FetchCompletionHandler)hblock
+//updates the project object, calls hblock with the new workspace
+-(void)createWorkspace:(NSString*)wspaceName inProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace", [self baseUrl]]];
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@proj/%@/wspace", [self baseUrl], project.projectId]];
 	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
 	__weak ASIFormDataRequest *req = theReq;
-	[req setPostValue:name forKey:@"newname"];
-	if (isFolder)
-		[req setPostValue:@"f" forKey:@"newtype"];
-	[req setPostValue:[NSString stringWithFormat:@"%d", parent.wspaceId.intValue] forKey:@"parent"];
+	NSDictionary *d = @{@"name":wspaceName};
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	[req setCompletionBlock:^{
 		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
 		if (![self responseIsValidJSON:req]) {
@@ -331,8 +327,9 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		}
 		NSDictionary *rsp = [self.jsonParser objectWithString:respStr];
 		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
-			[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
-			hblock(YES, [self.wsItemsById objectForKey:[[rsp objectForKey:@"wspace"] objectForKey:@"id"]]);
+			[project updateWithDictionary:[rsp objectForKey:@"project"]];
+			//we need to add the updated project to our cache of workspaces
+			hblock(YES, [project.workspaces firstObjectWithValue:[rsp objectForKey:@"wspaceId"] forKey:@"wspaceId"]);
 		} else {
 			hblock(NO, respStr);
 		}
@@ -341,8 +338,8 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
 	}];
 	[req startAsynchronous];
-	
 }
+
 
 -(void)renameWorkspce:(RCWorkspaceItem*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
 {
@@ -377,7 +374,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 -(void)deleteWorkspce:(RCWorkspaceItem*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@", [self baseUrl],
+/*	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@", [self baseUrl],
 									   wspace.wspaceId]];
 	ASIHTTPRequest *theReq = [self requestWithURL:url];
 	__block __weak ASIHTTPRequest *req = theReq;
@@ -404,6 +401,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
 	}];
 	[req startAsynchronous];
+ */
 }
 
 //++COPIED++ (not needed)
@@ -437,6 +435,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	return [allSaved firstObject];
 }
 
+/*
 -(void)updateWorkspaceItems:(NSArray*)items
 {
 	NSMutableDictionary *allWspaces = [NSMutableDictionary dictionary];
@@ -486,6 +485,8 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 {
 	return [self.wsItemsById objectForKey:wspaceId];
 }
+ 
+ */
 
 #pragma mark - workspaces (legacy iPad functionality)
 
@@ -496,7 +497,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 -(void)selectWorkspaceWithId:(NSNumber*)wspaceId
 {
-	for (RCWorkspaceItem *item in self.workspaceItems) {
+/*	for (RCWorkspaceItem *item in self.workspaceItems) {
 		if ([item.wspaceId isEqualToNumber:wspaceId] && !item.isFolder) {
 			self.selectedWorkspace = (RCWorkspace*)item;
 			return;
@@ -507,7 +508,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 				return;
 			}
 		}
-	}
+	}*/
 }
 
 #pragma mark - files
@@ -927,8 +928,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		self.remoteLogger.clientIdent = [NSString stringWithFormat:@"%@/%@/%@/%@",
 										 user, [dev systemName], [dev systemVersion], [dev model]];
 #endif
-		[self updateWorkspaceItems:[rsp objectForKey:@"wsitems"]];
-		//this must be done after workspace items
 		self.projects = [RCProject projectsForJsonArray:[rsp objectForKey:@"projects"] includeAdmin:self.isAdmin];
 		self.loggedIn=YES;
 		handler(YES, rsp);
@@ -962,7 +961,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 -(void)logout
 {
 	self.selectedWorkspace=nil;
-	self.workspaceItems=nil;
 	self.loggedIn=NO;
 	self.currentLogin=nil;
 	self.remoteLogger.logHost=nil;

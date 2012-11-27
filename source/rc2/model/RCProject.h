@@ -21,4 +21,5 @@
 
 -(id)initWithDictionary:(NSDictionary*)dict;
 
+-(void)updateWithDictionary:(NSDictionary*)dict;
 @end

@@ -19,6 +19,7 @@
 @property (strong) IBOutlet NSArrayController *arrayController;
 @property (strong) NSMutableArray *pathCells;
 @property (weak) IBOutlet NSPathControl *pathControl;
+@property (strong) RCProject *selectedProject;
 @end
 
 @implementation MacProjectViewController
@@ -66,6 +67,11 @@
 	return cell;
 }
 
+-(BOOL)showingProjects
+{
+	return self.pathCells.count == 1;
+}
+
 -(BOOL)canDeleteSelection
 {
 	if (!self.arrayController.canRemove)
@@ -103,6 +109,7 @@
 		[self replaceItemsWithChildrenOf:item];
 	};
 	[NSAnimationContext endGrouping];
+	self.selectedProject = item;
 }
 
 #pragma mark - actions
@@ -124,6 +131,7 @@
 			[cell setState:NSOffState];
 			[self.collectionView setNeedsDisplay:YES];
 		});
+		self.selectedProject=nil;
 	} else {
 		ZAssert(NO, @"not implemented");
 	}
@@ -131,33 +139,47 @@
 
 -(IBAction)createProject:(id)sender
 {
+	BOOL isProj = [self showingProjects];
+	NSString *objType = isProj ? @"Project" : @"Workspace";
 	AMStringPromptWindowController *pc = [[AMStringPromptWindowController alloc] init];
-	pc.promptString = @"Project name:";
+	pc.promptString = [NSString stringWithFormat:@"%@ name:", objType];
 	pc.okButtonTitle = @"Create";
 	pc.validationBlock = ^(AMStringPromptWindowController *pcc) {
 		if (pcc.stringValue.length < 1)
 			return NO;
 		if (nil != [self.arrayController.arrangedObjects firstObjectWithValue:pcc.stringValue forKey:@"name"]) {
-			pcc.validationErrorMessage = @"A project with that name already exists";
+			pcc.validationErrorMessage = [NSString stringWithFormat:@"A %@ with that name already exists", objType];
 			return NO;
 		}
 		return YES;
 	};
 	self.busy = YES;
-	self.statusMessage = @"Creating Project";
+	self.statusMessage = [NSString stringWithFormat:@"Creating %@", objType];
 	[pc displayModelForWindow:self.view.window completionHandler:^(NSInteger rc) {
 		self.busy = NO;
 		self.statusMessage = nil;
 		if (rc == NSOKButton) {
-			[[Rc2Server sharedInstance] createProject:pc.stringValue completionBlock:^(BOOL success, id obj) {
-				if (success) {
-					NSInteger idx = [[Rc2Server sharedInstance].projects indexOfObject:obj];
+			if (isProj) {
+				[[Rc2Server sharedInstance] createProject:pc.stringValue completionBlock:^(BOOL success, id obj) {
+					if (success) {
+						NSInteger idx = [[Rc2Server sharedInstance].projects indexOfObject:obj];
+								[self.arrayController insertObject:obj atArrangedObjectIndex:idx];
+					} else {
+						//TODO: notify user that failed
+						Rc2LogError(@"failed to create project:%@", obj);
+					}
+				}];
+			} else {
+				[[Rc2Server sharedInstance] createWorkspace:pc.stringValue inProject:self.selectedProject completionBlock:^(BOOL success, id obj) {
+					if (success) {
+						NSInteger idx = [self.selectedProject.workspaces indexOfObject:obj];
 						[self.arrayController insertObject:obj atArrangedObjectIndex:idx];
-				} else {
-					//TODO: notify user that failed
-					Rc2LogError(@"failed to create project:%@", obj);
-				}
-			}];
+					} else {
+						//TODO: notify user that failed
+						Rc2LogError(@"failed to create project:%@", obj);
+					}
+				}];
+			}
 		}
 	}];
 }

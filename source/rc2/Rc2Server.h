@@ -54,7 +54,6 @@ extern NSString * const MessagesUpdatedNotification;
 @property (nonatomic, copy) NSDictionary *userSettings;
 @property (nonatomic, readonly) NSString *connectionDescription; //login name plus host if host is not rc2
 @property (nonatomic, readonly) BOOL isAdmin;
-@property (nonatomic, copy, readonly) NSArray *workspaceItems;
 @property (nonatomic, copy, readonly) NSArray *projects;
 @property (nonatomic, copy, readonly) NSArray *usersPermissions;
 @property (nonatomic, copy, readonly) NSArray *classesTaught;
@@ -96,14 +95,13 @@ extern NSString * const MessagesUpdatedNotification;
 
 #pragma mark - workspaces
 
+//updates the project object, calls hblock with the new workspace
+-(void)createWorkspace:(NSString*)projectName inProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock;
+
+
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace;
 
 -(void)selectWorkspaceWithId:(NSNumber*)wspaceId;
-
--(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId;
-
-//this will call block with every workspace, no matter how many folders it is nested in
--(void)enumerateWorkspacesWithBlock:(void (^)(RCWorkspace *wspace, BOOL *stop))block;
 
 #pragma mark - messages
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
@@ -115,8 +113,6 @@ extern NSString * const MessagesUpdatedNotification;
 
 #pragma mark - files
 //results is tesponse dict from server with either workspace or error entry
--(void)addWorkspace:(NSString*)name parent:(RCWorkspaceFolder*)parent folder:(BOOL)isFolder
-	completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)deleteWorkspce:(RCWorkspaceItem*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)renameWorkspce:(RCWorkspaceItem*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
 

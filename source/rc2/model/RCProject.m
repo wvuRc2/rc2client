@@ -42,21 +42,26 @@
 {
 	if ((self = [super init])) {
 		self.projectId = [dict objectForKey:@"id"];
-		self.name = [dict objectForKey:@"name"];
-		if ([[dict objectForKey:@"type"] isKindOfClass:[NSString class]])
-			self.type = [dict objectForKey:@"type"];
-		NSArray *wspaces = [dict objectForKey:@"workspaces"];
-		if (wspaces.count > 0) {
-			NSMutableArray *a = [NSMutableArray arrayWithCapacity:wspaces.count];
-			for (NSDictionary *d in wspaces) {
-				RCWorkspace *wspace = [[Rc2Server sharedInstance] workspaceWithId:[d objectForKey:@"id"]];
-				if (wspace)
-					[a addObject:wspace];
-			}
-			self.workspaces = [a copy];
-		}
+		[self updateWithDictionary:dict];
 	}
 	return self;
+}
+
+-(void)updateWithDictionary:(NSDictionary*)dict
+{
+	self.name = [dict objectForKey:@"name"];
+	if ([[dict objectForKey:@"type"] isKindOfClass:[NSString class]])
+		self.type = [dict objectForKey:@"type"];
+	NSArray *wspaces = [dict objectForKey:@"workspaces"];
+	if (wspaces.count > 0) {
+		NSMutableArray *a = [NSMutableArray arrayWithCapacity:wspaces.count];
+		for (NSDictionary *d in wspaces) {
+			RCWorkspace *wspace = [RCWorkspace workspaceItemWithDictionary:d];
+			if (wspace)
+				[a addObject:wspace];
+		}
+		self.workspaces = [a copy];
+	}
 }
 
 -(BOOL)canDelete
