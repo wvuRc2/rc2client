@@ -8,3 +8,12 @@
 
 "Rc2 Projects" = "Rc² Projects";
 "Project Title Prefix" = "Project: ";
+
+
+"CreateProjectMI" = "Create Project…";
+"CreateWorkspaceMI" = "Create Workspace…";
+"RenameProjectMI" = "Rename Project…";
+"RenameWorkspaceMI" = "Rename Workspace…";
+"OpenProjectMI" = "Open Project";
+"OpenWorkspaceMI" = "Open Workspace";
+

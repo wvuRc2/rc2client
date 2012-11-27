@@ -46,15 +46,21 @@
 
 #pragma mark - meat & potatos
 
--(BOOL)validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >)anItem
+-(BOOL)validateMenuItem:(NSMenuItem *)anItem
 {
 	SEL action = anItem.action;
 	id selObj = self.arrayController.selectedObjects.firstObject;
 	if (action == @selector(renameProject:)) {
+		NSString *dtitle = self.selectedProject ? @"RenameWorkspaceMI" : @"RenameProjectMI";
+		anItem.title = NSLocalizedString(dtitle, @"");
 		return [selObj canDelete];
 	} else if (action == @selector(createProject:)) {
+		NSString *cptitle = self.selectedProject ? @"CreateWorkspaceMI" : @"CreateProjectMI";
+		anItem.title = NSLocalizedString(cptitle, @"");
 		return YES;
 	} else if (action == @selector(openProject:)) {
+		NSString *otitle = self.selectedProject ? @"OpenWorkspaceMI" : @"OpenProjectMI";
+		anItem.title = NSLocalizedString(otitle, @"");
 		return selObj != nil;
 	}
 	return NO;

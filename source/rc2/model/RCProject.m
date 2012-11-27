@@ -60,6 +60,7 @@
 			if (wspace)
 				[a addObject:wspace];
 		}
+		[a sortUsingSelector:@selector(compareWithItem:)];
 		self.workspaces = [a copy];
 	}
 }
