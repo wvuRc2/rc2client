@@ -16,6 +16,7 @@
 @property (weak) IBOutlet NSTextField *itemLabel;
 @property (nonatomic, weak) IBOutlet NSView *innerView;
 -(void)startEditing;
+-(void)endEditing;
 @end
 
 @interface MacProjectCollectionItem()
@@ -32,7 +33,32 @@
 
 -(void)controlTextDidEndEditing:(NSNotification *)obj
 {
-	[self.itemLabel setEditable:NO];
+	[self.cellView endEditing];
+	NSString *oldVal = [self.representedObject name];
+	NSString *newVal = self.itemLabel.stringValue;
+	if (![newVal isEqualToString:oldVal]) {
+		id del = [self.collectionView delegate];
+		if ([del respondsToSelector:@selector(collectionView:renameItem:name:)]) {
+			[del collectionView:(id)self.collectionView renameItem:self.representedObject name:newVal];
+		}
+	}
+}
+
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector;
+{
+	BOOL result = NO;
+	if (commandSelector == @selector(cancelOperation:)) {
+		[self.itemLabel abortEditing];
+		[self.cellView endEditing];
+		self.itemLabel.stringValue = [self.representedObject name];
+		result = YES;
+	} else if (commandSelector == @selector(insertNewline:)) {
+		[self.cellView.window makeFirstResponder:nil];
+		result = YES;
+	} else {
+		NSLog(@"call %@", NSStringFromSelector(commandSelector));
+	}
+	return result;
 }
 
 -(void)startNameEditing
@@ -67,6 +93,10 @@
 		//workspace
 		self.imageView.image = [NSImage imageNamed:NSImageNameMultipleDocuments];
 	}
+	NSString *label = [representedObject name];
+	if (nil == label)
+		label = @"";
+	self.itemLabel.stringValue = label;
 	[self.cellView setItemLabel:self.itemLabel];
 	self.itemLabel.delegate = self;
 }
@@ -107,6 +137,11 @@
 	[self.window makeFirstResponder:self.itemLabel];
 	NSCollectionView *colView = [(MacProjectCollectionItem*)self.viewController collectionView];
 	[colView setSelectionIndexes:nil];
+}
+
+-(void)endEditing
+{
+	[self.itemLabel setEditable:NO];
 }
 
 -(NSView*)hitTest:(NSPoint)aPoint

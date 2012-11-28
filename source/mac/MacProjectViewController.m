@@ -258,4 +258,9 @@
 		[self displayTopLevel];
 }
 
+-(void)collectionView:(MacProjectCollectionView *)cview renameItem:(id)item name:(NSString*)newName
+{
+	NSLog(@"should change %@ to %@", [item name], newName);
+}
+
 @end
