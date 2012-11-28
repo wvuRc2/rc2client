@@ -17,5 +17,5 @@
 @optional
 -(void)collectionView:(MacProjectCollectionView*)cview deleteBackwards:(id)sender;
 -(void)collectionView:(MacProjectCollectionView *)cview doubleClicked:(NSEvent*)event item:(id)item;
-
+-(void)collectionView:(MacProjectCollectionView *)cview swipeBackwards:(NSEvent*)event;
 @end

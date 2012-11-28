@@ -118,6 +118,20 @@
 	self.selectedProject = item;
 }
 
+-(void)displayTopLevel
+{
+	[self.pathCells removeAllObjects];
+	[self.pathCells addObject:[self pathCellWithTitle:@"Project"]];
+	[self.pathControl setPathComponentCells:self.pathCells];
+	self.arrayController.content = [[[Rc2Server sharedInstance] projects] mutableCopy];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		NSPathComponentCell *cell = self.pathCells.firstObject;
+		[cell setState:NSOffState];
+		[self.collectionView setNeedsDisplay:YES];
+	});
+	self.selectedProject=nil;
+}
+
 #pragma mark - actions
 
 -(IBAction)pathControlClicked:(id)sender
@@ -128,16 +142,7 @@
 	if (idx+1 == self.pathCells.count)
 		return; //clicked the current level
 	if (idx == 0) {
-		[self.pathCells removeAllObjects];
-		[self.pathCells addObject:[self pathCellWithTitle:@"Project"]];
-		[self.pathControl setPathComponentCells:self.pathCells];
-		self.arrayController.content = [[[Rc2Server sharedInstance] projects] mutableCopy];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			NSPathComponentCell *cell = self.pathCells.firstObject;
-			[cell setState:NSOffState];
-			[self.collectionView setNeedsDisplay:YES];
-		});
-		self.selectedProject=nil;
+		[self displayTopLevel];
 	} else {
 		ZAssert(NO, @"not implemented");
 	}
@@ -245,6 +250,12 @@
 -(void)collectionView:(MacProjectCollectionView*)cview deleteBackwards:(id)sender
 {
 	[self removeSelectedProjects:cview];
+}
+
+-(void)collectionView:(MacProjectCollectionView *)cview swipeBackwards:(NSEvent*)event
+{
+	if (self.selectedProject)
+		[self displayTopLevel];
 }
 
 @end
