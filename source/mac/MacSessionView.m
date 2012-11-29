@@ -45,7 +45,6 @@
 -(void)saveSessionState:(RCSavedSession*)sessionState
 {
 	[sessionState setProperty:@(self.editorWidthConstraint.constant) forKey:@"editorWidthConstant"];
-	NSLog(@"saving width to:%1.1f", self.editorWidthConstraint.constant);
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
@@ -53,7 +52,6 @@
 	CGFloat ew = [[savedState propertyForKey:@"editorWidthConstant"] doubleValue];
 	if (ew < 300 || ew > 1000)
 		ew = 400;
-	NSLog(@"restoring width to:%1.1f", ew);
 	self.editorWidthConstraint.constant = ew;
 }
 

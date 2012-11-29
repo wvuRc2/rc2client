@@ -267,6 +267,8 @@
 			return NO;
 	} else if (action == @selector(contextualHelp:)) {
 		return YES;
+	} else if (action == @selector(executeCurrentLine:)) {
+		return YES;
 	} return NO;
 }
 
@@ -345,6 +347,15 @@
 	} else {
 		[self.session executeScript:self.editView.string scriptName:self.selectedFile.name];
 	}
+}
+
+-(IBAction)executeCurrentLine:(id)sender
+{
+	NSString *str = self.editView.string;
+	NSRange rng = [str lineRangeForRange:self.editView.selectedRange];
+	NSString *cmd = [str substringWithRange:rng];
+	[self.session executeScript:cmd scriptName:nil];
+
 }
 
 -(IBAction)exportFile:(id)sender
@@ -973,15 +984,27 @@
 -(NSMenu*)textView:(NSTextView *)view menu:(NSMenu *)menu forEvent:(NSEvent *)event atIndex:(NSUInteger)charIndex
 {
 	NSInteger idx = -1;
+	BOOL addedItems = NO;
 	for (NSMenuItem *anItem in menu.itemArray) {
-		if ([[anItem title] rangeOfString:@"Google"].location != NSNotFound) {
+		if ([anItem action] == @selector(cut:))
 			idx = [menu indexOfItem:anItem];
-		}
 	}
 	if (idx >= 0) {
-		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"Lookup in R Help" action:@selector(contextualHelp:) keyEquivalent:@""];
-		[mi setEnabled:YES];
-		[menu insertItem:mi atIndex:idx];
+		if (self.editView.selectedRange.length > 0) {
+			NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"Lookup in R Help" action:@selector(contextualHelp:) keyEquivalent:@""];
+			[mi setEnabled:YES];
+			[menu insertItem:mi atIndex:idx++];
+			addedItems = YES;
+		}
+		NSString *selLine = [[view.string  substringWithRange:[view.string lineRangeForRange:view.selectedRange]] stringByTrimmingWhitespace];
+		if (selLine.length > 0) {
+			NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"Run Line" action:@selector(executeCurrentLine:) keyEquivalent:@""];
+			[mi setEnabled:YES];
+			[menu insertItem:mi atIndex:idx++];
+			addedItems = YES;
+		}
+		if (addedItems)
+			[menu insertItem:[NSMenuItem separatorItem] atIndex:idx];
 	}
 	return menu;
 }

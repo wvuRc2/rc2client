@@ -180,4 +180,10 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 		self.files = [_files arrayByAddingObject:aFile];
 }
 
+-(BOOL)userEditable
+{
+	//TODO: really implement
+	return YES;
+}
+
 @end

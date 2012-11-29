@@ -339,8 +339,37 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	}];
 	[req startAsynchronous];
 }
-
-
+/*
+-(void)editWorkspace:(RCWorkspace*)wspace newName:(NSString*)newName completionBlock:(Rc2FetchCompletionHandler)hblock
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@proj/%@", [self baseUrl], project.projectId]];
+	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
+	__weak ASIFormDataRequest *req = theReq;
+	req.requestMethod = @"PUT";
+	NSDictionary *d = @{@"name":newName, @"id":project.projectId};
+	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+	[req setCompletionBlock:^{
+		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+		if (![self responseIsValidJSON:req]) {
+			hblock(NO, @"server sent back invalid response");
+			return;
+		}
+		NSDictionary *rsp = [self.jsonParser objectWithString:respStr];
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			project.name = newName;
+			self.projects = [self.projects sortedArrayUsingDescriptors:[RCProject projectSortDescriptors]];
+			hblock(YES, project);
+		} else {
+			hblock(NO, respStr);
+		}
+	}];
+	[req setFailedBlock:^{
+		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
+	}];
+	[req startAsynchronous];
+}
+*/
 -(void)renameWorkspce:(RCWorkspaceItem*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@", [self baseUrl],
