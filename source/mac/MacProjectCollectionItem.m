@@ -12,7 +12,10 @@
 #import "RCWorkspace.h"
 
 @interface MacProjectCellView : AMControlledView
-@property (nonatomic)  BOOL selected;
+@property (nonatomic) BOOL selected;
+@property (nonatomic) BOOL isProject;
+@property (strong) NSColor *regColor;
+@property (weak) CALayer *innerLayer;
 @property (weak) IBOutlet NSTextField *itemLabel;
 @property (nonatomic, weak) IBOutlet NSView *innerView;
 -(void)startEditing;
@@ -104,6 +107,7 @@
 	}
 	self.itemLabel.delegate = self;
 	[self.cellView setItemLabel:self.itemLabel];
+	self.cellView.isProject = [representedObject isKindOfClass:[RCProject class]];
 	[self reloadItemDetails];
 }
 
@@ -119,6 +123,7 @@
 
 -(void)awakeFromNib
 {
+	self.isProject = YES;
 	CALayer *layer = self.innerView.layer;
 	layer.cornerRadius = 13.0;
 	layer.backgroundColor = [NSColor whiteColor].CGColor;
@@ -127,11 +132,12 @@
 	layer.frame = self.innerView.frame;
 	layer.shadowColor = [[NSColor blackColor] colorWithAlphaComponent:0.5].CGColor;
 	layer.shadowOpacity = 0.8;
-	layer.shadowOffset = CGSizeMake(4, -4);
+	layer.shadowOffset = CGSizeMake(2, -2);
 	layer.shadowRadius = 2;
 	layer.cornerRadius = 13.0;
-	layer.backgroundColor = [[NSColor blueColor] colorWithAlphaComponent:0.2].CGColor;
+	layer.backgroundColor = self.regColor.CGColor;
 	[self.layer addSublayer:layer];
+	self.innerLayer = layer;
 	
 	self.layer.backgroundColor = [NSColor clearColor].CGColor;
 }
@@ -182,6 +188,16 @@
 			[del collectionView:colView doubleClicked:theEvent item:self.viewController.representedObject];
 		}
 	}
+}
+
+-(void)setIsProject:(BOOL)isProject
+{
+	_isProject = isProject;
+	if (isProject)
+		self.regColor = [[NSColor colorWithHexString:@"45a7bc"] colorWithAlphaComponent:0.3];
+	else
+		self.regColor = [[NSColor colorWithHexString:@"d7ba4f"] colorWithAlphaComponent:0.3];
+	self.innerLayer.backgroundColor = self.regColor.CGColor;
 }
 
 -(void)setSelected:(BOOL)selected
