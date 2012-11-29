@@ -65,7 +65,7 @@
 	}
 }
 
--(BOOL)canDelete
+-(BOOL)userEditable
 {
 	if ([_type isEqualToString:@"admin"] || [_type isEqualToString:@"class"])
 		return NO;

@@ -14,7 +14,7 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, strong, readonly) NSArray *workspaces;
-@property (nonatomic, readonly) BOOL canDelete;
+@property (nonatomic, readonly) BOOL userEditable;
 
 +(NSArray*)projectsForJsonArray:(NSArray*)jsonArray includeAdmin:(BOOL)admin;
 +(NSArray*)projectSortDescriptors;

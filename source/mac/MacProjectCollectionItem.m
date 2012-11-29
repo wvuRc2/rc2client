@@ -39,7 +39,7 @@
 	if (![newVal isEqualToString:oldVal]) {
 		id del = [self.collectionView delegate];
 		if ([del respondsToSelector:@selector(collectionView:renameItem:name:)]) {
-			[del collectionView:(id)self.collectionView renameItem:self.representedObject name:newVal];
+			[del collectionView:(id)self.collectionView renameItem:self name:newVal];
 		}
 	}
 }
@@ -53,6 +53,7 @@
 		self.itemLabel.stringValue = [self.representedObject name];
 		result = YES;
 	} else if (commandSelector == @selector(insertNewline:)) {
+		[self.cellView endEditing];
 		[self.cellView.window makeFirstResponder:nil];
 		result = YES;
 	} else {
@@ -72,17 +73,11 @@
 	return (MacProjectCellView*)self.view;
 }
 
--(void)setRepresentedObject:(id)representedObject
+-(void)reloadItemDetails
 {
-	[super setRepresentedObject:representedObject];
-	if (nil == self.itemLabel) {
-		NSString *nibName = [representedObject isKindOfClass:[RCProject class]] ? @"MacProjectCollectionItem" : @"MacProjectItemWorkspace";
-		ZAssert([[NSBundle mainBundle] loadNibNamed:nibName owner:self topLevelObjects:nil], @"failed to load nib");
-		[(AMControlledView*)self.view setViewController:self];
-	}
-	if ([representedObject isKindOfClass:[RCProject class]]) {
-		RCProject *proj = representedObject;
-		self.canEdit = proj.canDelete;
+	if ([self.representedObject isKindOfClass:[RCProject class]]) {
+		RCProject *proj = self.representedObject;
+		self.canEdit = proj.userEditable;
 		if ([proj.type isEqualToString:@"shared"])
 			self.imageView.image = [NSImage imageNamed:NSImageNameDotMac];
 		else if ([proj.type isEqualToString:@"admin"])
@@ -93,12 +88,23 @@
 		//workspace
 		self.imageView.image = [NSImage imageNamed:NSImageNameMultipleDocuments];
 	}
-	NSString *label = [representedObject name];
+	NSString *label = [self.representedObject name];
 	if (nil == label)
 		label = @"";
 	self.itemLabel.stringValue = label;
-	[self.cellView setItemLabel:self.itemLabel];
+}
+
+-(void)setRepresentedObject:(id)representedObject
+{
+	[super setRepresentedObject:representedObject];
+	if (nil == self.itemLabel) {
+		NSString *nibName = [representedObject isKindOfClass:[RCProject class]] ? @"MacProjectCollectionItem" : @"MacProjectItemWorkspace";
+		ZAssert([[NSBundle mainBundle] loadNibNamed:nibName owner:self topLevelObjects:nil], @"failed to load nib");
+		[(AMControlledView*)self.view setViewController:self];
+	}
 	self.itemLabel.delegate = self;
+	[self.cellView setItemLabel:self.itemLabel];
+	[self reloadItemDetails];
 }
 
 -(void)setSelected:(BOOL)selected
@@ -132,6 +138,9 @@
 
 -(void)startEditing
 {
+	MacProjectCollectionItem *citem = (MacProjectCollectionItem*)self.viewController;
+	if (![citem.representedObject userEditable])
+		return;
 	//start editing the name
 	[self.itemLabel setEditable:YES];
 	[self.window makeFirstResponder:self.itemLabel];

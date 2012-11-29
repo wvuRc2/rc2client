@@ -53,7 +53,7 @@
 	if (action == @selector(renameProject:)) {
 		NSString *dtitle = self.selectedProject ? @"RenameWorkspaceMI" : @"RenameProjectMI";
 		anItem.title = NSLocalizedString(dtitle, @"");
-		return [selObj canDelete];
+		return [selObj userEditable];
 	} else if (action == @selector(createProject:)) {
 		NSString *cptitle = self.selectedProject ? @"CreateWorkspaceMI" : @"CreateProjectMI";
 		anItem.title = NSLocalizedString(cptitle, @"");
@@ -85,7 +85,7 @@
 	id selObj = self.arrayController.selectedObjects.firstObject;
 	if (nil == selObj)
 		return NO;
-	if ([selObj isKindOfClass:[RCProject class]] & ![selObj canDelete])
+	if ([selObj isKindOfClass:[RCProject class]] & ![selObj userEditable])
 		return NO;
 	return YES;
 }
@@ -258,9 +258,20 @@
 		[self displayTopLevel];
 }
 
--(void)collectionView:(MacProjectCollectionView *)cview renameItem:(id)item name:(NSString*)newName
+-(void)collectionView:(MacProjectCollectionView *)cview renameItem:(MacProjectCollectionItem*)item name:(NSString*)newName
 {
-	NSLog(@"should change %@ to %@", [item name], newName);
+	id modelObject = item.representedObject;
+	self.busy = YES;
+	if ([modelObject isKindOfClass:[RCProject class]]) {
+		ZAssert([modelObject userEditable], @"renaming uneditable project");
+		[[Rc2Server sharedInstance] editProject:modelObject newName:newName completionBlock:^(BOOL success, id arg) {
+			if (!success) {
+				[NSAlert displayAlertWithTitle:@"Error renaming project" details:arg];
+				[item reloadItemDetails];
+			}
+			self.busy = NO;
+		}];
+	}
 }
 
 @end

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class MacProjectCollectionItem;
+
 @interface MacProjectCollectionView : NSCollectionView
 
 @end
@@ -18,5 +20,5 @@
 -(void)collectionView:(MacProjectCollectionView*)cview deleteBackwards:(id)sender;
 -(void)collectionView:(MacProjectCollectionView *)cview doubleClicked:(NSEvent*)event item:(id)item;
 -(void)collectionView:(MacProjectCollectionView *)cview swipeBackwards:(NSEvent*)event;
--(void)collectionView:(MacProjectCollectionView *)cview renameItem:(id)item name:(NSString*)newName;
+-(void)collectionView:(MacProjectCollectionView *)cview renameItem:(MacProjectCollectionItem*)item name:(NSString*)newName;
 @end

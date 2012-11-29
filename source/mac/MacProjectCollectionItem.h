@@ -12,4 +12,5 @@
 @property (weak) IBOutlet NSTextField *itemLabel;
 
 -(void)startNameEditing;
+-(void)reloadItemDetails;
 @end
