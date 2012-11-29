@@ -23,7 +23,6 @@
 @interface MacMainWindowController()
 @property (strong) NSMutableArray *kvoObservers;
 @property (nonatomic, strong) MacProjectViewController *projectController;
-@property (nonatomic, strong) MacMainViewController *mainViewController;
 @property (nonatomic, strong) MacSessionViewController *currentSessionController;
 @end
 
@@ -45,13 +44,10 @@
 {
 	[super windowDidLoad];
 	self.window.title = [NSString stringWithFormat:@"%@ (%@)", self.window.title, [[Rc2Server sharedInstance] connectionDescription]];
-	self.mainViewController = [[MacMainViewController alloc] init];
-	self.mainViewController.view.frame = self.detailContainer.frame;
 	self.projectController = [[MacProjectViewController alloc] init];
 	self.projectController.view.frame = self.detailContainer.frame;
+	self.projectController.view.autoresizingMask = self.detailContainer.autoresizingMask;
 	NSView *contentView = self.window.contentView;
-//	[contentView replaceSubview:self.detailContainer with:self.mainViewController.view];
-//	self.navController = [[AMMacNavController alloc] initWithRootViewController:self.mainViewController];
 	[contentView replaceSubview:self.detailContainer with:self.projectController.view];
 	self.navController = [[AMMacNavController alloc] initWithRootViewController:self.projectController];
 	self.navController.delegate = (id)self;
@@ -74,13 +70,6 @@
 
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
-	SEL action = [item action];
-	if (@selector(doBackToMainView:) == action) {
-		if (self.mainViewController.view.superview == nil) return YES;
-		return NO;
-	} else if (@selector(doOpenSession:) == action || @selector(doOpenSessionInNewWindow:) == action) {
-		return nil != self.mainViewController.selectedWorkspace && nil != self.mainViewController.view.superview;
-	}
 	return YES;
 }
 
@@ -130,42 +119,10 @@
 
 -(IBAction)doOpenSession:(id)sender
 {
-	[self openSession:self.mainViewController.selectedWorkspace inNewWindow:NO];
 }
 
 -(IBAction)doOpenSessionInNewWindow:(id)sender
 {
-	[self openSession:self.mainViewController.selectedWorkspace inNewWindow:YES];
 }
 
-
-/*
--(IBAction)doMoveSessionToNewWindow:(id)sender
-{
-	id selItem = [self targetSessionListObjectForUIItem:sender];
-	if (nil == selItem)
-		selItem = [self.mainSourceList itemAtRow:[self.mainSourceList selectedRow]];
-	ZAssert([selItem isKindOfClass:[RCSession class]], @"invalid object passed to moveSessionToNewWindow:%@", 
-			NSStringFromClass([selItem class]));
-	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
-	MacSessionViewController *svc = [appDel viewControllerForSession:selItem create:NO];
-	if (self.detailView == svc.view) {
-		self.detailView=nil;
-		[self.mainSourceList selectRowIndexes:nil byExtendingSelection:NO];
-	}
-	SessionWindowController *swc = [[SessionWindowController alloc] initWithViewController:svc];
-	[swc.window makeKeyAndOrderFront:self];
-}
-*/
-
-#pragma mark - accessors & synthesizers
-
-@synthesize kvoObservers;
-@synthesize mainViewController;
-@synthesize detailContainer;
-@synthesize detailController;
-@synthesize currentSessionController;
-@synthesize addToolbarMenu;
-@synthesize navController;
-@synthesize rightStatusView;
 @end

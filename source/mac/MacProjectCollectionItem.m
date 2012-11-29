@@ -196,7 +196,7 @@
 	if (isProject)
 		self.regColor = [[NSColor colorWithHexString:@"45a7bc"] colorWithAlphaComponent:0.3];
 	else
-		self.regColor = [[NSColor colorWithHexString:@"d7ba4f"] colorWithAlphaComponent:0.3];
+		self.regColor = [[NSColor colorWithHexString:@"b7b7b7"] colorWithAlphaComponent:0.3];
 	self.innerLayer.backgroundColor = self.regColor.CGColor;
 }
 

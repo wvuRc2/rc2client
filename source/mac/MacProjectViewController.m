@@ -14,6 +14,10 @@
 #import "MacMainWindowController.h"
 #import "MacProjectCollectionItem.h"
 
+@interface MacProjectView : AMControlledView
+
+@end
+
 @interface MacProjectViewController () <ProjectCollectionDelegate>
 @property (weak) IBOutlet MacProjectCollectionView *collectionView;
 @property (strong) IBOutlet NSArrayController *arrayController;
@@ -275,6 +279,20 @@
 			self.busy = NO;
 		}];
 	}
+}
+
+@end
+
+@implementation MacProjectView
+
+//this skanky hack makes no sense. the call to super is not resizing this view. since we always want it to be full size,
+// we manually do it
+-(void)resizeWithOldSuperviewSize:(NSSize)oldSize
+{
+	[super resizeWithOldSuperviewSize:oldSize];
+	NSRect f = self.frame;
+	f.size = self.superview.frame.size;
+	self.frame = f;
 }
 
 @end
