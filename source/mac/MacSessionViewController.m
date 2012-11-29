@@ -996,9 +996,14 @@
 			[menu insertItem:mi atIndex:idx++];
 			addedItems = YES;
 		}
-		NSString *selLine = [[view.string  substringWithRange:[view.string lineRangeForRange:view.selectedRange]] stringByTrimmingWhitespace];
-		if (selLine.length > 0) {
-			NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"Run Line" action:@selector(executeCurrentLine:) keyEquivalent:@""];
+		NSRange selRng = view.selectedRange;
+		NSRange rng = selRng;
+		if (rng.length == 0)
+			rng = [view.string lineRangeForRange:rng];
+		NSString *selText = [[view.string substringWithRange:rng] stringByTrimmingWhitespace];
+		if (selText.length > 0) {
+			NSString *title = selRng.length > 0 ? @"Run Selection" : @"Run Line";
+			NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:title action:@selector(executeCurrentLine:) keyEquivalent:@""];
 			[mi setEnabled:YES];
 			[menu insertItem:mi atIndex:idx++];
 			addedItems = YES;
