@@ -14,6 +14,13 @@
 @class RCFile;
 @class RCSessionUser;
 
+extern NSString * const RC2WebSocketErrorDomain;
+
+enum {
+	kRc2Err_Unknown=-1,
+	kRc2Err_ConnectionTimedOut=1
+};
+
 #define kMode_Share @"share"
 #define kMode_Control @"control"
 #define kMode_Classroom @"classroom"

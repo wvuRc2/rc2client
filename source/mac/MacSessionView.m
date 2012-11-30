@@ -44,17 +44,34 @@
 
 -(void)saveSessionState:(RCSavedSession*)sessionState
 {
-	[sessionState setProperty:@(self.editorWidthConstraint.constant) forKey:@"editorWidthConstant"];
+	CGFloat fullWidth = _outputView.frame.size.width + _editorView.frame.size.width;
+	CGFloat splitPer = _editorView.frame.size.width / fullWidth;
+	[sessionState setProperty:@(splitPer) forKey:@"editorWidthPercent"];
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
-	CGFloat ew = [[savedState propertyForKey:@"editorWidthConstant"] doubleValue];
-	if (ew < 300 || ew > 1000)
-		ew = 400;
+	CGFloat splitPer = [[savedState propertyForKey:@"editorWidthPercent"] doubleValue];
+	CGFloat fullWidth = _outputView.frame.size.width + _editorView.frame.size.width;
+	
+	CGFloat ew = fullWidth * splitPer;
+	if (ew < 300)
+		ew = 300;
 	self.editorWidthConstraint.constant = ew;
 }
 
+-(void)resizeSubviewsWithOldSize:(NSSize)oldSize
+{
+	CGFloat editorWidth = 0;
+	CGFloat newWidth = self.frame.size.width;
+	if (newWidth != oldSize.width && oldSize.width > 0) {
+		CGFloat perChange = self.frame.size.width / oldSize.width;
+		editorWidth = _editorView.frame.size.width * perChange;
+	}
+	[super resizeSubviewsWithOldSize:oldSize];
+	if (editorWidth > 0)
+		self.editorWidthConstraint.constant = editorWidth;
+}
 
 -(void)mouseDown:(NSEvent *)evt
 {

@@ -22,6 +22,10 @@
 #import "WebSocketConnectConfig.h"
 #import "HandshakeHeader.h"
 
+#define kWebSocketTimeOutSeconds 6
+
+NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
+
 @interface RCSession() <WebSocketDelegate> {
 	NSMutableDictionary *_settings;
 	WebSocket *_ws;
@@ -74,11 +78,7 @@
 {
 	if (_ws)
 		return;
-	//FIXME: skanky hack
-//	NSString *baseUrl = [[Rc2Server sharedInstance] baseUrl];
 	NSString *urlStr = [[Rc2Server sharedInstance] websocketUrl];
-//	NSString *urlStr = [baseUrl stringByReplacingOccurrencesOfString:@"http" withString:@"ws"];
-//	urlStr = [urlStr stringByAppendingString:@"iR/ws"];
 	id build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 	urlStr = [urlStr stringByAppendingFormat:@"?wid=%@&client=osx&build=%@", self.workspace.wspaceId, build];
@@ -100,12 +100,12 @@
 	[config.headers addObject:[HandshakeHeader headerWithValue:@"1" forKey:@"Rc2-API-Version"]];
 	_ws = [WebSocket webSocketWithConfig:config delegate:self];
 	[_ws open];
-	RunAfterDelay(10, ^{
+	RunAfterDelay(kWebSocketTimeOutSeconds, ^{
 		if (!self.socketOpen && _ws) {
 			//failed to open after 10 seconds. treat as an error
 			[_ws close];
 			_ws = nil;
-			[self.delegate handleWebSocketError:nil];
+			[self.delegate handleWebSocketError:[NSError errorWithDomain:RC2WebSocketErrorDomain code:kRc2Err_ConnectionTimedOut userInfo:@{NSLocalizedDescriptionKey:@"connection timed out"}]];
 		}
 	});
 }
@@ -420,7 +420,6 @@
 	[self.delegate handleWebSocketError:error];
 }
 
-//-(void)didReceiveTextMessage:(NSString*)msg
 -(void)didReceiveTextMessage:(NSString*)msg
 {
 	NSDictionary *dict = [msg JSONValue];
