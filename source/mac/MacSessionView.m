@@ -9,6 +9,8 @@
 #import "MacSessionView.h"
 #import "RCSavedSession.h"
 
+const CGFloat kFrameWidth = 214;
+
 @interface MacSessionEditView : NSView
 @end
 
@@ -136,8 +138,12 @@
 
 -(IBAction)toggleLeftView:(id)sender
 {
-	CGFloat newX = NSMinX(self.leftView.frame) >= 0 ? -214 : 0;
+	CGFloat newX = NSMinX(self.leftView.frame) >= 0 ? -kFrameWidth : 0;
 	[[self.leftXConstraint animator] setConstant:newX];
+	CGFloat editAdj = kFrameWidth / 2;
+	if (NSMinX(self.leftView.frame) < 0)
+		editAdj *= -1;
+	[[self.editorWidthConstraint animator] setConstant:self.editorWidthConstraint.constant + editAdj];
 }
 
 -(BOOL)leftViewVisible
