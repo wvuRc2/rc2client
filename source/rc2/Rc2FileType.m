@@ -96,6 +96,7 @@
 -(BOOL)isImportable  { return [[self.data objectForKey:@"Importable"] boolValue]; }
 -(BOOL)isCreatable  { return [[self.data objectForKey:@"Creatable"] boolValue]; }
 -(BOOL)isImage  { return [[self.data objectForKey:@"IsImage"] boolValue]; }
+-(BOOL)isSourceFile { return [[self.data objectForKey:@"IsSrc"] boolValue]; }
 
 -(id)image
 {

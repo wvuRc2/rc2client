@@ -19,6 +19,8 @@
 			<true/>
 			<key>Creatable</key>
 			<true/>
+			<key>IsSrc</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>Extension</key>
@@ -34,6 +36,8 @@
 			<key>Importable</key>
 			<true/>
 			<key>Creatable</key>
+			<true/>
+			<key>IsSrc</key>
 			<true/>
 		</dict>
 		<dict>
@@ -51,6 +55,8 @@
 			<true/>
 			<key>Creatable</key>
 			<true/>
+			<key>IsSrc</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>Extension</key>
@@ -66,6 +72,8 @@
 			<key>Importable</key>
 			<true/>
 			<key>Creatable</key>
+			<true/>
+			<key>IsSrc</key>
 			<true/>
 		</dict>
 		<dict>

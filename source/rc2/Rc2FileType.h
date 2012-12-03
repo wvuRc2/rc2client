@@ -14,6 +14,7 @@
 @property (nonatomic, readonly) NSString *details;
 @property (nonatomic, readonly) NSString *iconName;
 @property (readonly) BOOL isTextFile;
+@property (readonly) BOOL isSourceFile;
 @property (readonly) BOOL isImportable;
 @property (readonly) BOOL isCreatable;
 @property (readonly) BOOL isImage;
