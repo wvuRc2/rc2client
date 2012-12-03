@@ -53,10 +53,4 @@
 	self.canCreate = self.fileNameField.stringValue.length > 0;
 }
 
-@synthesize fileName;
-@synthesize fileNameField;
-@synthesize fileTypePopup;
-@synthesize fileTypeTag;
-@synthesize canCreate;
-@synthesize completionHandler;
 @end

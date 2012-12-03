@@ -383,6 +383,7 @@
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	[openPanel setAllowedFileTypes:[Rc2Server acceptableImportFileSuffixes]];
 	[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
+		[openPanel orderOut:nil];
 		if (NSFileHandlingPanelCancelButton == result)
 			return;
 		[self handleFileImport:[[openPanel URLs] firstObject]];
@@ -402,6 +403,7 @@
 {
 	MCNewFileController *nfc = [[MCNewFileController alloc] init];
 	nfc.completionHandler = ^(NSString *fname) {
+		[NSApp endSheet:nfc.window];
 		if (fname.length > 0)
 			[self handleNewFile:fname];
 	};
