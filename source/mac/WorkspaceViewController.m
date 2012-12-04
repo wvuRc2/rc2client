@@ -12,7 +12,7 @@
 #import "RCWorkspaceCache.h"
 #import "WorkspaceCellView.h"
 #import "RCMUserSearchPopupController.h"
-#import "MacMainWindowController.h"
+#import "MCMainWindowController.h"
 #import "ASIFormDataRequest.h"
 #import "AppDelegate.h"
 #import "Rc2Server.h"
@@ -153,7 +153,7 @@
 
 -(IBAction)doOpenSession:(id)sender
 {
-	MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
+	MCMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
 	WorkspaceCellView *wcv = [self.sectionsTableView viewAtColumn:0 row:0 makeIfNecessary:NO];
 	RCFile *selFile = wcv.selectedObject;
 	[mainwc openSession:self.workspace file:selFile inNewWindow:NO];	

@@ -1,5 +1,5 @@
 //
-//  MacMainWindowController.h
+//  MCMainWindowController.h
 //  MacClient
 //
 //  Created by Mark Lilback on 9/12/11.
@@ -12,7 +12,7 @@
 @class RCWorkspace;
 @class RCFile;
 
-@interface MacMainWindowController : NSWindowController<NSWindowDelegate>
+@interface MCMainWindowController : NSWindowController<NSWindowDelegate>
 @property (strong, nonatomic) AMMacNavController *navController;
 @property (strong, nonatomic) MacClientAbstractViewController *detailController;
 @property (strong) IBOutlet AMControlledView *detailContainer;

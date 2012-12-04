@@ -8,10 +8,10 @@
 
 #import "AppDelegate.h"
 #import "RCMAppConstants.h"
-#import "MacLoginController.h"
-#import "MacMainWindowController.h"
+#import "MCLoginController.h"
+#import "MCMainWindowController.h"
 #import "Rc2Server.h"
-#import "MacSessionViewController.h"
+#import "MCSessionViewController.h"
 #import "RCMPDFViewController.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
@@ -31,8 +31,8 @@
 	BOOL __haveMoc;
 	BOOL __firstLogin;
 }
-@property (strong) MacLoginController *loginController;
-@property (readwrite, strong, nonatomic) MacMainWindowController *mainWindowController;
+@property (strong) MCLoginController *loginController;
+@property (readwrite, strong, nonatomic) MCMainWindowController *mainWindowController;
 @property (nonatomic, strong) NSTimer *autosaveTimer;
 @property (nonatomic, readwrite) BOOL loggedIn;
 @property (nonatomic, readwrite) BOOL isFullScreen;
@@ -237,7 +237,7 @@
 -(void)presentLoginPanel
 {
 	__weak AppDelegate *blockSelf = self;
-	self.loginController = [[MacLoginController alloc] init];
+	self.loginController = [[MCLoginController alloc] init];
 	[self.loginController promptForLoginWithCompletionBlock:^{
 		blockSelf.loginController=nil;
 		[blockSelf handleSucessfulLogin];
@@ -251,7 +251,7 @@
 {
 	self.loggedIn = YES;
 	[[NSUserDefaults standardUserDefaults] setObject:[Rc2Server sharedInstance].currentLogin forKey:kPref_LastLoginString];
-	self.mainWindowController = [[MacMainWindowController alloc] init];
+	self.mainWindowController = [[MCMainWindowController alloc] init];
 	[self.mainWindowController.window makeKeyAndOrderFront:self];
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(windowWillClose:) 

@@ -15,7 +15,7 @@
 #import "WorkspaceViewController.h"
 #import "RCMManageCourseController.h"
 #import <Vyana/NSMenu+AMExtensions.h>
-#import "MacMainWindowController.h"
+#import "MCMainWindowController.h"
 #import "RCMacToolbarItem.h"
 #import "RCMAppConstants.h"
 
@@ -272,7 +272,7 @@
 	ZAssert([selItem isKindOfClass:[RCWorkspace class]], @"invalid object passed to openSession:%@", 
 			NSStringFromClass([selItem class]));
 	RCWorkspace *selWspace = selItem;
-	MacMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
+	MCMainWindowController *mainwc = [NSApp valueForKeyPath:@"delegate.mainWindowController"];
 	[mainwc openSession:selWspace inNewWindow:inNewWindow];
 }
 
@@ -375,7 +375,7 @@
 //	AppDelegate *appDel = (AppDelegate*)[NSApp delegate];
 	if ([item isKindOfClass:[RCWorkspace class]]) {
 /*		RCSession *session = [appDel sessionForWorkspace:item];
-		MacSessionViewController *svc = [appDel viewControllerForSession:session create:NO];
+		MCSessionViewController *svc = [appDel viewControllerForSession:session create:NO];
 		if (svc) {
 			if (svc.view.window && svc.view.window != self.window)
 				return nil; //it has its own window, no menu for you

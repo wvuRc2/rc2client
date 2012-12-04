@@ -11,7 +11,7 @@
 #import "RCProject.h"
 #import "RCWorkspace.h"
 #import "MacProjectCollectionView.h"
-#import "MacMainWindowController.h"
+#import "MCMainWindowController.h"
 #import "MacProjectCollectionItem.h"
 
 @interface MacProjectView : AMControlledView

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		082CEE9E161CC84A00E01F48 /* MacSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MacSessionView.m */; };
+		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
 		082CEEB4161E2ADD00E01F48 /* variables@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB2161E2ADD00E01F48 /* variables@2x.png */; };
 		082CEEBA161E2D2600E01F48 /* files.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB6161E2D2600E01F48 /* files.png */; };
@@ -54,14 +54,14 @@
 		0845942A15B5F22700297C9D /* syncArrowsSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941815B5F22700297C9D /* syncArrowsSelected.png */; };
 		0845942B15B5F22700297C9D /* webback.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941915B5F22700297C9D /* webback.png */; };
 		0845943A15B5F29200297C9D /* MacClientAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942D15B5F29100297C9D /* MacClientAbstractViewController.m */; };
-		0845943B15B5F29200297C9D /* MacLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942F15B5F29100297C9D /* MacLoginController.m */; };
-		0845943C15B5F29200297C9D /* MacLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943015B5F29100297C9D /* MacLoginController.xib */; };
+		0845943B15B5F29200297C9D /* MCLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942F15B5F29100297C9D /* MCLoginController.m */; };
+		0845943C15B5F29200297C9D /* MCLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943015B5F29100297C9D /* MCLoginController.xib */; };
 		0845943D15B5F29200297C9D /* MacMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845943215B5F29100297C9D /* MacMainViewController.m */; };
 		0845943E15B5F29200297C9D /* MacMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943315B5F29100297C9D /* MacMainViewController.xib */; };
 		0845943F15B5F29200297C9D /* MacMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943415B5F29100297C9D /* MacMainWindow.xib */; };
-		0845944015B5F29200297C9D /* MacMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845943615B5F29100297C9D /* MacMainWindowController.m */; };
-		0845944115B5F29200297C9D /* MacSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845943815B5F29100297C9D /* MacSessionViewController.m */; };
-		0845944215B5F29200297C9D /* MacSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943915B5F29200297C9D /* MacSessionViewController.xib */; };
+		0845944015B5F29200297C9D /* MCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845943615B5F29100297C9D /* MCMainWindowController.m */; };
+		0845944115B5F29200297C9D /* MCSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845943815B5F29100297C9D /* MCSessionViewController.m */; };
+		0845944215B5F29200297C9D /* MCSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943915B5F29200297C9D /* MCSessionViewController.xib */; };
 		0845944D15B5F2BC00297C9D /* MCNewFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845944415B5F2BC00297C9D /* MCNewFileController.m */; };
 		0845944E15B5F2BC00297C9D /* MCNewFileController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845944515B5F2BC00297C9D /* MCNewFileController.xib */; };
 		0845944F15B5F2BC00297C9D /* MCWebOutputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845944715B5F2BC00297C9D /* MCWebOutputController.m */; };
@@ -471,8 +471,8 @@
 
 /* Begin PBXFileReference section */
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
-		082CEE9C161CC84A00E01F48 /* MacSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacSessionView.h; path = source/mac/MacSessionView.h; sourceTree = SOURCE_ROOT; };
-		082CEE9D161CC84A00E01F48 /* MacSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacSessionView.m; path = source/mac/MacSessionView.m; sourceTree = SOURCE_ROOT; };
+		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
+		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
 		082CEEB1161E2ADD00E01F48 /* variables.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = variables.png; path = resources/mac/variables.png; sourceTree = SOURCE_ROOT; };
 		082CEEB2161E2ADD00E01F48 /* variables@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "variables@2x.png"; path = "resources/mac/variables@2x.png"; sourceTree = SOURCE_ROOT; };
 		082CEEB6161E2D2600E01F48 /* files.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = files.png; path = resources/mac/files.png; sourceTree = SOURCE_ROOT; };
@@ -525,18 +525,18 @@
 		0845941915B5F22700297C9D /* webback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = webback.png; path = resources/mac/webback.png; sourceTree = SOURCE_ROOT; };
 		0845942C15B5F29100297C9D /* MacClientAbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacClientAbstractViewController.h; path = source/mac/MacClientAbstractViewController.h; sourceTree = SOURCE_ROOT; };
 		0845942D15B5F29100297C9D /* MacClientAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacClientAbstractViewController.m; path = source/mac/MacClientAbstractViewController.m; sourceTree = SOURCE_ROOT; };
-		0845942E15B5F29100297C9D /* MacLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacLoginController.h; path = source/mac/MacLoginController.h; sourceTree = SOURCE_ROOT; };
-		0845942F15B5F29100297C9D /* MacLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacLoginController.m; path = source/mac/MacLoginController.m; sourceTree = SOURCE_ROOT; };
-		0845943015B5F29100297C9D /* MacLoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MacLoginController.xib; path = source/mac/MacLoginController.xib; sourceTree = SOURCE_ROOT; };
+		0845942E15B5F29100297C9D /* MCLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCLoginController.h; path = source/mac/MCLoginController.h; sourceTree = SOURCE_ROOT; };
+		0845942F15B5F29100297C9D /* MCLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCLoginController.m; path = source/mac/MCLoginController.m; sourceTree = SOURCE_ROOT; };
+		0845943015B5F29100297C9D /* MCLoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MCLoginController.xib; path = source/mac/MCLoginController.xib; sourceTree = SOURCE_ROOT; };
 		0845943115B5F29100297C9D /* MacMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacMainViewController.h; path = source/mac/MacMainViewController.h; sourceTree = SOURCE_ROOT; };
 		0845943215B5F29100297C9D /* MacMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacMainViewController.m; path = source/mac/MacMainViewController.m; sourceTree = SOURCE_ROOT; };
 		0845943315B5F29100297C9D /* MacMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MacMainViewController.xib; path = source/mac/MacMainViewController.xib; sourceTree = SOURCE_ROOT; };
 		0845943415B5F29100297C9D /* MacMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MacMainWindow.xib; path = source/mac/MacMainWindow.xib; sourceTree = SOURCE_ROOT; };
-		0845943515B5F29100297C9D /* MacMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacMainWindowController.h; path = source/mac/MacMainWindowController.h; sourceTree = SOURCE_ROOT; };
-		0845943615B5F29100297C9D /* MacMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacMainWindowController.m; path = source/mac/MacMainWindowController.m; sourceTree = SOURCE_ROOT; };
-		0845943715B5F29100297C9D /* MacSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacSessionViewController.h; path = source/mac/MacSessionViewController.h; sourceTree = SOURCE_ROOT; };
-		0845943815B5F29100297C9D /* MacSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacSessionViewController.m; path = source/mac/MacSessionViewController.m; sourceTree = SOURCE_ROOT; };
-		0845943915B5F29200297C9D /* MacSessionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MacSessionViewController.xib; path = source/mac/MacSessionViewController.xib; sourceTree = SOURCE_ROOT; };
+		0845943515B5F29100297C9D /* MCMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCMainWindowController.h; path = source/mac/MCMainWindowController.h; sourceTree = SOURCE_ROOT; };
+		0845943615B5F29100297C9D /* MCMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCMainWindowController.m; path = source/mac/MCMainWindowController.m; sourceTree = SOURCE_ROOT; };
+		0845943715B5F29100297C9D /* MCSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionViewController.h; path = source/mac/MCSessionViewController.h; sourceTree = SOURCE_ROOT; };
+		0845943815B5F29100297C9D /* MCSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionViewController.m; path = source/mac/MCSessionViewController.m; sourceTree = SOURCE_ROOT; };
+		0845943915B5F29200297C9D /* MCSessionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MCSessionViewController.xib; path = source/mac/MCSessionViewController.xib; sourceTree = SOURCE_ROOT; };
 		0845944315B5F2BC00297C9D /* MCNewFileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCNewFileController.h; path = source/mac/MCNewFileController.h; sourceTree = SOURCE_ROOT; };
 		0845944415B5F2BC00297C9D /* MCNewFileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCNewFileController.m; path = source/mac/MCNewFileController.m; sourceTree = SOURCE_ROOT; };
 		0845944515B5F2BC00297C9D /* MCNewFileController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MCNewFileController.xib; path = source/mac/MCNewFileController.xib; sourceTree = SOURCE_ROOT; };
@@ -1161,14 +1161,6 @@
 				0845948615B5F31100297C9D /* WorkspaceViewController.h */,
 				0845948715B5F31100297C9D /* WorkspaceViewController.m */,
 				0845948815B5F31100297C9D /* WorkspaceViewController.xib */,
-				0845943715B5F29100297C9D /* MacSessionViewController.h */,
-				0845943815B5F29100297C9D /* MacSessionViewController.m */,
-				0845943915B5F29200297C9D /* MacSessionViewController.xib */,
-				0845944615B5F2BC00297C9D /* MCWebOutputController.h */,
-				0845944715B5F2BC00297C9D /* MCWebOutputController.m */,
-				0845944815B5F2BC00297C9D /* MCWebOutputController.xib */,
-				082CEE9C161CC84A00E01F48 /* MacSessionView.h */,
-				082CEE9D161CC84A00E01F48 /* MacSessionView.m */,
 			);
 			name = "top controllers";
 			sourceTree = "<group>";
@@ -1176,9 +1168,9 @@
 		084594A215B5F38F00297C9D /* secondary controllers */ = {
 			isa = PBXGroup;
 			children = (
-				0845942E15B5F29100297C9D /* MacLoginController.h */,
-				0845942F15B5F29100297C9D /* MacLoginController.m */,
-				0845943015B5F29100297C9D /* MacLoginController.xib */,
+				0845942E15B5F29100297C9D /* MCLoginController.h */,
+				0845942F15B5F29100297C9D /* MCLoginController.m */,
+				0845943015B5F29100297C9D /* MCLoginController.xib */,
 				0845944315B5F2BC00297C9D /* MCNewFileController.h */,
 				0845944415B5F2BC00297C9D /* MCNewFileController.m */,
 				0845944515B5F2BC00297C9D /* MCNewFileController.xib */,
@@ -1929,13 +1921,14 @@
 				084593E615B5F16F00297C9D /* RCMAppConstants.m */,
 				08D2463D15B5ED3C0064A9FA /* AppDelegate.h */,
 				08D2463E15B5ED3C0064A9FA /* AppDelegate.m */,
-				0845943515B5F29100297C9D /* MacMainWindowController.h */,
-				0845943615B5F29100297C9D /* MacMainWindowController.m */,
+				0845943515B5F29100297C9D /* MCMainWindowController.h */,
+				0845943615B5F29100297C9D /* MCMainWindowController.m */,
 				0845943415B5F29100297C9D /* MacMainWindow.xib */,
 				0845942C15B5F29100297C9D /* MacClientAbstractViewController.h */,
 				0845942D15B5F29100297C9D /* MacClientAbstractViewController.m */,
 				08B74C5C163AE6E300083F9A /* project view */,
 				084594A115B5F36600297C9D /* top controllers */,
+				08E49218166E7251005E83DE /* session */,
 				084594A215B5F38F00297C9D /* secondary controllers */,
 				084594AF15B5F4F000297C9D /* utility */,
 				084594AE15B5F4A500297C9D /* views */,
@@ -1981,6 +1974,21 @@
 			name = AMResizableSplitterViewController;
 			path = ../AMResizableSplitterViewController/CustomSplitView;
 			sourceTree = SOURCE_ROOT;
+		};
+		08E49218166E7251005E83DE /* session */ = {
+			isa = PBXGroup;
+			children = (
+				0845943715B5F29100297C9D /* MCSessionViewController.h */,
+				0845943815B5F29100297C9D /* MCSessionViewController.m */,
+				0845943915B5F29200297C9D /* MCSessionViewController.xib */,
+				082CEE9C161CC84A00E01F48 /* MCSessionView.h */,
+				082CEE9D161CC84A00E01F48 /* MCSessionView.m */,
+				0845944615B5F2BC00297C9D /* MCWebOutputController.h */,
+				0845944715B5F2BC00297C9D /* MCWebOutputController.m */,
+				0845944815B5F2BC00297C9D /* MCWebOutputController.xib */,
+			);
+			name = session;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -2203,10 +2211,10 @@
 				0845942915B5F22700297C9D /* syncArrows.png in Resources */,
 				0845942A15B5F22700297C9D /* syncArrowsSelected.png in Resources */,
 				0845942B15B5F22700297C9D /* webback.png in Resources */,
-				0845943C15B5F29200297C9D /* MacLoginController.xib in Resources */,
+				0845943C15B5F29200297C9D /* MCLoginController.xib in Resources */,
 				0845943E15B5F29200297C9D /* MacMainViewController.xib in Resources */,
 				0845943F15B5F29200297C9D /* MacMainWindow.xib in Resources */,
-				0845944215B5F29200297C9D /* MacSessionViewController.xib in Resources */,
+				0845944215B5F29200297C9D /* MCSessionViewController.xib in Resources */,
 				0845944E15B5F2BC00297C9D /* MCNewFileController.xib in Resources */,
 				0845945015B5F2BC00297C9D /* MCWebOutputController.xib in Resources */,
 				0845945C15B5F2EA00297C9D /* FontsPrefs.xib in Resources */,
@@ -2540,10 +2548,10 @@
 				084593FA15B5F1D700297C9D /* RCMEditUserController.m in Sources */,
 				084593FC15B5F1D700297C9D /* RCMUserAdminController.m in Sources */,
 				0845943A15B5F29200297C9D /* MacClientAbstractViewController.m in Sources */,
-				0845943B15B5F29200297C9D /* MacLoginController.m in Sources */,
+				0845943B15B5F29200297C9D /* MCLoginController.m in Sources */,
 				0845943D15B5F29200297C9D /* MacMainViewController.m in Sources */,
-				0845944015B5F29200297C9D /* MacMainWindowController.m in Sources */,
-				0845944115B5F29200297C9D /* MacSessionViewController.m in Sources */,
+				0845944015B5F29200297C9D /* MCMainWindowController.m in Sources */,
+				0845944115B5F29200297C9D /* MCSessionViewController.m in Sources */,
 				0845944D15B5F2BC00297C9D /* MCNewFileController.m in Sources */,
 				0845944F15B5F2BC00297C9D /* MCWebOutputController.m in Sources */,
 				0845945115B5F2BC00297C9D /* MultiFileImporter.m in Sources */,
@@ -2572,7 +2580,7 @@
 				084594BE15B5F53900297C9D /* NoodleLineNumberView.m in Sources */,
 				084594BF15B5F53900297C9D /* PXSourceList.m in Sources */,
 				08C99AC415EE9CDF002D430D /* Rc2FileType.m in Sources */,
-				082CEE9E161CC84A00E01F48 /* MacSessionView.m in Sources */,
+				082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */,
 				082CEEC1161F685900E01F48 /* RCVariable.m in Sources */,
 				084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */,
 				083AAEE9162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */,

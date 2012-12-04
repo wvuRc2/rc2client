@@ -1,12 +1,12 @@
 //
-//  MacSessionView.m
+//  MCSessionView.m
 //  Rc2Client
 //
 //  Created by Mark Lilback on 10/3/12.
-//  Copyright 2012 Agile Monks. All rights reserved.
+//  Copyright 2012 West Virginia University. All rights reserved.
 //
 
-#import "MacSessionView.h"
+#import "MCSessionView.h"
 #import "RCSavedSession.h"
 
 const CGFloat kFrameWidth = 214;
@@ -17,14 +17,14 @@ const CGFloat kFrameWidth = 214;
 @interface MacSessionSplitter : NSView
 @end
 
-@interface MacSessionView()
+@interface MCSessionView()
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *leftXConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *editorWidthConstraint;
 @property (nonatomic, weak) IBOutlet MacSessionSplitter *splitterView;
 @property (nonatomic, strong) NSTrackingArea *dragTrackingArea;
 @end
 
-@implementation MacSessionView {
+@implementation MCSessionView {
 	BOOL _dragging;
 }
 - (id)init

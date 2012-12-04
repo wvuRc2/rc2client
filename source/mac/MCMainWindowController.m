@@ -1,12 +1,12 @@
 //
-//  MacMainWindowController.m
+//  MCMainWindowController.m
 //  MacClient
 //
 //  Created by Mark Lilback on 9/12/11.
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
-#import "MacMainWindowController.h"
+#import "MCMainWindowController.h"
 #import "RCMAppConstants.h"
 #import "MacMainViewController.h"
 #import "Rc2Server.h"
@@ -15,20 +15,20 @@
 #import "RCSession.h"
 #import "WorkspaceViewController.h"
 #import <Vyana/NSMenu+AMExtensions.h>
-#import "MacSessionViewController.h"
+#import "MCSessionViewController.h"
 #import "AppDelegate.h"
 #import "RCMacToolbarItem.h"
 #import "MacProjectViewController.h"
 
-@interface MacMainWindowController()
+@interface MCMainWindowController()
 @property (strong) NSMutableArray *kvoObservers;
 @property (nonatomic, strong) MacProjectViewController *projectController;
-@property (nonatomic, strong) MacSessionViewController *currentSessionController;
+@property (nonatomic, strong) MCSessionViewController *currentSessionController;
 @end
 
 #pragma mark -
 
-@implementation MacMainWindowController
+@implementation MCMainWindowController
 
 #pragma mark - init/load
 
@@ -84,7 +84,7 @@
 {
 	if (self.currentSessionController.session.workspace != wspace) {
 		RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:nil];
-		self.currentSessionController = [[MacSessionViewController alloc] initWithSession:session];
+		self.currentSessionController = [[MCSessionViewController alloc] initWithSession:session];
 	}
 	if (initialFile)
 		self.currentSessionController.session.initialFileSelection = initialFile;

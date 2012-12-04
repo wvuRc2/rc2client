@@ -1,9 +1,9 @@
 //
 //  RCAssignmentFile.h
-//  MacClient
+//  Rc2Client
 //
 //  Created by Mark Lilback on 5/2/12.
-//  Copyright 2012 Agile Monks. All rights reserved.
+//  Copyright 2012 West Virginia University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

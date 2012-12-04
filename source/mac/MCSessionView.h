@@ -1,16 +1,16 @@
 //
-//  MacSessionView.h
+//  MCSessionView.h
 //  Rc2Client
 //
 //  Created by Mark Lilback on 10/3/12.
-//  Copyright 2012 Agile Monks. All rights reserved.
+//  Copyright 2012 West Virginia University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 @class RCSavedSession;
 
-@interface MacSessionView : AMControlledView
+@interface MCSessionView : AMControlledView
 @property (nonatomic, strong) IBOutlet NSView *leftView;
 @property (nonatomic, strong) IBOutlet NSView *editorView;
 @property (nonatomic, strong) IBOutlet NSView *outputView;

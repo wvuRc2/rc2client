@@ -1,12 +1,12 @@
 //
-//  MacLoginController.m
-//  MacClient
+//  MCLoginController.m
+//  Rc2Client
 //
 //  Created by Mark Lilback on 9/5/11.
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
-#import "MacLoginController.h"
+#import "MCLoginController.h"
 #import "Rc2Server.h"
 #import "EMKeychainItem.h"
 
@@ -14,18 +14,18 @@
 #define kLastServerKey @"LastServer"
 
 
-@interface MacLoginController()
+@interface MCLoginController()
 @property (nonatomic, copy) BasicBlock_t completionHandler;
 -(void)saveLoginInfo;
 -(void)loadPasswordForLogin;
 -(NSString*)selectedHost;
 @end
 
-@implementation MacLoginController
+@implementation MCLoginController
 
 - (id)init
 {
-	if ((self = [super initWithWindowNibName:@"MacLoginController"])) {
+	if ((self = [super initWithWindowNibName:@"MCLoginController"])) {
 	}
 	return self;
 }
@@ -52,7 +52,7 @@
 {
 	self.isBusy=YES;
 	[Rc2Server sharedInstance].serverHost = self.selectedServerIdx;
-	__block MacLoginController *blockSelf = self;
+	__block MCLoginController *blockSelf = self;
 	[[Rc2Server sharedInstance] loginAsUser:self.loginName password:self.password
 		completionHandler:^(BOOL success, NSString *message) 
 		{

@@ -1,12 +1,12 @@
 //
-//  MacSessionViewController.m
-//  MacClient
+//  MCSessionViewController.m
+//  Rc2Client
 //
 //  Created by Mark Lilback on 10/5/11.
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
-#import "MacSessionViewController.h"
+#import "MCSessionViewController.h"
 #import "MCWebOutputController.h"
 #import "RCMImageViewer.h"
 #import "RCMMultiImageController.h"
@@ -32,14 +32,14 @@
 #import "RCAudioChatEngine.h"
 #import "RCImageCache.h"
 #import "NoodleLineNumberView.h"
-#import "MacSessionView.h"
+#import "MCSessionView.h"
 #import "MAKVONotificationCenter.h"
 
 @interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, copy) NSArray *data;
 @end
 
-@interface MacSessionViewController() <NSPopoverDelegate> {
+@interface MCSessionViewController() <NSPopoverDelegate> {
 	NSPoint __curImgPoint;
 	BOOL __didInit;
 	BOOL __movingFileList;
@@ -69,11 +69,11 @@
 @property (nonatomic, strong) NSWindow *blockingWindow;
 @end
 
-@implementation MacSessionViewController
+@implementation MCSessionViewController
 
 -(id)initWithSession:(RCSession*)aSession
 {
-	self = [super initWithNibName:@"MacSessionViewController" bundle:nil];
+	self = [super initWithNibName:@"MCSessionViewController" bundle:nil];
 	if (self) {
 		NSError *err=nil;
 		self.session = aSession;
@@ -141,7 +141,7 @@
 		[self.editView.enclosingScrollView setRulersVisible:YES];
 		
 		//caches
-		__unsafe_unretained MacSessionViewController *blockSelf = self;
+		__unsafe_unretained MCSessionViewController *blockSelf = self;
 		[self observeTarget:self.sessionView keyPath:@"leftViewVisible" options:0 block:^(MAKVONotification *notification) {
 			blockSelf.session.variablesVisible = blockSelf.sessionView.leftViewVisible &&
 			blockSelf.selectedLeftViewIndex == 1;
@@ -750,7 +750,7 @@
 		self.imagePopover.behavior = NSPopoverBehaviorSemitransient;
 		self.imagePopover.delegate = self;
 	}
-	__unsafe_unretained MacSessionViewController *blockSelf = self;
+	__unsafe_unretained MCSessionViewController *blockSelf = self;
 	self.imagePopover.contentViewController = self.imageController;
 	self.imageController.imageArray = imgArray;
 	self.imageController.workspace = self.session.workspace;
@@ -1069,7 +1069,7 @@
 		RCFile *file = [self.fileArray objectAtIndexNoExceptions:row];
 		RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
 		view.objectValue = file;
-		__unsafe_unretained MacSessionViewController *blockSelf = self;
+		__unsafe_unretained MCSessionViewController *blockSelf = self;
 		view.syncFileBlock = ^(RCFile *theFile) {
 			[blockSelf syncFile:theFile];
 		};
@@ -1231,9 +1231,9 @@
 	return self.restrictedMode;
 }
 
--(MacSessionView*)sessionView
+-(MCSessionView*)sessionView
 {
-	return (MacSessionView*)self.view;
+	return (MCSessionView*)self.view;
 }
 
 @end

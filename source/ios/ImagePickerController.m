@@ -1,9 +1,9 @@
 //
 //  ImagePickerController.m
-//  iPadClient
+//  Rc2Client
 //
 //  Created by Mark Lilback on 5/7/12.
-//  Copyright (c) 2012 Agile Monks. All rights reserved.
+//  Copyright (c) 2012 West Virginia University. All rights reserved.
 //
 
 #import "ImagePickerController.h"

@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class MacMainWindowController;
-@class MacSessionViewController;
+@class MCMainWindowController;
+@class MCSessionViewController;
 @class RCSession;
 @class RCWorkspace;
 @class RCFile;
@@ -19,7 +19,7 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (readonly, strong, nonatomic) MacMainWindowController *mainWindowController;
+@property (readonly, strong, nonatomic) MCMainWindowController *mainWindowController;
 @property (nonatomic, readonly) BOOL loggedIn;
 @property (nonatomic, readonly) BOOL isFullScreen;
 

@@ -1,6 +1,6 @@
 //
-//  MacSessionViewController.h
-//  MacClient
+//  MCSessionViewController.h
+//  Rc2Client
 //
 //  Created by Mark Lilback on 10/5/11.
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
@@ -11,11 +11,11 @@
 #import "RCSession.h"
 
 @class RCMTextView;
-@class MacSessionView;
+@class MCSessionView;
 
-@interface MacSessionViewController : MacClientAbstractViewController<RCSessionDelegate,NSSplitViewDelegate,NSTableViewDataSource,NSTableViewDelegate>
+@interface MCSessionViewController : MacClientAbstractViewController<RCSessionDelegate,NSSplitViewDelegate,NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, strong) RCSession *session;
-@property (nonatomic, readonly) MacSessionView *sessionView;
+@property (nonatomic, readonly) MCSessionView *sessionView;
 @property (nonatomic, strong) IBOutlet NSTableView *fileTableView;
 @property (nonatomic, strong) IBOutlet NSTableView *userTableView;
 @property (nonatomic, strong) IBOutlet NSTableView *varTableView;
