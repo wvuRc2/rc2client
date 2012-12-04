@@ -39,11 +39,4 @@
 	self.name = [dict objectForKey:@"name"];
 }
 
-@synthesize classId;
-@synthesize courseId;
-@synthesize semesterId;
-@synthesize semesterName;
-@synthesize courseName;
-@synthesize name;
-@synthesize assignments;
 @end

@@ -212,11 +212,4 @@ enum {
 	return [self.filesRemaining count];
 }
 
-@synthesize fileUrls;
-@synthesize myState;
-@synthesize filesRemaining;
-@synthesize replaceExisting;
-@synthesize workspace;
-@synthesize currentFileName;
-@synthesize lastError;
 @end

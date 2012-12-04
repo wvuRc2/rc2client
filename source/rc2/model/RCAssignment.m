@@ -44,12 +44,4 @@
 		self.files = [RCAssignmentFile filesFromJSONArray:files forCourse:self];
 }
 
-@synthesize assignmentId;
-@synthesize sortOrder;
-@synthesize name=_name;
-@synthesize locked;
-@synthesize startDate;
-@synthesize endDate;
-@synthesize course=_course;
-@synthesize files=_files;
 @end

@@ -51,7 +51,4 @@
 	return [[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-@synthesize logHost;
-@synthesize apiKey;
-@synthesize clientIdent;
 @end

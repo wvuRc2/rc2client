@@ -16,7 +16,6 @@
 @end
 
 @implementation RCMEditUserController
-@synthesize theUser=__theUser;
 
 -(id)init
 {
@@ -57,7 +56,7 @@
 
 -(void)setTheUser:(RCUser *)theUser
 {
-	__theUser = theUser;
+	_theUser = theUser;
 	[self willChangeValueForKey:@"login"];
 	[self didChangeValueForKey:@"login"];
 	[self willChangeValueForKey:@"emailAddress"];
@@ -101,9 +100,4 @@
 	[self checkValidity];
 }
 
-@synthesize loginField;
-@synthesize pass1Field;
-@synthesize pass2Field;
-@synthesize passwordVerifier;
-@synthesize isValid;
 @end

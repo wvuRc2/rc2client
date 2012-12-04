@@ -481,21 +481,4 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	self.canExecute = [inputText length] > 0;
 }
 
-@synthesize webView=_webView;
-@synthesize delegate;
-@synthesize imagePopover;
-@synthesize consoleField;
-@synthesize canExecute;
-@synthesize ignoreExecuteMessage;
-@synthesize clearMenuItem;
-@synthesize saveAsMenuItem;
-@synthesize viewSourceMenuItem;
-@synthesize lastContent;
-@synthesize consoleVisible;
-@synthesize commandHistory;
-@synthesize historyPopUp;
-@synthesize historyHasItems;
-@synthesize restrictedMode;
-@synthesize outputQueue=_outputQueue;
-@synthesize webTmpFileDirectory=_webTmpFileDirectory;
 @end

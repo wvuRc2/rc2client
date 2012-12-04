@@ -51,7 +51,6 @@
 
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 @synthesize managedObjectModel = __managedObjectModel;
-@synthesize mainWindowController = _mainWindowController;
 
 -(void)showMainApplicationWindow
 {
@@ -470,12 +469,4 @@ LOADFILE:
 	return NSTerminateNow;
 }
 
-#pragma mark - synthesizers
-
-@synthesize loginController;
-@synthesize autosaveTimer;
-@synthesize loggedIn;
-@synthesize fileCacheWorkspacesInQueue;
-@synthesize bbedit;
-@synthesize isFullScreen;
 @end

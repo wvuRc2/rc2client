@@ -15,16 +15,6 @@
 
 @implementation PasswordVerifier
 
-@synthesize password1=_password1;
-@synthesize password2=_password2;
-@synthesize warningMessage;
-@synthesize isValid;
-@synthesize minLength;
-@synthesize maxLength;
-@synthesize validCharacterSet=_validCharacterSet;
-@synthesize invalidCharSet;
-@synthesize hasWarningMessage;
-
 -(void)verifyPasswords
 {
 	BOOL valid=YES;

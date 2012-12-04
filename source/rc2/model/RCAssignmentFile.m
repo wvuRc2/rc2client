@@ -44,8 +44,4 @@
 	return [self.properties objectForKey:@"id"];
 }
 
-@synthesize properties=_properties;
-@synthesize name=_name;
-@synthesize readonly=_readonly;
-@synthesize assignment=_assignment;
 @end

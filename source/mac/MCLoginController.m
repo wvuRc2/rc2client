@@ -106,9 +106,4 @@
 	}
 }
 						  
-@synthesize password;
-@synthesize selectedServerIdx;
-@synthesize isBusy;
-@synthesize completionHandler;
-@synthesize loginName;
 @end

@@ -210,9 +210,6 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 	}
 }
 
-@synthesize session=_session;
-@synthesize audioQueue=_audioQueue;
-@synthesize mikeOn=_mikeOn;
 @end
 
 @implementation RCAudioData
@@ -223,8 +220,6 @@ static Boolean IsQueueRunning(AudioQueueRef queue);
 	self.data = inData;
 	return self;
 }
-@synthesize seqId;
-@synthesize data;
 @end
 
 static void MyOutputCallback(void *inUserData, AudioQueueRef inAQ,AudioQueueBufferRef inCompleteAQBuffer)
