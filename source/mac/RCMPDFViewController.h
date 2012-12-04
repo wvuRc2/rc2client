@@ -7,11 +7,11 @@
 //
 
 #import <Quartz/Quartz.h>
-#import "MacClientAbstractViewController.h"
+#import "MCAbstractViewController.h"
 
 @class RCFile;
 
-@interface RCMPDFViewController : MacClientAbstractViewController
+@interface RCMPDFViewController : MCAbstractViewController
 @property (nonatomic, strong) IBOutlet PDFView *pdfView;
 
 -(void)loadPdfFile:(RCFile*)file;

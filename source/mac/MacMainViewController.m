@@ -203,7 +203,7 @@
 
 -(void)showSourceItem:(NSMutableDictionary*)dict
 {
-	MacClientAbstractViewController *controller = [dict objectForKey:@"controller"];
+	MCAbstractViewController *controller = [dict objectForKey:@"controller"];
 	if (nil == controller) {
 		Class cl = NSClassFromString([dict objectForKey:kControllerClass]);
 		controller = [[cl alloc] init];
@@ -421,7 +421,7 @@
 		__detailView = aView;
 	}
 	aView.frame = self.detailContainer.bounds;
-	self.detailController = (MacClientAbstractViewController*)aView.viewController;
+	self.detailController = (MCAbstractViewController*)aView.viewController;
 }
 
 -(RCWorkspace*)selectedWorkspace

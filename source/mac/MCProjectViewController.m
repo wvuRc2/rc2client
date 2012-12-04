@@ -1,32 +1,32 @@
 //
-//  MacProjectViewController.m
+//  MCProjectViewController.m
 //  Rc2Client
 //
 //  Created by Mark Lilback on 10/25/12.
 //  Copyright (c) 2012 West Virginia University. All rights reserved.
 //
 
-#import "MacProjectViewController.h"
+#import "MCProjectViewController.h"
 #import "Rc2Server.h"
 #import "RCProject.h"
 #import "RCWorkspace.h"
-#import "MacProjectCollectionView.h"
+#import "MCProjectCollectionView.h"
 #import "MCMainWindowController.h"
-#import "MacProjectCollectionItem.h"
+#import "MCProjectCollectionItem.h"
 
-@interface MacProjectView : AMControlledView
+@interface MCProjectView : AMControlledView
 
 @end
 
-@interface MacProjectViewController () <ProjectCollectionDelegate>
-@property (weak) IBOutlet MacProjectCollectionView *collectionView;
+@interface MCProjectViewController () <ProjectCollectionDelegate>
+@property (weak) IBOutlet MCProjectCollectionView *collectionView;
 @property (strong) IBOutlet NSArrayController *arrayController;
 @property (strong) NSMutableArray *pathCells;
 @property (weak) IBOutlet NSPathControl *pathControl;
 @property (strong) RCProject *selectedProject;
 @end
 
-@implementation MacProjectViewController
+@implementation MCProjectViewController
 
 -(id)init
 {
@@ -249,23 +249,23 @@
 		[self.arrayController addObjects:project.workspaces];
 }
 
--(void)collectionView:(MacProjectCollectionView *)cview doubleClicked:(NSEvent*)event item:(id)item
+-(void)collectionView:(MCProjectCollectionView *)cview doubleClicked:(NSEvent*)event item:(id)item
 {
 	[self openItem:item];
 }
 
--(void)collectionView:(MacProjectCollectionView*)cview deleteBackwards:(id)sender
+-(void)collectionView:(MCProjectCollectionView*)cview deleteBackwards:(id)sender
 {
 	[self removeSelectedProjects:cview];
 }
 
--(void)collectionView:(MacProjectCollectionView *)cview swipeBackwards:(NSEvent*)event
+-(void)collectionView:(MCProjectCollectionView *)cview swipeBackwards:(NSEvent*)event
 {
 	if (self.selectedProject)
 		[self displayTopLevel];
 }
 
--(void)collectionView:(MacProjectCollectionView *)cview renameItem:(MacProjectCollectionItem*)item name:(NSString*)newName
+-(void)collectionView:(MCProjectCollectionView *)cview renameItem:(MCProjectCollectionItem*)item name:(NSString*)newName
 {
 	id modelObject = item.representedObject;
 	self.busy = YES;
@@ -283,7 +283,7 @@
 
 @end
 
-@implementation MacProjectView
+@implementation MCProjectView
 
 //this skanky hack makes no sense. the call to super is not resizing this view. since we always want it to be full size,
 // we manually do it

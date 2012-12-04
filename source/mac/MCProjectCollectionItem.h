@@ -1,5 +1,5 @@
 //
-//  MacProjectCollectionItem.h
+//  MCProjectCollectionItem.h
 //  Rc2Client
 //
 //  Created by Mark Lilback on 10/25/12.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MacProjectCollectionItem : NSCollectionViewItem <NSTextFieldDelegate>
+@interface MCProjectCollectionItem : NSCollectionViewItem <NSTextFieldDelegate>
 @property (weak) IBOutlet NSTextField *itemLabel;
 
 -(void)startNameEditing;

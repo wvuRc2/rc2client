@@ -7,13 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MacClientAbstractViewController.h"
+#import "MCAbstractViewController.h"
 #import "RCSession.h"
 
 @class RCMTextView;
 @class MCSessionView;
 
-@interface MCSessionViewController : MacClientAbstractViewController<RCSessionDelegate,NSSplitViewDelegate,NSTableViewDataSource,NSTableViewDelegate>
+@interface MCSessionViewController : MCAbstractViewController<RCSessionDelegate,NSSplitViewDelegate,NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, strong) RCSession *session;
 @property (nonatomic, readonly) MCSessionView *sessionView;
 @property (nonatomic, strong) IBOutlet NSTableView *fileTableView;

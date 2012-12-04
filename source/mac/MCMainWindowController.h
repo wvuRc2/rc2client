@@ -8,13 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class MacClientAbstractViewController;
+@class MCAbstractViewController;
 @class RCWorkspace;
 @class RCFile;
 
 @interface MCMainWindowController : NSWindowController<NSWindowDelegate>
 @property (strong, nonatomic) AMMacNavController *navController;
-@property (strong, nonatomic) MacClientAbstractViewController *detailController;
+@property (strong, nonatomic) MCAbstractViewController *detailController;
 @property (strong) IBOutlet AMControlledView *detailContainer;
 @property (strong) IBOutlet NSMenu *addToolbarMenu;
 @property (strong) IBOutlet NSView *rightStatusView;

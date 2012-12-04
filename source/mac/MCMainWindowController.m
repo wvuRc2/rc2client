@@ -18,11 +18,11 @@
 #import "MCSessionViewController.h"
 #import "AppDelegate.h"
 #import "RCMacToolbarItem.h"
-#import "MacProjectViewController.h"
+#import "MCProjectViewController.h"
 
 @interface MCMainWindowController()
 @property (strong) NSMutableArray *kvoObservers;
-@property (nonatomic, strong) MacProjectViewController *projectController;
+@property (nonatomic, strong) MCProjectViewController *projectController;
 @property (nonatomic, strong) MCSessionViewController *currentSessionController;
 @end
 
@@ -44,7 +44,7 @@
 {
 	[super windowDidLoad];
 	self.window.title = [NSString stringWithFormat:@"%@ (%@)", self.window.title, [[Rc2Server sharedInstance] connectionDescription]];
-	self.projectController = [[MacProjectViewController alloc] init];
+	self.projectController = [[MCProjectViewController alloc] init];
 	self.projectController.view.frame = self.detailContainer.frame;
 	self.projectController.view.autoresizingMask = self.detailContainer.autoresizingMask;
 	NSView *contentView = self.window.contentView;
@@ -99,7 +99,7 @@
 {
 	while (self.rightStatusView.subviews.count > 0)
 		[self.rightStatusView.subviews.firstObject removeFromSuperview];
-	if ([viewController isKindOfClass:[MacClientAbstractViewController class]]) {
+	if ([viewController isKindOfClass:[MCAbstractViewController class]]) {
 		NSView *view = [(id)viewController rightStatusView];
 		if (view) {
 			view.frame = self.rightStatusView.bounds;

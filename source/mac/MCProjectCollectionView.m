@@ -1,14 +1,14 @@
 //
-//  MacProjectCollectionView.m
+//  MCProjectCollectionView.m
 //  Rc2Client
 //
 //  Created by Mark Lilback on 10/25/12.
 //  Copyright 2012 West Virginia University. All rights reserved.
 //
 
-#import "MacProjectCollectionView.h"
+#import "MCProjectCollectionView.h"
 
-@implementation MacProjectCollectionView
+@implementation MCProjectCollectionView
 
 -(IBAction)deleteBackward:(id)sender
 {

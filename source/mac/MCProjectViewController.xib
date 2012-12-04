@@ -33,7 +33,7 @@
 		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
-				<string key="NSClassName">MacProjectViewController</string>
+				<string key="NSClassName">MCProjectViewController</string>
 			</object>
 			<object class="NSCustomObject" id="1003">
 				<string key="NSClassName">FirstResponder</string>
@@ -310,10 +310,10 @@
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="803256181"/>
-				<string key="NSClassName">MacProjectView</string>
+				<string key="NSClassName">MCProjectView</string>
 			</object>
 			<object class="NSCollectionViewItem" id="232336290">
-				<string key="NSNibName">MacProjectCollectionItem</string>
+				<string key="NSNibName">MCProjectCollectionItem</string>
 			</object>
 			<object class="NSArrayController" id="810722149">
 				<bool key="NSEditable">YES</bool>
@@ -939,7 +939,7 @@
 				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="44.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="45.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="5.CustomClassName">MacProjectCollectionView</string>
+				<string key="5.CustomClassName">MCProjectCollectionView</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="59.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -958,7 +958,7 @@
 				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="74.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="75.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="8.CustomClassName">MacProjectCollectionItem</string>
+				<string key="8.CustomClassName">MCProjectCollectionItem</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
@@ -997,15 +997,15 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">MacClientAbstractViewController</string>
+					<string key="className">MCAbstractViewController</string>
 					<string key="superclassName">AMViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MacClientAbstractViewController.h</string>
+						<string key="minorKey">./Classes/MCAbstractViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">MacProjectCollectionItem</string>
+					<string key="className">MCProjectCollectionItem</string>
 					<string key="superclassName">NSCollectionViewItem</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">itemLabel</string>
@@ -1020,28 +1020,39 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MacProjectCollectionItem.h</string>
+						<string key="minorKey">./Classes/MCProjectCollectionItem.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">MacProjectCollectionView</string>
+					<string key="className">MCProjectCollectionView</string>
 					<string key="superclassName">NSCollectionView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">deleteBackward:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">deleteBackward:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">deleteBackward:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MacProjectCollectionView.h</string>
+						<string key="minorKey">./Classes/MCProjectCollectionView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">MacProjectView</string>
+					<string key="className">MCProjectView</string>
 					<string key="superclassName">AMControlledView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MacProjectView.h</string>
+						<string key="minorKey">./Classes/MCProjectView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">MacProjectViewController</string>
-					<string key="superclassName">MacClientAbstractViewController</string>
+					<string key="className">MCProjectViewController</string>
+					<string key="superclassName">MCAbstractViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="createProject:">id</string>
 						<string key="openProject:">id</string>
@@ -1073,7 +1084,7 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="arrayController">NSArrayController</string>
-						<string key="collectionView">MacProjectCollectionView</string>
+						<string key="collectionView">MCProjectCollectionView</string>
 						<string key="pathControl">NSPathControl</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -1083,7 +1094,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="collectionView">
 							<string key="name">collectionView</string>
-							<string key="candidateClassName">MacProjectCollectionView</string>
+							<string key="candidateClassName">MCProjectCollectionView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="pathControl">
 							<string key="name">pathControl</string>
@@ -1092,7 +1103,7 @@
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MacProjectViewController.h</string>
+						<string key="minorKey">./Classes/MCProjectViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

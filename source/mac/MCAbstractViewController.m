@@ -1,16 +1,14 @@
 //
-//  MacClientAbstractViewController.m
-//  MacClient
+//  MCAbstractViewController.m
+//  Rc2Client
 //
 //  Created by Mark Lilback on 10/7/11.
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
-#import "MacClientAbstractViewController.h"
+#import "MCAbstractViewController.h"
 
-@implementation MacClientAbstractViewController
-@synthesize busy;
-@synthesize statusMessage=_statusMessage;
+@implementation MCAbstractViewController
 
 -(void)setStatusMessage:(NSString *)statusMessage
 {

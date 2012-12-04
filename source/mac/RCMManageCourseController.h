@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 West Virginia University. All rights reserved.
 //
 
-#import "MacClientAbstractViewController.h"
+#import "MCAbstractViewController.h"
 
 @class RCCourse;
 
-@interface RCMManageCourseController : MacClientAbstractViewController<NSTableViewDataSource,NSTableViewDelegate>
+@interface RCMManageCourseController : MCAbstractViewController<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, strong) RCCourse *theCourse;
 @end

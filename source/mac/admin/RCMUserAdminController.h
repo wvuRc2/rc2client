@@ -6,9 +6,9 @@
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
-#import "MacClientAbstractViewController.h"
+#import "MCAbstractViewController.h"
 
-@interface RCMUserAdminController : MacClientAbstractViewController<NSTableViewDataSource,NSTableViewDelegate>
+@interface RCMUserAdminController : MCAbstractViewController<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, strong) IBOutlet NSTableView *resultsTable;
 @property (nonatomic, strong) IBOutlet NSSearchField *searchField;
 @property (nonatomic, strong) IBOutlet NSArrayController *userController;

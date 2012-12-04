@@ -1,13 +1,13 @@
 //
-//  MacProjectCollectionItem.m
+//  MCProjectCollectionItem.m
 //  Rc2Client
 //
 //  Created by Mark Lilback on 10/25/12.
 //  Copyright 2012 West Virginia University. All rights reserved.
 //
 
-#import "MacProjectCollectionItem.h"
-#import "MacProjectCollectionView.h"
+#import "MCProjectCollectionItem.h"
+#import "MCProjectCollectionView.h"
 #import "RCProject.h"
 #import "RCWorkspace.h"
 
@@ -22,11 +22,11 @@
 -(void)endEditing;
 @end
 
-@interface MacProjectCollectionItem()
+@interface MCProjectCollectionItem()
 @property BOOL canEdit;
 @end
 
-@implementation MacProjectCollectionItem
+@implementation MCProjectCollectionItem
 
 -(void)dealloc
 {
@@ -101,7 +101,7 @@
 {
 	[super setRepresentedObject:representedObject];
 	if (nil == self.itemLabel) {
-		NSString *nibName = [representedObject isKindOfClass:[RCProject class]] ? @"MacProjectCollectionItem" : @"MacProjectItemWorkspace";
+		NSString *nibName = [representedObject isKindOfClass:[RCProject class]] ? @"MCProjectCollectionItem" : @"MCProjectItemWorkspace";
 		ZAssert([[NSBundle mainBundle] loadNibNamed:nibName owner:self topLevelObjects:nil], @"failed to load nib");
 		[(AMControlledView*)self.view setViewController:self];
 	}
@@ -144,13 +144,13 @@
 
 -(void)startEditing
 {
-	MacProjectCollectionItem *citem = (MacProjectCollectionItem*)self.viewController;
+	MCProjectCollectionItem *citem = (MCProjectCollectionItem*)self.viewController;
 	if (![citem.representedObject userEditable])
 		return;
 	//start editing the name
 	[self.itemLabel setEditable:YES];
 	[self.window makeFirstResponder:self.itemLabel];
-	NSCollectionView *colView = [(MacProjectCollectionItem*)self.viewController collectionView];
+	NSCollectionView *colView = [(MCProjectCollectionItem*)self.viewController collectionView];
 	[colView setSelectionIndexes:nil];
 }
 
@@ -182,7 +182,7 @@
 -(void)mouseUp:(NSEvent *)theEvent
 {
 	if (2 == theEvent.clickCount && nil == self.itemLabel.currentEditor) {
-		id colView = [(MacProjectCollectionItem*)self.viewController collectionView];
+		id colView = [(MCProjectCollectionItem*)self.viewController collectionView];
 		id del = [colView delegate];
 		if ([del respondsToSelector:@selector(collectionView:doubleClicked:item:)]) {
 			[del collectionView:colView doubleClicked:theEvent item:self.viewController.representedObject];

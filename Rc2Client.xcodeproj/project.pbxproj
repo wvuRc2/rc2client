@@ -53,7 +53,7 @@
 		0845942915B5F22700297C9D /* syncArrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941715B5F22700297C9D /* syncArrows.png */; };
 		0845942A15B5F22700297C9D /* syncArrowsSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941815B5F22700297C9D /* syncArrowsSelected.png */; };
 		0845942B15B5F22700297C9D /* webback.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941915B5F22700297C9D /* webback.png */; };
-		0845943A15B5F29200297C9D /* MacClientAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942D15B5F29100297C9D /* MacClientAbstractViewController.m */; };
+		0845943A15B5F29200297C9D /* MCAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942D15B5F29100297C9D /* MCAbstractViewController.m */; };
 		0845943B15B5F29200297C9D /* MCLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942F15B5F29100297C9D /* MCLoginController.m */; };
 		0845943C15B5F29200297C9D /* MCLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943015B5F29100297C9D /* MCLoginController.xib */; };
 		0845943D15B5F29200297C9D /* MacMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845943215B5F29100297C9D /* MacMainViewController.m */; };
@@ -126,14 +126,14 @@
 		08B74C321635CA8700083F9A /* VariableSpreadsheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C301635CA8700083F9A /* VariableSpreadsheetController.xib */; };
 		08B74C3D1635CF4B00083F9A /* SpreadsheetScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C3C1635CF4B00083F9A /* SpreadsheetScroller.m */; };
 		08B74C411635D14800083F9A /* SpreadsheetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C401635D14800083F9A /* SpreadsheetCell.m */; };
-		08B74C451639AC0E00083F9A /* MacProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C431639AC0E00083F9A /* MacProjectViewController.m */; };
-		08B74C461639AC0E00083F9A /* MacProjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C441639AC0E00083F9A /* MacProjectViewController.xib */; };
-		08B74C491639AE6500083F9A /* MacProjectCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C481639AE6500083F9A /* MacProjectCollectionItem.m */; };
-		08B74C4B1639AEBB00083F9A /* MacProjectCollectionItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C4A1639AEBB00083F9A /* MacProjectCollectionItem.xib */; };
+		08B74C451639AC0E00083F9A /* MCProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C431639AC0E00083F9A /* MCProjectViewController.m */; };
+		08B74C461639AC0E00083F9A /* MCProjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C441639AC0E00083F9A /* MCProjectViewController.xib */; };
+		08B74C491639AE6500083F9A /* MCProjectCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C481639AE6500083F9A /* MCProjectCollectionItem.m */; };
+		08B74C4B1639AEBB00083F9A /* MCProjectCollectionItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C4A1639AEBB00083F9A /* MCProjectCollectionItem.xib */; };
 		08B74C571639D3AA00083F9A /* RCProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C561639D3A900083F9A /* RCProject.m */; };
 		08B74C581639D3AA00083F9A /* RCProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C561639D3A900083F9A /* RCProject.m */; };
-		08B74C5B1639EAB800083F9A /* MacProjectCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C5A1639EAB800083F9A /* MacProjectCollectionView.m */; };
-		08B74C5E163AE72100083F9A /* MacProjectItemWorkspace.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C5D163AE72100083F9A /* MacProjectItemWorkspace.xib */; };
+		08B74C5B1639EAB800083F9A /* MCProjectCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C5A1639EAB800083F9A /* MCProjectCollectionView.m */; };
+		08B74C5E163AE72100083F9A /* MCProjectItemWorkspace.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C5D163AE72100083F9A /* MCProjectItemWorkspace.xib */; };
 		08B74C73163B2E7D00083F9A /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C71163B2E7D00083F9A /* MainWindow.xib */; };
 		08B74C76163B31C700083F9A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C74163B31C700083F9A /* InfoPlist.strings */; };
 		08B74CB1163B31F000083F9A /* 1up.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C78163B31F000083F9A /* 1up.png */; };
@@ -523,8 +523,8 @@
 		0845941715B5F22700297C9D /* syncArrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrows.png; path = resources/mac/syncArrows.png; sourceTree = SOURCE_ROOT; };
 		0845941815B5F22700297C9D /* syncArrowsSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrowsSelected.png; path = resources/mac/syncArrowsSelected.png; sourceTree = SOURCE_ROOT; };
 		0845941915B5F22700297C9D /* webback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = webback.png; path = resources/mac/webback.png; sourceTree = SOURCE_ROOT; };
-		0845942C15B5F29100297C9D /* MacClientAbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacClientAbstractViewController.h; path = source/mac/MacClientAbstractViewController.h; sourceTree = SOURCE_ROOT; };
-		0845942D15B5F29100297C9D /* MacClientAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacClientAbstractViewController.m; path = source/mac/MacClientAbstractViewController.m; sourceTree = SOURCE_ROOT; };
+		0845942C15B5F29100297C9D /* MCAbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAbstractViewController.h; path = source/mac/MCAbstractViewController.h; sourceTree = SOURCE_ROOT; };
+		0845942D15B5F29100297C9D /* MCAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAbstractViewController.m; path = source/mac/MCAbstractViewController.m; sourceTree = SOURCE_ROOT; };
 		0845942E15B5F29100297C9D /* MCLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCLoginController.h; path = source/mac/MCLoginController.h; sourceTree = SOURCE_ROOT; };
 		0845942F15B5F29100297C9D /* MCLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCLoginController.m; path = source/mac/MCLoginController.m; sourceTree = SOURCE_ROOT; };
 		0845943015B5F29100297C9D /* MCLoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MCLoginController.xib; path = source/mac/MCLoginController.xib; sourceTree = SOURCE_ROOT; };
@@ -633,17 +633,17 @@
 		08B74C3C1635CF4B00083F9A /* SpreadsheetScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpreadsheetScroller.m; sourceTree = "<group>"; };
 		08B74C3F1635D14800083F9A /* SpreadsheetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpreadsheetCell.h; sourceTree = "<group>"; };
 		08B74C401635D14800083F9A /* SpreadsheetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpreadsheetCell.m; sourceTree = "<group>"; };
-		08B74C421639AC0E00083F9A /* MacProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacProjectViewController.h; path = source/mac/MacProjectViewController.h; sourceTree = SOURCE_ROOT; };
-		08B74C431639AC0E00083F9A /* MacProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacProjectViewController.m; path = source/mac/MacProjectViewController.m; sourceTree = SOURCE_ROOT; };
-		08B74C441639AC0E00083F9A /* MacProjectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MacProjectViewController.xib; path = source/mac/MacProjectViewController.xib; sourceTree = SOURCE_ROOT; };
-		08B74C471639AE6500083F9A /* MacProjectCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacProjectCollectionItem.h; path = source/mac/MacProjectCollectionItem.h; sourceTree = SOURCE_ROOT; };
-		08B74C481639AE6500083F9A /* MacProjectCollectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacProjectCollectionItem.m; path = source/mac/MacProjectCollectionItem.m; sourceTree = SOURCE_ROOT; };
-		08B74C4A1639AEBB00083F9A /* MacProjectCollectionItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MacProjectCollectionItem.xib; path = source/mac/MacProjectCollectionItem.xib; sourceTree = SOURCE_ROOT; };
+		08B74C421639AC0E00083F9A /* MCProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCProjectViewController.h; path = source/mac/MCProjectViewController.h; sourceTree = SOURCE_ROOT; };
+		08B74C431639AC0E00083F9A /* MCProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCProjectViewController.m; path = source/mac/MCProjectViewController.m; sourceTree = SOURCE_ROOT; };
+		08B74C441639AC0E00083F9A /* MCProjectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MCProjectViewController.xib; path = source/mac/MCProjectViewController.xib; sourceTree = SOURCE_ROOT; };
+		08B74C471639AE6500083F9A /* MCProjectCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCProjectCollectionItem.h; path = source/mac/MCProjectCollectionItem.h; sourceTree = SOURCE_ROOT; };
+		08B74C481639AE6500083F9A /* MCProjectCollectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCProjectCollectionItem.m; path = source/mac/MCProjectCollectionItem.m; sourceTree = SOURCE_ROOT; };
+		08B74C4A1639AEBB00083F9A /* MCProjectCollectionItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MCProjectCollectionItem.xib; path = source/mac/MCProjectCollectionItem.xib; sourceTree = SOURCE_ROOT; };
 		08B74C551639D3A900083F9A /* RCProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCProject.h; sourceTree = "<group>"; };
 		08B74C561639D3A900083F9A /* RCProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCProject.m; sourceTree = "<group>"; };
-		08B74C591639EAB800083F9A /* MacProjectCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacProjectCollectionView.h; sourceTree = "<group>"; };
-		08B74C5A1639EAB800083F9A /* MacProjectCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacProjectCollectionView.m; sourceTree = "<group>"; };
-		08B74C5D163AE72100083F9A /* MacProjectItemWorkspace.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MacProjectItemWorkspace.xib; sourceTree = "<group>"; };
+		08B74C591639EAB800083F9A /* MCProjectCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCProjectCollectionView.h; sourceTree = "<group>"; };
+		08B74C5A1639EAB800083F9A /* MCProjectCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCProjectCollectionView.m; sourceTree = "<group>"; };
+		08B74C5D163AE72100083F9A /* MCProjectItemWorkspace.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCProjectItemWorkspace.xib; sourceTree = "<group>"; };
 		08B74C72163B2E7D00083F9A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = resources/ios/en.lproj/MainWindow.xib; sourceTree = SOURCE_ROOT; };
 		08B74C75163B31C700083F9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		08B74C78163B31F000083F9A /* 1up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1up.png; sourceTree = "<group>"; };
@@ -1265,15 +1265,15 @@
 		08B74C5C163AE6E300083F9A /* project view */ = {
 			isa = PBXGroup;
 			children = (
-				08B74C421639AC0E00083F9A /* MacProjectViewController.h */,
-				08B74C431639AC0E00083F9A /* MacProjectViewController.m */,
-				08B74C441639AC0E00083F9A /* MacProjectViewController.xib */,
-				08B74C471639AE6500083F9A /* MacProjectCollectionItem.h */,
-				08B74C481639AE6500083F9A /* MacProjectCollectionItem.m */,
-				08B74C4A1639AEBB00083F9A /* MacProjectCollectionItem.xib */,
-				08B74C5D163AE72100083F9A /* MacProjectItemWorkspace.xib */,
-				08B74C591639EAB800083F9A /* MacProjectCollectionView.h */,
-				08B74C5A1639EAB800083F9A /* MacProjectCollectionView.m */,
+				08B74C421639AC0E00083F9A /* MCProjectViewController.h */,
+				08B74C431639AC0E00083F9A /* MCProjectViewController.m */,
+				08B74C441639AC0E00083F9A /* MCProjectViewController.xib */,
+				08B74C471639AE6500083F9A /* MCProjectCollectionItem.h */,
+				08B74C481639AE6500083F9A /* MCProjectCollectionItem.m */,
+				08B74C4A1639AEBB00083F9A /* MCProjectCollectionItem.xib */,
+				08B74C5D163AE72100083F9A /* MCProjectItemWorkspace.xib */,
+				08B74C591639EAB800083F9A /* MCProjectCollectionView.h */,
+				08B74C5A1639EAB800083F9A /* MCProjectCollectionView.m */,
 			);
 			name = "project view";
 			sourceTree = "<group>";
@@ -1924,8 +1924,8 @@
 				0845943515B5F29100297C9D /* MCMainWindowController.h */,
 				0845943615B5F29100297C9D /* MCMainWindowController.m */,
 				0845943415B5F29100297C9D /* MacMainWindow.xib */,
-				0845942C15B5F29100297C9D /* MacClientAbstractViewController.h */,
-				0845942D15B5F29100297C9D /* MacClientAbstractViewController.m */,
+				0845942C15B5F29100297C9D /* MCAbstractViewController.h */,
+				0845942D15B5F29100297C9D /* MCAbstractViewController.m */,
 				08B74C5C163AE6E300083F9A /* project view */,
 				084594A115B5F36600297C9D /* top controllers */,
 				08E49218166E7251005E83DE /* session */,
@@ -2255,9 +2255,9 @@
 				082CEEBB161E2D2600E01F48 /* files@2x.png in Resources */,
 				082CEEBC161E2D2600E01F48 /* users.png in Resources */,
 				082CEEBD161E2D2600E01F48 /* users@2x.png in Resources */,
-				08B74C461639AC0E00083F9A /* MacProjectViewController.xib in Resources */,
-				08B74C4B1639AEBB00083F9A /* MacProjectCollectionItem.xib in Resources */,
-				08B74C5E163AE72100083F9A /* MacProjectItemWorkspace.xib in Resources */,
+				08B74C461639AC0E00083F9A /* MCProjectViewController.xib in Resources */,
+				08B74C4B1639AEBB00083F9A /* MCProjectCollectionItem.xib in Resources */,
+				08B74C5E163AE72100083F9A /* MCProjectItemWorkspace.xib in Resources */,
 				08B74CF91648615800083F9A /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2547,7 +2547,7 @@
 				084593E715B5F16F00297C9D /* RCMAppConstants.m in Sources */,
 				084593FA15B5F1D700297C9D /* RCMEditUserController.m in Sources */,
 				084593FC15B5F1D700297C9D /* RCMUserAdminController.m in Sources */,
-				0845943A15B5F29200297C9D /* MacClientAbstractViewController.m in Sources */,
+				0845943A15B5F29200297C9D /* MCAbstractViewController.m in Sources */,
 				0845943B15B5F29200297C9D /* MCLoginController.m in Sources */,
 				0845943D15B5F29200297C9D /* MacMainViewController.m in Sources */,
 				0845944015B5F29200297C9D /* MCMainWindowController.m in Sources */,
@@ -2585,10 +2585,10 @@
 				084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */,
 				083AAEE9162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */,
 				08B74C2C1635C08800083F9A /* RCMatrix.m in Sources */,
-				08B74C451639AC0E00083F9A /* MacProjectViewController.m in Sources */,
-				08B74C491639AE6500083F9A /* MacProjectCollectionItem.m in Sources */,
+				08B74C451639AC0E00083F9A /* MCProjectViewController.m in Sources */,
+				08B74C491639AE6500083F9A /* MCProjectCollectionItem.m in Sources */,
 				08B74C581639D3AA00083F9A /* RCProject.m in Sources */,
-				08B74C5B1639EAB800083F9A /* MacProjectCollectionView.m in Sources */,
+				08B74C5B1639EAB800083F9A /* MCProjectCollectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

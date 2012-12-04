@@ -7,11 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MacClientAbstractViewController.h"
+#import "MCAbstractViewController.h"
 
 @class RCMImageDetailController;
 
-@interface RCMMultiImageController : MacClientAbstractViewController
+@interface RCMMultiImageController : MCAbstractViewController
 @property (nonatomic, strong) IBOutlet NSView *frame1;
 @property (nonatomic, strong) IBOutlet NSView *frame2;
 @property (nonatomic, strong) IBOutlet NSView *frame3;

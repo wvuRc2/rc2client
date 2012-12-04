@@ -7,16 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MacClientAbstractViewController.h"
+#import "MCAbstractViewController.h"
 #import "PXSourceList.h"
 
 @class RCWorkspace;
 
-@interface MacMainViewController : MacClientAbstractViewController<PXSourceListDataSource,PXSourceListDelegate,NSSplitViewDelegate>
+@interface MacMainViewController : MCAbstractViewController<PXSourceListDataSource,PXSourceListDelegate,NSSplitViewDelegate>
 @property (strong) IBOutlet PXSourceList *mainSourceList;
 @property (strong, nonatomic) IBOutlet AMControlledView *detailView;
 @property (strong, nonatomic) IBOutlet AMControlledView *detailContainer;
-@property (strong, nonatomic) MacClientAbstractViewController *detailController;
+@property (strong, nonatomic) MCAbstractViewController *detailController;
 @property (strong) IBOutlet NSMenu *wsheetContextMenu;
 @property (strong) IBOutlet NSMenu *wsheetFolderContextMenu;
 @property (strong) IBOutlet NSMenu *addMenu;

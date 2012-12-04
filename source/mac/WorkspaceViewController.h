@@ -7,13 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MacClientAbstractViewController.h"
+#import "MCAbstractViewController.h"
 #import "WorkspaceCellView.h"
 
 @class RCWorkspace;
 @class RCFile;
 
-@interface WorkspaceViewController : MacClientAbstractViewController<WorkspaceCellViewDelegate,NSTableViewDataSource,NSTableViewDelegate>
+@interface WorkspaceViewController : MCAbstractViewController<WorkspaceCellViewDelegate,NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, strong) RCWorkspace *workspace;
 @property (nonatomic, strong) IBOutlet NSTableView *sectionsTableView;
 @property (nonatomic, strong) RCFile *selectedFile;
