@@ -96,6 +96,10 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	NSArray *cks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:config.url];
 	NSDictionary *cookies = [NSHTTPCookie requestHeaderFieldsWithCookies:cks];
 	NSString *cookieHeader = [cookies objectForKey:@"Cookie"];
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060 && defined(DEBUG))
+	if ([[Rc2Server sharedInstance] isAdmin])
+		NSLog(@"ck=%@", cookieHeader);
+#endif
 	[config.headers addObject:[HandshakeHeader headerWithValue:cookieHeader forKey:@"Cookie"]];
 	[config.headers addObject:[HandshakeHeader headerWithValue:@"1" forKey:@"Rc2-API-Version"]];
 	_ws = [WebSocket webSocketWithConfig:config delegate:self];

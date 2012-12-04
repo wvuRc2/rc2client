@@ -1244,15 +1244,7 @@
 {
 	return self.data.count;
 }
-/*
--(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-	RCVariable *var = [self.session.variables objectAtIndex:row];
-	if ([tableColumn.identifier isEqualToString:@"name"])
-		return var.name;
-	return var.description;
-}
-*/
+
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	RCVariable *var = [self.data objectAtIndex:row];
