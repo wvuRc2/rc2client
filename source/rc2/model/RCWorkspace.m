@@ -138,6 +138,11 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 	return YES;
 }
 
+-(BOOL)isFetchingFiles
+{
+	return self.fetchingFiles;
+}
+
 -(NSArray*)files
 {
 	if (nil == _files && !self.fetchingFiles)

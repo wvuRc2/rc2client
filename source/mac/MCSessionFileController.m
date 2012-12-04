@@ -16,6 +16,7 @@
 
 @interface MCSessionFileController ()
 @property (nonatomic, strong) NSArray *fileArray;
+@property (nonatomic, weak) RCFile *fileToInitiallySelect;
 
 @end
 
@@ -27,12 +28,19 @@
 		self.session = aSession;
 		self.fileTableView = tableView;
 		self.delegate = aDelegate;
+		//fire faults on all file objects for efficency
+		[self.session.workspace.files valueForKey:@"name"];
+		[self updateFileArray];
 		__weak MCSessionFileController *blockSelf = self;
 		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:RCWorkspaceFilesFetchedNotification
 																					   object:nil queue:nil usingBlock:^(NSNotification *note)
 		{
 		  dispatch_async(dispatch_get_main_queue(), ^{
-			  [blockSelf.fileTableView reloadData];
+			  [blockSelf updateFileArray];
+			  if (blockSelf.fileToInitiallySelect) {
+				  [blockSelf setSelectedFile:blockSelf.fileToInitiallySelect];
+				  blockSelf.fileToInitiallySelect = nil;
+			  }
 			  if (blockSelf.fileIdJustImported) {
 				  NSUInteger idx = [blockSelf.fileArray indexOfObjectWithValue:blockSelf.fileIdJustImported usingSelector:@selector(fileId)];
 				  if (NSNotFound != idx) {
@@ -47,7 +55,6 @@
 		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 		[self.fileTableView setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleNone];
 		[self.fileTableView registerForDraggedTypes:ARRAY((id)kUTTypeFileURL)];
-		[self updateFileArray];
 	}
 	return self;
 }
@@ -61,7 +68,7 @@
 
 -(void)updateFileArray
 {
-	NSArray *sortD = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+	NSArray *sortD = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
 	NSMutableArray *srcFiles = [NSMutableArray array];
 	NSMutableArray *otherFiles = [NSMutableArray array];
 	for (RCFile *aFile in self.session.workspace.files) {
@@ -150,7 +157,7 @@
 -(void)tableViewSelectionDidChange:(NSNotification *)notification
 {
 	RCFile *file = [self.fileArray objectAtIndexNoExceptions:[self.fileTableView selectedRow]];
-	self.selectedFile = file;
+	[self privateSetSelectedFile:file];
 }
 
 -(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
@@ -173,11 +180,25 @@
 	fileTableView.dataSource = self;
 }
 
--(void)setSelectedFile:(RCFile *)selectedFile
+-(void)privateSetSelectedFile:(RCFile *)selectedFile
 {
 	RCFile *oldFile = _selectedFile;
 	_selectedFile = selectedFile;
 	[self.delegate fileSelectionChanged:selectedFile oldSelection:oldFile];
+}
+
+
+-(void)setSelectedFile:(RCFile *)selectedFile
+{
+	if (self.session.workspace.isFetchingFiles) {
+		self.fileToInitiallySelect = selectedFile;
+		return;
+	}
+	ZAssert([self.fileArray containsObject:selectedFile], @"selecting an unknown file");
+	[self privateSetSelectedFile:selectedFile];
+	//update the UI
+	NSIndexSet *iset = [NSIndexSet indexSetWithIndex:[self.fileArray indexOfObject:selectedFile]];
+	[self.fileTableView selectRowIndexes:iset byExtendingSelection:NO];
 }
 
 @end

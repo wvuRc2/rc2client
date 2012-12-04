@@ -577,6 +577,9 @@
 		if (success) {
 			[self.fileTableView reloadData];
 			self.statusMessage = [NSString stringWithFormat:@"%@ successfully saved to server", theFile.name];
+			//update display of html files
+			if (file == self.editorFile && [file.fileContentsPath.pathExtension isEqualToString:@"html"])
+				[self.outputController loadLocalFile:file];
 		} else {
 			Rc2LogWarn(@"error syncing file to server:%@", file.name);
 			self.statusMessage = [NSString stringWithFormat:@"Unknown error while saving %@ to server:%@", file.name, (NSString*)theFile];
@@ -601,6 +604,9 @@
 	} else if (selectedFile.isTextFile) {
 		self.editorFile = selectedFile;
 		[self setEditViewTextWithHighlighting:[NSMutableAttributedString attributedStringWithString:selectedFile.currentContents attributes:nil]];
+		//html files are edited and viewed
+		if ([selectedFile.fileContentsPath.pathExtension isEqualToString:@"html"])
+			[self.outputController loadLocalFile:selectedFile];
 	} else {
 		[self.outputController loadLocalFile:selectedFile];
 	}

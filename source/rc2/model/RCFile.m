@@ -207,6 +207,8 @@
 
 -(BOOL)isTextFile
 {
+	if ([self isFault])
+		[self name];
 	return self.fileType.isTextFile;
 }
 
