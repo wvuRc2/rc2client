@@ -63,15 +63,17 @@
 	__firstLogin=YES;
 	[[VyanaLogger sharedInstance] startLogging];
 	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
-	[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f4225a0ff7ed8fe53eb30f4a29a21689" companyName:@"WVU Statistics Dept" crashReportManagerDelegate:self];
-	[[BITHockeyManager sharedHockeyManager] setExceptionInterceptionEnabled:YES];
-	[[BITHockeyManager sharedHockeyManager] startManager];
 
-#ifdef DEBUG
+#if DEBUG
 	//if F-Script is available, install in menu bar
 	Class fscriptClz = NSClassFromString(@"FScriptMenuItem");
 	if (fscriptClz)
 		[[NSApp mainMenu] addItem:[[fscriptClz alloc] init]];
+	[self showMainApplicationWindow];
+#else
+	[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f4225a0ff7ed8fe53eb30f4a29a21689" companyName:@"WVU Statistics Dept" crashReportManagerDelegate:self];
+	[[BITHockeyManager sharedHockeyManager] setExceptionInterceptionEnabled:!YES];
+	[[BITHockeyManager sharedHockeyManager] startManager];
 #endif
 
 	NSString *fileCache = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
