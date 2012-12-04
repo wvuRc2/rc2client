@@ -27,6 +27,8 @@
 @property (nonatomic, strong) NSMenuItem *viewSourceMenuItem;
 @property (nonatomic, strong) NSMutableArray *commandHistory;
 @property (nonatomic, strong) NSMutableArray *outputQueue;
+@property BOOL completedInitialLoad;
+@property (nonatomic, strong) RCFile *localFileToLoadAfterInitialLoad;
 @property (nonatomic, copy) NSString *webTmpFileDirectory;
 @end
 
@@ -177,10 +179,9 @@
 		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
 		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
 	}
-	NSString *ext = @"txt";
-	if ([file.name hasSuffix:@".html"])
-		ext = @"html";
-	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:ext];
+	NSString *newPath = [self.webTmpFileDirectory stringByAppendingPathComponent:file.name];
+	if (![file.name hasSuffix:@".html"])
+		newPath = [newPath stringByAppendingPathExtension:@"txt"];
 	NSError *err=nil;
 	if ([fm fileExistsAtPath:newPath])
 		[fm removeItemAtPath:newPath error:nil];
@@ -192,11 +193,23 @@
 	} else if (![fm copyItemAtPath:file.fileContentsPath toPath:newPath error:&err]) {
 		Rc2LogError(@"error copying file:%@", err);
 	}
+	if (![fm fileExistsAtPath:newPath])
+		NSLog(@"webTmpFilePath failed to write file like it should have");
 	return newPath;
 }
 
 -(void)loadLocalFile:(RCFile*)file
 {
+	if (!self.completedInitialLoad) {
+		self.localFileToLoadAfterInitialLoad = file;
+		return;
+	}
+	if (self.webView.isLoading) {
+		RunAfterDelay(0.3, ^{
+			[self loadLocalFile:file];
+		});
+		return;
+	}
 	NSString *filePath = file.fileContentsPath;
 	if (![file.name hasSuffix:@".pdf"]) {
 		//we need to adjust the path to use
@@ -369,6 +382,16 @@
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
+	if (!self.completedInitialLoad) {
+		self.completedInitialLoad = YES;
+		if (self.localFileToLoadAfterInitialLoad) {
+			RCFile *file = self.localFileToLoadAfterInitialLoad; //capture for block
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self loadLocalFile:file];
+			});
+			self.localFileToLoadAfterInitialLoad = nil;
+		}
+	}
 	BOOL isOurContent = [[[[frame DOMDocument] documentElement] getAttribute:@"rc2"] isEqualToString:@"rc2"];
 	self.consoleVisible = isOurContent;
 	if (self.lastContent && isOurContent) {
@@ -394,6 +417,8 @@
 
 - (void)webView:(WebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
 {
+	if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled)
+		return; //don't care of canceled
 	Rc2LogWarn(@"Error loading web request:%@", error);
 }
 

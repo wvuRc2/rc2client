@@ -817,8 +817,6 @@
 {
 	if (self.fileHelper.selectedFile.fileId.intValue == file.fileId.intValue) {
 		//we need to reload the contents of the file
-		//TODO: what was this and it is necessary?
-		self.fileHelper.selectedFile = nil; //force to treat as new file, i.e. don't save current edits
 		self.fileHelper.selectedFile = file;
 	}
 }

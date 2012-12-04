@@ -194,6 +194,8 @@
 		self.fileToInitiallySelect = selectedFile;
 		return;
 	}
+	if (_selectedFile == selectedFile)
+		return; //no change
 	ZAssert([self.fileArray containsObject:selectedFile], @"selecting an unknown file");
 	[self privateSetSelectedFile:selectedFile];
 	//update the UI
