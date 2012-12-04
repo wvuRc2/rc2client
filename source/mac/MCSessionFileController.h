@@ -16,7 +16,6 @@
 @property (nonatomic, weak) id<MCSessionFileControllerDelegate> delegate;
 @property (nonatomic, strong) RCSession *session;
 @property (nonatomic, strong) NSTableView *fileTableView;
-@property (nonatomic, strong) NSArray *fileArray;
 @property (nonatomic, strong) RCFile *selectedFile;
 @property (nonatomic, strong) NSNumber *fileIdJustImported;
 

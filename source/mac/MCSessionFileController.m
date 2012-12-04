@@ -13,6 +13,11 @@
 #import "RCMSessionFileCellView.h"
 #import "MultiFileImporter.h"
 
+@interface MCSessionFileController ()
+@property (nonatomic, strong) NSArray *fileArray;
+
+@end
+
 @implementation MCSessionFileController
 
 -(id)initWithSession:(RCSession*)aSession tableView:(NSTableView*)tableView delegate:(id<MCSessionFileControllerDelegate>)aDelegate

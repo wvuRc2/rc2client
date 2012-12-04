@@ -58,8 +58,7 @@
 @property (nonatomic, strong) MCSessionFileController *fileHelper;
 @property (nonatomic, strong) NSMenu *addMenu;
 @property (nonatomic, strong) MCWebOutputController *outputController;
-//@property (nonatomic, strong) RCFile *selectedFile;
-@property (nonatomic, copy) NSString *scratchString;
+@property (nonatomic, strong) RCFile *editorFile;
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) RCMImageViewer *imageController;
 @property (nonatomic, strong) NSArray *currentImageGroup;
@@ -80,7 +79,6 @@
 		self.session = aSession;
 		self.session.delegate = self;
 		self.variableHelper = [[VariableTableHelper alloc] init];
-		self.scratchString=@"";
 		self.users = [NSArray array];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
@@ -207,7 +205,7 @@
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
 	SEL action = [item action];
-	RCFile *selFile = self.fileHelper.selectedFile;
+	RCFile *selFile = self.editorFile;
 	if (action == @selector(toggleLeftSideView:)) {
 		if ([(id)item isKindOfClass:[NSMenuItem class]]) {
 			//adjust the title
@@ -308,7 +306,7 @@
 
 -(IBAction)executeScript:(id)sender
 {
-	RCFile *selFile = self.fileHelper.selectedFile;
+	RCFile *selFile = self.editorFile;
 	if ([selFile.name hasSuffix:@".Rnw"]) {
 		[self.session executeSweave:selFile.name script:self.editView.string];
 	} else if ([selFile.name hasSuffix:@".sas"]) {
@@ -387,7 +385,7 @@
 
 -(IBAction)saveFileEdits:(id)sender
 {
-	RCFile *selFile = self.fileHelper.selectedFile;
+	RCFile *selFile = self.editorFile;
 	if (selFile.isTextFile) {
 		selFile.localEdits = self.editView.string;
 		[self syncFile:selFile];
@@ -396,7 +394,7 @@
 
 -(IBAction)revert:(id)sender
 {
-	RCFile *selFile = self.fileHelper.selectedFile;
+	RCFile *selFile = self.editorFile;
 	if (selFile.isTextFile)
 		[self setEditViewTextWithHighlighting:[NSAttributedString attributedStringWithString:selFile.fileContents attributes:nil]];
 }
@@ -442,7 +440,7 @@
 {
 	RCSavedSession *savedState = self.session.savedSessionState;
 	[self.outputController saveSessionState:savedState];
-	savedState.currentFile = self.fileHelper.selectedFile;
+	savedState.currentFile = self.editorFile;
 	if (nil == savedState.currentFile)
 		savedState.inputText = self.editView.string;
 	[savedState setBoolProperty:self.sessionView.leftViewVisible forKey:@"fileListVisible"];
@@ -558,7 +556,7 @@
 	[[Rc2Server sharedInstance] deleteFile:self.fileHelper.selectedFile workspace:self.session.workspace completionHandler:^(BOOL success, id results)
 	{
 		if (success) {
-			self.fileHelper.selectedFile = self.fileHelper.fileArray.firstObject;
+			self.fileHelper.selectedFile = nil;
 		} else
 			[NSAlert displayAlertWithTitle:@"Error" details:@"An unknown error occurred while deleting the selected file."];
 	}];
@@ -567,7 +565,7 @@
 -(void)saveChanges
 {
 	[self saveSessionState];
-	self.fileHelper.selectedFile=nil;
+//	self.fileHelper.selectedFile=nil;
 }
 
 -(void)syncFile:(RCFile*)file
@@ -600,25 +598,15 @@
 			[oldFile setLocalEdits:nil];
 		else
 			[oldFile setLocalEdits:self.editView.string];
-	} else
-		self.scratchString = self.editView.string;
-	NSInteger oldFileIdx = [self.fileHelper.fileArray indexOfObject:oldFile];
-	if (oldFileIdx == NSNotFound)
-		oldFileIdx = 0;
+	}
 	if (nil == selectedFile) {
+		self.editorFile=nil;
 		[self setEditViewTextWithHighlighting:nil];
-	} else if ([selectedFile.name hasSuffix:@".pdf"]) {
-		[(AppDelegate*)[NSApp delegate] displayPdfFile:selectedFile];
-		RunAfterDelay(0.2, ^{
-			self.fileHelper.selectedFile=nil;
-			[self.fileTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:oldFileIdx] byExtendingSelection:NO];
-			[self tableViewSelectionDidChange:nil];
-		});
 	} else if (selectedFile.isTextFile) {
-		NSString *newTxt = self.scratchString;
-		if (selectedFile)
-			newTxt = selectedFile.currentContents;
-		[self setEditViewTextWithHighlighting:[NSMutableAttributedString attributedStringWithString:newTxt attributes:nil]];
+		self.editorFile = selectedFile;
+		[self setEditViewTextWithHighlighting:[NSMutableAttributedString attributedStringWithString:selectedFile.currentContents attributes:nil]];
+	} else {
+		[self.outputController loadLocalFile:selectedFile];
 	}
 	if (self.session.isClassroomMode && !self.restrictedMode) {
 		[self.session sendFileOpened:selectedFile];
@@ -647,7 +635,7 @@
 
 -(void)setEditViewTextWithHighlighting:(NSAttributedString*)srcStr
 {
-	if (nil == srcStr || nil == self.fileHelper.selectedFile) {
+	if (nil == srcStr || nil == self.editorFile) {
 		self.editView.string = @"";
 		return;
 	}
@@ -655,10 +643,10 @@
 	if (astr == nil)
 		astr = [NSMutableAttributedString attributedStringWithString:@"" attributes:nil];
 	[astr addAttributes:self.editView.textAttributes range:NSMakeRange(0, [astr length])];
-	astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:astr ofType:self.fileHelper.selectedFile.name.pathExtension];
+	astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:astr ofType:self.editorFile.name.pathExtension];
 	if (astr)
 		[self.editView.textStorage setAttributedString:astr];
-	[self.editView setEditable: !self.restrictedMode && (self.fileHelper.selectedFile.readOnlyValue) ? NO : YES];
+	[self.editView setEditable: !self.restrictedMode && (self.editorFile.readOnlyValue) ? NO : YES];
 }
 
 // adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
@@ -1028,8 +1016,8 @@
 -(void)handleTextViewPrint:(id)sender
 {
 	NSString *job = @"Untitled";
-	if (self.fileHelper.selectedFile)
-		job = self.fileHelper.selectedFile.name;
+	if (self.editorFile)
+		job = self.editorFile.name;
 	RCMTextPrintView *printView = [[RCMTextPrintView alloc] init];
 	printView.textContent = self.editView.attributedString;
 	printView.jobName = job;
