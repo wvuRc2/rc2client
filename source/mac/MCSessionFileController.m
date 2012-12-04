@@ -10,6 +10,7 @@
 #import "RCFile.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
+#import "Rc2FileType.h"
 #import "RCMSessionFileCellView.h"
 #import "MultiFileImporter.h"
 
@@ -46,10 +47,7 @@
 		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 		[self.fileTableView setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleNone];
 		[self.fileTableView registerForDraggedTypes:ARRAY((id)kUTTypeFileURL)];
-		self.fileArray = [self.session.workspace.files sortedArrayUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES])];
-		for (RCFile *file in self.fileArray)
-			[file updateContentsFromServer];
-		[self.fileTableView reloadData];
+		[self updateFileArray];
 	}
 	return self;
 }
@@ -58,17 +56,34 @@
 
 -(void)workspaceFilesChanged:(NSNotification*)note
 {
-	self.fileArray = [self.session.workspace.files sortedArrayUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES])];
+	[self updateFileArray];
+}
+
+-(void)updateFileArray
+{
+	NSArray *sortD = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+	NSMutableArray *srcFiles = [NSMutableArray array];
+	NSMutableArray *otherFiles = [NSMutableArray array];
+	for (RCFile *aFile in self.session.workspace.files) {
+		if (aFile.fileType.isSourceFile)
+			[srcFiles addObject:aFile];
+		else
+			[otherFiles addObject:aFile];
+	}
+	if (srcFiles.count > 0) {
+		[srcFiles sortUsingDescriptors:sortD];
+		[srcFiles insertObject:@"Source Files" atIndex:0];
+	}
+	if (otherFiles.count > 0) {
+		[otherFiles sortUsingDescriptors:sortD];
+		[srcFiles addObject:@"Other Files"];
+		[srcFiles addObjectsFromArray:otherFiles];
+	}
+	self.fileArray = srcFiles;
 	[self.fileTableView reloadData];
 }
 
 #pragma mark - table view
-
--(void)tableViewSelectionDidChange:(NSNotification *)notification
-{
-	RCFile *file = [self.fileArray objectAtIndexNoExceptions:[self.fileTableView selectedRow]];
-	self.selectedFile = file;
-}
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
@@ -77,14 +92,19 @@
 
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	RCFile *file = [self.fileArray objectAtIndexNoExceptions:row];
-	RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
-	view.objectValue = file;
-	__unsafe_unretained MCSessionFileController *blockSelf = self;
-	view.syncFileBlock = ^(RCFile *theFile) {
-		[blockSelf.delegate syncFile:theFile];
-	};
-	return view;
+	id obj = [self.fileArray objectAtIndexNoExceptions:row];
+	if ([obj isKindOfClass:[RCFile class]]) {
+		RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
+		view.objectValue = obj;
+		__unsafe_unretained MCSessionFileController *blockSelf = self;
+		view.syncFileBlock = ^(RCFile *theFile) {
+			[blockSelf.delegate syncFile:theFile];
+		};
+		return view;
+	}
+	NSTableCellView *tview = [tableView makeViewWithIdentifier:@"string" owner:nil];
+	tview.textField.stringValue = obj;
+	return tview;
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
@@ -92,6 +112,8 @@
 	if (aTableView != self.fileTableView)
 		return NO;
 	RCFile *file = [self.fileArray objectAtIndex:rowIndexes.firstIndex];
+	if (![file isKindOfClass:[RCFile class]]) //don't allow dragging of section titles
+		return NO;
 	NSArray *pitems = ARRAY([NSURL fileURLWithPath:file.fileContentsPath]);
 	[pboard writeObjects:pitems];
 	return YES;
@@ -124,6 +146,22 @@
 	return YES;
 }
 
+
+-(void)tableViewSelectionDidChange:(NSNotification *)notification
+{
+	RCFile *file = [self.fileArray objectAtIndexNoExceptions:[self.fileTableView selectedRow]];
+	self.selectedFile = file;
+}
+
+-(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
+{
+	return [[self.fileArray objectAtIndex:row] isKindOfClass:[NSString class]];
+}
+
+-(BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
+{
+	return [[self.fileArray objectAtIndex:row] isKindOfClass:[RCFile class]];
+}
 
 
 #pragma mark - accessors

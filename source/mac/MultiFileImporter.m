@@ -34,6 +34,9 @@ enum {
 					   ARRAY((id)kUTTypePlainText,(id)kUTTypePDF), NSPasteboardURLReadingContentsConformToTypesKey,
 					   nil];
 	});
+	//don't allow local drags
+	if (nil != [info draggingSource])
+		return NSDragOperationNone;
 	NSArray *urls = [[info draggingPasteboard] readObjectsForClasses:ARRAY([NSURL class]) options:readOptions];
 	if ([urls count] > 0) {
 		NSArray *ftypes = [Rc2Server acceptableImportFileSuffixes];
@@ -55,7 +58,11 @@ enum {
 	//our validate method already confirmed they are acceptable file types
 	NSArray *urls = [[info draggingPasteboard] readObjectsForClasses:ARRAY([NSURL class]) options:nil];
 	//look for duplicate names
-	NSArray *existingNames = [existingFiles valueForKey:@"name"];
+	NSMutableArray *existingNames = [NSMutableArray array]; //[existingFiles valueForKey:@"name"];
+	for (id obj in existingFiles) {
+		if ([obj isKindOfClass:[RCFile class]])
+			[existingNames addObject:obj];
+	}
 	BOOL promptForAction=NO;
 	for (NSURL *url in urls) {
 		if ([existingNames containsObject:url.lastPathComponent])
