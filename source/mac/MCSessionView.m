@@ -80,7 +80,6 @@ const CGFloat kFrameWidth = 214;
 	NSPoint loc = [self convertPoint:evt.locationInWindow fromView:nil];
 	NSRect f = NSInsetRect(self.splitterView.frame, -2, 0);
 	if (NSPointInRect(loc, f)) {
-		NSLog(@"pt in rect");
 		_dragging = YES;
 		self.dragTrackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingCursorUpdate|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
 		[self addTrackingArea:self.dragTrackingArea];
@@ -93,7 +92,7 @@ const CGFloat kFrameWidth = 214;
 	if (_dragging) {
 		NSPoint loc = [self convertPoint:evt.locationInWindow fromView:nil];
 		CGFloat newWidth = loc.x - NSMinX(self.editorView.frame);
-		if (newWidth > 100) {
+		if (newWidth > 200) {
 			self.editorWidthConstraint.constant = newWidth;
 		}
 	}

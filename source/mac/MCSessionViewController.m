@@ -33,13 +33,14 @@
 #import "RCImageCache.h"
 #import "NoodleLineNumberView.h"
 #import "MCSessionView.h"
+#import "MCSessionFileController.h"
 #import "MAKVONotificationCenter.h"
 
 @interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, copy) NSArray *data;
 @end
 
-@interface MCSessionViewController() <NSPopoverDelegate> {
+@interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate> {
 	NSPoint __curImgPoint;
 	BOOL __didInit;
 	BOOL __movingFileList;
@@ -54,10 +55,10 @@
 @property (nonatomic, weak) IBOutlet NSButton *tbUsersButton;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) VariableTableHelper *variableHelper;
+@property (nonatomic, strong) MCSessionFileController *fileHelper;
 @property (nonatomic, strong) NSMenu *addMenu;
 @property (nonatomic, strong) MCWebOutputController *outputController;
-@property (nonatomic, strong) NSArray *fileArray;
-@property (nonatomic, strong) RCFile *selectedFile;
+//@property (nonatomic, strong) RCFile *selectedFile;
 @property (nonatomic, copy) NSString *scratchString;
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) RCMImageViewer *imageController;
@@ -81,20 +82,15 @@
 		self.variableHelper = [[VariableTableHelper alloc] init];
 		self.scratchString=@"";
 		self.users = [NSArray array];
-		self.fileArray = [self.session.workspace.files sortedArrayUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES])];
-		for (RCFile *file in self.fileArray)
-			[file updateContentsFromServer];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
 		[self observeTarget:aSession keyPath:@"mode" selector:@selector(modeChanged) userInfo:nil options:0];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workspaceFilesChanged:) name:RCWorkspaceFilesFetchedNotification object:self.session.workspace];
 	}
 	return self;
 }
 
 -(void)dealloc
 {
-//	[self.outputController.webView unbind:@"enabled"];
 	[self unregisterAllNotificationTokens];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -111,9 +107,9 @@
 			self.statusMessage = @"Connecting to server…";
 			[self prepareForSession];
 		}
-//		[self.outputController.webView bind:@"enabled" toObject:self withKeyPath:@"restricted" options:nil];
 		self.varTableView.dataSource = self.variableHelper;
 		self.varTableView.delegate = self.variableHelper;
+		self.fileHelper = [[MCSessionFileController alloc] initWithSession:self.session tableView:self.fileTableView delegate:self];
 		self.addMenu = [[NSMenu alloc] initWithTitle:@"Add a File"];
 		[self.addMenu setAutoenablesItems:NO];
 		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"New File…" action:@selector(createNewFile:) keyEquivalent:@""];
@@ -126,15 +122,6 @@
 		self.audioEngine = [[RCAudioChatEngine alloc] init];
 		self.audioEngine.session = self.session;
 
-//		NSImage *timg = [NSImage imageNamed:NSImageNameGoLeftTemplate];
-//		[timg setSize:NSMakeSize(16, 16)];
-//		NSImage *img = [[NSImage alloc] initWithSize:NSMakeSize(32, 32)];
-//		[img lockFocus];
-//		[timg drawInRect:NSMakeRect(8, 8, 16, 16) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-//		[img unlockFocus];
-//		[img setTemplate:YES];
-//		self.backButton.image = img;
-		
 		//line numbers
 		NoodleLineNumberView *lnv = [[NoodleLineNumberView alloc] initWithScrollView:self.editView.enclosingScrollView];
 		[self.editView.enclosingScrollView setVerticalRulerView:lnv];
@@ -147,21 +134,6 @@
 			blockSelf.selectedLeftViewIndex == 1;
 			[blockSelf adjustLeftViewButtonsToMatchState:NO];
 		}];
-		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:RCWorkspaceFilesFetchedNotification
-														  object:nil queue:nil usingBlock:^(NSNotification *note)
-		{
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[blockSelf.fileTableView reloadData];
-				if (blockSelf.fileIdJustImported) {
-					NSUInteger idx = [blockSelf.fileArray indexOfObjectWithValue:blockSelf.fileIdJustImported usingSelector:@selector(fileId)];
-					if (NSNotFound != idx) {
-						[blockSelf.fileTableView amSelectRow:idx byExtendingSelection:NO];
-					}
-					blockSelf.fileIdJustImported=nil;
-					[blockSelf tableViewSelectionDidChange:nil];
-				}
-			});
-		}]];
 		[self observeTarget:[NSApp delegate] keyPath:@"isFullScreen" options:0 block:^(MAKVONotification *notification) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				if ([notification.target isFullScreen]) {
@@ -181,9 +153,6 @@
 				[blockSelf.userTableView reloadData];
 			});
 		}];
-		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
-		[self.fileTableView setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleNone];
-		[self.fileTableView registerForDraggedTypes:ARRAY((id)kUTTypeFileURL)];
 		[self.modeLabel setHidden:YES];
 		__didInit=YES;
 	}
@@ -212,7 +181,7 @@
 	if (newSuperview != nil) {
 		if (self.session.initialFileSelection) {
 			if (self.session.initialFileSelection.isTextFile)
-				self.selectedFile = self.session.initialFileSelection;
+				self.fileHelper.selectedFile = self.session.initialFileSelection;
 			self.session.initialFileSelection = nil;
 		}
 	}
@@ -238,6 +207,7 @@
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
 	SEL action = [item action];
+	RCFile *selFile = self.fileHelper.selectedFile;
 	if (action == @selector(toggleLeftSideView:)) {
 		if ([(id)item isKindOfClass:[NSMenuItem class]]) {
 			//adjust the title
@@ -245,13 +215,13 @@
 		}
 		return YES;
 	} else if (action == @selector(exportFile:)) {
-		return self.selectedFile != nil;
+		return selFile != nil;
 	} else if (action == @selector(importFile:) || action == @selector(createNewFile:)) {
 		return self.session.hasWritePerm;
 	} else if (action == @selector(saveFileEdits:)) {
-		return self.selectedFile.isTextFile && ![self.editView.string isEqualToString:self.selectedFile.currentContents];
+		return selFile.isTextFile && ![self.editView.string isEqualToString:selFile.currentContents];
 	} else if (action == @selector(revert:)) {
-		return self.selectedFile.isTextFile && ![self.editView.string isEqualToString:self.selectedFile.fileContents];
+		return selFile.isTextFile && ![self.editView.string isEqualToString:selFile.fileContents];
 	} else if (action == @selector(toggleUsers:)) {
 		return YES;
 	} else if (action == @selector(changeMode:)) {
@@ -338,14 +308,15 @@
 
 -(IBAction)executeScript:(id)sender
 {
-	if ([self.selectedFile.name hasSuffix:@".Rnw"]) {
-		[self.session executeSweave:self.selectedFile.name script:self.editView.string];
-	} else if ([self.selectedFile.name hasSuffix:@".sas"]) {
-		[self.session executeSas:self.selectedFile];
-	} else if ([self.selectedFile.name hasSuffix:@".Rmd"]) {
-			[self.session executeSweave:self.selectedFile.name script:self.editView.string];
+	RCFile *selFile = self.fileHelper.selectedFile;
+	if ([selFile.name hasSuffix:@".Rnw"]) {
+		[self.session executeSweave:selFile.name script:self.editView.string];
+	} else if ([selFile.name hasSuffix:@".sas"]) {
+		[self.session executeSas:selFile];
+	} else if ([selFile.name hasSuffix:@".Rmd"]) {
+			[self.session executeSweave:selFile.name script:self.editView.string];
 	} else {
-		[self.session executeScript:self.editView.string scriptName:self.selectedFile.name];
+		[self.session executeScript:self.editView.string scriptName:selFile.name];
 	}
 }
 
@@ -361,13 +332,14 @@
 -(IBAction)exportFile:(id)sender
 {
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
-	[savePanel setNameFieldStringValue:self.selectedFile.name];
+	RCFile *selFile = self.fileHelper.selectedFile;
+	[savePanel setNameFieldStringValue:selFile.name];
 	[savePanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
 		NSError *err=nil;
-		if (self.selectedFile.isTextFile) {
-			[self.selectedFile.currentContents writeToURL:savePanel.URL atomically:YES encoding:NSUTF8StringEncoding error:&err];
+		if (selFile.isTextFile) {
+			[selFile.currentContents writeToURL:savePanel.URL atomically:YES encoding:NSUTF8StringEncoding error:&err];
 		} else {
-			[[NSFileManager defaultManager] copyItemAtURL:[NSURL fileURLWithPath:self.selectedFile.fileContentsPath] 
+			[[NSFileManager defaultManager] copyItemAtURL:[NSURL fileURLWithPath:selFile.fileContentsPath]
 													toURL:savePanel.URL 
 													error:&err];
 		}
@@ -392,7 +364,7 @@
 
 -(IBAction)deleteFile:(id)sender
 {
-	NSAlert *alert = [NSAlert alertWithMessageText:@"Delete File?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Are you sure you want to delete the file \"%@\"? This action can not be undone.", self.selectedFile.name];
+	NSAlert *alert = [NSAlert alertWithMessageText:@"Delete File?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Are you sure you want to delete the file \"%@\"? This action can not be undone.", self.fileHelper.selectedFile.name];
 	[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *theAlert, NSInteger rc) {
 		if (rc == NSFileHandlingPanelOKButton)
 			[self deleteSelectedFile];
@@ -415,16 +387,18 @@
 
 -(IBAction)saveFileEdits:(id)sender
 {
-	if (self.selectedFile.isTextFile) {
-		self.selectedFile.localEdits = self.editView.string;
-		[self syncFile:self.selectedFile];
+	RCFile *selFile = self.fileHelper.selectedFile;
+	if (selFile.isTextFile) {
+		selFile.localEdits = self.editView.string;
+		[self syncFile:selFile];
 	}
 }
 
 -(IBAction)revert:(id)sender
 {
-	if (self.selectedFile.isTextFile)
-		[self setEditViewTextWithHighlighting:[NSAttributedString attributedStringWithString:self.selectedFile.fileContents attributes:nil]];
+	RCFile *selFile = self.fileHelper.selectedFile;
+	if (selFile.isTextFile)
+		[self setEditViewTextWithHighlighting:[NSAttributedString attributedStringWithString:selFile.fileContents attributes:nil]];
 }
 
 -(IBAction)showImageDetails:(id)sender
@@ -468,7 +442,7 @@
 {
 	RCSavedSession *savedState = self.session.savedSessionState;
 	[self.outputController saveSessionState:savedState];
-	savedState.currentFile = self.selectedFile;
+	savedState.currentFile = self.fileHelper.selectedFile;
 	if (nil == savedState.currentFile)
 		savedState.inputText = self.editView.string;
 	[savedState setBoolProperty:self.sessionView.leftViewVisible forKey:@"fileListVisible"];
@@ -482,7 +456,7 @@
 {
 	[self.outputController restoreSessionState:savedState];
 	if (savedState.currentFile.isTextFile) {
-		self.selectedFile = savedState.currentFile;
+		self.fileHelper.selectedFile = savedState.currentFile;
 	} else if ([savedState.inputText length] > 0) {
 		self.editView.string = savedState.inputText;
 	}
@@ -533,12 +507,6 @@
 	[self.varTableView reloadData];
 }
 
--(void)workspaceFilesChanged:(NSNotification*)note
-{
-	self.fileArray = [self.session.workspace.files sortedArrayUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES])];
-	[self.fileTableView reloadData];
-}
-
 -(void)handleNewFile:(NSString*)fileName
 {
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
@@ -587,10 +555,10 @@
 
 -(void)deleteSelectedFile
 {
-	[[Rc2Server sharedInstance] deleteFile:self.selectedFile workspace:self.session.workspace completionHandler:^(BOOL success, id results)
+	[[Rc2Server sharedInstance] deleteFile:self.fileHelper.selectedFile workspace:self.session.workspace completionHandler:^(BOOL success, id results)
 	{
 		if (success) {
-			self.selectedFile = self.fileArray.firstObject;
+			self.fileHelper.selectedFile = self.fileHelper.fileArray.firstObject;
 		} else
 			[NSAlert displayAlertWithTitle:@"Error" details:@"An unknown error occurred while deleting the selected file."];
 	}];
@@ -599,7 +567,7 @@
 -(void)saveChanges
 {
 	[self saveSessionState];
-	self.selectedFile=nil;
+	self.fileHelper.selectedFile=nil;
 }
 
 -(void)syncFile:(RCFile*)file
@@ -621,6 +589,40 @@
 		}
 	}];
 	});
+}
+
+-(void)fileSelectionChanged:(RCFile*)selectedFile oldSelection:(RCFile*)oldFile
+{
+	if (oldFile) {
+		if (oldFile.readOnlyValue)
+			;
+		else if ([oldFile.fileContents isEqualToString:self.editView.string])
+			[oldFile setLocalEdits:nil];
+		else
+			[oldFile setLocalEdits:self.editView.string];
+	} else
+		self.scratchString = self.editView.string;
+	NSInteger oldFileIdx = [self.fileHelper.fileArray indexOfObject:oldFile];
+	if (oldFileIdx == NSNotFound)
+		oldFileIdx = 0;
+	if (nil == selectedFile) {
+		[self setEditViewTextWithHighlighting:nil];
+	} else if ([selectedFile.name hasSuffix:@".pdf"]) {
+		[(AppDelegate*)[NSApp delegate] displayPdfFile:selectedFile];
+		RunAfterDelay(0.2, ^{
+			self.fileHelper.selectedFile=nil;
+			[self.fileTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:oldFileIdx] byExtendingSelection:NO];
+			[self tableViewSelectionDidChange:nil];
+		});
+	} else if (selectedFile.isTextFile) {
+		NSString *newTxt = self.scratchString;
+		if (selectedFile)
+			newTxt = selectedFile.currentContents;
+		[self setEditViewTextWithHighlighting:[NSMutableAttributedString attributedStringWithString:newTxt attributes:nil]];
+	}
+	if (self.session.isClassroomMode && !self.restrictedMode) {
+		[self.session sendFileOpened:selectedFile];
+	}
 }
 
 -(void)completeSessionStartup:(id)response
@@ -645,14 +647,18 @@
 
 -(void)setEditViewTextWithHighlighting:(NSAttributedString*)srcStr
 {
+	if (nil == srcStr || nil == self.fileHelper.selectedFile) {
+		self.editView.string = @"";
+		return;
+	}
 	id astr = [srcStr mutableCopy];
 	if (astr == nil)
 		astr = [NSMutableAttributedString attributedStringWithString:@"" attributes:nil];
 	[astr addAttributes:self.editView.textAttributes range:NSMakeRange(0, [astr length])];
-	astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:astr ofType:self.selectedFile.name.pathExtension];
+	astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:astr ofType:self.fileHelper.selectedFile.name.pathExtension];
 	if (astr)
 		[self.editView.textStorage setAttributedString:astr];
-	[self.editView setEditable: self.selectedFile.readOnlyValue ? NO : YES];
+	[self.editView setEditable: !self.restrictedMode && (self.fileHelper.selectedFile.readOnlyValue) ? NO : YES];
 }
 
 // adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
@@ -817,18 +823,19 @@
 	}
 }
 
--(void)displayEditorFile:(RCFile*)file
-{
-	self.selectedFile = file;
-}
-
 -(void)workspaceFileUpdated:(RCFile*)file
 {
-	if (self.selectedFile.fileId.intValue == file.fileId.intValue) {
+	if (self.fileHelper.selectedFile.fileId.intValue == file.fileId.intValue) {
 		//we need to reload the contents of the file
-		_selectedFile = nil; //force to treat as new file, i.e. don't save current edits
-		self.selectedFile = file;
+		//TODO: what was this and it is necessary?
+		self.fileHelper.selectedFile = nil; //force to treat as new file, i.e. don't save current edits
+		self.fileHelper.selectedFile = file;
 	}
+}
+
+-(void)displayEditorFile:(RCFile*)file
+{
+	self.fileHelper.selectedFile = file;
 }
 
 -(void)variablesUpdated
@@ -968,7 +975,9 @@
 {
 	NSRange rng = self.editView.selectedRange;
 	[self setEditViewTextWithHighlighting:self.editView.attributedString];
-	[self.editView setSelectedRange:rng];
+	//when we set to nil, the range changes. should never happen unless we were editable when shouldn't have been
+	if (rng.location <= self.editView.textStorage.length)
+		[self.editView setSelectedRange:rng];
 }
 
 -(BOOL)textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector
@@ -1019,8 +1028,8 @@
 -(void)handleTextViewPrint:(id)sender
 {
 	NSString *job = @"Untitled";
-	if (self.selectedFile)
-		job = self.selectedFile.name;
+	if (self.fileHelper.selectedFile)
+		job = self.fileHelper.selectedFile.name;
 	RCMTextPrintView *printView = [[RCMTextPrintView alloc] init];
 	printView.textContent = self.editView.attributedString;
 	printView.jobName = job;
@@ -1039,18 +1048,8 @@
 
 #pragma mark - table view
 
--(void)tableViewSelectionDidChange:(NSNotification *)notification
-{
-	if ([notification object] == self.fileTableView) {
-		RCFile *file = [self.fileArray objectAtIndexNoExceptions:[self.fileTableView selectedRow]];
-		self.selectedFile = file;
-	}
-}
-
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	if (tableView == self.fileTableView)
-		return self.fileArray.count;
 	if (tableView == self.userTableView)
 		return [self.users count];
 	if (tableView == self.varTableView)
@@ -1065,16 +1064,6 @@
 		view.objectValue = [self.users objectAtIndex:row];
 		return view;
 	}
-	if (tableView == self.fileTableView) {
-		RCFile *file = [self.fileArray objectAtIndexNoExceptions:row];
-		RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
-		view.objectValue = file;
-		__unsafe_unretained MCSessionViewController *blockSelf = self;
-		view.syncFileBlock = ^(RCFile *theFile) {
-			[blockSelf syncFile:theFile];
-		};
-		return view;
-	}
 	NSTableCellView *view = [tableView makeViewWithIdentifier:@"variable" owner:nil];
 //	view.objectValue = [self.users objectAtIndex:row];
 	return view;
@@ -1085,43 +1074,6 @@
 	if (self.restrictedMode)
 		return tableView.selectedRowIndexes;
 	return proposedSelectionIndexes;
-}
-
-- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
-{
-	if (aTableView != self.fileTableView)
-		return NO;
-	RCFile *file = [self.fileArray objectAtIndex:rowIndexes.firstIndex];
-	NSArray *pitems = ARRAY([NSURL fileURLWithPath:file.fileContentsPath]);
-	[pboard writeObjects:pitems];
-	return YES;
-}
-
-- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation
-{
-	if (tableView != self.fileTableView)
-		return NO;
-	return [MultiFileImporter validateTableViewFileDrop:info];
-}
-
-- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation
-{
-	[MultiFileImporter acceptTableViewFileDrop:tableView dragInfo:info existingFiles:self.fileArray 
-							 completionHandler:^(NSArray *urls, BOOL replaceExisting)
-	 {
-		 MultiFileImporter *mfi = [[MultiFileImporter alloc] init];
-		 mfi.workspace = self.session.workspace;
-		 mfi.replaceExisting = replaceExisting;
-		 mfi.fileUrls = urls;
-		 AMProgressWindowController *pwc = [mfi prepareProgressWindowWithErrorHandler:^(MultiFileImporter *mfiRef) {
-			 [self presentError:mfiRef.lastError modalForWindow:self.view.window delegate:nil didPresentSelector:nil contextInfo:nil];
-		 }];
-		 [[NSOperationQueue mainQueue] addOperation:mfi];
-		 dispatch_async(dispatch_get_main_queue(), ^{
-			 [NSApp beginSheet:pwc.window modalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
-		 });
-	 }];
-	return YES;
 }
 
 #pragma mark - accessors
@@ -1135,42 +1087,6 @@
 		_session.delegate=nil;
 	}
 	_session = session;
-}
-
--(void)setSelectedFile:(RCFile *)selectedFile
-{
-	if (_selectedFile) {
-		if (_selectedFile.readOnlyValue)
-			;
-		else if ([_selectedFile.fileContents isEqualToString:self.editView.string])
-			[_selectedFile setLocalEdits:nil];
-		else 
-			[_selectedFile setLocalEdits:self.editView.string];
-	} else
-		self.scratchString = self.editView.string;
-	RCFile *oldFile = _selectedFile;
-	NSInteger oldFileIdx = [self.fileArray indexOfObject:oldFile];
-	if (oldFileIdx == NSNotFound)
-		oldFileIdx = 0;
-	_selectedFile = selectedFile;
-	if (nil == selectedFile) {
-		[self setEditViewTextWithHighlighting:nil];
-	} else if ([selectedFile.name hasSuffix:@".pdf"]) {
-		[(AppDelegate*)[NSApp delegate] displayPdfFile:selectedFile];
-		RunAfterDelay(0.2, ^{
-			_selectedFile=nil;
-			[self.fileTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:oldFileIdx] byExtendingSelection:NO];
-			[self tableViewSelectionDidChange:nil];
-		});
-	} else if (selectedFile.isTextFile) {
-		NSString *newTxt = self.scratchString;
-		if (selectedFile)
-			newTxt = selectedFile.currentContents;
-		[self setEditViewTextWithHighlighting:[NSMutableAttributedString attributedStringWithString:newTxt attributes:nil]];
-	}
-	if (self.session.isClassroomMode && !self.restrictedMode) {
-		[self.session sendFileOpened:selectedFile];
-	}
 }
 
 -(void)setMode:(NSString*)mode
