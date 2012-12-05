@@ -50,11 +50,11 @@
 	[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:WorkspaceItemsChangedNotification object:nil queue:nil 
 																			   usingBlock:^(NSNotification *note) 
 	{
-		wtc.workspaceItems = [[Rc2Server sharedInstance] workspaceItems];
+//		wtc.workspaceItems = [[Rc2Server sharedInstance] workspaceItems];
 	}
 	]];
-	if ([[Rc2Server sharedInstance] loggedIn])
-		wtc.workspaceItems = [Rc2Server sharedInstance].workspaceItems;
+//	if ([[Rc2Server sharedInstance] loggedIn])
+//		wtc.workspaceItems = [Rc2Server sharedInstance].workspaceItems;
 }
 
 - (void)viewDidLoad

@@ -123,12 +123,12 @@
 	__unsafe_unretained WorkspaceTableController *blockSelf=self;
 	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
 		if (1==btnIdx) {
-			RCWorkspaceFolder *parent = (RCWorkspaceFolder*)self.parentItem;
+/*			RCWorkspaceFolder *parent = (RCWorkspaceFolder*)self.parentItem;
 			[[Rc2Server sharedInstance] addWorkspace:[alert textFieldAtIndex:0].text parent:parent folder:buttonIndex==1
 								   completionHandler:^(BOOL success, id results) {
 									   [self handleAddWorkspaceResponse:success results:results];
 								   }];
-		}
+*/		}
 		blockSelf.currentAlert=nil;
 	}];
 }
@@ -137,7 +137,7 @@
 
 -(void)loginChanged:(NSNotification*)note
 {
-	self.workspaceItems = [[Rc2Server sharedInstance] workspaceItems];
+//	self.workspaceItems = [[Rc2Server sharedInstance] workspaceItems];
 }
 
 -(void)clearSelection
