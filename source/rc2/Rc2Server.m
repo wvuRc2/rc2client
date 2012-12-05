@@ -23,6 +23,7 @@
 #import "RCMessage.h"
 #import "RCProject.h"
 #import "Rc2FileType.h"
+#import "AFJSONRequestOperation.h"
 
 #define kServerHostKey @"ServerHostKey"
 
@@ -33,6 +34,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 #pragma mark -
 
 @interface Rc2Server()
+@property (nonatomic, strong, readwrite) AFHTTPClient *httpClient;
 @property (nonatomic, assign, readwrite) BOOL loggedIn;
 @property (nonatomic, copy, readwrite) NSString *currentLogin;
 @property (nonatomic, readwrite) BOOL isAdmin;
@@ -225,87 +227,48 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 -(void)createProject:(NSString*)projectName completionBlock:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@proj", [self baseUrl]]];
-	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
-	__weak ASIFormDataRequest *req = theReq;
-	NSDictionary *d = @{@"name":projectName};
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![self responseIsValidJSON:req]) {
-			hblock(NO, @"server sent back invalid response");
-			return;
-		}
-		NSDictionary *rsp = [self.jsonParser objectWithString:respStr];
+	[_httpClient postPath:@"proj" parameters:@{@"name":projectName} success:^(id op, id rsp) {
 		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
 			self.projects = [RCProject projectsForJsonArray:[rsp objectForKey:@"projects"] includeAdmin:self.isAdmin];
 			hblock(YES, [self.projects firstObjectWithValue:projectName forKey:@"name"]);
 		} else {
-			hblock(NO, respStr);
+			hblock(NO, [rsp objectForKey:@"message"]);
 		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
 	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
 }
 
 -(void)editProject:(RCProject*)project newName:(NSString*)newName completionBlock:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@proj/%@", [self baseUrl], project.projectId]];
-	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
-	__weak ASIFormDataRequest *req = theReq;
-	req.requestMethod = @"PUT";
-	NSDictionary *d = @{@"name":newName, @"id":project.projectId};
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![self responseIsValidJSON:req]) {
-			hblock(NO, @"server sent back invalid response");
-			return;
-		}
-		NSDictionary *rsp = [self.jsonParser objectWithString:respStr];
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+	NSString *path = [NSString stringWithFormat:@"proj/%@", project.projectId];
+	[_httpClient putPath:path parameters:@{@"name":newName, @"id":project.projectId} success:^(id op, id rsp) {
+		if ([[rsp objectForKey:@"status"] intValue] == 0) {
 			project.name = newName;
 			self.projects = [self.projects sortedArrayUsingDescriptors:[RCProject projectSortDescriptors]];
 			hblock(YES, project);
 		} else {
-			hblock(NO, respStr);
+			hblock(NO, [rsp objectForKey:@"message"]);
 		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
 	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
 }
 
 //will remove it from projects array before hblock called
 -(void)deleteProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@proj/%@", [self baseUrl], project.projectId]];
-	ASIHTTPRequest *theReq = [self requestWithURL:url];
-	__weak ASIHTTPRequest *req = theReq;
-	req.requestMethod = @"DELETE";
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![self responseIsValidJSON:req]) {
-			hblock(NO, @"server sent back invalid response");
-			return;
-		}
-		NSDictionary *rsp = [self.jsonParser objectWithString:respStr];
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+	NSString *path = [NSString stringWithFormat:@"proj/%@", project.projectId];
+	[_httpClient deletePath:path parameters:nil success:^(id op, id rsp) {
+		if ([[rsp objectForKey:@"status"] intValue] == 0) {
 			self.projects = [self.projects arrayByRemovingObjectAtIndex:[self.projects indexOfObject:project]];
 			hblock(YES, nil);
 		} else {
-			hblock(NO, respStr);
+			hblock(NO, [rsp objectForKey:@"message"]);
 		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
 	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
 }
 
 #pragma mark - workspaces
@@ -313,63 +276,20 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 //updates the project object, calls hblock with the new workspace
 -(void)createWorkspace:(NSString*)wspaceName inProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@proj/%@/wspace", [self baseUrl], project.projectId]];
-	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
-	__weak ASIFormDataRequest *req = theReq;
-	NSDictionary *d = @{@"name":wspaceName};
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![self responseIsValidJSON:req]) {
-			hblock(NO, @"server sent back invalid response");
-			return;
-		}
-		NSDictionary *rsp = [self.jsonParser objectWithString:respStr];
+	NSString *path = [NSString stringWithFormat:@"proj/%@/wspace", project.projectId];
+	[_httpClient postPath:path parameters:@{@"name":wspaceName} success:^(id op, id rsp) {
 		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
 			[project updateWithDictionary:[rsp objectForKey:@"project"]];
 			//we need to add the updated project to our cache of workspaces
 			hblock(YES, [project.workspaces firstObjectWithValue:[rsp objectForKey:@"wspaceId"] forKey:@"wspaceId"]);
 		} else {
-			hblock(NO, respStr);
+			hblock(NO, [rsp objectForKey:@"message"]);
 		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
 	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
 }
-/*
--(void)editWorkspace:(RCWorkspace*)wspace newName:(NSString*)newName completionBlock:(Rc2FetchCompletionHandler)hblock
-{
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@proj/%@", [self baseUrl], project.projectId]];
-	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
-	__weak ASIFormDataRequest *req = theReq;
-	req.requestMethod = @"PUT";
-	NSDictionary *d = @{@"name":newName, @"id":project.projectId};
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![self responseIsValidJSON:req]) {
-			hblock(NO, @"server sent back invalid response");
-			return;
-		}
-		NSDictionary *rsp = [self.jsonParser objectWithString:respStr];
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
-			project.name = newName;
-			self.projects = [self.projects sortedArrayUsingDescriptors:[RCProject projectSortDescriptors]];
-			hblock(YES, project);
-		} else {
-			hblock(NO, respStr);
-		}
-	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
-}
-*/
+
 -(void)renameWorkspce:(RCWorkspaceItem*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@", [self baseUrl],
@@ -928,19 +848,15 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 #pragma mark - login/logout
 
--(void)handleLoginResponse:(ASIHTTPRequest*)req forUser:(NSString*)user completionHandler:(Rc2FetchCompletionHandler)handler
+-(void)handleLoginResponse:(id)response forUser:(NSString*)user completionHandler:(Rc2FetchCompletionHandler)handler
 {
-	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-//	[respStr writeToFile:@"/tmp/rc2.lastlogin.json" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-	if (![self responseIsValidJSON:req]) {
-		handler(NO, @"server sent back invalid response");
-		return;
-	}
-	NSDictionary *rsp = [respStr JSONValue];
+	NSDictionary *rsp = [response JSONValue];
 	if ([[rsp objectForKey:@"status"] intValue] != 0) {
 		//error
 		handler(NO, [rsp objectForKey:@"message"]);
 	} else {
+		//set to use json for everything else
+		_httpClient.parameterEncoding = AFJSONParameterEncoding;
 		//success
 		self.currentLogin=user;
 		self.currentUserId = [rsp objectForKey:@"userid"];
@@ -968,23 +884,22 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 -(void)loginAsUser:(NSString*)user password:(NSString*)password completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@login", [self baseUrl]]];
-	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
-	__weak ASIFormDataRequest *req = theReq;
-	[req setTimeOutSeconds:5];
-	[req setPostValue:user forKey:@"login"];
-	[req setPostValue:password forKey:@"password"];
-	[req setCompletionBlock:^{
-		[[Rc2Server sharedInstance] handleLoginResponse:req forUser:user completionHandler:hblock];
-	}];
-	[req setFailedBlock:^{
-		Rc2LogError(@"login request failed:%@", req.error);
-		NSString *msg = [NSString stringWithFormat:@"server returned %d", req.responseStatusCode];
-		if (req.responseStatusCode == 0)
-			msg = @"Server not responding";
+	//setup our client
+	_httpClient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:self.baseUrl]];
+	[_httpClient setDefaultHeader:@"User-Agent" value:self.userAgentString];
+	[_httpClient setDefaultHeader:@"Accept" value:@"application/json"];
+	[_httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+	//perform the login
+	NSMutableURLRequest *request = [_httpClient requestWithMethod:@"POST" path:@"login" parameters:@{@"login": user, @"password": password}];
+	[request setTimeoutInterval:8];
+	AFHTTPRequestOperation *rop = [_httpClient HTTPRequestOperationWithRequest:request success:^(id op, id response) {
+		[[Rc2Server sharedInstance] handleLoginResponse:[op responseString] forUser:user completionHandler:hblock];
+	} failure:^(id op, NSError *error) {
+		Rc2LogError(@"login request failed:%@", error);
+		NSString *msg = [NSString stringWithFormat:@"server returned %@", [error localizedDescription]];
 		hblock(NO, msg);
 	}];
-	[req startAsynchronous];
+	[_httpClient enqueueHTTPRequestOperation:rop];
 }
 
 -(void)logout

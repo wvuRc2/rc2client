@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AFHTTPClient.h"
 
 @class RCWorkspace;
 @class RCWorkspaceFolder;
@@ -46,6 +47,7 @@ extern NSString * const MessagesUpdatedNotification;
 
 #pragma mark - properties
 
+@property (nonatomic, strong, readonly) AFHTTPClient *httpClient;
 @property (weak, nonatomic, readonly) NSString *userAgentString;
 @property (nonatomic, assign) NSInteger serverHost;
 @property (nonatomic, assign, readonly) BOOL loggedIn;
