@@ -562,8 +562,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 		NSURL *storeURL = [[self applicationDocumentsDirectory] 
 						   URLByAppendingPathComponent:@"Rc2.sqlite"];
 		
-		NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
-															forKey:NSMigratePersistentStoresAutomaticallyOption];
+		NSDictionary *options = [NSDictionary dictionaryWithObject:@YES forKey:NSMigratePersistentStoresAutomaticallyOption];
 		NSError *error = nil;
 	LOADFILE:
 		psc = [[NSPersistentStoreCoordinator alloc] 

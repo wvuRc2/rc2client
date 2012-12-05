@@ -357,7 +357,7 @@
 	}
 	
 	NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"Rc².storedata"];
-	NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
+	NSDictionary *options = [NSDictionary dictionaryWithObject:@YES
 														forKey:NSMigratePersistentStoresAutomaticallyOption];
 	NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
 LOADFILE:

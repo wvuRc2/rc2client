@@ -191,7 +191,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 
 -(void)forceVariableRefresh
 {
-	NSDictionary *dict = @{@"cmd":@"watchvariables", @"watch": [NSNumber numberWithBool:TRUE]};
+	NSDictionary *dict = @{@"cmd":@"watchvariables", @"watch": @YES};
 	[_ws sendText:[dict JSONRepresentation]];
 }
 

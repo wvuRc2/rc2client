@@ -149,7 +149,7 @@
 		[MBProgressHUD hideHUDForView:self.view animated:YES];
 		self.currentProgress=nil;
 		if (ok) {
-			[self.currentDownload setObject:[NSNumber numberWithBool:YES] forKey:@"imported"];
+			[self.currentDownload setObject:@YES forKey:@"imported"];
 			[wspace addFile:results];
 			[self.fileTable reloadData];
 			self.lastFileImported = results;

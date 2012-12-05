@@ -30,7 +30,7 @@ enum {
 	static NSDictionary *readOptions=nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		readOptions = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSPasteboardURLReadingFileURLsOnlyKey,
+		readOptions = [[NSDictionary alloc] initWithObjectsAndKeys:@YES, NSPasteboardURLReadingFileURLsOnlyKey,
 					   ARRAY((id)kUTTypePlainText,(id)kUTTypePDF), NSPasteboardURLReadingContentsConformToTypesKey,
 					   nil];
 	});

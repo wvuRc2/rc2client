@@ -103,7 +103,7 @@
 	if (nil == self.name)
 		self.name = @"untitled.R";
 	if (nil == self.readOnly)
-		self.readOnly = [NSNumber numberWithBool:NO];
+		self.readOnly = @NO;
 }
 
 -(void)awakeFromFetch
@@ -111,7 +111,7 @@
 	[super awakeFromFetch];
 	self.fileType = [Rc2FileType fileTypeWithExtension:self.name.pathExtension];
 	if (nil == self.readOnly)
-		self.readOnly = [NSNumber numberWithBool:NO];
+		self.readOnly = @NO;
 	if (!self.isTextFile)
 		self.localEdits=nil;
 	self.locallyModified = self.localEdits.length > 0;
