@@ -49,6 +49,7 @@
 @property (nonatomic, weak) IBOutlet NSButton *tbFilesButton;
 @property (nonatomic, weak) IBOutlet NSButton *tbVarsButton;
 @property (nonatomic, weak) IBOutlet NSButton *tbUsersButton;
+@property (nonatomic, weak) IBOutlet NSPopUpButton *fileActionPopUp;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) VariableTableHelper *variableHelper;
 @property (nonatomic, strong) MCSessionFileController *fileHelper;
@@ -104,6 +105,8 @@
 		self.varTableView.dataSource = self.variableHelper;
 		self.varTableView.delegate = self.variableHelper;
 		self.fileHelper = [[MCSessionFileController alloc] initWithSession:self.session tableView:self.fileTableView delegate:self];
+		self.fileActionPopUp.menu.delegate = self.fileHelper;
+		self.fileTableView.menu = self.fileActionPopUp.menu;
 		self.addMenu = [[NSMenu alloc] initWithTitle:@"Add a File"];
 		[self.addMenu setAutoenablesItems:NO];
 		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"New File…" action:@selector(createNewFile:) keyEquivalent:@""];
@@ -354,6 +357,16 @@
 			return;
 		[self handleFileImport:[[openPanel URLs] firstObject]];
 	}];
+}
+
+-(IBAction)renameFile:(id)sender
+{
+	
+}
+
+-(IBAction)duplicateFile:(id)sender
+{
+	
 }
 
 -(IBAction)deleteFile:(id)sender

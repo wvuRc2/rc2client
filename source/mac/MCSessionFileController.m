@@ -63,7 +63,13 @@
 
 -(void)workspaceFilesChanged:(NSNotification*)note
 {
+	[self.fileTableView amSelectRow:[self.fileTableView clickedRow] byExtendingSelection:NO];
 	[self updateFileArray];
+}
+
+-(void)menuNeedsUpdate:(NSMenu *)menu
+{
+	//we are the delegate for the contextual/action menu. Need to disable/remove any actions not permissable (such as for shared files)
 }
 
 -(void)updateFileArray
@@ -157,7 +163,9 @@
 -(void)tableViewSelectionDidChange:(NSNotification *)notification
 {
 	RCFile *file = [self.fileArray objectAtIndexNoExceptions:[self.fileTableView selectedRow]];
+	[self willChangeValueForKey:@"selectedFile"];
 	[self privateSetSelectedFile:file];
+	[self didChangeValueForKey:@"selectedFile"];
 }
 
 -(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
@@ -201,6 +209,18 @@
 	//update the UI
 	NSIndexSet *iset = [NSIndexSet indexSetWithIndex:[self.fileArray indexOfObject:selectedFile]];
 	[self.fileTableView selectRowIndexes:iset byExtendingSelection:NO];
+}
+
+@end
+
+@implementation MCSessionFileTableView
+
+-(NSMenu*)menuForEvent:(NSEvent *)event
+{
+	NSInteger row = [self rowAtPoint:[self convertPoint:event.locationInWindow fromView:nil]];
+	if (row != -1)
+		[self selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+	return [super menuForEvent:event];
 }
 
 @end

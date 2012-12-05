@@ -12,7 +12,7 @@
 @class RCFile;
 @protocol MCSessionFileControllerDelegate;
 
-@interface MCSessionFileController : NSObject<NSTableViewDataSource,NSTableViewDelegate>
+@interface MCSessionFileController : NSObject<NSTableViewDataSource,NSTableViewDelegate,NSMenuDelegate>
 @property (nonatomic, weak) id<MCSessionFileControllerDelegate> delegate;
 @property (nonatomic, strong) RCSession *session;
 @property (nonatomic, strong) NSTableView *fileTableView;
@@ -28,4 +28,7 @@
 -(void)syncFile:(RCFile*)file;
 -(void)fileSelectionChanged:(RCFile*)selectedFile oldSelection:(RCFile*)oldFile;
 
+@end
+
+@interface MCSessionFileTableView : NSTableView
 @end
