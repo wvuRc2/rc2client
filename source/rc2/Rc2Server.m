@@ -142,7 +142,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 #endif
 			return @"https://localhost:8443/";
 		case eRc2Host_Barney:
-			return @"https://barney.stat.wvu.edu:8443/";
+			return @"http://barney.stat.wvu.edu:8888/";
 		case eRc2Host_Rc2:
 		default:
 			return @"https://rc2.stat.wvu.edu:8443/";
@@ -221,6 +221,14 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 -(void)broadcastWorkspaceItemsUpdated
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:WorkspaceItemsChangedNotification object:self];
+}
+
+-(NSMutableString*)containerPath:(id<RCFileContainer>)container
+{
+	NSMutableString *path = [NSMutableString stringWithFormat:@"proj/%@", [container projectId]];
+	if ([container isKindOfClass:[RCWorkspace class]])
+		[path appendFormat:@"/wspace/%@", [(RCWorkspace*)container wspaceId]];
+	return path;
 }
 
 #pragma mark - projects
@@ -462,6 +470,209 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 #pragma mark - files
 
+-(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSString *path = [NSString stringWithFormat:@"file/%@", file.fileId];
+	NSMutableURLRequest *req = [_httpClient requestWithMethod:@"GET" path:path parameters:nil];
+	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id op, id rsp) {
+		hblock(YES, [NSString stringWithUTF8Data:rsp]);
+	} failure:^(id op, NSError *error) {
+		hblock(NO, error.localizedDescription);
+	}];
+	[_httpClient enqueueHTTPRequestOperation:op];
+}
+
+-(void)fetchBinaryFileContentsSynchronously:(RCFile*)file
+{
+	NSString *path = [NSString stringWithFormat:@"file/%@", file.fileId];
+	NSMutableURLRequest *req = [_httpClient requestWithMethod:@"GET" path:path parameters:nil];
+	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id op, id rsp) {
+	} failure:^(id op, NSError *error) {
+		Rc2LogError(@"error fetching binary file contents: %@", [error localizedDescription]);
+	}];
+	op.outputStream = [NSOutputStream outputStreamToFileAtPath:file.fileContentsPath append:NO];
+	[_httpClient enqueueHTTPRequestOperation:op];
+	[op waitUntilFinished];
+}
+
+-(NSString*)fetchFileContentsSynchronously:(RCFile*)file
+{
+	__block NSString *fetchedContents=nil;
+	NSString *path = [NSString stringWithFormat:@"file/%@", file.fileId];
+	NSMutableURLRequest *req = [_httpClient requestWithMethod:@"GET" path:path parameters:nil];
+	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id op, id rsp) {
+		fetchedContents = [NSString stringWithUTF8Data:rsp];
+	} failure:^(id op, NSError *error) {
+		Rc2LogError(@"error fetching binary file contents: %@", [error localizedDescription]);
+	}];
+	op.outputStream = [NSOutputStream outputStreamToFileAtPath:file.fileContentsPath append:NO];
+	[_httpClient enqueueHTTPRequestOperation:op];
+	[op waitUntilFinished];
+	return fetchedContents;
+}
+
+-(void)importFile:(NSURL*)fileUrl toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	
+	NSMutableString *path = [self containerPath:container];
+	[path appendString:@"/file"];
+	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"POST" path:path parameters:@{@"name":[fileUrl lastPathComponent]} constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
+	{
+		NSError *err=nil;
+		if (![fdata appendPartWithFileURL:fileUrl name:@"contents" error:&err]) {
+			Rc2LogError(@"failed to append file to upload request:%@", err);
+			hblock(NO, [err localizedDescription]);
+		}
+	}];
+	NSLog(@"headers=%@", [req allHTTPHeaderFields]);
+	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
+		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
+			NSDictionary *fdata = [rsp objectForKey:@"file"];
+			RCFile *theFile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+			[theFile updateWithDictionary:fdata];
+			[container addFile:theFile];
+			hblock(YES, theFile);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		Rc2LogError(@"error uploading file sync:%@", error);
+	}];
+	[_httpClient enqueueHTTPRequestOperation:op];
+}
+
+//synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
+-(RCFile*)importFile:(NSURL*)fileUrl fileName:(NSString*)name toContainer:(id<RCFileContainer>)container error:(NSError *__autoreleasing *)outError
+{
+//	return [self importFile:fileUrl name:name workspace:(RCWorkspace*)container error:outError];
+	__block RCFile *theFile=nil;
+	NSMutableString *path = [self containerPath:container];
+	[path appendString:@"/file"];
+	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"POST" path:path parameters:@{@"name":name} constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
+	{
+		NSError *err=nil;
+		if (![fdata appendPartWithFileURL:fileUrl name:@"content" error:&err]) {
+			Rc2LogError(@"failed to append file to upload request:%@", err);
+		}
+	}];
+	[req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+	NSLog(@"headers=%@", [req allHTTPHeaderFields]);
+	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
+		NSDictionary *fdata = [rsp objectForKey:@"file"];
+		theFile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+		[theFile updateWithDictionary:fdata];
+		[container addFile:theFile];
+	} failure:^(id op, NSError *error) {
+		Rc2LogError(@"error uploading file sync:%@", error);
+	}];
+	[_httpClient enqueueHTTPRequestOperation:op];
+	[op waitUntilFinished];
+	return theFile;
+}
+
+
+-(RCFile*)importFile:(NSURL*)fileUrl name:(NSString*)filename workspace:(RCWorkspace*)workspace error:(NSError *__autoreleasing *)outError
+{
+	ASIFormDataRequest *req = [self postRequestWithRelativeURL:[NSString stringWithFormat:@"workspace/%@/files", workspace.wspaceId]];
+	[req setPostValue:filename forKey:@"name"];
+	[req setPostValue:self.currentUserId forKey:@"userid"];
+	[req setPostValue:workspace.wspaceId forKey:@"wspaceid"];
+	[req setFile:fileUrl.path forKey:@"content"];
+	[req startSynchronous];
+	if (req.error) {
+		if (outError)
+			*outError = req.error;
+		return nil;
+	}
+	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+	NSDictionary *dict = [respStr JSONValue];
+	NSDictionary *fdata = [dict objectForKey:@"file"];
+	RCFile *rcfile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+	[rcfile updateWithDictionary:fdata];
+	[workspace addFile:rcfile];
+	return rcfile;
+}
+
+
+
+-(void)saveFile:(RCFile*)file toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSMutableString *path = [self containerPath:container];
+	NSString *method = file.existsOnServer ? @"PUT" : @"POST";
+	if (file.existsOnServer)
+		[path appendFormat:@"/file/%@", file.fileId];
+	else
+		[path appendString:@"/file"];
+	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:method path:path parameters:@{@"name":file.name}
+												 constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
+	{
+		[fdata appendPartWithFormData:[file.currentContents dataUsingEncoding:NSUTF8StringEncoding] name:@"contents"];
+	}];
+	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
+		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
+			if (file.existsOnServer) {
+				NSString *oldContents = file.localEdits;
+				[file updateWithDictionary:[rsp objectForKey:@"file"]];
+				file.fileContents = oldContents;
+				[file discardEdits];
+				hblock(YES, file);
+			} else {
+				NSDictionary *fdata = [rsp objectForKey:@"file"];
+				RCFile *rcfile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+				[rcfile updateWithDictionary:fdata];
+				hblock(YES, rcfile);
+			}
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id operation, NSError *error) {
+		hblock(NO, error.localizedDescription);
+	}];
+	[_httpClient enqueueHTTPRequestOperation:op];
+}
+
+//synchronously update the content of a file
+-(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace
+			error:(NSError *__autoreleasing *)outError
+{
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl], file.fileId]];
+	ASIFormDataRequest *req = [self postRequestWithURL:url];
+	[req setFile:contentsFileUrl.path forKey:@"content"];
+	[req startSynchronous];
+	if (req.error) {
+		if (outError)
+			*outError = req.error;
+		return NO;
+	}
+	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
+	NSDictionary *dict = [self.jsonParser objectWithString:respStr error:outError];
+	if (nil == dict)
+		return NO;
+	[file discardEdits];
+	[file updateWithDictionary:[dict objectForKey:@"file"]];
+	if (file.isTextFile)
+		file.fileContents = [NSString stringWithContentsOfURL:contentsFileUrl encoding:NSUTF8StringEncoding error:nil];
+	return YES;
+}
+
+-(void)deleteFile:(RCFile*)file container:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSMutableString *path = [self containerPath:container];
+	[path appendFormat:@"/file/%@", file.fileId];
+	[_httpClient deletePath:path parameters:nil success:^(id req, id rsp) {
+		BOOL success = [[rsp objectForKey:@"status"] intValue] == 0;
+		if (success) {
+			//TODO: tell container to refresh the file list
+			if ([container isKindOfClass:[RCWorkspace class]])
+				[(RCWorkspace*)container refreshFiles];
+		}
+		hblock(success, rsp);
+	} failure:^(id op, NSError *error) {
+		hblock(NO, error.localizedDescription);
+	}];
+}
+
+/*
 -(NSArray*)processFileListResponse:(NSArray*)inEntries
 {
 	NSMutableArray *entries = [NSMutableArray arrayWithArray:inEntries];
@@ -730,7 +941,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		file.fileContents = [NSString stringWithContentsOfURL:contentsFileUrl encoding:NSUTF8StringEncoding error:nil];
 	return YES;
 }
-
+*/
 #pragma mark - sharing
 
 -(void)updateWorkspace:(RCWorkspace*)wspace withShareArray:(NSArray*)rawShares

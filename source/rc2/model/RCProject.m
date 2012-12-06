@@ -57,12 +57,18 @@
 		NSMutableArray *a = [NSMutableArray arrayWithCapacity:wspaces.count];
 		for (NSDictionary *d in wspaces) {
 			RCWorkspace *wspace = [RCWorkspace workspaceItemWithDictionary:d];
+			wspace.project = self;
 			if (wspace)
 				[a addObject:wspace];
 		}
 		[a sortUsingSelector:@selector(compareWithItem:)];
 		self.workspaces = [a copy];
 	}
+}
+
+-(void)addFile:(RCFile *)aFile
+{
+	
 }
 
 -(BOOL)userEditable

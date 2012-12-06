@@ -133,9 +133,7 @@
 	[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
 		if (NSFileHandlingPanelCancelButton == result)
 			return;
-		[(AppDelegate*)[TheApp delegate] handleFileImport:[[openPanel URLs] firstObject] 
-												  workspace:self.workspace 
-										completionHandler:^(RCFile *file)
+		[[Rc2Server sharedInstance] importFile:[[openPanel URLs] firstObject] toContainer:self.workspace completionHandler:^(BOOL success, id file)
 		{
 			if (file) {
 				//need to refresh display??
@@ -173,7 +171,7 @@
 -(void)deleteFile:(WorkspaceCellView*)cellView
 {
 	RCFile *file = cellView.selectedObject;
-	[[Rc2Server sharedInstance] deleteFile:file workspace:self.workspace completionHandler:^(BOOL success, id results) {
+	[[Rc2Server sharedInstance] deleteFile:file container:self.workspace completionHandler:^(BOOL success, id results) {
 		if (success) 
 			[cellView reloadData];
 		else

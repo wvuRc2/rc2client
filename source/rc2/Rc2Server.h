@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AFHTTPClient.h"
+#import "RCFileContainer.h"
 
 @class RCWorkspace;
 @class RCWorkspaceFolder;
@@ -117,24 +118,35 @@ extern NSString * const MessagesUpdatedNotification;
 //results is tesponse dict from server with either workspace or error entry
 -(void)deleteWorkspce:(RCWorkspaceItem*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)renameWorkspce:(RCWorkspaceItem*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
-
+/*
 -(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
--(void)saveFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
-//synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
--(RCFile*)importFile:(NSURL*)fileUrl name:(NSString*)filename workspace:(RCWorkspace*)workspace error:(NSError *__autoreleasing *)outError;
 //synchronously update the content of a file
 -(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace  
 			error:(NSError *__autoreleasing *)outError;
 
 -(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
--(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)fetchBinaryFileContents:(RCFile*)file toPath:(NSString*)destPath progress:(id)progressView
 			 completionHandler:(Rc2FetchCompletionHandler)hblock;
+*/
+
+
+-(void)importFile:(NSURL*)fileUrl toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock;
+//synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
+-(RCFile*)importFile:(NSURL*)fileUrl fileName:(NSString*)name toContainer:(id<RCFileContainer>)dest error:(NSError *__autoreleasing *)outError;
+
+-(void)deleteFile:(RCFile*)file container:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock;
+
+-(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(NSString*)fetchFileContentsSynchronously:(RCFile*)file;
 -(void)fetchBinaryFileContentsSynchronously:(RCFile*)file;
+
+-(void)saveFile:(RCFile*)file toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock;
+//synchronously update the content of a file
+-(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace
+			error:(NSError *__autoreleasing *)outError;
 
 #pragma mark - preperation
 

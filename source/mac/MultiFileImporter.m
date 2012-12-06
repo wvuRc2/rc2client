@@ -151,7 +151,7 @@ enum {
 		if (![[Rc2Server sharedInstance] updateFile:existingFile withContents:fileUrl workspace:self.workspace error:&err])
 			self.lastError = err;
 	} else {
-		[[Rc2Server sharedInstance] importFile:fileUrl name:destFileName workspace:self.workspace error:&err];
+		[[Rc2Server sharedInstance] importFile:fileUrl fileName:destFileName toContainer:self.workspace error:&err];
 		if (err)
 			self.lastError = err;
 	}

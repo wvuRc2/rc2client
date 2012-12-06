@@ -27,8 +27,6 @@
 -(void)displayPdfFile:(RCFile*)file;
 -(void)popCurrentViewController;
 
--(void)handleFileImport:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(BasicBlock1Arg)handler;
-
 -(IBAction)doLogOut:(id)sender;
 
 - (IBAction)saveAction:(id)sender;

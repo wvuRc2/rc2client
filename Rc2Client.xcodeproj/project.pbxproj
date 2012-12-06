@@ -658,6 +658,7 @@
 		084594CF15B5F71500297C9D /* turnedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "turnedin@2x.png"; path = "resources/sharedImages/turnedin@2x.png"; sourceTree = SOURCE_ROOT; };
 		084D39B51627300F00B8A06B /* RCDataFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDataFrame.h; sourceTree = "<group>"; };
 		084D39B61627300F00B8A06B /* RCDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDataFrame.m; sourceTree = "<group>"; };
+		086CC4B5167122C7004356F6 /* RCFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFileContainer.h; sourceTree = "<group>"; };
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBE15DD500D00EF28F1 /* Rnw.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rnw.icns; path = resources/mac/Rnw.icns; sourceTree = SOURCE_ROOT; };
@@ -1950,6 +1951,7 @@
 				08D245BF15B5DBB70064A9FA /* RCWorkspaceItem.m */,
 				08D245C015B5DBB70064A9FA /* RCWorkspaceShare.h */,
 				08D245C115B5DBB70064A9FA /* RCWorkspaceShare.m */,
+				086CC4B5167122C7004356F6 /* RCFileContainer.h */,
 			);
 			path = model;
 			sourceTree = "<group>";

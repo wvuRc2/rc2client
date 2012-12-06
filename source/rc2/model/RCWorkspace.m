@@ -9,6 +9,7 @@
 #import "RCWorkspace.h"
 #import "Rc2Server.h"
 #import "RCFile.h"
+#import "RCProject.h"
 #import "RCWorkspaceShare.h"
 #import "RCWorkspaceCache.h"
 #import "ASIFormDataRequest.h"
@@ -68,6 +69,8 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 
 -(void)refreshFilesPerformingBlockBeforeNotification:(BasicBlock)block
 {
+	//!FILECHANGE!
+	/*
 	self.fetchingFiles=YES;
 	[[Rc2Server sharedInstance] fetchFileList:self completionHandler:^(BOOL success, id results) {
 		if (success && [results isKindOfClass:[NSArray class]]) {
@@ -81,7 +84,7 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 			[[NSNotificationCenter defaultCenter] postNotificationName:RCWorkspaceFilesFetchedNotification object:self];
 		}
 		self.fetchingFiles=NO;
-	}];
+	}]; */
 }
 
 -(void)refreshShares
@@ -189,6 +192,11 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 {
 	//TODO: really implement
 	return YES;
+}
+
+-(NSNumber*)projectId
+{
+	return self.project.projectId;
 }
 
 @end

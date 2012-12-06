@@ -170,18 +170,6 @@
 
 #pragma mark - meat & potatoes
 
--(void)handleFileImport:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(BasicBlock1Arg)handler
-{
-	[[Rc2Server sharedInstance] importFile:fileUrl workspace:wspace completionHandler:^(BOOL success, RCFile *file)
-	 {
-		 if (success) {
-			 handler(file);
-		 } else {
-			 handler(nil);
-		 }
-	 }];
-}
-
 -(void)updateFileCache:(NSNotification*)note
 {
 	RCWorkspace *wspace = [note object];

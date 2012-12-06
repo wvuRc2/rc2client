@@ -524,7 +524,7 @@
 	[wspace addFile:file];
 	self.statusMessage = [NSString stringWithFormat:@"Sending %@ to server…", file.name];
 	self.busy=YES;
-	[[Rc2Server sharedInstance] saveFile:file workspace:wspace completionHandler:^(BOOL success, RCFile *newFile) {
+	[[Rc2Server sharedInstance] saveFile:file toContainer:wspace completionHandler:^(BOOL success, RCFile *newFile) {
 		self.busy=NO;
 		if (success) {
 			self.fileIdJustImported = newFile.fileId;
@@ -540,11 +540,8 @@
 
 -(void)handleFileImport:(NSURL*)fileUrl
 {
-	[(AppDelegate*)[TheApp delegate] handleFileImport:fileUrl
-											workspace:self.session.workspace 
-									completionHandler:^(RCFile *file)
-	 {
-		if (file) {
+	[[Rc2Server sharedInstance] importFile:fileUrl toContainer:self.session.workspace completionHandler:^(BOOL success, RCFile *file) {
+		if (success) {
 			self.fileIdJustImported = file.fileId;
 			[self.session.workspace refreshFilesPerformingBlockBeforeNotification:^{
 				if (file.isTextFile) {
@@ -562,7 +559,7 @@
 
 -(void)deleteSelectedFile
 {
-	[[Rc2Server sharedInstance] deleteFile:self.fileHelper.selectedFile workspace:self.session.workspace completionHandler:^(BOOL success, id results)
+	[[Rc2Server sharedInstance] deleteFile:self.fileHelper.selectedFile container:self.session.workspace completionHandler:^(BOOL success, id results)
 	{
 		if (success) {
 			self.fileHelper.selectedFile = nil;
@@ -585,7 +582,7 @@
 	int64_t delayInSeconds = 2.0;
 	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
 	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-	[[Rc2Server sharedInstance] saveFile:file workspace:self.session.workspace completionHandler:^(BOOL success, RCFile *theFile) {
+	[[Rc2Server sharedInstance] saveFile:file toContainer:self.session.workspace completionHandler:^(BOOL success, RCFile *theFile) {
 		self.busy=NO;
 		if (success) {
 			[self.fileTableView reloadData];

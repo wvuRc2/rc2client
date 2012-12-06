@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RCFileContainer.h"
 
-@interface RCProject : NSObject
+@interface RCProject : NSObject<RCFileContainer>
 
 @property (nonatomic, strong) NSNumber *projectId;
 @property (nonatomic, copy) NSString *name;
