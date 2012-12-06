@@ -142,7 +142,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 #endif
 			return @"https://localhost:8443/";
 		case eRc2Host_Barney:
-			return @"http://barney.stat.wvu.edu:8888/";
+			return @"https://barney.stat.wvu.edu:8443/";
 		case eRc2Host_Rc2:
 		default:
 			return @"https://rc2.stat.wvu.edu:8443/";
