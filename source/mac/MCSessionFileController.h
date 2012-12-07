@@ -21,6 +21,8 @@
 
 -(id)initWithSession:(RCSession*)aSession tableView:(NSTableView*)tableView delegate:(id<MCSessionFileControllerDelegate>)aDelegate;
 
+-(void)updateFileArray;
+
 @end
 
 @protocol MCSessionFileControllerDelegate <NSObject>

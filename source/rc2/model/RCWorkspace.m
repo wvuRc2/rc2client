@@ -146,6 +146,11 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:RCFileContainerChangedNotification object:self];
 }
 
+-(void)removeFile:(RCFile*)aFile
+{
+	//TODO: implement
+}
+
 -(NSString*)fileCachePath
 {
 	static dispatch_once_t onceToken;

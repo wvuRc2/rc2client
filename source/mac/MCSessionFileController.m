@@ -166,6 +166,8 @@
 -(void)tableViewSelectionDidChange:(NSNotification *)notification
 {
 	RCFile *file = [self.fileArray objectAtIndexNoExceptions:[self.fileTableView selectedRow]];
+	if (![file isKindOfClass:[RCFile class]])
+		file=nil;
 	[self willChangeValueForKey:@"selectedFile"];
 	[self privateSetSelectedFile:file];
 	[self didChangeValueForKey:@"selectedFile"];
@@ -207,10 +209,14 @@
 	}
 	if (_selectedFile == selectedFile)
 		return; //no change
-	ZAssert([self.fileArray containsObject:selectedFile], @"selecting an unknown file");
+	if (![self.fileArray containsObject:selectedFile])
+		selectedFile = nil;
 	[self privateSetSelectedFile:selectedFile];
 	//update the UI
-	NSIndexSet *iset = [NSIndexSet indexSetWithIndex:[self.fileArray indexOfObject:selectedFile]];
+	NSIndexSet *iset=nil;
+	NSInteger idx = [self.fileArray indexOfObject:selectedFile];
+	if (idx != NSNotFound)
+		iset = [NSIndexSet indexSetWithIndex:idx];
 	[self.fileTableView selectRowIndexes:iset byExtendingSelection:NO];
 }
 

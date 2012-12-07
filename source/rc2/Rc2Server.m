@@ -630,9 +630,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	[_httpClient deletePath:path parameters:nil success:^(id req, id rsp) {
 		BOOL success = [[rsp objectForKey:@"status"] intValue] == 0;
 		if (success) {
-			//TODO: tell container to refresh the file list
-			if ([container isKindOfClass:[RCWorkspace class]])
-				[(RCWorkspace*)container refreshFiles];
+			[container removeFile:file];
 		}
 		hblock(success, rsp);
 	} failure:^(id op, NSError *error) {

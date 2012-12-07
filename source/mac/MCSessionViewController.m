@@ -566,6 +566,7 @@
 	{
 		if (success) {
 			self.fileHelper.selectedFile = nil;
+			[self.fileHelper updateFileArray];
 		} else
 			[NSAlert displayAlertWithTitle:@"Error" details:@"An unknown error occurred while deleting the selected file."];
 	}];

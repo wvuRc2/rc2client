@@ -21,4 +21,6 @@ extern NSString * const RCFileContainerChangedNotification;
 
 //only to be called by Rc2Server when server notifies or after an import/create
 -(void)addFile:(RCFile*)aFile;
+//only to be called by Rc2Server when a file has been deleted
+-(void)removeFile:(RCFile*)aFile;
 @end
