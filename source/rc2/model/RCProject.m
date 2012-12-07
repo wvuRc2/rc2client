@@ -9,6 +9,7 @@
 #import "RCProject.h"
 #import "RCWorkspace.h"
 #import "Rc2Server.h"
+#import "RCFile.h"
 
 //declared in RCFileContainer.h
 NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNotification";
@@ -48,6 +49,10 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 	if ((self = [super init])) {
 		self.projectId = [dict objectForKey:@"id"];
 		[self updateWithDictionary:dict];
+		//this needs to run after init has returned so we'll have had our project set
+		dispatch_async(dispatch_get_main_queue(), ^{
+			self.files = [RCFile filesFromJsonArray:[dict objectForKey:@"files"] container:self];
+		});
 	}
 	return self;
 }
@@ -73,7 +78,12 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 
 -(void)addFile:(RCFile *)aFile
 {
-	
+	if ([_files containsObject:aFile])
+		return;
+	if (nil == _files)
+		self.files = [NSArray arrayWithObject:aFile];
+	else
+		self.files = [_files arrayByAddingObject:aFile];
 }
 
 -(NSString*)fileCachePath

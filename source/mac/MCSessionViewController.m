@@ -14,6 +14,7 @@
 #import "Rc2Server.h"
 #import "RCMacToolbarItem.h"
 #import "RCWorkspace.h"
+#import "RCProject.h"
 #import "RCFile.h"
 #import "RCImage.h"
 #import "RCSessionUser.h"
@@ -50,6 +51,7 @@
 @property (nonatomic, weak) IBOutlet NSButton *tbVarsButton;
 @property (nonatomic, weak) IBOutlet NSButton *tbUsersButton;
 @property (nonatomic, weak) IBOutlet NSPopUpButton *fileActionPopUp;
+@property (nonatomic, strong) IBOutlet NSView *importAccessoryView;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) VariableTableHelper *variableHelper;
 @property (nonatomic, strong) MCSessionFileController *fileHelper;
@@ -64,6 +66,7 @@
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) NSString *webTmpFileDirectory;
 @property (nonatomic, strong) NSWindow *blockingWindow;
+@property BOOL importToProject;
 @end
 
 @implementation MCSessionViewController
@@ -350,6 +353,8 @@
 -(IBAction)importFile:(id)sender
 {
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	self.importToProject = NO;
+	openPanel.accessoryView = self.importAccessoryView;
 	[openPanel setAllowedFileTypes:[Rc2Server acceptableImportFileSuffixes]];
 	[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
 		[openPanel orderOut:nil];
@@ -540,7 +545,10 @@
 
 -(void)handleFileImport:(NSURL*)fileUrl
 {
-	[[Rc2Server sharedInstance] importFile:fileUrl toContainer:self.session.workspace completionHandler:^(BOOL success, RCFile *file) {
+	id<RCFileContainer> container = self.session.workspace;
+	if (self.importToProject)
+		container = self.session.workspace.project;
+	[[Rc2Server sharedInstance] importFile:fileUrl toContainer:container completionHandler:^(BOOL success, RCFile *file) {
 		if (success) {
 			self.fileIdJustImported = file.fileId;
 			[self.fileTableView reloadData];

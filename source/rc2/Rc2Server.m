@@ -513,12 +513,12 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"POST" path:path parameters:@{@"name":[fileUrl lastPathComponent]} constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
 	{
 		NSError *err=nil;
-		if (![fdata appendPartWithFileURL:fileUrl name:@"contents" error:&err]) {
+		if (![fdata appendPartWithFileURL:fileUrl name:@"content" error:&err]) {
 			Rc2LogError(@"failed to append file to upload request:%@", err);
 			hblock(NO, [err localizedDescription]);
 		}
 	}];
-	NSLog(@"headers=%@", [req allHTTPHeaderFields]);
+	[req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
 		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
 			NSDictionary *fdata = [rsp objectForKey:@"file"];
@@ -527,6 +527,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 			[container addFile:theFile];
 			hblock(YES, theFile);
 		} else {
+			Rc2LogWarn(@"status != 0 for file import:%@", [rsp objectForKey:@"message"]);
 			hblock(NO, [rsp objectForKey:@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
