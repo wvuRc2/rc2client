@@ -9,6 +9,7 @@
 #import "MCSessionFileController.h"
 #import "RCFile.h"
 #import "RCSession.h"
+#import "RCProject.h"
 #import "RCWorkspace.h"
 #import "Rc2FileType.h"
 #import "RCMSessionFileCellView.h"
@@ -71,6 +72,7 @@
 {
 	NSArray *sortD = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
 	NSMutableArray *srcFiles = [NSMutableArray array];
+	NSMutableArray *sharedFiles = [NSMutableArray array];
 	NSMutableArray *otherFiles = [NSMutableArray array];
 	for (RCFile *aFile in self.session.workspace.files) {
 		if (aFile.fileType.isSourceFile)
@@ -78,9 +80,15 @@
 		else
 			[otherFiles addObject:aFile];
 	}
+	[sharedFiles addObjectsFromArray:self.session.workspace.project.files];
 	if (srcFiles.count > 0) {
 		[srcFiles sortUsingDescriptors:sortD];
 		[srcFiles insertObject:@"Source Files" atIndex:0];
+	}
+	if (sharedFiles.count > 0) {
+		[sharedFiles sortUsingDescriptors:sortD];
+		[srcFiles addObject:@"Shared Files"];
+		[srcFiles addObjectsFromArray:sharedFiles];
 	}
 	if (otherFiles.count > 0) {
 		[otherFiles sortUsingDescriptors:sortD];
