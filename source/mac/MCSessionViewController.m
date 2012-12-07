@@ -543,11 +543,6 @@
 	[[Rc2Server sharedInstance] importFile:fileUrl toContainer:self.session.workspace completionHandler:^(BOOL success, RCFile *file) {
 		if (success) {
 			self.fileIdJustImported = file.fileId;
-			[self.session.workspace refreshFilesPerformingBlockBeforeNotification:^{
-				if (file.isTextFile) {
-					file.fileContents = [NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:nil];
-				}
-			}];
 			[self.fileTableView reloadData];
 		} else {
 			dispatch_async(dispatch_get_main_queue(), ^{

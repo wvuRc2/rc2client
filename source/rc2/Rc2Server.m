@@ -8,9 +8,7 @@
 
 #import "Rc2Server.h"
 #import "ASIFormDataRequest.h"
-#import "RCWorkspaceFolder.h"
 #import "RCWorkspace.h"
-#import "RCWorkspaceShare.h"
 #import "RCFile.h"
 #import "RCCourse.h"
 #import "RCAssignment.h"
@@ -298,7 +296,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	}];
 }
 
--(void)renameWorkspce:(RCWorkspaceItem*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(void)renameWorkspce:(RCWorkspace*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
 {
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@", [self baseUrl],
 									   wspace.wspaceId]];
@@ -329,7 +327,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	[req startAsynchronous];
 }
 
--(void)deleteWorkspce:(RCWorkspaceItem*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
+-(void)deleteWorkspce:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 /*	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@", [self baseUrl],
 									   wspace.wspaceId]];
@@ -486,29 +484,25 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 {
 	NSString *path = [NSString stringWithFormat:@"file/%@", file.fileId];
 	NSMutableURLRequest *req = [_httpClient requestWithMethod:@"GET" path:path parameters:nil];
-	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id op, id rsp) {
-	} failure:^(id op, NSError *error) {
-		Rc2LogError(@"error fetching binary file contents: %@", [error localizedDescription]);
-	}];
-	op.outputStream = [NSOutputStream outputStreamToFileAtPath:file.fileContentsPath append:NO];
-	[_httpClient enqueueHTTPRequestOperation:op];
-	[op waitUntilFinished];
+	NSError *err=nil;
+	NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:&err];
+	if (err)
+		Rc2LogError(@"error fetching sync file data (%@): %@", file.fileId, err);
+	if (data) {
+		[data writeToFile:file.fileContentsPath atomically:YES];
+	}
 }
 
 -(NSString*)fetchFileContentsSynchronously:(RCFile*)file
 {
-	__block NSString *fetchedContents=nil;
 	NSString *path = [NSString stringWithFormat:@"file/%@", file.fileId];
 	NSMutableURLRequest *req = [_httpClient requestWithMethod:@"GET" path:path parameters:nil];
-	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id op, id rsp) {
-		fetchedContents = [NSString stringWithUTF8Data:rsp];
-	} failure:^(id op, NSError *error) {
-		Rc2LogError(@"error fetching binary file contents: %@", [error localizedDescription]);
-	}];
-	op.outputStream = [NSOutputStream outputStreamToFileAtPath:file.fileContentsPath append:NO];
-	[_httpClient enqueueHTTPRequestOperation:op];
-	[op waitUntilFinished];
-	return fetchedContents;
+	//AFNetworking doesn't support synchronous operations, so we use NSURLConnection once we have the request
+	NSError *err=nil;
+	NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:&err];
+	if (err)
+		Rc2LogError(@"error fetching sync file data (%@): %@", file.fileId, err);
+	return [NSString stringWithUTF8Data:data];
 }
 
 -(void)importFile:(NSURL*)fileUrl toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock
@@ -544,7 +538,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 //synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
 -(RCFile*)importFile:(NSURL*)fileUrl fileName:(NSString*)name toContainer:(id<RCFileContainer>)container error:(NSError *__autoreleasing *)outError
 {
-//	return [self importFile:fileUrl name:name workspace:(RCWorkspace*)container error:outError];
 	__block RCFile *theFile=nil;
 	NSMutableString *path = [self containerPath:container];
 	[path appendString:@"/file"];
@@ -556,7 +549,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		}
 	}];
 	[req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-	NSLog(@"headers=%@", [req allHTTPHeaderFields]);
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
 		NSDictionary *fdata = [rsp objectForKey:@"file"];
 		theFile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
@@ -569,31 +561,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	[op waitUntilFinished];
 	return theFile;
 }
-
-
--(RCFile*)importFile:(NSURL*)fileUrl name:(NSString*)filename workspace:(RCWorkspace*)workspace error:(NSError *__autoreleasing *)outError
-{
-	ASIFormDataRequest *req = [self postRequestWithRelativeURL:[NSString stringWithFormat:@"workspace/%@/files", workspace.wspaceId]];
-	[req setPostValue:filename forKey:@"name"];
-	[req setPostValue:self.currentUserId forKey:@"userid"];
-	[req setPostValue:workspace.wspaceId forKey:@"wspaceid"];
-	[req setFile:fileUrl.path forKey:@"content"];
-	[req startSynchronous];
-	if (req.error) {
-		if (outError)
-			*outError = req.error;
-		return nil;
-	}
-	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-	NSDictionary *dict = [respStr JSONValue];
-	NSDictionary *fdata = [dict objectForKey:@"file"];
-	RCFile *rcfile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
-	[rcfile updateWithDictionary:fdata];
-	[workspace addFile:rcfile];
-	return rcfile;
-}
-
-
 
 -(void)saveFile:(RCFile*)file toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock
 {
@@ -942,44 +909,9 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	return YES;
 }
 */
+
 #pragma mark - sharing
 
--(void)updateWorkspace:(RCWorkspace*)wspace withShareArray:(NSArray*)rawShares
-{
-	//TODO: should this be merged instead of nuking all existing objects?
-	[wspace.shares removeAllObjects];
-	for (NSDictionary *dict in rawShares) {
-		RCWorkspaceShare *share = [[RCWorkspaceShare alloc] initWithDictionary:dict workspace:wspace];
-		[wspace.shares addObject:share];
-	}
-}
-
-//++COPIED++
--(void)fetchWorkspaceShares:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
-{
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@/share", [self baseUrl],
-									   wspace.wspaceId]];
-	ASIHTTPRequest *theReq = [self requestWithURL:url];
-	__weak ASIHTTPRequest *req = theReq;
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![self responseIsValidJSON:req]) {
-			hblock(NO, @"server sent back invalid response");
-			return;
-		}
-		NSDictionary *rsp = [respStr JSONValue];
-		[wspace.shares removeAllObjects];
-		for (NSDictionary *dict in [rsp objectForKey:@"shares"]) {
-			RCWorkspaceShare *share = [[RCWorkspaceShare alloc] initWithDictionary:dict workspace:wspace];
-			[wspace.shares addObject:share];
-		}
-		hblock(![[rsp objectForKey:@"status"] boolValue], wspace.shares);
-	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
-}
 
 -(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring searchType:(NSString*)searchType
 {

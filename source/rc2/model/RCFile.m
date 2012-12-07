@@ -14,12 +14,13 @@
 @property (nonatomic, readwrite) Rc2FileType *fileType;
 @property (nonatomic, readwrite) BOOL locallyModified;
 @property (nonatomic, strong) NSMutableDictionary *attrCache;
+@property (nonatomic, weak, readwrite) id<RCFileContainer> container;
 @end
 
 @implementation RCFile
 
 //parses an array of dictionaries sent from the server
-+(NSArray*)filesFromJsonArray:(NSArray*)inArray
++(NSArray*)filesFromJsonArray:(NSArray*)inArray container:(id<RCFileContainer>)container
 {
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
@@ -29,6 +30,7 @@
 		if (nil == file) {
 			file = [RCFile insertInManagedObjectContext:moc];
 		}
+		file.container = container;
 		[file updateWithDictionary:dict];
 		[outArray addObject:file];
 	}
@@ -39,9 +41,17 @@
 {
 	self.name = [dict objectForKey:@"name"];
 	self.sizeString = [dict objectForKey:@"size"];
+	self.versionValue = [[dict objectForKey:@"version"] intValue];
 	if ([[dict objectForKey:@"kind"] isKindOfClass:[NSString class]])
 		self.kind = [dict objectForKey:@"kind"];
 	self.readOnlyValue = [[dict objectForKey:@"readonly"] boolValue];
+
+	//fire off fetching the contets if we don't have them
+	//TODO: this should check the version field and any cached value
+//	if ([[dict objectForKey:@"fsize"] cgFloatValue] < 4096)
+//		[[Rc2Server sharedInstance] fetchFileContents:file completionHandler:^(BOOL success, id obj) {}];
+
+	
 	NSDate *lm = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"timestamp"] integerValue]];
 	//flush contents if file has been updated
 	if (lm.timeIntervalSinceNow > self.lastModified.timeIntervalSinceNow) {
@@ -76,11 +86,9 @@
 				Rc2LogError(@"error fetching content for file %@", self.fileId);
 		}];
 	} else {
-		//just delete cached copy and refetch for binary files
+		//binary file: just delete cached copy and refetch
 		[[NSFileManager defaultManager] removeItemAtPath:self.fileContentsPath error:nil];
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-			[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:self];
-		});
+		[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id obj) {}];
 	}
 }
 
@@ -223,6 +231,8 @@
 {
 //	if (nil == self.fileContents && nil == self.localEdits)
 //		return @"";
+	if (!self.isTextFile)
+		return nil;
 	if ([self.localEdits length] > 0)
 		return self.localEdits;
 	if (nil == self.fileContents) {
@@ -264,14 +274,11 @@
 
 -(NSString*)fileContentsPath
 {
-	NSString *filePath = [[NSString stringWithFormat:@"files/%@", self.fileId] stringByAppendingPathExtension:self.name.pathExtension];
-	NSString *fullPath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:filePath];
-	ZAssert([[NSFileManager defaultManager] fileExistsAtPath:[fullPath stringByDeletingLastPathComponent]], 
-		@"file cache directory doesn't exist");
-	return fullPath;
+	return [[self.container fileCachePath] stringByAppendingPathComponent:self.name];
 }
 
 @synthesize fileType=_fileType;
 @synthesize attrCache;
 @synthesize locallyModified;
+@synthesize container;
 @end

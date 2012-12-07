@@ -73,8 +73,6 @@
 		0845943A15B5F29200297C9D /* MCAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942D15B5F29100297C9D /* MCAbstractViewController.m */; };
 		0845943B15B5F29200297C9D /* MCLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942F15B5F29100297C9D /* MCLoginController.m */; };
 		0845943C15B5F29200297C9D /* MCLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943015B5F29100297C9D /* MCLoginController.xib */; };
-		0845943D15B5F29200297C9D /* MacMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845943215B5F29100297C9D /* MacMainViewController.m */; };
-		0845943E15B5F29200297C9D /* MacMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943315B5F29100297C9D /* MacMainViewController.xib */; };
 		0845943F15B5F29200297C9D /* MacMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943415B5F29100297C9D /* MacMainWindow.xib */; };
 		0845944015B5F29200297C9D /* MCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845943615B5F29100297C9D /* MCMainWindowController.m */; };
 		0845944115B5F29200297C9D /* MCSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845943815B5F29100297C9D /* MCSessionViewController.m */; };
@@ -108,8 +106,6 @@
 		0845949A15B5F31100297C9D /* RCMToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845947E15B5F31100297C9D /* RCMToolbarView.m */; };
 		0845949B15B5F31100297C9D /* RCMUserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845948015B5F31100297C9D /* RCMUserListCell.m */; };
 		0845949E15B5F31100297C9D /* WorkspaceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845948515B5F31100297C9D /* WorkspaceCellView.m */; };
-		0845949F15B5F31100297C9D /* WorkspaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845948715B5F31100297C9D /* WorkspaceViewController.m */; };
-		084594A015B5F31100297C9D /* WorkspaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845948815B5F31100297C9D /* WorkspaceViewController.xib */; };
 		084594A715B5F44400297C9D /* RCMRolePermController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594A515B5F44400297C9D /* RCMRolePermController.m */; };
 		084594A815B5F44400297C9D /* RCMRolePermController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 084594A615B5F44400297C9D /* RCMRolePermController.xib */; };
 		084594AC15B5F46900297C9D /* RCMUserSearchPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594AA15B5F46900297C9D /* RCMUserSearchPopupController.m */; };
@@ -389,9 +385,6 @@
 		08D245DC15B5DBB70064A9FA /* RCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B715B5DBB70064A9FA /* RCUser.m */; };
 		08D245DD15B5DBB70064A9FA /* RCWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B915B5DBB70064A9FA /* RCWorkspace.m */; };
 		08D245DE15B5DBB70064A9FA /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245BB15B5DBB70064A9FA /* RCWorkspaceCache.m */; };
-		08D245DF15B5DBB70064A9FA /* RCWorkspaceFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245BD15B5DBB70064A9FA /* RCWorkspaceFolder.m */; };
-		08D245E015B5DBB70064A9FA /* RCWorkspaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245BF15B5DBB70064A9FA /* RCWorkspaceItem.m */; };
-		08D245E115B5DBB70064A9FA /* RCWorkspaceShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245C115B5DBB70064A9FA /* RCWorkspaceShare.m */; };
 		08D245E215B5DBB70064A9FA /* RC2RemoteLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245C315B5DBB70064A9FA /* RC2RemoteLogger.m */; };
 		08D245E315B5DBB70064A9FA /* Rc2Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245C515B5DBB70064A9FA /* Rc2Server.m */; };
 		08D245E415B5DBB70064A9FA /* RCAudioChatEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245C715B5DBB70064A9FA /* RCAudioChatEngine.m */; };
@@ -427,9 +420,6 @@
 		08D2465015B5ED9D0064A9FA /* RCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B715B5DBB70064A9FA /* RCUser.m */; };
 		08D2465115B5ED9D0064A9FA /* RCWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B915B5DBB70064A9FA /* RCWorkspace.m */; };
 		08D2465215B5ED9D0064A9FA /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245BB15B5DBB70064A9FA /* RCWorkspaceCache.m */; };
-		08D2465315B5ED9D0064A9FA /* RCWorkspaceFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245BD15B5DBB70064A9FA /* RCWorkspaceFolder.m */; };
-		08D2465415B5ED9D0064A9FA /* RCWorkspaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245BF15B5DBB70064A9FA /* RCWorkspaceItem.m */; };
-		08D2465515B5ED9D0064A9FA /* RCWorkspaceShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245C115B5DBB70064A9FA /* RCWorkspaceShare.m */; };
 		08D2465615B5EDA60064A9FA /* _RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2459B15B5DBB70064A9FA /* _RCFile.m */; };
 		08D2465715B5EDA60064A9FA /* _RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2459D15B5DBB70064A9FA /* _RCMessage.m */; };
 		08D2465815B5EDA60064A9FA /* _RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2459F15B5DBB70064A9FA /* _RCSavedSession.m */; };
@@ -565,9 +555,6 @@
 		0845942E15B5F29100297C9D /* MCLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCLoginController.h; path = source/mac/MCLoginController.h; sourceTree = SOURCE_ROOT; };
 		0845942F15B5F29100297C9D /* MCLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCLoginController.m; path = source/mac/MCLoginController.m; sourceTree = SOURCE_ROOT; };
 		0845943015B5F29100297C9D /* MCLoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MCLoginController.xib; path = source/mac/MCLoginController.xib; sourceTree = SOURCE_ROOT; };
-		0845943115B5F29100297C9D /* MacMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacMainViewController.h; path = source/mac/MacMainViewController.h; sourceTree = SOURCE_ROOT; };
-		0845943215B5F29100297C9D /* MacMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacMainViewController.m; path = source/mac/MacMainViewController.m; sourceTree = SOURCE_ROOT; };
-		0845943315B5F29100297C9D /* MacMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MacMainViewController.xib; path = source/mac/MacMainViewController.xib; sourceTree = SOURCE_ROOT; };
 		0845943415B5F29100297C9D /* MacMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MacMainWindow.xib; path = source/mac/MacMainWindow.xib; sourceTree = SOURCE_ROOT; };
 		0845943515B5F29100297C9D /* MCMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCMainWindowController.h; path = source/mac/MCMainWindowController.h; sourceTree = SOURCE_ROOT; };
 		0845943615B5F29100297C9D /* MCMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCMainWindowController.m; path = source/mac/MCMainWindowController.m; sourceTree = SOURCE_ROOT; };
@@ -623,9 +610,6 @@
 		0845948015B5F31100297C9D /* RCMUserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMUserListCell.m; path = source/mac/RCMUserListCell.m; sourceTree = SOURCE_ROOT; };
 		0845948415B5F31100297C9D /* WorkspaceCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspaceCellView.h; path = source/mac/WorkspaceCellView.h; sourceTree = SOURCE_ROOT; };
 		0845948515B5F31100297C9D /* WorkspaceCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceCellView.m; path = source/mac/WorkspaceCellView.m; sourceTree = SOURCE_ROOT; };
-		0845948615B5F31100297C9D /* WorkspaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspaceViewController.h; path = source/mac/WorkspaceViewController.h; sourceTree = SOURCE_ROOT; };
-		0845948715B5F31100297C9D /* WorkspaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceViewController.m; path = source/mac/WorkspaceViewController.m; sourceTree = SOURCE_ROOT; };
-		0845948815B5F31100297C9D /* WorkspaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkspaceViewController.xib; path = source/mac/WorkspaceViewController.xib; sourceTree = SOURCE_ROOT; };
 		084594A415B5F44400297C9D /* RCMRolePermController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMRolePermController.h; sourceTree = "<group>"; };
 		084594A515B5F44400297C9D /* RCMRolePermController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMRolePermController.m; sourceTree = "<group>"; };
 		084594A615B5F44400297C9D /* RCMRolePermController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMRolePermController.xib; sourceTree = "<group>"; };
@@ -1020,12 +1004,6 @@
 		08D245B915B5DBB70064A9FA /* RCWorkspace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspace.m; sourceTree = "<group>"; };
 		08D245BA15B5DBB70064A9FA /* RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceCache.h; sourceTree = "<group>"; };
 		08D245BB15B5DBB70064A9FA /* RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceCache.m; sourceTree = "<group>"; };
-		08D245BC15B5DBB70064A9FA /* RCWorkspaceFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceFolder.h; sourceTree = "<group>"; };
-		08D245BD15B5DBB70064A9FA /* RCWorkspaceFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceFolder.m; sourceTree = "<group>"; };
-		08D245BE15B5DBB70064A9FA /* RCWorkspaceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceItem.h; sourceTree = "<group>"; };
-		08D245BF15B5DBB70064A9FA /* RCWorkspaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceItem.m; sourceTree = "<group>"; };
-		08D245C015B5DBB70064A9FA /* RCWorkspaceShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspaceShare.h; sourceTree = "<group>"; };
-		08D245C115B5DBB70064A9FA /* RCWorkspaceShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWorkspaceShare.m; sourceTree = "<group>"; };
 		08D245C215B5DBB70064A9FA /* RC2RemoteLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RC2RemoteLogger.h; sourceTree = "<group>"; };
 		08D245C315B5DBB70064A9FA /* RC2RemoteLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RC2RemoteLogger.m; sourceTree = "<group>"; };
 		08D245C415B5DBB70064A9FA /* Rc2Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rc2Server.h; sourceTree = "<group>"; };
@@ -1218,19 +1196,6 @@
 			name = prefs;
 			path = source/mac/Prefs;
 			sourceTree = SOURCE_ROOT;
-		};
-		084594A115B5F36600297C9D /* top controllers */ = {
-			isa = PBXGroup;
-			children = (
-				0845943115B5F29100297C9D /* MacMainViewController.h */,
-				0845943215B5F29100297C9D /* MacMainViewController.m */,
-				0845943315B5F29100297C9D /* MacMainViewController.xib */,
-				0845948615B5F31100297C9D /* WorkspaceViewController.h */,
-				0845948715B5F31100297C9D /* WorkspaceViewController.m */,
-				0845948815B5F31100297C9D /* WorkspaceViewController.xib */,
-			);
-			name = "top controllers";
-			sourceTree = "<group>";
 		};
 		084594A215B5F38F00297C9D /* secondary controllers */ = {
 			isa = PBXGroup;
@@ -1945,12 +1910,6 @@
 				08D245B915B5DBB70064A9FA /* RCWorkspace.m */,
 				08D245BA15B5DBB70064A9FA /* RCWorkspaceCache.h */,
 				08D245BB15B5DBB70064A9FA /* RCWorkspaceCache.m */,
-				08D245BC15B5DBB70064A9FA /* RCWorkspaceFolder.h */,
-				08D245BD15B5DBB70064A9FA /* RCWorkspaceFolder.m */,
-				08D245BE15B5DBB70064A9FA /* RCWorkspaceItem.h */,
-				08D245BF15B5DBB70064A9FA /* RCWorkspaceItem.m */,
-				08D245C015B5DBB70064A9FA /* RCWorkspaceShare.h */,
-				08D245C115B5DBB70064A9FA /* RCWorkspaceShare.m */,
 				086CC4B5167122C7004356F6 /* RCFileContainer.h */,
 			);
 			path = model;
@@ -1994,7 +1953,6 @@
 				0845942C15B5F29100297C9D /* MCAbstractViewController.h */,
 				0845942D15B5F29100297C9D /* MCAbstractViewController.m */,
 				08B74C5C163AE6E300083F9A /* project view */,
-				084594A115B5F36600297C9D /* top controllers */,
 				08E49218166E7251005E83DE /* session */,
 				084594A215B5F38F00297C9D /* secondary controllers */,
 				084594AF15B5F4F000297C9D /* utility */,
@@ -2283,7 +2241,6 @@
 				0845942A15B5F22700297C9D /* syncArrowsSelected.png in Resources */,
 				0845942B15B5F22700297C9D /* webback.png in Resources */,
 				0845943C15B5F29200297C9D /* MCLoginController.xib in Resources */,
-				0845943E15B5F29200297C9D /* MacMainViewController.xib in Resources */,
 				0845943F15B5F29200297C9D /* MacMainWindow.xib in Resources */,
 				0845944215B5F29200297C9D /* MCSessionViewController.xib in Resources */,
 				0845944E15B5F2BC00297C9D /* MCNewFileController.xib in Resources */,
@@ -2295,7 +2252,6 @@
 				0845949015B5F31100297C9D /* RCMManageCourseController.xib in Resources */,
 				0845949215B5F31100297C9D /* RCMMultiImageController.xib in Resources */,
 				0845949415B5F31100297C9D /* RCMPDFViewController.xib in Resources */,
-				084594A015B5F31100297C9D /* WorkspaceViewController.xib in Resources */,
 				084594A815B5F44400297C9D /* RCMRolePermController.xib in Resources */,
 				084594AD15B5F46900297C9D /* RCMUserSearchPopupController.xib in Resources */,
 				084594D015B5F71500297C9D /* bighand-blue.png in Resources */,
@@ -2526,9 +2482,6 @@
 				08D245DC15B5DBB70064A9FA /* RCUser.m in Sources */,
 				08D245DD15B5DBB70064A9FA /* RCWorkspace.m in Sources */,
 				08D245DE15B5DBB70064A9FA /* RCWorkspaceCache.m in Sources */,
-				08D245DF15B5DBB70064A9FA /* RCWorkspaceFolder.m in Sources */,
-				08D245E015B5DBB70064A9FA /* RCWorkspaceItem.m in Sources */,
-				08D245E115B5DBB70064A9FA /* RCWorkspaceShare.m in Sources */,
 				08D245E215B5DBB70064A9FA /* RC2RemoteLogger.m in Sources */,
 				08D245E315B5DBB70064A9FA /* Rc2Server.m in Sources */,
 				08D245E415B5DBB70064A9FA /* RCAudioChatEngine.m in Sources */,
@@ -2592,9 +2545,6 @@
 				08D2465015B5ED9D0064A9FA /* RCUser.m in Sources */,
 				08D2465115B5ED9D0064A9FA /* RCWorkspace.m in Sources */,
 				08D2465215B5ED9D0064A9FA /* RCWorkspaceCache.m in Sources */,
-				08D2465315B5ED9D0064A9FA /* RCWorkspaceFolder.m in Sources */,
-				08D2465415B5ED9D0064A9FA /* RCWorkspaceItem.m in Sources */,
-				08D2465515B5ED9D0064A9FA /* RCWorkspaceShare.m in Sources */,
 				08D2465615B5EDA60064A9FA /* _RCFile.m in Sources */,
 				08D2465715B5EDA60064A9FA /* _RCMessage.m in Sources */,
 				08D2465815B5EDA60064A9FA /* _RCSavedSession.m in Sources */,
@@ -2629,7 +2579,6 @@
 				084593FC15B5F1D700297C9D /* RCMUserAdminController.m in Sources */,
 				0845943A15B5F29200297C9D /* MCAbstractViewController.m in Sources */,
 				0845943B15B5F29200297C9D /* MCLoginController.m in Sources */,
-				0845943D15B5F29200297C9D /* MacMainViewController.m in Sources */,
 				0845944015B5F29200297C9D /* MCMainWindowController.m in Sources */,
 				0845944115B5F29200297C9D /* MCSessionViewController.m in Sources */,
 				0845944D15B5F2BC00297C9D /* MCNewFileController.m in Sources */,
@@ -2652,7 +2601,6 @@
 				0845949A15B5F31100297C9D /* RCMToolbarView.m in Sources */,
 				0845949B15B5F31100297C9D /* RCMUserListCell.m in Sources */,
 				0845949E15B5F31100297C9D /* WorkspaceCellView.m in Sources */,
-				0845949F15B5F31100297C9D /* WorkspaceViewController.m in Sources */,
 				084594A715B5F44400297C9D /* RCMRolePermController.m in Sources */,
 				084594AC15B5F46900297C9D /* RCMUserSearchPopupController.m in Sources */,
 				084594BC15B5F53900297C9D /* EMKeychainItem.m in Sources */,

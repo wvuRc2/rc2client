@@ -31,27 +31,7 @@
 		//fire faults on all file objects for efficency
 		[self.session.workspace.files valueForKey:@"name"];
 		[self updateFileArray];
-		__weak MCSessionFileController *blockSelf = self;
-		[self storeNotificationToken:[[NSNotificationCenter defaultCenter] addObserverForName:RCWorkspaceFilesFetchedNotification
-																					   object:nil queue:nil usingBlock:^(NSNotification *note)
-		{
-		  dispatch_async(dispatch_get_main_queue(), ^{
-			  [blockSelf updateFileArray];
-			  if (blockSelf.fileToInitiallySelect) {
-				  [blockSelf setSelectedFile:blockSelf.fileToInitiallySelect];
-				  blockSelf.fileToInitiallySelect = nil;
-			  }
-			  if (blockSelf.fileIdJustImported) {
-				  NSUInteger idx = [blockSelf.fileArray indexOfObjectWithValue:blockSelf.fileIdJustImported usingSelector:@selector(fileId)];
-				  if (NSNotFound != idx) {
-					  [blockSelf.fileTableView amSelectRow:idx byExtendingSelection:NO];
-				  }
-				  blockSelf.fileIdJustImported=nil;
-				  [blockSelf tableViewSelectionDidChange:nil];
-			  }
-		  });
-		}]];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workspaceFilesChanged:) name:RCWorkspaceFilesFetchedNotification object:self.session.workspace];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workspaceFilesChanged:) name:RCFileContainerChangedNotification object:nil];
 		[self.fileTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 		[self.fileTableView setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleNone];
 		[self.fileTableView registerForDraggedTypes:ARRAY((id)kUTTypeFileURL)];
@@ -63,8 +43,23 @@
 
 -(void)workspaceFilesChanged:(NSNotification*)note
 {
-	[self.fileTableView amSelectRow:[self.fileTableView clickedRow] byExtendingSelection:NO];
-	[self updateFileArray];
+	//TODO: why was this being done?
+	//	[self.fileTableView amSelectRow:[self.fileTableView clickedRow] byExtendingSelection:NO];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self updateFileArray];
+		if (self.fileToInitiallySelect) {
+			[self setSelectedFile:self.fileToInitiallySelect];
+			self.fileToInitiallySelect = nil;
+		}
+		if (self.fileIdJustImported) {
+			NSUInteger idx = [self.fileArray indexOfObjectWithValue:self.fileIdJustImported usingSelector:@selector(fileId)];
+			if (NSNotFound != idx) {
+				[self.fileTableView amSelectRow:idx byExtendingSelection:NO];
+			}
+			self.fileIdJustImported=nil;
+			[self tableViewSelectionDidChange:nil];
+		}
+	});
 }
 
 -(void)menuNeedsUpdate:(NSMenu *)menu

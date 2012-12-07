@@ -8,12 +8,9 @@
 
 #import "MCMainWindowController.h"
 #import "RCMAppConstants.h"
-#import "MacMainViewController.h"
 #import "Rc2Server.h"
-#import "RCWorkspaceFolder.h"
 #import "RCWorkspace.h"
 #import "RCSession.h"
-#import "WorkspaceViewController.h"
 #import <Vyana/NSMenu+AMExtensions.h>
 #import "MCSessionViewController.h"
 #import "AppDelegate.h"

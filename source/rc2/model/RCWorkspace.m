@@ -10,34 +10,28 @@
 #import "Rc2Server.h"
 #import "RCFile.h"
 #import "RCProject.h"
-#import "RCWorkspaceShare.h"
 #import "RCWorkspaceCache.h"
 #import "ASIFormDataRequest.h"
 
-NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetchedNotification";
-
 @interface RCWorkspace()
 @property (nonatomic, copy, readwrite) NSArray *files;
-@property (nonatomic, readwrite) BOOL sharedByOther;
 @property (nonatomic, strong) RCWorkspaceCache *myCache;
 @property (assign) BOOL fetchingFiles;
-@property (assign) BOOL fetchingShares;
+@property (nonatomic, copy) NSString *fspath;
 @end
 
 @implementation RCWorkspace
 @synthesize files=_files;
-@synthesize fetchingFiles;
-@synthesize fetchingShares;
-@synthesize shares;
-@synthesize sharedByOther;
-@synthesize myCache;
-@synthesize updateFileContentsOnNextFetch;
 
 -(id)initWithDictionary:(NSDictionary*)dict
 {
-	if ((self = [super initWithDictionary:dict])) {
-		self.shares = [NSMutableArray array];
-		self.sharedByOther = [[dict objectForKey:@"shared"] boolValue];
+	if ((self = [super init])) {
+		self.name = [dict objectForKey:@"name"];
+		self.wspaceId = [dict objectForKey:@"id"];
+		//this needs to run after init has returned so we'll have had our project set
+		dispatch_async(dispatch_get_main_queue(), ^{
+			self.files = [RCFile filesFromJsonArray:[dict objectForKey:@"files"] container:self];
+		});
 	}
 	return self;
 }
@@ -64,13 +58,13 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 
 -(void)refreshFiles
 {
-	[self refreshFilesPerformingBlockBeforeNotification:^{}];
+//	[self refreshFilesPerformingBlockBeforeNotification:^{}];
 }
-
+/*
 -(void)refreshFilesPerformingBlockBeforeNotification:(BasicBlock)block
 {
 	//!FILECHANGE!
-	/*
+	
 	self.fetchingFiles=YES;
 	[[Rc2Server sharedInstance] fetchFileList:self completionHandler:^(BOOL success, id results) {
 		if (success && [results isKindOfClass:[NSArray class]]) {
@@ -84,33 +78,9 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 			[[NSNotificationCenter defaultCenter] postNotificationName:RCWorkspaceFilesFetchedNotification object:self];
 		}
 		self.fetchingFiles=NO;
-	}]; */
+	}]; 
 }
-
--(void)refreshShares
-{
-	self.fetchingShares=YES;
-	[[Rc2Server sharedInstance] fetchWorkspaceShares:self completionHandler:^(BOOL success, id results) {
-		self.fetchingShares=NO;
-		[self willChangeValueForKey:@"shares"];
-		[self didChangeValueForKey:@"shares"];
-	}];
-}
-
--(void)updateShare:(RCWorkspaceShare*)share permission:(NSString*)perm
-{
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:
-						   [NSString stringWithFormat:@"workspace/%@/share/%@", self.wspaceId, share.shareId]];
-	req.requestMethod = @"PUT";
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:share.requiresOwner], @"requiresOwner",
-						  [NSNumber numberWithBool:share.canOpenFiles], @"canOpenFiles",
-						  [NSNumber numberWithBool:share.canWriteFiles], @"canWriteFiles",
-						  nil];
-	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req startSynchronous];
-}
-
+*/
 -(void)updateFileId:(NSNumber*)fileId
 {
 	RCFile *file = [self fileWithId:fileId];
@@ -123,22 +93,9 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 	}
 }
 
--(RCWorkspaceShare*)shareForUserId:(NSNumber*)userId
+-(NSComparisonResult)compareWithItem:(RCWorkspace*)anItem
 {
-	for (RCWorkspaceShare *share in self.shares) {
-		if ([share.userId isEqual:userId])
-			return share;
-	}
-	return nil;
-}
-
--(BOOL)canDelete
-{
-	if (self.sharedByOther)
-		return NO;
-	if ([self.name isEqualToString:@"default"])
-		return NO;
-	return YES;
+    return [self.name localizedStandardCompare: anItem.name];
 }
 
 -(BOOL)isFetchingFiles
@@ -186,6 +143,20 @@ NSString * const RCWorkspaceFilesFetchedNotification = @"RCWorkspaceFilesFetched
 		self.files = [NSArray arrayWithObject:aFile];
 	else
 		self.files = [_files arrayByAddingObject:aFile];
+}
+
+-(NSString*)fileCachePath
+{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		self.fspath = [[self.project fileCachePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"ws%@", self.wspaceId]];
+		NSFileManager *fm = [NSFileManager defaultManager];
+		NSError *err=nil;
+		if (![fm fileExistsAtPath:_fspath])
+			if (![fm createDirectoryAtPath:_fspath withIntermediateDirectories:YES attributes:nil error:nil])
+				Rc2LogError(@"failed to create workspace directory:%@", err);
+	});
+	return _fspath;
 }
 
 -(BOOL)userEditable

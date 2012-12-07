@@ -22,7 +22,7 @@ extern const struct RCFileAttributes {
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *readOnly;
 	__unsafe_unretained NSString *sizeString;
-	__unsafe_unretained NSString *wspaceId;
+	__unsafe_unretained NSString *version;
 } RCFileAttributes;
 
 extern const struct RCFileRelationships {
@@ -134,14 +134,14 @@ extern const struct RCFileFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber *wspaceId;
+@property (nonatomic, strong) NSNumber *version;
 
 
-@property int wspaceIdValue;
-- (int)wspaceIdValue;
-- (void)setWspaceIdValue:(int)value_;
+@property int versionValue;
+- (int)versionValue;
+- (void)setVersionValue:(int)value_;
 
-//- (BOOL)validateWspaceId:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateVersion:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -239,11 +239,11 @@ extern const struct RCFileFetchedProperties {
 
 
 
-- (NSNumber*)primitiveWspaceId;
-- (void)setPrimitiveWspaceId:(NSNumber*)value;
+- (NSNumber*)primitiveVersion;
+- (void)setPrimitiveVersion:(NSNumber*)value;
 
-- (int)primitiveWspaceIdValue;
-- (void)setPrimitiveWspaceIdValue:(int)value_;
+- (int)primitiveVersionValue;
+- (void)setPrimitiveVersionValue:(int)value_;
 
 
 

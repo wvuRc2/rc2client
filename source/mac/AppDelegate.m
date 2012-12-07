@@ -27,7 +27,6 @@
 #define kPref_LastLoginString @"LastLoginString"
 
 @interface AppDelegate() <BITCrashReportManagerDelegate> {
-	dispatch_queue_t __fileCacheQueue;
 	BOOL __haveMoc;
 	BOOL __firstLogin;
 }
@@ -37,14 +36,11 @@
 @property (nonatomic, readwrite) BOOL loggedIn;
 @property (nonatomic, readwrite) BOOL isFullScreen;
 @property (nonatomic, retain) BBEditApplication *bbedit;
-//following is only used while operating in the __fileCacheQueue
-@property (nonatomic, strong) NSMutableSet *fileCacheWorkspacesInQueue;
 -(void)handleSucessfulLogin;
 -(NSManagedObjectContext*)managedObjectContext:(BOOL)create;
 -(void)autoSaveChanges;
 -(void)presentLoginPanel;
 -(void)windowWillClose:(NSNotification*)note;
--(void)updateFileCache:(NSNotification*)note;
 @end
 
 @implementation AppDelegate
@@ -78,10 +74,7 @@
 	NSString *fileCache = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:fileCache])
 		[[NSFileManager defaultManager] createDirectoryAtPath:fileCache withIntermediateDirectories:YES attributes:nil error:nil];
-	__fileCacheQueue = dispatch_queue_create("wvu.edu.stat.Rc2.fileCache", NULL);
-	self.fileCacheWorkspacesInQueue = [NSMutableSet set];
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	[nc addObserver:self selector:@selector(updateFileCache:) name:RCWorkspaceFilesFetchedNotification object:nil];
 	[self storeNotificationToken:[nc addObserverForName:NSWindowDidEnterFullScreenNotification object:nil queue:nil 
 											 usingBlock:^(NSNotification *note)
 	{
@@ -169,41 +162,6 @@
 }
 
 #pragma mark - meat & potatoes
-
--(void)updateFileCache:(NSNotification*)note
-{
-	RCWorkspace *wspace = [note object];
-	Rc2Server *rc2 = [Rc2Server sharedInstance];
-	dispatch_async(__fileCacheQueue, ^{
-		if ([self.fileCacheWorkspacesInQueue containsObject:wspace])
-			return;
-		[self.fileCacheWorkspacesInQueue addObject:wspace];
-		NSFileManager *fm = [[NSFileManager alloc] init];
-		NSError *err=nil;
-		for (RCFile *aFile in wspace.files) {
-			NSString *fpath = aFile.fileContentsPath;
-			BOOL needToFetch=YES;
-			if ([fm fileExistsAtPath:fpath]) {
-				//TODO: do we need to update? for now we're always refetching
-			}
-			if (needToFetch) {
-				NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [rc2 baseUrl],
-												   aFile.fileId]];
-				ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
-				req.userAgent = rc2.userAgentString;
-				[req startSynchronous];
-				err = req.error;
-				if (err) {
-					Rc2LogWarn(@"error fetching file %@ contents: %@", aFile.fileId, [err localizedDescription]);
-				} else {
-					[req.responseData writeToFile:fpath atomically:YES];
-					aFile.fileContents = [NSString stringWithUTF8Data:req.responseData];
-				}
-			}
-		}
-		[self.fileCacheWorkspacesInQueue removeObject:wspace];
-	});
-}
 
 -(void)displayPdfFile:(RCFile*)file
 {

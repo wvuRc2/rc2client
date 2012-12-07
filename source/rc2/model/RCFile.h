@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "_RCFile.h"
+#import "RCFileContainer.h"
 
 @class Rc2FileType;
 
@@ -19,9 +20,10 @@
 @property (nonatomic, readonly) BOOL locallyModified;
 @property (weak, nonatomic, readonly) NSString *currentContents; //not KVO compliant
 @property (nonatomic, strong) NSMutableDictionary *localAttrs;
+@property (nonatomic, weak, readonly) id<RCFileContainer> container;
 
 //parses an array of dictionaries sent from the server
-+(NSArray*)filesFromJsonArray:(NSArray*)inArray;
++(NSArray*)filesFromJsonArray:(NSArray*)inArray container:(id<RCFileContainer>)container;
 
 -(void)updateWithDictionary:(NSDictionary*)dict;
 

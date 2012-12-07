@@ -21,7 +21,7 @@ const struct RCFileAttributes RCFileAttributes = {
 	.name = @"name",
 	.readOnly = @"readOnly",
 	.sizeString = @"sizeString",
-	.wspaceId = @"wspaceId",
+	.version = @"version",
 };
 
 const struct RCFileRelationships RCFileRelationships = {
@@ -65,8 +65,8 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 		NSSet *affectingKey = [NSSet setWithObject:@"readOnly"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 	}
-	if ([key isEqualToString:@"wspaceIdValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"wspaceId"];
+	if ([key isEqualToString:@"versionValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"version"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 	}
 
@@ -184,26 +184,26 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 
 
 
-@dynamic wspaceId;
+@dynamic version;
 
 
 
-- (int)wspaceIdValue {
-	NSNumber *result = [self wspaceId];
+- (int)versionValue {
+	NSNumber *result = [self version];
 	return [result intValue];
 }
 
-- (void)setWspaceIdValue:(int)value_ {
-	[self setWspaceId:[NSNumber numberWithInt:value_]];
+- (void)setVersionValue:(int)value_ {
+	[self setVersion:[NSNumber numberWithInt:value_]];
 }
 
-- (int)primitiveWspaceIdValue {
-	NSNumber *result = [self primitiveWspaceId];
+- (int)primitiveVersionValue {
+	NSNumber *result = [self primitiveVersion];
 	return [result intValue];
 }
 
-- (void)setPrimitiveWspaceIdValue:(int)value_ {
-	[self setPrimitiveWspaceId:[NSNumber numberWithInt:value_]];
+- (void)setPrimitiveVersionValue:(int)value_ {
+	[self setPrimitiveVersion:[NSNumber numberWithInt:value_]];
 }
 
 

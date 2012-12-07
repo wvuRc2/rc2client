@@ -10,7 +10,15 @@
 
 @class RCFile;
 
+extern NSString * const RCFileContainerChangedNotification;
+
 @protocol RCFileContainer <NSObject>
 -(NSNumber*)projectId;
+
+-(NSString*)fileCachePath;
+
+-(NSArray*)files;
+
+//only to be called by Rc2Server when server notifies or after an import/create
 -(void)addFile:(RCFile*)aFile;
 @end

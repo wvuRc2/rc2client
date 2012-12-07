@@ -10,8 +10,13 @@
 #import "RCWorkspace.h"
 #import "Rc2Server.h"
 
+//declared in RCFileContainer.h
+NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNotification";
+
 @interface RCProject ()
 @property (nonatomic, strong, readwrite) NSArray *workspaces;
+@property (nonatomic, copy, readwrite) NSArray *files;
+@property (nonatomic, copy) NSString *fspath;
 @end
 
 @implementation RCProject
@@ -56,7 +61,7 @@
 	if (wspaces.count > 0) {
 		NSMutableArray *a = [NSMutableArray arrayWithCapacity:wspaces.count];
 		for (NSDictionary *d in wspaces) {
-			RCWorkspace *wspace = [RCWorkspace workspaceItemWithDictionary:d];
+			RCWorkspace *wspace = [[RCWorkspace alloc] initWithDictionary:d];
 			wspace.project = self;
 			if (wspace)
 				[a addObject:wspace];
@@ -69,6 +74,24 @@
 -(void)addFile:(RCFile *)aFile
 {
 	
+}
+
+-(NSString*)fileCachePath
+{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSString *filePath = [NSString stringWithFormat:@"projects/%@", self.projectId];
+		self.fspath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:filePath];
+		NSFileManager *fm = [NSFileManager defaultManager];
+		BOOL isDir=NO;
+		NSError *err=nil;
+		BOOL exists = [fm fileExistsAtPath:_fspath isDirectory:&isDir];
+		if (exists && !isDir)
+			[fm removeItemAtPath:_fspath error:nil];
+		if (![fm createDirectoryAtPath:_fspath withIntermediateDirectories:YES attributes:nil error:&err])
+			Rc2LogError(@"failed to create project directory:%@", err);
+	});
+	return _fspath;
 }
 
 -(BOOL)userEditable
