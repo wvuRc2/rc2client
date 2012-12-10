@@ -460,6 +460,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	} failure:^(id op, NSError *error) {
 		hblock(NO, error.localizedDescription);
 	}];
+	op.outputStream = [NSOutputStream outputStreamToFileAtPath:file.fileContentsPath append:NO];
 	[_httpClient enqueueHTTPRequestOperation:op];
 }
 

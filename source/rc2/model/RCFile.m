@@ -73,7 +73,7 @@
 		self.fileId = [dict objectForKey:@"id"];
 }
 
--(void)updateContentsFromServer
+-(void)updateContentsFromServer:(BasicBlock1IntArg)hblock
 {
 	if (self.isTextFile) {
 		[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id results) {
@@ -82,13 +82,18 @@
 				[results writeToFile:self.fileContentsPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
 				AMFileSizeTransformer *trans = [[AMFileSizeTransformer alloc] init];
 				self.sizeString = [trans transformedValue:[NSNumber numberWithLong:[results length]]];
-			} else
+				hblock(YES);
+			} else {
 				Rc2LogError(@"error fetching content for file %@", self.fileId);
+				hblock(NO);
+			}
 		}];
 	} else {
 		//binary file: just delete cached copy and refetch
 		[[NSFileManager defaultManager] removeItemAtPath:self.fileContentsPath error:nil];
-		[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id obj) {}];
+		[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id obj) {
+			hblock(success);
+		}];
 	}
 }
 

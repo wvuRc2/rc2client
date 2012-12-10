@@ -236,7 +236,6 @@
 		08D2432615B5D04D0064A9FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432515B5D04D0064A9FA /* Foundation.framework */; };
 		08D2432815B5D04D0064A9FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432715B5D04D0064A9FA /* CoreGraphics.framework */; };
 		08D2435415B5D2940064A9FA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2435315B5D2940064A9FA /* main.m */; };
-		08D2436C15B5D4C10064A9FA /* WorkspacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2436B15B5D4B70064A9FA /* WorkspacesViewController.m */; };
 		08D2436D15B5D4C50064A9FA /* MessagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2436915B5D4B70064A9FA /* MessagesViewController.xib */; };
 		08D2436E15B5D4C80064A9FA /* MessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2436815B5D4B70064A9FA /* MessagesViewController.m */; };
 		08D2436F15B5D4CC0064A9FA /* WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2436615B5D49C0064A9FA /* WelcomeViewController.xib */; };
@@ -247,10 +246,6 @@
 		08D2437415B5D4E10064A9FA /* Rc2AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2435815B5D4130064A9FA /* Rc2AppDelegate.m */; };
 		08D2437815B5D4F90064A9FA /* GradingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2437615B5D4F90064A9FA /* GradingViewController.m */; };
 		08D2437915B5D4F90064A9FA /* GradingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2437715B5D4F90064A9FA /* GradingViewController.xib */; };
-		08D2438015B5D5170064A9FA /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2437B15B5D5170064A9FA /* DetailsViewController.m */; };
-		08D2438115B5D5170064A9FA /* DetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2437C15B5D5170064A9FA /* DetailsViewController.xib */; };
-		08D2438215B5D5170064A9FA /* WorkspaceTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2437E15B5D5170064A9FA /* WorkspaceTableController.m */; };
-		08D2438315B5D5170064A9FA /* WorkspaceTableController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2437F15B5D5170064A9FA /* WorkspaceTableController.xib */; };
 		08D2438815B5D59A0064A9FA /* SessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2438615B5D59A0064A9FA /* SessionViewController.m */; };
 		08D2438915B5D59A0064A9FA /* SessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2438715B5D59A0064A9FA /* SessionViewController.xib */; };
 		08D2438D15B5D5AB0064A9FA /* EditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2438B15B5D5AB0064A9FA /* EditorViewController.m */; };
@@ -286,8 +281,6 @@
 		08D243EB15B5D7590064A9FA /* SessionEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243D815B5D7590064A9FA /* SessionEditView.m */; };
 		08D243EC15B5D7590064A9FA /* StudentAssignmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243DA15B5D7590064A9FA /* StudentAssignmentCell.m */; };
 		08D243ED15B5D7590064A9FA /* StudentAssignmentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D243DB15B5D7590064A9FA /* StudentAssignmentCell.xib */; };
-		08D243EE15B5D7590064A9FA /* WorkspaceTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243DD15B5D7590064A9FA /* WorkspaceTableCell.m */; };
-		08D243EF15B5D7590064A9FA /* WorkspaceTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D243DE15B5D7590064A9FA /* WorkspaceTableCell.xib */; };
 		08D2441015B5D78A0064A9FA /* CoolButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243F215B5D78A0064A9FA /* CoolButton.m */; };
 		08D2441115B5D78A0064A9FA /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243F415B5D78A0064A9FA /* GradientButton.m */; };
 		08D2441215B5D78A0064A9FA /* JSTokenButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243F715B5D78A0064A9FA /* JSTokenButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -762,17 +755,9 @@
 		08D2436715B5D4B70064A9FA /* MessagesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessagesViewController.h; sourceTree = "<group>"; };
 		08D2436815B5D4B70064A9FA /* MessagesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessagesViewController.m; sourceTree = "<group>"; };
 		08D2436915B5D4B70064A9FA /* MessagesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessagesViewController.xib; sourceTree = "<group>"; };
-		08D2436A15B5D4B70064A9FA /* WorkspacesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkspacesViewController.h; sourceTree = "<group>"; };
-		08D2436B15B5D4B70064A9FA /* WorkspacesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkspacesViewController.m; sourceTree = "<group>"; };
 		08D2437515B5D4F90064A9FA /* GradingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradingViewController.h; sourceTree = "<group>"; };
 		08D2437615B5D4F90064A9FA /* GradingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradingViewController.m; sourceTree = "<group>"; };
 		08D2437715B5D4F90064A9FA /* GradingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GradingViewController.xib; sourceTree = "<group>"; };
-		08D2437A15B5D5170064A9FA /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
-		08D2437B15B5D5170064A9FA /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
-		08D2437C15B5D5170064A9FA /* DetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsViewController.xib; sourceTree = "<group>"; };
-		08D2437D15B5D5170064A9FA /* WorkspaceTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkspaceTableController.h; sourceTree = "<group>"; };
-		08D2437E15B5D5170064A9FA /* WorkspaceTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkspaceTableController.m; sourceTree = "<group>"; };
-		08D2437F15B5D5170064A9FA /* WorkspaceTableController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WorkspaceTableController.xib; sourceTree = "<group>"; };
 		08D2438515B5D59A0064A9FA /* SessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionViewController.h; sourceTree = "<group>"; };
 		08D2438615B5D59A0064A9FA /* SessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionViewController.m; sourceTree = "<group>"; };
 		08D2438715B5D59A0064A9FA /* SessionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SessionViewController.xib; sourceTree = "<group>"; };
@@ -832,9 +817,6 @@
 		08D243D915B5D7590064A9FA /* StudentAssignmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentAssignmentCell.h; sourceTree = "<group>"; };
 		08D243DA15B5D7590064A9FA /* StudentAssignmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentAssignmentCell.m; sourceTree = "<group>"; };
 		08D243DB15B5D7590064A9FA /* StudentAssignmentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StudentAssignmentCell.xib; sourceTree = "<group>"; };
-		08D243DC15B5D7590064A9FA /* WorkspaceTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkspaceTableCell.h; sourceTree = "<group>"; };
-		08D243DD15B5D7590064A9FA /* WorkspaceTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkspaceTableCell.m; sourceTree = "<group>"; };
-		08D243DE15B5D7590064A9FA /* WorkspaceTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WorkspaceTableCell.xib; sourceTree = "<group>"; };
 		08D243F115B5D78A0064A9FA /* CoolButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoolButton.h; sourceTree = "<group>"; };
 		08D243F215B5D78A0064A9FA /* CoolButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoolButton.m; sourceTree = "<group>"; };
 		08D243F315B5D78A0064A9FA /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientButton.h; sourceTree = "<group>"; };
@@ -1469,7 +1451,6 @@
 				08D2435B15B5D42E0064A9FA /* RootViewController.h */,
 				08D2435C15B5D42E0064A9FA /* RootViewController.m */,
 				08D2436015B5D4680064A9FA /* top level controllers */,
-				08D2436115B5D4720064A9FA /* workspace controllers */,
 				08D2438415B5D5220064A9FA /* session related controllers */,
 				08D243AC15B5D6080064A9FA /* secondary controllers */,
 				08D243C215B5D6780064A9FA /* views and cells */,
@@ -1494,26 +1475,11 @@
 				08D2436715B5D4B70064A9FA /* MessagesViewController.h */,
 				08D2436815B5D4B70064A9FA /* MessagesViewController.m */,
 				08D2436915B5D4B70064A9FA /* MessagesViewController.xib */,
-				08D2436A15B5D4B70064A9FA /* WorkspacesViewController.h */,
-				08D2436B15B5D4B70064A9FA /* WorkspacesViewController.m */,
 				08D2437515B5D4F90064A9FA /* GradingViewController.h */,
 				08D2437615B5D4F90064A9FA /* GradingViewController.m */,
 				08D2437715B5D4F90064A9FA /* GradingViewController.xib */,
 			);
 			name = "top level controllers";
-			sourceTree = "<group>";
-		};
-		08D2436115B5D4720064A9FA /* workspace controllers */ = {
-			isa = PBXGroup;
-			children = (
-				08D2437A15B5D5170064A9FA /* DetailsViewController.h */,
-				08D2437B15B5D5170064A9FA /* DetailsViewController.m */,
-				08D2437C15B5D5170064A9FA /* DetailsViewController.xib */,
-				08D2437D15B5D5170064A9FA /* WorkspaceTableController.h */,
-				08D2437E15B5D5170064A9FA /* WorkspaceTableController.m */,
-				08D2437F15B5D5170064A9FA /* WorkspaceTableController.xib */,
-			);
-			name = "workspace controllers";
 			sourceTree = "<group>";
 		};
 		08D2438415B5D5220064A9FA /* session related controllers */ = {
@@ -1610,9 +1576,6 @@
 				08D243D915B5D7590064A9FA /* StudentAssignmentCell.h */,
 				08D243DA15B5D7590064A9FA /* StudentAssignmentCell.m */,
 				08D243DB15B5D7590064A9FA /* StudentAssignmentCell.xib */,
-				08D243DC15B5D7590064A9FA /* WorkspaceTableCell.h */,
-				08D243DD15B5D7590064A9FA /* WorkspaceTableCell.m */,
-				08D243DE15B5D7590064A9FA /* WorkspaceTableCell.xib */,
 				083AAEFE162F480C0037AAB3 /* FunctionVariableSummaryCell.h */,
 				083AAEFF162F480C0037AAB3 /* FunctionVariableSummaryCell.m */,
 				083AAF01162F48210037AAB3 /* FunctionVariableSummaryCell.xib */,
@@ -2098,8 +2061,6 @@
 				08D2436D15B5D4C50064A9FA /* MessagesViewController.xib in Resources */,
 				08D2436F15B5D4CC0064A9FA /* WelcomeViewController.xib in Resources */,
 				08D2437915B5D4F90064A9FA /* GradingViewController.xib in Resources */,
-				08D2438115B5D5170064A9FA /* DetailsViewController.xib in Resources */,
-				08D2438315B5D5170064A9FA /* WorkspaceTableController.xib in Resources */,
 				08D2438915B5D59A0064A9FA /* SessionViewController.xib in Resources */,
 				08D2438E15B5D5AB0064A9FA /* EditorViewController.xib in Resources */,
 				08D2439315B5D5C10064A9FA /* ConsoleViewController.xib in Resources */,
@@ -2114,7 +2075,6 @@
 				08D243E815B5D7590064A9FA /* MessageListCell.xib in Resources */,
 				08D243EA15B5D7590064A9FA /* NotificationCell.xib in Resources */,
 				08D243ED15B5D7590064A9FA /* StudentAssignmentCell.xib in Resources */,
-				08D243EF15B5D7590064A9FA /* WorkspaceTableCell.xib in Resources */,
 				08D2441415B5D78A0064A9FA /* README.mdown in Resources */,
 				08D2441515B5D78A0064A9FA /* tokenHighlighted.png in Resources */,
 				08D2441615B5D78A0064A9FA /* tokenHighlighted@2x.png in Resources */,
@@ -2385,7 +2345,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				08D2435415B5D2940064A9FA /* main.m in Sources */,
-				08D2436C15B5D4C10064A9FA /* WorkspacesViewController.m in Sources */,
 				08D2436E15B5D4C80064A9FA /* MessagesViewController.m in Sources */,
 				08D2437015B5D4D00064A9FA /* WelcomeViewController.m in Sources */,
 				08D2437115B5D4D30064A9FA /* AbstractTopViewController.m in Sources */,
@@ -2393,8 +2352,6 @@
 				08D2437315B5D4DE0064A9FA /* ThemeEngine.m in Sources */,
 				08D2437415B5D4E10064A9FA /* Rc2AppDelegate.m in Sources */,
 				08D2437815B5D4F90064A9FA /* GradingViewController.m in Sources */,
-				08D2438015B5D5170064A9FA /* DetailsViewController.m in Sources */,
-				08D2438215B5D5170064A9FA /* WorkspaceTableController.m in Sources */,
 				08D2438815B5D59A0064A9FA /* SessionViewController.m in Sources */,
 				08D2438D15B5D5AB0064A9FA /* EditorViewController.m in Sources */,
 				08D2439215B5D5BD0064A9FA /* ConsoleViewController.m in Sources */,
@@ -2416,7 +2373,6 @@
 				08D243E915B5D7590064A9FA /* NotificationCell.m in Sources */,
 				08D243EB15B5D7590064A9FA /* SessionEditView.m in Sources */,
 				08D243EC15B5D7590064A9FA /* StudentAssignmentCell.m in Sources */,
-				08D243EE15B5D7590064A9FA /* WorkspaceTableCell.m in Sources */,
 				08D2441015B5D78A0064A9FA /* CoolButton.m in Sources */,
 				08D2441115B5D78A0064A9FA /* GradientButton.m in Sources */,
 				08D2441215B5D78A0064A9FA /* JSTokenButton.m in Sources */,

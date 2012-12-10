@@ -269,7 +269,7 @@
 -(void)userConfirmedDelete
 {
 	RCWorkspace *wspace = [[Rc2Server sharedInstance] selectedWorkspace];
-	[[Rc2Server sharedInstance] deleteFile:self.currentFile workspace:wspace completionHandler:^(BOOL success, id results) {
+	[[Rc2Server sharedInstance] deleteFile:self.currentFile container:wspace completionHandler:^(BOOL success, id results) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSManagedObjectContext *moc = self.currentFile.managedObjectContext;
 			[moc deleteObject:self.currentFile];
@@ -346,7 +346,7 @@
 		hud.labelText = @"Sending File to Server…";
 		self.syncInProgress = YES;
 		[[Rc2Server sharedInstance] saveFile:self.currentFile 
-								   workspace:[[Rc2Server sharedInstance] currentSession].workspace 
+								   toContainer:[[Rc2Server sharedInstance] currentSession].workspace
 						   completionHandler:^(BOOL success, id results) 
 		{
 			[MBProgressHUD hideHUDForView:rootView animated:YES];
@@ -408,9 +408,7 @@
 			if (showProgress)
 				hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
 			hud.labelText = [NSString stringWithFormat:@"Loading %@…", file.name];
-			[[Rc2Server sharedInstance] fetchBinaryFileContents:file toPath:file.fileContentsPath progress:nil 
-											  completionHandler:^(BOOL success, id results)
-			{
+			[[Rc2Server sharedInstance] fetchFileContents:file completionHandler:^(BOOL success, id results) {
 				if (showProgress)
 					[MBProgressHUD hideHUDForView:rootView animated:YES];
 				if (success)
@@ -484,7 +482,7 @@
 	hud.labelText = @"Saving…";
 	self.syncInProgress=YES;
 	[[Rc2Server sharedInstance] saveFile:self.currentFile 
-							   workspace:[[Rc2Server sharedInstance] currentSession].workspace 
+							   toContainer:[[Rc2Server sharedInstance] currentSession].workspace
 					   completionHandler:^(BOOL success, id results) 
 	{
 		[MBProgressHUD hideHUDForView:rootView animated:YES];

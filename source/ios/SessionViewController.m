@@ -277,10 +277,7 @@
 	hud.labelText = [NSString stringWithFormat:@"Downloading %@…", file.name];
 	self.showingProgress = YES;
 	hud.mode = MBProgressHUDModeDeterminate;
-	
-	[[Rc2Server sharedInstance] fetchBinaryFileContents:file toPath:path progress:[hud valueForKey:@"indicator"]
-									  completionHandler:^(BOOL success, id results) 
-	{
+	[file updateContentsFromServer:^(NSInteger success) {
 		[MBProgressHUD hideHUDForView:self.view animated:NO];
 		if (success)
 			[self displayPdfFile:file];

@@ -143,7 +143,7 @@
 	self.currentProgress.mode = MBProgressHUDModeIndeterminate;
 	self.currentProgress.labelText = @"Uploading to Rc²…";
 	[[Rc2Server sharedInstance] importFile:[NSURL fileURLWithPath:destPath] 
-								 workspace:wspace 
+								 toContainer:wspace
 						 completionHandler:^(BOOL ok, id results)
 	{
 		[MBProgressHUD hideHUDForView:self.view animated:YES];

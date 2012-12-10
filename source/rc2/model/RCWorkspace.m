@@ -86,7 +86,7 @@
 	RCFile *file = [self fileWithId:fileId];
 	if (file) {
 		//FIXME: this doesn't update metadata
-		[file updateContentsFromServer];
+		[file updateContentsFromServer:^(NSInteger success){}];
 	} else {
 		//FIXME: for now, we're just refreshing them all
 		[self refreshFiles];

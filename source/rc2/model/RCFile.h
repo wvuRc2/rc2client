@@ -28,7 +28,7 @@
 -(void)updateWithDictionary:(NSDictionary*)dict;
 
 -(void)discardEdits;
--(void)updateContentsFromServer; //fetches file contents if they are nil and is a text file. refetches binary file contents
+-(void)updateContentsFromServer:(BasicBlock1IntArg)hblock; //fetches file contents if they are nil and is a text file. refetches binary file contents
 
 //on iOS, returns UIImage. on Mac returns NSImage
 -(id)fileIcon;

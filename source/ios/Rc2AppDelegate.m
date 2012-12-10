@@ -8,7 +8,6 @@
 
 #import "Rc2AppDelegate.h"
 #import "LoginController.h"
-#import "WorkspaceTableController.h"
 #import "SessionViewController.h"
 #import "RootViewController.h"
 #import "Rc2Server.h"
