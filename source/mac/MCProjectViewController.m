@@ -278,6 +278,16 @@
 			}
 			self.busy = NO;
 		}];
+	} else if ([modelObject isKindOfClass:[RCWorkspace class]]) {
+		ZAssert([modelObject userEditable], @"renaming uneditable workspace");
+		[[Rc2Server sharedInstance] renameWorkspce:modelObject name:newName completionHandler:^(BOOL success, id arg) {
+			if (success) {
+				[item reloadItemDetails];
+			} else {
+				[NSAlert displayAlertWithTitle:@"Error renaming Workspace" details:arg];
+			}
+			self.busy=NO;
+		}];
 	}
 }
 

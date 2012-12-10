@@ -298,33 +298,16 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 -(void)renameWorkspce:(RCWorkspace*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@", [self baseUrl],
-									   wspace.wspaceId]];
-	ASIFormDataRequest *theReq = [self postRequestWithURL:url];
-	__block __weak ASIFormDataRequest *req = theReq;
-	req.requestMethod = @"PUT";
-	[req setPostValue:newName forKey:@"name"];
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![self responseIsValidJSON:req]) {
-			hblock(NO, @"server sent back invalid response");
-			return;
+	[_httpClient putPath:[self containerPath:wspace] parameters:@{@"name":newName} success:^(id op, id rsp) {
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			wspace.name = newName;
+			hblock(YES, wspace);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
 		}
-		NSDictionary *rsp = [respStr JSONValue];
-		BOOL success = [[rsp objectForKey:@"status"] intValue] == 0;
-		if (success) {
-			[wspace setName:newName];
-			if (self.selectedWorkspace == wspace) {
-				[self willChangeValueForKey:@"selectedWorkspace"];
-				[self didChangeValueForKey:@"selectedWorkspace"];
-			}
-		}
-		hblock(success, rsp);
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
 	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
 }
 
 -(void)deleteWorkspce:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
