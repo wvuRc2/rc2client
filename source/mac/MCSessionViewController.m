@@ -820,8 +820,9 @@
 		//we want to show the pdf
 		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
 		if (!file.contentsLoaded)
-			[file updateContentsFromServer:^{
-				[self.outputController loadLocalFile:file];
+			[file updateContentsFromServer:^(NSInteger success) {
+				if (success)
+					[self.outputController loadLocalFile:file];
 			}];
 		return;
 	}

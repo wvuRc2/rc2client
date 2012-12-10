@@ -186,7 +186,7 @@
 	if ([fm fileExistsAtPath:newPath])
 		[fm removeItemAtPath:newPath error:nil];
 	if (!file.contentsLoaded)
-		[file updateContentsFromServer:^{}]; //TODO: need to handle synchronously
+		[file updateContentsFromServer:^(NSInteger success){}]; //TODO: need to handle synchronously
 	if (![fm fileExistsAtPath:file.fileContentsPath]) {
 		if (![file.fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
 			Rc2LogError(@"failed to write web tmp file:%@", err);

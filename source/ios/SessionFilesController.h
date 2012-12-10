@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @class RCFile;
+@class RCSession;
 
-@interface SessionFilesController : UIViewController 
+@interface SessionFilesController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) IBOutlet AMTableView *tableView;
 @property (nonatomic, unsafe_unretained) id delegate;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
+
+-(id)initWithSession:(RCSession*)session;
 
 -(void)reloadData;
 -(IBAction)doNewFile:(id)sender;

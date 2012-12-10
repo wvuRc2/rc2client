@@ -430,7 +430,6 @@
 			hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
 		hud.labelText = @"Loading…";
 		[[Rc2Server sharedInstance] fetchFileContents:file completionHandler:^(BOOL success, id results) {
-			file.fileContents = results;
 			[self loadFileData:file];
 			if (showProgress)
 				[MBProgressHUD hideHUDForView:rootView animated:YES];
@@ -584,7 +583,7 @@
 		return;
 	}
 	if (nil == self.fileController) {
-		SessionFilesController *fc = [[SessionFilesController alloc] init];
+		SessionFilesController *fc = [[SessionFilesController alloc] initWithSession:self.session];
 		self.fileController = fc;
 		fc.delegate = (id)self;
 		UIPopoverController *pc = [[UIPopoverController alloc] initWithContentViewController:fc];
