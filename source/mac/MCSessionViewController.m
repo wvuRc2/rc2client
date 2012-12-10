@@ -366,7 +366,10 @@
 
 -(IBAction)renameFile:(id)sender
 {
-	
+	RCFile *file = self.fileHelper.selectedFile;
+	if ([file isKindOfClass:[RCProject class]])
+		return;
+	[self.fileHelper editSelectedFilename];
 }
 
 -(IBAction)duplicateFile:(id)sender
@@ -578,57 +581,6 @@
 //	self.fileHelper.selectedFile=nil;
 }
 
--(void)syncFile:(RCFile*)file
-{
-	ZAssert(file.isTextFile, @"asked to sync non-text file");
-	self.statusMessage = [NSString stringWithFormat:@"Saving %@ to server…", file.name];
-	self.busy=YES;
-	int64_t delayInSeconds = 2.0;
-	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-	[[Rc2Server sharedInstance] saveFile:file toContainer:self.session.workspace completionHandler:^(BOOL success, RCFile *theFile) {
-		self.busy=NO;
-		if (success) {
-			[self.fileTableView reloadData];
-			self.statusMessage = [NSString stringWithFormat:@"%@ successfully saved to server", theFile.name];
-			//update display of html files
-			if (file == self.editorFile && [file.fileContentsPath.pathExtension isEqualToString:@"html"])
-				[self.outputController loadLocalFile:file];
-		} else {
-			Rc2LogWarn(@"error syncing file to server:%@", file.name);
-			self.statusMessage = [NSString stringWithFormat:@"Unknown error while saving %@ to server:%@", file.name, (NSString*)theFile];
-		}
-	}];
-	});
-}
-
--(void)fileSelectionChanged:(RCFile*)selectedFile oldSelection:(RCFile*)oldFile
-{
-	if (oldFile) {
-		if (oldFile.readOnlyValue)
-			;
-		else if ([oldFile.fileContents isEqualToString:self.editView.string])
-			[oldFile setLocalEdits:nil];
-		else
-			[oldFile setLocalEdits:self.editView.string];
-	}
-	if (nil == selectedFile) {
-		self.editorFile=nil;
-		[self setEditViewTextWithHighlighting:nil];
-	} else if (selectedFile.isTextFile) {
-		self.editorFile = selectedFile;
-		[self setEditViewTextWithHighlighting:[NSMutableAttributedString attributedStringWithString:selectedFile.currentContents attributes:nil]];
-		//html files are edited and viewed
-		if ([selectedFile.fileContentsPath.pathExtension isEqualToString:@"html"])
-			[self.outputController loadLocalFile:selectedFile];
-	} else {
-		[self.outputController loadLocalFile:selectedFile];
-	}
-	if (self.session.isClassroomMode && !self.restrictedMode) {
-		[self.session sendFileOpened:selectedFile];
-	}
-}
-
 -(void)completeSessionStartup:(id)response
 {
 	[self.session updateWithServerResponse:response];
@@ -689,6 +641,74 @@
 	}
 	[fm copyItemAtPath:file.fileContentsPath toPath:newPath error:nil];
 	return newPath;
+}
+
+#pragma mark - file helper delegate
+
+-(void)syncFile:(RCFile*)file
+{
+	ZAssert(file.isTextFile, @"asked to sync non-text file");
+	self.statusMessage = [NSString stringWithFormat:@"Saving %@ to server…", file.name];
+	self.busy=YES;
+	int64_t delayInSeconds = 2.0;
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+		[[Rc2Server sharedInstance] saveFile:file toContainer:self.session.workspace completionHandler:^(BOOL success, RCFile *theFile) {
+			self.busy=NO;
+			if (success) {
+				[self.fileTableView reloadData];
+				self.statusMessage = [NSString stringWithFormat:@"%@ successfully saved to server", theFile.name];
+				//update display of html files
+				if (file == self.editorFile && [file.fileContentsPath.pathExtension isEqualToString:@"html"])
+					[self.outputController loadLocalFile:file];
+			} else {
+				Rc2LogWarn(@"error syncing file to server:%@", file.name);
+				self.statusMessage = [NSString stringWithFormat:@"Unknown error while saving %@ to server:%@", file.name, (NSString*)theFile];
+			}
+		}];
+	});
+}
+
+-(void)fileSelectionChanged:(RCFile*)selectedFile oldSelection:(RCFile*)oldFile
+{
+	if (oldFile) {
+		if (oldFile.readOnlyValue)
+			;
+		else if ([oldFile.fileContents isEqualToString:self.editView.string])
+			[oldFile setLocalEdits:nil];
+		else
+			[oldFile setLocalEdits:self.editView.string];
+	}
+	if (nil == selectedFile) {
+		self.editorFile=nil;
+		[self setEditViewTextWithHighlighting:nil];
+	} else if (selectedFile.isTextFile) {
+		self.editorFile = selectedFile;
+		[self setEditViewTextWithHighlighting:[NSMutableAttributedString attributedStringWithString:selectedFile.currentContents attributes:nil]];
+		//html files are edited and viewed
+		if ([selectedFile.fileContentsPath.pathExtension isEqualToString:@"html"])
+			[self.outputController loadLocalFile:selectedFile];
+	} else {
+		[self.outputController loadLocalFile:selectedFile];
+	}
+	if (self.session.isClassroomMode && !self.restrictedMode) {
+		[self.session sendFileOpened:selectedFile];
+	}
+}
+
+-(void)renameFile:(RCFile*)file to:(NSString*)newName
+{
+	NSLog(@"should change file %@ to %@", file.name, newName);
+	self.busy = YES;
+	self.statusMessage = [NSString stringWithFormat:@"Renaming %@…", newName];
+	[[Rc2Server sharedInstance] renameFile:file toName:newName completionHandler:^(BOOL success, id rsp) {
+		self.busy = NO;
+		self.statusMessage=nil;
+		if (!success) {
+			[self.view presentError:[NSError errorWithDomain:@"Rc2" code:-1 userInfo:@{NSLocalizedDescriptionKey:rsp}] modalForWindow:self.view.window delegate:nil didPresentSelector:nil contextInfo:nil];
+		}
+		[self.fileHelper updateFileArray];
+	}];
 }
 
 #pragma mark - session delegate

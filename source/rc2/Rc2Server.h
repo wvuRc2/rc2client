@@ -137,6 +137,8 @@ extern NSString * const MessagesUpdatedNotification;
 //synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
 -(RCFile*)importFile:(NSURL*)fileUrl fileName:(NSString*)name toContainer:(id<RCFileContainer>)dest error:(NSError *__autoreleasing *)outError;
 
+-(void)renameFile:(RCFile*)file toName:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
+
 -(void)deleteFile:(RCFile*)file container:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 -(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock;

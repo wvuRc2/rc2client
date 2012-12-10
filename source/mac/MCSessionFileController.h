@@ -23,13 +23,15 @@
 
 -(void)updateFileArray;
 
+-(void)editSelectedFilename;
+
 @end
 
 @protocol MCSessionFileControllerDelegate <NSObject>
 
 -(void)syncFile:(RCFile*)file;
 -(void)fileSelectionChanged:(RCFile*)selectedFile oldSelection:(RCFile*)oldFile;
-
+-(void)renameFile:(RCFile*)file to:(NSString*)newName; //delegate should call updateFileArray if successful so new name is displayed and proper sort is done
 @end
 
 @interface MCSessionFileTableView : NSTableView

@@ -42,6 +42,13 @@
 
 #pragma mark - meat & potatos
 
+-(void)editSelectedFilename
+{
+	RCMSessionFileCellView *view = [self.fileTableView viewAtColumn:0 row:self.fileTableView.selectedRow makeIfNecessary:NO];
+	[view.nameField setEditable:YES];
+	[self.fileTableView editColumn:0 row:self.fileTableView.selectedRow withEvent:[NSApp currentEvent] select:YES];
+}
+
 -(void)workspaceFilesChanged:(NSNotification*)note
 {
 	//TODO: why was this being done?
@@ -113,8 +120,8 @@
 		RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
 		view.objectValue = obj;
 		__unsafe_unretained MCSessionFileController *blockSelf = self;
-		view.syncFileBlock = ^(RCFile *theFile) {
-			[blockSelf.delegate syncFile:theFile];
+		view.editCompleteBlock = ^(RCMSessionFileCellView *cellView) {
+			[blockSelf.delegate renameFile:cellView.objectValue to:cellView.nameField.stringValue];
 		};
 		return view;
 	}

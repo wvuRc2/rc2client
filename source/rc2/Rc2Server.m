@@ -599,6 +599,22 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	[_httpClient enqueueHTTPRequestOperation:op];
 }
 
+-(void)renameFile:(RCFile*)file toName:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSMutableString *path = [self containerPath:file.container];
+	[path appendFormat:@"/file/%@", file.fileId];
+	[_httpClient putPath:path parameters:@{@"name":newName} success:^(id op, id rsp) {
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			[file updateWithDictionary:[rsp objectForKey:@"file"]];
+			hblock(YES, file);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
 //synchronously update the content of a file
 -(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace
 			error:(NSError *__autoreleasing *)outError

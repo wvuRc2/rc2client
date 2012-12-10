@@ -8,9 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface RCMSessionFileCellView : NSTableCellView
-@property (nonatomic, strong) IBOutlet NSButton *syncButton;
-@property (nonatomic, copy) BasicBlock1Arg syncFileBlock; //argument will be the RCFile object
+@interface RCMSessionFileCellView : NSTableCellView<NSTextFieldDelegate>
+@property (nonatomic, copy) BasicBlock1Arg editCompleteBlock; //argument will be this cell view
+@property (nonatomic, weak) IBOutlet NSTextField *nameField;
 
--(IBAction)syncFile:(id)sender;
 @end
