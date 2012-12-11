@@ -159,5 +159,7 @@ extern NSString * const MessagesUpdatedNotification;
 
 #pragma mark - misc/other
 
+-(void)downloadAppPath:(NSString*)path toFilePath:(NSString*)filePath completionHandler:(Rc2FetchCompletionHandler)hblock;
+
 -(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring searchType:(NSString*)searchType;
 @end

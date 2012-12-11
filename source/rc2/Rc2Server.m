@@ -439,6 +439,20 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 #pragma mark - files
 
+-(void)downloadAppPath:(NSString*)path toFilePath:(NSString*)filePath completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSMutableURLRequest *req = [_httpClient requestWithMethod:@"GET" path:path parameters:nil];
+	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id op, id rsp) {
+		if (hblock)
+			hblock(YES, nil);
+	} failure:^(id op, NSError *error) {
+		if (hblock)
+			hblock(NO, error.localizedDescription);
+	}];
+	op.outputStream = [NSOutputStream outputStreamToFileAtPath:filePath append:NO];
+	[_httpClient enqueueHTTPRequestOperation:op];
+}
+
 -(void)fetchFileContents:(RCFile*)file completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSString *path = [NSString stringWithFormat:@"file/%@", file.fileId];

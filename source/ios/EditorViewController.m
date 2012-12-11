@@ -515,7 +515,6 @@
 	__unsafe_unretained EditorViewController *blockSelf=self;
 	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
 		if (1==btnIdx) {
-			[(UIPopoverController*)self.parentViewController dismissPopoverAnimated:YES];
 			//make sure has a file extension
 			NSString *str = [alert textFieldAtIndex:0].text;
 			if (str.length > 0) {

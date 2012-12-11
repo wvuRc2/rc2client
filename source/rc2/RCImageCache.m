@@ -153,20 +153,17 @@
 		if ([urlStr characterAtIndex:0] == '/')
 			urlStr = [urlStr substringFromIndex:1];
 		urlStr = [urlStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
-		urlStr = [[Rc2Server sharedInstance].baseUrl stringByAppendingString:urlStr];
-		NSURL *url = [NSURL URLWithString:urlStr];
-		ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithURL:url];
-		[req setDownloadDestinationPath: imgPath];
-		[req setCompletionBlock:^{
-			RCImage *img = [[RCImage alloc] initWithPath:imgPath];
-			img.name = fname;
-			img.imageId = [imgDict objectForKey:@"id"];
-			if ([img.name indexOf:@"#"] != NSNotFound)
-				img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
-			[[[RCImageCache sharedInstance] imgCache] setObject:img forKey:img.imageId.description];
-			[[RCImageCache sharedInstance] saveFileName:img.name forId:img.imageId.description];
+		[[Rc2Server sharedInstance] downloadAppPath:urlStr toFilePath:imgPath completionHandler:^(BOOL success, id rsp) {
+			if (success) {
+				RCImage *img = [[RCImage alloc] initWithPath:imgPath];
+				img.name = fname;
+				img.imageId = [imgDict objectForKey:@"id"];
+				if ([img.name indexOf:@"#"] != NSNotFound)
+					img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
+				[[[RCImageCache sharedInstance] imgCache] setObject:img forKey:img.imageId.description];
+				[[RCImageCache sharedInstance] saveFileName:img.name forId:img.imageId.description];
+			}
 		}];
-		[self.dloadQueue addOperation:req];
 	}
 }
 
