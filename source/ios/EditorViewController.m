@@ -372,6 +372,33 @@
 	}
 }
 
+-(void)promptForNewFile:(BOOL)shared
+{
+	self.currentAlert = [[UIAlertView alloc] initWithTitle:@"New File Name:" message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
+	self.currentAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+	__unsafe_unretained EditorViewController *blockSelf=self;
+	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
+		if (1==btnIdx) {
+			//make sure has a file extension
+			NSString *str = [alert textFieldAtIndex:0].text;
+			if (str.length > 0) {
+				NSString *ext = [str pathExtension];
+				if (![[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
+					str = [str stringByAppendingPathExtension:@"R"];
+				NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
+				RCFile *file = [RCFile insertInManagedObjectContext:moc];
+				file.name = str;
+				file.fileContents = @"";
+				[_session.workspace addFile:file];
+				[self performSelectorOnMainThread:@selector(loadFile:) withObject:file waitUntilDone:NO];
+			}
+		}
+		blockSelf.currentAlert=nil;
+	}];
+}
+
+
+
 #pragma mark - actions
 
 -(IBAction)doExecute:(id)sender
@@ -460,13 +487,13 @@
 		self.currentActionItems = [NSMutableArray array];
 	[self.currentActionItems removeAllObjects];
 	if (_session.hasWritePerm) {
-		[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"New File" target:nil action:@selector(doNewFile:) userInfo:nil]];
-		if (self.currentFile)
-			[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Save File on Server" target:nil action:@selector(doSaveFile:) userInfo:nil]];
-		[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Delete File on Server" target:nil action:@selector(doDeleteFile:) userInfo:nil]];
+		if (self.currentFile) {
+			[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Save" target:nil action:@selector(doSaveFile:) userInfo:nil]];
+			[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Delete" target:nil action:@selector(doDeleteFile:) userInfo:nil]];
+		}
 	}
 	if (_session.hasReadPerm) {
-		[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Revert File" target:nil action:@selector(doRevertFile:) userInfo:nil]];
+		[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Revert" target:nil action:@selector(doRevertFile:) userInfo:nil]];
 	}
 	[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Clear Editor" target:nil action:@selector(doClear:) userInfo:nil]];
 	self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Editor Actions" delegate:(id)self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
@@ -508,29 +535,14 @@
 	[self updateDocumentState];
 }
 
+-(IBAction)doNewSharedFile:(id)sender
+{
+	[self promptForNewFile:YES];
+}
+
 -(IBAction)doNewFile:(id)sender
 {
-	self.currentAlert = [[UIAlertView alloc] initWithTitle:@"New File Name:" message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
-	self.currentAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
-	__unsafe_unretained EditorViewController *blockSelf=self;
-	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
-		if (1==btnIdx) {
-			//make sure has a file extension
-			NSString *str = [alert textFieldAtIndex:0].text;
-			if (str.length > 0) {
-				NSString *ext = [str pathExtension];
-				if (![[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
-					str = [str stringByAppendingPathExtension:@"R"];
-				NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
-				RCFile *file = [RCFile insertInManagedObjectContext:moc];
-				file.name = str;
-				file.fileContents = @"";
-				[_session.workspace addFile:file];
-				[self performSelectorOnMainThread:@selector(loadFile:) withObject:file waitUntilDone:NO];
-			}
-		}
-		blockSelf.currentAlert=nil;
-	}];
+	[self promptForNewFile:NO];
 }
 
 -(void)doDeleteFile:(id)sender

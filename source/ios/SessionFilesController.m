@@ -86,10 +86,8 @@
 	[sharedFiles sortUsingDescriptors:sortD];
 	[otherFiles sortUsingDescriptors:sortD];
 	NSMutableArray *a = [NSMutableArray arrayWithCapacity:3];
-	if (srcFiles.count > 0)
-		[a addObject:@{@"name":@"Source Files", @"files":srcFiles}];
-	if (sharedFiles.count > 0)
-		[a addObject:@{@"name":@"Shared Files", @"files":sharedFiles}];
+	[a addObject:@{@"name":@"Source Files", @"files":srcFiles}];
+	[a addObject:@{@"name":@"Shared Files", @"files":sharedFiles}];
 	if (otherFiles.count > 0)
 		[a addObject:@{@"name":@"Other Files", @"files":otherFiles}];
 	self.fileSections = a;
@@ -107,6 +105,12 @@
 {
 	[self.delegate dismissSessionsFilesController];
 	[self.delegate doNewFile:sender];
+}
+
+-(IBAction)doNewSharedFile:(id)sender
+{
+	[self.delegate dismissSessionsFilesController];
+	[self.delegate doNewSharedFile:sender];
 }
 
 -(IBAction)doDropboxImport:(id)sender
@@ -149,6 +153,28 @@
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	return [[self.fileSections objectAtIndex:section] objectForKey:@"name"];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+	if (section > 1)
+		return;
+	UITableViewHeaderFooterView *hfview = (id)view;
+	CGRect frame = hfview.contentView.frame;
+	frame.origin.x = frame.origin.x + frame.size.width -24;
+	frame.size.width = frame.size.height;
+	frame = CGRectInset(frame, 4, 4);
+	
+	UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+	btn.frame = frame;
+	[btn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+	[btn setImage:[UIImage imageNamed:@"addDown"] forState:UIControlStateHighlighted];
+	[hfview.contentView addSubview:btn];
+	if (section == 1)
+		[btn addTarget:self action:@selector(doNewSharedFile:) forControlEvents:UIControlEventTouchUpInside];
+	else
+		[btn addTarget:self action:@selector(doNewFile:) forControlEvents:UIControlEventTouchUpInside];
+	
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

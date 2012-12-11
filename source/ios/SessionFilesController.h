@@ -26,6 +26,7 @@
 @protocol SessionFilesDelegate <NSObject>
 -(void)loadFile:(RCFile*)file;
 -(IBAction)doNewFile:(id)sender;
+-(IBAction)doNewSharedFile:(id)sender;
 -(IBAction)presentDropboxImport:(id)sender;
 -(void)dismissSessionsFilesController;
 @end

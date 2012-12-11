@@ -128,6 +128,8 @@
 		084594DD15B5F71500297C9D /* rc2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CD15B5F71500297C9D /* rc2@2x.png */; };
 		084594DE15B5F71500297C9D /* turnedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CE15B5F71500297C9D /* turnedin.png */; };
 		084594DF15B5F71500297C9D /* turnedin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CF15B5F71500297C9D /* turnedin@2x.png */; };
+		084B47931677DF98000A0A6F /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 084B47911677DF98000A0A6F /* add.png */; };
+		084B47941677DF98000A0A6F /* addDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 084B47921677DF98000A0A6F /* addDown.png */; };
 		084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
 		084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
@@ -633,6 +635,8 @@
 		084594CD15B5F71500297C9D /* rc2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rc2@2x.png"; path = "resources/sharedImages/rc2@2x.png"; sourceTree = SOURCE_ROOT; };
 		084594CE15B5F71500297C9D /* turnedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = turnedin.png; path = resources/sharedImages/turnedin.png; sourceTree = SOURCE_ROOT; };
 		084594CF15B5F71500297C9D /* turnedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "turnedin@2x.png"; path = "resources/sharedImages/turnedin@2x.png"; sourceTree = SOURCE_ROOT; };
+		084B47911677DF98000A0A6F /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
+		084B47921677DF98000A0A6F /* addDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addDown.png; sourceTree = "<group>"; };
 		084D39B51627300F00B8A06B /* RCDataFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDataFrame.h; sourceTree = "<group>"; };
 		084D39B61627300F00B8A06B /* RCDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDataFrame.m; sourceTree = "<group>"; };
 		086CC4B5167122C7004356F6 /* RCFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFileContainer.h; sourceTree = "<group>"; };
@@ -1297,6 +1301,8 @@
 				08B74C7B163B31F000083F9A /* 2up@2x.png */,
 				08B74C7C163B31F000083F9A /* 4up.png */,
 				08B74C7D163B31F000083F9A /* 4up@2x.png */,
+				084B47911677DF98000A0A6F /* add.png */,
+				084B47921677DF98000A0A6F /* addDown.png */,
 				08B74C7E163B31F000083F9A /* action.png */,
 				08B74C7F163B31F000083F9A /* badge.png */,
 				08B74C80163B31F000083F9A /* button.png */,
@@ -2172,6 +2178,8 @@
 				08B74CEE163B330500083F9A /* ProjectViewController.xib in Resources */,
 				08B74CF3163B367D00083F9A /* ProjectCell.xib in Resources */,
 				08B74CF81648615800083F9A /* Localizable.strings in Resources */,
+				084B47931677DF98000A0A6F /* add.png in Resources */,
+				084B47941677DF98000A0A6F /* addDown.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2700,7 +2708,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "48CD4623-1096-4DDE-91F0-8F8850B08B4F";
+				PROVISIONING_PROFILE = "AFED444C-7522-4469-A112-CEAE188986E9";
 				SDKROOT = iphoneos6.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2712,6 +2720,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/3rdParty\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "source/ios/rc2-Prefix.pch";
@@ -2725,7 +2734,8 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "48CD4623-1096-4DDE-91F0-8F8850B08B4F";
+				PROVISIONING_PROFILE = "AFED444C-7522-4469-A112-CEAE188986E9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "48CD4623-1096-4DDE-91F0-8F8850B08B4F";
 				SDKROOT = iphoneos6.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2773,7 +2783,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "48CD4623-1096-4DDE-91F0-8F8850B08B4F";
+				PROVISIONING_PROFILE = "AFED444C-7522-4469-A112-CEAE188986E9";
 				SDKROOT = iphoneos6.0;
 				WRAPPER_EXTENSION = app;
 			};
