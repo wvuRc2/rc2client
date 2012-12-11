@@ -61,8 +61,6 @@ extern NSString * const MessagesUpdatedNotification;
 @property (nonatomic, copy, readonly) NSArray *usersPermissions;
 @property (nonatomic, copy, readonly) NSArray *classesTaught;
 @property (nonatomic, copy, readonly) NSArray *assignmentsToGrade;
-@property (nonatomic, strong) RCWorkspace *selectedWorkspace;
-@property (nonatomic, strong) RCSession *currentSession;
 @property (nonatomic, strong, readonly) NSArray *messageRecipients;
 
 #pragma mark - basic request operations
@@ -104,7 +102,11 @@ extern NSString * const MessagesUpdatedNotification;
 
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace;
 
--(void)selectWorkspaceWithId:(NSNumber*)wspaceId;
+
+-(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
+
+//convience method used when ipad restores the last open session
+-(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId;
 
 #pragma mark - messages
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
@@ -150,10 +152,6 @@ extern NSString * const MessagesUpdatedNotification;
 -(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace
 			error:(NSError *__autoreleasing *)outError;
 
-#pragma mark - preperation
-
--(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock; //prepares selected workspace
--(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 #pragma mark - courses/assignments
 

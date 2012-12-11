@@ -139,7 +139,7 @@
 
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
 {
-	RCWorkspace *wspace = [[Rc2Server sharedInstance] currentSession].workspace;
+	RCWorkspace *wspace = _session.workspace;
 	self.currentProgress.mode = MBProgressHUDModeIndeterminate;
 	self.currentProgress.labelText = @"Uploading to Rc²…";
 	[[Rc2Server sharedInstance] importFile:[NSURL fileURLWithPath:destPath] 

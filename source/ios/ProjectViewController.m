@@ -55,6 +55,8 @@
 	self.collectionView.allowsSelection = YES;
 	[self.collectionView registerClass:[ProjectCell class] forCellWithReuseIdentifier:@"project"];
 	[self.collectionView reloadData];
+	UILongPressGestureRecognizer *g = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longGesture:)];
+	[self.collectionView addGestureRecognizer:g];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -73,6 +75,11 @@
 {
 	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	[self.collectionView reloadData];
+}
+
+-(void)longGesture:(UILongPressGestureRecognizer*)gesture
+{
+	NSLog(@"got long press");
 }
 
 -(IBAction)backToProjects:(id)sender

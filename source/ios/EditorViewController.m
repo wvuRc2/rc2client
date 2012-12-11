@@ -115,12 +115,12 @@
 			//FIXME: need to sanitize the input string
 			NSString *str = [editView textInRange:editView.selectedTextRange];
 			if (str)
-				[[Rc2Server sharedInstance].currentSession executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
+				[_session executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
 		};
 		self.richEditor.executeBlock = ^(SessionEditView *editView) {
 			NSString *str = [editView textInRange:editView.selectedTextRange];
 			if ([str length] > 0)
-				[[Rc2Server sharedInstance].currentSession executeScript:str scriptName:nil];
+				[_session executeScript:str scriptName:nil];
 		};
 		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
 		self.keyboardToolbar.delegate = self;
@@ -268,14 +268,14 @@
 
 -(void)userConfirmedDelete
 {
-	RCWorkspace *wspace = [[Rc2Server sharedInstance] selectedWorkspace];
+	RCWorkspace *wspace = self.session.workspace;
 	[[Rc2Server sharedInstance] deleteFile:self.currentFile container:wspace completionHandler:^(BOOL success, id results) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSManagedObjectContext *moc = self.currentFile.managedObjectContext;
 			[moc deleteObject:self.currentFile];
-			[self loadFileData:self.session.workspace.files.firstObject];
+			[self loadFileData:wspace.files.firstObject];
 			//FIXME: shouldn't need to refresh when all we did was delete a file
-			[[[Rc2Server sharedInstance] currentSession].workspace refreshFiles];
+			[_session.workspace refreshFiles];
 			self.fileController=nil;
 			self.filePopover=nil;
 		});
@@ -303,6 +303,7 @@
 		self.dropboxCache = [NSMutableDictionary dictionary];
 	[self.dropboxCache removeAllObjects];
 	DropboxImportController *dc = [[DropboxImportController alloc] init];
+	dc.session = _session;
 	dc.dropboxCache = self.dropboxCache;
 	self.importController = [[UINavigationController alloc] initWithRootViewController:dc];
 	self.importController.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -346,7 +347,7 @@
 		hud.labelText = @"Sending File to Server…";
 		self.syncInProgress = YES;
 		[[Rc2Server sharedInstance] saveFile:self.currentFile 
-								   toContainer:[[Rc2Server sharedInstance] currentSession].workspace
+								   toContainer:_session.workspace
 						   completionHandler:^(BOOL success, id results) 
 		{
 			[MBProgressHUD hideHUDForView:rootView animated:YES];
@@ -379,12 +380,12 @@
 	NSString *src = self.richEditor.attributedString.string;
 	if ([self.currentFile.name hasSuffix:@".Rnw"] || [self.currentFile.name hasSuffix:@".Rmd"]) {
 		[self executeBlockAfterSave:^{
-			[[Rc2Server sharedInstance].currentSession executeSweave:self.currentFile.name script:src];
+			[_session executeSweave:self.currentFile.name script:src];
 		}];
 	} else if ([self.currentFile.name hasSuffix:@".sas"]) {
 		[self executeBlockAfterSave:^{ [self.session executeSas:self.currentFile]; }];
 	} else {
-		[[Rc2Server sharedInstance].currentSession executeScript:src scriptName:self.currentFile.name];
+		[_session executeScript:src scriptName:self.currentFile.name];
 	}
 }
 
@@ -457,14 +458,13 @@
 	if (nil == self.currentActionItems)
 		self.currentActionItems = [NSMutableArray array];
 	[self.currentActionItems removeAllObjects];
-	RCSession *session = [Rc2Server sharedInstance].currentSession;
-	if (session.hasWritePerm) {
+	if (_session.hasWritePerm) {
 		[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"New File" target:nil action:@selector(doNewFile:) userInfo:nil]];
 		if (self.currentFile)
 			[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Save File on Server" target:nil action:@selector(doSaveFile:) userInfo:nil]];
 		[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Delete File on Server" target:nil action:@selector(doDeleteFile:) userInfo:nil]];
 	}
-	if (session.hasReadPerm) {
+	if (_session.hasReadPerm) {
 		[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Revert File" target:nil action:@selector(doRevertFile:) userInfo:nil]];
 	}
 	[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Clear Editor" target:nil action:@selector(doClear:) userInfo:nil]];
@@ -481,7 +481,7 @@
 	hud.labelText = @"Saving…";
 	self.syncInProgress=YES;
 	[[Rc2Server sharedInstance] saveFile:self.currentFile 
-							   toContainer:[[Rc2Server sharedInstance] currentSession].workspace
+							   toContainer:_session.workspace
 					   completionHandler:^(BOOL success, id results) 
 	{
 		[MBProgressHUD hideHUDForView:rootView animated:YES];
@@ -525,7 +525,7 @@
 				RCFile *file = [RCFile insertInManagedObjectContext:moc];
 				file.name = str;
 				file.fileContents = @"";
-				[[[Rc2Server sharedInstance] currentSession].workspace addFile:file];
+				[_session.workspace addFile:file];
 				[self performSelectorOnMainThread:@selector(loadFile:) withObject:file waitUntilDone:NO];
 			}
 		}
@@ -573,7 +573,7 @@
 	if (self.actionSheet.visible) {
 		[self.actionSheet dismissWithClickedButtonIndex:-1 animated:YES];
 	}
-	if (![[Rc2Server sharedInstance] currentSession].hasReadPerm) {
+	if (!self.session.hasReadPerm) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Permission Denied"
 														message:@"You do not have permission to read files in this workspace."
 													   delegate:nil

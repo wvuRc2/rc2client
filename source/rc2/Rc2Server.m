@@ -373,6 +373,17 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	return [allSaved firstObject];
 }
 
+-(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId
+{
+	for (RCProject *project in [Rc2Server sharedInstance].projects) {
+		for (RCWorkspace *wspace in project.workspaces) {
+			if ([wspace.wspaceId isEqualToNumber:wspaceId])
+				return wspace;
+		}
+	}
+	return nil;
+}
+
 /*
 -(void)updateWorkspaceItems:(NSArray*)items
 {
@@ -425,29 +436,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 }
  
  */
-
-#pragma mark - workspaces (legacy iPad functionality)
-
--(void)prepareWorkspace:(Rc2FetchCompletionHandler)hblock
-{
-	[self prepareWorkspace:self.selectedWorkspace completionHandler:hblock];
-}
-
--(void)selectWorkspaceWithId:(NSNumber*)wspaceId
-{
-/*	for (RCWorkspaceItem *item in self.workspaceItems) {
-		if ([item.wspaceId isEqualToNumber:wspaceId] && !item.isFolder) {
-			self.selectedWorkspace = (RCWorkspace*)item;
-			return;
-		} else if (item.isFolder) {
-			RCWorkspaceItem *ws = [(RCWorkspaceFolder*)item childWithId:wspaceId];
-			if (ws && !ws.isFolder) {
-				self.selectedWorkspace = (RCWorkspace*)ws;
-				return;
-			}
-		}
-	}*/
-}
 
 #pragma mark - files
 
@@ -1046,7 +1034,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 -(void)logout
 {
-	self.selectedWorkspace=nil;
 	self.loggedIn=NO;
 	self.currentLogin=nil;
 	self.remoteLogger.logHost=nil;

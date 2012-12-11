@@ -149,6 +149,7 @@
 -(void)removeFile:(RCFile*)aFile
 {
 	//TODO: implement
+	//need to remove from moc, and from file array
 }
 
 -(NSString*)fileCachePath

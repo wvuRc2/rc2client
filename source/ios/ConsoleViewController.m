@@ -191,7 +191,7 @@
 {
 	if (!self.haveExternalKeyboard)
 		[self.textField resignFirstResponder];
-	[[Rc2Server sharedInstance].currentSession executeScript:self.textField.text scriptName:nil];
+	[_session executeScript:self.textField.text scriptName:nil];
 }
 
 -(IBAction)doDecreaseFont:(id)sender

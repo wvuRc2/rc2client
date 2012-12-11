@@ -30,7 +30,7 @@
 
 -(void)promptForLogin;
 -(void)openSession:(RCWorkspace*)workspace;
--(void)startSession:(RCFile*)initialFile;
+-(void)startSession:(RCFile*)initialFile workspace:(RCWorkspace*)wspace;
 -(IBAction)endSession:(id)sender;
 -(void)displayPdfFile:(RCFile*)file;
 

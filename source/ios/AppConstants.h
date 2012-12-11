@@ -15,6 +15,8 @@
 #define kPref_SyntaxColor_Comment @"SyntaxColor_Comment"
 #define kPref_SyntaxColor_Function @"SyntaxColor_Function"
 #define kPref_SyntaxColor_Keyword @"SyntaxColor_Keyword"
+#define kPref_CurrentSessionWorkspace @"currentSessionID"
+#define kPref_CurrentProject @"currentProductID"
 
 typedef enum {
 	eKeyboardLayout_Standard=0,

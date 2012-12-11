@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class RCSession;
+
 @interface DropboxImportController : UIViewController
 @property (nonatomic, strong) IBOutlet UITableView *fileTable;
 @property (nonatomic, copy) NSString *thePath;
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
+@property (nonatomic, strong) RCSession *session;
 @end

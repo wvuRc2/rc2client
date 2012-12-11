@@ -27,7 +27,6 @@
 
 @interface Rc2AppDelegate() {
 	NSManagedObjectModel *__mom;
-	NSInteger _curKeyFile;
 }
 @property (nonatomic, strong) MLReachability *reachability;
 @property (nonatomic, strong) RootViewController *rootController;
@@ -35,9 +34,7 @@
 @property (nonatomic, strong) LoginController *authController;
 @property (nonatomic, strong) UIView *messageListView;
 @property (nonatomic, strong) UIView *currentMasterView;
-@property (nonatomic, strong) DBRestClient *keyboardRestClient;
 @property (nonatomic, strong) NSData *pushToken;
--(void)downloadKeyboardFile;
 @end
 
 #define kCustomKeyboardDBPathTemplate @"/rc2shares/keyboards/custom%d-%d%@.txt"
@@ -240,35 +237,17 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[defaults setObject:[mb pathForResource:@"rightSym" ofType:@"txt"] forKey:kPrefCustomKey2URL];		
 }
 
--(void)completeSessionStartup2
+-(void)completeSessionStartup:(id)results selectedFile:(RCFile*)selFile workspace:(RCWorkspace*)wspace
 {
-	SessionViewController *svc = [[SessionViewController alloc] initWithSession:[Rc2Server sharedInstance].currentSession];
+	RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:results];
+	session.initialFileSelection = selFile;
+	SessionViewController *svc = [[SessionViewController alloc] initWithSession:session];
 	self.sessionController = svc;
 	[svc view];
 	[MBProgressHUD hideHUDForView:self.rootController.view animated:YES];
 	RunAfterDelay(0.25, ^{
 		[self.rootController presentModalViewController:svc animated:YES];
 	});
-}
-
--(void)completeSessionStartup:(id)results selectedFile:(RCFile*)selFile
-{
-	RCWorkspace *wspace = [Rc2Server sharedInstance].selectedWorkspace;
-	RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:results];
-	[Rc2Server sharedInstance].currentSession = session;
-	session.initialFileSelection = selFile;
-	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
-	if (keylayout != eKeyboardLayout_Standard) {
-		_curKeyFile=0;
-		//we need to attempt to copy custom keyboards from dropbox
-		if (nil == self.keyboardRestClient) {
-			self.keyboardRestClient = [[DBRestClient alloc] initWithSession:(id)[DBSession sharedSession]];
-			self.keyboardRestClient.delegate = (id)self;
-		}
-		[self downloadKeyboardFile];
-	} else {
-		[self completeSessionStartup2];
-	}
 }
 
 -(void)openSession:(RCWorkspace*)wspace
@@ -282,17 +261,16 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 		[defaults setObject:[basePath stringByAppendingString:@"1.txt"] forKey:kPrefCustomKey1URL];
 		[defaults setObject:[basePath stringByAppendingString:@"2.txt"] forKey:kPrefCustomKey2URL];
 	}
-	[Rc2Server sharedInstance].selectedWorkspace = wspace;
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
 	BOOL restoring = nil != savedState;
 	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.rootController.view animated:YES];
 	hud.labelText = restoring ? @"Restoring session…" : @"Loading…";
-	[[Rc2Server sharedInstance] prepareWorkspace:^(BOOL success, id response) {
+	[[Rc2Server sharedInstance] prepareWorkspace:wspace completionHandler:^(BOOL success, id response) {
 		if (success) {
 			double delayInSeconds = 0.1;
 			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
 			dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-				[self completeSessionStartup:response selectedFile:nil];
+				[self completeSessionStartup:response selectedFile:nil workspace:wspace];
 			});
 		} else {
 			[MBProgressHUD hideHUDForView:self.rootController.view animated:YES];
@@ -306,7 +284,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	}];
 }
 
--(void)startSession:(RCFile*)initialFile
+-(void)startSession:(RCFile*)initialFile workspace:(RCWorkspace*)wspace
 {
 	if ([initialFile.name.pathExtension isEqualToString:@"pdf"]) {
 		[self displayPdfFile:initialFile];
@@ -321,18 +299,17 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 		[defaults setObject:[basePath stringByAppendingString:@"1.txt"] forKey:kPrefCustomKey1URL];
 		[defaults setObject:[basePath stringByAppendingString:@"2.txt"] forKey:kPrefCustomKey2URL];
 	}
-	RCWorkspace *wspace = [Rc2Server sharedInstance].selectedWorkspace;
 	ZAssert(wspace, @"startSession called without a selected workspace");
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
 	BOOL restoring = nil != savedState;
 	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.rootController.view animated:YES];
 	hud.labelText = restoring ? @"Restoring session…" : @"Loading…";
-	[[Rc2Server sharedInstance] prepareWorkspace:^(BOOL success, id response) {
+	[[Rc2Server sharedInstance] prepareWorkspace: wspace completionHandler:^(BOOL success, id response) {
 		if (success) {
 			double delayInSeconds = 0.1;
 			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
 			dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-				[self completeSessionStartup:response selectedFile:initialFile];
+				[self completeSessionStartup:response selectedFile:initialFile workspace:wspace];
 			});
 		} else {
 			[MBProgressHUD hideHUDForView:self.rootController.view animated:YES];
@@ -349,17 +326,17 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 -(IBAction)endSession:(id)sender
 {
 	[self.rootController dismissModalViewControllerAnimated:YES];
-	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"currentSessionWspaceId"];
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:kPref_CurrentSessionWorkspace];
 	self.sessionController=nil;
 }
 
 -(void)restoreLastSession
 {
-	NSNumber *wspaceId = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentSessionWspaceId"];
+	NSNumber *wspaceId = [[NSUserDefaults standardUserDefaults] objectForKey:kPref_CurrentSessionWorkspace];
 	if (wspaceId) {
-		[[Rc2Server sharedInstance] selectWorkspaceWithId:wspaceId];
-		if ([Rc2Server sharedInstance].selectedWorkspace)
-			[self startSession:nil];
+		RCWorkspace *wspace = [[Rc2Server sharedInstance] workspaceWithId:wspaceId];
+		if (wspace)
+			[self startSession:nil workspace:wspace];
 	}
 }
 
@@ -387,7 +364,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 #ifndef TARGET_IPHONE_SIMULATOR
 			[self registerForPushNotification];
 #endif
-			if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentSessionWspaceId"])
+			if ([[NSUserDefaults standardUserDefaults] objectForKey:kPref_CurrentSessionWorkspace])
 				[self performSelectorOnMainThread:@selector(restoreLastSession) withObject:nil waitUntilDone:NO];
 		} else {
 			[self performSelectorOnMainThread:@selector(promptForLogin) withObject:nil waitUntilDone:NO];
@@ -404,7 +381,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 		[blockVC dismissModalViewControllerAnimated:YES];
 		blockSelf.authController=nil;
 		[blockSelf registerForPushNotification];
-		if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentSessionWspaceId"]) {
+		if ([[NSUserDefaults standardUserDefaults] objectForKey:kPref_CurrentSessionWorkspace]) {
 			[blockSelf restoreLastSession];
 		}
 	};
@@ -467,52 +444,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	if (self.sessionController)
 		return self.sessionController;
 	return self.window.rootViewController;
-}
-
-
-#pragma mark - drop box
-
--(void)downloadKeyboardFile
-{
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
-	NSInteger keyid = (_curKeyFile == 0 || _curKeyFile == 2) ? 1 : 2;
-	NSString *keyad = (_curKeyFile > 1) ? @"p" : @"";
-	NSString *path = [NSString stringWithFormat:kCustomKeyboardDBPathTemplate, keylayout, keyid, keyad];
-	_curKeyFile++;
-	//we need to attempt to copy custom keyboards from dropbox
-	NSString *baseDest = [defaults objectForKey:keyid == 1 ? kPrefCustomKey1URL : kPrefCustomKey2URL];
-	NSString *dest = [[baseDest stringByDeletingPathExtension] stringByAppendingFormat:@"%@.txt", keyad];
-	[self.keyboardRestClient loadFile:path intoPath:dest];
-}
-
-- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
-{
-	Rc2LogInfo(@"saved file %@", destPath);
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	if (_curKeyFile < 4) {
-		[self downloadKeyboardFile];
-		return;
-	}
-	NSString *path1 = [defaults objectForKey:kPrefCustomKey1URL];
-	NSString *path2 = [defaults objectForKey:kPrefCustomKey2URL];
-	//we should have 2 files saved on the filesystem. if not, reset to default keyboard
-	NSFileManager *fm = [NSFileManager defaultManager];
-	if (![fm fileExistsAtPath:path1] || ![fm fileExistsAtPath:path2]) {
-		[self resetKeyboardPaths];
-	} else {
-		Rc2LogInfo(@"successfully downloaded custom keyboard layouts");
-	}
-	[self completeSessionStartup2];
-}
-
-- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error
-{
-	Rc2LogInfo(@"keyboard import error: %@", [error localizedDescription]);
-	[self resetKeyboardPaths];
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[self completeSessionStartup2];
-	});
 }
 
 
