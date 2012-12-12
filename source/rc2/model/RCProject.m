@@ -89,7 +89,8 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 
 -(void)removeFile:(RCFile*)aFile
 {
-	//TODO: implement
+	[aFile.managedObjectContext deleteObject:aFile];
+	self.files = [_files arrayByRemovingObjectAtIndex:[_files indexOfObject:aFile]];
 }
 
 -(NSString*)fileCachePath

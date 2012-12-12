@@ -240,6 +240,8 @@
 		return nil;
 	if ([self.localEdits length] > 0)
 		return self.localEdits;
+	if (!self.existsOnServer && nil == self.fileContents)
+		self.fileContents = @"\n";
 	if (nil == self.fileContents) {
 		//we need to load our file contents. first, see if they exist on the file system
 		NSString *cacheContents = [NSString stringWithContentsOfFile:self.fileContentsPath encoding:NSUTF8StringEncoding error:nil];

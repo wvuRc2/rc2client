@@ -148,21 +148,20 @@
 
 -(void)removeFile:(RCFile*)aFile
 {
-	//TODO: implement
-	//need to remove from moc, and from file array
+	[aFile.managedObjectContext deleteObject:aFile];
+	self.files = [_files arrayByRemovingObjectAtIndex:[_files indexOfObject:aFile]];
 }
 
 -(NSString*)fileCachePath
 {
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
+	if (nil == self.fspath) {
 		self.fspath = [[self.project fileCachePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"ws%@", self.wspaceId]];
 		NSFileManager *fm = [NSFileManager defaultManager];
 		NSError *err=nil;
 		if (![fm fileExistsAtPath:_fspath])
 			if (![fm createDirectoryAtPath:_fspath withIntermediateDirectories:YES attributes:nil error:nil])
 				Rc2LogError(@"failed to create workspace directory:%@", err);
-	});
+	}
 	return _fspath;
 }
 

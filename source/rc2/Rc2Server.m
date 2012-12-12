@@ -462,6 +462,9 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	} failure:^(id op, NSError *error) {
 		hblock(NO, error.localizedDescription);
 	}];
+	NSString *fpath = file.fileContentsPath;
+	if (nil == fpath)
+		Rc2LogError(@"not file with no path:%@", file);
 	op.outputStream = [NSOutputStream outputStreamToFileAtPath:file.fileContentsPath append:NO];
 	[_httpClient enqueueHTTPRequestOperation:op];
 }
@@ -574,6 +577,9 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 				NSDictionary *fdata = [rsp objectForKey:@"file"];
 				RCFile *rcfile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
 				[rcfile updateWithDictionary:fdata];
+				[rcfile setValue:container forKey:@"container"];
+				[container addFile:rcfile];
+				[file.currentContents writeToFile:rcfile.fileContentsPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
 				hblock(YES, rcfile);
 			}
 		} else {
@@ -589,7 +595,11 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 {
 	NSMutableString *path = [self containerPath:file.container];
 	[path appendFormat:@"/file/%@", file.fileId];
-	[_httpClient putPath:path parameters:@{@"name":newName} success:^(id op, id rsp) {
+	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"PUT" path:path parameters:@{@"name":newName}
+												 constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
+	{
+	}];
+	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
 		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
 			[file updateWithDictionary:[rsp objectForKey:@"file"]];
 			hblock(YES, file);
@@ -599,6 +609,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
 	}];
+	[_httpClient enqueueHTTPRequestOperation:op];
 }
 
 //synchronously update the content of a file
@@ -631,9 +642,8 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	[path appendFormat:@"/file/%@", file.fileId];
 	[_httpClient deletePath:path parameters:nil success:^(id req, id rsp) {
 		BOOL success = [[rsp objectForKey:@"status"] intValue] == 0;
-		if (success) {
+		if (success)
 			[container removeFile:file];
-		}
 		hblock(success, rsp);
 	} failure:^(id op, NSError *error) {
 		hblock(NO, error.localizedDescription);

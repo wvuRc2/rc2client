@@ -12,6 +12,7 @@
 #import "RCSession.h"
 #import "RCFile.h"
 #import "RCWorkspace.h"
+#import "RCProject.h"
 #import "RCSavedSession.h"
 #import "RCSession.h"
 #import "RCSessionUser.h"
@@ -240,7 +241,9 @@
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
 	if (savedState.currentFile) {
-		[self loadFile:savedState.currentFile];
+		RCFile *file = [_session.workspace fileWithId:savedState.currentFile.fileId];
+		if (file)
+			[self loadFile:file];
 	} else if ([savedState.inputText length] > 0) {
 		[self updateTextContents:[[NSAttributedString alloc] initWithString:savedState.inputText]];
 	}
@@ -251,6 +254,12 @@
 {
 	if (self.currentFile != nil && self.currentFile != file) {
 		self.currentFile.localEdits = self.richEditor.text;
+	}
+	if (nil == file) {
+		Rc2LogWarn(@"asked to load file <nil>");
+		self.currentFile=nil;
+		self.docTitleLabel.text = @"";
+		return;
 	}
 	self.currentFile = file;
 	self.docTitleLabel.text = file.name;
@@ -272,11 +281,11 @@
 	RCWorkspace *wspace = self.session.workspace;
 	[[Rc2Server sharedInstance] deleteFile:self.currentFile container:wspace completionHandler:^(BOOL success, id results) {
 		dispatch_async(dispatch_get_main_queue(), ^{
-			NSManagedObjectContext *moc = self.currentFile.managedObjectContext;
-			[moc deleteObject:self.currentFile];
-			[self loadFileData:wspace.files.firstObject];
-			//FIXME: shouldn't need to refresh when all we did was delete a file
-			[_session.workspace refreshFiles];
+			RCFile *nfile = wspace.files.firstObject;
+			if (nil == nfile)
+				nfile = wspace.project.files.firstObject;
+			[self loadFileData:nfile];
+			[self.fileController reloadData];
 			self.fileController=nil;
 			self.filePopover=nil;
 		});
@@ -374,27 +383,35 @@
 
 -(void)promptForNewFile:(BOOL)shared
 {
-	self.currentAlert = [[UIAlertView alloc] initWithTitle:@"New File Name:" message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
+	self.currentAlert = [[UIAlertView alloc] initWithTitle:(shared?@"New shared file name":@"New file name:") message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
 	self.currentAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
 	__unsafe_unretained EditorViewController *blockSelf=self;
 	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
-		if (1==btnIdx) {
-			//make sure has a file extension
-			NSString *str = [alert textFieldAtIndex:0].text;
-			if (str.length > 0) {
-				NSString *ext = [str pathExtension];
-				if (![[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
-					str = [str stringByAppendingPathExtension:@"R"];
-				NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
-				RCFile *file = [RCFile insertInManagedObjectContext:moc];
-				file.name = str;
-				file.fileContents = @"";
-				[_session.workspace addFile:file];
-				[self performSelectorOnMainThread:@selector(loadFile:) withObject:file waitUntilDone:NO];
+		if (1!=btnIdx)
+			return;
+		//make sure has a file extension
+		NSString *str = [alert textFieldAtIndex:0].text;
+		if (str.length < 1)
+			return;
+		NSString *ext = [str pathExtension];
+		if (![[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
+			str = [str stringByAppendingPathExtension:@"R"];
+		NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
+		RCFile *file = [RCFile insertInManagedObjectContext:moc];
+		file.name = str;
+		file.fileContents = @"";
+		id<RCFileContainer> container = shared ? blockSelf.session.workspace.project : blockSelf.session.workspace;
+		[[Rc2Server sharedInstance] saveFile:file toContainer:container completionHandler:^(BOOL success, id results) {
+			if (success) {
+				[self loadFile:results];
+			} else {
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error creating file." message:results delegate:nil
+													  cancelButtonTitle:nil otherButtonTitles:@"Ok",nil];
+				[alert show];
 			}
-		}
-		blockSelf.currentAlert=nil;
+		}];
 	}];
+	self.currentAlert=nil;
 }
 
 
@@ -489,17 +506,41 @@
 	if (_session.hasWritePerm) {
 		if (self.currentFile) {
 			[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Save" target:nil action:@selector(doSaveFile:) userInfo:nil]];
+			[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Rename" target:nil action:@selector(doRenameFile:) userInfo:nil]];
 			[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Delete" target:nil action:@selector(doDeleteFile:) userInfo:nil]];
 		}
 	}
-	if (_session.hasReadPerm) {
-		[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Revert" target:nil action:@selector(doRevertFile:) userInfo:nil]];
-	}
-	[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Clear Editor" target:nil action:@selector(doClear:) userInfo:nil]];
-	self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Editor Actions" delegate:(id)self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+	[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Revert" target:nil action:@selector(doRevertFile:) userInfo:nil]];
+	self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"File Actions" delegate:(id)self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
 	for (AMActionItem *action in self.currentActionItems)
 		[self.actionSheet addButtonWithTitle:action.title];
 	[self.actionSheet showFromBarButtonItem:sender animated:YES];
+}
+
+-(IBAction)doRenameFile:(id)sender
+{
+	self.currentAlert = [[UIAlertView alloc] initWithTitle:@"Rename file to:" message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Rename", nil];
+	self.currentAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+	[self.currentAlert textFieldAtIndex:0].text = self.currentFile.name;
+	__unsafe_unretained EditorViewController *blockSelf=self;
+	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
+		NSString *str = [alert textFieldAtIndex:0].text;
+		if (1==btnIdx && str.length > 0) {
+			NSString *ext = [str pathExtension];
+			if (![[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
+				str = [str stringByAppendingPathExtension:@"R"];
+			[[Rc2Server sharedInstance] renameFile:blockSelf.currentFile toName:str completionHandler:^(BOOL success, id rsp) {
+				if (success) {
+					blockSelf.docTitleLabel.text = str;
+					[self.fileController reloadData];
+				} else {
+					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error renaming file" message:rsp delegate:nil
+														  cancelButtonTitle:nil otherButtonTitles:@"Ok",nil];
+					[alert show];
+				}
+			}];
+		}
+	}];
 }
 
 -(IBAction)doSaveFile:(id)sender
