@@ -109,6 +109,7 @@
 	if ([[item objectForKey:@"isdir"] boolValue]) {
 		//need to push next item on the stack
 		DropboxImportController *dfc = [[DropboxImportController alloc] init];
+		dfc.session = self.session;
 		dfc.thePath = [[item objectForKey:@"metadata"] path];
 		dfc.dropboxCache = self.dropboxCache;
 		[self.navigationController pushViewController:dfc animated:YES];
@@ -139,7 +140,7 @@
 
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
 {
-	RCWorkspace *wspace = _session.workspace;
+	RCWorkspace *wspace = self.session.workspace;
 	self.currentProgress.mode = MBProgressHUDModeIndeterminate;
 	self.currentProgress.labelText = @"Uploading to Rc²…";
 	[[Rc2Server sharedInstance] importFile:[NSURL fileURLWithPath:destPath] 
@@ -204,4 +205,14 @@
 {
 	[(id)self.navigationController.delegate userDone:self.lastFileImported];
 }
+
+-(void)setSession:(RCSession *)session
+{
+	if (nil == session)
+		NSLog(@"setting session to nil");
+	__session = session;
+	NSLog(@"setting session %@", __session);
+}
+
+@synthesize session=__session;
 @end

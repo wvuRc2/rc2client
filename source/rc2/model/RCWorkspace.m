@@ -143,6 +143,8 @@
 		self.files = [NSArray arrayWithObject:aFile];
 	else
 		self.files = [_files arrayByAddingObject:aFile];
+	[aFile setValue:self forKey:@"container"];
+	ZAssert(aFile.container == self, @"not set as container");
 	[[NSNotificationCenter defaultCenter] postNotificationName:RCFileContainerChangedNotification object:self];
 }
 

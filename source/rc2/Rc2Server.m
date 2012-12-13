@@ -512,7 +512,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"POST" path:path parameters:@{@"name":[fileUrl lastPathComponent]} constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
 	{
 		NSError *err=nil;
-		if (![fdata appendPartWithFileURL:fileUrl name:@"content" error:&err]) {
+		if (![fdata appendPartWithFileURL:fileUrl name:@"contents" error:&err]) {
 			Rc2LogError(@"failed to append file to upload request:%@", err);
 			hblock(NO, [err localizedDescription]);
 		}
@@ -544,7 +544,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"POST" path:path parameters:@{@"name":name} constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
 	{
 		NSError *err=nil;
-		if (![fdata appendPartWithFileURL:fileUrl name:@"content" error:&err]) {
+		if (![fdata appendPartWithFileURL:fileUrl name:@"contents" error:&err]) {
 			Rc2LogError(@"failed to append file to upload request:%@", err);
 		}
 	}];
