@@ -500,6 +500,8 @@
 
 -(void)handleWebSocketError:(NSError*)error
 {
+	if ([error.domain isEqualToString:NSPOSIXErrorDomain] && error.code == ENOTCONN)
+		return;
 	Rc2LogError(@"web socket error: %@", [error localizedDescription]);
 	if (self.showingProgress) {
 		[MBProgressHUD hideHUDForView:self.view animated:NO];

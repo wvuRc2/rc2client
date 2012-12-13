@@ -99,7 +99,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryMixWithOthers, sizeof(mixProp), &mixProp);
 	AudioSessionSetActive(true);
 	
-	//FIXME: temporary
 	application.applicationIconBadgeNumber = 0;
 	return YES;
 }
