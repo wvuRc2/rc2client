@@ -22,6 +22,8 @@
 //parses an array of dictionaries sent from the server
 +(NSArray*)filesFromJsonArray:(NSArray*)inArray container:(id<RCFileContainer>)container
 {
+	if (nil == inArray || [[NSNull null] isEqual:inArray])
+		return [NSArray array];
 	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
 	for (NSDictionary *dict in inArray) {

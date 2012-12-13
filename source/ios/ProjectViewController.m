@@ -17,6 +17,7 @@
 #import "Rc2AppDelegate.h"
 
 @interface ProjectViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
+@property (weak) IBOutlet UIBarButtonItem *addButton;
 @property (weak) IBOutlet UIBarButtonItem *projectButton;
 @property (weak) IBOutlet UIBarButtonItem *titleItem;
 @property (weak) IBOutlet UICollectionView *collectionView;
@@ -82,6 +83,22 @@
 	NSLog(@"got long press");
 }
 
+
+#pragma mark - actions
+
+-(IBAction)addNewObject:(id)sender
+{
+	BOOL isProj = nil == _selectedProject;
+	UIAlertView *theAlert = [[UIAlertView alloc] initWithTitle:(isProj?@"New project name:":@"New workspace name:") message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
+	theAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+	__unsafe_unretained ProjectViewController *blockSelf=self;
+	[theAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
+		if (1!=btnIdx)
+			return;
+		[blockSelf doAddObject:[alert textFieldAtIndex:0].text];
+	}];
+}
+
 -(IBAction)backToProjects:(id)sender
 {
 	self.projectButton.enabled = NO;
@@ -104,6 +121,47 @@
 		self.titleItem.title = NSLocalizedString(@"Rc2 Projects", @"");
 	});
 }
+
+#pragma mark - meat & potato
+
+-(void)doAddObject:(NSString*)newNamee
+{
+	NSString *errMsg=nil;
+	if (nil == _selectedProject) {
+		if (nil != [self.projects firstObjectWithValue:newNamee forKey:@"name"])
+			errMsg = @"A project already exists with that name.";
+	} else {
+		if (nil != [self.selectedProject.workspaces firstObjectWithValue:newNamee forKey:@"name"])
+			errMsg = @"A workspace already exists with that name.";
+	}
+	if (errMsg) {
+		[UIAlertView  showAlertWithTitle:@"Unable to create project" message:errMsg];
+		return;
+	}
+	if (nil == _selectedProject) {
+		[[Rc2Server sharedInstance] createProject:newNamee completionBlock:^(BOOL success, id rsp) {
+			if (success) {
+				self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
+				NSInteger idx = [self.projects indexOfObject:rsp];
+				if (idx != NSNotFound)
+					[self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
+			} else {
+				[UIAlertView showAlertWithTitle:@"Failed to create project" message:rsp];
+			}
+		}];
+	} else {
+		[[Rc2Server sharedInstance] createWorkspace:newNamee inProject:self.selectedProject completionBlock:^(BOOL sucess, id rsp) {
+			if (sucess) {
+				NSInteger idx = [self.selectedProject.workspaces indexOfObject:rsp];
+				[self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
+			} else {
+				[UIAlertView showAlertWithTitle:@"Failed to create workspace" message:rsp];
+			}
+		}];
+	}
+}
+
+#pragma mark - collection view
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {

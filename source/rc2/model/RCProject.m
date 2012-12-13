@@ -95,8 +95,7 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 
 -(NSString*)fileCachePath
 {
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
+	if (nil == _fspath) {
 		NSString *filePath = [NSString stringWithFormat:@"projects/%@", self.projectId];
 		self.fspath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:filePath];
 		NSFileManager *fm = [NSFileManager defaultManager];
@@ -107,7 +106,7 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 			[fm removeItemAtPath:_fspath error:nil];
 		if (![fm createDirectoryAtPath:_fspath withIntermediateDirectories:YES attributes:nil error:&err])
 			Rc2LogError(@"failed to create project directory:%@", err);
-	});
+	}
 	return _fspath;
 }
 
