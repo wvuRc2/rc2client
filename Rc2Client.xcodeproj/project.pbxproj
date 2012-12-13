@@ -130,6 +130,7 @@
 		084594DF15B5F71500297C9D /* turnedin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CF15B5F71500297C9D /* turnedin@2x.png */; };
 		084B47931677DF98000A0A6F /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 084B47911677DF98000A0A6F /* add.png */; };
 		084B47941677DF98000A0A6F /* addDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 084B47921677DF98000A0A6F /* addDown.png */; };
+		084B479D167A8B3D000A0A6F /* MLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245F515B5DCD70064A9FA /* MLReachability.m */; };
 		084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
 		084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
@@ -2590,6 +2591,7 @@
 				080E508D166FDFB800E95531 /* AFPropertyListRequestOperation.m in Sources */,
 				080E508F166FDFB800E95531 /* AFURLConnectionOperation.m in Sources */,
 				080E5091166FDFB800E95531 /* AFXMLRequestOperation.m in Sources */,
+				084B479D167A8B3D000A0A6F /* MLReachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

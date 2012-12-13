@@ -32,6 +32,7 @@
 #import "MCSessionView.h"
 #import "MCSessionFileController.h"
 #import "MAKVONotificationCenter.h"
+#import "MLReachability.h"
 
 @interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, copy) NSArray *data;
@@ -66,7 +67,10 @@
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) NSString *webTmpFileDirectory;
 @property (nonatomic, strong) NSWindow *blockingWindow;
+@property (nonatomic, strong) MLReachability *serverReach;
 @property BOOL importToProject;
+@property (nonatomic, assign) BOOL reconnecting;
+@property (nonatomic, assign) BOOL shouldReconnect;
 @end
 
 @implementation MCSessionViewController
@@ -83,6 +87,10 @@
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
 		[self observeTarget:aSession keyPath:@"mode" selector:@selector(modeChanged) userInfo:nil options:0];
+		NSURL *serverUrl = [NSURL URLWithString:[[Rc2Server sharedInstance] websocketUrl]];
+		self.serverReach = [MLReachability reachabilityWithHostname:serverUrl.host];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kMLReachabilityChangedNotification object:self.serverReach];
+		[self.serverReach startNotifier];
 	}
 	return self;
 }
@@ -643,6 +651,24 @@
 	return newPath;
 }
 
+-(void)reachabilityChanged:(NSNotification*)note
+{
+	if (self.serverReach.isReachable) {
+		if (!_session.socketOpen && !self.reconnecting && self.shouldReconnect) {
+			self.reconnecting=YES;
+			self.busy=YES;
+			self.statusMessage = @"Reconnecting…";
+			RunAfterDelay(0.2, ^{
+				[self.session startWebSocket];
+			});
+		}
+	} else {
+		self.busy=YES;
+		self.statusMessage = @"Network unavailable";
+	}
+}
+
+
 #pragma mark - file helper delegate
 
 -(void)syncFile:(RCFile*)file
@@ -723,6 +749,9 @@
 			[self.session forceVariableRefresh];
 	});
 //	[self.audioEngine playDataFromFile:@"/Users/mlilback/Desktop/rc2audio.plist"];
+	if (!self.reconnecting)
+		self.shouldReconnect=YES;
+	self.reconnecting=NO;
 }
 
 -(void)connectionClosed
@@ -732,7 +761,15 @@
 
 -(void)handleWebSocketError:(NSError*)error
 {
-	[self presentError:error];
+	if ([error.domain isEqualToString:NSPOSIXErrorDomain] && error.code == ENOTCONN)
+		return;
+	NSLog(@"connection error:%@", error);
+	if (!self.isBusy)
+		[self presentError:error];
+	if (self.reconnecting) {
+		self.reconnecting=NO;
+		self.shouldReconnect=NO;
+	}
 }
 
 -(NSString*)executeJavascript:(NSString*)js
