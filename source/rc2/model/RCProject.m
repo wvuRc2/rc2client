@@ -93,6 +93,11 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 	self.files = [_files arrayByRemovingObjectAtIndex:[_files indexOfObject:aFile]];
 }
 
+-(void)removeWorkspace:(RCWorkspace*)wspace
+{
+	self.workspaces = [self.workspaces arrayByRemovingObjectAtIndex:[_workspaces indexOfObject:wspace]];
+}
+
 -(NSString*)fileCachePath
 {
 	if (nil == _fspath) {

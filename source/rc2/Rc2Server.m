@@ -312,6 +312,16 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 -(void)deleteWorkspce:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
+	[_httpClient deletePath:[self containerPath:wspace] parameters:nil success:^(id op, id rsp) {
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			[wspace.project removeWorkspace:wspace];
+			hblock(YES, nil);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
 /*	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@", [self baseUrl],
 									   wspace.wspaceId]];
 	ASIHTTPRequest *theReq = [self requestWithURL:url];

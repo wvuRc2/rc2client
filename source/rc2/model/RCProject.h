@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "RCFileContainer.h"
 
+@class RCWorkspace;
+
 @interface RCProject : NSObject<RCFileContainer>
 
 @property (nonatomic, strong) NSNumber *projectId;
@@ -24,4 +26,6 @@
 -(id)initWithDictionary:(NSDictionary*)dict;
 
 -(void)updateWithDictionary:(NSDictionary*)dict;
+
+-(void)removeWorkspace:(RCWorkspace*)wspace;
 @end

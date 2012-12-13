@@ -172,12 +172,13 @@
 					}
 				}];
 			} else {
+				NSInteger idx = [self.selectedProject.workspaces indexOfObject:item];
 				[[Rc2Server sharedInstance] deleteWorkspce:item completionHandler:^(BOOL success, id rsp) {
 					if (success) {
-						NSInteger idx = [self.selectedProject.workspaces indexOfObject:item];
-						self.projects = [self.selectedProject.workspaces mutableCopy];
 						if (idx != NSNotFound)
 							[self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
+						else
+							[self.collectionView reloadData];
 					}
 				}];
 			}
