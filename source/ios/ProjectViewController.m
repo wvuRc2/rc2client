@@ -21,6 +21,7 @@
 @property (weak) IBOutlet UIBarButtonItem *projectButton;
 @property (weak) IBOutlet UIBarButtonItem *titleItem;
 @property (weak) IBOutlet UICollectionView *collectionView;
+@property (strong) UIActionSheet *contextMenuSheet;
 @property (strong) NSMutableArray *projects;
 @property (strong) RCProject *selectedProject;
 @end
@@ -80,11 +81,109 @@
 
 -(void)longGesture:(UILongPressGestureRecognizer*)gesture
 {
-	NSLog(@"got long press");
+	NSIndexPath *ipath = [_collectionView indexPathForItemAtPoint:[gesture locationInView:_collectionView]];
+	id item=nil;
+	if (nil == _selectedProject)
+		item = [self.projects objectAtIndex:ipath.row];
+	else
+		item = [_selectedProject.workspaces objectAtIndex:ipath.row];
+	if ([item isKindOfClass:[RCProject class]] && ![item userEditable])
+		return;
+	
+	NSArray *items = @[ [AMActionItem actionItemWithName:@"Rename" target:self action:@selector(renameObject:) userInfo:@{@"item":item}],
+		[AMActionItem actionItemWithName:@"Delete" target:self action:@selector(deleteObject:) userInfo:@{@"item":item}]];
+	self.contextMenuSheet = [[UIActionSheet alloc] initWithTitle:@"Actions" actionItems:items];
+
+	CGRect rect = CGRectZero;
+	rect.origin = [gesture locationInView:self.collectionView];
+	rect.size.width = rect.size.height = 2;
+	[self.contextMenuSheet showFromRect:rect inView:self.collectionView animated:YES];
 }
 
 
 #pragma mark - actions
+
+-(IBAction)renameObject:(id)sender
+{
+	[self.contextMenuSheet dismissWithClickedButtonIndex:-1 animated:YES];
+	id item = [[sender userInfo] objectForKey:@"item"];
+	if (nil == item)
+		return;
+	BOOL isProj = [item isKindOfClass:[RCProject class]];
+	UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Rename %@ to:", isProj?@"project":@"workspace"]
+													  message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Rename", nil];
+	anAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+	[anAlert textFieldAtIndex:0].text = [item name];
+	__unsafe_unretained ProjectViewController *blockSelf=self;
+	[anAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
+		NSString *str = [alert textFieldAtIndex:0].text;
+		if (1!=btnIdx || str.length < 1)
+			return;
+		if (isProj) {
+			[[Rc2Server sharedInstance] editProject:item newName:str completionBlock:^(BOOL success, id rsp) {
+				if (success) {
+					NSInteger idx = [self.projects indexOfObject:item];
+					if (idx != NSNotFound)
+							[blockSelf.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
+					else
+						[blockSelf.collectionView reloadData];
+				} else {
+					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error renaming file" message:rsp delegate:nil
+														  cancelButtonTitle:nil otherButtonTitles:@"Ok",nil];
+					[alert show];
+				}
+			}];
+		} else {
+			[[Rc2Server sharedInstance] renameWorkspce:item name:str completionHandler:^(BOOL success, id rsp) {
+				if (success) {
+					NSInteger idx = [self.projects indexOfObject:item];
+					if (idx != NSNotFound)
+							[blockSelf.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
+					else
+						[blockSelf.collectionView reloadData];
+				} else {
+					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error renaming file" message:rsp delegate:nil
+														  cancelButtonTitle:nil otherButtonTitles:@"Ok",nil];
+					[alert show];
+				}
+			}];
+		}
+	}];
+}
+
+-(IBAction)deleteObject:(id)sender
+{
+	[self.contextMenuSheet dismissWithClickedButtonIndex:-1 animated:YES];
+	id item = [[sender userInfo] objectForKey:@"item"];
+	if (nil == item)
+		return;
+	BOOL isProj = [item isKindOfClass:[RCProject class]];
+	NSString *confStr = [NSString stringWithFormat:@"Are you sure you want to delete %@ %@?", isProj?@"project":@"workspace", [item name]];
+	UIAlertView *confAlert = [[UIAlertView alloc] initWithTitle:@"Confirm Delete" message:confStr delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete", nil];
+	[confAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger rc) {
+		if (1 == rc) {
+			if ([item isKindOfClass:[RCProject class]]) {
+				[[Rc2Server sharedInstance] deleteProject:item completionBlock:^(BOOL success, id rsp) {
+					if (success) {
+						NSInteger idx = [self.projects indexOfObject:item];
+						self.projects = [[Rc2Server sharedInstance].projects mutableCopy];
+						if (idx != NSNotFound)
+								[self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
+					}
+				}];
+			} else {
+				[[Rc2Server sharedInstance] deleteWorkspce:item completionHandler:^(BOOL success, id rsp) {
+					if (success) {
+						NSInteger idx = [self.selectedProject.workspaces indexOfObject:item];
+						self.projects = [self.selectedProject.workspaces mutableCopy];
+						if (idx != NSNotFound)
+							[self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
+					}
+				}];
+			}
+		}
+	}];
+}
 
 -(IBAction)addNewObject:(id)sender
 {
@@ -122,7 +221,7 @@
 	});
 }
 
-#pragma mark - meat & potato
+#pragma mark - meat & potatos
 
 -(void)doAddObject:(NSString*)newNamee
 {
@@ -135,7 +234,7 @@
 			errMsg = @"A workspace already exists with that name.";
 	}
 	if (errMsg) {
-		[UIAlertView  showAlertWithTitle:@"Unable to create project" message:errMsg];
+		[UIAlertView showAlertWithTitle:@"Unable to create project" message:errMsg];
 		return;
 	}
 	if (nil == _selectedProject) {
