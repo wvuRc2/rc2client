@@ -71,7 +71,7 @@
 	}
 	if (nil == self.isettingsController) {
 		self.isettingsController = [[iSettingsController alloc] init];
-		self.isettingsController.contentSizeForViewInPopover = CGSizeMake(350, 360);
+		self.isettingsController.contentSizeForViewInPopover = CGSizeMake(350, 440);
 	}
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.isettingsController];
 	self.isettingsPopover = [[UIPopoverController alloc] initWithContentViewController:navController];

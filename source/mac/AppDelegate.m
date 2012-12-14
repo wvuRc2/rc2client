@@ -145,6 +145,7 @@
 	[self.mainWindowController close];
 	self.mainWindowController=nil;
 	self.loggedIn=NO;
+	[[Rc2Server sharedInstance] logout];
 	[self presentLoginPanel];
 }
 

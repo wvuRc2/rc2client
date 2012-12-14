@@ -1,6 +1,6 @@
 //
 //  iSettingsController.m
-//  iPadClient
+//  Rc2
 //
 //  Created by Mark Lilback on 2/8/12.
 //  Copyright (c) 2012 West Virginia University. All rights reserved.
@@ -9,8 +9,10 @@
 #import "iSettingsController.h"
 #import "AppConstants.h"
 #import "ThemeEngine.h"
+#import "Rc2AppDelegate.h"
 #import "Vyana-ios/AMNavigationTreeController.h"
 #import "Rc2Server.h"
+#import "GradientButton.h"
 #import "ASIFormDataRequest.h"
 
 enum { eTree_Theme, eTree_Keyboard };
@@ -21,6 +23,7 @@ enum { eTree_Theme, eTree_Keyboard };
 @property (nonatomic, strong) AMNavigationTreeController *treeController;
 @property (nonatomic, copy) NSArray *keyboards;
 @property (nonatomic, copy) NSArray *themes;
+@property (nonatomic, copy) NSArray *sectionData;
 -(IBAction)dismiss:(id)sender;
 @end
 
@@ -68,12 +71,23 @@ enum { eTree_Theme, eTree_Keyboard };
 	self.themeLabel.text = curTheme.name;
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 																							target:self action:@selector(dismiss:)];
+	self.sectionData = @[
+		@{@"name":@"Account", @"isSettings": @NO, @"cells": @[self.logoutCell, self.emailCell,self.emailNoteCell,self.twitterCell,self.smsCell]},
+		@{@"name":@"Settings", @"isSettings": @YES,  @"cells": @[self.keyboardCell,self.themeCell]}
+	];
+	[self.logoutButton useWhiteStyle];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	// Return YES for supported orientations
 	return YES;
+}
+
+-(IBAction)logout:(id)sender
+{
+	[self.containingPopover dismissPopoverAnimated:YES];
+	[(Rc2AppDelegate*)TheApp.delegate logout:sender];
 }
 
 -(IBAction)dismiss:(id)sender
@@ -131,53 +145,37 @@ enum { eTree_Theme, eTree_Keyboard };
 
 #pragma mark - table view
 
+-(UITableViewCell*)cellAtIndexPath:(NSIndexPath*)ipath
+{
+	return [[[self.sectionData objectAtIndex:ipath.section] objectForKey:@"cells"] objectAtIndex:ipath.row];
+}
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return 2;
+	return self.sectionData.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if (section == 0)
-		return 4;
-	if (section == 1)
-		return 2;
-	return 0;
+	return [[[self.sectionData objectAtIndex:section] objectForKey:@"cells"] count];
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == 0) {
-		if (indexPath.row == 0)
-			return self.emailCell;
-		if (indexPath.row == 1)
-			return self.emailNoteCell;
-		if (indexPath.row == 2)
-			return self.twitterCell;
-		return self.smsCell;
-	} else if (indexPath.section == 1) {
-		if (indexPath.row == 0)
-			return self.keyboardCell;
-		return self.themeCell;
-	}
-	return nil;
+	return [[[self.sectionData objectAtIndex:indexPath.section] objectForKey:@"cells"] objectAtIndex:indexPath.row];
 }
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	if (0 == section)
-		return @"Account";
-	if (1 == section)
-		return @"Settings";
-	return nil;
+	return [[self.sectionData objectAtIndex:section] objectForKey:@"name"];
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	//the only ones we allow selection of are 1,0, 2,0, and 2.1
-	if (indexPath.section == 1)
-		return indexPath;
-	if (indexPath.section == 0 && indexPath.row == 0)
+	id cell = [self cellAtIndexPath:indexPath];
+	if ([[[self.sectionData objectAtIndex:indexPath.section] objectForKey:@"isSettings"] boolValue])
+		return indexPath; //all settings rows are selectable
+	if (cell == self.emailCell)
 		return indexPath;
 	return nil;
 }
@@ -185,19 +183,20 @@ enum { eTree_Theme, eTree_Keyboard };
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-	if (indexPath.section == 1) {
+	id cell = [self cellAtIndexPath:indexPath];
+	if ([[[self.sectionData objectAtIndex:indexPath.section] objectForKey:@"isSettings"] boolValue]) {
 			self.treeController = [[AMNavigationTreeController alloc] init];
 			self.treeController.tracksSelectedItem=YES;
 			self.treeController.delegate = (id)self;
 			self.treeController.contentSizeForViewInPopover = self.contentSizeForViewInPopover;
 			self.treeController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
-		if (indexPath.row == 0) {
+		if (cell == self.keyboardCell) {
 			_treeType = eTree_Keyboard;
 			self.treeController.title = @"Select Keyboard";
 			self.treeController.contentItems = self.keyboards;
 			NSInteger k = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
 			self.treeController.selectedItem = [self.keyboards objectAtIndex:k];
-		} else {
+		} else if (cell == self.themeCell) {
 			_treeType = eTree_Theme;
 			self.treeController.title = @"Select Theme";
 			self.treeController.contentItems = self.themes;
