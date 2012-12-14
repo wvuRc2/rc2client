@@ -14,7 +14,7 @@
 
 -(CGFloat)rowHeight
 {
-	return 96.0;
+	return 60.0;
 }
 
 -(void)awakeFromNib
@@ -27,10 +27,6 @@
 	self.nameLabel.text = file.name;
 	self.sizeLabel.text = file.sizeString;
 	self.lastModLabel.text = [self.dateFormatter stringFromDate:file.lastModified];
-	if (file.localLastModified)
-		self.localLastModLabel.text = [self.dateFormatter stringFromDate:file.localLastModified];
-	else
-		self.localLastModLabel.text = @"-";
 
 	self.imgView.image = file.fileType.image;
 	self.permissionView.image = file.permissionImage;
