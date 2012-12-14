@@ -90,6 +90,8 @@
 	self.splitController.delegate = self;
 	self.splitController.controller1 = self.editorController;
 	self.splitController.controller2 = self.consoleController;
+	self.splitController.minimumView1Size = CGSizeMake(240, 240);
+	self.splitController.minimumView2Size = CGSizeMake(240, 240);
 	// Calc splitViewController's view's frame:
 	CGRect rec = self.view.bounds;
 	rec.origin.y += 44;
@@ -535,32 +537,5 @@
 	return self;
 }
 
-- (float)splitViewController:(MGSplitViewController *)svc constrainSplitPosition:(float)proposedPosition 
-			   splitViewSize:(CGSize)viewSize;
-{
-	BOOL isLandscape = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
-	CGFloat maxSize = isLandscape ? viewSize.width : viewSize.height;
-	if (maxSize - proposedPosition < 150)
-		return maxSize-150;
-	if (maxSize - proposedPosition < 70) {
-		if (!UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation))
-			return maxSize - 70;
-		//need to hide toolbar
-		self.consoleController.toolbar.hidden=YES;
-	} else {
-		//need to show the toolbar again
-		self.consoleController.toolbar.hidden=NO;
-	}
-	if (proposedPosition > maxSize-10)
-		return maxSize-10;
-	if (isLandscape) {
-		if (proposedPosition < 320)
-			proposedPosition = 320;
-	} else {
-		if (proposedPosition < 200)
-			return 200;
-	}
-	return proposedPosition;
-}
 
 @end

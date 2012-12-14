@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "AbstractTopViewController.h"
-#import "MGSplitViewController.h"
 #import "RCSession.h"
 
 @class EditorViewController;
 @class ConsoleViewController;
 
-@interface SessionViewController : AbstractTopViewController<MGSplitViewControllerDelegate,RCSessionDelegate,UIDocumentInteractionControllerDelegate> {
+@interface SessionViewController : AbstractTopViewController<RCSessionDelegate,UIDocumentInteractionControllerDelegate> {
 	IBOutlet UITextField *textField;
 	IBOutlet UITextView *textView;
 }
