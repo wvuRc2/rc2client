@@ -242,6 +242,7 @@
 	} else {
 		[self.richEditor setEditable:YES];
 	}
+	self.actionButtonItem.enabled = self.currentFile != nil && !self.session.restrictedMode;
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
@@ -350,7 +351,7 @@
 -(void)sessionModeChanged
 {
 	bool limited = self.session.restrictedMode;
-	self.actionButtonItem.enabled = !limited;
+	self.actionButtonItem.enabled = !limited && nil != self.currentFile;
 	self.executeButton.enabled = !limited;
 	self.openFileButtonItem.enabled = !limited;
 	self.richEditor.editable = !limited;
@@ -499,8 +500,29 @@
 	[self updateDocumentState];
 }
 
+-(IBAction)doActivityPopover:(id)sender
+{
+	NSArray *excluded = @[UIActivityTypeMail,UIActivityTypeAssignToContact,UIActivityTypeMessage,UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo];
+	NSMutableArray *items = [NSMutableArray arrayWithCapacity:5];
+	NSMutableArray *activs = [NSMutableArray arrayWithCapacity:5];
+	if (self.currentFile.isTextFile)
+		[items addObject:self.currentFile.fileContents];
+	UIActivityViewController *avc = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:activs];
+	avc.excludedActivityTypes = excluded;
+	UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:avc];
+	avc.completionHandler = ^(NSString *actType, BOOL completed) {
+		//keep a reference to pop alive until completion is done
+		if (pop.isPopoverVisible)
+			;
+		avc.completionHandler=nil;
+	};
+	[pop presentPopoverFromBarButtonItem:self.actionButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
 -(IBAction)doActionMenu:(id)sender
 {
+	[self doActivityPopover:sender];
+	return;
 	if (self.actionSheet.visible) {
 		[self.actionSheet dismissWithClickedButtonIndex:-1 animated:YES];
 		return;
