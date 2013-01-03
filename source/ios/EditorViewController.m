@@ -507,6 +507,16 @@
 	NSMutableArray *activs = [NSMutableArray arrayWithCapacity:5];
 	if (self.currentFile.isTextFile)
 		[items addObject:self.currentFile.fileContents];
+	AMActivity *renameActivity = [[AMActivity alloc] initWithActivityType:@"edu.wvu.stat.rc2.renameActivity" title:@"Rename" image:@"renameActivity"];
+	renameActivity.canPerformBlock = ^(NSArray *items) {
+		return YES;
+	};
+	renameActivity.prepareBlock = ^(NSArray *items) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self doRenameFile:sender];
+		});
+	};
+	[activs addObject:renameActivity];
 	UIActivityViewController *avc = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:activs];
 	avc.excludedActivityTypes = excluded;
 	UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:avc];
