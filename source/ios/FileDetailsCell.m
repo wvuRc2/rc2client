@@ -10,17 +10,15 @@
 #import "RCFile.h"
 #import "Rc2FileType.h"
 
+@interface FileDetailsCell()
+@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
+@property (nonatomic, weak) IBOutlet UILabel *sizeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *lastModLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *imgView;
+@property (nonatomic, weak) IBOutlet UIImageView *permissionView;;
+@end
+
 @implementation FileDetailsCell
-
--(CGFloat)rowHeight
-{
-	return 60.0;
-}
-
--(void)awakeFromNib
-{
-	[super awakeFromNib];
-}
 
 -(void)showValuesForFile:(RCFile*)file
 {

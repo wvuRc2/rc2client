@@ -20,6 +20,7 @@
 @property (nonatomic, weak) RCSession *session;
 @property (nonatomic, copy) NSArray *fileSections;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *editButton;
 -(void)handleDoubleTap;
 @end
 
@@ -43,6 +44,7 @@
 	[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 	self.contentSizeForViewInPopover = CGSizeMake(320, 520);
 	self.tableView.rowHeight = 52;
+	[self.tableView registerNib:[UINib nibWithNibName:@"FileDetailsCell" bundle:nil] forCellReuseIdentifier:@"file"];
 	__weak SessionFilesController *blockSelf = self;
 	self.tableView.doubleTapHandler = ^(AMTableView *tv) {
 		[blockSelf handleDoubleTap];
@@ -59,8 +61,18 @@
 	UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
 	barButton.target = self;
 	barButton.action = @selector(doDropboxImport:);
-	self.toolbar.items = [self.toolbar.items arrayByAddingObject:barButton];
+	NSMutableArray *titems = [self.toolbar.items mutableCopy];
+	[titems insertObject:barButton atIndex:0];
+	self.toolbar.items = titems;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:RCFileContainerChangedNotification object:nil];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+	//exit editing mode
+	if (self.tableView.editing)
+		[self doEdit:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -69,6 +81,19 @@
 }
 
 #pragma mark - actions
+
+-(IBAction)doEdit:(id)sender
+{
+	if (self.tableView.editing) {
+		[self.editButton setStyle:UIBarButtonItemStyleBordered];
+		[self.editButton setTitle:NSLocalizedString(@"Edit", @"")];
+		[self.tableView setEditing:NO animated:YES];
+	} else {
+		[self.editButton setStyle:UIBarButtonItemStyleDone];
+		[self.editButton setTitle:NSLocalizedString(@"Done", @"")];
+		[self.tableView setEditing:YES animated:YES];
+	}
+}
 
 -(void)reloadData
 {
@@ -144,7 +169,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	RCFile *file = [self fileAtIndexPath:indexPath];
-	FileDetailsCell *cell = [FileDetailsCell cellForTableView:tv];
+	FileDetailsCell *cell = [tv dequeueReusableCellWithIdentifier:@"file"];
 	cell.dateFormatter = self.dateFormatter;
 	[cell showValuesForFile:file];
 	
