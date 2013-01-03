@@ -14,12 +14,6 @@
 
 @interface EditorViewController : UIViewController<UIPopoverControllerDelegate,UITextViewDelegate>
 //@property (nonatomic, strong) IBOutlet UITextView *textView;
-@property (nonatomic, weak) IBOutlet UIToolbar *toolbar;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *executeButton;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *actionButtonItem;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *openFileButtonItem;
-@property (nonatomic, strong) IBOutlet UILabel *docTitleLabel;
-@property (nonatomic, strong) IBOutlet UIButton *handButton;
 @property (nonatomic, strong) RCFile *currentFile;
 @property (nonatomic, strong) RCSession *session;
 

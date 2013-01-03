@@ -28,7 +28,13 @@
 	BOOL _viewLoaded;
 	BOOL _handUp;
 }
-@property (nonatomic, strong) IBOutlet SessionEditView *richEditor;
+@property (nonatomic, weak) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *executeButton;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *actionButtonItem;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *openFileButtonItem;
+@property (nonatomic, weak) IBOutlet UILabel *docTitleLabel;
+@property (nonatomic, weak) IBOutlet UIButton *handButton;
+@property (nonatomic, weak) IBOutlet SessionEditView *richEditor;
 @property (nonatomic, strong) NSDictionary *defaultTextAttrs;
 @property (nonatomic, strong) KeyboardToolbar *keyboardToolbar;
 @property (nonatomic, strong) SessionFilesController *fileController;
@@ -712,7 +718,8 @@
 	__unsafe_unretained EditorViewController *blockSelf = self;
 	self.sessionKvoToken = [sess addObserverForKeyPath:@"restrictedMode" task:^(id obj, NSDictionary *dict) {
 		[blockSelf sessionModeChanged];
-		blockSelf.handButton.hidden = [obj currentUser].master;
+		//only show in classroom mode if not the master
+		blockSelf.handButton.hidden = !((RCSession*)obj).isClassroomMode || [obj currentUser].master;
 	}];
 	self.sessionHandToken = [sess addObserverForKeyPath:@"handRaised" task:^(id obj, NSDictionary *dict) {
 		blockSelf.handButton.selected = ((RCSession*)obj).handRaised;
