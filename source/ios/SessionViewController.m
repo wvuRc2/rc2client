@@ -362,7 +362,6 @@
 
 -(void)connectionClosed
 {
-	Rc2LogInfo(@"ws closed");
 	if (!_session.socketOpen && !self.reconnecting && self.autoReconnect) {
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 		hud.labelText = @"Reconnecting…";

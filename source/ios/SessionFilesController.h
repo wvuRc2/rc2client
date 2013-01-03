@@ -27,6 +27,7 @@
 -(void)loadFile:(RCFile*)file;
 -(IBAction)doNewFile:(id)sender;
 -(IBAction)doNewSharedFile:(id)sender;
+-(void)doDeleteFile:(id)sender;
 -(IBAction)presentDropboxImport:(id)sender;
 -(void)dismissSessionsFilesController;
 @end

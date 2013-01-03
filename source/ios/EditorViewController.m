@@ -276,18 +276,20 @@
 	}
 }
 
--(void)userConfirmedDelete
+-(void)userConfirmedDelete:(RCFile*)file
 {
 	RCWorkspace *wspace = self.session.workspace;
-	[[Rc2Server sharedInstance] deleteFile:self.currentFile container:wspace completionHandler:^(BOOL success, id results) {
+	[[Rc2Server sharedInstance] deleteFile:file container:wspace completionHandler:^(BOOL success, id results) {
 		dispatch_async(dispatch_get_main_queue(), ^{
-			RCFile *nfile = wspace.files.firstObject;
-			if (nil == nfile)
-				nfile = wspace.project.files.firstObject;
-			[self loadFileData:nfile];
+			if (file == self.currentFile) {
+				RCFile *nfile = wspace.files.firstObject;
+				if (nil == nfile)
+					nfile = wspace.project.files.firstObject;
+				[self loadFileData:nfile];
+				self.filePopover=nil;
+			}
 			[self.fileController reloadData];
 			self.fileController=nil;
-			self.filePopover=nil;
 		});
 	}];
 }
@@ -595,7 +597,7 @@
 										  otherButtonTitles:@"Delete",nil];
 	[alert showWithCompletionHandler:^(UIAlertView *aview, NSInteger buttonIndex) {
 		if (buttonIndex == 1)
-			[self userConfirmedDelete];
+			[self userConfirmedDelete:[sender isKindOfClass:[RCFile class]] ? sender : self.currentFile];
 	}];
 }
 

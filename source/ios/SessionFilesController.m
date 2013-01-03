@@ -9,6 +9,7 @@
 #import "SessionFilesController.h"
 #import "Rc2Server.h"
 #import "RCSession.h"
+#import "RCSessionUser.h"
 #import "RCWorkspace.h"
 #import "RCProject.h"
 #import "RCFile.h"
@@ -148,6 +149,19 @@
 	[cell showValuesForFile:file];
 	
 	return cell;
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return self.session.hasWritePerm;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (editingStyle == UITableViewCellEditingStyleDelete) {
+		[self.delegate dismissSessionsFilesController];
+		[self.delegate doDeleteFile:[self fileAtIndexPath:indexPath]];
+	}
 }
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
