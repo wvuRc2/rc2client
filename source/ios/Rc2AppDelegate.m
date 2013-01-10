@@ -20,6 +20,8 @@
 #import "AppConstants.h"
 #import "MLReachability.h"
 #import <objc/runtime.h>
+#import "MAKVONotificationCenter.h"
+#import "FileImportViewController.h"
 
 @interface UITableView (DoubleClick)
 -(void)myTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
@@ -35,6 +37,7 @@
 @property (nonatomic, strong) UIView *messageListView;
 @property (nonatomic, strong) UIView *currentMasterView;
 @property (nonatomic, strong) NSData *pushToken;
+@property (nonatomic, strong) NSURL *fileToImport;
 @end
 
 #define kCustomKeyboardDBPathTemplate @"/rc2shares/keyboards/custom%d-%d%@.txt"
@@ -98,6 +101,22 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	UInt32 mixProp = true;
 	AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryMixWithOthers, sizeof(mixProp), &mixProp);
 	AudioSessionSetActive(true);
+
+	//in case were launched with a file to open
+	self.fileToImport = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
+
+	//watch for login status
+	Rc2Server *rc2 = [Rc2Server sharedInstance];
+	if (rc2.loggedIn) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self completeFileImport];
+		});
+	} else {
+		[self observeTarget:rc2 keyPath:@"loggedIn" options:0 block:^(MAKVONotification *note) {
+			if (self.fileToImport)
+				[self completeFileImport];
+		}];
+	}
 	
 	application.applicationIconBadgeNumber = 0;
 	return YES;
@@ -115,6 +134,9 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	} else if ([[url lastPathComponent] hasSuffix:@".pdf"] && [url.lastPathComponent hasPrefix:@"rc2g"]) {
 		[self.rootController handleGradingUrl:url];
 		return YES;
+	} else if ([url.scheme isEqualToString:@"file"] && url.isFileURL) {
+		self.fileToImport = url;
+		[self completeFileImport];
 	}
 	return NO;
 }
@@ -227,6 +249,30 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 }
 
 #pragma mark - meat & potatoes
+
+-(void)completeFileImport
+{
+	if (self.fileToImport) {
+		__block FileImportViewController *ic = [[FileImportViewController alloc] init];
+		ic.inputUrl = self.fileToImport;
+		__block UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:ic];
+		nc.modalPresentationStyle = UIModalPresentationFormSheet;
+		ic.cleanupBlock = ^{
+			nc=nil;
+		};
+		[self.rootController presentViewController:nc animated:YES completion:^{}];
+		NSFileManager *fm = [[NSFileManager alloc] init];
+		[fm removeItemAtURL:self.fileToImport error:nil];
+
+		//the following can likely be deleted. It was here because originally we weren't deleting imported files, therefore causing the name
+		// to be mangled in-order to be unique
+		NSArray *existFiles = [fm contentsOfDirectoryAtURL:[self.fileToImport URLByDeletingLastPathComponent] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+		for (NSURL *aFile in existFiles) {
+			[fm removeItemAtURL:aFile error:nil];
+		}
+	}
+	self.fileToImport = nil;
+}
 
 -(void)resetKeyboardPaths
 {

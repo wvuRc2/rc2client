@@ -452,6 +452,8 @@
 		08D2468315B5EFDD0064A9FA /* Vyana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
 		08D8C331169638DC000DDA04 /* renameActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D8C32F169638DC000DDA04 /* renameActivity.png */; };
 		08D8C332169638DC000DDA04 /* renameActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D8C330169638DC000DDA04 /* renameActivity@2x.png */; };
+		08D8C336169E1637000DDA04 /* FileImportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D8C335169E1637000DDA04 /* FileImportViewController.m */; };
+		08D8C338169E1977000DDA04 /* FileImportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D8C337169E1977000DDA04 /* FileImportViewController.xib */; };
 		08DF3D5115BDBC79000A339D /* AMResizableSplitterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D4E15BDBC79000A339D /* AMResizableSplitterView.m */; };
 		08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */; };
 		08E49223166E7834005E83DE /* MCSessionFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E49222166E7834005E83DE /* MCSessionFileController.m */; };
@@ -1021,6 +1023,9 @@
 		08D2468215B5EFCE0064A9FA /* Vyana.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Vyana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08D8C32F169638DC000DDA04 /* renameActivity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = renameActivity.png; sourceTree = "<group>"; };
 		08D8C330169638DC000DDA04 /* renameActivity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "renameActivity@2x.png"; sourceTree = "<group>"; };
+		08D8C334169E1637000DDA04 /* FileImportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileImportViewController.h; sourceTree = "<group>"; };
+		08D8C335169E1637000DDA04 /* FileImportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileImportViewController.m; sourceTree = "<group>"; };
+		08D8C337169E1977000DDA04 /* FileImportViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileImportViewController.xib; sourceTree = "<group>"; };
 		08DF3D4D15BDBC79000A339D /* AMResizableSplitterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMResizableSplitterView.h; sourceTree = "<group>"; };
 		08DF3D4E15BDBC79000A339D /* AMResizableSplitterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMResizableSplitterView.m; sourceTree = "<group>"; };
 		08DF3D4F15BDBC79000A339D /* AMResizableSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMResizableSplitViewController.h; sourceTree = "<group>"; };
@@ -1531,6 +1536,9 @@
 				08D243B215B5D6310064A9FA /* iSettingsController.h */,
 				08D243B315B5D6310064A9FA /* iSettingsController.m */,
 				08D243B415B5D6310064A9FA /* iSettingsController.xib */,
+				08D8C334169E1637000DDA04 /* FileImportViewController.h */,
+				08D8C335169E1637000DDA04 /* FileImportViewController.m */,
+				08D8C337169E1977000DDA04 /* FileImportViewController.xib */,
 				08D245FC15B5DE090064A9FA /* ControlViewController.h */,
 				08D245FD15B5DE090064A9FA /* ControlViewController.m */,
 				08D245FE15B5DE090064A9FA /* ControlViewController.xib */,
@@ -2166,6 +2174,7 @@
 				084B47941677DF98000A0A6F /* addDown.png in Resources */,
 				08D8C331169638DC000DDA04 /* renameActivity.png in Resources */,
 				08D8C332169638DC000DDA04 /* renameActivity@2x.png in Resources */,
+				08D8C338169E1977000DDA04 /* FileImportViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2464,6 +2473,7 @@
 				080E508E166FDFB800E95531 /* AFURLConnectionOperation.m in Sources */,
 				080E5090166FDFB800E95531 /* AFXMLRequestOperation.m in Sources */,
 				080E5092166FDFB800E95531 /* UIImageView+AFNetworking.m in Sources */,
+				08D8C336169E1637000DDA04 /* FileImportViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
