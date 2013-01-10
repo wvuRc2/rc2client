@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1080</int>
 		<string key="IBDocument.SystemVersion">12C60</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2843</string>
+			<string key="NS.object.0">2844</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSCustomObject</string>
@@ -228,15 +228,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">animate: navController.topViewController.busy</string>
+						<string key="label">animate: treeController.topViewController.busy</string>
 						<reference key="source" ref="418191732"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="418191732"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">animate: navController.topViewController.busy</string>
+							<string key="NSLabel">animate: treeController.topViewController.busy</string>
 							<string key="NSBinding">animate</string>
-							<string key="NSKeyPath">navController.topViewController.busy</string>
+							<string key="NSKeyPath">treeController.topViewController.busy</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
@@ -244,15 +244,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: navController.topViewController.statusMessage</string>
+						<string key="label">value: treeController.topViewController.statusMessage</string>
 						<reference key="source" ref="389302438"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="389302438"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: navController.topViewController.statusMessage</string>
+							<string key="NSLabel">value: treeController.topViewController.statusMessage</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">navController.topViewController.statusMessage</string>
+							<string key="NSKeyPath">treeController.topViewController.statusMessage</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
