@@ -504,9 +504,9 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	return [NSString stringWithUTF8Data:data];
 }
 
+//used by dropbox support
 -(void)importFile:(NSURL*)fileUrl toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	
 	NSMutableString *path = [self containerPath:container];
 	[path appendString:@"/file"];
 	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"POST" path:path parameters:@{@"name":[fileUrl lastPathComponent]} constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
