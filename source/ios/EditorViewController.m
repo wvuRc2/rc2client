@@ -39,6 +39,7 @@
 @property (nonatomic, strong) KeyboardToolbar *keyboardToolbar;
 @property (nonatomic, strong) SessionFilesController *fileController;
 @property (nonatomic, strong) UIPopoverController *filePopover;
+@property (nonatomic, strong) UIPopoverController *activityPopover;
 @property (nonatomic, strong) NSMutableArray *currentActionItems;
 @property (nonatomic, strong) UINavigationController *importController;
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
@@ -502,6 +503,11 @@
 
 -(IBAction)doActivityPopover:(id)sender
 {
+	if (self.activityPopover.isPopoverVisible) {
+		[self.activityPopover dismissPopoverAnimated:YES];
+		self.activityPopover = nil;
+		return;
+	}
 	NSArray *excluded = @[UIActivityTypeMail,UIActivityTypeAssignToContact,UIActivityTypeMessage,UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo];
 	NSMutableArray *items = [NSMutableArray arrayWithCapacity:5];
 	NSMutableArray *activs = [NSMutableArray arrayWithCapacity:5];
@@ -518,14 +524,14 @@
 	};
 	[activs addObject:renameActivity];
 	UIActivityViewController *avc = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:activs];
+	__weak UIActivityViewController *weakAvc = avc;
 	avc.excludedActivityTypes = excluded;
 	UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:avc];
 	avc.completionHandler = ^(NSString *actType, BOOL completed) {
-		//keep a reference to pop alive until completion is done
-		if (pop.isPopoverVisible)
-			;
-		avc.completionHandler=nil;
+		weakAvc.completionHandler=nil;
+		self.activityPopover=nil;
 	};
+	self.activityPopover = pop;
 	[pop presentPopoverFromBarButtonItem:self.actionButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 

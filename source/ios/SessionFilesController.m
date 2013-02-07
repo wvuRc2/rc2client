@@ -200,9 +200,9 @@
 		return;
 	UITableViewHeaderFooterView *hfview = (id)view;
 	CGRect frame = hfview.contentView.frame;
-	frame.origin.x = frame.origin.x + frame.size.width -24;
+	frame.origin.x = CGRectGetMaxX(frame) - 34;
 	frame.size.width = frame.size.height;
-	frame = CGRectInset(frame, 4, 4);
+	frame = CGRectInset(frame, 4, 6);
 	
 	UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
 	btn.frame = frame;
@@ -214,6 +214,11 @@
 	else
 		[btn addTarget:self action:@selector(doNewFile:) forControlEvents:UIControlEventTouchUpInside];
 	
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 30;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
