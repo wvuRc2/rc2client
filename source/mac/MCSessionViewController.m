@@ -397,8 +397,9 @@
 -(IBAction)createNewFile:(id)sender
 {
 	MCNewFileController *nfc = [[MCNewFileController alloc] init];
+	__weak MCNewFileController *weakNfc = nfc;
 	nfc.completionHandler = ^(NSString *fname) {
-		[NSApp endSheet:nfc.window];
+		[NSApp endSheet:weakNfc.window];
 		if (fname.length > 0)
 			[self handleNewFile:fname];
 	};

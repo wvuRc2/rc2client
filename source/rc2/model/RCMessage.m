@@ -12,9 +12,9 @@
 						 [dict objectForKey:@"rcptmsgId"]] anyObject];
 		if (nil == msg) {
 			msg = [RCMessage insertInManagedObjectContext:moc];
-			[msg takeValuesFromDictionary:dict];
+			[msg updateValuesFromDictionary:dict];
 		} else { //if ([msg.version integerValue] != [[dict objectForKey:@"version"] integerValue]) {
-			[msg takeValuesFromDictionary:dict];
+			[msg updateValuesFromDictionary:dict];
 		}
 		[unTouched removeObject:msg];
 	}
@@ -37,7 +37,7 @@
 	return [[NSCalendar currentCalendar] dateFromComponents:dc];
 }
 
--(void)takeValuesFromDictionary:(NSDictionary*)dict
+-(void)updateValuesFromDictionary:(NSDictionary*)dict
 {
 //	NSDateFormatter *form = [[[NSDateFormatter alloc] init] autorelease];
 //	[form setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];

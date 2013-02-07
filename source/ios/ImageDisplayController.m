@@ -294,9 +294,10 @@
 		[self.imagePopover dismissPopoverAnimated:YES];
 		return;
 	}
+	__weak ImageDisplayController *weakSelf = self;
 	self.imagePicker.selectionHandler = ^{
-		imgView.image = self.imagePicker.selectedImage;
-		[self.imagePopover dismissPopoverAnimated:YES];
+		imgView.image = weakSelf.imagePicker.selectedImage;
+		[weakSelf.imagePopover dismissPopoverAnimated:YES];
 	};
 	self.imagePicker.images = self.allImages;
 	self.imagePicker.selectedImage = imgView.image;
