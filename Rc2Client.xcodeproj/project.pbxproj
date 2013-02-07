@@ -2030,7 +2030,7 @@
 		08D2431615B5D04D0064A9FA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "West Virginia University";
 			};
 			buildConfigurationList = 08D2431915B5D04D0064A9FA /* Build configuration list for PBXProject "Rc2Client" */;
@@ -2639,6 +2639,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2667,6 +2671,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2705,7 +2713,7 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "9DE4A953-EF27-4F01-9B4A-2AD81E259306";
-				SDKROOT = iphoneos6.0;
+				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2731,7 +2739,7 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "9DE4A953-EF27-4F01-9B4A-2AD81E259306";
-				SDKROOT = iphoneos6.0;
+				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2742,6 +2750,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2780,7 +2792,7 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "9DE4A953-EF27-4F01-9B4A-2AD81E259306";
-				SDKROOT = iphoneos6.0;
+				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Archive;
