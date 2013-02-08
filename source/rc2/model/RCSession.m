@@ -352,6 +352,19 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		} else { //a new file
 			[self.workspace refreshFiles];
 		}
+	} else if ([cmd isEqualToString:@"fileupdates"]) {
+		BOOL triggerRefresh=NO;
+		for (NSNumber *fid in [dict objectForKey:@"fileIds"]) {
+			RCFile *file = [self.workspace fileWithId:fid];
+			if (file) {
+				[file updateWithDictionary:[dict objectForKey:@"file"]];
+				[self.delegate workspaceFileUpdated:file];
+			} else { //a new file
+				triggerRefresh = YES;
+			}
+		}
+		if (triggerRefresh)
+			[self.workspace refreshFiles];
 	} else if ([cmd isEqualToString:@"variableupdate"]) {
 		[self updateVariables:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
 	} else if ([cmd isEqualToString:@"results"]) {
