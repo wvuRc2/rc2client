@@ -56,7 +56,7 @@ enum {
 
 -(void)requestModeChange:(NSString*)newMode;
 -(void)executeScript:(NSString*)script scriptName:(NSString*)sname;
--(void)executeSweave:(NSString*)fname script:(NSString*)script;
+-(void)executeScriptFile:(RCFile*)file;
 -(void)executeSas:(RCFile*)file;
 -(void)sendChatMessage:(NSString*)message;
 -(void)requestUserList;

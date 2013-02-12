@@ -128,11 +128,9 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	self.timeOfLastTraffic = [NSDate date];
 }
 
--(void)executeSweave:(NSString*)fname script:(NSString*)script
+-(void)executeScriptFile:(RCFile*)file
 {
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"sweave", @"cmd", fname, @"fname",
-						  script, @"script", nil];
-	Rc2LogInfo(@"executing sweave: %@", fname);
+	NSDictionary *dict = @{@"cmd":@"executeScriptFile", @"fname":file.name, @"fileId":file.fileId};
 	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }

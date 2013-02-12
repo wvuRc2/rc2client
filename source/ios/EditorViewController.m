@@ -435,7 +435,7 @@
 	NSString *src = self.richEditor.attributedString.string;
 	if ([self.currentFile.name hasSuffix:@".Rnw"] || [self.currentFile.name hasSuffix:@".Rmd"]) {
 		[self executeBlockAfterSave:^{
-			[_session executeSweave:self.currentFile.name script:src];
+			[_session executeScriptFile:self.currentFile];
 		}];
 	} else if ([self.currentFile.name hasSuffix:@".sas"]) {
 		[self executeBlockAfterSave:^{ [self.session executeSas:self.currentFile]; }];

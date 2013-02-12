@@ -318,11 +318,11 @@
 {
 	RCFile *selFile = self.editorFile;
 	if ([selFile.name hasSuffix:@".Rnw"]) {
-		[self.session executeSweave:selFile.name script:self.editView.string];
+		[self.session executeScriptFile:selFile];
 	} else if ([selFile.name hasSuffix:@".sas"]) {
 		[self.session executeSas:selFile];
 	} else if ([selFile.name hasSuffix:@".Rmd"]) {
-			[self.session executeSweave:selFile.name script:self.editView.string];
+			[self.session executeScriptFile:selFile];
 	} else {
 		[self.session executeScript:self.editView.string scriptName:selFile.name];
 	}
