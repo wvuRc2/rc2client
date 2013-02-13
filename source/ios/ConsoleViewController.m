@@ -39,6 +39,7 @@
 	[super viewDidLoad];
 	_didSetGraphUrl=NO;
 	self.webView.delegate = self;
+	self.webView.scalesPageToFit=YES;
 	self.queueLock = [[NSLock alloc] init];
 	self.jsQueue = [[NSMutableArray alloc] init];
 	self.backButton.enabled = NO;
@@ -299,6 +300,7 @@
 	[self.queueLock unlock];
 	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"$('#themecss').attr('href','%@')",
 														  [[ThemeEngine sharedInstance] currentTheme].cssfile]];
+//	self.webView.scalesPageToFit = [self.webView.request.URL.pathExtension isEqualToString:@"pdf"];
 	[self adjustInterface];
 }
 

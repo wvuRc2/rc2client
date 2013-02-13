@@ -458,9 +458,9 @@
 
 	[self.filePopover dismissPopoverAnimated:YES];
 	if ([file.name hasSuffix:@".pdf"]) {
-		if (file.contentsLoaded)
+		if (file.contentsLoaded) {
 			[(Rc2AppDelegate*)TheApp.delegate displayPdfFile:file];
-		else {
+		} else {
 			if (showProgress)
 				hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
 			hud.labelText = [NSString stringWithFormat:@"Loading %@…", file.name];

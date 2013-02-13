@@ -247,10 +247,12 @@
 -(void)displayPdfFile:(RCFile*)file
 {
 	//display in document controller
-	UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:
-											[NSURL fileURLWithPath:[file fileContentsPath]]];
-	dic.delegate = (id)self;
-	[dic presentPreviewAnimated:YES];	
+//	UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:
+//											[NSURL fileURLWithPath:[file fileContentsPath]]];
+//	dic.delegate = (id)self;
+//	[dic presentPreviewAnimated:YES];
+	NSURL *url = [NSURL fileURLWithPath:file.fileContentsPath];
+	[self.consoleController loadLocalFileURL:url];
 }
 
 -(void)loadAndDisplayPdfFile:(RCFile*)file

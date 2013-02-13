@@ -80,10 +80,9 @@
 	if (self.isTextFile) {
 		[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id results) {
 			if (success) {
-				self.fileContents = results;
-				[results writeToFile:self.fileContentsPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
+				self.fileContents = [NSString stringWithContentsOfFile:self.fileContentsPath encoding:NSUTF8StringEncoding error:nil];
 				AMFileSizeTransformer *trans = [[AMFileSizeTransformer alloc] init];
-				self.sizeString = [trans transformedValue:[NSNumber numberWithLong:[results length]]];
+				self.sizeString = [trans transformedValue:[NSNumber numberWithLong:[self.fileContents length]]];
 				hblock(YES);
 			} else {
 				Rc2LogError(@"error fetching content for file %@", self.fileId);
