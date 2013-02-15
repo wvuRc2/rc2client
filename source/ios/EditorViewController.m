@@ -119,17 +119,17 @@
 									 [UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName,
 									 nil];
 		}
-		RCSession *session = _session;
+		__weak EditorViewController *weakSelf = self;
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
 			//FIXME: need to sanitize the input string
 			NSString *str = [editView textInRange:editView.selectedTextRange];
 			if (str)
-				[session executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
+				[weakSelf.session executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
 		};
 		self.richEditor.executeBlock = ^(SessionEditView *editView) {
 			NSString *str = [editView textInRange:editView.selectedTextRange];
 			if ([str length] > 0)
-				[session executeScript:str scriptName:nil];
+				[weakSelf.session executeScript:str scriptName:nil];
 		};
 		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
 		self.keyboardToolbar.delegate = self;
