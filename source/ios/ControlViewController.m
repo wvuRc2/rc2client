@@ -43,7 +43,6 @@
 
 -(IBAction)changeMode:(id)sender
 {
-	NSLog(@"change mode:%d", self.modeControl.selectedSegmentIndex);
 	NSString *newMode = @"share";
 	if (self.modeControl.selectedSegmentIndex == 1)
 		newMode = @"control";

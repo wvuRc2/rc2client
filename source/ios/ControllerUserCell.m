@@ -15,7 +15,7 @@
 {
 	_user = user;
 	if (user) {
-		self.nameLabel.text = user.login;
+		self.nameLabel.text = user.displayName;
 		self.handButton.selected = user.handRaised;
 	}
 }

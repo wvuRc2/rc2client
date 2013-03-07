@@ -71,7 +71,7 @@ enum {
 -(void)sendAudioInput:(NSData*)data;
 
 //for classroom mode
--(void)sendFileOpened:(RCFile*)file;
+-(void)sendFileOpened:(RCFile*)file fullscreen:(BOOL)fs;
 
 -(id)settingForKey:(NSString*)key;
 -(void)setSetting:(id)val forKey:(NSString*)key;

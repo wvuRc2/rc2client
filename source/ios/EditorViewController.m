@@ -260,6 +260,7 @@
 
 -(void)loadFileData:(RCFile*)file
 {
+	RCFile *oldFile = _currentFile;
 	if (self.currentFile != nil && self.currentFile != file) {
 		self.currentFile.localEdits = self.richEditor.text;
 	}
@@ -279,8 +280,10 @@
 	}
 	[self updateTextContents:[[NSAttributedString alloc] initWithString:file.currentContents]];
 	[self updateDocumentState];
-	if (self.session.isClassroomMode && !self.session.restrictedMode) {
-		[self.session sendFileOpened:file];
+	if (![oldFile.fileId isEqualToNumber:file.fileId]) {
+		if (self.session.isClassroomMode && !self.session.restrictedMode) {
+			[self.session sendFileOpened:file fullscreen:NO];
+		}
 	}
 }
 

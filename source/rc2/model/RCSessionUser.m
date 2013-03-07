@@ -23,13 +23,4 @@
 	}
 	return self;
 }
-
-@synthesize displayName;
-@synthesize name;
-@synthesize login;
-@synthesize master;
-@synthesize userId;
-@synthesize sid;
-@synthesize control;
-@synthesize handRaised;
 @end

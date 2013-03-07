@@ -193,10 +193,9 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	[_ws sendText:[dict JSONRepresentation]];
 }
 
--(void)sendFileOpened:(RCFile*)file
+-(void)sendFileOpened:(RCFile*)file fullscreen:(BOOL)fs
 {
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"clcommand", @"cmd", @"openfile", @"subcmd",
-						  file.fileId, @"fid", nil];
+	NSDictionary *dict = @{@"cmd":@"clcommand", @"subcmd": @"openfile", @"fid":file.fileId};
 	[_ws sendText:[dict JSONRepresentation]];
 }
 
@@ -225,6 +224,14 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		[_ws sendText:@"{cmd:\"keepAlive\"}"];
 		self.timeOfLastTraffic = [NSDate date];
 	}
+}
+
+-(void)handleModeMessage:(NSDictionary*)dict
+{
+	NSNumber *ctrl_sid = [dict objectForKey:@"control_sid"];
+	if ([ctrl_sid isEqualToNumber:self.currentUser.sid])
+		self.currentUser.control = YES;
+	[self setMode:[dict objectForKey:@"mode"]];
 }
 
 -(RCSessionUser*)userWithSid:(NSNumber*)sid
@@ -326,7 +333,8 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		[self updateUsers:[dict valueForKeyPath:@"data.users"]];
 		[self setMode:[dict valueForKeyPath:@"data.mode"]];
 	} else if ([cmd isEqualToString:@"modechange"]) {
-		[self setMode:[dict objectForKey:@"mode"]];
+		[self handleModeMessage:dict];
+//		[self setMode:[dict objectForKey:@"mode"]];
 	} else if ([cmd isEqualToString:@"handraised"]) {
 		[self willChangeValueForKey:@"users"];
 		[self userWithSid:[dict objectForKey:@"sid"]].handRaised = YES;
@@ -470,7 +478,9 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 
 -(void)setMode:(NSString*)theMode
 {
+	NSLog(@"setMode: %@", theMode);
 	_mode = [theMode copy];
+	NSLog(@"eq=%d, master=%d, control=%d", [theMode isEqualToString:kMode_Classroom], self.currentUser.master, self.currentUser.control);
 	self.restrictedMode = ![theMode isEqualToString:kMode_Share] && !(self.currentUser.master || self.currentUser.control);
 }
 

@@ -34,6 +34,8 @@
 #import "MAKVONotificationCenter.h"
 #import "MLReachability.h"
 
+#define logJson 1
+
 @interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, copy) NSArray *data;
 @end
@@ -46,6 +48,9 @@
 	BOOL __didFirstLoad;
 	BOOL __didFirstWindow;
 	BOOL __toggledFileViewOnFullScreen;
+#if logJson
+	NSFileHandle *_jsonLog;
+#endif
 }
 @property (nonatomic, strong) IBOutlet NSButton *backButton;
 @property (nonatomic, weak) IBOutlet NSButton *tbFilesButton;
@@ -91,12 +96,19 @@
 		self.serverReach = [MLReachability reachabilityWithHostname:serverUrl.host];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kMLReachabilityChangedNotification object:self.serverReach];
 		[self.serverReach startNotifier];
+#if logJson
+		_jsonLog = [NSFileHandle fileHandleForWritingAtPath:@"/tmp/jsonLog.txt"];
+		NSLog(@"opened log %@", _jsonLog);
+#endif
 	}
 	return self;
 }
 
 -(void)dealloc
 {
+#if logJson
+	_jsonLog=nil;
+#endif
 	[self unregisterAllNotificationTokens];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -719,7 +731,7 @@
 		[self.outputController loadLocalFile:selectedFile];
 	}
 	if (self.session.isClassroomMode && !self.restrictedMode) {
-		[self.session sendFileOpened:selectedFile];
+		[self.session sendFileOpened:selectedFile fullscreen:NO];
 	}
 }
 
@@ -786,6 +798,10 @@
 
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString
 {
+#if logJson
+	NSString *log = [jsonString stringByAppendingString:@"\n\n"];
+	[_jsonLog writeData:[log dataUsingEncoding:NSUTF8StringEncoding]];
+#endif
 	NSString *cmd = [dict objectForKey:@"msg"];
 	if ([cmd isEqualToString:@"status"]) {
 		if ([[dict objectForKey:@"busy"] boolValue])
