@@ -10,8 +10,16 @@
 
 #define kPrefCustomThemeURL @"CustomThemeURL"
 
-@interface Theme : NSObject 
--(UIColor*)colorForKey:(NSString*)key;
+#if TARGET_OS_IPHONE
+#define COLOR_CLASS UIColor
+#else
+#define COLOR_CLASS NSColor
+#endif
+
+
+@interface Theme : NSObject
+-(CGColorRef)cgColorForKey:(NSString*)key;
+-(COLOR_CLASS*)colorForKey:(NSString*)key;
 -(NSDictionary*)themeColors;
 -(NSString*)consoleValueForKey:(NSString*)key;
 @property (weak, nonatomic, readonly) NSString *name;
@@ -35,6 +43,8 @@ typedef void (^ThemeChangedBlock)(Theme*);
 -(void)addBackgroundLayer:(CALayer*)parentLayer withKey:(NSString*)key frame:(CGRect)frame;
 @end
 
+#if TARGET_OS_IPHONE
 @interface UIView(Shine)
 - (void)addShineLayer:(CALayer*)parentLayer bounds:(CGRect)bounds;
 @end
+#endif

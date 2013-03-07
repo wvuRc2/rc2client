@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>version</key>
+	<integer>22</integer>
+	<key>name</key>
+	<string>Custom</string>
+	<key>colors</key>
+	<dict>
+		<key>Background</key>
+		<string>#f4edd1</string>
+		<key>SessionPaneSplitterStart</key>
+		<string>e1bf82</string>
+		<key>SessionPaneSplitterEnd</key>
+		<string>dbdf81</string>
+	</dict>
+	<key>cssfile</key>
+	<string>standard.css</string>
+	<key>console</key>
+	<dict>
+		<key>background</key>
+		<string>#f4edd1</string>
+		<key>outputOddRowColor</key>
+		<string>#FFDB87</string>
+		<key>outputEvenRowColor</key>
+		<string>#E2FF87</string>
+		<key>outputHeaderColor</key>
+		<string>#FFA532</string>
+	</dict>
+</dict>
+</plist>

@@ -7,10 +7,15 @@
 //
 
 #import "ThemeEngine.h"
-#import "ASIHTTPRequest.h"
-#import "ASICacheDelegate.h"
-#import "Vyana-ios/CALayer+LayerDebugging.h"
 #import "Rc2Server.h"
+
+#if TARGET_OS_IPHONE
+#import "Vyana-ios/CALayer+LayerDebugging.h"
+#define COLOR_W_WHITE colorWithWhite
+#else
+#import <Vyana/CALayer+LayerDebugging.h>
+#define COLOR_W_WHITE colorWithCalibratedWhite
+#endif
 
 @interface Theme() {
 	@protected
@@ -47,11 +52,17 @@
 {
 	return [self.themeDict objectForKey:@"colors"];
 }
--(UIColor*)colorForKey:(NSString*)key
+
+-(CGColorRef)cgColorForKey:(NSString*)key
 {
-	UIColor *color = [_colorCache objectForKey:key];
+	return [self colorForKey:key].CGColor;
+}
+
+-(COLOR_CLASS*)colorForKey:(NSString*)key
+{
+	COLOR_CLASS *color = [_colorCache objectForKey:key];
 	if (nil == color) {
-		color = [UIColor colorWithHexString:[self.themeColors objectForKey:key]];
+		color = [COLOR_CLASS colorWithHexString:[self.themeColors objectForKey:key]];
 		if (color)
 			[_colorCache setObject:color forKey:key];
 	}
@@ -80,7 +91,6 @@
 	Theme *_defaultTheme;
 	NSDictionary *_teDict;
 }
-@property (nonatomic, strong) ASIHTTPRequest *customRequest;
 -(NSArray*)allColorKeys;
 @end
 
@@ -95,7 +105,7 @@
 		NSMutableArray *a = [NSMutableArray array];
 		for (NSURL *aUrl in [[NSBundle mainBundle] URLsForResourcesWithExtension:@"plist" subdirectory:@"themes"]) {
 			NSDictionary *d = [NSDictionary dictionaryWithContentsOfURL:aUrl];
-			if ([[d objectForKey:@"version"] intValue] == 21) {
+			if ([[d objectForKey:@"version"] intValue] >= 21) {
 				Theme *t = [[Theme alloc] initWithDictionary:d];
 				if ([t.name isEqualToString:@"Default"]) {
 					global.currentTheme = t;
@@ -117,32 +127,9 @@
 	return _allThemes;
 }
 
--(void)startCustomDownload:(CustomTheme*)newTheme
-{
-	NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefCustomThemeURL];
-	if (nil == url) {
-		self.customRequest = [[Rc2Server sharedInstance] requestWithURL:[NSURL URLWithString:@"http://loclhoast/index.html"]];
-		[self setCurrentTheme:newTheme];
-		return;
-	}
-	self.customRequest = [[Rc2Server sharedInstance] requestWithURL:[NSURL URLWithString:url]];
-	self.customRequest.cachePolicy = ASIDoNotReadFromCacheCachePolicy;
-	[self.customRequest setCompletionBlock:^{
-		ThemeEngine *te = [ThemeEngine sharedInstance];
-		[newTheme reloadTheme:te.customRequest.responseData];
-		[te setCurrentTheme:newTheme];
-	}];
-	[self.customRequest startAsynchronous];
-}
-
 -(void)setCurrentTheme:(Theme *)newTheme
 {
-	if (newTheme.isCustom && nil == _customRequest) {
-		//we need to fire off a background request
-		[self startCustomDownload:(CustomTheme*)newTheme];
-		return;
-	}
-	if (!newTheme.isCustom && newTheme == _currentTheme)
+	if (newTheme == _currentTheme)
 		return;
 	_currentTheme = newTheme;
 	NSMutableSet *oldones = [NSMutableSet set];
@@ -154,8 +141,6 @@
 			[oldones addObject:aWeakRef];
 	}
 	[_toNotify minusSet:oldones];
-	if (newTheme.isCustom)
-		self.customRequest=nil;
 }
 
 //an object will be returned. releasing that object will unregister the block
@@ -186,8 +171,8 @@
 	gl.name = kThemeBGLayerName;
 	//now we need to find out what colors to use
 	Theme *th = _currentTheme;
-	UIColor *startColor = [th colorForKey:[key stringByAppendingString:@"Start"]];
-	UIColor *endColor = [th colorForKey:[key stringByAppendingString:@"End"]];
+	COLOR_CLASS *startColor = [th colorForKey:[key stringByAppendingString:@"Start"]];
+	COLOR_CLASS *endColor = [th colorForKey:[key stringByAppendingString:@"End"]];
 	if (startColor && endColor) {
 		NSArray *colors = [NSArray arrayWithObjects:(id)startColor.CGColor, (id)endColor.CGColor, nil];
 		[gl setColors:colors];
@@ -251,26 +236,21 @@
 }
 @end
 
-
+#if TARGET_OS_IPHONE
 @implementation UIView(Shine)
 - (void)addShineLayer:(CALayer*)parentLayer bounds:(CGRect)bounds
 {
     CAGradientLayer *shineLayer = [CAGradientLayer layer];
     shineLayer.frame = bounds;
     shineLayer.colors = [NSArray arrayWithObjects:
-                         (id)[UIColor colorWithWhite:0.8f alpha:0.4f].CGColor,
-                         (id)[UIColor colorWithWhite:0.8f alpha:0.2f].CGColor,
-                         (id)[UIColor colorWithWhite:0.75f alpha:0.2f].CGColor,
-                         (id)[UIColor colorWithWhite:0.4f alpha:0.2f].CGColor,
-                         (id)[UIColor colorWithWhite:1.0f alpha:0.4f].CGColor,
+                         (id)[COLOR_CLASS COLOR_W_WHITE:0.8f alpha:0.4f].CGColor,
+                         (id)[COLOR_CLASS COLOR_W_WHITE:0.8f alpha:0.2f].CGColor,
+                         (id)[COLOR_CLASS COLOR_W_WHITE:0.75f alpha:0.2f].CGColor,
+                         (id)[COLOR_CLASS COLOR_W_WHITE:0.4f alpha:0.2f].CGColor,
+                         (id)[COLOR_CLASS COLOR_W_WHITE:1.0f alpha:0.4f].CGColor,
                          nil];
-    shineLayer.locations = [NSArray arrayWithObjects:
-                            [NSNumber numberWithFloat:0.0f],
-                            [NSNumber numberWithFloat:0.3f],
-                            [NSNumber numberWithFloat:0.3f],
-                            [NSNumber numberWithFloat:0.8f],
-                            [NSNumber numberWithFloat:1.0f],
-                            nil];
+    shineLayer.locations = @[@0.0f, @0.3f, @0.3f, @0.8f, @1.0f];
     [parentLayer addSublayer:shineLayer];
 }
 @end
+#endif
