@@ -19,6 +19,8 @@
 	</dict>
 	<key>colors</key>
 	<dict>
+		<key>ProjectColor</key>
+		<string>#E9E9E</string>
 		<key>PriorityColors</key>
 		<array>
 			<string>db0404</string>

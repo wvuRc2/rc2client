@@ -17,6 +17,8 @@
 #define COLOR_W_WHITE colorWithCalibratedWhite
 #endif
 
+#define kPref_CurrentTheme @"CurrentThemeEngineTheme"
+
 @interface Theme() {
 	@protected
 	NSMutableDictionary *_colorCache;
@@ -108,16 +110,22 @@
 			if ([[d objectForKey:@"version"] intValue] >= 21) {
 				Theme *t = [[Theme alloc] initWithDictionary:d];
 				if ([t.name isEqualToString:@"Default"]) {
-					global.currentTheme = t;
+					global->_currentTheme = t;
 					global->_defaultTheme = t;
 				}
 				[a addObject:t];
 			}
 		}
-		CustomTheme *custom = [[CustomTheme alloc] initWithDictionary:nil];
+		NSString *tname = [[NSUserDefaults standardUserDefaults] stringForKey:kPref_CurrentTheme];
+		if (tname) {
+			Theme *t = [a firstObjectWithValue:tname forKey:@"name"];
+			if (t)
+				global.currentTheme = t;
+		}
+/*		CustomTheme *custom = [[CustomTheme alloc] initWithDictionary:nil];
 		[a addObject:custom];
 		custom.defaultTheme = global->_defaultTheme;
-		global->_allThemes = [a copy];
+*/		global->_allThemes = [a copy];
 		global->_toNotify = [[NSMutableSet alloc] init];
 	});
 	return global;
@@ -141,6 +149,8 @@
 			[oldones addObject:aWeakRef];
 	}
 	[_toNotify minusSet:oldones];
+	[[NSUserDefaults standardUserDefaults] setObject:newTheme.name forKey:kPref_CurrentTheme];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 //an object will be returned. releasing that object will unregister the block

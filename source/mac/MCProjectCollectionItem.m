@@ -16,6 +16,7 @@
 @property (nonatomic) BOOL selected;
 @property (nonatomic) BOOL isProject;
 @property (strong) AMColor *regColor;
+@property (strong) id themeChangeToken;
 @property (weak) CALayer *innerLayer;
 @property (weak) IBOutlet NSTextField *itemLabel;
 @property (nonatomic, weak) IBOutlet NSView *innerView;
@@ -143,7 +144,7 @@
 	self.layer.backgroundColor = [NSColor clearColor].CGColor;
 
 	__weak MacProjectCellView *bself = self;
-	[[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
+	self.themeChangeToken = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
 		[bself adjustColors];
 	}];
 }

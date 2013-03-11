@@ -13,6 +13,7 @@
 #import "MCProjectCollectionView.h"
 #import "MCMainWindowController.h"
 #import "MCProjectCollectionItem.h"
+#import "ThemeEngine.h"
 
 @interface MCProjectView : AMControlledView
 

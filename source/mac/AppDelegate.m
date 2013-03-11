@@ -17,6 +17,7 @@
 #import "RCWorkspace.h"
 #import "RCFile.h"
 #import "RCMacToolbarItem.h"
+#import "ThemeEngine.h"
 #import "ASIFormDataRequest.h"
 #import "BBEdit.h"
 #import "RCMGeneralPrefs.h"
@@ -86,6 +87,7 @@
 		self.isFullScreen = NO;
 	}]];
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
+	[self setupThemeMenu];
 }
 
 -(BOOL)application:(NSApplication *)app openFile:(NSString *)filename
@@ -119,10 +121,23 @@
 	return NO;
 }
 
+-(BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	if ([[menuItem representedObject] isKindOfClass:[Theme class]]) {
+		if ([[ThemeEngine sharedInstance] currentTheme] == menuItem.representedObject)
+			menuItem.state = NSOnState;
+		else
+			menuItem.state = NSOffState;
+		return YES;
+	}
+	return NO;
+}
+
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
 	if ([item action] == @selector(doLogOut:))
 		return self.loggedIn;
+
 	return YES;
 }
 
@@ -229,6 +244,30 @@
 		if (![moc save:&err]) {
 			NSLog(@"failed to save moc changes: %@", err);
 		}
+	}
+}
+
+-(void)selectTheme:(NSMenuItem*)item
+{
+	[[ThemeEngine sharedInstance] setCurrentTheme:item.representedObject];
+}
+
+-(void)setupThemeMenu
+{
+	NSMenuItem *viewItem = [[NSApp mainMenu] itemWithTag:kMenuView];
+	ZAssert(viewItem, @"failed to find view menu");
+	NSMenuItem *titem = [[viewItem submenu] itemWithTag:2112];
+	ZAssert(titem, @"failed to find theme submenu");
+	NSMenu *menu = [titem submenu];
+	[menu removeAllItems];
+	if (nil == menu) {
+		menu = [[NSMenu alloc] initWithTitle:@"Theme"];
+		[titem setMenu:menu];
+	}
+	for (Theme *theme in [[ThemeEngine sharedInstance] allThemes]) {
+		NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:theme.name action:@selector(selectTheme:) keyEquivalent:@""];
+		item.representedObject = theme;
+		[menu addItem:item];
 	}
 }
 
