@@ -478,9 +478,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 
 -(void)setMode:(NSString*)theMode
 {
-	NSLog(@"setMode: %@", theMode);
 	_mode = [theMode copy];
-	NSLog(@"eq=%d, master=%d, control=%d", [theMode isEqualToString:kMode_Classroom], self.currentUser.master, self.currentUser.control);
 	self.restrictedMode = ![theMode isEqualToString:kMode_Share] && !(self.currentUser.master || self.currentUser.control);
 }
 

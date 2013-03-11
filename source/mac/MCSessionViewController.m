@@ -109,6 +109,7 @@
 #if logJson
 	_jsonLog=nil;
 #endif
+	self.outputController=nil; //we were getting binding errors because the text field was bound to us and we were being dealloc'd first.
 	[self unregisterAllNotificationTokens];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -834,14 +835,16 @@
 		self.imagePopover.behavior = NSPopoverBehaviorSemitransient;
 		self.imagePopover.delegate = self;
 	}
-	__unsafe_unretained MCSessionViewController *blockSelf = self;
+	__weak MCSessionViewController *blockSelf = self;
 	self.imagePopover.contentViewController = self.imageController;
 	self.imageController.imageArray = imgArray;
 	self.imageController.workspace = self.session.workspace;
 	self.imageController.detailsBlock = ^{
 		[blockSelf showImageDetails:nil];	
 	};
-	NSRect r = NSMakeRect(__curImgPoint.x+16, self.outputController.webView.frame.size.height - __curImgPoint.y +40, 1, 1);
+	NSRect r = NSMakeRect(__curImgPoint.x+16, abs(self.outputController.webView.frame.size.height - __curImgPoint.y +40), 1, 1);
+	if (r.origin.y < 100)
+		r.origin.y = 100;
 	[self.imagePopover showRelativeToRect:r ofView:self.view preferredEdge:NSMaxXEdge];
 }
 
@@ -999,10 +1002,6 @@
 		path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
 		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[path integerValue]]];
 		[self.outputController.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:file.fileContentsPath]]];
-//		RCMPDFViewController *pvc = [[RCMPDFViewController alloc] init];
-//		[pvc view]; //load from nib
-//		[pvc loadPdf:file.fileContentsPath];
-//		[(AppDelegate*)[NSApp delegate] showViewController:pvc];
 	} else if ([urlStr hasSuffix:@".png"]) {
 		//for now. we may want to handle multiple images at once
 		[self displayImage:[url path]];

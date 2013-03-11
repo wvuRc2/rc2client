@@ -129,17 +129,27 @@
 {
 	if (nil == html)
 		return;
-	NSError *err=nil;
-	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///([0-9]+).png" options:0 error:&err];
+	NSError *err=nil; //(\\?ig([0-9]+)(&pos=\\d+,\\d+))?
+	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///([0-9]+).png(\\?(ig\\d+))?" options:0 error:&err];
 	ZAssert(nil == err, @"error compiling regex: %@", [err localizedDescription]);
+	NSMutableDictionary *groups = [_metaData objectForKey:@"groups"];
 	[regex enumerateMatchesInString:html options:0 range:NSMakeRange(0, [html length]) 
 						 usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) 
-	 {
+	{
 		NSString *fname = [html substringWithRange:[match rangeAtIndex:1]];
-		 if (nil == [[RCImageCache sharedInstance] loadImageIntoCache:fname]) {
-			 //TODO: we don't have this image cached. we need to fire off a background task to download and then load it
-		 }
-	 }];
+		if ([match rangeAtIndex:3].length > 0) {
+			NSString *grpName = [html substringWithRange:[match rangeAtIndex:3]];
+			NSArray *images = [groups objectForKey:grpName];
+			if (nil == images)
+				images = @[fname];
+			else
+				images = [images arrayByAddingObject:fname];
+			[groups setObject:images forKey:grpName];
+		}
+		if (nil == [[RCImageCache sharedInstance] loadImageIntoCache:fname]) {
+			//TODO: we don't have this image cached. we need to fire off a background task to download and then load it
+		}
+	}];
 }
 
 
@@ -181,7 +191,9 @@
 
 -(NSArray*)groupImagesForLinkPath:(NSString*)group
 {
-	group = [group substringFromIndex:[group rangeOfString:@"?ig"].location+1];
+	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///([0-9]+).png(\\?(ig\\d+))?" options:0 error:nil];
+	NSTextCheckingResult *match = [regex firstMatchInString:group options:0 range:NSMakeRange(0, group.length)];
+	group = [group substringWithRange:[match rangeAtIndex:3]];
 	NSArray *imageIds = [[self.metaData objectForKey:@"groups"] objectForKey:group];
 	if (imageIds.count < 1)
 		return nil;
