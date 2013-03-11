@@ -9,6 +9,7 @@
 #import "ProjectCell.h"
 #import "RCProject.h"
 #import "RCWorkspace.h"
+#import "ThemeEngine.h"
 
 @interface ProjectCell ()
 @property (weak) IBOutlet UILabel *nameLabel;
@@ -41,21 +42,35 @@
 		[self.contentView.layer addSublayer:layer];
 		self.cellLayer = layer;
 
+		__weak ProjectCell *bself = self;
+		[[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
+			[bself adjustColors];
+		}];
 		self.backgroundView.backgroundColor = [UIColor clearColor];
 	}
 	return self;
+}
+
+-(void)adjustColors
+{
+	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
+	self.curColor = [AMColor colorWithColor:[theme colorForKey: [self.cellItem isKindOfClass:[RCProject class]] ? @"ProjectColor" : @"WorkspaceColor"]];
+	self.curColor = [self.curColor colorWithAlpha:0.3];
+	self.cellLayer.backgroundColor = [self.curColor CGColor];
 }
 
 -(void)setCellItem:(id)cellItem
 {
 	_cellItem = cellItem;
 	self.nameLabel.text = [cellItem name];
+	[self adjustColors];
 }
 
 -(void)setHighlighted:(BOOL)highlighted
 {
 	[super setHighlighted:highlighted];
-	self.backgroundColor = highlighted ? [[self.curColor colorWithAlpha:0.4] nativeColor] : [UIColor clearColor];
+	id cl = highlighted ? [[self.curColor colorWithAlpha:0.4] nativeColor] : [UIColor clearColor];
+	self.cellLayer.backgroundColor = [cl CGColor];
 }
 
 @end

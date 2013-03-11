@@ -10,6 +10,7 @@
 #import "MCProjectCollectionView.h"
 #import "RCProject.h"
 #import "RCWorkspace.h"
+#import "ThemeEngine.h"
 
 @interface MacProjectCellView : AMControlledView
 @property (nonatomic) BOOL selected;
@@ -140,6 +141,11 @@
 	self.innerLayer = layer;
 	
 	self.layer.backgroundColor = [NSColor clearColor].CGColor;
+
+	__weak MacProjectCellView *bself = self;
+	[[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
+		[bself adjustColors];
+	}];
 }
 
 -(void)startEditing
@@ -190,13 +196,20 @@
 	}
 }
 
+-(void)adjustColors
+{
+	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
+	AMColor *color = [AMColor colorWithColor: [theme colorForKey: self.isProject ? @"ProjectColor" : @"WorkspaceColor"]];
+	self.regColor = [color colorWithAlpha:0.3];
+	self.innerLayer.backgroundColor = self.regColor.CGColor;
+}
+
 -(void)setIsProject:(BOOL)isProject
 {
+	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	_isProject = isProject;
-	if (isProject)
-		self.regColor = [[AMColor colorWithHexString:@"45a7bc"] colorWithAlpha:0.3];
-	else
-		self.regColor = [[AMColor colorWithHexString:@"b7b7b7"] colorWithAlpha:0.3];
+	AMColor *color = [AMColor colorWithColor: [theme colorForKey: isProject ? @"ProjectColor" : @"WorkspaceColor"]];
+	self.regColor = [color colorWithAlpha:0.3];
 	self.innerLayer.backgroundColor = self.regColor.CGColor;
 }
 
