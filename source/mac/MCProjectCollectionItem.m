@@ -14,7 +14,7 @@
 @interface MacProjectCellView : AMControlledView
 @property (nonatomic) BOOL selected;
 @property (nonatomic) BOOL isProject;
-@property (strong) NSColor *regColor;
+@property (strong) AMColor *regColor;
 @property (weak) CALayer *innerLayer;
 @property (weak) IBOutlet NSTextField *itemLabel;
 @property (nonatomic, weak) IBOutlet NSView *innerView;
@@ -194,9 +194,9 @@
 {
 	_isProject = isProject;
 	if (isProject)
-		self.regColor = [[NSColor colorWithHexString:@"45a7bc"] colorWithAlphaComponent:0.3];
+		self.regColor = [[AMColor colorWithHexString:@"45a7bc"] colorWithAlpha:0.3];
 	else
-		self.regColor = [[NSColor colorWithHexString:@"b7b7b7"] colorWithAlphaComponent:0.3];
+		self.regColor = [[AMColor colorWithHexString:@"b7b7b7"] colorWithAlpha:0.3];
 	self.innerLayer.backgroundColor = self.regColor.CGColor;
 }
 

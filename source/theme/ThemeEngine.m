@@ -166,7 +166,7 @@
     CAGradientLayer *gl = [CAGradientLayer layer];
     [gl setBounds:frame];
     [gl setPosition:CGPointMake(parentLayer.bounds.size.width/2, parentLayer.bounds.size.height/2)];
-    [parentLayer insertSublayer:gl atIndex:[parentLayer.sublayers count]];
+    [parentLayer insertSublayer:gl atIndex:(unsigned)[parentLayer.sublayers count]];
 	gl.zPosition = -1;
 	gl.name = kThemeBGLayerName;
 	//now we need to find out what colors to use

@@ -13,7 +13,9 @@
 @interface ProjectCell ()
 @property (weak) IBOutlet UILabel *nameLabel;
 @property (weak) IBOutlet UIImageView *imageView;
+@property (weak) CALayer *cellLayer;
 @property (strong) IBOutlet UIView *myView;
+@property (strong) AMColor *curColor;
 @end
 
 @implementation ProjectCell
@@ -33,9 +35,11 @@
 		layer.shadowOffset = CGSizeMake(4, -4);
 		layer.shadowRadius = 2;
 		layer.cornerRadius = 13.0;
-		layer.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.2].CGColor;
+		self.curColor = [[AMColor colorWithHexString:@"45a7bc"] colorWithAlpha:0.3];
+		layer.backgroundColor = [self.curColor CGColor];
 		self.contentView.backgroundColor = [UIColor clearColor];
 		[self.contentView.layer addSublayer:layer];
+		self.cellLayer = layer;
 
 		self.backgroundView.backgroundColor = [UIColor clearColor];
 	}
@@ -51,7 +55,7 @@
 -(void)setHighlighted:(BOOL)highlighted
 {
 	[super setHighlighted:highlighted];
-	self.backgroundColor = highlighted ? [[UIColor blueColor] colorWithAlphaComponent:0.3] : [UIColor clearColor];
+	self.backgroundColor = highlighted ? [[self.curColor colorWithAlpha:0.4] nativeColor] : [UIColor clearColor];
 }
 
 @end
