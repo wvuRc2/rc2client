@@ -23,13 +23,14 @@
 @interface MCWebOutputController : AMViewController<NSTextFieldDelegate>
 @property (nonatomic, strong) IBOutlet WebView *webView;
 @property (nonatomic, strong) IBOutlet NSPopUpButton *historyPopUp;
-@property (nonatomic, unsafe_unretained) IBOutlet id<MCWebOutputDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<MCWebOutputDelegate> delegate;
 @property (nonatomic, strong) IBOutlet RCMConsoleTextField *consoleField;
 @property (nonatomic, copy) NSString *inputText;
 @property (nonatomic) BOOL canExecute;
 @property (nonatomic) BOOL consoleVisible;
 @property (nonatomic) BOOL historyHasItems;
 @property (nonatomic) BOOL restrictedMode; //mirrored to session view controller's value
+@property (nonatomic, readonly) BOOL enabledTextField;
 
 -(IBAction)doExecuteQuery:(id)sender;
 -(IBAction)doClear:(id)sender;

@@ -14,6 +14,7 @@
 #import "RCImageCache.h"
 #import "RCFile.h"
 #import <Quartz/Quartz.h>
+#import "MAKVONotificationCenter.h"
 
 @interface MCWebOutputController() {
 	NSInteger __cmdHistoryIdx;
@@ -30,6 +31,7 @@
 @property BOOL completedInitialLoad;
 @property (nonatomic, strong) RCFile *localFileToLoadAfterInitialLoad;
 @property (nonatomic, copy) NSString *webTmpFileDirectory;
+@property (nonatomic, readwrite) BOOL enabledTextField;
 @end
 
 @implementation MCWebOutputController
@@ -69,6 +71,7 @@
 												 selector:@selector(adjustCommandHistoryMenu:) 
 													 name:NSPopUpButtonWillPopUpNotification 
 												   object:self.historyPopUp];
+		[self observeTarget:self keyPath:@"restrictedMode" selector:@selector(updateTextFieldStatus) userInfo:nil options:0];
 		__didInit=YES;
 	}
 }
@@ -83,6 +86,11 @@
 }
 
 #pragma mark - meat & potatos
+
+-(void)updateTextFieldStatus
+{
+	self.enabledTextField = !(self.restrictedMode || self.delegate.restricted);
+}
 
 -(void)viewSource:(id)sender
 {
@@ -475,8 +483,6 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	NSMutableArray *items = [NSMutableArray arrayWithObject:self.clearMenuItem];
 	[items addObject:[self.viewSourceMenuItem copy]];
 	for (NSMenuItem *mi in defaultMenuItems) {
-//		if (mi.tag == WebMenuItemPDFSinglePage)
-//			[items addObject:mi];
 		if (mi.tag == WebMenuItemTagGoBack || mi.tag == WebMenuItemTagGoForward || [@"Inspect Element" isEqualToString:mi.title])
 			[items addObject:mi];
 	}
@@ -499,6 +505,12 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 }
 
 #pragma mark - synthesizers
+
+-(void)setDelegate:(id<MCWebOutputDelegate>)delegate
+{
+	_delegate = delegate;
+	[self observeTarget:self.delegate keyPath:@"restrictedMode" selector:@selector(updateTextFieldStatus) userInfo:nil options:0];
+}
 
 -(void)setInputText:(NSString *)inputText
 {
