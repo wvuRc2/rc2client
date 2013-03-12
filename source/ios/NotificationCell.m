@@ -16,7 +16,6 @@
 @property (nonatomic, strong) IBOutlet UILabel *typeLabel;
 @property (nonatomic, strong) IBOutlet UILabel *dateLabel;
 @property (nonatomic, strong) IBOutlet UILabel *messageLabel;
-@property (nonatomic, strong) id themeChangeNotice;
 @end
 
 @implementation NotificationCell
@@ -47,7 +46,7 @@
 	self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
 
 	__weak NotificationCell *blockSelf = self;
-	self.themeChangeNotice = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
+	[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *aTheme) {
 		[blockSelf updateForTheme];
 	}];
 	[self updateForTheme];

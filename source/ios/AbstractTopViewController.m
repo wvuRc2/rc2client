@@ -14,7 +14,6 @@
 @interface AbstractTopViewController ()
 @property (nonatomic, strong) UIPopoverController *isettingsPopover;
 @property (nonatomic, strong) iSettingsController *isettingsController;
-@property (nonatomic, strong) id themeChangeNotice;
 @end
 
 @implementation AbstractTopViewController
@@ -30,17 +29,15 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MessagesUpdatedNotification object:nil];
 	[self.kvoTokens removeAllObjects];
-	self.themeChangeNotice=nil;
 }
 
 -(void)viewDidLoad
 {
 	[super viewDidLoad];
 	__weak AbstractTopViewController *blockSelf = self;
-	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
+	[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *theme) {
 		[blockSelf updateForNewTheme:theme];
 	}];
-	self.themeChangeNotice = tn;
 	[self updateForNewTheme:[[ThemeEngine sharedInstance] currentTheme]];
 	[self.kvoTokens addObject:[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
 		[blockSelf adjustInterfaceBasedOnLogin];

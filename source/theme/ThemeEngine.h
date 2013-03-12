@@ -34,8 +34,8 @@ typedef void (^ThemeChangedBlock)(Theme*);
 @property (nonatomic, strong) Theme *currentTheme;
 @property (weak, readonly) NSArray *allThemes;
 +(ThemeEngine*)sharedInstance;
-//an object will be returned. releasing that object will unregister the block
--(id)registerThemeChangeBlock:(ThemeChangedBlock)tblock;
+//when owner no longer exists, the block is unregistered
+-(void)registerThemeChangeObserver:(id)obs block:(ThemeChangedBlock)tblock;
 
 //will add a layer that has a gradient background if the current theme has
 // the colors for one, otherwise it will use a solid color from the theme.

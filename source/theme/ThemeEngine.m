@@ -84,6 +84,7 @@
 
 @interface ThemeNotifyTracker : NSObject {
 }
+@property (strong) MAZeroingWeakRef *observer;
 @property (copy) ThemeChangedBlock block;
 @end
 
@@ -141,12 +142,12 @@
 		return;
 	_currentTheme = newTheme;
 	NSMutableSet *oldones = [NSMutableSet set];
-	for (id aWeakRef in _toNotify) {
-		ThemeNotifyTracker *tn = [aWeakRef target];
-		if (tn)
+	for (ThemeNotifyTracker *tn in _toNotify) {
+		if (nil == tn.observer.target) {
+			[oldones addObject:tn];
+		} else {
 			tn.block(newTheme);
-		else
-			[oldones addObject:aWeakRef];
+		}
 	}
 	[_toNotify minusSet:oldones];
 	[[NSUserDefaults standardUserDefaults] setObject:newTheme.name forKey:kPref_CurrentTheme];
@@ -154,13 +155,12 @@
 }
 
 //an object will be returned. releasing that object will unregister the block
--(id)registerThemeChangeBlock:(ThemeChangedBlock)tblock
+-(void)registerThemeChangeObserver:(id)obs block:(ThemeChangedBlock)tblock
 {
 	ThemeNotifyTracker *tn = [[ThemeNotifyTracker alloc] init];
 	tn.block = tblock;
-	MAZeroingWeakRef *weakRef = [MAZeroingWeakRef refWithTarget:tn];
-	[_toNotify addObject:weakRef];
-	return tn;
+	tn.observer = [MAZeroingWeakRef refWithTarget:obs];
+	[_toNotify addObject:tn];
 }
 
 #define kThemeBGLayerName @"themed bg"

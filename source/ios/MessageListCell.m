@@ -18,7 +18,6 @@
 @property (nonatomic, strong) CAGradientLayer *gl;
 @property (nonatomic, strong) NSArray *normalColors;
 @property (nonatomic, strong) NSArray *selectedColors;
-@property (nonatomic, strong) id themeChangeNotice;
 @end
 
 @implementation MessageListCell
@@ -31,7 +30,7 @@
 	_origSize = self.frame.size;
 
 	__weak MessageListCell *blockSelf = self;
-	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
+	[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *aTheme) {
 		blockSelf.normalColors = [NSArray arrayWithObjects:
 							 (id)[aTheme colorForKey:@"MessageCellStart"].CGColor,
 							 (id)[aTheme colorForKey:@"MessageCellEnd"].CGColor, nil];
@@ -43,7 +42,6 @@
 		else
 			[blockSelf.gl setColors:blockSelf.normalColors];
 	}];
-	self.themeChangeNotice = tn;
 	
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	self.normalColors = [NSArray arrayWithObjects:

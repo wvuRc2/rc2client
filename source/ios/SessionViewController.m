@@ -38,7 +38,6 @@
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) DoodleViewController *doodle;
 @property (nonatomic, strong) KeyboardToolbar *consoleKeyboardToolbar;
-@property (nonatomic, strong) id themeToken;
 @property (nonatomic, copy) NSString *webTmpFileDirectory;
 @property (weak, nonatomic, readwrite) RCSession *session;
 @property (nonatomic, assign) BOOL reconnecting;
@@ -104,13 +103,10 @@
 
 	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
 	self.splitController.splitterView.backgroundColor = [theme colorForKey:@"SessionPaneSplitterStart"];
-//	self.splitController.dividerView.darkColor = [theme colorForKey:@"SessionPaneSplitterEnd"];
 	__weak SessionViewController *blockSelf = self;
-	id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *aTheme) {
+	[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *aTheme) {
 		blockSelf.splitController.splitterView.backgroundColor = [aTheme colorForKey:@"SessionPaneSplitterStart"];
-//		blockSelf.splitController.dividerView.darkColor = [aTheme colorForKey:@"SessionPaneSplitterEnd"];
 	}];
-	self.themeToken = tn;
 
 	RCSavedSession *savedState = self.session.savedSessionState;
 	self.consoleController.session = self.session;
@@ -120,9 +116,6 @@
 	self.consoleKeyboardToolbar.delegate = self;
 	self.editorController.session = self.session;
 	[self.editorController view];
-//	self.editorController.executeButton = self.executeButton;
-//	self.editorController.executeButton.target = self.editorController;
-//	self.editorController.executeButton.action = @selector(doExecute:);
 	[self.editorController restoreSessionState:savedState];
 	if (self.session.initialFileSelection) {
 		[self.editorController loadFile:self.session.initialFileSelection showProgress:NO];

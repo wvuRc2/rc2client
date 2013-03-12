@@ -17,7 +17,6 @@
 @property (weak) CALayer *cellLayer;
 @property (strong) IBOutlet UIView *myView;
 @property (strong) AMColor *curColor;
-@property (strong) id themeChangeToken;
 @end
 
 @implementation ProjectCell
@@ -44,7 +43,7 @@
 		self.cellLayer = layer;
 
 		__weak ProjectCell *bself = self;
-		self.themeChangeToken = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
+		[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *theme) {
 			[bself adjustColors];
 		}];
 		self.backgroundView.backgroundColor = [UIColor clearColor];

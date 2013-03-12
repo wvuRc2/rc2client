@@ -28,7 +28,6 @@
 @property (nonatomic, strong) MessageListCell *currentSelection;
 @property (nonatomic, strong) UIColor *selectedBG;
 @property (nonatomic, strong) UIColor *normalBG;
-@property (nonatomic, strong) id themeChangeNotice;
 @end
 
 @implementation MessagesViewController
@@ -54,10 +53,9 @@
 		UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, 40)];
 		self.tableView.tableHeaderView = v;
 		[self updateForNewTheme:theme];
-		id tn = [[ThemeEngine sharedInstance] registerThemeChangeBlock:^(Theme *theme) {
+		[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *theme) {
 			[blockSelf updateForNewTheme:theme];
 		}];
-		self.themeChangeNotice=tn;
 		self.tableView.autoresizingMask=0;
 		self.composeButton.autoresizingMask=0;
 		if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
