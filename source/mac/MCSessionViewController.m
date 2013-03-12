@@ -842,10 +842,12 @@
 	self.imageController.detailsBlock = ^{
 		[blockSelf showImageDetails:nil];	
 	};
-	NSRect r = NSMakeRect(__curImgPoint.x+16, abs(self.outputController.webView.frame.size.height - __curImgPoint.y +40), 1, 1);
-	if (r.origin.y < 100)
-		r.origin.y = 100;
-	[self.imagePopover showRelativeToRect:r ofView:self.view preferredEdge:NSMaxXEdge];
+	NSRect r = NSZeroRect;
+	r.size = NSMakeSize(1, 1);
+	r.origin = [NSEvent mouseLocation];
+	r = [self.view.window convertRectFromScreen:r];
+	r.origin = [self.outputController.view convertPoint:r.origin fromView:self.view.window.contentView];
+	[self.imagePopover showRelativeToRect:r ofView:self.outputController.view preferredEdge:NSMaxXEdge];
 }
 
 
@@ -1033,17 +1035,15 @@
 
 -(void)popoverDidShow:(NSNotification*)note
 {
-	NSLog(@"popover shown");
 }
 
 -(void)popoverDidClose:(NSNotification*)note
 {
-	NSLog(@"popover closed");
+	self.imagePopover = nil;
 }
 
 - (void)popoverWillShow:(NSNotification *)notification
 {
-	NSLog(@"popover will show");
 }
 
 #pragma mark - text view delegate

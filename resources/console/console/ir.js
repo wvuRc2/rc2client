@@ -105,7 +105,8 @@ iR.prepareImageUrl = function(imgAnchor) {
 		//remove existing location info
 		str = str.substring(0, str.indexOf('&'))
 	}
-	str = str + "&pos=" + imgAnchor.offset().left + "," + imgAnchor.offset().top;
+	var bnds = $(imgAnchor).offset()
+	str = str + "&pos=" + bnds.left + "," + bnds.top;
 	imgAnchor.attr('href', str)
 }
 

@@ -13,6 +13,11 @@ body {
   color: #0ab652;
   }
 
+.Rimg {
+	min-height:32px;
+	position:relative;
+}
+
 .inputText {
   background-color: #87FFA6; }
 

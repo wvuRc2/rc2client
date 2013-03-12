@@ -145,7 +145,7 @@
 	}
 	return @"";
 }
-
+/*
 -(void)previewImage:(DOMElement*)imgGroupElem images:(WebScriptObject*)images
 {
 	unsigned int idx=0;
@@ -165,7 +165,7 @@
 	} while (YES);
 	[self.delegate previewImages:imgArray atPoint:pt];
 }
-
+*/
 -(void)closePreview:(DOMElement*)anchorElem
 {
 	[self.delegate previewImages:nil atPoint:NSZeroPoint];

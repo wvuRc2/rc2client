@@ -198,8 +198,13 @@
 	if (imageIds.count < 1)
 		return nil;
 	NSMutableArray *outImages = [NSMutableArray arrayWithCapacity:imageIds.count];
-	for (id anId in imageIds)
-		[outImages addObject:[self imageWithId:[anId description]]];
+	for (id anId in imageIds) {
+		RCImage *img = [self imageWithId:[anId description]];
+		if (img)
+			[outImages addObject:img];
+		else
+			NSLog(@"failed to find image %@", anId);
+	}
 	return [outImages copy];
 }
 
