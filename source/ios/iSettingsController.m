@@ -37,7 +37,6 @@ enum { eTree_Theme, eTree_Keyboard };
 		self.keyboards = ARRAY(@"Default", @"Custom 1", @"Custom 2");
 		self.navigationItem.title = @"Settings";
 		id myThemes= [[[[ThemeEngine sharedInstance] allThemes] valueForKey:@"name"] mutableCopy];
-		[myThemes removeObject:@"Custom"];
 		self.themes = myThemes;
 	}
 	return self;

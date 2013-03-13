@@ -8,6 +8,7 @@
 
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
+#import "MAKVONotificationCenter.h"
 
 #if TARGET_OS_IPHONE
 #import "Vyana-ios/CALayer+LayerDebugging.h"
@@ -94,6 +95,7 @@
 	Theme *_defaultTheme;
 	NSDictionary *_teDict;
 }
+@property (strong) CustomTheme *customTheme;
 -(NSArray*)allColorKeys;
 @end
 
@@ -123,17 +125,39 @@
 			if (t)
 				global.currentTheme = t;
 		}
-/*		CustomTheme *custom = [[CustomTheme alloc] initWithDictionary:nil];
-		[a addObject:custom];
-		custom.defaultTheme = global->_defaultTheme;
-*/		global->_allThemes = [a copy];
+		[global createCustomTheme];
+		global->_allThemes = [a copy];
 		global->_toNotify = [[NSMutableSet alloc] init];
+		[global observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" options:0 block:^(MAKVONotification *note) {
+			[note.observer createCustomTheme];
+		}];
 	});
 	return global;
 }
 -(NSArray*)allThemes
 {
 	return _allThemes;
+}
+
+-(void)createCustomTheme
+{
+	if ([[Rc2Server sharedInstance] isAdmin]) {
+		if (nil == self.customTheme) {
+			self.customTheme = [[CustomTheme alloc] initWithDictionary:nil];
+			self.customTheme.defaultTheme = _defaultTheme;
+		}
+		if (![_allThemes containsObject:self.customTheme]) {
+			_allThemes = [_allThemes arrayByAddingObject:self.customTheme];
+		}
+	} else {
+		if ([_allThemes containsObject:self.customTheme]) {
+			NSUInteger idx = [_allThemes indexOfObject:self.customTheme];
+			if (idx != NSNotFound) {
+				_allThemes = [_allThemes arrayByRemovingObjectAtIndex:idx];
+				[self setCurrentTheme:_defaultTheme];
+			}
+		}
+	}
 }
 
 -(void)setCurrentTheme:(Theme *)newTheme
