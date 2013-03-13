@@ -27,6 +27,7 @@
 -(IBAction)showWorkspaces:(id)sender;
 -(IBAction)showGrading:(id)sender;
 -(IBAction)logout:(id)sender;
+-(IBAction)editTheme:(id)sender;
 
 -(void)promptForLogin;
 -(void)openSession:(RCWorkspace*)workspace;

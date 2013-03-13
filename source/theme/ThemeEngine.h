@@ -27,12 +27,24 @@
 @property (nonatomic, readonly) BOOL isCustom;
 @end
 
+
+@interface CustomTheme : Theme
+@property (nonatomic, strong) Theme *defaultTheme;
+@property (nonatomic, strong) NSDictionary *customData;
+-(void)reloadTheme:(NSData*)data;
+@end
+
+
 typedef void (^ThemeChangedBlock)(Theme*);
 
 
 @interface ThemeEngine : NSObject
 @property (nonatomic, strong) Theme *currentTheme;
-@property (weak, readonly) NSArray *allThemes;
+@property (strong, readonly) NSArray *allThemes;
+@property (strong, readonly) NSArray *allColorKeys;
+@property (strong, readonly) CustomTheme *customTheme;
+
+
 +(ThemeEngine*)sharedInstance;
 //when owner no longer exists, the block is unregistered
 -(void)registerThemeChangeObserver:(id)obs block:(ThemeChangedBlock)tblock;

@@ -65,9 +65,13 @@
 {
 	COLOR_CLASS *color = [_colorCache objectForKey:key];
 	if (nil == color) {
-		color = [COLOR_CLASS colorWithHexString:[self.themeColors objectForKey:key]];
-		if (color)
-			[_colorCache setObject:color forKey:key];
+		@try {
+			color = [COLOR_CLASS colorWithHexString:[self.themeColors objectForKey:key]];
+			if (color)
+				[_colorCache setObject:color forKey:key];
+		} @catch (id e) {
+			NSLog(@"error with color '%@' = '%@'", key, [self.themeColors objectForKey:key]);
+		}
 	}
 	return color;
 }
@@ -75,12 +79,6 @@
 {
 	return NO;
 }
-@end
-
-@interface CustomTheme : Theme
-@property (nonatomic, strong) Theme *defaultTheme;
-@property (nonatomic, strong) NSDictionary *customData;
--(void)reloadTheme:(NSData*)data;
 @end
 
 @interface ThemeNotifyTracker : NSObject {
@@ -93,10 +91,10 @@
 	NSArray *_allThemes;
 	NSMutableSet *_toNotify;
 	Theme *_defaultTheme;
-	NSDictionary *_teDict;
 }
-@property (strong) CustomTheme *customTheme;
 -(NSArray*)allColorKeys;
+@property (strong, readwrite) CustomTheme *customTheme;
+@property (copy) NSArray *colorKeys;
 @end
 
 @implementation ThemeEngine
@@ -218,18 +216,14 @@
 	}
 }
 
--(void)loadTEDict
-{
-	NSString *path = [[NSBundle mainBundle] pathForResource:@"ThemeEngine" ofType:@"plist"];
-	_teDict = [NSDictionary dictionaryWithContentsOfFile:path];
-	ZAssert(_teDict, @"failed to load ThemeEngine.plist");
-}
-
 -(NSArray*)allColorKeys
 {
-	if (nil == _teDict)
-		[self loadTEDict];
-	return [_teDict objectForKey:@"ColorKeys"];
+	if (nil == self.colorKeys) {
+		NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ThemeEngine" ofType:@"plist"]];
+		ZAssert(dict, @"failed to load theme egine config");
+		self.colorKeys = [dict objectForKey:@"colorKeys"];
+	}
+	return self.colorKeys;
 }
 @end
 

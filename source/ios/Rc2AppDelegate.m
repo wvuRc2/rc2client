@@ -22,6 +22,7 @@
 #import <objc/runtime.h>
 #import "MAKVONotificationCenter.h"
 #import "FileImportViewController.h"
+#import "ThemeColorViewController.h"
 
 @interface UITableView (DoubleClick)
 -(void)myTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
@@ -34,6 +35,7 @@
 @property (nonatomic, strong) RootViewController *rootController;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *myPsc;
 @property (nonatomic, strong) LoginController *authController;
+@property (nonatomic, strong) ThemeColorViewController *themeEditor;
 @property (nonatomic, strong) UIView *messageListView;
 @property (nonatomic, strong) UIView *currentMasterView;
 @property (nonatomic, strong) NSData *pushToken;
@@ -234,6 +236,20 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[[Rc2Server sharedInstance] logout];
 	[self.rootController showWelcome];
 	[self promptForLogin];
+}
+
+-(IBAction)editTheme:(id)sender
+{
+	if (self.themeEditor) {
+		//already visible. get rid of it
+		[self.rootController dismissViewControllerAnimated:YES completion:nil];
+		self.themeEditor=nil;
+		return;
+	}
+	self.themeEditor = [[ThemeColorViewController alloc] init];
+	self.themeEditor.modalPresentationStyle = UIModalPresentationPageSheet;
+	[self.rootController presentViewController:self.themeEditor animated:YES completion:nil];
+	self.themeEditor.view.superview.frame = CGRectMake(112, 80, 800, 600);
 }
 
 #pragma mark - reachability

@@ -531,6 +531,13 @@
 		08FF3D2C16F0C71F00F3E09E /* textActivity~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1E16F0C71F00F3E09E /* textActivity~ipad.png */; };
 		08FF3D2D16F0C71F00F3E09E /* WHTextActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D2016F0C71F00F3E09E /* WHTextActivity.m */; };
 		08FF3D2E16F0C71F00F3E09E /* WHTextActivityItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D2216F0C71F00F3E09E /* WHTextActivityItem.m */; };
+		08FF3D3216F0E99600F3E09E /* ThemeColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D3016F0E99500F3E09E /* ThemeColorViewController.m */; };
+		08FF3D3316F0E99600F3E09E /* ThemeColorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D3116F0E99500F3E09E /* ThemeColorViewController.xib */; };
+		08FF3D3716F0EB7D00F3E09E /* ThemeColorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D3616F0EB7D00F3E09E /* ThemeColorCell.m */; };
+		08FF3D3916F0EBA600F3E09E /* ThemeColorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D3816F0EBA600F3E09E /* ThemeColorCell.xib */; };
+		08FF3D3C16F0EC7E00F3E09E /* ThemeColorEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */; };
+		08FF3D3E16F0F84600F3E09E /* ThemeEngine.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */; };
+		08FF3D3F16F0F84600F3E09E /* ThemeEngine.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1194,6 +1201,15 @@
 		08FF3D2016F0C71F00F3E09E /* WHTextActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHTextActivity.m; sourceTree = "<group>"; };
 		08FF3D2116F0C71F00F3E09E /* WHTextActivityItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHTextActivityItem.h; sourceTree = "<group>"; };
 		08FF3D2216F0C71F00F3E09E /* WHTextActivityItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHTextActivityItem.m; sourceTree = "<group>"; };
+		08FF3D2F16F0E99500F3E09E /* ThemeColorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeColorViewController.h; sourceTree = "<group>"; };
+		08FF3D3016F0E99500F3E09E /* ThemeColorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeColorViewController.m; sourceTree = "<group>"; };
+		08FF3D3116F0E99500F3E09E /* ThemeColorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThemeColorViewController.xib; sourceTree = "<group>"; };
+		08FF3D3516F0EB7D00F3E09E /* ThemeColorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeColorCell.h; sourceTree = "<group>"; };
+		08FF3D3616F0EB7D00F3E09E /* ThemeColorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeColorCell.m; sourceTree = "<group>"; };
+		08FF3D3816F0EBA600F3E09E /* ThemeColorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThemeColorCell.xib; sourceTree = "<group>"; };
+		08FF3D3A16F0EC7E00F3E09E /* ThemeColorEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeColorEntry.h; sourceTree = "<group>"; };
+		08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeColorEntry.m; sourceTree = "<group>"; };
+		08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ThemeEngine.plist; path = source/theme/ThemeEngine.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1622,6 +1638,7 @@
 				08D2436015B5D4680064A9FA /* top level controllers */,
 				08D2438415B5D5220064A9FA /* session related controllers */,
 				08D243AC15B5D6080064A9FA /* secondary controllers */,
+				08FF3D3416F0EAFD00F3E09E /* admin */,
 				08D243C215B5D6780064A9FA /* views and cells */,
 				08D243F015B5D78A0064A9FA /* ios 3rdParty */,
 				08D2435315B5D2940064A9FA /* main.m */,
@@ -1841,6 +1858,7 @@
 				083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */,
 				08FF3D0316E9250900F3E09E /* ThemeEngine.h */,
 				08FF3D0416E9250900F3E09E /* ThemeEngine.m */,
+				08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */,
 				08D2459715B5DBB70064A9FA /* rc2 */,
 				08FF3CFE16E920C200F3E09E /* GRMustache */,
 				080E506E166FDFB800E95531 /* AFNetworking */,
@@ -2288,6 +2306,21 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		08FF3D3416F0EAFD00F3E09E /* admin */ = {
+			isa = PBXGroup;
+			children = (
+				08FF3D2F16F0E99500F3E09E /* ThemeColorViewController.h */,
+				08FF3D3016F0E99500F3E09E /* ThemeColorViewController.m */,
+				08FF3D3116F0E99500F3E09E /* ThemeColorViewController.xib */,
+				08FF3D3516F0EB7D00F3E09E /* ThemeColorCell.h */,
+				08FF3D3616F0EB7D00F3E09E /* ThemeColorCell.m */,
+				08FF3D3816F0EBA600F3E09E /* ThemeColorCell.xib */,
+				08FF3D3A16F0EC7E00F3E09E /* ThemeColorEntry.h */,
+				08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */,
+			);
+			name = admin;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2492,6 +2525,9 @@
 				08FF3D2A16F0C71F00F3E09E /* textActivity@2x.png in Resources */,
 				08FF3D2B16F0C71F00F3E09E /* textActivity@2x~ipad.png in Resources */,
 				08FF3D2C16F0C71F00F3E09E /* textActivity~ipad.png in Resources */,
+				08FF3D3316F0E99600F3E09E /* ThemeColorViewController.xib in Resources */,
+				08FF3D3916F0EBA600F3E09E /* ThemeColorCell.xib in Resources */,
+				08FF3D3E16F0F84600F3E09E /* ThemeEngine.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2568,6 +2604,7 @@
 				08B74CF91648615800083F9A /* Localizable.strings in Resources */,
 				08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */,
 				08FF3D0716E92ABD00F3E09E /* themes in Resources */,
+				08FF3D3F16F0F84600F3E09E /* ThemeEngine.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2826,6 +2863,9 @@
 				08FF3D2816F0C71F00F3E09E /* WHMailActivityItem.m in Sources */,
 				08FF3D2D16F0C71F00F3E09E /* WHTextActivity.m in Sources */,
 				08FF3D2E16F0C71F00F3E09E /* WHTextActivityItem.m in Sources */,
+				08FF3D3216F0E99600F3E09E /* ThemeColorViewController.m in Sources */,
+				08FF3D3716F0EB7D00F3E09E /* ThemeColorCell.m in Sources */,
+				08FF3D3C16F0EC7E00F3E09E /* ThemeColorEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

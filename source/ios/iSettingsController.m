@@ -70,11 +70,15 @@ enum { eTree_Theme, eTree_Keyboard };
 	self.themeLabel.text = curTheme.name;
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 																							target:self action:@selector(dismiss:)];
+	NSArray *settingsCells = @[self.keyboardCell,self.themeCell];
+	if ([[Rc2Server  sharedInstance] isAdmin])
+		settingsCells = [settingsCells arrayByAddingObject:self.editThemeCell];
 	self.sectionData = @[
 		@{@"name":@"Account", @"isSettings": @NO, @"cells": @[self.logoutCell, self.emailCell,self.emailNoteCell,self.twitterCell,self.smsCell]},
-		@{@"name":@"Settings", @"isSettings": @YES,  @"cells": @[self.keyboardCell,self.themeCell]}
+		@{@"name":@"Settings", @"isSettings": @YES,  @"cells": settingsCells}
 	];
 	[self.logoutButton useWhiteStyle];
+	[self.editThemeButton useWhiteStyle];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -100,6 +104,12 @@ enum { eTree_Theme, eTree_Keyboard };
 	{
 		self.emailNoteSwitch.on = !self.emailNoteSwitch.on;
 	}
+}
+
+-(IBAction)editTheme:(id)sender
+{
+	[self.containingPopover dismissPopoverAnimated:YES];
+	[(Rc2AppDelegate*)TheApp.delegate editTheme:self];
 }
 
 -(BOOL)updateUserSetting:(NSString*)name withValue:(id)val
