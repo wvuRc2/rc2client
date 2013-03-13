@@ -11,6 +11,7 @@
 #import "ThemeColorCell.h"
 #import "ThemeEngine.h"
 #import "ColorPickerController.h"
+#import "MAKVONotificationCenter.h"
 
 @interface ThemeColorViewController () <UITableViewDataSource,UITableViewDelegate>
 @property (weak) IBOutlet UITableView *colorTable;
@@ -43,6 +44,7 @@
 	[self addChildViewController:self.picker];
 	[self.pickerPlaceholder addSubview:self.picker.view];
 	[self.picker didMoveToParentViewController:self];
+	[self observeTarget:self.picker keyPath:@"selectedColor" selector:@selector(pickerValueDidChange:) userInfo:nil options:NSKeyValueObservingOptionNew];
 	
 	UINib *nib = [UINib nibWithNibName:@"ThemeColorCell" bundle:nil];
 	[self.colorTable registerNib:nib forCellReuseIdentifier:@"colorCell"];
@@ -62,6 +64,21 @@
 {
 	self.selName.text = self.selectedEntry.name;
 	self.picker.selectedColor = self.selectedEntry.color;
+}
+
+-(void)pickerValueDidChange:(MAKVONotification *)note
+{
+	NSString *newStr = [self.picker.selectedColor hexString];
+	if ([newStr isEqualToString:[self.selectedEntry.color hexString]])
+		return;
+	self.selectedEntry.color = self.picker.selectedColor;
+	[[self cellForCurrentEntry] setColorEntry:self.selectedEntry];
+}
+
+-(ThemeColorCell*)cellForCurrentEntry
+{
+	NSInteger idx = [self.colorEntries indexOfObject:self.selectedEntry];
+	return (ThemeColorCell*)[self.colorTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

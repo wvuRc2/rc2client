@@ -11,6 +11,7 @@
 @interface ThemeColorEntry : NSObject
 @property (copy) NSString *name;
 @property (strong) id color; //UIColor or NSColor
+@property (readonly) id originalColor;
 
 -(id)initWithName:(NSString*)name color:(id)color;
 @end

@@ -8,12 +8,17 @@
 
 #import "ThemeColorEntry.h"
 
+@interface ThemeColorEntry ()
+@property (readwrite) id originalColor;
+@end
+
 @implementation ThemeColorEntry
 -(id)initWithName:(NSString*)name color:(id)color
 {
 	self = [super init];
 	_name = name;
 	self.color = color;
+	self.originalColor = color;
 	return self;
 }
 @end
