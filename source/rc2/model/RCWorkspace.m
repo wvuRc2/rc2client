@@ -123,6 +123,10 @@
 		if ([fileId isEqualToNumber:aFile.fileId])
 			return aFile;
 	}
+	for (RCFile *aFile in self.project.files) {
+		if ([fileId isEqualToNumber:aFile.fileId])
+			return aFile;
+	}
 	return nil;
 }
 
