@@ -538,6 +538,13 @@
 		08FF3D3C16F0EC7E00F3E09E /* ThemeColorEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */; };
 		08FF3D3E16F0F84600F3E09E /* ThemeEngine.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */; };
 		08FF3D3F16F0F84600F3E09E /* ThemeEngine.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */; };
+		08FF3D4A16F10E1900F3E09E /* ColorPickerController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D4216F10E1900F3E09E /* ColorPickerController.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08FF3D4B16F10E1900F3E09E /* CrosshairSelector.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D4316F10E1900F3E09E /* CrosshairSelector.png */; };
+		08FF3D4C16F10E1900F3E09E /* CrosshairSelector@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D4416F10E1900F3E09E /* CrosshairSelector@2x.png */; };
+		08FF3D4D16F10E1900F3E09E /* GradientView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D4616F10E1900F3E09E /* GradientView.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08FF3D4E16F10E1900F3E09E /* HorizontalSelector.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D4716F10E1900F3E09E /* HorizontalSelector.png */; };
+		08FF3D4F16F10E1900F3E09E /* HorizontalSelector@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D4816F10E1900F3E09E /* HorizontalSelector@2x.png */; };
+		08FF3D5016F10E1900F3E09E /* HueSaturationGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D4916F10E1900F3E09E /* HueSaturationGradient.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1210,6 +1217,15 @@
 		08FF3D3A16F0EC7E00F3E09E /* ThemeColorEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeColorEntry.h; sourceTree = "<group>"; };
 		08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeColorEntry.m; sourceTree = "<group>"; };
 		08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ThemeEngine.plist; path = source/theme/ThemeEngine.plist; sourceTree = "<group>"; };
+		08FF3D4116F10E1900F3E09E /* ColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPickerController.h; sourceTree = "<group>"; };
+		08FF3D4216F10E1900F3E09E /* ColorPickerController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ColorPickerController.mm; sourceTree = "<group>"; };
+		08FF3D4316F10E1900F3E09E /* CrosshairSelector.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CrosshairSelector.png; sourceTree = "<group>"; };
+		08FF3D4416F10E1900F3E09E /* CrosshairSelector@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CrosshairSelector@2x.png"; sourceTree = "<group>"; };
+		08FF3D4516F10E1900F3E09E /* GradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientView.h; sourceTree = "<group>"; };
+		08FF3D4616F10E1900F3E09E /* GradientView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GradientView.mm; sourceTree = "<group>"; };
+		08FF3D4716F10E1900F3E09E /* HorizontalSelector.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HorizontalSelector.png; sourceTree = "<group>"; };
+		08FF3D4816F10E1900F3E09E /* HorizontalSelector@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HorizontalSelector@2x.png"; sourceTree = "<group>"; };
+		08FF3D4916F10E1900F3E09E /* HueSaturationGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HueSaturationGradient.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1777,6 +1793,7 @@
 			children = (
 				08DF3D5315BDBC80000A339D /* AMResizableSplitterViewController */,
 				08D2451015B5DAE90064A9FA /* HockeyKit-ios */,
+				08FF3D4016F10E1900F3E09E /* ColorPicker-for-iOS */,
 				08D243F115B5D78A0064A9FA /* CoolButton.h */,
 				08D243F215B5D78A0064A9FA /* CoolButton.m */,
 				08D243F315B5D78A0064A9FA /* GradientButton.h */,
@@ -2321,6 +2338,22 @@
 			name = admin;
 			sourceTree = "<group>";
 		};
+		08FF3D4016F10E1900F3E09E /* ColorPicker-for-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				08FF3D4116F10E1900F3E09E /* ColorPickerController.h */,
+				08FF3D4216F10E1900F3E09E /* ColorPickerController.mm */,
+				08FF3D4316F10E1900F3E09E /* CrosshairSelector.png */,
+				08FF3D4416F10E1900F3E09E /* CrosshairSelector@2x.png */,
+				08FF3D4516F10E1900F3E09E /* GradientView.h */,
+				08FF3D4616F10E1900F3E09E /* GradientView.mm */,
+				08FF3D4716F10E1900F3E09E /* HorizontalSelector.png */,
+				08FF3D4816F10E1900F3E09E /* HorizontalSelector@2x.png */,
+				08FF3D4916F10E1900F3E09E /* HueSaturationGradient.png */,
+			);
+			path = "ColorPicker-for-iOS";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2528,6 +2561,11 @@
 				08FF3D3316F0E99600F3E09E /* ThemeColorViewController.xib in Resources */,
 				08FF3D3916F0EBA600F3E09E /* ThemeColorCell.xib in Resources */,
 				08FF3D3E16F0F84600F3E09E /* ThemeEngine.plist in Resources */,
+				08FF3D4B16F10E1900F3E09E /* CrosshairSelector.png in Resources */,
+				08FF3D4C16F10E1900F3E09E /* CrosshairSelector@2x.png in Resources */,
+				08FF3D4E16F10E1900F3E09E /* HorizontalSelector.png in Resources */,
+				08FF3D4F16F10E1900F3E09E /* HorizontalSelector@2x.png in Resources */,
+				08FF3D5016F10E1900F3E09E /* HueSaturationGradient.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2866,6 +2904,8 @@
 				08FF3D3216F0E99600F3E09E /* ThemeColorViewController.m in Sources */,
 				08FF3D3716F0EB7D00F3E09E /* ThemeColorCell.m in Sources */,
 				08FF3D3C16F0EC7E00F3E09E /* ThemeColorEntry.m in Sources */,
+				08FF3D4A16F10E1900F3E09E /* ColorPickerController.mm in Sources */,
+				08FF3D4D16F10E1900F3E09E /* GradientView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
