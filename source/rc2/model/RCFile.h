@@ -21,6 +21,7 @@
 @property (weak, nonatomic, readonly) NSString *currentContents; //not KVO compliant
 @property (nonatomic, strong) NSMutableDictionary *localAttrs;
 @property (nonatomic, weak, readonly) id<RCFileContainer> container;
+@property (nonatomic, readonly) NSString *mimeType;
 
 //parses an array of dictionaries sent from the server
 +(NSArray*)filesFromJsonArray:(NSArray*)inArray container:(id<RCFileContainer>)container;

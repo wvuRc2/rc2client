@@ -91,6 +91,17 @@
 -(NSString*)extension { return [self.data objectForKey:@"Extension"]; }
 -(NSString*)details { return [self.data objectForKey:@"Description"]; }
 -(NSString*)iconName { return [self.data objectForKey:@"IconName"]; }
+-(NSString*)mimeType
+{
+	NSString *mt = [self.data objectForKey:@"MimeType"];
+	if (nil == mt) {
+		if (self.isTextFile)
+			mt = @"text/plain";
+		else
+			mt = @"application/octet-stream";
+	}
+	return mt;
+}
 
 -(BOOL)isTextFile { return [[self.data objectForKey:@"IsTextFile"] boolValue]; }
 -(BOOL)isImportable  { return [[self.data objectForKey:@"Importable"] boolValue]; }

@@ -13,6 +13,7 @@
 @property (nonatomic, readonly) NSString *extension;
 @property (nonatomic, readonly) NSString *details;
 @property (nonatomic, readonly) NSString *iconName;
+@property (nonatomic, readonly) NSString *mimeType;
 @property (readonly) BOOL isTextFile;
 @property (readonly) BOOL isSourceFile;
 @property (readonly) BOOL isImportable;

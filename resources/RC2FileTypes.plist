@@ -127,6 +127,8 @@
 			<string>HTML file</string>
 			<key>Description</key>
 			<string>HTML source file (.html)</string>
+			<key>MimeType</key>
+			<string>text/html</string>
 			<key>IsTextFile</key>
 			<true/>
 			<key>Importable</key>
@@ -139,6 +141,8 @@
 			<string>pdf</string>
 			<key>Name</key>
 			<string>PDF</string>
+			<key>MimeType</key>
+			<string>application/pdf</string>
 			<key>IsTextFile</key>
 			<false/>
 			<key>Importable</key>
@@ -149,6 +153,8 @@
 			<string>png</string>
 			<key>Name</key>
 			<string>PNG image</string>
+			<key>MimeType</key>
+			<string>image/png</string>
 			<key>Importable</key>
 			<false/>
 			<key>IsImage</key>
@@ -159,6 +165,8 @@
 			<string>jpg</string>
 			<key>Name</key>
 			<string>JPEG image</string>
+			<key>MimeType</key>
+			<string>image/jpeg</string>
 			<key>Importable</key>
 			<false/>
 			<key>IsImage</key>
@@ -169,6 +177,8 @@
 			<string>gif</string>
 			<key>Name</key>
 			<string>GIF image</string>
+			<key>MimeType</key>
+			<string>image/gif</string>
 			<key>Importable</key>
 			<false/>
 			<key>IsImage</key>

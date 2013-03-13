@@ -519,6 +519,18 @@
 		08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
 		08FF3D0616E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
 		08FF3D0716E92ABD00F3E09E /* themes in Resources */ = {isa = PBXBuildFile; fileRef = 08D2446A15B5D8DE0064A9FA /* themes */; };
+		08FF3D2316F0C71F00F3E09E /* mailActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1116F0C71F00F3E09E /* mailActivity.png */; };
+		08FF3D2416F0C71F00F3E09E /* mailActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1216F0C71F00F3E09E /* mailActivity@2x.png */; };
+		08FF3D2516F0C71F00F3E09E /* mailActivity@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1316F0C71F00F3E09E /* mailActivity@2x~ipad.png */; };
+		08FF3D2616F0C71F00F3E09E /* mailActivity~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1416F0C71F00F3E09E /* mailActivity~ipad.png */; };
+		08FF3D2716F0C71F00F3E09E /* WHMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D1616F0C71F00F3E09E /* WHMailActivity.m */; };
+		08FF3D2816F0C71F00F3E09E /* WHMailActivityItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D1816F0C71F00F3E09E /* WHMailActivityItem.m */; };
+		08FF3D2916F0C71F00F3E09E /* textActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1B16F0C71F00F3E09E /* textActivity.png */; };
+		08FF3D2A16F0C71F00F3E09E /* textActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1C16F0C71F00F3E09E /* textActivity@2x.png */; };
+		08FF3D2B16F0C71F00F3E09E /* textActivity@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1D16F0C71F00F3E09E /* textActivity@2x~ipad.png */; };
+		08FF3D2C16F0C71F00F3E09E /* textActivity~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1E16F0C71F00F3E09E /* textActivity~ipad.png */; };
+		08FF3D2D16F0C71F00F3E09E /* WHTextActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D2016F0C71F00F3E09E /* WHTextActivity.m */; };
+		08FF3D2E16F0C71F00F3E09E /* WHTextActivityItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D2216F0C71F00F3E09E /* WHTextActivityItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1166,6 +1178,22 @@
 		08FF3D0016E920DC00F3E09E /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRSwizzle.m; path = Dependencies/GRMustache/src/vendor/groue/jrswizzle/JRSwizzle.m; sourceTree = "<group>"; };
 		08FF3D0316E9250900F3E09E /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/theme/ThemeEngine.h; sourceTree = "<group>"; };
 		08FF3D0416E9250900F3E09E /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/theme/ThemeEngine.m; sourceTree = "<group>"; };
+		08FF3D1116F0C71F00F3E09E /* mailActivity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mailActivity.png; sourceTree = "<group>"; };
+		08FF3D1216F0C71F00F3E09E /* mailActivity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mailActivity@2x.png"; sourceTree = "<group>"; };
+		08FF3D1316F0C71F00F3E09E /* mailActivity@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mailActivity@2x~ipad.png"; sourceTree = "<group>"; };
+		08FF3D1416F0C71F00F3E09E /* mailActivity~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mailActivity~ipad.png"; sourceTree = "<group>"; };
+		08FF3D1516F0C71F00F3E09E /* WHMailActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHMailActivity.h; sourceTree = "<group>"; };
+		08FF3D1616F0C71F00F3E09E /* WHMailActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHMailActivity.m; sourceTree = "<group>"; };
+		08FF3D1716F0C71F00F3E09E /* WHMailActivityItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHMailActivityItem.h; sourceTree = "<group>"; };
+		08FF3D1816F0C71F00F3E09E /* WHMailActivityItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHMailActivityItem.m; sourceTree = "<group>"; };
+		08FF3D1B16F0C71F00F3E09E /* textActivity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textActivity.png; sourceTree = "<group>"; };
+		08FF3D1C16F0C71F00F3E09E /* textActivity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "textActivity@2x.png"; sourceTree = "<group>"; };
+		08FF3D1D16F0C71F00F3E09E /* textActivity@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "textActivity@2x~ipad.png"; sourceTree = "<group>"; };
+		08FF3D1E16F0C71F00F3E09E /* textActivity~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "textActivity~ipad.png"; sourceTree = "<group>"; };
+		08FF3D1F16F0C71F00F3E09E /* WHTextActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHTextActivity.h; sourceTree = "<group>"; };
+		08FF3D2016F0C71F00F3E09E /* WHTextActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHTextActivity.m; sourceTree = "<group>"; };
+		08FF3D2116F0C71F00F3E09E /* WHTextActivityItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHTextActivityItem.h; sourceTree = "<group>"; };
+		08FF3D2216F0C71F00F3E09E /* WHTextActivityItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHTextActivityItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1737,6 +1765,7 @@
 				08D243F315B5D78A0064A9FA /* GradientButton.h */,
 				08D243F415B5D78A0064A9FA /* GradientButton.m */,
 				08D243F515B5D78A0064A9FA /* JSTokenField */,
+				08FF3D0E16F0C71F00F3E09E /* WHMessageActivities */,
 				08D243FF15B5D78A0064A9FA /* MBProgressHUD.h */,
 				08D2440015B5D78A0064A9FA /* MBProgressHUD.m */,
 				08D2440815B5D78A0064A9FA /* PHRefreshGestureRecognizer */,
@@ -2203,6 +2232,62 @@
 			name = GRMustache;
 			sourceTree = "<group>";
 		};
+		08FF3D0E16F0C71F00F3E09E /* WHMessageActivities */ = {
+			isa = PBXGroup;
+			children = (
+				08FF3D0F16F0C71F00F3E09E /* WHMailActivity */,
+				08FF3D1916F0C71F00F3E09E /* WHTextActivity */,
+			);
+			name = WHMessageActivities;
+			path = Dependencies/WHMessageActivities/WHMessageActivities;
+			sourceTree = SOURCE_ROOT;
+		};
+		08FF3D0F16F0C71F00F3E09E /* WHMailActivity */ = {
+			isa = PBXGroup;
+			children = (
+				08FF3D1016F0C71F00F3E09E /* Images */,
+				08FF3D1516F0C71F00F3E09E /* WHMailActivity.h */,
+				08FF3D1616F0C71F00F3E09E /* WHMailActivity.m */,
+				08FF3D1716F0C71F00F3E09E /* WHMailActivityItem.h */,
+				08FF3D1816F0C71F00F3E09E /* WHMailActivityItem.m */,
+			);
+			path = WHMailActivity;
+			sourceTree = "<group>";
+		};
+		08FF3D1016F0C71F00F3E09E /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				08FF3D1116F0C71F00F3E09E /* mailActivity.png */,
+				08FF3D1216F0C71F00F3E09E /* mailActivity@2x.png */,
+				08FF3D1316F0C71F00F3E09E /* mailActivity@2x~ipad.png */,
+				08FF3D1416F0C71F00F3E09E /* mailActivity~ipad.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		08FF3D1916F0C71F00F3E09E /* WHTextActivity */ = {
+			isa = PBXGroup;
+			children = (
+				08FF3D1A16F0C71F00F3E09E /* Images */,
+				08FF3D1F16F0C71F00F3E09E /* WHTextActivity.h */,
+				08FF3D2016F0C71F00F3E09E /* WHTextActivity.m */,
+				08FF3D2116F0C71F00F3E09E /* WHTextActivityItem.h */,
+				08FF3D2216F0C71F00F3E09E /* WHTextActivityItem.m */,
+			);
+			path = WHTextActivity;
+			sourceTree = "<group>";
+		};
+		08FF3D1A16F0C71F00F3E09E /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				08FF3D1B16F0C71F00F3E09E /* textActivity.png */,
+				08FF3D1C16F0C71F00F3E09E /* textActivity@2x.png */,
+				08FF3D1D16F0C71F00F3E09E /* textActivity@2x~ipad.png */,
+				08FF3D1E16F0C71F00F3E09E /* textActivity~ipad.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2399,6 +2484,14 @@
 				08D8C332169638DC000DDA04 /* renameActivity@2x.png in Resources */,
 				08D8C338169E1977000DDA04 /* FileImportViewController.xib in Resources */,
 				08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */,
+				08FF3D2316F0C71F00F3E09E /* mailActivity.png in Resources */,
+				08FF3D2416F0C71F00F3E09E /* mailActivity@2x.png in Resources */,
+				08FF3D2516F0C71F00F3E09E /* mailActivity@2x~ipad.png in Resources */,
+				08FF3D2616F0C71F00F3E09E /* mailActivity~ipad.png in Resources */,
+				08FF3D2916F0C71F00F3E09E /* textActivity.png in Resources */,
+				08FF3D2A16F0C71F00F3E09E /* textActivity@2x.png in Resources */,
+				08FF3D2B16F0C71F00F3E09E /* textActivity@2x~ipad.png in Resources */,
+				08FF3D2C16F0C71F00F3E09E /* textActivity~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2729,6 +2822,10 @@
 				08FF3CFC16E920BB00F3E09E /* NSValueTransformer+GRMustache.m in Sources */,
 				08FF3D0116E920DC00F3E09E /* JRSwizzle.m in Sources */,
 				08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */,
+				08FF3D2716F0C71F00F3E09E /* WHMailActivity.m in Sources */,
+				08FF3D2816F0C71F00F3E09E /* WHMailActivityItem.m in Sources */,
+				08FF3D2D16F0C71F00F3E09E /* WHTextActivity.m in Sources */,
+				08FF3D2E16F0C71F00F3E09E /* WHTextActivityItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -182,6 +182,11 @@
 	self.locallyModified = self.localEdits.length > 0;
 }
 
+-(NSString*)mimeType
+{
+	return self.fileType.mimeType;
+}
+
 #pragma mark - accessors
 
 -(void)setName:(NSString *)name

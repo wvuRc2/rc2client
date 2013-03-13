@@ -22,6 +22,7 @@
 #import "SessionEditView.h"
 #import "RCMSyntaxHighlighter.h"
 #import "KeyboardToolbar.h"
+#import "WHMailActivity.h"
 #import <CoreText/CoreText.h>
 
 @interface EditorViewController() <KeyboardToolbarDelegate> {
@@ -511,6 +512,7 @@
 		self.activityPopover = nil;
 		return;
 	}
+	RCFile *file = self.currentFile;
 	NSArray *excluded = @[UIActivityTypeMail,UIActivityTypeAssignToContact,UIActivityTypeMessage,UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo];
 	NSMutableArray *items = [NSMutableArray arrayWithCapacity:5];
 	NSMutableArray *activs = [NSMutableArray arrayWithCapacity:5];
@@ -526,12 +528,19 @@
 		});
 	};
 	[activs addObject:renameActivity];
+	[items addObject:[WHMailActivityItem mailActivityItemWithSelectionHandler:^(MFMailComposeViewController *messageC) {
+		[messageC setSubject:[NSString stringWithFormat:@"%@ from Rc²", file.name]];
+		[messageC addAttachmentData:[NSData dataWithContentsOfFile:file.fileContentsPath]
+						   mimeType:file.mimeType fileName:file.name];
+	}]];
+	[activs addObject:[[WHMailActivity alloc] init]];
 	UIActivityViewController *avc = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:activs];
 	__weak UIActivityViewController *weakAvc = avc;
 	avc.excludedActivityTypes = excluded;
 	UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:avc];
 	avc.completionHandler = ^(NSString *actType, BOOL completed) {
 		weakAvc.completionHandler=nil;
+		[self.activityPopover dismissPopoverAnimated:YES];
 		self.activityPopover=nil;
 	};
 	self.activityPopover = pop;
