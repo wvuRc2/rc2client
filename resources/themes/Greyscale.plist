@@ -6,21 +6,18 @@
 	<integer>21</integer>
 	<key>name</key>
 	<string>Greyscale</string>
-	<key>console</key>
-	<dict>
-		<key>background</key>
-		<string>#ddd</string>
-		<key>outputOddRowColor</key>
-		<string>#eee</string>
-		<key>outputEvenRowColor</key>
-		<string>#ccc</string>
-		<key>outputHeaderColor</key>
-		<string>#cdcdcd</string>
-	</dict>
 	<key>colors</key>
 	<dict>
+		<key>ResultsBackground</key>
+		<string>dddddd</string>
+		<key>ResultsHeader</key>
+		<string>cdcdcd</string>
+		<key>ResultsOddRow</key>
+		<string>eeeeee</string>
+		<key>ResultsEvenRow</key>
+		<string>cccccc</string>
 		<key>ProjectColor</key>
-		<string>#E9E9E</string>
+		<string>E9E9E9</string>
 		<key>PriorityColors</key>
 		<array>
 			<string>db0404</string>

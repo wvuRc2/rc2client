@@ -28,15 +28,10 @@
 {
 	[super viewDidLoad];
 	
-	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
-	NSMutableArray *a = [[NSMutableArray alloc] init];
-	for (NSString *aKey in [[ThemeEngine sharedInstance] allColorKeys]) {
-		ThemeColorEntry *entry = [[ThemeColorEntry alloc] initWithName:aKey color:[theme colorForKey:aKey]];
-		[a addObject:entry];
-	}
-	self.colorEntries = a;
+	CustomTheme *theme = [[ThemeEngine sharedInstance] customTheme];
+	self.colorEntries = [theme.colorEntries sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
 	//select one by default so there is always a selection
-	self.selectedEntry = [a firstObject];
+	self.selectedEntry = [self.colorEntries firstObject];
 	[self updateDetails];
 	
 	self.picker = [[ColorPickerController alloc] initWithColor:self.selectedEntry.color andTitle:self.selectedEntry.name];
@@ -53,10 +48,17 @@
 -(IBAction)save:(id)sender
 {
 	[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+	CustomTheme *theme = [[ThemeEngine sharedInstance] customTheme];
+	[theme save];
+	if (self.completionBlock)
+		self.completionBlock();
 }
 
 -(IBAction)cancel:(id)sender
 {
+	//revert all changes
+	for (ThemeColorEntry *entry in self.colorEntries)
+		[entry setColor:entry.originalColor];
 	[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ThemeColorViewController : UIViewController
+@property (copy) BasicBlock completionBlock;
 -(IBAction)save:(id)sender;
 -(IBAction)cancel:(id)sender;
 @end

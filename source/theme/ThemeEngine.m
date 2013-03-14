@@ -9,6 +9,7 @@
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
 #import "MAKVONotificationCenter.h"
+#import "ThemeColorEntry.h"
 
 #if TARGET_OS_IPHONE
 #import "Vyana-ios/CALayer+LayerDebugging.h"
@@ -19,6 +20,7 @@
 #endif
 
 #define kPref_CurrentTheme @"CurrentThemeEngineTheme"
+#define kPref_CustomThemeData @"CustomThemeData"
 
 @interface Theme() {
 	@protected
@@ -27,12 +29,18 @@
 @property (nonatomic, strong) NSDictionary *themeDict;
 @end
 
+@interface CustomTheme ()
+@property (nonatomic, strong) NSMutableArray *themeColorEntries;
+-(void)load;
+@end
+
 @implementation Theme
 @synthesize themeDict;
 -(id)initWithDictionary:(NSDictionary*)dict
 {
 	if ((self = [super init])) {
 		self.themeDict = dict;
+		ZAssert(dict, @"invalid theme info");
 		_colorCache = [[NSMutableDictionary alloc] init];
 	}
 	return self;
@@ -40,10 +48,6 @@
 -(NSString*)name
 {
 	return [self.themeDict objectForKey:@"name"];
-}
--(NSString*)consoleValueForKey:(NSString*)key
-{
-	return [[self.themeDict objectForKey:@"console"] objectForKey:key];
 }
 
 -(NSString*)cssfile
@@ -66,15 +70,22 @@
 	COLOR_CLASS *color = [_colorCache objectForKey:key];
 	if (nil == color) {
 		@try {
-			color = [COLOR_CLASS colorWithHexString:[self.themeColors objectForKey:key]];
+			color = [COLOR_CLASS colorWithHexString:[self hexStringForKey:key]];
 			if (color)
 				[_colorCache setObject:color forKey:key];
 		} @catch (id e) {
-			NSLog(@"error with color '%@' = '%@'", key, [self.themeColors objectForKey:key]);
+			NSLog(@"error with color '%@' = '%@'", key, [self hexStringForKey:key]);
 		}
 	}
 	return color;
 }
+
+//this is laregly for subclasses to override
+-(NSString*)hexStringForKey:(NSString*)key
+{
+	return [self.themeColors objectForKey:key];
+}
+
 -(BOOL)isCustom
 {
 	return NO;
@@ -141,8 +152,9 @@
 {
 	if ([[Rc2Server sharedInstance] isAdmin]) {
 		if (nil == self.customTheme) {
-			self.customTheme = [[CustomTheme alloc] initWithDictionary:nil];
+			self.customTheme = [[CustomTheme alloc] initWithDictionary:_defaultTheme.themeDict];
 			self.customTheme.defaultTheme = _defaultTheme;
+			[self.customTheme load];
 		}
 		if (![_allThemes containsObject:self.customTheme]) {
 			_allThemes = [_allThemes arrayByAddingObject:self.customTheme];
@@ -160,7 +172,8 @@
 
 -(void)setCurrentTheme:(Theme *)newTheme
 {
-	if (newTheme == _currentTheme)
+	//only broadcast if actually new. the custom theme can change colors, so we'll rebroadcast it
+	if (newTheme == _currentTheme && newTheme != self.customTheme)
 		return;
 	_currentTheme = newTheme;
 	NSMutableSet *oldones = [NSMutableSet set];
@@ -220,7 +233,7 @@
 {
 	if (nil == self.colorKeys) {
 		NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ThemeEngine" ofType:@"plist"]];
-		ZAssert(dict, @"failed to load theme egine config");
+		ZAssert(dict, @"failed to load theme engine config");
 		self.colorKeys = [dict objectForKey:@"colorKeys"];
 	}
 	return self.colorKeys;
@@ -230,38 +243,77 @@
 @implementation ThemeNotifyTracker
 @end
 
+
 @implementation CustomTheme
 -(NSString*)name { return @"Custom"; }
 -(BOOL)isCustom { return YES; }
--(void)reloadTheme:(NSData*)data
+
+-(NSString*)hexStringForKey:(NSString*)key
 {
-	//setup the base we'll be trying to add to
-	NSMutableDictionary *md = [NSMutableDictionary dictionary];
-	NSMutableDictionary *mc = [self.defaultTheme.themeColors mutableCopy];
-	[md setObject:mc forKey:@"colors"];
-	self.themeDict = md;
-	if ([_colorCache count] > 40)
-		[_colorCache removeAllObjects];
-	self.customData = self.defaultTheme.themeDict; //copy defaults to use if we return early
-	NSError *err=nil;
-	NSDictionary *custDict = [NSPropertyListSerialization propertyListWithData:data 
-																		options:NSPropertyListMutableContainers
-																		 format:nil error:&err];
-	if (nil == custDict) {
-		Rc2LogWarn(@"bad custom theme: %@", [err localizedDescription]);
-		return;
-	}
-	[_colorCache removeAllObjects];
-	//if we got here, we think we have a valid dictionary
-	//now we need to loop through and add appropriate stuff from secondary
-	NSDictionary *custColorDict = [custDict objectForKey:@"colors"];
-	for (NSString *aKey in [[ThemeEngine sharedInstance] allColorKeys]) {
-		NSString *val = [custColorDict objectForKey:aKey];
-		if (val)
-			[mc setObject:val forKey:aKey];
-	}
-	//if
+	NSString *str = [self.themeColors objectForKey:key];
+	if (nil == str)
+		str = [self.defaultTheme hexStringForKey:key];
+	return str;
 }
+
+-(NSArray*)colorEntries
+{
+	if (nil != self.themeColorEntries)
+		return [self.themeColorEntries copy];
+	NSMutableArray *a = [NSMutableArray array];
+	for (NSString *aKey in [[ThemeEngine sharedInstance] allColorKeys]) {
+		ThemeColorEntry *entry = [[ThemeColorEntry alloc] initWithName:aKey color:[self colorForKey:aKey]];
+		[a addObject:entry];
+	}
+	self.themeColorEntries = a;
+	return [a copy];
+}
+-(void)load
+{
+	NSError *err;
+	NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kPref_CustomThemeData];
+	if (data) {
+		NSMutableDictionary *custom = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainers
+																				 format:nil error:&err];
+		if (custom) {
+			NSMutableDictionary * dict = [self.themeDict mutableCopy];
+			[dict setObject:custom forKey:@"colors"];
+			self.themeDict = dict;
+		} else {
+			Rc2LogWarn(@"failed to parse theme plist:%@", err);
+		}
+	}
+}
+
+-(NSData*)plistContents
+{
+	NSData *data;
+	NSMutableDictionary *cdict = [self.themeDict objectForKey:@"colors"];
+	for (ThemeColorEntry *entry in self.colorEntries) {
+		NSString *hex = [entry.color hexString];
+		if (hex.length > 2)
+			[cdict setObject:hex forKey:entry.name];
+	}
+	NSError *err;
+	data = [NSPropertyListSerialization dataWithPropertyList:cdict format:NSPropertyListXMLFormat_v1_0 options:0 error:&err];
+	if (nil == data) {
+		Rc2LogWarn(@"failed to serialize theme as plist:%@", err);
+	}
+	return data;
+}
+
+-(void)save
+{
+	NSData *data = [self plistContents];
+	if (data) {
+		[[NSUserDefaults standardUserDefaults] setObject:data forKey:kPref_CustomThemeData];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+	}
+	//if we are theme, broadcast so UI updates to changes
+	if ([[ThemeEngine sharedInstance] currentTheme] == self)
+		[[ThemeEngine sharedInstance] setCurrentTheme:self];
+}
+
 @end
 
 #if TARGET_OS_IPHONE

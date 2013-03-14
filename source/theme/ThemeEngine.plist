@@ -18,6 +18,10 @@
 		<string>MasterCellSelectedEnd</string>
 		<string>SessionPaneSplitterStart</string>
 		<string>SessionPaneSplitterEnd</string>
+		<string>ResultsBackground</string>
+		<string>ResultsHeader</string>
+		<string>ResultsEvenRow</string>
+		<string>ResultsOddRow</string>
 	</array>
 </dict>
 </plist>

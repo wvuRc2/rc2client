@@ -6,19 +6,16 @@
 	<integer>21</integer>
 	<key>name</key>
 	<string>Default</string>
-	<key>console</key>
-	<dict>
-		<key>background</key>
-		<string>#f4edd1</string>
-		<key>outputOddRowColor</key>
-		<string>#FFDB87</string>
-		<key>outputEvenRowColor</key>
-		<string>#E2FF87</string>
-		<key>outputHeaderColor</key>
-		<string>#FFA532</string>
-	</dict>
 	<key>colors</key>
 	<dict>
+		<key>ResultsBackground</key>
+		<string>f4edd1</string>
+		<key>ResultsHeader</key>
+		<string>ffa532</string>
+		<key>ResultsEvenRow</key>
+		<string>e2ff87</string>
+		<key>ResultsOddRow</key>
+		<string>ffd887</string>
 		<key>ProjectColor</key>
 		<string>45a7bc</string>
 		<key>WorkspaceColor</key>

@@ -22,7 +22,9 @@
 #import <objc/runtime.h>
 #import "MAKVONotificationCenter.h"
 #import "FileImportViewController.h"
+#import "ThemeEngine.h"
 #import "ThemeColorViewController.h"
+#import "SendMailController.h"
 
 @interface UITableView (DoubleClick)
 -(void)myTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
@@ -248,8 +250,23 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	}
 	self.themeEditor = [[ThemeColorViewController alloc] init];
 	self.themeEditor.modalPresentationStyle = UIModalPresentationPageSheet;
+	__weak Rc2AppDelegate *bself = self;
+	self.themeEditor.completionBlock = ^{
+		bself.themeEditor=nil;
+		RunAfterDelay(0.5, ^{ [bself sendThemeMail]; });
+	};
 	[self.rootController presentViewController:self.themeEditor animated:YES completion:nil];
 	self.themeEditor.view.superview.frame = CGRectMake(112, 80, 800, 600);
+}
+
+-(void)sendThemeMail
+{
+	__block SendMailController *smc = [[SendMailController alloc] init];
+	NSData *data = [[[ThemeEngine sharedInstance] customTheme] plistContents];
+	[smc.composer setSubject:@"Custom Theme Save"];
+	[smc.composer setToRecipients:@[@"rc2@stat.wvu.edu"]];
+	[smc.composer addAttachmentData:data mimeType:@"text/xml" fileName:@"customTheme.plist"];
+	[self.rootController presentViewController:smc.composer animated:YES completion:nil];
 }
 
 #pragma mark - reachability

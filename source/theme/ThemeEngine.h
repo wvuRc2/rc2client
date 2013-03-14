@@ -20,8 +20,8 @@
 @interface Theme : NSObject
 -(CGColorRef)cgColorForKey:(NSString*)key;
 -(COLOR_CLASS*)colorForKey:(NSString*)key;
+-(NSString*)hexStringForKey:(NSString*)key;
 -(NSDictionary*)themeColors;
--(NSString*)consoleValueForKey:(NSString*)key;
 @property (weak, nonatomic, readonly) NSString *name;
 @property (nonatomic, strong, readonly) NSString *cssfile;
 @property (nonatomic, readonly) BOOL isCustom;
@@ -30,11 +30,12 @@
 
 @interface CustomTheme : Theme
 @property (nonatomic, strong) Theme *defaultTheme;
-@property (nonatomic, strong) NSDictionary *customData;
--(void)reloadTheme:(NSData*)data;
+@property (nonatomic, readonly) NSArray *colorEntries; //ColorEntry class
+-(NSData*)plistContents;
+-(void)save;
 @end
 
-
+//the Theme should not be retained. outside of this block, always ask the ThemeEngine
 typedef void (^ThemeChangedBlock)(Theme*);
 
 

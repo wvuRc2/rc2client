@@ -545,6 +545,8 @@
 		08FF3D4E16F10E1900F3E09E /* HorizontalSelector.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D4716F10E1900F3E09E /* HorizontalSelector.png */; };
 		08FF3D4F16F10E1900F3E09E /* HorizontalSelector@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D4816F10E1900F3E09E /* HorizontalSelector@2x.png */; };
 		08FF3D5016F10E1900F3E09E /* HueSaturationGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D4916F10E1900F3E09E /* HueSaturationGradient.png */; };
+		08FF3D5116F24F5200F3E09E /* ThemeColorEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */; };
+		08FF3D5416F278EE00F3E09E /* SendMailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D5316F278EE00F3E09E /* SendMailController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1214,8 +1216,8 @@
 		08FF3D3516F0EB7D00F3E09E /* ThemeColorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeColorCell.h; sourceTree = "<group>"; };
 		08FF3D3616F0EB7D00F3E09E /* ThemeColorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeColorCell.m; sourceTree = "<group>"; };
 		08FF3D3816F0EBA600F3E09E /* ThemeColorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThemeColorCell.xib; sourceTree = "<group>"; };
-		08FF3D3A16F0EC7E00F3E09E /* ThemeColorEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeColorEntry.h; sourceTree = "<group>"; };
-		08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeColorEntry.m; sourceTree = "<group>"; };
+		08FF3D3A16F0EC7E00F3E09E /* ThemeColorEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeColorEntry.h; path = source/theme/ThemeColorEntry.h; sourceTree = "<group>"; };
+		08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeColorEntry.m; path = source/theme/ThemeColorEntry.m; sourceTree = "<group>"; };
 		08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ThemeEngine.plist; path = source/theme/ThemeEngine.plist; sourceTree = "<group>"; };
 		08FF3D4116F10E1900F3E09E /* ColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPickerController.h; sourceTree = "<group>"; };
 		08FF3D4216F10E1900F3E09E /* ColorPickerController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ColorPickerController.mm; sourceTree = "<group>"; };
@@ -1226,6 +1228,8 @@
 		08FF3D4716F10E1900F3E09E /* HorizontalSelector.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HorizontalSelector.png; sourceTree = "<group>"; };
 		08FF3D4816F10E1900F3E09E /* HorizontalSelector@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HorizontalSelector@2x.png"; sourceTree = "<group>"; };
 		08FF3D4916F10E1900F3E09E /* HueSaturationGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HueSaturationGradient.png; sourceTree = "<group>"; };
+		08FF3D5216F278EE00F3E09E /* SendMailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMailController.h; sourceTree = "<group>"; };
+		08FF3D5316F278EE00F3E09E /* SendMailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMailController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1657,6 +1661,8 @@
 				08FF3D3416F0EAFD00F3E09E /* admin */,
 				08D243C215B5D6780064A9FA /* views and cells */,
 				08D243F015B5D78A0064A9FA /* ios 3rdParty */,
+				08FF3D5216F278EE00F3E09E /* SendMailController.h */,
+				08FF3D5316F278EE00F3E09E /* SendMailController.m */,
 				08D2435315B5D2940064A9FA /* main.m */,
 				08D244E015B5D9500064A9FA /* rc2-Prefix.pch */,
 				08D2446815B5D8C10064A9FA /* resources */,
@@ -1876,6 +1882,8 @@
 				08FF3D0316E9250900F3E09E /* ThemeEngine.h */,
 				08FF3D0416E9250900F3E09E /* ThemeEngine.m */,
 				08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */,
+				08FF3D3A16F0EC7E00F3E09E /* ThemeColorEntry.h */,
+				08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */,
 				08D2459715B5DBB70064A9FA /* rc2 */,
 				08FF3CFE16E920C200F3E09E /* GRMustache */,
 				080E506E166FDFB800E95531 /* AFNetworking */,
@@ -2332,8 +2340,6 @@
 				08FF3D3516F0EB7D00F3E09E /* ThemeColorCell.h */,
 				08FF3D3616F0EB7D00F3E09E /* ThemeColorCell.m */,
 				08FF3D3816F0EBA600F3E09E /* ThemeColorCell.xib */,
-				08FF3D3A16F0EC7E00F3E09E /* ThemeColorEntry.h */,
-				08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */,
 			);
 			name = admin;
 			sourceTree = "<group>";
@@ -2906,6 +2912,7 @@
 				08FF3D3C16F0EC7E00F3E09E /* ThemeColorEntry.m in Sources */,
 				08FF3D4A16F10E1900F3E09E /* ColorPickerController.mm in Sources */,
 				08FF3D4D16F10E1900F3E09E /* GradientView.mm in Sources */,
+				08FF3D5416F278EE00F3E09E /* SendMailController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3046,6 +3053,7 @@
 				08FF3CFD16E920BB00F3E09E /* NSValueTransformer+GRMustache.m in Sources */,
 				08FF3D0216E920DC00F3E09E /* JRSwizzle.m in Sources */,
 				08FF3D0616E9250900F3E09E /* ThemeEngine.m in Sources */,
+				08FF3D5116F24F5200F3E09E /* ThemeColorEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

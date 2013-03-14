@@ -242,11 +242,11 @@
 -(NSString*)themedStyleSheet
 {
 	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
-	return [NSString stringWithFormat:@"$(\"<style type='text/css'>#consoleOutputGenerated > table > tbody > tr:nth-child(even) {	background-color: %@; } "
-			"#consoleOutputGenerated > table > tbody > tr:nth-child(odd) {background-color: %@; } table.ir-mx th {background-color: %@} "
+	return [NSString stringWithFormat:@"$(\"<style type='text/css'>#consoleOutputGenerated > table > tbody > tr:nth-child(even) {	background-color: #%@; } "
+			"#consoleOutputGenerated > table > tbody > tr:nth-child(odd) {background-color: #%@; } table.ir-mx th {background-color: #%@} "
 			"</style>\").appendTo('head')",
-			[theme consoleValueForKey: @"outputEvenRowColor"], [theme consoleValueForKey: @"outputOddRowColor"],
-			[theme consoleValueForKey: @"outputHeaderColor"]];
+			[theme hexStringForKey: @"ResultsEvenRow"], [theme hexStringForKey: @"ResultsOddRow"],
+			[theme hexStringForKey: @"ResultsHeader"]];
 }
 
 #pragma mark - textfield delegate
@@ -282,9 +282,9 @@
 			f.size.width = self.view.frame.size.width - 20;
 		self.webView.frame = f;
 		//change the background
-		NSString *bgColor = [[ThemeEngine sharedInstance].currentTheme consoleValueForKey:@"background"];
+		NSString *bgColor = [[ThemeEngine sharedInstance].currentTheme hexStringForKey:@"ResultsBackground"];
 		if ([bgColor length] > 2) {
-			NSString *cmd = [NSString stringWithFormat:@"$('body').css('background-color', '%@')", bgColor];
+			NSString *cmd = [NSString stringWithFormat:@"$('body').css('background-color', '#%@')", bgColor];
 			[self.webView stringByEvaluatingJavaScriptFromString:cmd];
 		}
 		NSString *ss = [self themedStyleSheet];
