@@ -15,6 +15,7 @@
 #import "RCFile.h"
 #import <Quartz/Quartz.h>
 #import "MAKVONotificationCenter.h"
+#import "ThemeEngine.h"
 
 @interface MCWebOutputController() {
 	NSInteger __cmdHistoryIdx;
@@ -73,6 +74,10 @@
 												   object:self.historyPopUp];
 		[self observeTarget:self keyPath:@"restrictedMode" selector:@selector(updateTextFieldStatus) userInfo:nil options:0];
 		__didInit=YES;
+		__weak MCWebOutputController *bself = self;
+		[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *theme) {
+			[self.webView stringByEvaluatingJavaScriptFromString:[self themedStyleSheet]];
+		}];
 	}
 }
 
@@ -86,6 +91,16 @@
 }
 
 #pragma mark - meat & potatos
+
+-(NSString*)themedStyleSheet
+{
+	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
+	return [NSString stringWithFormat:@"$(\"<style type='text/css'>#consoleOutputGenerated > table > tbody > tr:nth-child(even) {	background-color: #%@; } "
+			"#consoleOutputGenerated > table > tbody > tr:nth-child(odd) {background-color: #%@; } table.ir-mx th {background-color: #%@} "
+			"</style>\").appendTo('head')",
+			[theme hexStringForKey: @"ResultsEvenRow"], [theme hexStringForKey: @"ResultsOddRow"],
+			[theme hexStringForKey: @"ResultsHeader"]];
+}
 
 -(void)updateTextFieldStatus
 {
@@ -390,6 +405,8 @@
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
+	//this is only run the first time this method is called.
+	//If there was an initial file to load, it couldn't be loaded until our base papge was.
 	if (!self.completedInitialLoad) {
 		self.completedInitialLoad = YES;
 		if (self.localFileToLoadAfterInitialLoad) {
@@ -413,6 +430,10 @@
 				[self.webView stringByEvaluatingJavaScriptFromString:js];
 			[self.outputQueue removeAllObjects];
 		}
+	}
+	if (isOurContent) {
+		NSString *ss = [self themedStyleSheet];
+		[sender stringByEvaluatingJavaScriptFromString:ss];
 	}
 	if (nil == self.webView.backForwardList)
 		[self.webView setMaintainsBackForwardList:YES];
