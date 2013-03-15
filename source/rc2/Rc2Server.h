@@ -15,6 +15,7 @@
 @class RCWorkspaceItem;
 @class RCSession;
 @class RCFile;
+@class RCUser;
 @class RCSavedSession;
 @class RCMessage;
 @class ASIHTTPRequest;
@@ -164,6 +165,11 @@ extern NSString * const MessagesUpdatedNotification;
 -(void)fetchRoles:(Rc2FetchCompletionHandler)hblock;
 -(void)fetchPermissions:(Rc2FetchCompletionHandler)hblock;
 -(void)addPermission:(NSNumber*)permId toRole:(NSNumber*)roleId completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(void)searchUsers:(NSDictionary*)args completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(void)addUser:(RCUser*)user password:(NSString*)password completionHandler:(Rc2FetchCompletionHandler)handler;
+-(void)toggleRole:(NSNumber*)roleId user:(NSNumber*)userId
+	completionHandler:(Rc2FetchCompletionHandler)hblock;
+
 
 #pragma mark - misc/other
 

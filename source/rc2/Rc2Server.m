@@ -11,6 +11,7 @@
 #import "RCWorkspace.h"
 #import "RCFile.h"
 #import "RCCourse.h"
+#import "RCUser.h"
 #import "RCAssignment.h"
 #import "RC2RemoteLogger.h"
 #import "SBJsonParser.h"
@@ -774,6 +775,50 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	NSDictionary *params = @{@"action":@"add", @"perm":permId, @"role":roleId};
 	[_httpClient putPath:@"role" parameters:params success:^(id op, id rsp) {
 		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+			hblock(YES, rsp);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
+-(void)toggleRole:(NSNumber*)roleId user:(NSNumber*)userId
+	completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSDictionary *args = @{@"userid":userId, @"roleid":roleId};
+	[_httpClient postPath:@"admin/user?role" parameters:args success:^(id op, id rsp) {
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			hblock(YES, rsp);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
+-(void)searchUsers:(NSDictionary*)args completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	[_httpClient postPath:@"user" parameters:args success:^(id op, id rsp) {
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			hblock(YES, rsp);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
+-(void)addUser:(RCUser*)user password:(NSString*)password
+	completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSDictionary *params = @{@"pass":password, @"email":user.email, @"login":user.login, @"name": user.name};
+	[_httpClient postPath:@"proj" parameters:params success:^(id op, id rsp) {
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			self.projects = [RCProject projectsForJsonArray:[rsp objectForKey:@"projects"] includeAdmin:self.isAdmin];
 			hblock(YES, rsp);
 		} else {
 			hblock(NO, [rsp objectForKey:@"message"]);

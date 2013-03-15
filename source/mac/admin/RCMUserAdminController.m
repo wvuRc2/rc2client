@@ -10,13 +10,10 @@
 #import "RCMEditUserController.h"
 #import "RCUser.h"
 #import "Rc2Server.h"
-#import "ASIFormDataRequest.h"
 #import <Vyana/AMBlockUtils.h>
 #import <Vyana/NSApplication+AMExtensions.h>
 
-@interface RCMUserAdminController() {
-	BOOL _updatingRole;
-}
+@interface RCMUserAdminController()
 @property (nonatomic, strong) id lastSelectedUserRole;
 @property (nonatomic, strong) id checkToken;
 @property (nonatomic, copy) NSArray *users;
@@ -25,6 +22,7 @@
 @property (nonatomic, strong) IBOutlet NSWindow *passwordWindow;
 @property (nonatomic, copy) NSString *passChange1;
 @property (nonatomic, copy) NSString *passChange2;
+@property (assign) BOOL updatingRole;
 @end
 
 @implementation RCMUserAdminController
@@ -44,28 +42,24 @@
 -(void)awakeFromNib
 {
 	self.searchesLogins=YES;
-	ASIHTTPRequest *request = [[Rc2Server sharedInstance] requestWithRelativeURL:@"role"];
-	__unsafe_unretained ASIHTTPRequest *req = request;
-	[request setCompletionBlock:^{
-		NSDictionary *rsp = [[NSString stringWithUTF8Data:[req responseData]] JSONValue];
-		self.roles = [rsp objectForKey:@"roles"];
+	__weak RCMUserAdminController *bself = self;
+	[[Rc2Server sharedInstance] fetchRoles:^(BOOL success, id results) {
+		bself.roles = [results objectForKey:@"roles"];
 	}];
-	[req startAsynchronous];
-	__unsafe_unretained RCMUserAdminController *blockSelf = self;
 	self.checkToken = [self.detailController addObserverForKeyPath:@"selection.have" task:^(id obj, NSDictionary *dict)
 	{
-		if (blockSelf->_updatingRole)
+		if (bself.updatingRole)
 			return;
 		NSMutableDictionary *roleDict = [[obj selectedObjects] firstObject];
 		BOOL needUpdate=NO;
-		if (roleDict && roleDict == blockSelf.lastSelectedUserRole) {
+		if (roleDict && roleDict == bself.lastSelectedUserRole) {
 			needUpdate = roleDict && ![[roleDict objectForKey:@"have"] isEqual:[roleDict objectForKey:@"savedHave"]];
 		} else {
-			blockSelf.lastSelectedUserRole = roleDict;
+			bself.lastSelectedUserRole = roleDict;
 			needUpdate = roleDict && ![[roleDict objectForKey:@"have"] isEqual:[roleDict objectForKey:@"savedHave"]];
 		}
 		if (needUpdate)
-			[blockSelf toggleRole:roleDict];
+			[bself toggleRole:roleDict];
 	}];
 }
 
@@ -73,26 +67,18 @@
 
 -(void)toggleRole:(NSMutableDictionary*)roleDict
 {
-	ASIFormDataRequest *request = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"/admin/user?role"];
-	__unsafe_unretained ASIFormDataRequest *req = request;
-	NSNumber *userid = [self.userController.selectedObjects.firstObject userId];
-	NSNumber *roleid = [roleDict objectForKey:@"id"];
-	ZAssert(roleid && userid, @"invalid role/user");
-	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:userid, @"userid", roleid, @"roleid", nil];
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	[req appendPostData:[[params JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req setCompletionBlock:^{
-		NSDictionary *rsp = [[NSString stringWithUTF8Data:[req responseData]] JSONValue];
-		if ([[rsp objectForKey:@"status"] intValue] == 0) {
-			[roleDict setObject:[rsp objectForKey:@"havePerm"] forKey:@"have"];
-			[roleDict setObject:[rsp objectForKey:@"havePerm"] forKey:@"savedHave"];
-		} else {
-			NSLog(@"server gave error for toggle");
+	__weak RCMUserAdminController *bself = self;
+	self.updatingRole=YES;
+	[[Rc2Server sharedInstance] toggleRole:[roleDict objectForKey:@"id"]
+									  user:[self.userController.selectedObjects.firstObject userId]
+						 completionHandler:^(BOOL success, id results)
+	{
+		if (success) {
+			[roleDict setObject:[results objectForKey:@"havePerm"] forKey:@"have"];
+			[roleDict setObject:[results objectForKey:@"havePerm"] forKey:@"savedHave"];
 		}
-		_updatingRole = NO;
+		bself.updatingRole=NO;
 	}];
-	_updatingRole = YES;
-	[req startAsynchronous];
 }
 
 -(BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -125,29 +111,15 @@
 
 -(void)completeAddUser:(RCUser*)user password:(NSString*)pass
 {
-	//send the new user command to the server
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"admin/user"];
-	__block ASIFormDataRequest *request = req;
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:pass, @"pass", user.email, @"email", 
-						  user.login, @"login", user.name, @"name", nil];
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req setCompletionBlock:^{
-		NSDictionary *rsp = [[NSString stringWithUTF8Data:[request responseData]] JSONValue];
-		if ([[rsp objectForKey:@"status"] intValue] != 0) {
-			NSError *err = [NSError errorWithDomain:@"Rc2" code:1 userInfo:[NSDictionary dictionaryWithObject:[rsp objectForKey:@"message"] forKey:NSLocalizedDescriptionKey]];
-			[NSApp presentError:err];
-		} else {
-			//worked. add that user to our display
-			RCUser *newUser = [[RCUser alloc] initWithDictionary:[rsp objectForKey:@"user"] allRoles:self.roles];
-			if (self.users)
-				self.users = [self.users arrayByAddingObject:newUser];
-			else
-				self.users = [NSArray arrayWithObject:newUser];
-			[self.resultsTable reloadData];
-		}
+	[[Rc2Server sharedInstance] addUser:user password:pass completionHandler:^(BOOL sucess, id results)
+	{
+		RCUser *newUser = [[RCUser alloc] initWithDictionary:[results objectForKey:@"user"] allRoles:self.roles];
+		if (self.users)
+			self.users = [self.users arrayByAddingObject:newUser];
+		else
+			self.users = [NSArray arrayWithObject:newUser];
+		[self.resultsTable reloadData];
 	}];
-	[req startAsynchronous];
 }
 
 #pragma mark - actions
@@ -160,21 +132,18 @@
 		[self.resultsTable reloadData];
 		return;
 	}
-	ASIFormDataRequest *request = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"user"];
-	__block id req = request;
-	[request setCompletionBlock: ^{
-		NSString *respStr = [NSString stringWithUTF8Data:[req responseData]];
-		[self processSearchResults:[respStr JSONValue]];
-	}];
 	NSString *type = @"name";
 	if (self.searchesEmails)
 		type = @"email";
 	else if (self.searchesLogins)
 		type = @"login";
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:type, @"type", ss, @"value", nil];
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req startAsynchronous];
+	NSDictionary *params = @{@"type":type, @"value":ss};
+	[[Rc2Server sharedInstance] searchUsers:params completionHandler:^(BOOL success, id results) {
+		if (success)
+			[self processSearchResults:results];
+		else
+			Rc2LogWarn(@"user search failed:%@", results);
+	}];
 }
 
 -(IBAction)toggleSearchFilter:(id)sender
@@ -221,6 +190,7 @@
 
 -(IBAction)changePassword:(id)sender
 {
+	/*
 	self.passChange1 = nil;
 	self.passChange2 = nil;
 	RCUser *user = self.userController.selectedObjects.firstObject;
@@ -247,6 +217,7 @@
 			}
 		}
 	}];
+	 */
 }
 
 -(IBAction)cancelPasswordChange:(id)sender
@@ -265,22 +236,4 @@
 {
 	self.users = [self.users sortedArrayUsingDescriptors:[tableView sortDescriptors]];
 }
-
-#pragma mark - synthesizers
-
-@synthesize resultsTable;
-@synthesize searchField;
-@synthesize users=_users;
-@synthesize searchesNames;
-@synthesize searchesEmails;
-@synthesize searchesLogins;
-@synthesize editController;
-@synthesize roles=_roles;
-@synthesize userController;
-@synthesize detailController;
-@synthesize checkToken=_checkToken;
-@synthesize lastSelectedUserRole=_lastSelectedUserRole;
-@synthesize passChange1;
-@synthesize passChange2;
-@synthesize passwordWindow;
 @end

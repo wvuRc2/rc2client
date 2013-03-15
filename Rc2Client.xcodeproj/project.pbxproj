@@ -2021,9 +2021,9 @@
 			isa = PBXGroup;
 			children = (
 				08D245C215B5DBB70064A9FA /* RC2RemoteLogger.h */,
+				08D245C515B5DBB70064A9FA /* Rc2Server.m */,
 				08D245C315B5DBB70064A9FA /* RC2RemoteLogger.m */,
 				08D245C415B5DBB70064A9FA /* Rc2Server.h */,
-				08D245C515B5DBB70064A9FA /* Rc2Server.m */,
 				08D245C615B5DBB70064A9FA /* RCAudioChatEngine.h */,
 				08D245C715B5DBB70064A9FA /* RCAudioChatEngine.m */,
 				08D245C815B5DBB70064A9FA /* RCImageCache.h */,
