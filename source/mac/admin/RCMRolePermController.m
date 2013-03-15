@@ -8,7 +8,6 @@
 
 #import "RCMRolePermController.h"
 #import "Rc2Server.h"
-#import "ASIFormDataRequest.h"
 
 #define kPermPboardType @"edu.wvu.stat.rc2.mac.perm"
 
@@ -40,7 +39,7 @@
 		[blockSelf adjustRolePerms];
 	}];
 	[self.permTable setDraggingSourceOperationMask:NSDragOperationCopy forLocal:YES];
-	[self.rolePermTable registerForDraggedTypes:ARRAY(kPermPboardType)];
+	[self.rolePermTable registerForDraggedTypes:@[kPermPboardType]];
 }
 
 -(void)adjustRolePerms
@@ -53,7 +52,7 @@
 	}
 	self.selectedRole = [selObjs firstObject];
 	NSArray *nperms = [[selObjs firstObject] valueForKey:@"permissionIds"];
-	NSMutableArray *ma = [NSMutableArray arrayWithCapacity:perms.count];
+	NSMutableArray *ma = [NSMutableArray arrayWithCapacity:self.perms.count];
 	for (id val in nperms) {
 		id aPerm = [self.perms firstObjectWithValue:val forKey:@"id"];
 		if (aPerm)
@@ -64,10 +63,9 @@
 
 -(void)fetchRoles
 {
-	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:@"role"];
-	__unsafe_unretained ASIHTTPRequest *blockReq = req;
-	req.completionBlock = ^{
-		NSArray *nroles = [[blockReq.responseString JSONValue] objectForKey:@"roles"];
+	__weak RCMRolePermController *bself = self;
+	[[Rc2Server sharedInstance] fetchRoles:^(BOOL success, id results) {
+		NSArray *nroles = [results objectForKey:@"roles"];
 		NSMutableArray *editRoles = [NSMutableArray arrayWithCapacity:nroles.count];
 		for (NSDictionary *aRole in nroles) {
 			NSMutableDictionary *newRole = [aRole mutableCopy];
@@ -75,22 +73,19 @@
 			[newRole setObject:[nperms mutableCopy] forKey:@"permissionIds"];
 			[editRoles addObject: newRole];
 		}
-		self.roleController.content = editRoles;
-		self.roles = nroles;
-	};
-	[req startAsynchronous];
+		bself.roleController.content = editRoles;
+		bself.roles = nroles;
+	}];
 }
 
 -(void)fetchPermissions
 {
-	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:@"perm"];
-	__unsafe_unretained ASIHTTPRequest *blockReq = req;
-	req.completionBlock = ^{
-		NSArray *nperms = [blockReq.responseString JSONValue];
-		self.permController.content = nperms;
-		self.perms = nperms;
-	};
-	[req startAsynchronous];
+	__weak RCMRolePermController *bself = self;
+	[[Rc2Server sharedInstance] fetchPermissions:^(BOOL success, id results) {
+		NSArray *nperms = [results objectForKey:@"perm"];
+		bself.permController.content = nperms;
+		bself.perms = nperms;
+	}];
 }
 
 #pragma mark - table view support
@@ -128,22 +123,19 @@
 		return NO;
 	NSString *permStr = [[info draggingPasteboard] stringForType:kPermPboardType];
 	NSDictionary *perm = [self.perms firstObjectWithValue:permStr forKey:@"short"];
-	//send request to server
-	NSString *msg = [NSString stringWithFormat:@"{\"action\":\"add\", \"role\":%@, \"perm\":%@}", 
-					 [self.selectedRole objectForKey:@"id"], [perm objectForKey:@"id"]];
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"role"];
-	[req setRequestMethod:@"PUT"];
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	[req appendPostData:[msg dataUsingEncoding:NSUTF8StringEncoding]];
-	[req startSynchronous];
-	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-	NSDictionary *dict = [respStr JSONValue];
-	if ([[dict objectForKey:@"status"] intValue] == 0) {
-		[[self.selectedRole objectForKey:@"permissionIds"] addObject:[perm objectForKey:@"id"]];
-		[self adjustRolePerms];
-		return YES;
-	}
-	return NO;
+	//TODO: need to show busy status while waiting on response
+	[[Rc2Server sharedInstance] addPermission:[perm objectForKey:@"id"]
+									   toRole:[self.selectedRole objectForKey:@"id"]
+							completionHandler:^(BOOL success, id results)
+	{
+		if (success) {
+			[[self.selectedRole objectForKey:@"permissionIds"] addObject:[perm objectForKey:@"id"]];
+			[self adjustRolePerms];
+		} else {
+			Rc2LogWarn(@"error adding permission:%@", results);
+		}
+	}];
+	return YES;
 }
 
 -(void)tableView:(NSTableView*)tableView handleDeleteKey:(NSEvent*)event
@@ -154,15 +146,4 @@
 	}
 	//delete the selected roleperm
 }
-
-@synthesize permTable;
-@synthesize permController;
-@synthesize roleTable;
-@synthesize roleController;
-@synthesize rolePermTable;
-@synthesize rolePermController;
-@synthesize perms;
-@synthesize roles;
-@synthesize rpKey;
-@synthesize selectedRole;
 @end

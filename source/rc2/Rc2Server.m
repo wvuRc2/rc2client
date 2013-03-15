@@ -229,6 +229,18 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	return path;
 }
 
+//generic internal method to reduce code
+-(void)genericGetRequest:(NSString*)path parameters:(NSDictionary*)params handler:(Rc2FetchCompletionHandler)hblock
+{
+	NSMutableURLRequest *req = [_httpClient requestWithMethod:@"GET" path:path parameters:nil];
+	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id op, id rsp) {
+		hblock(YES, rsp);
+	} failure:^(id op, NSError *error) {
+		hblock(NO, error.localizedDescription);
+	}];
+	[_httpClient enqueueHTTPRequestOperation:op];
+}
+
 #pragma mark - projects
 
 -(void)createProject:(NSString*)projectName completionBlock:(Rc2FetchCompletionHandler)hblock
@@ -676,13 +688,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 -(void)requestNotifications:(Rc2FetchCompletionHandler)hblock
 {
-	NSMutableURLRequest *req = [_httpClient requestWithMethod:@"GET" path:@"notify" parameters:nil];
-	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id op, id rsp) {
-		hblock(YES, rsp);
-	} failure:^(id op, NSError *error) {
-		hblock(NO, error.localizedDescription);
-	}];
-	[_httpClient enqueueHTTPRequestOperation:op];
+	return [self genericGetRequest:@"notify" parameters:nil handler:hblock];
 }
 
 #pragma mark - courses/assignments
@@ -749,6 +755,32 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
 	}];
 	[req startAsynchronous];
+}
+
+#pragma mark - admin
+
+-(void)fetchRoles:(Rc2FetchCompletionHandler)hblock
+{
+	return [self genericGetRequest:@"role" parameters:nil handler:hblock];
+}
+
+-(void)fetchPermissions:(Rc2FetchCompletionHandler)hblock
+{
+	return [self genericGetRequest:@"perm" parameters:nil handler:hblock];
+}
+
+-(void)addPermission:(NSNumber*)permId toRole:(NSNumber*)roleId completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSDictionary *params = @{@"action":@"add", @"perm":permId, @"role":roleId};
+	[_httpClient putPath:@"role" parameters:params success:^(id op, id rsp) {
+		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+			hblock(YES, rsp);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
 }
 
 #pragma mark - login/logout

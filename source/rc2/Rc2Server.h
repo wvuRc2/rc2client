@@ -159,6 +159,12 @@ extern NSString * const MessagesUpdatedNotification;
 
 -(BOOL)synchronouslyUpdateAssignment:(RCAssignment*)assignment withValues:(NSDictionary*)newVals;
 
+#pragma mark - admin
+
+-(void)fetchRoles:(Rc2FetchCompletionHandler)hblock;
+-(void)fetchPermissions:(Rc2FetchCompletionHandler)hblock;
+-(void)addPermission:(NSNumber*)permId toRole:(NSNumber*)roleId completionHandler:(Rc2FetchCompletionHandler)hblock;
+
 #pragma mark - misc/other
 
 -(void)downloadAppPath:(NSString*)path toFilePath:(NSString*)filePath completionHandler:(Rc2FetchCompletionHandler)hblock;
