@@ -125,25 +125,19 @@
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle 
 	forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	//TODO: we need to block until we get the response so they can't click something else
 	if (UITableViewCellEditingStyleDelete == editingStyle) {
 		NSDictionary *note = [self.notes objectAtIndex:indexPath.row];
-		ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"notify/%@", [note objectForKey:@"id"]]];
-		[req setRequestMethod:@"DELETE"];
-		[req setTimeOutSeconds:3];
-		[req startSynchronous];
-		NSString *msg=nil;
-		if (req.responseStatusCode == 200) {
-			NSDictionary *d = [req.responseString JSONValue];
-			if ([d objectForKey:@"status"] && [[d objectForKey:@"status"] intValue] == 0) {
-				//worked
-				[self.notes removeObjectAtIndex:indexPath.row];
-				[self.noteTable deleteRowsAtIndexPaths:ARRAY(indexPath) withRowAnimation:UITableViewRowAnimationBottom];
-			} else
-				msg = [d objectForKey:@"message"];
-		} else
-			msg = @"Unknown server error";
-		if (msg)
-			[UIAlertView showAlertWithTitle:@"Error Deleting Notification" message:msg];
+		__weak WelcomeViewController *bself = self;
+		[[Rc2Server sharedInstance] deleteNotification:[note objectForKey:@"id"] completionHandler:^(BOOL success, id results)
+		{
+			if (success) {
+				[bself.notes removeObjectAtIndex:indexPath.row];
+				[bself.noteTable deleteRowsAtIndexPaths:ARRAY(indexPath) withRowAnimation:UITableViewRowAnimationBottom];
+			} else if (nil != results) {
+				[UIAlertView showAlertWithTitle:@"Error Deleting Notification" message:results];
+			}
+		}];
 	}
 }
 

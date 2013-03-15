@@ -92,13 +92,13 @@
 
 -(void)showGrading
 {
-	if (nil == self.gradingController) {
+/*	if (nil == self.gradingController) {
 		self.gradingController = [[GradingViewController alloc] init];
 		[self addChildViewController:self.gradingController];
 		[self.gradingController didMoveToParentViewController:self];
 		self.gradingController.view.frame = self.view.bounds;
 	}
-	[self switchToController:self.gradingController];
+	[self switchToController:self.gradingController]; */
 }
 
 -(void)reloadNotifications

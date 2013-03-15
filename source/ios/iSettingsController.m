@@ -100,10 +100,11 @@ enum { eTree_Theme, eTree_Keyboard };
 
 -(IBAction)emailNoteChanged:(id)sender
 {
-	if (![self updateUserSetting:@"noteByEmail" withValue:[NSNumber numberWithBool:self.emailNoteSwitch.on]])
+	[self updateUserSetting:@"noteByEmail" withValue:[NSNumber numberWithBool:self.emailNoteSwitch.on] success:^(NSInteger status)
 	{
-		self.emailNoteSwitch.on = !self.emailNoteSwitch.on;
-	}
+		if (status != 0)
+			self.emailNoteSwitch.on = !self.emailNoteSwitch.on;
+	}];
 }
 
 -(IBAction)editTheme:(id)sender
@@ -112,9 +113,16 @@ enum { eTree_Theme, eTree_Keyboard };
 	[(Rc2AppDelegate*)TheApp.delegate editTheme:self];
 }
 
--(BOOL)updateUserSetting:(NSString*)name withValue:(id)val
+-(void)updateUserSetting:(NSString*)name withValue:(id)val success:(BasicBlock1IntArg)sblock
 {
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"user"];
+	[[Rc2Server sharedInstance] updateUserSettings:@{name:val} completionHandler:^(BOOL success, id results)
+	{
+		if (success) {
+			int status = [[results objectForKey:@"status"] integerValue];
+			sblock(status);
+		}
+	}];
+/*	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"user"];
 	[req setRequestMethod:@"PUT"];
 	[req appendPostData:[[[NSDictionary dictionaryWithObject:val forKey:name] JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	[req startSynchronous];
@@ -130,24 +138,27 @@ enum { eTree_Theme, eTree_Keyboard };
 	} else {
 		[UIAlertView showAlertWithTitle:@"Error" message:@"unknown error contacting server"];
 	}
-	return NO;
+	return NO;*/
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];
 	if (textField == self.twitterField) {
-		if (![self updateUserSetting:@"twitter" withValue:textField.text]) {
-			textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"twitter"];
-		}
+		[self updateUserSetting:@"twitter" withValue:textField.text success:^(NSInteger status) {
+			if (status != 0)
+				textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"twitter"];
+		}];
 	} else if (textField == self.smsField) {
-		if (![self updateUserSetting:@"smsphone" withValue:textField.text]) {
-			textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"smsphone"];
-		}
+		[self updateUserSetting:@"smsphone" withValue:textField.text success:^(NSInteger status) {
+			if (status != 0)
+				textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"smsphone"];
+		}];
 	} else if (textField == self.emailField) {
-		if (![self updateUserSetting:@"email" withValue:textField.text]) {
-			textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"email"];
-		}
+		[self updateUserSetting:@"email" withValue:textField.text success:^(NSInteger status) {
+			if (status != 0)
+				textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"email"];
+		}];
 	}
 	return NO;
 }

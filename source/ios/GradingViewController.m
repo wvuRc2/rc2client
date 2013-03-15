@@ -95,28 +95,28 @@
 
 -(IBAction)editPdf:(id)sender
 {
-	NSDictionary *selectedFile = self.filePicker.selectedItem;
-	NSString *fname = [self fileNameForFileDict:selectedFile];
-	NSString *fpath = [self.myCachePath stringByAppendingPathComponent:fname];
-	if ([[NSFileManager defaultManager] fileExistsAtPath:fpath]) {
-		[self showPdfPanel:fpath];
-	} else {
-		//need to fetch the file
-		ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"file/%@?pdf", 
-																					 [selectedFile objectForKey:@"fileid"]]];
-		__weak ASIHTTPRequest *req = theReq;
-		req.downloadDestinationPath = fpath;
-		[req setCompletionBlock:^{
-			[MBProgressHUD hideHUDForView:self.view animated:YES];
-			if (req.responseStatusCode == 200) {
-				[self showPdfPanel:fpath];
-			} else {
-				[UIAlertView showAlertWithTitle:@"Error Fetching file" message:@"unknwon error"];
-			}
-		}];
-		[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-		[req startAsynchronous];
-	}
+//	NSDictionary *selectedFile = self.filePicker.selectedItem;
+//	NSString *fname = [self fileNameForFileDict:selectedFile];
+//	NSString *fpath = [self.myCachePath stringByAppendingPathComponent:fname];
+//	if ([[NSFileManager defaultManager] fileExistsAtPath:fpath]) {
+//		[self showPdfPanel:fpath];
+//	} else {
+//		//need to fetch the file
+//		ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"file/%@?pdf", 
+//																					 [selectedFile objectForKey:@"fileid"]]];
+//		__weak ASIHTTPRequest *req = theReq;
+//		req.downloadDestinationPath = fpath;
+//		[req setCompletionBlock:^{
+//			[MBProgressHUD hideHUDForView:self.view animated:YES];
+//			if (req.responseStatusCode == 200) {
+//				[self showPdfPanel:fpath];
+//			} else {
+//				[UIAlertView showAlertWithTitle:@"Error Fetching file" message:@"unknwon error"];
+//			}
+//		}];
+//		[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//		[req startAsynchronous];
+//	}
 }
 
 -(void)showPdfPanel:(NSString*)fpath
@@ -127,68 +127,68 @@
 
 -(void)handleUrl:(NSURL*)url
 {
-	NSString *fname = [url.lastPathComponent stringByDeletingPathExtension];
-	NSArray *parts = [fname componentsSeparatedByString:@"-"];
-	if (parts.count < 2 || ![[parts objectAtIndex:0] isEqualToString:@"rc2g"]) {
-		[UIAlertView showAlertWithTitle:@"Invalid PDF" message:@"This pdf is not from an assignment"];
-		return;
-	}
-	NSArray *ids = [[parts objectAtIndex:1] componentsSeparatedByString:@"#"]; //courseId/assignId/wsfileId
-	if (ids.count != 4) {
-		[UIAlertView showAlertWithTitle:@"Invalid PDF" message:@"This pdf is not from an assignment"];
-		return;
-	}
-	self.pdfUrlData = [NSMutableDictionary dictionaryWithObjectsAndKeys:url.path, @"path", ids, @"ids", nil];
-	NSInteger cid = [[ids objectAtIndex:0] integerValue];
-	for (RCCourse *course in self.classPicker.items) {
-		if (course.courseId.integerValue == cid) {
-			self.classPicker.selectedItem = course;
-			break;
-		}
-	}
-	NSInteger aid = [[ids objectAtIndex:1] integerValue];
-	if ([[self.assignmentPicker.selectedItem assignmentId] integerValue] != aid) {
-		for (RCAssignment *ass in self.assignmentPicker.items) {
-			if ([ass.assignmentId integerValue] == aid) {
-				self.assignmentPicker.selectedItem = ass;
-				break;
-			}
-		}
-	}
-	NSInteger sid = [[ids objectAtIndex:2] integerValue];
-	if (self.selectedStudent.studentId.integerValue != sid) {
-		RCStudentAssignment *stud = [self.students firstObjectWithValue:[NSNumber numberWithInteger:sid] forKey:@"studentId"];
-		if (stud) {
-			self.selectedStudent = stud;
-			[self.studentTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:[self.students indexOfObject:stud] inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-		}
-	}
-	NSInteger wsfid = [[ids objectAtIndex:3] integerValue];
-	if ([[self.filePicker.selectedItem objectForKey:@"wsfileid"] integerValue] != wsfid) {
-		self.filePicker.selectedItem = [self.filePicker.items firstObjectWithValue:[NSNumber numberWithInt:wsfid] forKey:@"wsfileid"];
-	}
-	//now submit the file to the server
-	ASIFormDataRequest *theReq = [[Rc2Server sharedInstance] postRequestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/grade/%@", [ids objectAtIndex:1], [ids objectAtIndex:3]]];
-	[theReq setFile:url.path forKey:@"content"];
-	[theReq startSynchronous];
-	if (theReq.responseStatusCode == 200) {
-		NSDictionary *d = [theReq.responseString JSONValue];
-		if ([d objectForKey:@"workspace"]) {
-			[self.selectedStudent updateWithDictionary:[d objectForKey:@"workspace"]];
-			self.filePicker.items = self.selectedStudent.files;
-			//delete any graded pdfs we have cached for this student
-			for (NSDictionary *fileDict in self.filePicker.items) {
-				if ([[fileDict objectForKey:@"kind"] isEqualToString:@"graded"]) {
-					[[NSFileManager defaultManager] removeItemAtPath:[self.myCachePath stringByAppendingPathComponent:[self fileNameForFileDict:fileDict]] error:nil];
-				}
-			}
-		}
-		//need to delete from the file cache any 
-	} else {
-		[UIAlertView showAlertWithTitle:@"Server Error" message:@"failed to submit file to server"];
-	}
-	[[NSFileManager defaultManager] removeItemAtURL:url error:nil];
-	self.pdfUrlData=nil;
+//	NSString *fname = [url.lastPathComponent stringByDeletingPathExtension];
+//	NSArray *parts = [fname componentsSeparatedByString:@"-"];
+//	if (parts.count < 2 || ![[parts objectAtIndex:0] isEqualToString:@"rc2g"]) {
+//		[UIAlertView showAlertWithTitle:@"Invalid PDF" message:@"This pdf is not from an assignment"];
+//		return;
+//	}
+//	NSArray *ids = [[parts objectAtIndex:1] componentsSeparatedByString:@"#"]; //courseId/assignId/wsfileId
+//	if (ids.count != 4) {
+//		[UIAlertView showAlertWithTitle:@"Invalid PDF" message:@"This pdf is not from an assignment"];
+//		return;
+//	}
+//	self.pdfUrlData = [NSMutableDictionary dictionaryWithObjectsAndKeys:url.path, @"path", ids, @"ids", nil];
+//	NSInteger cid = [[ids objectAtIndex:0] integerValue];
+//	for (RCCourse *course in self.classPicker.items) {
+//		if (course.courseId.integerValue == cid) {
+//			self.classPicker.selectedItem = course;
+//			break;
+//		}
+//	}
+//	NSInteger aid = [[ids objectAtIndex:1] integerValue];
+//	if ([[self.assignmentPicker.selectedItem assignmentId] integerValue] != aid) {
+//		for (RCAssignment *ass in self.assignmentPicker.items) {
+//			if ([ass.assignmentId integerValue] == aid) {
+//				self.assignmentPicker.selectedItem = ass;
+//				break;
+//			}
+//		}
+//	}
+//	NSInteger sid = [[ids objectAtIndex:2] integerValue];
+//	if (self.selectedStudent.studentId.integerValue != sid) {
+//		RCStudentAssignment *stud = [self.students firstObjectWithValue:[NSNumber numberWithInteger:sid] forKey:@"studentId"];
+//		if (stud) {
+//			self.selectedStudent = stud;
+//			[self.studentTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:[self.students indexOfObject:stud] inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+//		}
+//	}
+//	NSInteger wsfid = [[ids objectAtIndex:3] integerValue];
+//	if ([[self.filePicker.selectedItem objectForKey:@"wsfileid"] integerValue] != wsfid) {
+//		self.filePicker.selectedItem = [self.filePicker.items firstObjectWithValue:[NSNumber numberWithInt:wsfid] forKey:@"wsfileid"];
+//	}
+//	//now submit the file to the server
+//	ASIFormDataRequest *theReq = [[Rc2Server sharedInstance] postRequestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/grade/%@", [ids objectAtIndex:1], [ids objectAtIndex:3]]];
+//	[theReq setFile:url.path forKey:@"content"];
+//	[theReq startSynchronous];
+//	if (theReq.responseStatusCode == 200) {
+//		NSDictionary *d = [theReq.responseString JSONValue];
+//		if ([d objectForKey:@"workspace"]) {
+//			[self.selectedStudent updateWithDictionary:[d objectForKey:@"workspace"]];
+//			self.filePicker.items = self.selectedStudent.files;
+//			//delete any graded pdfs we have cached for this student
+//			for (NSDictionary *fileDict in self.filePicker.items) {
+//				if ([[fileDict objectForKey:@"kind"] isEqualToString:@"graded"]) {
+//					[[NSFileManager defaultManager] removeItemAtPath:[self.myCachePath stringByAppendingPathComponent:[self fileNameForFileDict:fileDict]] error:nil];
+//				}
+//			}
+//		}
+//		//need to delete from the file cache any 
+//	} else {
+//		[UIAlertView showAlertWithTitle:@"Server Error" message:@"failed to submit file to server"];
+//	}
+//	[[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+//	self.pdfUrlData=nil;
 }
 
 -(void)handleAssignmentServerResponse:(ASIHTTPRequest*)req
@@ -212,41 +212,41 @@
 
 -(void)courseSelectionChanged
 {
-	RCCourse *course = self.classPicker.selectedItem;
-	if (course.assignments.count < 1) {
-		//need to load them
-		ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:
-								  [NSString stringWithFormat:@"courses/%@", course.classId]];
-		__unsafe_unretained ASIHTTPRequest *req = theReq;
-		if (nil == self.pdfUrlData) {
-			[theReq setCompletionBlock:^{
-				[self handleAssignmentServerResponse:req];
-			}];
-			[req startAsynchronous];
-		} else {
-			[req startSynchronous];
-			[self handleAssignmentServerResponse:req];
-		}
-	}
+//	RCCourse *course = self.classPicker.selectedItem;
+//	if (course.assignments.count < 1) {
+//		//need to load them
+//		ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:
+//								  [NSString stringWithFormat:@"courses/%@", course.classId]];
+//		__unsafe_unretained ASIHTTPRequest *req = theReq;
+//		if (nil == self.pdfUrlData) {
+//			[theReq setCompletionBlock:^{
+//				[self handleAssignmentServerResponse:req];
+//			}];
+//			[req startAsynchronous];
+//		} else {
+//			[req startSynchronous];
+//			[self handleAssignmentServerResponse:req];
+//		}
+//	}
 }
 
 -(void)assignmentSelectionChagned
 {
-	self.selectedStudent=nil;
-	RCAssignment *assignment = self.assignmentPicker.selectedItem;
-	//need to fetch the list of student workspaces for selected assignment
-	ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:
-							  [NSString stringWithFormat:@"assignment/%@/grade", assignment.assignmentId]];
-	__unsafe_unretained ASIHTTPRequest *req = theReq;
-	if (nil == self.pdfUrlData) {
-		[theReq setCompletionBlock:^{
-			[self processStudentListResponse:req];
-		}];
-		[req startAsynchronous];
-	} else {
-		[req startSynchronous];
-		[self processStudentListResponse:req];
-	}
+//	self.selectedStudent=nil;
+//	RCAssignment *assignment = self.assignmentPicker.selectedItem;
+//	//need to fetch the list of student workspaces for selected assignment
+//	ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:
+//							  [NSString stringWithFormat:@"assignment/%@/grade", assignment.assignmentId]];
+//	__unsafe_unretained ASIHTTPRequest *req = theReq;
+//	if (nil == self.pdfUrlData) {
+//		[theReq setCompletionBlock:^{
+//			[self processStudentListResponse:req];
+//		}];
+//		[req startAsynchronous];
+//	} else {
+//		[req startSynchronous];
+//		[self processStudentListResponse:req];
+//	}
 }
 
 -(void)processStudentListResponse:(ASIHTTPRequest*)req
@@ -317,25 +317,25 @@
 
 -(void)saveGrade:(NSNumber*)newGrade
 {
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/grade/%@", [self.assignmentPicker.selectedItem assignmentId], [self.selectedStudent workspaceId]]];
-	[req setRequestMethod:@"PUT"];
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	NSDictionary *d = [NSDictionary dictionaryWithObject:newGrade forKey:@"grade"];
-	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req startSynchronous];
-	if (req.responseStatusCode != 200) {
-		[UIAlertView showAlertWithTitle:@"Invalid Server Response" message:@"failed to set grade"];
-		self.gradeField.text = self.selectedStudent.grade.description;
-	} else {
-		d = [req.responseString JSONValue];
-		if ([d objectForKey:@"status"] && [[d objectForKey:@"status"] intValue] == 0) {
-			self.selectedStudent.grade = newGrade;
-			[self.studentTableView reloadData];
-		} else {
-			[UIAlertView showAlertWithTitle:@"Error Saving Grade" message:[d objectForKey:@"message"]];
-			self.gradeField.text = self.selectedStudent.grade.description;
-		}
-	}
+//	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/grade/%@", [self.assignmentPicker.selectedItem assignmentId], [self.selectedStudent workspaceId]]];
+//	[req setRequestMethod:@"PUT"];
+//	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+//	NSDictionary *d = [NSDictionary dictionaryWithObject:newGrade forKey:@"grade"];
+//	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+//	[req startSynchronous];
+//	if (req.responseStatusCode != 200) {
+//		[UIAlertView showAlertWithTitle:@"Invalid Server Response" message:@"failed to set grade"];
+//		self.gradeField.text = self.selectedStudent.grade.description;
+//	} else {
+//		d = [req.responseString JSONValue];
+//		if ([d objectForKey:@"status"] && [[d objectForKey:@"status"] intValue] == 0) {
+//			self.selectedStudent.grade = newGrade;
+//			[self.studentTableView reloadData];
+//		} else {
+//			[UIAlertView showAlertWithTitle:@"Error Saving Grade" message:[d objectForKey:@"message"]];
+//			self.gradeField.text = self.selectedStudent.grade.description;
+//		}
+//	}
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

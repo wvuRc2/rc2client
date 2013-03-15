@@ -49,56 +49,56 @@
 
 -(IBAction)addAssignment:(id)sender
 {
-	NSString *aname = [NSString stringWithFormat:@"Assignment %ld", self.assignments.count + 1];
-	NSDate *startDate = [NSDate dateWithTimeIntervalSinceNow:86400 * 7];
-	NSDate *endDate = [NSDate dateWithTimeIntervalSinceNow:86400 * 14];
-	if (self.assignments.count > 0) {
-		RCAssignment *ass = [self.assignments lastObject];
-		startDate = [NSDate dateWithTimeIntervalSinceReferenceDate:ass.endDate.timeIntervalSinceReferenceDate + 86400];
-		endDate = [NSDate dateWithTimeIntervalSinceReferenceDate:startDate.timeIntervalSinceReferenceDate + 7 * 86400];
-	}
-	NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:aname, @"name", 
-						  [NSNumber numberWithDouble:startDate.timeIntervalSince1970 * 1000], @"startDate", 
-						  [NSNumber numberWithDouble:endDate.timeIntervalSince1970 * 1000], @"endDate", nil];
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment", self.theCourse.courseId]];
-	[req appendPostData:[[args JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req startSynchronous];
-	if (req.responseStatusCode != 200) {
-		[NSAlert displayAlertWithTitle:@"Server Error" details:[NSString stringWithFormat:@"server returned %d", req.responseStatusCode]];
-		return;
-	}
-	NSDictionary *dict = [req.responseString JSONValue];
-	if ([[dict objectForKey:@"status"] intValue] != 0) {
-		[NSAlert displayAlertWithTitle:@"Server Error" details:[dict objectForKey:@"message"]];
-		return;
-	}
-	RCAssignment *assign = [[RCAssignment alloc] initWithDictionary:[dict objectForKey:@"assignment"]];
-	[self.assignments addObject:assign];
-	[self.assignTable reloadData];
-	[self.assignTable selectRowIndexes:[NSIndexSet indexSetWithIndex:self.assignments.count-1] byExtendingSelection:NO];
+//	NSString *aname = [NSString stringWithFormat:@"Assignment %ld", self.assignments.count + 1];
+//	NSDate *startDate = [NSDate dateWithTimeIntervalSinceNow:86400 * 7];
+//	NSDate *endDate = [NSDate dateWithTimeIntervalSinceNow:86400 * 14];
+//	if (self.assignments.count > 0) {
+//		RCAssignment *ass = [self.assignments lastObject];
+//		startDate = [NSDate dateWithTimeIntervalSinceReferenceDate:ass.endDate.timeIntervalSinceReferenceDate + 86400];
+//		endDate = [NSDate dateWithTimeIntervalSinceReferenceDate:startDate.timeIntervalSinceReferenceDate + 7 * 86400];
+//	}
+//	NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:aname, @"name", 
+//						  [NSNumber numberWithDouble:startDate.timeIntervalSince1970 * 1000], @"startDate", 
+//						  [NSNumber numberWithDouble:endDate.timeIntervalSince1970 * 1000], @"endDate", nil];
+//	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment", self.theCourse.courseId]];
+//	[req appendPostData:[[args JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+//	[req startSynchronous];
+//	if (req.responseStatusCode != 200) {
+//		[NSAlert displayAlertWithTitle:@"Server Error" details:[NSString stringWithFormat:@"server returned %d", req.responseStatusCode]];
+//		return;
+//	}
+//	NSDictionary *dict = [req.responseString JSONValue];
+//	if ([[dict objectForKey:@"status"] intValue] != 0) {
+//		[NSAlert displayAlertWithTitle:@"Server Error" details:[dict objectForKey:@"message"]];
+//		return;
+//	}
+//	RCAssignment *assign = [[RCAssignment alloc] initWithDictionary:[dict objectForKey:@"assignment"]];
+//	[self.assignments addObject:assign];
+//	[self.assignTable reloadData];
+//	[self.assignTable selectRowIndexes:[NSIndexSet indexSetWithIndex:self.assignments.count-1] byExtendingSelection:NO];
 }
 
 -(IBAction)deleteAssignment:(id)sender
 {
-	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment/%@", self.theCourse.courseId, self.selectedAssignment.assignmentId]];
-	[req setRequestMethod:@"DELETE"];
-	[req startSynchronous];
-	if (req.responseStatusCode != 200) {
-		[NSAlert displayAlertWithTitle:@"Server Error" details:[NSString stringWithFormat:@"server returned %d", req.responseStatusCode]];
-		return;
-	}
-	NSDictionary *dict = [req.responseString JSONValue];
-	if ([[dict objectForKey:@"status"] intValue] != 0) {
-		[NSAlert displayAlertWithTitle:@"Server Error" details:[dict objectForKey:@"message"]];
-		return;
-	}
-	NSInteger idx = [self.theCourse.assignments indexOfObject:self.selectedAssignment];
-	if (idx != NSNotFound)
-		self.theCourse.assignments = [self.theCourse.assignments arrayByRemovingObjectAtIndex:idx];
-	[self.assignments removeObject:self.selectedAssignment];
-	self.selectedAssignment=nil;
-	[self.assignTable reloadData];
-	[self.fileTable reloadData];
+//	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment/%@", self.theCourse.courseId, self.selectedAssignment.assignmentId]];
+//	[req setRequestMethod:@"DELETE"];
+//	[req startSynchronous];
+//	if (req.responseStatusCode != 200) {
+//		[NSAlert displayAlertWithTitle:@"Server Error" details:[NSString stringWithFormat:@"server returned %d", req.responseStatusCode]];
+//		return;
+//	}
+//	NSDictionary *dict = [req.responseString JSONValue];
+//	if ([[dict objectForKey:@"status"] intValue] != 0) {
+//		[NSAlert displayAlertWithTitle:@"Server Error" details:[dict objectForKey:@"message"]];
+//		return;
+//	}
+//	NSInteger idx = [self.theCourse.assignments indexOfObject:self.selectedAssignment];
+//	if (idx != NSNotFound)
+//		self.theCourse.assignments = [self.theCourse.assignments arrayByRemovingObjectAtIndex:idx];
+//	[self.assignments removeObject:self.selectedAssignment];
+//	self.selectedAssignment=nil;
+//	[self.assignTable reloadData];
+//	[self.fileTable reloadData];
 }
 
 -(IBAction)uploadFiles:(id)sender
@@ -120,37 +120,37 @@
 
 -(IBAction)deleteFile:(id)sender
 {
-	NSString *errorMessage=nil;
-	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/file/%@", self.selectedAssignment.assignmentId, self.selectedFile.assignmentFileId]];
-	[req setRequestMethod:@"DELETE"];
-	[req startSynchronous];
-	if (req.responseStatusCode != 200) {
-		errorMessage = @"server error deleting file";
-	} else {
-		NSDictionary *d = [req.responseString JSONValue];
-		if ([[d objectForKey:@"status"] intValue] != 0) {
-			errorMessage = [d objectForKey:@"message"];
-		} else {
-			[self.selectedAssignment updateWithDictionary:[d objectForKey:@"assignment"]];
-			[self.fileTable reloadData];
-		}
-	}
+//	NSString *errorMessage=nil;
+//	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/file/%@", self.selectedAssignment.assignmentId, self.selectedFile.assignmentFileId]];
+//	[req setRequestMethod:@"DELETE"];
+//	[req startSynchronous];
+//	if (req.responseStatusCode != 200) {
+//		errorMessage = @"server error deleting file";
+//	} else {
+//		NSDictionary *d = [req.responseString JSONValue];
+//		if ([[d objectForKey:@"status"] intValue] != 0) {
+//			errorMessage = [d objectForKey:@"message"];
+//		} else {
+//			[self.selectedAssignment updateWithDictionary:[d objectForKey:@"assignment"]];
+//			[self.fileTable reloadData];
+//		}
+//	}
 }
 
 -(IBAction)showStudents:(id)sender
 {
-	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/due", self.selectedAssignment.assignmentId]];
-	[req startSynchronous];
-	if (req.responseStatusCode == 200) {
-		NSDictionary *d = [req.responseString JSONValue];
-		[self.students removeAllObjects];
-		for (NSDictionary *sdict in [d objectForKey:@"students"]) {
-			NSMutableDictionary *md = [sdict mutableCopy];
-			[md setObject:[NSDate dateWithTimeIntervalSince1970:[[md objectForKey:@"duedate"] longValue] / 1000] forKey:@"duedate"];
-			[self.students addObject:md];
-		}
-		[self.studentTable reloadData];
-	}
+//	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/due", self.selectedAssignment.assignmentId]];
+//	[req startSynchronous];
+//	if (req.responseStatusCode == 200) {
+//		NSDictionary *d = [req.responseString JSONValue];
+//		[self.students removeAllObjects];
+//		for (NSDictionary *sdict in [d objectForKey:@"students"]) {
+//			NSMutableDictionary *md = [sdict mutableCopy];
+//			[md setObject:[NSDate dateWithTimeIntervalSince1970:[[md objectForKey:@"duedate"] longValue] / 1000] forKey:@"duedate"];
+//			[self.students addObject:md];
+//		}
+//		[self.studentTable reloadData];
+//	}
 }
 
 #pragma mark - meat & potatos
@@ -163,129 +163,129 @@
 //resets status/busy when finished
 -(void)importFiles:(NSArray*)fileUrls
 {
-	NSString *errorMessage=nil;
-	NSString *uploadUrl = [NSString stringWithFormat:@"assignment/%@/file", self.selectedAssignment.assignmentId];
-	for (NSURL *fileUrl in fileUrls) {
-		ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:uploadUrl];
-		[req setFile:fileUrl.path forKey:@"content"];
-		[req setPostValue:fileUrl.path.lastPathComponent forKey:@"name"];
-		[req startSynchronous];
-		if (req.responseStatusCode != 200) {
-			errorMessage = @"server error uploading file";
-			break;
-		}
-		NSDictionary *dict = [req.responseString JSONValue];
-		if ([[dict objectForKey:@"status"] intValue] != 0) {
-			errorMessage = [dict objectForKey:@"message"];
-			break;
-		}
-		[self.selectedAssignment updateWithDictionary:[dict objectForKey:@"assignment"]];
-		[self.fileTable reloadData];
-	}
-	if (errorMessage)
-		[NSAlert displayAlertWithTitle:@"Unknown Error" details:errorMessage];
-	//when finished
-	dispatch_async(dispatch_get_main_queue(), ^{
-		self.busy=NO;
-		self.statusMessage=@"";
-	});
+//	NSString *errorMessage=nil;
+//	NSString *uploadUrl = [NSString stringWithFormat:@"assignment/%@/file", self.selectedAssignment.assignmentId];
+//	for (NSURL *fileUrl in fileUrls) {
+//		ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:uploadUrl];
+//		[req setFile:fileUrl.path forKey:@"content"];
+//		[req setPostValue:fileUrl.path.lastPathComponent forKey:@"name"];
+//		[req startSynchronous];
+//		if (req.responseStatusCode != 200) {
+//			errorMessage = @"server error uploading file";
+//			break;
+//		}
+//		NSDictionary *dict = [req.responseString JSONValue];
+//		if ([[dict objectForKey:@"status"] intValue] != 0) {
+//			errorMessage = [dict objectForKey:@"message"];
+//			break;
+//		}
+//		[self.selectedAssignment updateWithDictionary:[dict objectForKey:@"assignment"]];
+//		[self.fileTable reloadData];
+//	}
+//	if (errorMessage)
+//		[NSAlert displayAlertWithTitle:@"Unknown Error" details:errorMessage];
+//	//when finished
+//	dispatch_async(dispatch_get_main_queue(), ^{
+//		self.busy=NO;
+//		self.statusMessage=@"";
+//	});
 }
 
 -(void)loadAssignments
 {
-	ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:
-							  [NSString stringWithFormat:@"courses/%@", self.theCourse.classId]];
-	__unsafe_unretained ASIHTTPRequest *req = theReq;
-	[theReq setCompletionBlock:^{
-		NSDictionary *rsp = [req.responseString JSONValue];
-		if ([[rsp objectForKey:@"status"] intValue] == 0) {
-			self.theCourse.assignments = [RCAssignment assignmentsFromJSONArray:[rsp objectForKey:@"assignments"] forCourse:self.theCourse];
-			self.assignments = [self.theCourse.assignments mutableCopy];
-			[self.assignTable reloadData];
-		}
-	}];
-	[req startAsynchronous];
+//	ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:
+//							  [NSString stringWithFormat:@"courses/%@", self.theCourse.classId]];
+//	__unsafe_unretained ASIHTTPRequest *req = theReq;
+//	[theReq setCompletionBlock:^{
+//		NSDictionary *rsp = [req.responseString JSONValue];
+//		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+//			self.theCourse.assignments = [RCAssignment assignmentsFromJSONArray:[rsp objectForKey:@"assignments"] forCourse:self.theCourse];
+//			self.assignments = [self.theCourse.assignments mutableCopy];
+//			[self.assignTable reloadData];
+//		}
+//	}];
+//	[req startAsynchronous];
 }
 
 //TODO: this code is not called. need to adjust importFiles above so that duplicates are handled properly
--(void)handleFileUpload:(NSArray*)urls replacing:(BOOL)replaceExisting
-{
-	self.statusMessage = @"Uploading Files";
-	self.busy = YES;
-	NSMutableArray *workingUrls = [NSMutableArray arrayWithCapacity:urls.count];
-	for (NSURL *aUrl in urls) {
-		NSString *fname =aUrl.lastPathComponent;
-		if (nil != [self.selectedAssignment.files firstObjectWithValue:fname forKey:@"name"]) {
-			if (replaceExisting) {
-				//deleting existing
-				continue;
-			} else {
-				fname = [MultiFileImporter uniqueFileName:fname existingFiles:self.selectedAssignment.files];
-			}
-		} else {
-			[workingUrls addObject:aUrl];
-		}
-	}
-	[self importFiles:workingUrls];
-	self.busy = NO;
-	self.statusMessage = @"";
-}
+//-(void)handleFileUpload:(NSArray*)urls replacing:(BOOL)replaceExisting
+//{
+//	self.statusMessage = @"Uploading Files";
+//	self.busy = YES;
+//	NSMutableArray *workingUrls = [NSMutableArray arrayWithCapacity:urls.count];
+//	for (NSURL *aUrl in urls) {
+//		NSString *fname =aUrl.lastPathComponent;
+//		if (nil != [self.selectedAssignment.files firstObjectWithValue:fname forKey:@"name"]) {
+//			if (replaceExisting) {
+//				//deleting existing
+//				continue;
+//			} else {
+//				fname = [MultiFileImporter uniqueFileName:fname existingFiles:self.selectedAssignment.files];
+//			}
+//		} else {
+//			[workingUrls addObject:aUrl];
+//		}
+//	}
+//	[self importFiles:workingUrls];
+//	self.busy = NO;
+//	self.statusMessage = @"";
+//}
 
 -(void)handleAssignmentEdit:(RCAssignment*)assign forProperty:(NSString*)prop newValue:(id)object
 {
-	if ([object isKindOfClass:[NSDate class]]) {
-		object = [NSNumber numberWithDouble:[object timeIntervalSince1970] * 1000];
-	}
-	NSDictionary *mods = [NSDictionary dictionaryWithObject:object forKey:prop];
-	NSString *urlstr = [NSString stringWithFormat:@"courses/%@/assignment/%@", self.theCourse.courseId, assign.assignmentId];
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
-	[req setRequestMethod:@"PUT"];
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	[req appendPostData:[[mods JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req startSynchronous];
-	if (req.responseStatusCode == 200) {
-		NSDictionary *d = [req.responseString JSONValue];
-		if ([[d objectForKey:@"status"] intValue] == 0) {
-			[assign updateWithDictionary:[d objectForKey:@"assignment"]];
-			[self resortAssignments];
-		}
-	}
+//	if ([object isKindOfClass:[NSDate class]]) {
+//		object = [NSNumber numberWithDouble:[object timeIntervalSince1970] * 1000];
+//	}
+//	NSDictionary *mods = [NSDictionary dictionaryWithObject:object forKey:prop];
+//	NSString *urlstr = [NSString stringWithFormat:@"courses/%@/assignment/%@", self.theCourse.courseId, assign.assignmentId];
+//	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
+//	[req setRequestMethod:@"PUT"];
+//	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+//	[req appendPostData:[[mods JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+//	[req startSynchronous];
+//	if (req.responseStatusCode == 200) {
+//		NSDictionary *d = [req.responseString JSONValue];
+//		if ([[d objectForKey:@"status"] intValue] == 0) {
+//			[assign updateWithDictionary:[d objectForKey:@"assignment"]];
+//			[self resortAssignments];
+//		}
+//	}
 }
 
 -(void)handleFileEdit:(RCAssignmentFile*)afile forProperty:(NSString*)prop newValue:(id)object
 {
-	//send to server
-	NSString *urlstr = [NSString stringWithFormat:@"assignment/%@/file/%@", self.selectedAssignment.assignmentId, afile.assignmentFileId];
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
-	[req setRequestMethod:@"PUT"];
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	NSDictionary *d = [NSDictionary dictionaryWithObject:object forKey:@"readonly"];
-	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req startSynchronous];
-	if (req.responseStatusCode == 200) {
-		d = [req.responseString JSONValue];
-		if ([[d objectForKey:@"status"] intValue] == 0) {
-			afile.readonly = [object boolValue];
-		}
-	}
+//	//send to server
+//	NSString *urlstr = [NSString stringWithFormat:@"assignment/%@/file/%@", self.selectedAssignment.assignmentId, afile.assignmentFileId];
+//	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
+//	[req setRequestMethod:@"PUT"];
+//	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+//	NSDictionary *d = [NSDictionary dictionaryWithObject:object forKey:@"readonly"];
+//	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+//	[req startSynchronous];
+//	if (req.responseStatusCode == 200) {
+//		d = [req.responseString JSONValue];
+//		if ([[d objectForKey:@"status"] intValue] == 0) {
+//			afile.readonly = [object boolValue];
+//		}
+//	}
 }
 
 -(void)handleDueDateEdit:(NSMutableDictionary*)studentDict newValue:(id)object
 {
-	//send to server
-	NSString *urlstr = [NSString stringWithFormat:@"assignment/%@/due", self.selectedAssignment.assignmentId];
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
-	[req setRequestMethod:@"PUT"];
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	NSMutableDictionary *d = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:[object timeIntervalSince1970] * 1000], @"duedate", [studentDict objectForKey:@"wsid"], @"wsid", nil];
-	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req startSynchronous];
-	if (req.responseStatusCode == 200) {
-		d = [req.responseString JSONValue];
-		if ([[d objectForKey:@"status"] intValue] == 0) {
-			[studentDict setObject:object forKey:@"duedate"];
-		}
-	}
+//	//send to server
+//	NSString *urlstr = [NSString stringWithFormat:@"assignment/%@/due", self.selectedAssignment.assignmentId];
+//	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
+//	[req setRequestMethod:@"PUT"];
+//	[req addRequestHeader:@"Content-Type" value:@"application/json"];
+//	NSMutableDictionary *d = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:[object timeIntervalSince1970] * 1000], @"duedate", [studentDict objectForKey:@"wsid"], @"wsid", nil];
+//	[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+//	[req startSynchronous];
+//	if (req.responseStatusCode == 200) {
+//		d = [req.responseString JSONValue];
+//		if ([[d objectForKey:@"status"] intValue] == 0) {
+//			[studentDict setObject:object forKey:@"duedate"];
+//		}
+//	}
 }
 
 #pragma mark - table view

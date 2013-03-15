@@ -692,6 +692,19 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	return [self genericGetRequest:@"notify" parameters:nil handler:hblock];
 }
 
+-(void)deleteNotification:(NSNumber*)noteId completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	[_httpClient deletePath:[NSString stringWithFormat:@"notify/%@", noteId] parameters:nil success:^(AFHTTPRequestOperation *op, id rsp)
+	{
+		if (op.response.statusCode == 200)
+			hblock(YES, rsp);
+		else
+			hblock(NO, [NSString stringWithFormat:@"delete failed with %@", @(op.response.statusCode)]);
+	} failure:^(id op, NSError *err) {
+		hblock(NO, err.localizedDescription);
+	}];
+}
+
 #pragma mark - courses/assignments
 
 -(BOOL)synchronouslyUpdateAssignment:(RCAssignment*)assignment withValues:(NSDictionary*)newVals
@@ -756,6 +769,43 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
 	}];
 	[req startAsynchronous];
+}
+
+-(void)sendMessage:(NSDictionary*)params completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	[_httpClient postPath:@"messages" parameters:params success:^(AFHTTPRequestOperation *op, id rsp) {
+		if (op.response.statusCode == 200) {
+			hblock(YES, rsp);
+		} else {
+			hblock(NO, @"unknown error");
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
+#pragma mark - users
+
+-(void)updateUserSettings:(NSDictionary*)params completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	[_httpClient putPath:@"user" parameters:params success:^(AFHTTPRequestOperation *op, id rsp) {
+		if (op.response.statusCode == 200) {
+			hblock(YES, rsp);
+		} else {
+			hblock(NO, @"unknown error");
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
+-(void)updateDeviceToken:(NSData*)token
+{
+	NSDictionary *params = @{@"token":[token hexidecimalString]};
+	[_httpClient putPath:@"user" parameters:params success:^(AFHTTPRequestOperation *op, id rsp) {} failure:^(AFHTTPRequestOperation *op, NSError *err)
+	{
+		Rc2LogError(@"error updating device token:%@", err);
+	}];
 }
 
 #pragma mark - admin

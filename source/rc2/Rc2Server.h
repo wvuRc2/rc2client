@@ -66,13 +66,13 @@ extern NSString * const MessagesUpdatedNotification;
 #pragma mark - basic request operations
 //this method should be called on any request being sent to the rc2 server
 // it will set the user agent, appropriate security settings, and cookies
--(void)commonRequestSetup:(ASIHTTPRequest*)request;
+//-(void)commonRequestSetup:(ASIHTTPRequest*)request;
 
 //a convience method that calls commonRequestSetup
--(ASIHTTPRequest*)requestWithURL:(NSURL*)url;
--(ASIFormDataRequest*)postRequestWithURL:(NSURL*)url;
--(ASIHTTPRequest*)requestWithRelativeURL:(NSString*)urlString;
--(ASIFormDataRequest*)postRequestWithRelativeURL:(NSString*)urlString;
+//-(ASIHTTPRequest*)requestWithURL:(NSURL*)url;
+//-(ASIFormDataRequest*)postRequestWithURL:(NSURL*)url;
+//-(ASIHTTPRequest*)requestWithRelativeURL:(NSString*)urlString;
+//-(ASIFormDataRequest*)postRequestWithRelativeURL:(NSString*)urlString;
 
 -(NSString*)baseUrl;
 -(NSString*)websocketUrl;
@@ -114,6 +114,7 @@ extern NSString * const MessagesUpdatedNotification;
 -(void)syncMessages:(Rc2FetchCompletionHandler)hblock;
 -(void)markMessageRead:(RCMessage*)message;
 -(void)markMessageDeleted:(RCMessage*)message;
+-(void)sendMessage:(NSDictionary*)params completionHandler:(Rc2FetchCompletionHandler)hblock;
 #endif
 
 #pragma mark - files
@@ -153,8 +154,11 @@ extern NSString * const MessagesUpdatedNotification;
 			error:(NSError *__autoreleasing *)outError;
 
 #pragma mark - notifications
+
 //the results will be a string if failed, a dictionary if successful
 -(void)requestNotifications:(Rc2FetchCompletionHandler)hblock;
+
+-(void)deleteNotification:(NSNumber*)noteId completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 #pragma mark - courses/assignments
 
@@ -172,6 +176,10 @@ extern NSString * const MessagesUpdatedNotification;
 
 
 #pragma mark - misc/other
+
+-(void)updateDeviceToken:(NSData*)token;
+
+-(void)updateUserSettings:(NSDictionary*)params completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 -(void)downloadAppPath:(NSString*)path toFilePath:(NSString*)filePath completionHandler:(Rc2FetchCompletionHandler)hblock;
 

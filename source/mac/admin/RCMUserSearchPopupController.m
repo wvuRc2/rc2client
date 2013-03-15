@@ -8,9 +8,9 @@
 
 #import "RCMUserSearchPopupController.h"
 #import "Rc2Server.h"
-#import "ASIHTTPRequest.h"
 
 @interface RCMUserSearchPopupController()
+@property (copy) NSString *requestId;
 @property (nonatomic, strong) ASIHTTPRequest *currentRequest;
 @property (nonatomic, strong) NSRecursiveLock *requestLock;
 @end
@@ -60,23 +60,18 @@
 		return;
 	}
 	[self.requestLock lock];
-	self.currentRequest = [[Rc2Server sharedInstance] createUserSearchRequest:sstring searchType:self.searchType];
-	__block ASIHTTPRequest *req = self.currentRequest;
-	__unsafe_unretained RCMUserSearchPopupController *blockSelf = self;
-	[self.currentRequest setCompletionBlock:^{
-		[blockSelf.requestLock lock];
-		if (blockSelf.currentRequest == req) {
-			NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-			NSDictionary *rsp = [respStr JSONValue];
-			if (rsp)
-				[blockSelf processSearchResults:[rsp objectForKey:@"users"]];
+	NSString *rid = [NSString stringWithUUID];
+	self.requestId = rid;
+	__weak RCMUserSearchPopupController *bself = self;
+	[[Rc2Server sharedInstance] searchUsers:@{@"type":self.searchType, @"value":sstring} completionHandler:^(BOOL success, id results)
+	{
+		[bself.requestLock lock];
+		//only if we are the most recent request
+		if ([bself.requestId isEqualToString:rid]) {
+			[bself processSearchResults:[results objectForKey:@"users"]];
 		}
-		[blockSelf.requestLock unlock];
+		[bself.requestLock unlock];
 	}];
-	[self.currentRequest setFailedBlock:^{
-		Rc2LogWarn(@"error sending user search request");
-	}];
-	[self.currentRequest startAsynchronous];
 	[self.requestLock unlock];
 }
 
@@ -97,13 +92,4 @@
 	return NO;
 }
 
-@synthesize searchField;
-@synthesize resultsTable;
-@synthesize arrayController;
-@synthesize currentRequest;
-@synthesize requestLock;
-@synthesize selectUserHandler;
-@synthesize showUserHandler;
-@synthesize searchType=_searchType;
-@synthesize removeSelectedUserFromList=_removeSelectedUserFromList;
 @end

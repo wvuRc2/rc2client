@@ -200,20 +200,10 @@
 	[msg setObject:userRcpts forKey:@"userRcpts"];
 	[msg setObject:classRcpts forKey:@"classRcpts"];
 	//send the message
-	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"messages"];
-	__weak ASIFormDataRequest *blockReq = req;
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	[req appendPostData:[[msg JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[req setCompletionBlock:^{
-		if(blockReq.responseStatusCode != 200) {
-			[UIAlertView showAlertWithTitle:@"Error sending message" message:blockReq.error.localizedDescription];
-		} else {
-			//FIXME: handle any error returned in json from server
-			NSLog(@"server responded with:%@", blockReq.responseString);
-		}
+	[[Rc2Server sharedInstance] sendMessage:msg completionHandler:^(BOOL success, id results) {
+		//FIXME: need to verify it was sent or report any error
+		self.completionBlock(YES);
 	}];
-	[req startAsynchronous];
-	self.completionBlock(YES);
 }
 
 #pragma mark - table view

@@ -203,12 +203,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
 	self.pushToken = deviceToken;
-	ASIFormDataRequest *theReq = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"user"];
-	[theReq setRequestMethod:@"PUT"];
-	NSDictionary *d = [NSDictionary dictionaryWithObject:[deviceToken hexidecimalString] forKey:@"token"];
-	[theReq appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	[theReq addRequestHeader:@"Content-Type" value:@"application/json"];
-	[theReq startAsynchronous];
+	[[Rc2Server sharedInstance] updateDeviceToken:deviceToken];
 }
 
 #pragma mark - actions
