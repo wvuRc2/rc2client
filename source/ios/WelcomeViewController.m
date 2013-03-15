@@ -76,23 +76,20 @@
 
 -(void)reloadNotifications
 {
-	ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:@"notify"];
-	__unsafe_unretained ASIHTTPRequest *req = theReq;
-	__weak WelcomeViewController *blockSelf = self;
-	[req setCompletionBlock:^{
-		blockSelf.noteTable.refreshGestureRecognizer.refreshState = PHRefreshIdle;
-		if (req.responseStatusCode == 200) {
-			NSDictionary *d = [req.responseString JSONValue];
+	__weak WelcomeViewController *bself = self;
+	[[Rc2Server sharedInstance] requestNotifications:^(BOOL success, id results) {
+		bself.noteTable.refreshGestureRecognizer.refreshState = PHRefreshIdle;
+		if (success) {
+			NSDictionary *d = results;
 			if ([d objectForKey:@"status"] && [[d objectForKey:@"status"] intValue] == 0) {
-				[blockSelf.notes removeAllObjects];
-				[blockSelf.notes addObjectsFromArray:[d objectForKey:@"notes"]];
-				[blockSelf.noteTable reloadData];
+				[bself.notes removeAllObjects];
+				[bself.notes addObjectsFromArray:[d objectForKey:@"notes"]];
+				[bself.noteTable reloadData];
 			}
 		} else {
-			Rc2LogWarn(@"error fetching notifications:%@", req.error);
+			Rc2LogWarn(@"error fetching notifications:%@", results);
 		}
 	}];
-	[req startAsynchronous];
 }
 
 -(void)notesLoaded:(NSNotification*)notif

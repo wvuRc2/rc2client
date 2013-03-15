@@ -16,7 +16,6 @@
 #import "ConsoleViewController.h"
 #import "KeyboardToolbar.h"
 #import "Rc2Server.h"
-#import "ASIHTTPRequest.h"
 #import "ImageDisplayController.h"
 #import "RCImage.h"
 #import "RCImageCache.h"

@@ -28,7 +28,6 @@ enum {
 	eRc2Host_Local
 };
 
-typedef void (^Rc2SessionCompletionHandler)(BOOL success, NSString *message);
 //results varies depending on the call
 typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
@@ -152,6 +151,9 @@ extern NSString * const MessagesUpdatedNotification;
 -(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace
 			error:(NSError *__autoreleasing *)outError;
 
+#pragma mark - notifications
+//the results will be a string if failed, a dictionary if successful
+-(void)requestNotifications:(Rc2FetchCompletionHandler)hblock;
 
 #pragma mark - courses/assignments
 

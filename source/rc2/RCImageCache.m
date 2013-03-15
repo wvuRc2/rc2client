@@ -14,7 +14,6 @@
 #import "RCImage.h"
 #import "RCFile.h"
 #import "Rc2Server.h"
-#import "ASIHTTPRequest.h"
 
 @interface RCImageCache()
 @property (nonatomic, strong) NSString *imgCachePath;
