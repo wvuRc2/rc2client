@@ -7,7 +7,6 @@
 //
 
 #import "Rc2Server.h"
-#import "ASIFormDataRequest.h"
 #import "RCWorkspace.h"
 #import "RCFile.h"
 #import "RCCourse.h"
@@ -41,9 +40,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 @property (nonatomic, copy, readwrite) NSArray *projects;
 @property (nonatomic, strong) NSMutableDictionary *cachedData;
 @property (nonatomic, strong) NSMutableDictionary *cachedDataTimestamps;
-@property (nonatomic, strong) NSMutableDictionary *wsItemsById;
 @property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
-@property (nonatomic, strong) NSOperationQueue *requestQueue;
 @property (nonatomic, strong) SBJsonParser *jsonParser;
 @end
 
@@ -84,7 +81,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 {
 	self = [super init];
 	self.serverHost = [[NSUserDefaults standardUserDefaults] integerForKey:kServerHostKey];
-	self.wsItemsById = [NSMutableDictionary dictionary];
 	self.jsonParser = [[SBJsonParser alloc] init];
 #if TARGET_IPHONE_SIMULATOR
 	self.serverHost = eRc2Host_Local;
@@ -96,8 +92,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 #endif
 	[[VyanaLogger sharedInstance] startLogging];
 	[DDLog addLogger:self.remoteLogger];
-	self.requestQueue = [[NSOperationQueue alloc] init];
-	self.requestQueue.maxConcurrentOperationCount = 4;
 	self.cachedDataTimestamps = [[NSMutableDictionary alloc] init];
 	self.cachedData = [[NSMutableDictionary alloc] init];
 	return self;
@@ -162,59 +156,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		default:
 			return @"ws://rc2.stat.wvu.edu:8080/iR/ws";
 	}
-}
-
-
-//this method should be called on any request being sent to the rc2 server
-// it will set the user agent, appropriate security settings, and cookies
--(void)commonRequestSetup:(ASIHTTPRequest*)request
-{
-	request.userAgent = self.userAgentString;
-	request.validatesSecureCertificate = NO;
-	request.timeOutSeconds = 10;
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-	__unsafe_unretained ASIHTTPRequest *blockReq = request;
-	[request setFailedBlock:^{
-		[NSApp presentError:blockReq.error];
-	}];
-#endif
-}
-
-//a convience method that calls commonRequestSetup
--(ASIHTTPRequest*)requestWithURL:(NSURL*)url
-{
-	ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
-	[self commonRequestSetup:req];
-	return req;
-}
-
--(ASIFormDataRequest*)postRequestWithURL:(NSURL*)url
-{
-	ASIFormDataRequest *req = [ASIFormDataRequest requestWithURL:url];
-	req.requestMethod = @"POST";
-	[self commonRequestSetup:req];
-	return req;
-}
-
--(ASIHTTPRequest*)requestWithRelativeURL:(NSString*)urlString
-{
-	if ([urlString hasPrefix:@"/"])
-		urlString = [urlString substringFromIndex:1];
-	NSURL *url = [NSURL URLWithString:[self.baseUrl stringByAppendingString:urlString]];
-	return [self requestWithURL:url];
-}
-
--(ASIFormDataRequest*)postRequestWithRelativeURL:(NSString*)urlString
-{
-	if ([urlString hasPrefix:@"/"])
-		urlString = [urlString substringFromIndex:1];
-	NSURL *url = [NSURL URLWithString:[self.baseUrl stringByAppendingString:urlString]];
-	return [self postRequestWithURL:url];
-}
-
--(BOOL)responseIsValidJSON:(ASIHTTPRequest*)request
-{
-	return [[request.responseHeaders objectForKey:@"Content-Type"] hasPrefix:@"application/json"];
 }
 
 -(void)broadcastWorkspaceItemsUpdated
@@ -335,56 +276,13 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
 	}];
-/*	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@", [self baseUrl],
-									   wspace.wspaceId]];
-	ASIHTTPRequest *theReq = [self requestWithURL:url];
-	__block __weak ASIHTTPRequest *req = theReq;
-	req.requestMethod = @"DELETE";
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![self responseIsValidJSON:req]) {
-			hblock(NO, @"server sent back invalid response");
-			return;
-		}
-		NSDictionary *rsp = [respStr JSONValue];
-		BOOL success = [[rsp objectForKey:@"status"] intValue] == 0;
-		if (success) {
-			[self.wsItemsById removeObjectForKey:wspace.wspaceId];
-			if (nil == wspace.parentId)
-				[self.workspaceItems arrayByRemovingObjectAtIndex:[self.workspaceItems indexOfObject:wspace]];
-			else
-				[(RCWorkspaceFolder*)wspace.parentItem removeChild:wspace];
-			[self broadcastWorkspaceItemsUpdated];
-		}
-		hblock(success, rsp);
-	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
- */
 }
 
-//++COPIED++ (not needed)
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@workspace/%@?use", [self baseUrl],
-									   wspace.wspaceId]];
-	ASIHTTPRequest *theReq = [self requestWithURL:url];
-	__block __weak ASIHTTPRequest *req = theReq;
-	[req setCompletionBlock:^{
-		NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-		if (![self responseIsValidJSON:req]) {
-			hblock(NO, @"server sent back invalid response");
-			return;
-		}
-		NSDictionary *rsp = [respStr JSONValue];
-		hblock(![[rsp objectForKey:@"status"] boolValue], rsp);
+	[self genericGetRequest:[NSString stringWithFormat:@"workspace/%@?use", wspace.wspaceId] parameters:nil handler:^(BOOL success, id results) {
+		hblock(success, results);
 	}];
-	[req setFailedBlock:^{
-		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
-	}];
-	[req startAsynchronous];
 }
 
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace
@@ -407,58 +305,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	return nil;
 }
 
-/*
--(void)updateWorkspaceItems:(NSArray*)items
-{
-	NSMutableDictionary *allWspaces = [NSMutableDictionary dictionary];
-	NSMutableArray *rootObjects = [NSMutableArray array];
-	for (NSDictionary *wsdict in items) {
-		RCWorkspaceItem *anItem = [RCWorkspaceItem workspaceItemWithDictionary:wsdict];
-		[allWspaces setObject:anItem forKey:anItem.wspaceId];
-		if (nil == anItem.parentId)
-			[rootObjects addObject:anItem];
-		[self.wsItemsById setObject:anItem forKey:anItem.wspaceId];
-	}
-	//now add all objects to their parents
-	for (RCWorkspaceItem *anItem in [allWspaces allValues]) {
-		if (anItem.parentId) {
-			RCWorkspaceFolder *folder = [allWspaces objectForKey:anItem.parentId];
-			if (![folder isKindOfClass:[RCWorkspaceFolder class]]) {
-				Rc2LogWarn(@"bad parent %@ for %@", anItem.parentId, anItem.wspaceId);
-			}
-			[folder addChild:anItem];
-			anItem.parentItem = folder;
-		}
-	}
-	[rootObjects sortUsingSelector:@selector(compareWithItem:)];
-	self.workspaceItems = rootObjects;
-	[self broadcastWorkspaceItemsUpdated];
-}
-
--(void)enumerateWorkspaceItemArray:(NSArray*)items stop:(BOOL*)stop block:(void (^)(RCWorkspace *wspace, BOOL *stop))block
-{
-	for (id item in items) {
-		if ([item isFolder])
-			[self enumerateWorkspaceItemArray:[(RCWorkspaceFolder*)item children] stop:stop block:block];
-		else
-			block(item, stop);
-		if (stop)
-			return;
-	}
-}
-
--(void)enumerateWorkspacesWithBlock:(void (^)(RCWorkspace *wspace, BOOL *stop))block
-{
-	BOOL stop=NO;
-	[self enumerateWorkspaceItemArray:self.workspaceItems stop:&stop block:block];
-}
-
--(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId
-{
-	return [self.wsItemsById objectForKey:wspaceId];
-}
- 
- */
 
 #pragma mark - files
 
@@ -639,24 +485,24 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 -(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace
 			error:(NSError *__autoreleasing *)outError
 {
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@file/%@", [self baseUrl], file.fileId]];
-	ASIFormDataRequest *req = [self postRequestWithURL:url];
-	[req setFile:contentsFileUrl.path forKey:@"content"];
-	[req startSynchronous];
-	if (req.error) {
-		if (outError)
-			*outError = req.error;
+	NSString *path = [NSString stringWithFormat:@"file/%@", file.fileId];
+	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"POST" path:path parameters:nil
+												 constructingBodyWithBlock:^(id <AFMultipartFormData>formData)
+	{
+		[formData appendPartWithFileURL:contentsFileUrl name:@"content" error:outError];
+	}];
+	NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:outError];
+	if (nil == data) {
+		Rc2LogError(@"error uploading file data (%@): %@", file.name, *outError);
 		return NO;
+	} else {
+		NSDictionary *dict = [[NSString stringWithUTF8Data:data] JSONValue];
+		[file discardEdits];
+		[file updateWithDictionary:[dict objectForKey:@"file"]];
+		if (file.isTextFile)
+			file.fileContents = [NSString stringWithContentsOfURL:contentsFileUrl encoding:NSUTF8StringEncoding error:nil];
+		return YES;
 	}
-	NSString *respStr = [NSString stringWithUTF8Data:req.responseData];
-	NSDictionary *dict = [self.jsonParser objectWithString:respStr error:outError];
-	if (nil == dict)
-		return NO;
-	[file discardEdits];
-	[file updateWithDictionary:[dict objectForKey:@"file"]];
-	if (file.isTextFile)
-		file.fileContents = [NSString stringWithContentsOfURL:contentsFileUrl encoding:NSUTF8StringEncoding error:nil];
-	return YES;
 }
 
 -(void)deleteFile:(RCFile*)file container:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock
@@ -671,18 +517,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	} failure:^(id op, NSError *error) {
 		hblock(NO, error.localizedDescription);
 	}];
-}
-
-#pragma mark - sharing
-
--(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring searchType:(NSString*)searchType
-{
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@user", [self baseUrl]]];
-	__block ASIFormDataRequest *req = [self postRequestWithURL:url];
-	[req addRequestHeader:@"Content-Type" value:@"application/json"];
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:sstring, @"value", searchType, @"type", nil];
-	[req appendPostData:[[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-	return req;
 }
 
 #pragma mark - notifications
@@ -709,7 +543,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 -(BOOL)synchronouslyUpdateAssignment:(RCAssignment*)assignment withValues:(NSDictionary*)newVals
 {
-	ASIHTTPRequest *theReq = [self requestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment/%@", 
+/*	ASIHTTPRequest *theReq = [self requestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment/%@",
 							   assignment.course.classId, assignment.assignmentId]];
 	[theReq addRequestHeader:@"Content-Type" value:@"application/json"];
 	[theReq setRequestMethod:@"PUT"];
@@ -718,7 +552,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	if (200 != theReq.responseStatusCode)
 		return NO;
 	if ([[[[theReq responseString] JSONValue] objectForKey:@"status"] intValue] == 0)
-		return YES;
+		return YES; */
 	return NO;
 }
 
@@ -726,25 +560,25 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 -(void)markMessageRead:(RCMessage*)message
 {
-	ASIHTTPRequest *req = [self requestWithRelativeURL:[NSString stringWithFormat:@"message/%@", message.rcptmsgId]];
+/*	ASIHTTPRequest *req = [self requestWithRelativeURL:[NSString stringWithFormat:@"message/%@", message.rcptmsgId]];
 	[req addRequestHeader:@"Content-Type" value:@"application/json"];
 	[req appendPostData:[@"{}" dataUsingEncoding:NSUTF8StringEncoding]];
 	req.requestMethod = @"PUT";
 	
 	[req startAsynchronous];
-	message.dateRead = [NSDate date];
+	message.dateRead = [NSDate date]; */
 }
 
 -(void)markMessageDeleted:(RCMessage*)message
 {
-	ASIHTTPRequest *req = [self requestWithRelativeURL:[NSString stringWithFormat:@"message/%@", message.rcptmsgId]];
+/*	ASIHTTPRequest *req = [self requestWithRelativeURL:[NSString stringWithFormat:@"message/%@", message.rcptmsgId]];
 	req.requestMethod = @"DELETE";
-	[req startAsynchronous];
+	[req startAsynchronous]; */
 }
 
 -(void)syncMessages:(Rc2FetchCompletionHandler)hblock
 {
-	ASIHTTPRequest *theReq = [self requestWithRelativeURL:@"messages"];
+/*	ASIHTTPRequest *theReq = [self requestWithRelativeURL:@"messages"];
 	__weak ASIHTTPRequest *req = theReq;
 	[req setCompletionBlock:^{
 		if (req.responseStatusCode != 200) {
@@ -768,7 +602,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	[req setFailedBlock:^{
 		hblock(NO, [NSString stringWithFormat:@"server returned %d", req.responseStatusCode]);
 	}];
-	[req startAsynchronous];
+	[req startAsynchronous]; */
 }
 
 -(void)sendMessage:(NSDictionary*)params completionHandler:(Rc2FetchCompletionHandler)hblock
@@ -963,7 +797,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 
 -(NSArray*)messageRecipients
 {
-	NSArray *rcpts = [self.cachedData objectForKey:@"messageRecipients"];
+/*	NSArray *rcpts = [self.cachedData objectForKey:@"messageRecipients"];
 	NSDate *date = [self.cachedDataTimestamps objectForKey:@"messageRecipients"];
 	if (rcpts && ([NSDate timeIntervalSinceReferenceDate] - date.timeIntervalSinceReferenceDate > 300)) {
 		//if data is less than 5 minutes old, use it
@@ -986,7 +820,8 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		Rc2LogError(@"error fetching message rcpt list: %d", req.responseStatusCode);
 		return nil;
 	}
-	return [self handleMessageRcpts:[req.responseString JSONValue]];
+	return [self handleMessageRcpts:[req.responseString JSONValue]]; */
+	return nil;
 }
 
 -(NSArray*)handleMessageRcpts:(NSDictionary*)resp

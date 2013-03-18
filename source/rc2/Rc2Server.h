@@ -18,8 +18,6 @@
 @class RCUser;
 @class RCSavedSession;
 @class RCMessage;
-@class ASIHTTPRequest;
-@class ASIFormDataRequest;
 @class RCAssignment;
 @class RCProject;
 
@@ -63,21 +61,7 @@ extern NSString * const MessagesUpdatedNotification;
 @property (nonatomic, copy, readonly) NSArray *assignmentsToGrade;
 @property (nonatomic, strong, readonly) NSArray *messageRecipients;
 
-#pragma mark - basic request operations
-//this method should be called on any request being sent to the rc2 server
-// it will set the user agent, appropriate security settings, and cookies
-//-(void)commonRequestSetup:(ASIHTTPRequest*)request;
-
-//a convience method that calls commonRequestSetup
-//-(ASIHTTPRequest*)requestWithURL:(NSURL*)url;
-//-(ASIFormDataRequest*)postRequestWithURL:(NSURL*)url;
-//-(ASIHTTPRequest*)requestWithRelativeURL:(NSString*)urlString;
-//-(ASIFormDataRequest*)postRequestWithRelativeURL:(NSString*)urlString;
-
--(NSString*)baseUrl;
 -(NSString*)websocketUrl;
-
--(BOOL)responseIsValidJSON:(ASIHTTPRequest*)request;
 
 #pragma mark - login/logout
 -(void)loginAsUser:(NSString*)user password:(NSString*)password 
@@ -121,20 +105,6 @@ extern NSString * const MessagesUpdatedNotification;
 //results is tesponse dict from server with either workspace or error entry
 -(void)deleteWorkspce:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)renameWorkspce:(RCWorkspace*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
-/*
--(void)importFile:(NSURL*)fileUrl workspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
-
--(void)deleteFile:(RCFile*)file workspace:(RCWorkspace*)workspace completionHandler:(Rc2FetchCompletionHandler)hblock;
-
-//synchronously update the content of a file
--(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace  
-			error:(NSError *__autoreleasing *)outError;
-
--(void)fetchFileList:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
--(void)fetchBinaryFileContents:(RCFile*)file toPath:(NSString*)destPath progress:(id)progressView
-			 completionHandler:(Rc2FetchCompletionHandler)hblock;
-*/
-
 
 -(void)importFile:(NSURL*)fileUrl toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock;
 //synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
@@ -183,5 +153,4 @@ extern NSString * const MessagesUpdatedNotification;
 
 -(void)downloadAppPath:(NSString*)path toFilePath:(NSString*)filePath completionHandler:(Rc2FetchCompletionHandler)hblock;
 
--(ASIHTTPRequest*)createUserSearchRequest:(NSString*)sstring searchType:(NSString*)searchType;
 @end

@@ -11,7 +11,6 @@
 #import "RCFile.h"
 #import "RCProject.h"
 #import "RCWorkspaceCache.h"
-#import "ASIFormDataRequest.h"
 
 @interface RCWorkspace()
 @property (nonatomic, copy, readwrite) NSArray *files;

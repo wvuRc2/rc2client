@@ -11,7 +11,6 @@
 #import "RCAssignment.h"
 #import "RCAssignmentFile.h"
 #import "Rc2Server.h"
-#import "ASIFormDataRequest.h"
 #import "MultiFileImporter.h"
 
 @interface RCMManageCourseController()

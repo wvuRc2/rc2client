@@ -11,7 +11,6 @@
 #import "Rc2Server.h"
 #import "NotificationCell.h"
 #import "PHRefreshGestureRecognizer.h"
-#import "ASIFormDataRequest.h"
 
 @interface WelcomeViewController ()
 @property (nonatomic, strong) IBOutlet UITableView *noteTable;

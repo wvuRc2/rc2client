@@ -11,7 +11,6 @@
 
 @interface RCMUserSearchPopupController()
 @property (copy) NSString *requestId;
-@property (nonatomic, strong) ASIHTTPRequest *currentRequest;
 @property (nonatomic, strong) NSRecursiveLock *requestLock;
 @end
 

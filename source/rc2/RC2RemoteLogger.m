@@ -7,7 +7,6 @@
 //
 
 #import "RC2RemoteLogger.h"
-#import "ASIFormDataRequest.h"
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 #import "NSObject+SBJSON.h"
 #endif
@@ -35,9 +34,10 @@
 {
 	if (nil == self.logHost)
 		return;
-	ASIFormDataRequest *req = [ASIFormDataRequest requestWithURL:self.logHost];
-	[req appendPostData:[self messageToJSONData:logMessage]];
-	[req startAsynchronous];
+	//TODO: reimplement
+//	ASIFormDataRequest *req = [ASIFormDataRequest requestWithURL:self.logHost];
+//	[req appendPostData:[self messageToJSONData:logMessage]];
+//	[req startAsynchronous];
 }
 
 -(NSData*)messageToJSONData:(DDLogMessage*)msg

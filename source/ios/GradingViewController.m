@@ -14,7 +14,6 @@
 #import "RCAssignment.h"
 #import "RCStudentAssignment.h"
 #import "StudentAssignmentCell.h"
-#import "ASIFormDataRequest.h"
 #import "MBProgressHUD.h"
 
 @interface GradingViewController ()
@@ -191,24 +190,24 @@
 //	self.pdfUrlData=nil;
 }
 
--(void)handleAssignmentServerResponse:(ASIHTTPRequest*)req
-{
-	RCCourse *course = self.classPicker.selectedItem;
-	NSDictionary *rsp = [req.responseString JSONValue];
-	if ([[rsp objectForKey:@"status"] intValue] == 0) {
-		course.assignments = [RCAssignment assignmentsFromJSONArray:[rsp objectForKey:@"assignments"] forCourse:course];
-		if (self.qualifySegControl.selectedSegmentIndex == 0) {
-			NSMutableArray *ma = [NSMutableArray array];
-			for (RCAssignment *ass in course.assignments) {
-				if ([self.dueAssignmentIds containsObject: ass.assignmentId])
-					[ma addObject: ass];
-			}
-			self.assignmentPicker.items = ma;
-		} else {
-			self.assignmentPicker.items = course.assignments;
-		}
-	}
-}
+//-(void)handleAssignmentServerResponse:(ASIHTTPRequest*)req
+//{
+//	RCCourse *course = self.classPicker.selectedItem;
+//	NSDictionary *rsp = [req.responseString JSONValue];
+//	if ([[rsp objectForKey:@"status"] intValue] == 0) {
+//		course.assignments = [RCAssignment assignmentsFromJSONArray:[rsp objectForKey:@"assignments"] forCourse:course];
+//		if (self.qualifySegControl.selectedSegmentIndex == 0) {
+//			NSMutableArray *ma = [NSMutableArray array];
+//			for (RCAssignment *ass in course.assignments) {
+//				if ([self.dueAssignmentIds containsObject: ass.assignmentId])
+//					[ma addObject: ass];
+//			}
+//			self.assignmentPicker.items = ma;
+//		} else {
+//			self.assignmentPicker.items = course.assignments;
+//		}
+//	}
+//}
 
 -(void)courseSelectionChanged
 {
@@ -249,7 +248,7 @@
 //	}
 }
 
--(void)processStudentListResponse:(ASIHTTPRequest*)req
+/*-(void)processStudentListResponse:(ASIHTTPRequest*)req
 {
 	if (req.responseStatusCode != 200) {
 		[UIAlertView showAlertWithTitle:@"Error fetching data" message:@"unknown error from server"];
@@ -267,7 +266,7 @@
 	self.students = ma;
 	[self.studentTableView reloadData];
 }
-
+*/
 -(void)FileSelectionChanged
 {
 //	NSDictionary *fileData = self.filePicker.selectedItem;
