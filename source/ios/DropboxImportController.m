@@ -206,13 +206,4 @@
 	[(id)self.navigationController.delegate userDone:self.lastFileImported];
 }
 
--(void)setSession:(RCSession *)session
-{
-	if (nil == session)
-		NSLog(@"setting session to nil");
-	__session = session;
-	NSLog(@"setting session %@", __session);
-}
-
-@synthesize session=__session;
 @end

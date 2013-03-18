@@ -40,6 +40,11 @@
 	return self;
 }
 
+-(void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - meat & potatos
 
 -(void)editSelectedFilename
@@ -161,7 +166,6 @@
 		 AMProgressWindowController *pwc = [mfi prepareProgressWindowWithErrorHandler:^(MultiFileImporter *mfiRef) {
 			 [self.fileTableView.window.firstResponder presentError:mfiRef.lastError modalForWindow:self.fileTableView.window delegate:nil didPresentSelector:nil contextInfo:nil];
 		 }];
-		 [[NSOperationQueue mainQueue] addOperation:mfi];
 		 dispatch_async(dispatch_get_main_queue(), ^{
 			 [NSApp beginSheet:pwc.window modalForWindow:self.fileTableView.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
 		 });

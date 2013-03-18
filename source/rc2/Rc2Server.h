@@ -101,14 +101,21 @@ extern NSString * const MessagesUpdatedNotification;
 -(void)sendMessage:(NSDictionary*)params completionHandler:(Rc2FetchCompletionHandler)hblock;
 #endif
 
-#pragma mark - files
 //results is tesponse dict from server with either workspace or error entry
 -(void)deleteWorkspce:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)renameWorkspce:(RCWorkspace*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(void)refereshWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
+#pragma mark - files
 -(void)importFile:(NSURL*)fileUrl toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock;
 //synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
 -(RCFile*)importFile:(NSURL*)fileUrl fileName:(NSString*)name toContainer:(id<RCFileContainer>)dest error:(NSError *__autoreleasing *)outError;
+
+
+//imports multiple files
+-(void)importFiles:(NSArray*)urls toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock
+		  progress:(void (^)(CGFloat))pblock;
+
 
 -(void)renameFile:(RCFile*)file toName:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
 

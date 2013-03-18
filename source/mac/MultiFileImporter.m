@@ -109,7 +109,22 @@ enum {
 	pwc.progressMessage = @"Importing files…";
 	pwc.indeterminate = NO;
 	pwc.percentComplete = 0;
-	__weak MultiFileImporter *weakMfi = self;
+	[[Rc2Server sharedInstance] importFiles:self.fileUrls toContainer:self.workspace completionHandler:^(BOOL success, id results) {
+		NSLog(@"results=%@", results);
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self markAsComplete];
+			[NSApp endSheet:pwc.window];
+			[pwc.window orderOut:nil];
+			if (success) {
+				[self.workspace refreshFiles];
+			} else {
+				[NSAlert displayAlertWithTitle:@"Error Importing Files" details:results];
+			}
+		});
+	} progress:^(CGFloat per) {
+		pwc.percentComplete = round(per * 100);
+	}];
+/*	__weak MultiFileImporter *weakMfi = self;
 	NSString *perToken = [self addObserverForKeyPath:@"currentFileName" task:^(id obj, NSDictionary *change) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			pwc.progressMessage = [NSString stringWithFormat:@"Importing %@", [obj valueForKey:@"currentFileName"]];
@@ -127,71 +142,11 @@ enum {
 			[weakMfi.workspace refreshFiles];
 		});
 	}];
-	return pwc;
+*/	return pwc;
 }
 
 #pragma mark - meat & potatos
 
--(void)importFile:(NSURL*)fileUrl
-{
-	NSString *destFileName = fileUrl.lastPathComponent;
-	RCFile *existingFile = [self.workspace fileWithName:fileUrl.lastPathComponent];
-	BOOL replaceThisFile = NO;
-	if (existingFile) {
-		if (self.replaceExisting) {
-			replaceThisFile = YES;
-		} else {
-			destFileName = [MultiFileImporter uniqueFileName:destFileName existingFiles:self.workspace.files];
-		}
-	}
-	self.currentFileName = destFileName;
-	//synchronously upload the file using the name destfileName
-	NSError *err=nil;
-	if (replaceThisFile) {
-		if (![[Rc2Server sharedInstance] updateFile:existingFile withContents:fileUrl workspace:self.workspace error:&err])
-			self.lastError = err;
-	} else {
-		[[Rc2Server sharedInstance] importFile:fileUrl fileName:destFileName toContainer:self.workspace error:&err];
-		if (err)
-			self.lastError = err;
-	}
-	[NSThread sleepForTimeInterval:0.3];
-}
-
--(void)importNextFile
-{
-	if (self.isCancelled || self.filesRemaining.count < 1) {
-		[self markAsComplete];
-		return;
-	}
-	NSURL *theUrl = [self.filesRemaining anyObject];
-	[self.filesRemaining removeObject:theUrl];
-	[self importFile:theUrl];
-	Rc2LogInfo(@"MFI imported %@", self.currentFileName);
-	//finish up
-	if (nil == self.lastError && [self.filesRemaining count] > 0) {
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-			[self importNextFile];
-		});
-	} else {
-		[self markAsComplete];
-	}
-}
-
--(void)start
-{
-	self.filesRemaining = [NSMutableSet setWithArray:self.fileUrls];
-	[self willChangeValueForKey:@"isExecuting"];
-	self.myState = kState_Running;
-	[self didChangeValueForKey:@"isExecuting"];
-	if (self.isCancelled)
-		[self markAsComplete];
-	else {
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-			[self importNextFile];
-		});
-	}
-}
 
 -(void)markAsComplete
 {
@@ -200,23 +155,6 @@ enum {
 	self.myState = kState_Done;
 	[self didChangeValueForKey:@"isFinished"];
 	[self didChangeValueForKey:@"isExecuting"];
-}
-
--(BOOL)isConcurrent { return YES; }
-
--(BOOL)isExecuting
-{
-	return self.myState == kState_Running;
-}
-
--(BOOL)isFinished
-{
-	return self.myState == kState_Done;
-}
-
--(NSInteger)countOfFilesRemaining
-{
-	return [self.filesRemaining count];
 }
 
 @end

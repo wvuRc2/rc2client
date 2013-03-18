@@ -278,6 +278,12 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	}];
 }
 
+-(void)refereshWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSString *path = [NSString stringWithFormat:@"proj/%@/wspace/%@", wspace.projectId, wspace.wspaceId];
+	[self genericGetRequest:path parameters:nil handler:hblock];
+}
+
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	[self genericGetRequest:[NSString stringWithFormat:@"workspace/%@?use", wspace.wspaceId] parameters:nil handler:^(BOOL success, id results) {
@@ -363,7 +369,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	return [NSString stringWithUTF8Data:data];
 }
 
-//used by dropbox support
+//used by ios dropbox support
 -(void)importFile:(NSURL*)fileUrl toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSMutableString *path = [self containerPath:container];
@@ -379,7 +385,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	[req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
 		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
-			NSDictionary *fdata = [rsp objectForKey:@"file"];
+			NSDictionary *fdata = [[rsp objectForKey:@"files"] firstObject];
 			RCFile *theFile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
 			[theFile updateWithDictionary:fdata];
 			[container addFile:theFile];
@@ -397,7 +403,6 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 //synchronously imports the file, adds it to the workspace, and returns the new RCFile object.
 -(RCFile*)importFile:(NSURL*)fileUrl fileName:(NSString*)name toContainer:(id<RCFileContainer>)container error:(NSError *__autoreleasing *)outError
 {
-	__block RCFile *theFile=nil;
 	NSMutableString *path = [self containerPath:container];
 	[path appendString:@"/file"];
 	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"POST" path:path parameters:@{@"name":name} constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
@@ -408,17 +413,58 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		}
 	}];
 	[req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+	__block NSMutableArray *outFiles = [[NSMutableArray alloc] init];
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
-		NSDictionary *fdata = [rsp objectForKey:@"file"];
-		theFile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
-		[theFile updateWithDictionary:fdata];
-		[container addFile:theFile];
+		NSArray *fileArray = [rsp objectForKey:@"files"];
+		for (NSDictionary *fdata in fileArray) {
+			RCFile *theFile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+			[theFile updateWithDictionary:fdata];
+			[container addFile:theFile];
+			[outFiles addObject:theFile];
+		}
 	} failure:^(id op, NSError *error) {
 		Rc2LogError(@"error uploading file sync:%@", error);
 	}];
 	[_httpClient enqueueHTTPRequestOperation:op];
 	[op waitUntilFinished];
-	return theFile;
+	return [outFiles firstObject];
+}
+
+-(void)importFiles:(NSArray*)urls toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock
+	progress:(void (^)(CGFloat))pblock
+{
+	NSMutableString *path = [self containerPath:container];
+	[path appendString:@"/file"];
+	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"POST" path:path parameters:nil
+		constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
+	{
+		NSError *err=nil;
+		for (NSURL *url in urls) {
+			if (![fdata appendPartWithFileURL:url name:url.lastPathComponent error:&err])
+				Rc2LogError(@"error on import:%@", err);
+		}
+	}];
+	AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
+	if (nil != pblock) {
+		[op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+			pblock(totalBytesWritten/totalBytesExpectedToWrite);
+		}];
+	}
+	[op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSDictionary *rsp = [[NSString stringWithUTF8Data:responseObject] JSONValue];
+		if ([[rsp objectForKey:@"status"] integerValue] == 0) {
+			NSArray *fs = [RCFile filesFromJsonArray:[rsp objectForKey:@"files"] container:container];
+			for (RCFile *aFile in fs)
+				[container addFile:aFile];
+			hblock(YES, rsp);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+			Rc2LogWarn(@"error on import:%@", [rsp objectForKey:@"message"]);
+		}
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		hblock(NO, error.localizedDescription);
+	}];
+	[_httpClient enqueueHTTPRequestOperation:op];
 }
 
 -(void)saveFile:(RCFile*)file toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock

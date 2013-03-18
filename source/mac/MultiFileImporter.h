@@ -10,7 +10,7 @@
 
 @class RCWorkspace;
 
-@interface MultiFileImporter : NSOperation
+@interface MultiFileImporter : NSObject
 
 //convience methods for drag & drop of files into an NSTableView
 +(NSDragOperation)validateTableViewFileDrop:(id <NSDraggingInfo>)info;

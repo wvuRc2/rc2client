@@ -216,11 +216,20 @@
 						[self.arrayController removeObject:selObj];
 					} else {
 						//TODO: notify user that failed
-						Rc2LogError(@"failed to create project:%@", obj);
+						Rc2LogError(@"failed to delete project:%@", obj);
 					}
 				}];
 			} else {
 				//TODO: handle workspace
+				[[Rc2Server sharedInstance] deleteWorkspce:selObj completionHandler:^(BOOL success, id results) {
+					if (success) {
+							[self.arrayController removeObject:selObj];
+					[[selObj project] removeWorkspace:selObj];
+					} else {
+					//TODO: notify user that failed
+					Rc2LogError(@"failed to delete workspace:%@", [selObj name]);
+					}
+				}];
 			}
 		}
 	}];

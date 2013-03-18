@@ -109,6 +109,7 @@
 #if logJson
 	_jsonLog=nil;
 #endif
+	self.session.delegate=nil;
 	self.outputController=nil; //we were getting binding errors because the text field was bound to us and we were being dealloc'd first.
 	[self unregisterAllNotificationTokens];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
