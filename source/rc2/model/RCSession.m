@@ -97,8 +97,14 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	NSDictionary *cookies = [NSHTTPCookie requestHeaderFieldsWithCookies:cks];
 	NSString *cookieHeader = [cookies objectForKey:@"Cookie"];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060 && defined(DEBUG))
-	if ([[Rc2Server sharedInstance] isAdmin])
-		NSLog(@"ck=%@", cookieHeader);
+	if ([[Rc2Server sharedInstance] isAdmin]) {
+		NSMutableString *str = [NSMutableString string];
+		for (NSString *aStr in [cookieHeader componentsSeparatedByString:@"; "]) {
+			if ([aStr hasPrefix:@"wspaceid"] || [aStr hasPrefix:@"me"])
+				[str appendFormat:@"%@;", aStr];
+		}
+		NSLog(@"auth cookies:\n%@\n", str);
+	}
 #endif
 	[config.headers addObject:[HandshakeHeader headerWithValue:cookieHeader forKey:@"Cookie"]];
 	[config.headers addObject:[HandshakeHeader headerWithValue:@"1" forKey:@"Rc2-API-Version"]];
@@ -123,7 +129,6 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 -(void)requestModeChange:(NSString*)newMode
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"setmode", @"cmd", newMode, @"mode", nil];
-	Rc2LogInfo(@"changing mode: %@", newMode);
 	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }
@@ -140,7 +145,6 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	//fname could be null, so at end of list
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"executeScript", @"cmd", script, @"script", 
 						  fname, @"fname", nil];
-	Rc2LogInfo(@"executing script: %@", [script length] > 10 ? [[script substringToIndex:10] stringByAppendingString:@"..."] : script);
 	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }

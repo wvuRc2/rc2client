@@ -7,6 +7,7 @@
 //
 
 #import "RC2RemoteLogger.h"
+#import "AFNetworking.h"
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 #import "NSObject+SBJSON.h"
 #endif
@@ -34,10 +35,16 @@
 {
 	if (nil == self.logHost)
 		return;
-	//TODO: reimplement
-//	ASIFormDataRequest *req = [ASIFormDataRequest requestWithURL:self.logHost];
-//	[req appendPostData:[self messageToJSONData:logMessage]];
-//	[req startAsynchronous];
+	//fire and forget a message to the server
+	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:self.logHost];
+	NSData *data = [self messageToJSONData:logMessage];
+	[req setHTTPMethod:@"POST"];
+	[req setValue:@"application/json" forHTTPHeaderField:@"Acept"];
+	[req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+	[req setValue:[NSString stringWithFormat:@"%ld", (unsigned long)data.length] forHTTPHeaderField:@"Content-Length"];
+	[req setHTTPBody:data];
+	[NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *r, NSData *d, NSError *e) {
+	}];
 }
 
 -(NSData*)messageToJSONData:(DDLogMessage*)msg
