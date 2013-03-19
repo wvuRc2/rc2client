@@ -34,7 +34,7 @@
 #import "MAKVONotificationCenter.h"
 #import "MLReachability.h"
 
-#define logJson 1
+#define logJson 0
 
 @interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, copy) NSArray *data;
