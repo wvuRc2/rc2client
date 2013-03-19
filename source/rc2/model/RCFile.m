@@ -64,9 +64,9 @@
 	}
 	self.lastModified = lm;
 	if (!self.isInserted && [lm timeIntervalSince1970] > [self.localLastModified timeIntervalSince1970]) {
+		//this case should likely never happen
 		self.fileContents=nil;
 		self.lastModified = lm;
-		//FIXME: we are dumping uer's local edits. we should probably ask them something
 		self.localEdits=nil;
 	}
 	if (!self.isTextFile)

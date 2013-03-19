@@ -391,7 +391,6 @@
 		
 		img = [[RCImageCache sharedInstance] loadImageIntoCache:fileOrPath];
 		if (nil == img) {
-			//FIXME: display alert
 			Rc2LogWarn(@"image does not exist: %@", fileOrPath);
 			return;
 		}

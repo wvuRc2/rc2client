@@ -122,9 +122,9 @@
 		}
 		__weak EditorViewController *weakSelf = self;
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
-			//FIXME: need to sanitize the input string
+			//need to sanitize the input string. we'll just test for only alphanumeric
 			NSString *str = [editView textInRange:editView.selectedTextRange];
-			if (str)
+			if (str && ![str containsCharacterNotInSet:[NSCharacterSet alphanumericCharacterSet]])
 				[weakSelf.session executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
 		};
 		self.richEditor.executeBlock = ^(SessionEditView *editView) {
@@ -479,7 +479,7 @@
 		}
 		return;
 	} else if (!file.isTextFile) {
-		//FIXME: need to do something else when file is not a text file. Likely a pdf file.
+		Rc2LogWarn(@"EditorViewController asked to load unsupported file: %@", file.name);
 		return;
 	}
 	if (file.contentsLoaded) {

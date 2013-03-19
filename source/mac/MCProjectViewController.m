@@ -220,7 +220,7 @@
 					}
 				}];
 			} else {
-				//TODO: handle workspace
+				//handle workspace
 				[[Rc2Server sharedInstance] deleteWorkspce:selObj completionHandler:^(BOOL success, id results) {
 					if (success) {
 							[self.arrayController removeObject:selObj];
