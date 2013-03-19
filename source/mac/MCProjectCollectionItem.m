@@ -24,6 +24,7 @@
 @end
 
 @interface MCProjectCollectionItem()
+@property (weak) IBOutlet NSTextField *lastModifiedField;
 @property BOOL canEdit;
 @end
 
@@ -88,9 +89,11 @@
 			self.imageView.image = [NSImage imageNamed:NSImageNameUserAccounts];
 		else
 			self.imageView.image = [NSImage imageNamed:NSImageNameFolder];
+		[self.lastModifiedField setStringValue:@""];
 	} else {
 		//workspace
 		self.imageView.image = [NSImage imageNamed:NSImageNameMultipleDocuments];
+		[self.lastModifiedField setObjectValue:[self.representedObject lastAccess]];
 	}
 	NSString *label = [self.representedObject name];
 	if (nil == label)

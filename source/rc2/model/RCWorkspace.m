@@ -27,6 +27,7 @@
 	if ((self = [super init])) {
 		self.name = [dict objectForKey:@"name"];
 		self.wspaceId = [dict objectForKey:@"id"];
+		self.lastAccess = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"lastaccess"] doubleValue]];
 		//this needs to run after init has returned so we'll have had our project set
 		dispatch_async(dispatch_get_main_queue(), ^{
 			self.files = [RCFile filesFromJsonArray:[dict objectForKey:@"files"] container:self];
