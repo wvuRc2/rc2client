@@ -32,13 +32,16 @@
 	__unsafe_unretained RCMImageViewer *blockSelf = self;
 	self.observerToken = [self.imageArrayController addObserverForKeyPath:@"selection" task:^(id obj, NSDictionary *change)
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			RCImage *img = [[blockSelf.imageArrayController selectedObjects] firstObject];
-			blockSelf.displayedImageName = [NSString stringWithFormat:@"%@ (%ld of %ld)", img.name, 
-									   [blockSelf.imageArrayController.arrangedObjects indexOfObject:img]+1,
-									   [blockSelf.imageArrayController.arrangedObjects count]];
-		});
+		[blockSelf imageChanged];
 	}];
+}
+
+-(void)imageChanged
+{
+	RCImage *img = [[self.imageArrayController selectedObjects] firstObject];
+	self.displayedImageName = [NSString stringWithFormat:@"%@ (%ld of %ld)", img.name,
+							   [self.imageArrayController.arrangedObjects indexOfObject:img]+1,
+							   [self.imageArrayController.arrangedObjects count]];
 }
 
 -(void)displayImage:(NSNumber*)imageId
@@ -48,7 +51,7 @@
 		idx = 0;
 	ZAssert(self.imageArray.count > 0, @"empty image array");
 	[self.imageArrayController setSelectionIndex:idx];
-	self.displayedImageName = [[self.imageArray objectAtIndex:idx] name];
+	[self imageChanged];
 }
 
 -(IBAction)saveImageAs:(id)sender

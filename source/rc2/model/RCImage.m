@@ -22,7 +22,7 @@
 	self.image = img;
 #endif
 	self.timestamp = [NSDate timeIntervalSinceReferenceDate];
-	NSString *pathc = aPath.lastPathComponent;
+	NSString *pathc = [aPath.lastPathComponent stringByDeletingPathExtension];
 	if (![pathc containsCharacterNotInSet:[NSCharacterSet decimalDigitCharacterSet]])
 		self.imageId = [NSNumber numberWithInt:[pathc intValue]];
 	else
@@ -34,5 +34,10 @@
 -(void)setName:(NSString *)name
 {
 	_name = [name copy];
+}
+
+-(NSString*)debugDescription
+{
+	return [NSString stringWithFormat:@"RCImage %@(%@)", self.name, self.imageId];
 }
 @end
