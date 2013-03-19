@@ -66,11 +66,4 @@
 	[self adjustColors];
 }
 
--(void)setHighlighted:(BOOL)highlighted
-{
-	[super setHighlighted:highlighted];
-	id cl = highlighted ? [[self.curColor colorWithAlpha:0.4] nativeColor] : [UIColor clearColor];
-	self.cellLayer.backgroundColor = [cl CGColor];
-}
-
 @end
