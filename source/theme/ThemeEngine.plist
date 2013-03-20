@@ -22,6 +22,15 @@
 		<string>ResultsHeader</string>
 		<string>ResultsEvenRow</string>
 		<string>ResultsOddRow</string>
+		<string>ProjectColor</string>
+		<string>WorkspaceColor</string>
+		<string>MessageBackground</string>
+		<string>MessageCellStart</string>
+		<string>MessageCellEnd</string>
+		<string>MessageSelectedStart</string>
+		<string>MessageSelectedEnd</string>
+		<string>MessageCenterBackground</string>
+		<string>PriorityColors</string>
 	</array>
 </dict>
 </plist>

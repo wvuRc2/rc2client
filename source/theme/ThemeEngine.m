@@ -90,6 +90,19 @@
 {
 	return NO;
 }
+
+-(void)verifyTheme
+{
+#if DEBUG
+	//verify theme
+	NSArray *allKeys = [[ThemeEngine sharedInstance] allColorKeys];
+	for (NSString *key in [[self.themeDict objectForKey:@"colors"] allKeys]) {
+		if (![allKeys containsObject:key])
+			Rc2LogWarn(@"theme '%@' has unknown color key '%@'", self.name, key);
+	}
+#endif
+}
+
 @end
 
 @interface ThemeNotifyTracker : NSObject {
@@ -140,6 +153,10 @@
 		[global observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" options:0 block:^(MAKVONotification *note) {
 			[note.observer createCustomTheme];
 		}];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			for (Theme *theme in global.allThemes)
+				[theme verifyTheme];
+		});
 	});
 	return global;
 }
