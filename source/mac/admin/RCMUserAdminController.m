@@ -76,6 +76,9 @@
 		if (success) {
 			[roleDict setObject:[results objectForKey:@"havePerm"] forKey:@"have"];
 			[roleDict setObject:[results objectForKey:@"havePerm"] forKey:@"savedHave"];
+		} else {
+			[NSAlert displayAlertWithTitle:@"Error" details:results];
+			Rc2LogWarn(@"failed to toggleRole:%@", results);
 		}
 		bself.updatingRole=NO;
 	}];

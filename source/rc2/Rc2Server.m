@@ -718,7 +718,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 	completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSDictionary *args = @{@"userid":userId, @"roleid":roleId};
-	[_httpClient postPath:@"admin/user?role" parameters:args success:^(id op, id rsp) {
+	[_httpClient postPath:@"admin/userrole" parameters:args success:^(id op, id rsp) {
 		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
 			hblock(YES, rsp);
 		} else {
