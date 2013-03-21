@@ -21,6 +21,7 @@
 
 -(void)openSession:(RCWorkspace*)wspace file:(RCFile*)initialFile inNewWindow:(BOOL)inNewWindow;
 -(void)openSession:(RCWorkspace*)wspace inNewWindow:(BOOL)inNewWindow;
+-(IBAction)showAdminTools:(id)sender;
 
 -(IBAction)doBackToMainView:(id)sender;
 @end

@@ -24,6 +24,8 @@
 		080E5090166FDFB800E95531 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E507F166FDFB800E95531 /* AFXMLRequestOperation.m */; };
 		080E5091166FDFB800E95531 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E507F166FDFB800E95531 /* AFXMLRequestOperation.m */; };
 		080E5092166FDFB800E95531 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5081166FDFB800E95531 /* UIImageView+AFNetworking.m */; };
+		0811F99316FB6A290060BAB4 /* RCMAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F99116FB6A290060BAB4 /* RCMAdminController.m */; };
+		0811F99416FB6A290060BAB4 /* RCMAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0811F99216FB6A290060BAB4 /* RCMAdminController.xib */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
@@ -568,6 +570,9 @@
 		080E507F166FDFB800E95531 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		080E5080166FDFB800E95531 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		080E5081166FDFB800E95531 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		0811F99016FB6A290060BAB4 /* RCMAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMAdminController.h; sourceTree = "<group>"; };
+		0811F99116FB6A290060BAB4 /* RCMAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMAdminController.m; sourceTree = "<group>"; };
+		0811F99216FB6A290060BAB4 /* RCMAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMAdminController.xib; sourceTree = "<group>"; };
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
@@ -1286,6 +1291,9 @@
 				084594A915B5F46900297C9D /* RCMUserSearchPopupController.h */,
 				084594AA15B5F46900297C9D /* RCMUserSearchPopupController.m */,
 				084594AB15B5F46900297C9D /* RCMUserSearchPopupController.xib */,
+				0811F99016FB6A290060BAB4 /* RCMAdminController.h */,
+				0811F99116FB6A290060BAB4 /* RCMAdminController.m */,
+				0811F99216FB6A290060BAB4 /* RCMAdminController.xib */,
 			);
 			name = admin;
 			path = source/mac/admin;
@@ -2580,6 +2588,7 @@
 				08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */,
 				08FF3D0716E92ABD00F3E09E /* themes in Resources */,
 				08FF3D3F16F0F84600F3E09E /* ThemeEngine.plist in Resources */,
+				0811F99416FB6A290060BAB4 /* RCMAdminController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2969,6 +2978,7 @@
 				08FF3D0216E920DC00F3E09E /* JRSwizzle.m in Sources */,
 				08FF3D0616E9250900F3E09E /* ThemeEngine.m in Sources */,
 				08FF3D5116F24F5200F3E09E /* ThemeColorEntry.m in Sources */,
+				0811F99316FB6A290060BAB4 /* RCMAdminController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

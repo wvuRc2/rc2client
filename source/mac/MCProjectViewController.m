@@ -104,8 +104,15 @@
 		[controller openSession:item file:nil inNewWindow:NO];
 		return;
 	}
-	if (![item isKindOfClass:[RCProject class]] || [[item workspaces] count] < 1)
-		return; //nothing to do
+	if ([item isKindOfClass:[RCProject class]]) {
+		if ([[(RCProject*)item type] isEqualToString:@"admin"]) {
+			id controller = [TheApp valueForKeyPath:@"delegate.mainWindowController"];
+			[controller showAdminTools:self];
+			return;
+		}
+		if ([[item workspaces] count] < 1)
+			return; //nothing to do
+	}
 	NSRect centerRect = [_collectionView frameForItemAtIndex:0];
 	NSSize viewSize = self.view.frame.size;
 	centerRect.origin.x = floorf((viewSize.width - centerRect.size.width) / 2);
