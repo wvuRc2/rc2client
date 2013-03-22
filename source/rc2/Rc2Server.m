@@ -775,6 +775,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		self.isAdmin = [[rsp objectForKey:@"isAdmin"] boolValue];
 		self.userSettings = [rsp objectForKey:@"settings"];
 		[self.cachedData setObject:[rsp objectForKey:@"permissions"] forKey:@"permissions"];
+		[self.cachedData setObjectIgnoringNil:[rsp objectForKey:@"ldapServers"] forKey:@"ldapServers"];
 		[self.cachedData setObject:[RCCourse classesFromJSONArray:[rsp objectForKey:@"classes"]] forKey:@"classesTaught"];
 		[self.cachedData setObjectIgnoringNil:[rsp objectForKey:@"tograde"] forKey:@"tograde"];
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
@@ -839,6 +840,11 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 -(NSArray*)assignmentsToGrade
 {
 	return [self.cachedData objectForKey:@"tograde"];
+}
+
+-(NSArray*)ldapServers
+{
+	return [self.cachedData objectForKey:@"ldapServers"];
 }
 
 -(NSArray*)messageRecipients

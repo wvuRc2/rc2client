@@ -14,15 +14,6 @@
 @end
 
 @implementation RCUser
-@synthesize origDict;
-@synthesize userId;
-@synthesize isDirty;
-@synthesize isAdmin=__isAdmin;
-@synthesize name=__name;
-@synthesize email=__email;
-@synthesize login=__login;
-@synthesize roleIds=_roleIds;
-@synthesize roles=_roles;
 
 -(id)init
 {
@@ -39,6 +30,8 @@
 	self.login = [dict objectForKey:@"login"];
 	self.name = [dict objectForKey:@"name"];
 	self.email = [dict objectForKey:@"email"];
+	self.ldapLogin = [dict objectForKey:@"ldaplogin"];
+	self.ldapServerId = [dict valueForKeyPath:@"ldapServer.id"];
 	self.isAdmin = [[dict objectForKey:@"isadmin"] boolValue];
 	self.roleIds = [dict objectForKey:@"roleIds"];
 	NSMutableArray *roleArray = [NSMutableArray arrayWithCapacity:allRoles.count];

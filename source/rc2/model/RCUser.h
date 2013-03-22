@@ -13,6 +13,8 @@
 @property (nonatomic, copy) NSString *login;
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *ldapLogin;
+@property (nonatomic, strong) NSNumber *ldapServerId;
 @property (nonatomic, copy) NSArray *roleIds;
 @property (nonatomic, copy) NSArray *roles;
 @property (nonatomic, readonly) BOOL isDirty;

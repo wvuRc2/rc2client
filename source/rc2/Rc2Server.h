@@ -57,6 +57,7 @@ extern NSString * const MessagesUpdatedNotification;
 @property (nonatomic, readonly) BOOL isAdmin;
 @property (nonatomic, copy, readonly) NSArray *projects;
 @property (nonatomic, copy, readonly) NSArray *usersPermissions;
+@property (nonatomic, copy, readonly) NSArray *ldapServers;
 @property (nonatomic, copy, readonly) NSArray *classesTaught;
 @property (nonatomic, copy, readonly) NSArray *assignmentsToGrade;
 @property (nonatomic, strong, readonly) NSArray *messageRecipients;
