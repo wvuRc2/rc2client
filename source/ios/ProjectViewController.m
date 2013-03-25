@@ -15,6 +15,7 @@
 #import "RCProject.h"
 #import "RCWorkspace.h"
 #import "Rc2AppDelegate.h"
+#import "MAKVONotificationCenter.h"
 
 @interface ProjectViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
 @property (weak) IBOutlet UIBarButtonItem *addButton;
@@ -47,9 +48,7 @@
 -(void)viewDidLoad
 {
 	[super viewDidLoad];
-	if (![Rc2Server sharedInstance].loggedIn) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginStatusChanged) name:NotificationsReceivedNotification object:nil];
-	}
+	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(loginStatusChanged) userInfo:nil options:0];
 	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	ProjectViewLayout *flow = [[ProjectViewLayout alloc] init];
 	[flow setItemSize:CGSizeMake(200, 150)];
@@ -77,6 +76,9 @@
 {
 	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	[self.collectionView reloadData];
+	self.projectButton.enabled = NO;
+	self.selectedProject = nil;
+	self.titleItem.title = NSLocalizedString(@"Rc2 Projects", @"");
 }
 
 -(void)longGesture:(UILongPressGestureRecognizer*)gesture
