@@ -64,8 +64,7 @@
 				}
 				[blockSelf saveLoginInfo];
 			} else {
-				//FIXME: need to report error
-				NSLog(@"ERROR");
+				[NSAlert displayAlertWithTitle:@"Error" details:message window:blockSelf.window];
 			}
 		}];
 }
