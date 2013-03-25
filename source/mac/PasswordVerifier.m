@@ -15,10 +15,22 @@
 
 @implementation PasswordVerifier
 
+-(id)init
+{
+	self = [super init];
+	self.enabled = YES;
+	return self;
+}
+
 -(void)verifyPasswords
 {
 	BOOL valid=YES;
 	self.warningMessage=nil;
+	if (!self.enabled) {
+		self.isValid = YES;
+		self.hasWarningMessage = NO;
+		return;
+	}
 	if (nil == self.password1 || nil == self.password2)
 		valid = NO;
 	else if (![self.password1 isEqualToString:self.password2]) {
@@ -53,6 +65,12 @@
 {
 	_validCharacterSet = validCharacterSet;
 	self.invalidCharSet = validCharacterSet.invertedSet;
+}
+
+-(void)setEnabled:(BOOL)enabled
+{
+	_enabled = enabled;
+	[self verifyPasswords];
 }
 
 @end

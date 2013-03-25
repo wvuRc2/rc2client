@@ -23,4 +23,6 @@
 @property (nonatomic, strong) NSNumber *minLength;
 @property (nonatomic, strong) NSNumber *maxLength;
 @property (nonatomic, copy) NSCharacterSet *validCharacterSet;
+//if not enabled, always returns true for isValid
+@property (nonatomic, assign) BOOL enabled;
 @end

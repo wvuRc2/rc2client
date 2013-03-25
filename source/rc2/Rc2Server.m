@@ -745,10 +745,15 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 -(void)addUser:(RCUser*)user password:(NSString*)password
 	completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSDictionary *params = @{@"pass":password, @"email":user.email, @"login":user.login, @"name": user.name};
-	[_httpClient postPath:@"proj" parameters:params success:^(id op, id rsp) {
+	NSMutableDictionary *params = [@{@"email":user.email, @"login":user.login, @"name": user.name} mutableCopy];
+	if (user.ldapServerId) {
+		[params setObject:user.ldapServerId forKey:@"ldapServerId"];
+		[params setObject:user.ldapLogin forKey:@"ldapLogin"];
+	} else {
+		[params setObject:password forKey:@"pass"];
+	}
+	[_httpClient postPath:@"admin/user" parameters:params success:^(id op, id rsp) {
 		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
-			self.projects = [RCProject projectsForJsonArray:[rsp objectForKey:@"projects"] includeAdmin:self.isAdmin];
 			hblock(YES, rsp);
 		} else {
 			hblock(NO, [rsp objectForKey:@"message"]);

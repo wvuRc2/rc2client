@@ -116,6 +116,10 @@
 {
 	[[Rc2Server sharedInstance] addUser:user password:pass completionHandler:^(BOOL sucess, id results)
 	{
+		if (!sucess) {
+			[NSAlert displayAlertWithTitle:@"Error" details:results window:self.view.window];
+			return;
+		}
 		RCUser *newUser = [[RCUser alloc] initWithDictionary:[results objectForKey:@"user"] allRoles:self.roles];
 		if (self.users)
 			self.users = [self.users arrayByAddingObject:newUser];
