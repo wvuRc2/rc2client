@@ -96,6 +96,8 @@
 		self.serverReach = [MLReachability reachabilityWithHostname:serverUrl.host];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kMLReachabilityChangedNotification object:self.serverReach];
 		[self.serverReach startNotifier];
+		//listen for sleep notification so we will save our changes
+		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(prepareForSleep) name:NSWorkspaceWillSleepNotification object:nil];
 #if logJson
 		_jsonLog = [NSFileHandle fileHandleForWritingAtPath:@"/tmp/jsonLog.txt"];
 		NSLog(@"opened log %@", _jsonLog);
@@ -530,6 +532,13 @@
 				self.tbUsersButton.state = NSOnState;
 		}
 	}
+}
+
+-(void)prepareForSleep
+{
+	RCFile *selFile = self.editorFile;
+	if (selFile.isTextFile)
+		selFile.localEdits = self.editView.string;
 }
 
 -(void)modeChanged

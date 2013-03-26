@@ -241,7 +241,7 @@
 	if (moc.hasChanges) {
 		NSError *err=nil;
 		if (![moc save:&err]) {
-			NSLog(@"failed to save moc changes: %@", err);
+			Rc2LogError(@"failed to save moc changes: %@", err);
 		}
 	}
 }
