@@ -231,7 +231,12 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 {
 	[[Rc2Server sharedInstance] logout];
 	[self.rootController showWelcome];
-	[self promptForLogin];
+	CGFloat delay = 0.1;
+	if (self.rootController.presentedViewController != nil)
+		delay = 0.5;
+	RunAfterDelay(delay, ^{
+		[self promptForLogin];
+	});
 }
 
 -(IBAction)editTheme:(id)sender

@@ -27,6 +27,7 @@
 #import "ControlViewController.h"
 #import "RCAudioChatEngine.h"
 #import "DoodleViewController.h"
+#import "MAKVONotificationCenter.h"
 
 @interface SessionViewController() <KeyboardToolbarDelegate,AMResizableSplitViewControllerDelegate>
 @property (nonatomic, strong) IBOutlet AMResizableSplitViewController *splitController;
@@ -64,6 +65,7 @@
 													 name: UIApplicationWillEnterForegroundNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnteringBackground:) 
 													 name: UIApplicationDidEnterBackgroundNotification object:nil];
+		[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(loginStatusChanged:) userInfo:nil options:0];
 	}
 	return self;
 }
@@ -278,6 +280,12 @@
 		if (success)
 			[self displayPdfFile:file];
 	}];
+}
+
+-(void)loginStatusChanged:(MAKVONotification*)note
+{
+	if (![[Rc2Server sharedInstance] loggedIn])
+		[self endSession:self];
 }
 
 -(IBAction)endSession:(id)sender

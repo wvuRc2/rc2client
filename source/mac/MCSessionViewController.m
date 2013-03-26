@@ -884,11 +884,14 @@
 	if ([urlPath hasSuffix:@".pdf"]) {
 		//we want to show the pdf
 		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
-		if (!file.contentsLoaded)
+		if (file.contentsLoaded) {
+			[self.outputController loadLocalFile:file];
+		} else {
 			[file updateContentsFromServer:^(NSInteger success) {
 				if (success)
 					[self.outputController loadLocalFile:file];
 			}];
+		}
 		return;
 	}
 	//a sas file most likely
