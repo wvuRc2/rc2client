@@ -85,11 +85,8 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 #if TARGET_IPHONE_SIMULATOR
 	self.serverHost = eRc2Host_Local;
 #endif
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-#else
 	self.remoteLogger = [[RC2RemoteLogger alloc] init];
 	self.remoteLogger.apiKey = @"sf92j5t9fk2kfkegfd110lsm";
-#endif
 	[[VyanaLogger sharedInstance] startLogging];
 	[DDLog addLogger:self.remoteLogger];
 	self.cachedDataTimestamps = [[NSMutableDictionary alloc] init];
@@ -786,6 +783,8 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+		self.remoteLogger.clientIdent = [NSString stringWithFormat:@"%@/OS X/%@",
+										 user, [[NSProcessInfo processInfo] operatingSystemVersionString]];
 #else
 		UIDevice *dev = [UIDevice currentDevice];
 		self.remoteLogger.clientIdent = [NSString stringWithFormat:@"%@/%@/%@/%@",

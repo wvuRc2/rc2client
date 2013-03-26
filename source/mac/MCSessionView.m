@@ -157,8 +157,13 @@ const CGFloat kFrameWidth = 214;
 
 -(void)setEditorWidth:(CGFloat)editorWidth
 {
-	if (editorWidth > 100)
+//splitterLog
+	if (editorWidth > 100) {
+		Rc2LogInfo(@"setting editor width to %1.1f", editorWidth);
 		[[self.editorWidthConstraint animator] setConstant:editorWidth];
+	} else {
+		Rc2LogInfo(@"not setting session view editor width:%1.1f", editorWidth);
+	}
 }
 
 @end

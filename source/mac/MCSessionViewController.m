@@ -483,7 +483,10 @@
 		savedState.inputText = self.editView.string;
 	[savedState setBoolProperty:self.sessionView.leftViewVisible forKey:@"fileListVisible"];
 	[savedState setProperty:@(self.selectedLeftViewIndex) forKey:@"selLeftViewIdx"];
-	[savedState setProperty:[NSNumber numberWithDouble:self.sessionView.editorWidth] forKey:@"editorWidth"];
+	NSNumber *dwidth =[NSNumber numberWithDouble:self.sessionView.editorWidth];
+	[savedState setProperty:dwidth forKey:@"editorWidth"];
+//splitterLog
+Rc2LogInfo(@"saving editor width as %@", dwidth);
 	[self.sessionView saveSessionState:savedState];
 	[savedState.managedObjectContext save:nil];
 }
