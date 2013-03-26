@@ -333,14 +333,10 @@
 -(IBAction)executeScript:(id)sender
 {
 	RCFile *selFile = self.editorFile;
-	if ([selFile.name hasSuffix:@".Rnw"]) {
-		[self.session executeScriptFile:selFile];
-	} else if ([selFile.name hasSuffix:@".sas"]) {
+	if ([selFile.name hasSuffix:@".sas"]) {
 		[self.session executeSas:selFile];
-	} else if ([selFile.name hasSuffix:@".Rmd"]) {
-			[self.session executeScriptFile:selFile];
 	} else {
-		[self.session executeScript:self.editView.string scriptName:selFile.name];
+		[self.session executeScriptFile:selFile];
 	}
 }
 
