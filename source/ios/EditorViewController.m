@@ -436,15 +436,12 @@
 {
 	if ([self.richEditor isFirstResponder])
 		[self.richEditor resignFirstResponder];
-	NSString *src = self.richEditor.attributedString.string;
-	if ([self.currentFile.name hasSuffix:@".Rnw"] || [self.currentFile.name hasSuffix:@".Rmd"]) {
+	if ([self.currentFile.name hasSuffix:@".sas"]) {
+		[self executeBlockAfterSave:^{ [self.session executeSas:self.currentFile]; }];
+	} else {
 		[self executeBlockAfterSave:^{
 			[_session executeScriptFile:self.currentFile];
 		}];
-	} else if ([self.currentFile.name hasSuffix:@".sas"]) {
-		[self executeBlockAfterSave:^{ [self.session executeSas:self.currentFile]; }];
-	} else {
-		[_session executeScript:src scriptName:self.currentFile.name];
 	}
 }
 
