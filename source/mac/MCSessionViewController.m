@@ -343,8 +343,16 @@
 -(IBAction)executeCurrentLine:(id)sender
 {
 	NSString *str = self.editView.string;
-	NSRange rng = [str lineRangeForRange:self.editView.selectedRange];
-	NSString *cmd = [str substringWithRange:rng];
+	NSRange selRng = self.editView.selectedRange;
+	NSString *cmd;
+	if (selRng.length > 0) {
+		//run selection
+		cmd = [str substringWithRange:selRng];
+	} else {
+		//run line
+		NSRange rng = [str lineRangeForRange:selRng];
+		cmd = [str substringWithRange:rng];
+	}
 	[self.session executeScript:cmd scriptName:nil];
 
 }
