@@ -35,6 +35,8 @@ extern NSString * const WorkspaceItemsChangedNotification;
 extern NSString * const NotificationsReceivedNotification;
 //following is posted after messages are synced
 extern NSString * const MessagesUpdatedNotification;
+//posted after files are added to a FileContainer. object is the workspace/project
+extern NSString * const FilesChagedNotification;
 
 @interface Rc2Server : NSObject
 #pragma mark - class methods

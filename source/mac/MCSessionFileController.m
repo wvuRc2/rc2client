@@ -160,7 +160,7 @@
 							 completionHandler:^(NSArray *urls, BOOL replaceExisting)
 	 {
 		 MultiFileImporter *mfi = [[MultiFileImporter alloc] init];
-		 mfi.workspace = self.session.workspace;
+		 mfi.container = self.session.workspace;
 		 mfi.replaceExisting = replaceExisting;
 		 mfi.fileUrls = urls;
 		 AMProgressWindowController *pwc = [mfi prepareProgressWindowWithErrorHandler:^(MultiFileImporter *mfiRef) {

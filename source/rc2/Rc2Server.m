@@ -28,6 +28,7 @@
 NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNotification";
 NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNotification";
 NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
+NSString * const FilesChagedNotification = @"FilesChagedNotification";
 
 #pragma mark -
 
@@ -454,6 +455,7 @@ NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 			for (RCFile *aFile in fs)
 				[container addFile:aFile];
 			hblock(YES, rsp);
+			[[NSNotificationCenter defaultCenter] postNotificationName:FilesChagedNotification object:container];
 		} else {
 			hblock(NO, [rsp objectForKey:@"message"]);
 			Rc2LogWarn(@"error on import:%@", [rsp objectForKey:@"message"]);

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol RCFileContainer;
 @class RCWorkspace;
 
 @interface MultiFileImporter : NSObject
@@ -23,7 +24,7 @@
 //generates a unique name "file X" for the specified file
 +(NSString*)uniqueFileName:(NSString*)fname existingFiles:(NSArray*)existingFiles;
 
-@property (nonatomic, strong) RCWorkspace *workspace;
+@property (nonatomic, strong) id<RCFileContainer> container;
 @property (assign) BOOL replaceExisting;
 @property (nonatomic, copy) NSArray *fileUrls;
 @property (nonatomic, readonly) NSInteger countOfFilesRemaining;

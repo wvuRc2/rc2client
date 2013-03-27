@@ -20,11 +20,11 @@
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
 #import "RCVariable.h"
+#import "MultiFileImporter.h"
 #import "RCMTextView.h"
 #import "MCNewFileController.h"
 #import "RCMAppConstants.h"
 #import "AppDelegate.h"
-#import "MultiFileImporter.h"
 #import "RCMSyntaxHighlighter.h"
 #import "RCAudioChatEngine.h"
 #import "RCImageCache.h"
@@ -383,12 +383,14 @@
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	self.importToProject = NO;
 	openPanel.accessoryView = self.importAccessoryView;
+	openPanel.prompt = NSLocalizedString(@"Import", @"");
+	openPanel.allowsMultipleSelection = YES;
 	[openPanel setAllowedFileTypes:[Rc2Server acceptableImportFileSuffixes]];
 	[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
 		[openPanel orderOut:nil];
 		if (NSFileHandlingPanelCancelButton == result)
 			return;
-		[self handleFileImport:[[openPanel URLs] firstObject]];
+		[self handleFileImport:[openPanel URLs]];
 	}];
 }
 
@@ -583,21 +585,21 @@
 	}];
 }
 
--(void)handleFileImport:(NSURL*)fileUrl
+-(void)handleFileImport:(NSArray*)urls
 {
 	id<RCFileContainer> container = self.session.workspace;
 	if (self.importToProject)
 		container = self.session.workspace.project;
-	[[Rc2Server sharedInstance] importFile:fileUrl toContainer:container completionHandler:^(BOOL success, RCFile *file) {
-		if (success) {
-			self.fileIdJustImported = file.fileId;
-			[self.fileTableView reloadData];
-		} else {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[NSAlert displayAlertWithTitle:@"Upload failed" details:@"An unknown error occurred."];
-			});
-		}
-	 }];
+	MultiFileImporter *mfi = [[MultiFileImporter alloc] init];
+	mfi.container = self.session.workspace;
+	mfi.replaceExisting = YES;
+	mfi.fileUrls = urls;
+	AMProgressWindowController *pwc = [mfi prepareProgressWindowWithErrorHandler:^(MultiFileImporter *mfiRef) {
+		[self.fileTableView.window.firstResponder presentError:mfiRef.lastError modalForWindow:self.fileTableView.window delegate:nil didPresentSelector:nil contextInfo:nil];
+	}];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[NSApp beginSheet:pwc.window modalForWindow:self.fileTableView.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+	});
 }
 
 -(void)deleteSelectedFile

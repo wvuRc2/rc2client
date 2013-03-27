@@ -121,7 +121,8 @@ div.Rimg {
   height: 80px;
   width: 80px;
   visibility: hidden;
-  display: none; }
+  display: none; 
+}
 
 span.genImg {
   width: 120px;
@@ -129,9 +130,17 @@ span.genImg {
   float: left;
   border: 1px solid #999999;
   margin: 1px;
-  display: block; }
+  display: inline-block; 
+}
+
+a.genImg {
+  display: inline-block; 
+  padding: 2px;
+  padding-bottom:8px;
+}
 
 .gimglink {
 	margin-right:16px;
+	display:block;
 }
 

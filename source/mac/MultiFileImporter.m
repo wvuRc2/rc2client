@@ -109,14 +109,15 @@ enum {
 	pwc.progressMessage = @"Importing files…";
 	pwc.indeterminate = NO;
 	pwc.percentComplete = 0;
-	[[Rc2Server sharedInstance] importFiles:self.fileUrls toContainer:self.workspace completionHandler:^(BOOL success, id results) {
+	[[Rc2Server sharedInstance] importFiles:self.fileUrls toContainer:self.container completionHandler:^(BOOL success, id results) {
 		NSLog(@"results=%@", results);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self markAsComplete];
 			[NSApp endSheet:pwc.window];
 			[pwc.window orderOut:nil];
 			if (success) {
-				[self.workspace refreshFiles];
+				if ([self.container isKindOfClass:[RCWorkspace class]])
+					[(RCWorkspace*)self.container refreshFiles];
 			} else {
 				[NSAlert displayAlertWithTitle:@"Error Importing Files" details:results];
 			}
