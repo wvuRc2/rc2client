@@ -485,8 +485,6 @@
 	[savedState setProperty:@(self.selectedLeftViewIndex) forKey:@"selLeftViewIdx"];
 	NSNumber *dwidth =[NSNumber numberWithDouble:self.sessionView.editorWidth];
 	[savedState setProperty:dwidth forKey:@"editorWidth"];
-//splitterLog
-Rc2LogInfo(@"saving editor width as %@", dwidth);
 	[self.sessionView saveSessionState:savedState];
 	[savedState.managedObjectContext save:nil];
 }
