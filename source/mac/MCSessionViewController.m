@@ -134,6 +134,7 @@
 		self.fileHelper = [[MCSessionFileController alloc] initWithSession:self.session tableView:self.fileTableView delegate:self];
 		self.fileActionPopUp.menu.delegate = self.fileHelper;
 		self.fileTableView.menu = self.fileActionPopUp.menu;
+		self.fileTableView.amSelectOnMenuEvent = YES;
 		self.addMenu = [[NSMenu alloc] initWithTitle:@"Add a File"];
 		[self.addMenu setAutoenablesItems:NO];
 		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"New File…" action:@selector(createNewFile:) keyEquivalent:@""];
@@ -928,12 +929,20 @@
 	}
 }
 
--(void)workspaceFileUpdated:(RCFile*)file
+-(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted
 {
 	if (self.fileHelper.selectedFile.fileId.intValue == file.fileId.intValue) {
-		//we need to reload the contents of the file
-		self.fileHelper.selectedFile = file;
+		if (deleted) {
+			self.fileHelper.selectedFile = nil;
+			self.editorFile = nil;
+			self.editView.string = nil;
+			[self setEditViewTextWithHighlighting:nil];
+		} else {
+			//we need to reload the contents of the file
+			self.fileHelper.selectedFile = file;
+		}
 	}
+	[self.fileHelper updateFileArray];
 }
 
 -(void)displayEditorFile:(RCFile*)file

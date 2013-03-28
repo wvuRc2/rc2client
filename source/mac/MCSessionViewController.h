@@ -16,7 +16,7 @@
 @interface MCSessionViewController : MCAbstractViewController<RCSessionDelegate,NSSplitViewDelegate,NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, strong) RCSession *session;
 @property (nonatomic, readonly) MCSessionView *sessionView;
-@property (nonatomic, strong) IBOutlet NSTableView *fileTableView;
+@property (nonatomic, strong) IBOutlet AMTableView *fileTableView;
 @property (nonatomic, strong) IBOutlet NSTableView *userTableView;
 @property (nonatomic, strong) IBOutlet NSTableView *varTableView;
 @property (nonatomic, strong) IBOutlet NSView *fileContainerView;

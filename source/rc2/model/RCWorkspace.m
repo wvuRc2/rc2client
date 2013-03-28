@@ -163,7 +163,9 @@
 -(void)removeFile:(RCFile*)aFile
 {
 	[aFile.managedObjectContext deleteObject:aFile];
-	self.files = [_files arrayByRemovingObjectAtIndex:[_files indexOfObject:aFile]];
+	NSInteger idx = [_files indexOfObject:aFile];
+	if (idx != NSNotFound)
+		self.files = [_files arrayByRemovingObjectAtIndex:idx];
 }
 
 -(NSString*)fileCachePath

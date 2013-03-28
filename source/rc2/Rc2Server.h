@@ -133,6 +133,9 @@ extern NSString * const FilesChagedNotification;
 -(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace
 			error:(NSError *__autoreleasing *)outError;
 
+//ask to have a file removed from objects/core ddata when the server has said via websocket that it was deleted
+-(void)removeFileReferences:(RCFile*)file;
+
 #pragma mark - notifications
 
 //the results will be a string if failed, a dictionary if successful

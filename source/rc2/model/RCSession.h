@@ -87,7 +87,7 @@ enum {
 -(void)displayImage:(NSString*)imgPath;
 -(void)displayEditorFile:(RCFile*)file;
 -(void)displayLinkedFile:(NSString*)path;
--(void)workspaceFileUpdated:(RCFile*)file;
+-(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted;
 -(NSString*)executeJavascript:(NSString*)js;
 -(void)loadHelpURL:(NSURL*)url;
 -(void)variablesUpdated;

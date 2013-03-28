@@ -23,7 +23,7 @@
 
 @implementation MCSessionFileController
 
--(id)initWithSession:(RCSession*)aSession tableView:(NSTableView*)tableView delegate:(id<MCSessionFileControllerDelegate>)aDelegate
+-(id)initWithSession:(RCSession*)aSession tableView:(AMTableView*)tableView delegate:(id<MCSessionFileControllerDelegate>)aDelegate
 {
 	if ((self = [super init])) {
 		self.session = aSession;
@@ -197,7 +197,7 @@
 
 #pragma mark - accessors
 
--(void)setFileTableView:(NSTableView *)fileTableView
+-(void)setFileTableView:(AMTableView *)fileTableView
 {
 	_fileTableView = fileTableView;
 	fileTableView.delegate = self;

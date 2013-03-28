@@ -43,6 +43,7 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	self.tableView.amSelectOnMenuEvent = YES;
 	self.dateFormatter = [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];

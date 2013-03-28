@@ -219,7 +219,9 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	NSString *path = [NSString stringWithFormat:@"proj/%@", project.projectId];
 	[_httpClient deletePath:path parameters:nil success:^(id op, id rsp) {
 		if ([[rsp objectForKey:@"status"] intValue] == 0) {
-			self.projects = [self.projects arrayByRemovingObjectAtIndex:[self.projects indexOfObject:project]];
+			NSInteger idx = [self.projects indexOfObject:project];
+			if (idx != NSNotFound)
+				self.projects = [self.projects arrayByRemovingObjectAtIndex:[self.projects indexOfObject:project]];
 			hblock(YES, nil);
 		} else {
 			hblock(NO, [rsp objectForKey:@"message"]);
@@ -562,6 +564,27 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	} failure:^(id op, NSError *error) {
 		hblock(NO, error.localizedDescription);
 	}];
+}
+
+-(void)removeFileReferences:(RCFile*)file
+{
+	id<RCFileContainer> container;
+	for (RCProject *proj in self.projects) {
+		if ([proj.files containsObjectWithValue:file.fileId forKey:@"fileId"]) {
+			container = proj;
+			break;
+		}
+		for (RCWorkspace *wspace in proj.workspaces) {
+			if ([wspace.files containsObjectWithValue:file.fileId forKey:@"fileId"]) {
+				container = wspace;
+				break;
+			}
+		}
+	}
+	if (container) {
+		[container removeFile:file];
+		[[NSNotificationCenter defaultCenter] postNotificationName:WorkspaceItemsChangedNotification object:container];
+	}
 }
 
 #pragma mark - notifications

@@ -216,6 +216,11 @@
 
 #pragma mark - meat & potatoes
 
+-(void)reloadFileData
+{
+	[self.fileController reloadData];
+}
+
 -(void)setInputView:(id)inputView
 {
 	self.richEditor.inputView = inputView;

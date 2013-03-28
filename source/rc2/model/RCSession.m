@@ -356,11 +356,16 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		[self.delegate displayEditorFile:file];
 	} else if ([cmd isEqualToString:@"fileupdate"]) {
 		RCFile *file = [self.workspace fileWithId:[dict objectForKey:@"fileId"]];
-		if (file) {
-			[file updateWithDictionary:[dict objectForKey:@"file"]];
-			[self.delegate workspaceFileUpdated:file];
-		} else { //a new file
-			[self.workspace refreshFiles];
+		if ([dict objectForKey:@"deleted"]) {
+			[[Rc2Server sharedInstance] removeFileReferences:file];
+			[self.delegate workspaceFileUpdated:file deleted:YES];
+		} else {
+			if (file) {
+				[file updateWithDictionary:[dict objectForKey:@"file"]];
+				[self.delegate workspaceFileUpdated:file deleted:NO];
+			} else { //a new file
+				[self.workspace refreshFiles];
+			}
 		}
 	} else if ([cmd isEqualToString:@"fileupdates"]) {
 		BOOL triggerRefresh=NO;
@@ -368,7 +373,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 			RCFile *file = [self.workspace fileWithId:fid];
 			if (file) {
 				[file updateWithDictionary:[dict objectForKey:@"file"]];
-				[self.delegate workspaceFileUpdated:file];
+				[self.delegate workspaceFileUpdated:file deleted:NO];
 			} else { //a new file
 				triggerRefresh = YES;
 			}

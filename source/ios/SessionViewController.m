@@ -463,9 +463,12 @@
 	}
 }
 
--(void)workspaceFileUpdated:(RCFile*)file
+-(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted
 {
-	if (file.fileId.intValue == self.editorController.currentFile.fileId.intValue) {
+	if (deleted) {
+		[self.editorController reloadFileData];
+		[self.editorController loadFile:self.session.workspace.files.firstObject];
+	} else if (file.fileId.intValue == self.editorController.currentFile.fileId.intValue) {
 		[self.editorController loadFile:file];
 	}
 }

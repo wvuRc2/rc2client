@@ -32,6 +32,7 @@
 -(BOOL)isEditorFirstResponder;
 -(void)editorResignFirstResponder;
 -(NSString*)editorContents;
+-(void)reloadFileData;
 
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress;
 -(void)loadFile:(RCFile*)file; //shows progress

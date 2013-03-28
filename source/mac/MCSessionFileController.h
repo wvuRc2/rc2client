@@ -15,11 +15,11 @@
 @interface MCSessionFileController : NSObject<NSTableViewDataSource,NSTableViewDelegate,NSMenuDelegate>
 @property (nonatomic, weak) id<MCSessionFileControllerDelegate> delegate;
 @property (nonatomic, strong) RCSession *session;
-@property (nonatomic, strong) NSTableView *fileTableView;
+@property (nonatomic, strong) AMTableView *fileTableView;
 @property (nonatomic, strong) RCFile *selectedFile;
 @property (nonatomic, strong) NSNumber *fileIdJustImported;
 
--(id)initWithSession:(RCSession*)aSession tableView:(NSTableView*)tableView delegate:(id<MCSessionFileControllerDelegate>)aDelegate;
+-(id)initWithSession:(RCSession*)aSession tableView:(AMTableView*)tableView delegate:(id<MCSessionFileControllerDelegate>)aDelegate;
 
 -(void)updateFileArray;
 
