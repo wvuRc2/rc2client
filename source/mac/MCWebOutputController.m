@@ -149,9 +149,6 @@
 
 -(NSString*)executeJavaScript:(NSString*)js
 {
-	//following would force relayout to fix any clipping bugs b/c webkit in a layer-backed window
-	//[[[[sender mainFrame] frameView] documentView] setNeedsLayout:YES]
-	
 	//if they are viewing a help page or pdf then js execution will fail. So we queue the command to run
 	// after we reload the content
 	NSString *res = [self.webView stringByEvaluatingJavaScriptFromString:@"iR.graphFileUrl"];
