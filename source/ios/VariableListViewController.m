@@ -38,6 +38,7 @@
 	self.navigationItem.title = NSLocalizedString(@"Variables", @"");
 	UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStyleBordered target:self action:@selector(clearVariables:)];
 	self.navigationItem.rightBarButtonItem = clearButton;
+	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -49,6 +50,7 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
+	[super setEditing:NO animated:NO];
 	self.session.variablesVisible = NO;
 }
 
@@ -122,6 +124,11 @@
 	cell.titleLabel.text = var.name;
 	cell.valueLabel.text = var.description;
 	return cell;
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return UITableViewCellEditingStyleDelete;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
