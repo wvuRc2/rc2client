@@ -36,6 +36,8 @@
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refresh Variables"];
 	[self.refreshControl addTarget:self action:@selector(forceRefresh) forControlEvents:UIControlEventValueChanged];
 	self.navigationItem.title = NSLocalizedString(@"Variables", @"");
+	UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStyleBordered target:self action:@selector(clearVariables:)];
+	self.navigationItem.rightBarButtonItem = clearButton;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -53,6 +55,12 @@
 -(CGSize)contentSizeForViewInPopover
 {
 	return CGSizeMake(360, 600);
+}
+
+-(IBAction)clearVariables:(id)sender
+{
+	[self.session executeScript:@"rm(list = ls())" scriptName:nil];
+	[self forceRefresh];
 }
 
 -(void)forceRefresh
