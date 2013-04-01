@@ -10,6 +10,8 @@
 
 @class RCSession;
 
+#define kLastDropBoxPathPref @"LastDropBoxPath"
+
 @interface DropboxImportController : UIViewController
 @property (nonatomic, strong) IBOutlet UITableView *fileTable;
 @property (nonatomic, copy) NSString *thePath;

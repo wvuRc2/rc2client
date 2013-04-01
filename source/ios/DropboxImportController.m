@@ -138,6 +138,12 @@
 	[MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
+-(void)restClient:(DBRestClient*)client loadMetadataFailedWithError:(NSError*)error
+{
+	//likely a 404. we'll pop to our parent
+	[self.navigationController popViewControllerAnimated:NO];
+}
+
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
 {
 	RCWorkspace *wspace = self.session.workspace;
@@ -203,6 +209,8 @@
 
 -(IBAction)userDone:(id)sender
 {
+	[[NSUserDefaults standardUserDefaults] setObject:self.thePath forKey:kLastDropBoxPathPref];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 	[(id)self.navigationController.delegate userDone:self.lastFileImported];
 }
 

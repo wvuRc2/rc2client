@@ -339,6 +339,23 @@
 	self.importController.view.frame = CGRectMake(0, 0, 400, 600);
 	self.importController.delegate = (id)self;
 
+	//restore last directory used
+	NSString *lastPath = [[NSUserDefaults standardUserDefaults] objectForKey:kLastDropBoxPathPref];
+	if (lastPath.length > 1) {
+		lastPath = [lastPath substringFromIndex:1]; //cut off first slash
+		NSMutableString *buildPath = [NSMutableString string];
+		for (NSString *pathC in [lastPath componentsSeparatedByString:@"/"]) {
+			if ([pathC length] < 1)
+				break;
+			[buildPath appendFormat:@"/%@", pathC];
+			DropboxImportController *aDc = [[DropboxImportController alloc] init];
+			aDc.session = _session;
+			aDc.dropboxCache = self.dropboxCache;
+			aDc.thePath = buildPath;
+			[self.importController pushViewController:aDc animated:NO];
+		}
+	}
+	
 	CGSize sz = self.importController.view.frame.size;
 	[self presentModalViewController: self.importController animated:YES];
 	//center the modal view
