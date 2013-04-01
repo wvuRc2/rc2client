@@ -23,7 +23,7 @@
 #import "RCMSyntaxHighlighter.h"
 #import "KeyboardToolbar.h"
 #import "WHMailActivity.h"
-#import <CoreText/CoreText.h>
+#import "MAKVONotificationCenter.h"
 
 @interface EditorViewController() <KeyboardToolbarDelegate> {
 	BOOL _viewLoaded;
@@ -44,15 +44,8 @@
 @property (nonatomic, strong) NSMutableArray *currentActionItems;
 @property (nonatomic, strong) UINavigationController *importController;
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
-@property (nonatomic, strong) UIActionSheet *actionSheet;
 @property (nonatomic, strong) UIAlertView *currentAlert;
-@property (nonatomic, strong) id sessionKvoToken;
-@property (nonatomic, strong) id sessionHandToken;
 @property BOOL syncInProgress;
--(void)keyboardVisible:(NSNotification*)note;
--(void)keyboardHiding:(NSNotification*)note;
--(void)updateDocumentState;
--(void)doDropBoxImport;
 @end
 
 @implementation EditorViewController
@@ -150,7 +143,7 @@
 
 -(void)didReceiveMemoryWarning
 {
-	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
+	Rc2LogWarn(@"%@: memory warning:", THIS_FILE);
 }
 
 #pragma mark - keybard toolbar delegate
@@ -421,7 +414,7 @@
 {
 	self.currentAlert = [[UIAlertView alloc] initWithTitle:(shared?@"New shared file name":@"New file name:") message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
 	self.currentAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
-	__unsafe_unretained EditorViewController *blockSelf=self;
+	__weak EditorViewController *blockSelf=self;
 	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
 		if (1!=btnIdx)
 			return;
@@ -566,40 +559,12 @@
 	[pop presentPopoverFromBarButtonItem:self.actionButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
--(IBAction)doActionMenu:(id)sender
-{
-	[self doActivityPopover:sender];
-	return;
-	if (self.actionSheet.visible) {
-		[self.actionSheet dismissWithClickedButtonIndex:-1 animated:YES];
-		return;
-	}
-	if (self.filePopover.popoverVisible) {
-		[self.filePopover dismissPopoverAnimated: YES];
-	}
-	if (nil == self.currentActionItems)
-		self.currentActionItems = [NSMutableArray array];
-	[self.currentActionItems removeAllObjects];
-	if (_session.hasWritePerm) {
-		if (self.currentFile) {
-			[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Save" target:nil action:@selector(doSaveFile:) userInfo:nil]];
-			[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Rename" target:nil action:@selector(doRenameFile:) userInfo:nil]];
-			[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Delete" target:nil action:@selector(doDeleteFile:) userInfo:nil]];
-		}
-	}
-	[self.currentActionItems addObject:[AMActionItem actionItemWithName:@"Revert" target:nil action:@selector(doRevertFile:) userInfo:nil]];
-	self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"File Actions" delegate:(id)self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
-	for (AMActionItem *action in self.currentActionItems)
-		[self.actionSheet addButtonWithTitle:action.title];
-	[self.actionSheet showFromBarButtonItem:sender animated:YES];
-}
-
 -(IBAction)doRenameFile:(id)sender
 {
 	self.currentAlert = [[UIAlertView alloc] initWithTitle:@"Rename file to:" message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Rename", nil];
 	self.currentAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
 	[self.currentAlert textFieldAtIndex:0].text = self.currentFile.name;
-	__unsafe_unretained EditorViewController *blockSelf=self;
+	__weak EditorViewController *blockSelf=self;
 	[self.currentAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger btnIdx) {
 		NSString *str = [alert textFieldAtIndex:0].text;
 		if (1==btnIdx && str.length > 0) {
@@ -700,9 +665,6 @@
 		[self.filePopover dismissPopoverAnimated: YES];
 		return;
 	}
-	if (self.actionSheet.visible) {
-		[self.actionSheet dismissWithClickedButtonIndex:-1 animated:YES];
-	}
 	if (!self.session.hasReadPerm) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Permission Denied"
 														message:@"You do not have permission to read files in this workspace."
@@ -741,20 +703,6 @@
 	[self.filePopover dismissPopoverAnimated:YES];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-	if (buttonIndex < 0)
-		return;
-	AMActionItem *action = [self.currentActionItems objectAtIndex:buttonIndex];
-	//ARC needs to know the selector to properly use retain/release. we know this isn't returning anything, so
-	// there is no need to worry
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-	[self performSelector:action.action withObject:self.actionButtonItem];
-#pragma clang diagnostic pop
-	self.actionSheet=nil;
-}
-
 - (void)richTextChanged:(NSNotification*)note
 {
 	[self updateTextContents:nil];
@@ -782,16 +730,15 @@
 
 -(void)setSession:(RCSession*)sess
 {
-	self.sessionKvoToken = nil;
 	_session = sess;
-	__unsafe_unretained EditorViewController *blockSelf = self;
-	self.sessionKvoToken = [sess addObserverForKeyPath:@"restrictedMode" task:^(id obj, NSDictionary *dict) {
+	__weak EditorViewController *blockSelf = self;
+	[self observeTarget:sess keyPath:@"restrictedMode" options:0 block:^(MAKVONotification *notification) {
 		[blockSelf sessionModeChanged];
 		//only show in classroom mode if not the master
-		blockSelf.handButton.hidden = !((RCSession*)obj).isClassroomMode || [obj currentUser].master;
+		blockSelf.handButton.hidden = !blockSelf.session.isClassroomMode || [blockSelf.session currentUser].master;
 	}];
-	self.sessionHandToken = [sess addObserverForKeyPath:@"handRaised" task:^(id obj, NSDictionary *dict) {
-		blockSelf.handButton.selected = ((RCSession*)obj).handRaised;
+	[self observeTarget:sess keyPath:@"handRaised" options:0 block:^(MAKVONotification *notification) {
+		blockSelf.handButton.selected = blockSelf.session.handRaised;
 	}];
 }
 

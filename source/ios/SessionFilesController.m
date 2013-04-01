@@ -63,11 +63,16 @@
 	button.tintColor = [UIColor clearColor];
 	[button addTarget:self action:@selector(doDropboxImport:) forControlEvents:UIControlEventValueChanged];
 	UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-	barButton.target = self;
-	barButton.action = @selector(doDropboxImport:);
-	NSMutableArray *titems = [self.toolbar.items mutableCopy];
-	[titems insertObject:barButton atIndex:0];
-	self.toolbar.items = titems;
+	//the above failed at one point with no error. so we'll be safe and check what was returned
+	if (barButton) {
+		barButton.target = self;
+		barButton.action = @selector(doDropboxImport:);
+		NSMutableArray *titems = [self.toolbar.items mutableCopy];
+		[titems insertObject:barButton atIndex:0];
+		self.toolbar.items = titems;
+	} else {
+		Rc2LogWarn(@"failed to init dropbox button");
+	}
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:RCFileContainerChangedNotification object:nil];
 }
 

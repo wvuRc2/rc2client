@@ -19,7 +19,6 @@
 
 -(IBAction)doExecute:(id)sender;
 -(IBAction)doShowFiles:(id)sender;
--(IBAction)doActionMenu:(id)sender;
 -(IBAction)doClear:(id)sender;
 -(IBAction)doDeleteFile:(id)sender;
 -(IBAction)doNewFile:(id)sender;
