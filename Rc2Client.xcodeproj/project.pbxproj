@@ -294,7 +294,7 @@
 		08D2441615B5D78A0064A9FA /* tokenHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D243FC15B5D78A0064A9FA /* tokenHighlighted@2x.png */; };
 		08D2441715B5D78A0064A9FA /* tokenNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D243FD15B5D78A0064A9FA /* tokenNormal.png */; };
 		08D2441815B5D78A0064A9FA /* tokenNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D243FE15B5D78A0064A9FA /* tokenNormal@2x.png */; };
-		08D2441915B5D78A0064A9FA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2440015B5D78A0064A9FA /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08D2441915B5D78A0064A9FA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2440015B5D78A0064A9FA /* MBProgressHUD.m */; };
 		08D2441D15B5D78A0064A9FA /* PHRefreshGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2440A15B5D78A0064A9FA /* PHRefreshGestureRecognizer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2441E15B5D78A0064A9FA /* PHRefreshTriggerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2440C15B5D78A0064A9FA /* PHRefreshTriggerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2441F15B5D78A0064A9FA /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D2440E15B5D78A0064A9FA /* blackArrow.png */; };

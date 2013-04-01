@@ -200,7 +200,7 @@
 	self.currentDownload = item;
 	self.currentProgress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	//determinate progress only for larger files. otherwise, no progress is displayed
-	if ([[item objectForKey:@"metadata"] totalBytes] > 8192)
+	if ([[item objectForKey:@"metadata"] totalBytes] > 4096)
 		self.currentProgress.mode = MBProgressHUDModeDeterminate;
 	self.currentProgress.labelText = @"Downloading file…";
 	[self.restClient loadFile:dbpath intoPath:path];
