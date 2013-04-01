@@ -131,6 +131,15 @@
 	return UITableViewCellEditingStyleDelete;
 }
 
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	NSDictionary *section = [self.tableData objectAtIndex:indexPath.section];
+	RCVariable *var = [[section objectForKey:@"data"] objectAtIndex:indexPath.row];
+	[self.session executeScript:[NSString stringWithFormat:@"rm(%@)", var.name] scriptName:nil];
+	[[section objectForKey:@"data"] removeObjectAtIndex:indexPath.row];
+	[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 38;
