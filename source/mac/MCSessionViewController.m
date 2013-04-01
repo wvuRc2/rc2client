@@ -73,6 +73,7 @@
 @property (nonatomic, strong) NSString *webTmpFileDirectory;
 @property (nonatomic, strong) NSWindow *blockingWindow;
 @property (nonatomic, strong) MLReachability *serverReach;
+@property (nonatomic, strong) RCMMultiImageController *multiImageController;
 @property BOOL importToProject;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL shouldReconnect;
@@ -451,6 +452,7 @@
 -(IBAction)showImageDetails:(id)sender
 {
 	[self.imagePopover close];
+	__weak MCSessionViewController *bself = self;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		RCMMultiImageController	*ivc = [[RCMMultiImageController alloc] init];
 		[ivc view];
@@ -461,6 +463,10 @@
 		AppDelegate *del = [TheApp delegate];
 		[del showViewController:ivc];
 		[ivc setDisplayedImages: self.currentImageGroup];
+		self.multiImageController = ivc;
+		ivc.didLeaveWindowBlock = ^{
+			bself.multiImageController = nil;
+		};
 	});
 }
 

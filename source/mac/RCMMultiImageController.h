@@ -23,6 +23,6 @@
 @property (nonatomic, strong) IBOutlet NSSegmentedControl *layoutControl;
 @property (nonatomic, strong) NSArray *availableImages;
 @property (nonatomic) NSInteger numberImagesVisible;
-
+@property (nonatomic, copy) BasicBlock didLeaveWindowBlock;
 -(void)setDisplayedImages:(NSArray*)imgs;
 @end

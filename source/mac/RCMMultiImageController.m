@@ -43,6 +43,8 @@
 {
 	if (nil == self.view.window) {
 		[[NSUserDefaults standardUserDefaults] setInteger:self.numberImagesVisible forKey:kPref_NumImagesVisible];
+		if (self.didLeaveWindowBlock)
+			self.didLeaveWindowBlock();
 	} else {
 		self.imageView1.view.frame = self.frame1.bounds;
 		[self.frame1 addSubview:self.imageView1.view];
