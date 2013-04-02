@@ -753,6 +753,8 @@
 		if ([selectedFile.fileContentsPath.pathExtension isEqualToString:@"html"])
 			[self.outputController loadLocalFile:selectedFile];
 	} else if ([selectedFile.name hasSuffix:@".pdf"]) {
+		if (![[NSFileManager defaultManager] fileExistsAtPath:selectedFile.fileContentsPath])
+			[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:selectedFile];
 		AppDelegate *del = (AppDelegate*)[TheApp delegate];
 		[del displayPdfFile:selectedFile];
 	} else {
