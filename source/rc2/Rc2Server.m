@@ -128,10 +128,10 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 {
 	switch (self.serverHost) {
 		case eRc2Host_Local:
-#if TARGET_IPHONE_SIMULATOR
+//#if TARGET_IPHONE_SIMULATOR
 			return @"http://localhost:8080/";
-#endif
-			return @"https://localhost:8443/";
+//#endif
+//			return @"https://localhost:8443/";
 		case eRc2Host_Barney:
 			return @"https://barney.stat.wvu.edu:8443/";
 		case eRc2Host_Rc2:
@@ -144,10 +144,10 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 {
 	switch (self.serverHost) {
 		case eRc2Host_Local:
-#if TARGET_IPHONE_SIMULATOR
+//#if TARGET_IPHONE_SIMULATOR
 			return @"ws://localhost:8080/iR/ws";
-#endif
-			return @"ws://localhost:8443/iR/ws";
+//#endif
+//			return @"ws://localhost:8443/iR/ws";
 		case eRc2Host_Barney:
 			return @"ws://barney.stat.wvu.edu:8080/iR/ws";
 		case eRc2Host_Rc2:

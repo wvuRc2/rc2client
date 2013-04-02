@@ -752,6 +752,9 @@
 		//html files are edited and viewed
 		if ([selectedFile.fileContentsPath.pathExtension isEqualToString:@"html"])
 			[self.outputController loadLocalFile:selectedFile];
+	} else if ([selectedFile.name hasSuffix:@".pdf"]) {
+		AppDelegate *del = (AppDelegate*)[TheApp delegate];
+		[del displayPdfFile:selectedFile];
 	} else {
 		[self.outputController loadLocalFile:selectedFile];
 	}
