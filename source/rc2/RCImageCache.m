@@ -146,7 +146,21 @@
 			[groups setObject:images forKey:grpName];
 		}
 		if (nil == [[RCImageCache sharedInstance] loadImageIntoCache:fname]) {
-			//TODO: we don't have this image cached. we need to fire off a background task to download and then load it
+			NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",
+																				   fname]];
+			NSString *urlStr = [NSString stringWithFormat:@"/simg/%@.png", fname];
+			[[Rc2Server sharedInstance] downloadAppPath:urlStr toFilePath:imgPath completionHandler:^(BOOL success, id results) {
+				if (success) {
+					if ([[results MIMEType] isEqualToString:@"image/png"]) {
+							[self loadImageIntoCache:fname];
+					} else {
+						Rc2LogInfo(@"failed to fetch image %@ from server: wrong mime type", fname);
+						[[NSFileManager defaultManager] removeItemAtPath:imgPath error:nil]; //delete invalid file
+					}
+				} else {
+					Rc2LogWarn(@"Failed to fetch image %@", fname);
+				}
+			}];
 		}
 	}];
 }
@@ -202,7 +216,7 @@
 		if (img)
 			[outImages addObject:img];
 		else
-			NSLog(@"failed to find image %@", anId);
+			NSLog(@"failed to find image %@ in cache", anId);
 	}
 	return [outImages copy];
 }

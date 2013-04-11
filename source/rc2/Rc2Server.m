@@ -318,8 +318,9 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 {
 	NSMutableURLRequest *req = [_httpClient requestWithMethod:@"GET" path:path parameters:nil];
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id op, id rsp) {
-		if (hblock)
-			hblock(YES, nil);
+		if (hblock) {
+			hblock(YES, [op response]);
+		}
 	} failure:^(id op, NSError *error) {
 		if (hblock)
 			hblock(NO, error.localizedDescription);

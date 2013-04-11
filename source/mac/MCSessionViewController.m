@@ -888,6 +888,9 @@
 	NSArray *imgArray = self.currentImageGroup;
 	if (imgArray.count < 1) {
 		RCImage *img = [[RCImageCache sharedInstance] imageWithId:idStr];
+		if (nil == img)
+			img = [[RCImageCache sharedInstance] loadImageIntoCache:idStr];
+		Rc2LogWarn(@"failed to load image %@ into cache", idStr);
 		imgArray = [NSArray arrayWithObject:img];
 	}
 	[self setupImageDisplay:imgArray];
