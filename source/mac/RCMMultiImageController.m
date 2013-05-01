@@ -56,8 +56,8 @@
 		if (self.didLeaveWindowBlock)
 			self.didLeaveWindowBlock();
 	} else {
-		[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[container]-|" options:0 metrics:nil views:@{@"container":self.view}]];
-		[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[container]-|" options:0 metrics:nil views:@{@"container":self.view}]];
+//		[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[container]-|" options:0 metrics:nil views:@{@"container":self.view}]];
+//		[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[container]-|" options:0 metrics:nil views:@{@"container":self.view}]];
 		[self.view.window makeFirstResponder:self];
 	}
 }
