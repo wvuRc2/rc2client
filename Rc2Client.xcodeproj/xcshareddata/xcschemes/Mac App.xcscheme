@@ -59,7 +59,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints YES"
+            argument = "-NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints NO"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

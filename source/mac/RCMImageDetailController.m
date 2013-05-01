@@ -31,9 +31,15 @@
 	}];
 }
 
-@synthesize imageView;
-@synthesize filePopUp;
-@synthesize availableImages;
-@synthesize arrayController;
-@synthesize selectedImage;
+@end
+
+@implementation RCMImageDetailView
+
+-(void)awakeFromNib
+{
+	self.translatesAutoresizingMaskIntoConstraints = NO;
+}
+
+@synthesize multiHConstraint, multiWConstraint, multiYConstraint, multiXConstraint;
+
 @end

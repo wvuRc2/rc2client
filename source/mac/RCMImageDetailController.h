@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "RCMMultiUpView.h"
 
 @class RCImage;
 
@@ -18,4 +19,8 @@
 @property (nonatomic, strong) RCImage *selectedImage;
 
 -(IBAction)saveImageAs:(id)sender;
+@end
+
+@interface RCMImageDetailView : AMControlledView <RCMMultiUpChildView>
+
 @end

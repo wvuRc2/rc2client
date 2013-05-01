@@ -26,6 +26,7 @@
 		080E5092166FDFB800E95531 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5081166FDFB800E95531 /* UIImageView+AFNetworking.m */; };
 		0811F99316FB6A290060BAB4 /* RCMAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F99116FB6A290060BAB4 /* RCMAdminController.m */; };
 		0811F99416FB6A290060BAB4 /* RCMAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0811F99216FB6A290060BAB4 /* RCMAdminController.xib */; };
+		0811F9F917189C390060BAB4 /* RCMMultiUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F9F817189C390060BAB4 /* RCMMultiUpView.m */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
@@ -573,6 +574,8 @@
 		0811F99016FB6A290060BAB4 /* RCMAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMAdminController.h; sourceTree = "<group>"; };
 		0811F99116FB6A290060BAB4 /* RCMAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMAdminController.m; sourceTree = "<group>"; };
 		0811F99216FB6A290060BAB4 /* RCMAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMAdminController.xib; sourceTree = "<group>"; };
+		0811F9F717189C380060BAB4 /* RCMMultiUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMMultiUpView.h; sourceTree = "<group>"; };
+		0811F9F817189C390060BAB4 /* RCMMultiUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMMultiUpView.m; sourceTree = "<group>"; };
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
@@ -1355,6 +1358,8 @@
 		084594A215B5F38F00297C9D /* secondary controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0811F9F717189C380060BAB4 /* RCMMultiUpView.h */,
+				0811F9F817189C390060BAB4 /* RCMMultiUpView.m */,
 				0845942E15B5F29100297C9D /* MCLoginController.h */,
 				0845942F15B5F29100297C9D /* MCLoginController.m */,
 				0845943015B5F29100297C9D /* MCLoginController.xib */,
@@ -2979,6 +2984,7 @@
 				08FF3D0616E9250900F3E09E /* ThemeEngine.m in Sources */,
 				08FF3D5116F24F5200F3E09E /* ThemeColorEntry.m in Sources */,
 				0811F99316FB6A290060BAB4 /* RCMAdminController.m in Sources */,
+				0811F9F917189C390060BAB4 /* RCMMultiUpView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
