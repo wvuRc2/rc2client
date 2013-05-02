@@ -58,6 +58,25 @@
 		[self.view.window makeFirstResponder:self];
 	}
 }
+
+-(BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	if (@selector(adjustVisibleImages:) == menuItem.action) {
+		NSInteger mode = menuItem.tag;
+		if (mode == 4)
+			mode = 3;
+		mode--; //make 0, 1, or 2
+		if (mode == self.mupView.mode) {
+			[menuItem setState:NSOnState];
+			return NO;
+		} else {
+			[menuItem setState:NSOffState];
+			return YES;
+		}
+	}
+	return YES;
+}
+
 -(void)print:(id)sender
 {
 	//figure out which images to print. only what's visible
@@ -74,6 +93,16 @@
 	NSPrintOperation *printOp = [NSPrintOperation printOperationWithView:printView];
 	printOp.jobTitle = @"Rc2 images";
 	[printOp runOperation];
+}
+
+-(IBAction)imageMenuEnabled:(id)sender
+{
+	
+}
+
+-(IBAction)adjustVisibleImages:(id)sender
+{
+	[self setNumberImagesVisible:[sender tag]];
 }
 
 #pragma mark - settors
