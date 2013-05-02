@@ -10,7 +10,9 @@
 
 #define kBoxHeightDiff 42
 
-@implementation RCMMultiUpView
+@implementation RCMMultiUpView {
+	BOOL _noLayoutAnimation;
+}
 
 - (id)init
 {
@@ -32,6 +34,22 @@
 {
 	[self adjustLayoutBasedOnMode];
 	[self setNeedsUpdateConstraints:YES];
+}
+
+-(void)viewDidMoveToWindow
+{
+	[super viewDidMoveToWindow];
+	[self adjustLayoutBasedOnMode];
+}
+
+-(void)resizeSubviewsWithOldSize:(NSSize)oldSize
+{
+	[super resizeSubviewsWithOldSize:oldSize];
+	if (fabs(oldSize.width - self.frame.size.width) > 2) {
+		_noLayoutAnimation = YES;
+		[self adjustLayoutBasedOnMode];
+		_noLayoutAnimation = NO;
+	}
 }
 
 -(void)setViewControllers:(NSArray *)viewControllers
@@ -81,7 +99,7 @@
 -(void)layout1up
 {
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-		[context setDuration:0.25];
+		[context setDuration:_noLayoutAnimation ? 0 : 0.25];
 		[context setAllowsImplicitAnimation:YES];
 		for (NSInteger i=0; i < _viewControllers.count; i++) {
 			id aView = [_viewControllers[i] view];
@@ -103,19 +121,19 @@
 {
 	CGSize containerSize = self.frame.size;
 	CGFloat marginspace = 10 + 10 + 20;
-	CGSize newSize = CGSizeMake(fabs((containerSize.width - marginspace)/2), 0);
-	CGFloat xAdjust = fabs((newSize.width+20)/2);
+	CGFloat newWidth = fabs((containerSize.width - marginspace)/2);
+	CGFloat xAdjust = fabs((newWidth+20)/2);
 	id view1 = [_viewControllers[0] view];
 	id view2 = [_viewControllers[1] view];
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-		[context setDuration:self.inLiveResize ? 0 : 0.25];
+		[context setDuration:self.inLiveResize || _noLayoutAnimation ? 0 : 0.25];
 		[context setAllowsImplicitAnimation:YES];
 		[context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
 		[[view2 animator] setAlphaValue: 1.0];
 		for (NSInteger i=2; i < _viewControllers.count; i++)
 			[[[_viewControllers[i] view] animator] setAlphaValue:0];
-		[[[view1 multiWConstraint] animator] setConstant: newSize.width];
-		[[[view1 multiHConstraint] animator] setConstant:  newSize.width + kBoxHeightDiff];
+		[[[view1 multiWConstraint] animator] setConstant: newWidth];
+		[[[view1 multiHConstraint] animator] setConstant:  newWidth + kBoxHeightDiff];
 		[[[view1 multiXConstraint] animator] setConstant: -xAdjust];
 		[[[view2 multiXConstraint] animator] setConstant: xAdjust];
 		[[[view1 multiYConstraint] animator] setConstant:0];
@@ -139,7 +157,7 @@
 	NSArray *views = [_viewControllers valueForKeyPath:@"view"];
 	id view1 = views[0];
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-		[context setDuration:self.inLiveResize ? 0 : 0.25];
+		[context setDuration:self.inLiveResize || _noLayoutAnimation ? 0 : 0.25];
 		[context setAllowsImplicitAnimation:YES];
 		[context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
 		for (NSView *aView in views)

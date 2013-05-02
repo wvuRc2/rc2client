@@ -31,9 +31,6 @@
 - (id)init
 {
 	if ((self = [super initWithNibName:@"RCMMultiImageController" bundle:nil])) {
-		NSInteger numImgs = [[NSUserDefaults standardUserDefaults] integerForKey:kPref_NumImagesVisible];
-		NSLog(@"def num imgs:%ld", numImgs);
-		self.numberImagesVisible = 1;
 	}
 	return self;
 }
