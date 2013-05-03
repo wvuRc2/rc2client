@@ -9,6 +9,7 @@
 #import "RCMPreviewImageView.h"
 #import "RCImage.h"
 
+
 @implementation RCMPreviewImageView
 
 +(NSSet*)keyPathsForValuesAffectingRawImage
@@ -73,7 +74,7 @@
 
 			NSImage *nimg = [[NSImage alloc] initWithSize:NSMakeSize([cimg extent].size.width, [cimg extent].size.height)];
 			[nimg addRepresentation:[NSCIImageRep imageRepWithCIImage:cimg]];
-			_rawImage = nimg;
+			_rawImage = [NSImage imageWithData:[nimg pngData]];
 		} else {
 			_rawImage = _image.image;
 		}

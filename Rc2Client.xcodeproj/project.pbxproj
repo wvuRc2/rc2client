@@ -29,6 +29,8 @@
 		0811F9F917189C390060BAB4 /* RCMMultiUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F9F817189C390060BAB4 /* RCMMultiUpView.m */; };
 		0811F9FC17342CB70060BAB4 /* RCMPreviewImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F9FB17342CB60060BAB4 /* RCMPreviewImageView.m */; };
 		0811F9FE17342CEC0060BAB4 /* RCMPreviewImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0811F9FD17342CEB0060BAB4 /* RCMPreviewImageView.xib */; };
+		0811FA0117345C6D0060BAB4 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 0811F9FF17345C6D0060BAB4 /* image.png */; };
+		0811FA0217345C6D0060BAB4 /* image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0811FA0017345C6D0060BAB4 /* image@2x.png */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
@@ -581,6 +583,8 @@
 		0811F9FA17342CB50060BAB4 /* RCMPreviewImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMPreviewImageView.h; sourceTree = "<group>"; };
 		0811F9FB17342CB60060BAB4 /* RCMPreviewImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMPreviewImageView.m; sourceTree = "<group>"; };
 		0811F9FD17342CEB0060BAB4 /* RCMPreviewImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMPreviewImageView.xib; sourceTree = "<group>"; };
+		0811F9FF17345C6D0060BAB4 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image.png; path = resources/mac/image.png; sourceTree = SOURCE_ROOT; };
+		0811FA0017345C6D0060BAB4 /* image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "image@2x.png"; path = "resources/mac/image@2x.png"; sourceTree = SOURCE_ROOT; };
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
@@ -1329,6 +1333,8 @@
 				082CEEB9161E2D2600E01F48 /* users@2x.png */,
 				082CEEB1161E2ADD00E01F48 /* variables.png */,
 				082CEEB2161E2ADD00E01F48 /* variables@2x.png */,
+				0811F9FF17345C6D0060BAB4 /* image.png */,
+				0811FA0017345C6D0060BAB4 /* image@2x.png */,
 				0845940F15B5F22700297C9D /* clear.png */,
 				0845941115B5F22700297C9D /* history.png */,
 				0845941315B5F22700297C9D /* openother.png */,
@@ -2603,6 +2609,8 @@
 				08FF3D3F16F0F84600F3E09E /* ThemeEngine.plist in Resources */,
 				0811F99416FB6A290060BAB4 /* RCMAdminController.xib in Resources */,
 				0811F9FE17342CEC0060BAB4 /* RCMPreviewImageView.xib in Resources */,
+				0811FA0117345C6D0060BAB4 /* image.png in Resources */,
+				0811FA0217345C6D0060BAB4 /* image@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

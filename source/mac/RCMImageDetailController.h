@@ -12,9 +12,6 @@
 @class RCImage;
 
 @interface RCMImageDetailController : AMViewController
-@property (nonatomic, strong) IBOutlet NSImageView *imageView;
-@property (nonatomic, strong) IBOutlet NSPopUpButton *filePopUp;
-@property (nonatomic, strong) IBOutlet NSArrayController *arrayController;
 @property (nonatomic, copy) NSArray *availableImages;
 @property (nonatomic, strong) RCImage *selectedImage;
 

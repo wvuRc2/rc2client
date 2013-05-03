@@ -10,8 +10,14 @@
 #import "RCImage.h"
 #import "RCMPreviewImageView.h"
 
-@interface RCMImageDetailController () <NSMenuDelegate>
+@interface ImageDetailPopUpCell : NSPopUpButtonCell
 
+@end
+
+@interface RCMImageDetailController () <NSMenuDelegate>
+@property (nonatomic, weak) IBOutlet NSImageView *imageView;
+@property (nonatomic, weak) IBOutlet NSPopUpButton *filePopUp;
+@property (nonatomic, weak) IBOutlet NSTextField *nameLabel;
 @end
 
 //fix crash on back for this class
@@ -38,6 +44,7 @@
 */
 	self.view.wantsLayer = YES;
 	self.view.layer.backgroundColor = [NSColor cgBlackColor];
+	[self.filePopUp.cell setBackgroundColor:[NSColor whiteColor]];
 }
 
 -(IBAction)saveImageAs:(id)sender
@@ -69,7 +76,9 @@
 {
 	_availableImages = [availableImages copy];
 	NSMenu *menu = self.filePopUp.menu;
+	NSMenuItem *iconItem = [menu itemAtIndex:0];
 	[menu removeAllItems];
+	[menu addItem:iconItem];
 
 	//we are going to use these filters so we can sharpen hard to distinguish images
 	CIFilter *avgFilter = [CIFilter filterWithName:@"CIAreaAverage"];
@@ -118,5 +127,16 @@
 }
 
 @synthesize multiHConstraint, multiWConstraint, multiYConstraint, multiXConstraint;
+
+@end
+
+@implementation ImageDetailPopUpCell
+
+-(void)drawBorderAndBackgroundWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{
+	[[NSColor whiteColor] set];
+	NSRectFill(cellFrame);
+	[super drawBorderAndBackgroundWithFrame:cellFrame inView:controlView];
+}
 
 @end
