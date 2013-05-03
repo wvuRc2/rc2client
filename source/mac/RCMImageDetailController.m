@@ -45,7 +45,7 @@
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
 	[savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"png"]];
 	[savePanel setNameFieldStringValue:self.selectedImage.name];
-	[savePanel beginWithCompletionHandler:^(NSInteger result) {
+	[savePanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
 		if (result == NSFileHandlingPanelOKButton) {
 			NSData *data = [self.selectedImage.image pngData];
 			[data writeToURL:[savePanel URL] atomically:YES];
