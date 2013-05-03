@@ -27,6 +27,8 @@
 		0811F99316FB6A290060BAB4 /* RCMAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F99116FB6A290060BAB4 /* RCMAdminController.m */; };
 		0811F99416FB6A290060BAB4 /* RCMAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0811F99216FB6A290060BAB4 /* RCMAdminController.xib */; };
 		0811F9F917189C390060BAB4 /* RCMMultiUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F9F817189C390060BAB4 /* RCMMultiUpView.m */; };
+		0811F9FC17342CB70060BAB4 /* RCMPreviewImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F9FB17342CB60060BAB4 /* RCMPreviewImageView.m */; };
+		0811F9FE17342CEC0060BAB4 /* RCMPreviewImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0811F9FD17342CEB0060BAB4 /* RCMPreviewImageView.xib */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
@@ -576,6 +578,9 @@
 		0811F99216FB6A290060BAB4 /* RCMAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMAdminController.xib; sourceTree = "<group>"; };
 		0811F9F717189C380060BAB4 /* RCMMultiUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMMultiUpView.h; sourceTree = "<group>"; };
 		0811F9F817189C390060BAB4 /* RCMMultiUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMMultiUpView.m; sourceTree = "<group>"; };
+		0811F9FA17342CB50060BAB4 /* RCMPreviewImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMPreviewImageView.h; sourceTree = "<group>"; };
+		0811F9FB17342CB60060BAB4 /* RCMPreviewImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMPreviewImageView.m; sourceTree = "<group>"; };
+		0811F9FD17342CEB0060BAB4 /* RCMPreviewImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMPreviewImageView.xib; sourceTree = "<group>"; };
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
@@ -1378,6 +1383,9 @@
 				0845946315B5F31100297C9D /* RCMImageDetailController.h */,
 				0845946415B5F31100297C9D /* RCMImageDetailController.m */,
 				0845946515B5F31100297C9D /* RCMImageDetailController.xib */,
+				0811F9FA17342CB50060BAB4 /* RCMPreviewImageView.h */,
+				0811F9FB17342CB60060BAB4 /* RCMPreviewImageView.m */,
+				0811F9FD17342CEB0060BAB4 /* RCMPreviewImageView.xib */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -2594,6 +2602,7 @@
 				08FF3D0716E92ABD00F3E09E /* themes in Resources */,
 				08FF3D3F16F0F84600F3E09E /* ThemeEngine.plist in Resources */,
 				0811F99416FB6A290060BAB4 /* RCMAdminController.xib in Resources */,
+				0811F9FE17342CEC0060BAB4 /* RCMPreviewImageView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2985,6 +2994,7 @@
 				08FF3D5116F24F5200F3E09E /* ThemeColorEntry.m in Sources */,
 				0811F99316FB6A290060BAB4 /* RCMAdminController.m in Sources */,
 				0811F9F917189C390060BAB4 /* RCMMultiUpView.m in Sources */,
+				0811F9FC17342CB70060BAB4 /* RCMPreviewImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
