@@ -70,6 +70,14 @@
 	_availableImages = [availableImages copy];
 	NSMenu *menu = self.filePopUp.menu;
 	[menu removeAllItems];
+
+	//we are going to use these filters so we can sharpen hard to distinguish images
+	CIFilter *avgFilter = [CIFilter filterWithName:@"CIAreaAverage"];
+	CIFilter *greyFilter = [CIFilter filterWithName:@"CIColorMonochrome"];
+	[avgFilter setDefaults];
+	[greyFilter setDefaults];
+	[greyFilter setValue:[CIColor colorWithCGColor:[NSColor cgBlackColor]] forKey:@"inputColor"];
+
 	NSNib *nib = [[NSNib alloc] initWithNibNamed:@"RCMPreviewImageView" bundle:nil];
 	for (RCImage *img in availableImages) {
 		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:img.name action:@selector(selectImage:) keyEquivalent:@""];
@@ -79,6 +87,24 @@
 		mi.action = @selector(selectImage:);
 		[nib instantiateNibWithOwner:mi topLevelObjects:nil];
 		[menu addItem:mi];
+		[(RCMPreviewImageView*)mi.view setImage:img];
+		//see if the image is is dark after switching to monotone and getting average color
+		CIImage *cimg = [CIImage imageWithContentsOfURL:[NSURL fileURLWithPath:img.path]];
+		CGRect inputExtent = [cimg extent];
+		CIVector *extent = [CIVector vectorWithX:inputExtent.origin.x
+											   Y:inputExtent.origin.y
+											   Z:inputExtent.size.width
+											   W:inputExtent.size.height];
+		[avgFilter setValue:extent forKey:@"inputExtent"];
+		[avgFilter setValue:cimg forKey:@"inputImage"];
+		CIImage *rimg = [avgFilter valueForKey:@"outputImage"];
+		[greyFilter setValue:rimg forKey:@"inputImage"];
+		rimg = [greyFilter valueForKey:@"outputImage"];
+		NSBitmapImageRep *brep = [[NSBitmapImageRep alloc] initWithCIImage:rimg];
+		NSColor *avgColor = [brep colorAtX:0 y:0];
+		//all three components should be the same. 
+		if ([avgColor redComponent] > 0.9)
+			[(RCMPreviewImageView*)mi.view setSharpen:YES];
 	}
 }
 

@@ -7,8 +7,14 @@
 //
 
 #import "RCMPreviewImageView.h"
+#import "RCImage.h"
 
 @implementation RCMPreviewImageView
+
++(NSSet*)keyPathsForValuesAffectingRawImage
+{
+	return [NSSet setWithObject:@"image"];
+}
 
 - (id)init
 {
@@ -41,6 +47,38 @@
 		[[NSColor whiteColor] set];
 	}
 	NSRectFill(dirtyRect);
+}
+
+-(void)setImage:(RCImage *)image
+{
+	_image = image;
+	self.imageView.image = self.rawImage;
+}
+
+-(void)setSharpen:(BOOL)sharpen
+{
+	_sharpen = sharpen;
+	_rawImage = nil;
+	self.imageView.image = self.rawImage;
+}
+
+-(NSImage*)rawImage
+{
+	if (nil == _rawImage && _image) {
+		if (_sharpen) {
+			CIFilter *filter = [CIFilter filterWithName:@"CISharpenLuminance"];
+			[filter setValue:[CIImage imageWithContentsOfURL:[NSURL fileURLWithPath:_image.path]] forKey:@"inputImage"];
+			[filter setValue:@0.7 forKey:@"inputSharpness"];
+			CIImage *cimg = [filter valueForKey:@"outputImage"];
+
+			NSImage *nimg = [[NSImage alloc] initWithSize:NSMakeSize([cimg extent].size.width, [cimg extent].size.height)];
+			[nimg addRepresentation:[NSCIImageRep imageRepWithCIImage:cimg]];
+			_rawImage = nimg;
+		} else {
+			_rawImage = _image.image;
+		}
+	}
+	return _rawImage;
 }
 
 @end

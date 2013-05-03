@@ -12,5 +12,8 @@
 
 @interface RCMPreviewImageView : NSView
 @property (nonatomic, strong) RCImage *image;
+@property (nonatomic, strong) NSImage *rawImage;
+@property (nonatomic, weak) IBOutlet NSImageView *imageView;
 @property (nonatomic) BOOL highlighted;
+@property (nonatomic) BOOL sharpen;
 @end
