@@ -141,7 +141,7 @@
 			NSArray *images = [groups objectForKey:grpName];
 			if (nil == images)
 				images = @[fname];
-			else
+			else if (![images containsObject:fname]) //only add if not already there
 				images = [images arrayByAddingObject:fname];
 			[groups setObject:images forKey:grpName];
 		}
