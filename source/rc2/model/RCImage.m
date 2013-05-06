@@ -36,6 +36,11 @@
 	_name = [name copy];
 }
 
+-(NSURL*)fileUrl
+{
+	return [NSURL fileURLWithPath:self.path];
+}
+
 -(NSString*)debugDescription
 {
 	return [NSString stringWithFormat:@"RCImage %@(%@)", self.name, self.imageId];

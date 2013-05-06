@@ -21,6 +21,7 @@
 @property (nonatomic, strong) IBOutlet RCMImageDetailController *imageView3;
 @property (nonatomic, strong) IBOutlet RCMImageDetailController *imageView4;
 @property (nonatomic, strong) IBOutlet NSSegmentedControl *layoutControl;
+@property (nonatomic, weak) IBOutlet NSButton *shareButton;
 @property (nonatomic, strong) IBOutlet RCMMultiUpView *mupView;
 @end
 
@@ -44,6 +45,7 @@
 	self.imageView3 = [[RCMImageDetailController alloc] init];
 	self.imageView4 = [[RCMImageDetailController alloc] init];
 	self.mupView.viewControllers = @[self.imageView1, self.imageView2, self.imageView3, self.imageView4];
+	[self.shareButton sendActionOn:NSLeftMouseDownMask];
 }
 
 -(void)viewDidMoveToWindow
@@ -103,6 +105,25 @@
 -(IBAction)adjustVisibleImages:(id)sender
 {
 	[self setNumberImagesVisible:[sender tag]];
+}
+
+-(IBAction)shareImages:(id)sender
+{
+	//get images to share
+	NSMutableArray *images = [NSMutableArray arrayWithCapacity:4];
+	[images addObject:self.imageView1.selectedImage.fileUrl];
+	if (self.mupView.mode > MultiUpQuantity_1) {
+		[images addObject:self.imageView2.selectedImage.fileUrl];
+		if (self.mupView.mode > MultiUpQuantity_2) {
+			[images addObject:self.imageView3.selectedImage.fileUrl];
+			[images addObject:self.imageView4.selectedImage.fileUrl];
+		}
+	}
+	//remove duplicates
+	NSArray *toShare = [[NSSet setWithArray:images] allObjects];
+	
+	NSSharingServicePicker *picker = [[NSSharingServicePicker alloc] initWithItems:toShare];
+	[picker showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMinYEdge];
 }
 
 #pragma mark - settors

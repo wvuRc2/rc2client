@@ -18,6 +18,7 @@
 #else
 @property (nonatomic, strong) UIImage *image;
 #endif
+@property (nonatomic, readonly) NSURL *fileUrl;
 
 -(id)initWithPath:(NSString*)aPath;
 @end
