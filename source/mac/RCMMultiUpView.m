@@ -75,8 +75,8 @@
 		[self addConstraint:[aView multiYConstraint]];
 		
 		if (aView == view1) { //first view needs a starting size, will do so at low priority
-			[aView setMultiWConstraint: [NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200]];
-			[[aView multiWConstraint] setPriority: 400];
+			[aView setMultiWConstraint: [NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200]];
+			[[aView multiWConstraint] setPriority: 1000];
 			[self addConstraint:[aView multiWConstraint]];
 			[aView setMultiHConstraint:[NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem: nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + kBoxHeightDiff]];
 			[[aView multiHConstraint] setPriority:400];
@@ -146,12 +146,16 @@
 {
 	CGSize containerSize = self.frame.size;
 	CGFloat marginspace = 10 + 10 + 20;
-	CGFloat newWidth =fabs((containerSize.width - marginspace)/2);
+	CGFloat proposedWidth =fabs((containerSize.width - marginspace)/2);
+	CGFloat newWidth = proposedWidth;
 	CGFloat newHeight = newWidth + kBoxHeightDiff;
+	CGFloat widthAdjustment = 0;
 	while ((newHeight*2) + marginspace > containerSize.height) {
 		newWidth -=10;
 		newHeight -=10;
 	}
+	if (proposedWidth - newWidth > 40)
+		widthAdjustment = 40;
 	CGFloat xAdjust = fabs((containerSize.width-20)/4);
 	CGFloat yAdjust = fabs((containerSize.height-20)/4);
 	NSArray *views = [_viewControllers valueForKeyPath:@"view"];
@@ -162,7 +166,7 @@
 		[context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
 		for (NSView *aView in views)
 			[aView.animator setAlphaValue:1.0];
-		[[[view1 multiWConstraint] animator] setConstant: newWidth];
+		[[[view1 multiWConstraint] animator] setConstant: newWidth + widthAdjustment];
 		[[[view1 multiHConstraint] animator] setConstant:  newWidth + kBoxHeightDiff];
 		
 		[[[views[0] multiXConstraint] animator] setConstant: -xAdjust];
@@ -175,7 +179,6 @@
 		[[[views[2] multiYConstraint] animator] setConstant: yAdjust];
 		[[[views[3] multiYConstraint] animator] setConstant: yAdjust];
 	} completionHandler:^{
-		//		[self.window visualizeConstraints:self.container.constraints];
 	}];
 }
 

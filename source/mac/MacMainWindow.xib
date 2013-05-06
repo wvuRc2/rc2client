@@ -74,7 +74,7 @@
 				<string key="NSWindowClass">AMWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
-				<string key="NSWindowContentMinSize">{1000, 569}</string>
+				<string key="NSWindowContentMinSize">{1000, 600}</string>
 				<object class="NSView" key="NSWindowView" id="1006">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -159,7 +159,7 @@
 					<bool key="NSViewIsLayerTreeHost">YES</bool>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
-				<string key="NSMinSize">{1000, 591}</string>
+				<string key="NSMinSize">{1000, 622}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">mainWindow</string>
 				<bool key="NSAutorecalculatesContentBorderThicknessMinY">NO</bool>
