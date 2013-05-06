@@ -15,7 +15,6 @@
 
 @interface RCMUserAdminController()
 @property (nonatomic, strong) id lastSelectedUserRole;
-@property (nonatomic, strong) id checkToken;
 @property (nonatomic, copy) NSArray *users;
 @property (nonatomic, copy) NSArray *roles;
 @property (nonatomic, strong) RCMEditUserController *editController;
@@ -46,11 +45,11 @@
 	[[Rc2Server sharedInstance] fetchRoles:^(BOOL success, id results) {
 		bself.roles = [results objectForKey:@"roles"];
 	}];
-	self.checkToken = [self.detailController addObserverForKeyPath:@"selection.have" task:^(id obj, NSDictionary *dict)
+	[self observeTarget:self.detailController keyPath:@"selection.have" options:0 block:^(MAKVONotification *notification)
 	{
 		if (bself.updatingRole)
 			return;
-		NSMutableDictionary *roleDict = [[obj selectedObjects] firstObject];
+		NSMutableDictionary *roleDict = [[notification.target selectedObjects] firstObject];
 		BOOL needUpdate=NO;
 		if (roleDict && roleDict == bself.lastSelectedUserRole) {
 			needUpdate = roleDict && ![[roleDict objectForKey:@"have"] isEqual:[roleDict objectForKey:@"savedHave"]];

@@ -15,7 +15,6 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *homeButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *gradingButton;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
-@property (nonatomic, strong) NSMutableArray *kvoTokens;
 
 -(IBAction)doActionMenu:(id)sender;
 

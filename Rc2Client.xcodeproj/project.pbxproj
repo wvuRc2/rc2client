@@ -112,7 +112,6 @@
 		0845949915B5F31100297C9D /* RCMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845947C15B5F31100297C9D /* RCMTextView.m */; };
 		0845949A15B5F31100297C9D /* RCMToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845947E15B5F31100297C9D /* RCMToolbarView.m */; };
 		0845949B15B5F31100297C9D /* RCMUserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845948015B5F31100297C9D /* RCMUserListCell.m */; };
-		0845949E15B5F31100297C9D /* WorkspaceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845948515B5F31100297C9D /* WorkspaceCellView.m */; };
 		084594A715B5F44400297C9D /* RCMRolePermController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594A515B5F44400297C9D /* RCMRolePermController.m */; };
 		084594A815B5F44400297C9D /* RCMRolePermController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 084594A615B5F44400297C9D /* RCMRolePermController.xib */; };
 		084594AC15B5F46900297C9D /* RCMUserSearchPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594AA15B5F46900297C9D /* RCMUserSearchPopupController.m */; };
@@ -696,8 +695,6 @@
 		0845947E15B5F31100297C9D /* RCMToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMToolbarView.m; path = source/mac/RCMToolbarView.m; sourceTree = SOURCE_ROOT; };
 		0845947F15B5F31100297C9D /* RCMUserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMUserListCell.h; path = source/mac/RCMUserListCell.h; sourceTree = SOURCE_ROOT; };
 		0845948015B5F31100297C9D /* RCMUserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMUserListCell.m; path = source/mac/RCMUserListCell.m; sourceTree = SOURCE_ROOT; };
-		0845948415B5F31100297C9D /* WorkspaceCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspaceCellView.h; path = source/mac/WorkspaceCellView.h; sourceTree = SOURCE_ROOT; };
-		0845948515B5F31100297C9D /* WorkspaceCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceCellView.m; path = source/mac/WorkspaceCellView.m; sourceTree = SOURCE_ROOT; };
 		084594A415B5F44400297C9D /* RCMRolePermController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMRolePermController.h; sourceTree = "<group>"; };
 		084594A515B5F44400297C9D /* RCMRolePermController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMRolePermController.m; sourceTree = "<group>"; };
 		084594A615B5F44400297C9D /* RCMRolePermController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMRolePermController.xib; sourceTree = "<group>"; };
@@ -1421,8 +1418,6 @@
 				0845947E15B5F31100297C9D /* RCMToolbarView.m */,
 				0845947F15B5F31100297C9D /* RCMUserListCell.h */,
 				0845948015B5F31100297C9D /* RCMUserListCell.m */,
-				0845948415B5F31100297C9D /* WorkspaceCellView.h */,
-				0845948515B5F31100297C9D /* WorkspaceCellView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -2942,7 +2937,6 @@
 				0845949915B5F31100297C9D /* RCMTextView.m in Sources */,
 				0845949A15B5F31100297C9D /* RCMToolbarView.m in Sources */,
 				0845949B15B5F31100297C9D /* RCMUserListCell.m in Sources */,
-				0845949E15B5F31100297C9D /* WorkspaceCellView.m in Sources */,
 				084594A715B5F44400297C9D /* RCMRolePermController.m in Sources */,
 				084594AC15B5F46900297C9D /* RCMUserSearchPopupController.m in Sources */,
 				084594BC15B5F53900297C9D /* EMKeychainItem.m in Sources */,

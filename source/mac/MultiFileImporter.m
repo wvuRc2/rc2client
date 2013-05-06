@@ -20,7 +20,6 @@ enum {
 @interface MultiFileImporter()
 @property (atomic) NSInteger myState;
 @property (strong) NSMutableSet *filesRemaining;
--(void)markAsComplete;
 @end
 
 @implementation MultiFileImporter
@@ -125,25 +124,7 @@ enum {
 	} progress:^(CGFloat per) {
 		pwc.percentComplete = round(per * 100);
 	}];
-/*	__weak MultiFileImporter *weakMfi = self;
-	NSString *perToken = [self addObserverForKeyPath:@"currentFileName" task:^(id obj, NSDictionary *change) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			pwc.progressMessage = [NSString stringWithFormat:@"Importing %@", [obj valueForKey:@"currentFileName"]];
-			pwc.percentComplete = (1.0 - (weakMfi.countOfFilesRemaining / (CGFloat)weakMfi.fileUrls.count)) * 100.0;
-		});
-	}];
-	[self setCompletionBlock:^{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[weakMfi removeObserverWithBlockToken:perToken];
-			[NSApp endSheet:pwc.window];
-			[pwc.window orderOut:nil];
-			if (weakMfi.lastError) { 
-				errorHandler(weakMfi);
-			}
-			[weakMfi.workspace refreshFiles];
-		});
-	}];
-*/	return pwc;
+	return pwc;
 }
 
 #pragma mark - meat & potatos

@@ -11,7 +11,6 @@
 #import "ControllerUserCell.h"
 
 @interface ControlViewController()
-@property (nonatomic, strong) NSMutableSet *kvoTokens;
 @end
 
 @implementation ControlViewController
@@ -19,14 +18,8 @@
 - (id)init
 {
 	if ((self = [super initWithNibName:nil bundle:nil])) {
-		self.kvoTokens = [NSMutableSet set];
 	}
 	return self;
-}
-
--(void)dealloc
-{
-	[self removeAllBlockObservers];
 }
 
 #pragma mark - View lifecycle
@@ -74,24 +67,20 @@
 	if (_session == session)
 		return;
 	_session = session;
-	__unsafe_unretained ControlViewController *blockSelf = self;
-	[self.kvoTokens addObject:[session addObserverForKeyPath:@"mode" 
-													 onQueue:[NSOperationQueue mainQueue] 
-														task:^(id obj, NSDictionary *change)
+	__unsafe_unretained ControlViewController *bself = self;
+	[self observeTarget:session keyPath:@"mode" options:0 block:^(MAKVONotification *notification)
 	{
-		if ([blockSelf.session.mode isEqualToString:@"share"])
-			blockSelf.modeControl.selectedSegmentIndex = 0;
-		else if ([blockSelf.session.mode isEqualToString:@"control"])
-			blockSelf.modeControl.selectedSegmentIndex = 1;
-		else if ([blockSelf.session.mode isEqualToString:@"classroom"])
-			blockSelf.modeControl.selectedSegmentIndex = 2;
-	}]];
-	[self.kvoTokens addObject:[session addObserverForKeyPath:@"users" 
-													 onQueue:[NSOperationQueue mainQueue] 
-														task:^(id obj, NSDictionary *change)
+		if ([bself.session.mode isEqualToString:@"share"])
+			bself.modeControl.selectedSegmentIndex = 0;
+		else if ([bself.session.mode isEqualToString:@"control"])
+			bself.modeControl.selectedSegmentIndex = 1;
+		else if ([bself.session.mode isEqualToString:@"classroom"])
+			bself.modeControl.selectedSegmentIndex = 2;
+	}];
+	[self observeTarget:session keyPath:@"users" options:0 block:^(MAKVONotification *notification)
 	{
-		[blockSelf.userTable reloadData];
-	}]];
+		[bself.userTable reloadData];
+	}];
 }
 
 @end

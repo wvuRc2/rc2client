@@ -377,9 +377,9 @@
 {
 	if (assign == _selectedAssignment)
 		return;
-	self.curSelToken = [assign addObserverForKeyPath:@"name" task:^(id obj, NSDictionary *change) {
+//	self.curSelToken = [assign addObserverForKeyPath:@"name" task:^(id obj, NSDictionary *change) {
 //		NSLog(@"name changed: %@, %@", [obj name], change);
-	}];
+//	}];
 	_selectedAssignment = assign;
 	self.selectedFile=nil;
 	[self.fileTable reloadData];

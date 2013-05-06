@@ -5,7 +5,6 @@
 #ifdef __OBJC__
 	#import <Cocoa/Cocoa.h>
 	#import <Vyana/Vyana.h>
-	#import <Vyana/NSObject+BlockObservation.h>
 	#import <Vyana/AMBlockUtils.h>
 	#import <Vyana/VyanaLog.h>
 	#import <WebKit/WebKit.h>
@@ -13,6 +12,7 @@
 	#import <CoreServices/CoreServices.h>
 	#import <AudioToolbox/AudioToolbox.h>
 	#import "JSON.h"
+	#import "MAKVONotificationCenter.h"
 #endif
 
 #define TheApp NSApp

@@ -21,14 +21,12 @@
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-	self.kvoTokens = [NSMutableArray array];
 	return self;
 }
 
 -(void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MessagesUpdatedNotification object:nil];
-	[self.kvoTokens removeAllObjects];
 }
 
 -(void)viewDidLoad
@@ -39,9 +37,7 @@
 		[blockSelf updateForNewTheme:theme];
 	}];
 	[self updateForNewTheme:[[ThemeEngine sharedInstance] currentTheme]];
-	[self.kvoTokens addObject:[[Rc2Server sharedInstance] addObserverForKeyPath:@"loggedIn" task:^(id obj, NSDictionary *change) {
-		[blockSelf adjustInterfaceBasedOnLogin];
-	}]];
+	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(adjustInterfaceBasedOnLogin) userInfo:nil options:0];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messagesUpdated:) name:MessagesUpdatedNotification object:nil];
 	[self adjustInterfaceBasedOnLogin];
 }

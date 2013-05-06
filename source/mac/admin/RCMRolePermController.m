@@ -15,10 +15,6 @@
 @property (nonatomic, copy) NSArray *perms;
 @property (nonatomic, copy) NSArray *roles;
 @property (nonatomic, strong) NSDictionary *selectedRole;
-@property (nonatomic, strong) id rpKey;
--(void)fetchPermissions;
--(void)fetchRoles;
--(void)adjustRolePerms;
 @end
 
 @implementation RCMRolePermController
@@ -35,9 +31,7 @@
 	[self fetchPermissions];
 	[self fetchRoles];
 	__unsafe_unretained RCMRolePermController *blockSelf = self;
-	self.rpKey = [self.roleController addObserverForKeyPath:@"selectedObjects" task:^(id obj, NSDictionary *change) {
-		[blockSelf adjustRolePerms];
-	}];
+	[self observeTarget:self.roleController keyPath:@"selectedObjects" selector:@selector(adjustRolePerms) userInfo:nil options:0];
 	[self.permTable setDraggingSourceOperationMask:NSDragOperationCopy forLocal:YES];
 	[self.rolePermTable registerForDraggedTypes:@[kPermPboardType]];
 }

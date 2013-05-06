@@ -43,7 +43,7 @@
 	[self.pathControl setPathComponentCells:self.pathCells];
 	self.arrayController.content = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	__weak __typeof(self) blockSelf = self;
-	[self.arrayController addObserverForKeyPath:@"selectionIndexes" task:^(id obj, NSDictionary *change) {
+	[self observeTarget:self.arrayController keyPath:@"selectionIndexes" options:0 block:^(MAKVONotification *notification) {
 		[blockSelf willChangeValueForKey:@"canDeleteSelection"];
 		[blockSelf didChangeValueForKey:@"canDeleteSelection"];
 	}];

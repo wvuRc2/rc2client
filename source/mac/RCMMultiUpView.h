@@ -25,10 +25,10 @@ typedef NS_ENUM(NSUInteger, MultiUpMode) {
 
 @protocol RCMMultiUpChildView <NSObject>
 
-@property (strong) NSLayoutConstraint *multiXConstraint;
-@property (strong) NSLayoutConstraint *multiYConstraint;
-@property (strong) NSLayoutConstraint *multiWConstraint;
-@property (strong) NSLayoutConstraint *multiHConstraint;
+@property (weak) NSLayoutConstraint *multiXConstraint;
+@property (weak) NSLayoutConstraint *multiYConstraint;
+@property (weak) NSLayoutConstraint *multiWConstraint;
+@property (weak) NSLayoutConstraint *multiHConstraint;
 
 
 @end

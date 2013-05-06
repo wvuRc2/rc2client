@@ -31,7 +31,6 @@
 @property (nonatomic, strong) NSArray *students;
 @property (nonatomic, copy) NSSet *dueAssignmentIds;
 @property (nonatomic, strong) RCStudentAssignment *selectedStudent;
-@property (nonatomic, strong) NSMutableSet *kvoTokens;
 @property (nonatomic, strong) NSMutableDictionary *pdfUrlData;
 @end
 
@@ -47,7 +46,6 @@
 	if (![fm fileExistsAtPath:self.myCachePath]) {
 		[fm createDirectoryAtPath:self.myCachePath withIntermediateDirectories:YES attributes:nil error:nil];
 	}
-	self.kvoTokens = [NSMutableSet set];
 	self.classPicker.itemKey = @"name";
 	self.assignmentPicker.itemKey = @"name";
 	self.filePicker.itemKey = @"name";
@@ -56,13 +54,8 @@
 	self.classPicker.changeHandler = ^(id picker) {
 		[blockSelf courseSelectionChanged];
 	};
-	[self.kvoTokens addObject:[self.assignmentPicker addObserverForKeyPath:@"selectedItem" task:^(id obj, id change) {
-		[blockSelf assignmentSelectionChagned];
-	}]];
-	[self.kvoTokens addObject:[self.filePicker addObserverForKeyPath:@"selectedItem" task:^(id obj, id change)
-	{
-		[blockSelf FileSelectionChanged];
-	}]];
+	[self observeTarget:self.assignmentPicker keyPath:@"selectedItem" selector:@selector(assignmentSelectionChagned) userInfo:nil options:0];
+	[self observeTarget:self.filePicker keyPath:@"selectedItem" selector:@selector(FileSelectionChanged) userInfo:nil options:0];
 	//parse the tograde list to know which assignments are due
 	NSArray *tograde = [Rc2Server sharedInstance].assignmentsToGrade;
 	NSMutableSet *dueAssignments = [NSMutableSet set];

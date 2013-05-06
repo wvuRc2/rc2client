@@ -12,7 +12,6 @@
 #import "RCWorkspace.h"
 
 @interface RCMImageViewer()
-@property (strong) id observerToken;
 @property (strong) NSMutableDictionary *twoFingersTouches;
 @end
 
@@ -30,10 +29,7 @@
 	[super awakeFromNib];
 	self.imageView.allowsCutCopyPaste = YES;
 	__unsafe_unretained RCMImageViewer *blockSelf = self;
-	self.observerToken = [self.imageArrayController addObserverForKeyPath:@"selection" task:^(id obj, NSDictionary *change)
-	{
-		[blockSelf imageChanged];
-	}];
+	[self observeTarget:self.imageArrayController keyPath:@"selection" selector:@selector(imageChanged) userInfo:nil options:0];
 }
 
 -(void)imageChanged
@@ -174,11 +170,4 @@
 	return NO;
 }
 
-@synthesize imageView;
-@synthesize imageArray;
-@synthesize imageArrayController;
-@synthesize displayedImageName;
-@synthesize observerToken;
-@synthesize workspace;
-@synthesize detailsBlock;
 @end
