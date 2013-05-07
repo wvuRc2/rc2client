@@ -286,7 +286,8 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	[self genericGetRequest:[NSString stringWithFormat:@"workspace/%@?use", wspace.wspaceId] parameters:nil handler:^(BOOL success, id results) {
+	NSString *path = [NSString stringWithFormat:@"proj/%@/wspace/%@?use", wspace.projectId, wspace.wspaceId];
+	[self genericGetRequest:path parameters:nil handler:^(BOOL success, id results) {
 		hblock(success, results);
 	}];
 }

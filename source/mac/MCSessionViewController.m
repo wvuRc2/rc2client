@@ -598,7 +598,7 @@
 	if (self.importToProject)
 		container = self.session.workspace.project;
 	MultiFileImporter *mfi = [[MultiFileImporter alloc] init];
-	mfi.container = self.session.workspace;
+	mfi.container = self.importToProject ? self.session.workspace.project : self.session.workspace;
 	mfi.replaceExisting = YES;
 	mfi.fileUrls = urls;
 	AMProgressWindowController *pwc = [mfi prepareProgressWindowWithErrorHandler:^(MultiFileImporter *mfiRef) {

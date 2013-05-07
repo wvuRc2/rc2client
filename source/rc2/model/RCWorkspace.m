@@ -64,6 +64,7 @@
 			self.name = [d objectForKey:@"name"];
 			dispatch_async(dispatch_get_main_queue(), ^{
 				self.files = [RCFile filesFromJsonArray:[d objectForKey:@"files"] container:self];
+				[[NSNotificationCenter defaultCenter] postNotificationName:RCFileContainerChangedNotification object:nil];
 			});
 		}
 	}];
