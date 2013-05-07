@@ -474,14 +474,15 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 {
 	NSMutableString *path = [self containerPath:container];
 	NSString *method = file.existsOnServer ? @"PUT" : @"POST";
+	NSDictionary *params = file.existsOnServer ? nil : @{@"name":file.name};
 	if (file.existsOnServer)
 		[path appendFormat:@"/file/%@", file.fileId];
 	else
 		[path appendString:@"/file"];
-	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:method path:path parameters:@{@"name":file.name}
+	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:method path:path parameters:params
 												 constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
 	{
-		[fdata appendPartWithFormData:[file.currentContents dataUsingEncoding:NSUTF8StringEncoding] name:@"contents"];
+		[fdata appendPartWithFileData:[file.currentContents dataUsingEncoding:NSUTF8StringEncoding] name:file.name fileName:file.name mimeType:@"plain/text"];
 	}];
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
 		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
@@ -492,7 +493,7 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 				[file discardEdits];
 				hblock(YES, file);
 			} else {
-				NSDictionary *fdata = [rsp objectForKey:@"file"];
+				NSDictionary *fdata = [[rsp objectForKey:@"files"] firstObject];
 				RCFile *rcfile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
 				[rcfile updateWithDictionary:fdata];
 				[rcfile setValue:container forKey:@"container"];

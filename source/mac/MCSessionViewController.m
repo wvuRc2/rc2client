@@ -574,7 +574,7 @@
 	RCFile *file = [RCFile insertInManagedObjectContext:moc];
 	RCWorkspace *wspace = self.session.workspace;
 	file.name = fileName;
-	file.fileContents = @"";
+	file.fileContents = @" ";
 	[wspace addFile:file];
 	self.statusMessage = [NSString stringWithFormat:@"Sending %@ to server…", file.name];
 	self.busy=YES;
@@ -586,7 +586,7 @@
 			[self.fileTableView reloadData];
 			self.statusMessage = [NSString stringWithFormat:@"File created on server"];
 		} else {
-			Rc2LogWarn(@"failed to create file on server: %@", newFile.name);
+			Rc2LogWarn(@"failed to create file on server: %@", newFile);
 			self.statusMessage = [NSString stringWithFormat:@"Unknown error creating file on server"];
 		}
 	}];
