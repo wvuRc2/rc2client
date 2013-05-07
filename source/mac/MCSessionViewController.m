@@ -890,7 +890,7 @@
 		RCImage *img = [[RCImageCache sharedInstance] imageWithId:idStr];
 		if (nil == img)
 			img = [[RCImageCache sharedInstance] loadImageIntoCache:idStr];
-		Rc2LogWarn(@"failed to load image %@ into cache", idStr);
+		Rc2LogWarn(@"failed to originally load image %@ into cache", idStr);
 		imgArray = [NSArray arrayWithObject:img];
 	}
 	[self setupImageDisplay:imgArray];

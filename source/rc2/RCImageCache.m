@@ -192,7 +192,7 @@
 
 -(NSArray*)adjustImageArray:(NSArray*)inArray
 {
-	NSString *grpName = [NSString stringWithFormat:@"ig%1.2f", [NSDate timeIntervalSinceReferenceDate]];
+	NSString *grpName = [NSString stringWithFormat:@"ig%d", (int)[NSDate timeIntervalSinceReferenceDate]];
 	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
 	for (NSDictionary *imgDict in inArray) {
 		[outArray addObject:[NSString stringWithFormat:@"rc2img:///%@.png?%@", [imgDict objectForKey:@"id"], grpName]];
