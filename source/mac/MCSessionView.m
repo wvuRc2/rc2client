@@ -53,10 +53,15 @@ const CGFloat kFrameWidth = 214;
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
+	BOOL showLeft = [savedState boolPropertyForKey:@"fileListVisible"];
 	CGFloat splitPer = [[savedState propertyForKey:@"editorWidthPercent"] doubleValue];
 	CGFloat fullWidth = _outputView.frame.size.width + _editorView.frame.size.width;
-	
 	CGFloat ew = fullWidth * splitPer;
+	NSLog(@"showLeft=%d, per=%1.2f, fw=%1.2f, ew=%1.2f, owidth=%1.2f, ewidth=%1.2f", showLeft, splitPer, fullWidth, ew, _outputView.frame.size.width, _editorView.frame.size.width);
+	if (!showLeft) {
+		[self.leftXConstraint setConstant:-kFrameWidth];
+		ew += kFrameWidth/2;
+	}
 	if (ew < 300)
 		ew = 300;
 	self.editorWidthConstraint.constant = ew;

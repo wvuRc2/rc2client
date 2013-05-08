@@ -211,12 +211,12 @@
 -(void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
 	if (!__didFirstWindow) {
-		if ((self.sessionView.leftViewVisible && !__fileListInitiallyVisible) ||
+/*		if ((self.sessionView.leftViewVisible && !__fileListInitiallyVisible) ||
 			(!self.sessionView.leftViewVisible && __fileListInitiallyVisible))
 		{
 			[self.sessionView toggleLeftView:nil];
 		}
-		__didFirstWindow=YES;
+*/		__didFirstWindow=YES;
 	}
 }
 
@@ -508,8 +508,6 @@
 		savedState.inputText = self.editView.string;
 	[savedState setBoolProperty:self.sessionView.leftViewVisible forKey:@"fileListVisible"];
 	[savedState setProperty:@(self.selectedLeftViewIndex) forKey:@"selLeftViewIdx"];
-	NSNumber *dwidth =[NSNumber numberWithDouble:self.sessionView.editorWidth];
-	[savedState setProperty:dwidth forKey:@"editorWidth"];
 	[self.sessionView saveSessionState:savedState];
 	[savedState.managedObjectContext save:nil];
 }
@@ -522,8 +520,9 @@
 	} else if ([savedState.inputText length] > 0) {
 		self.editView.string = savedState.inputText;
 	}
-	[self.sessionView restoreSessionState:savedState];
-	self.sessionView.editorWidth = [[savedState propertyForKey:@"editorWidth"] doubleValue];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.sessionView restoreSessionState:savedState];
+	});
 	__fileListInitiallyVisible = [savedState boolPropertyForKey:@"fileListVisible"];
 	self.selectedLeftViewIndex = [[savedState propertyForKey:@"selLeftViewIdx"] intValue];
 	[self adjustLeftViewButtonsToMatchState:YES];
