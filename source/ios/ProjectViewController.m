@@ -16,6 +16,7 @@
 #import "RCWorkspace.h"
 #import "Rc2AppDelegate.h"
 #import "MAKVONotificationCenter.h"
+#import "MBProgressHUD.h"
 
 @interface ProjectViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
 @property (weak) IBOutlet UIBarButtonItem *addButton;
@@ -31,6 +32,7 @@
 
 @implementation ProjectViewController {
 	BOOL _transitioning;
+	BOOL _doingInitialLoad;
 }
 
 -(id)init
@@ -60,6 +62,13 @@
 	[self.collectionView addGestureRecognizer:g];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	_doingInitialLoad = YES;
+	[[MBProgressHUD showHUDAddedTo:self.view.window animated:YES] setLabelText:@"Loading Projects"];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
@@ -74,6 +83,10 @@
 
 -(void)loginStatusChanged
 {
+	if (_doingInitialLoad) {
+		[MBProgressHUD hideAllHUDsForView:self.view.window animated:YES];
+		_doingInitialLoad = NO;
+	}
 	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	[self.collectionView reloadData];
 	self.projectButton.enabled = NO;
