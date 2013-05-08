@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MCVariableDetailsController : NSViewController
+@class RCVariable;
 
+@interface MCVariableDetailsController : NSViewController
+@property (nonatomic, strong) RCVariable *variable;
 @end

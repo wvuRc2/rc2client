@@ -30,6 +30,7 @@
 #import "RCImageCache.h"
 #import "NoodleLineNumberView.h"
 #import "MCSessionView.h"
+#import "MCVariableDetailsController.h"
 #import "MCSessionFileController.h"
 #import "MAKVONotificationCenter.h"
 #import "MLReachability.h"
@@ -57,6 +58,7 @@
 @property (nonatomic, weak) IBOutlet NSButton *tbVarsButton;
 @property (nonatomic, weak) IBOutlet NSButton *tbUsersButton;
 @property (nonatomic, weak) IBOutlet NSPopUpButton *fileActionPopUp;
+@property (nonatomic, weak) IBOutlet NSTableView *varsTable;
 @property (nonatomic, strong) IBOutlet NSView *importAccessoryView;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) VariableTableHelper *variableHelper;
@@ -74,6 +76,8 @@
 @property (nonatomic, strong) NSWindow *blockingWindow;
 @property (nonatomic, strong) MLReachability *serverReach;
 @property (nonatomic, strong) RCMMultiImageController *multiImageController;
+@property (nonatomic, strong) NSPopover *variablePopover;
+@property (nonatomic, strong) MCVariableDetailsController *varableDetailsController;
 @property BOOL importToProject;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL shouldReconnect;
@@ -127,6 +131,7 @@
 		self.outputController.delegate = (id)self;
 		self.varTableView.dataSource = self.variableHelper;
 		self.varTableView.delegate = self.variableHelper;
+		self.varTableView.doubleAction = @selector(showVariableDetails:);
 		self.fileHelper = [[MCSessionFileController alloc] initWithSession:self.session tableView:self.fileTableView delegate:self];
 		self.fileActionPopUp.menu.delegate = self.fileHelper;
 		self.fileTableView.menu = self.fileActionPopUp.menu;
@@ -471,6 +476,25 @@
 			bself.multiImageController = nil;
 		};
 	});
+}
+
+-(void)showVariableDetails:(id)sender
+{
+	if (self.variablePopover.isShown) {
+		[self.variablePopover close];
+		return;
+	}
+	if (nil == self.varableDetailsController)
+		self.varableDetailsController = [[MCVariableDetailsController alloc] init];
+	if (nil == self.variablePopover) {
+		self.variablePopover = [[NSPopover alloc] init];
+		self.variablePopover.behavior = NSPopoverBehaviorTransient;
+	}
+	self.variablePopover.contentViewController = self.varableDetailsController;
+	RCVariable *variable = [self.variableHelper.data objectAtIndex:self.varTableView.selectedRow];
+	self.varableDetailsController.variable = variable;
+	NSRect r = [self.varTableView rectOfRow:self.varTableView.selectedRow];
+	[self.variablePopover showRelativeToRect:r ofView:self.varTableView preferredEdge:NSMaxXEdge];
 }
 
 -(IBAction)refreshVariables:(id)sender
@@ -1311,12 +1335,12 @@
 	}
 	return view;
 }
-
+/*
 -(NSIndexSet*)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes
 {
 	return nil;
 }
-
+*/
 -(void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	id var = [self.data objectAtIndex:row];
