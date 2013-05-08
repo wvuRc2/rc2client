@@ -90,6 +90,11 @@ iR.displayError = function(msg) {
 	iR.appendConsoleText(html);
 };
 
+iR.displayNote = function(msg) {
+	var html = '<div class="sessionMsg"><span class="serverNote">' + msg + '</span></div>';
+	iR.appendConsoleText(html);
+};
+
 iR.previewImage = function(imgGroup) {
 	var elems = $(imgGroup).find("a").get();
 	Rc2.preview(imgGroup, elems);

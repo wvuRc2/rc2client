@@ -191,6 +191,13 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	self.timeOfLastTraffic = [NSDate date];
 }
 
+-(void)restartR
+{
+	NSDictionary *dict = @{@"cmd":@"restartR"};
+	[_ws sendText:[dict JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
+}
+
 -(void)forceVariableRefresh
 {
 	NSDictionary *dict = @{@"cmd":@"watchvariables", @"watch": @YES};
@@ -309,6 +316,9 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
 		[self setMode:[dict valueForKeyPath:@"session.mode"]];
 		js = [NSString stringWithFormat:@"iR.setUserid(%@)", [dict objectForKey:@"userid"]];
+	} else if ([cmd isEqualToString:@"note"]) {
+		NSString *note = [self escapeForJS:[dict objectForKey:@"note"]];
+		js = [NSString stringWithFormat:@"iR.displayNote('%@')", note];
 	} else if ([cmd isEqualToString:@"echo"]) {
 		js = [NSString stringWithFormat:@"iR.echoInput('%@', '%@', %@)", 
 			  [self escapeForJS:[dict objectForKey:@"script"]],

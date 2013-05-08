@@ -60,6 +60,7 @@ enum {
 -(void)executeSas:(RCFile*)file;
 -(void)sendChatMessage:(NSString*)message;
 -(void)requestUserList;
+-(void)restartR;
 
 -(NSString*)escapeForJS:(NSString*)str;
 

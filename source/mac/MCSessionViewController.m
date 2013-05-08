@@ -263,9 +263,12 @@
 			return NO;
 	} else if (action == @selector(contextualHelp:)) {
 		return YES;
+	} else if (action == @selector(restartR:)) {
+		return YES;
 	} else if (action == @selector(executeCurrentLine:)) {
 		return YES;
-	} return NO;
+	}
+	return NO;
 }
 
 #pragma mark - actions
@@ -473,6 +476,11 @@
 -(IBAction)refreshVariables:(id)sender
 {
 	[self.session forceVariableRefresh];
+}
+
+-(IBAction)restartR:(id)sender
+{
+	[self.session restartR];
 }
 
 -(IBAction)toggleHand:(id)sender
