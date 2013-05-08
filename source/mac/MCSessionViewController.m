@@ -125,11 +125,6 @@
 		self.outputController = [[MCWebOutputController alloc] init];
 		[self.sessionView embedOutputView:self.outputController.view];
 		self.outputController.delegate = (id)self;
-		if (!self.session.socketOpen) {
-			self.busy = YES;
-			self.statusMessage = @"Connecting to server…";
-			[self prepareForSession];
-		}
 		self.varTableView.dataSource = self.variableHelper;
 		self.varTableView.delegate = self.variableHelper;
 		self.fileHelper = [[MCSessionFileController alloc] initWithSession:self.session tableView:self.fileTableView delegate:self];
@@ -228,6 +223,11 @@
 -(void)viewDidMoveToWindow
 {
 	[self.view.window makeFirstResponder:self.editView];
+	if (!self.session.socketOpen) {
+		self.busy = YES;
+		self.statusMessage = @"Connecting to server…";
+		[self prepareForSession];
+	}
 }
 
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
