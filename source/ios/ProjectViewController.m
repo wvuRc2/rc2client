@@ -65,8 +65,10 @@
 -(void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
-	_doingInitialLoad = YES;
-	[[MBProgressHUD showHUDAddedTo:self.view.window animated:YES] setLabelText:@"Loading Projects"];
+	if (![Rc2Server sharedInstance].loggedIn) {
+		_doingInitialLoad = YES;
+		[[MBProgressHUD showHUDAddedTo:self.view.window animated:YES] setLabelText:@"Loading Projects"];
+	}
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
