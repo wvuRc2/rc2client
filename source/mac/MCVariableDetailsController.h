@@ -12,4 +12,6 @@
 
 @interface MCVariableDetailsController : NSViewController
 @property (nonatomic, strong) RCVariable *variable;
+
+-(BOOL)variableSupported:(RCVariable*)var;
 @end

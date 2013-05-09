@@ -484,14 +484,20 @@
 		[self.variablePopover close];
 		return;
 	}
+	RCVariable *variable = [self.variableHelper.data objectAtIndex:self.varTableView.selectedRow];
+	if (nil == variable || ![variable isKindOfClass:[RCVariable class]])
+		return; //skip section rows
+	if (variable.count == 1 && variable.primitiveType != ePrimType_Unknown)
+		return; //skip primitives with a single value
 	if (nil == self.varableDetailsController)
 		self.varableDetailsController = [[MCVariableDetailsController alloc] init];
+	if (![self.varableDetailsController variableSupported:variable])
+		return;
 	if (nil == self.variablePopover) {
 		self.variablePopover = [[NSPopover alloc] init];
 		self.variablePopover.behavior = NSPopoverBehaviorTransient;
 	}
 	self.variablePopover.contentViewController = self.varableDetailsController;
-	RCVariable *variable = [self.variableHelper.data objectAtIndex:self.varTableView.selectedRow];
 	self.varableDetailsController.variable = variable;
 	NSRect r = [self.varTableView rectOfRow:self.varTableView.selectedRow];
 	[self.variablePopover showRelativeToRect:r ofView:self.varTableView preferredEdge:NSMaxXEdge];
@@ -1335,12 +1341,20 @@
 	}
 	return view;
 }
-/*
+
 -(NSIndexSet*)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes
 {
-	return nil;
+	if (proposedSelectionIndexes.firstIndex >= self.data.count)
+		return nil; //not sure why, but did get some equal to NSNotFound
+	RCVariable *var = [self.data objectAtIndex:proposedSelectionIndexes.firstIndex];
+	if (![var isKindOfClass:[RCVariable class]])
+		return nil; //skip sections labels
+	//no action for primitive values
+	if (var.count == 1 && var.primitiveType != ePrimType_Unknown)
+		return nil;
+	return proposedSelectionIndexes;
 }
-*/
+
 -(void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	id var = [self.data objectAtIndex:row];
