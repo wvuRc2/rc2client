@@ -14,4 +14,5 @@
 @property (nonatomic, strong) RCVariable *variable;
 
 -(BOOL)variableSupported:(RCVariable*)var;
+-(NSSize)calculateContentSize:(NSSize)curSize;
 @end

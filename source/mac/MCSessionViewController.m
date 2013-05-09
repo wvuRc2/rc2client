@@ -501,6 +501,7 @@
 	self.varableDetailsController.variable = variable;
 	NSRect r = [self.varTableView rectOfRow:self.varTableView.selectedRow];
 	[self.variablePopover showRelativeToRect:r ofView:self.varTableView preferredEdge:NSMaxXEdge];
+	self.variablePopover.contentSize = [self.varableDetailsController calculateContentSize:self.variablePopover.contentSize];
 }
 
 -(IBAction)refreshVariables:(id)sender

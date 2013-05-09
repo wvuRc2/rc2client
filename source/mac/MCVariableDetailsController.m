@@ -19,21 +19,28 @@
 @property BOOL isSS;
 @end
 
-@implementation MCVariableDetailsController
+@implementation MCVariableDetailsController {
+	NSInteger _contentWidth;
+	BOOL _didInit;
+}
 
 -(id)init
 {
 	if ((self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil])) {
+		_contentWidth = 200;
 	}
 	return self;
 }
 
 -(void)awakeFromNib
 {
-	if (self.variable) {
-		self.nameLabel.stringValue = self.variable.name;
-		self.typeLabel.stringValue = self.variable.description;
-		[self adjustForVariable];
+	if (!_didInit) {
+		if (self.variable) {
+			self.nameLabel.stringValue = self.variable.name;
+			self.typeLabel.stringValue = self.variable.description;
+			[self adjustForVariable];
+		}
+		_didInit=YES;
 	}
 }
 
@@ -45,11 +52,11 @@
 		case eVarType_Function:
 		case eVarType_Factor:
 		case eVarType_List:
+		case eVarType_Matrix:
 			return YES;
 
 		case eVarType_Array:
 		case eVarType_Environment:
-		case eVarType_Matrix:
 		case eVarType_S3Object:
 		case eVarType_S4Object:
 		case eVarType_Unknown:
@@ -61,14 +68,19 @@
 
 -(void)adjustForVariable
 {
+	@synchronized(self) {
 	self.nameLabel.stringValue = self.variable.name;
 	_isSS = NO;
 	switch (self.variable.type) {
 		case eVarType_Primitive:
 		case eVarType_List:
+		case eVarType_Factor:
+			[self.tabView selectTabViewItemWithIdentifier:@"basic"];
 			[self.simpleTableView reloadData];
+			_contentWidth = 200;
 			break;
 		case eVarType_DataFrame:
+		case eVarType_Matrix:
 			_isSS = YES;
 			[self.tabView selectTabViewItemWithIdentifier:@"dataFrame"];
 			[self adjustForDataFrame];
@@ -77,16 +89,16 @@
 		case eVarType_Function:
 			[self.tabView selectTabViewItemWithIdentifier:@"function"];
 			self.functionTextView.string = self.variable.functionBody;
+			_contentWidth = 500;
 			break;
 		case eVarType_Array:
 		case eVarType_Environment:
-		case eVarType_Factor:
-		case eVarType_Matrix:
 		case eVarType_S3Object:
 		case eVarType_S4Object:
 		case eVarType_Unknown:
 		case eVarType_Vector:
 			break;
+	}
 	}
 }
 
@@ -102,6 +114,17 @@
 		col.width = 60;
 		[[col headerCell] setStringValue:[[self.ssData columnNames] objectAtIndex:i-1]];
 	}
+}
+
+-(NSSize)calculateContentSize:(NSSize)curSize
+{
+	if (_isSS) {
+		NSSize sz = curSize;
+		curSize.width = (self.ssTableView.tableColumns.count * 64) + 40; //colwidth, 20 margin on each side
+	} else {
+		curSize.width = _contentWidth;
+	}
+	return curSize;
 }
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
