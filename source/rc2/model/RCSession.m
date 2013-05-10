@@ -302,6 +302,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 {
 	if ([str isKindOfClass:[NSString class]]) {
 		str = [str stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+		str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
 		return [str stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
 	}
 	return [str description];
