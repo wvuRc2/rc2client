@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		08063D5C173AF33C0054FD1D /* MCVariableDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08063D5A173AF33B0054FD1D /* MCVariableDetailsController.m */; };
 		08063D5D173AF33C0054FD1D /* MCVariableDetailsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08063D5B173AF33B0054FD1D /* MCVariableDetailsController.xib */; };
+		08063D68173D8E290054FD1D /* shareperm.png in Resources */ = {isa = PBXBuildFile; fileRef = 08063D66173D8E290054FD1D /* shareperm.png */; };
+		08063D69173D8E290054FD1D /* shareperm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08063D67173D8E290054FD1D /* shareperm@2x.png */; };
 		080E5082166FDFB800E95531 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5070166FDFB800E95531 /* AFHTTPClient.m */; };
 		080E5083166FDFB800E95531 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5070166FDFB800E95531 /* AFHTTPClient.m */; };
 		080E5084166FDFB800E95531 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5072166FDFB800E95531 /* AFHTTPRequestOperation.m */; };
@@ -560,6 +562,8 @@
 		08063D59173AF33B0054FD1D /* MCVariableDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVariableDetailsController.h; sourceTree = "<group>"; };
 		08063D5A173AF33B0054FD1D /* MCVariableDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCVariableDetailsController.m; sourceTree = "<group>"; };
 		08063D5B173AF33B0054FD1D /* MCVariableDetailsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCVariableDetailsController.xib; sourceTree = "<group>"; };
+		08063D66173D8E290054FD1D /* shareperm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shareperm.png; path = resources/mac/shareperm.png; sourceTree = SOURCE_ROOT; };
+		08063D67173D8E290054FD1D /* shareperm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shareperm@2x.png"; path = "resources/mac/shareperm@2x.png"; sourceTree = SOURCE_ROOT; };
 		080E506F166FDFB800E95531 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		080E5070166FDFB800E95531 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		080E5071166FDFB800E95531 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -1342,6 +1346,8 @@
 				0845941315B5F22700297C9D /* openother.png */,
 				08C5F3A015DEC74800B0402F /* microphone.png */,
 				08C5F3A115DEC74800B0402F /* microphoneOff.png */,
+				08063D66173D8E290054FD1D /* shareperm.png */,
+				08063D67173D8E290054FD1D /* shareperm@2x.png */,
 				0845941415B5F22700297C9D /* Rdoc.icns */,
 				0845941515B5F22700297C9D /* RLogo.icns */,
 				086D6EBE15DD500D00EF28F1 /* Rnw.icns */,
@@ -2615,6 +2621,8 @@
 				0811FA0117345C6D0060BAB4 /* image.png in Resources */,
 				0811FA0217345C6D0060BAB4 /* image@2x.png in Resources */,
 				08063D5D173AF33C0054FD1D /* MCVariableDetailsController.xib in Resources */,
+				08063D68173D8E290054FD1D /* shareperm.png in Resources */,
+				08063D69173D8E290054FD1D /* shareperm@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

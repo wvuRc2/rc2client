@@ -308,6 +308,11 @@
 	}
 }
 
+-(void)collectionView:(MCProjectCollectionView *)cview showShareInfo:(RCProject*)project fromRect:(NSRect)rect
+{
+	NSLog(@"show share info");
+}
+
 @end
 
 @implementation MCProjectView

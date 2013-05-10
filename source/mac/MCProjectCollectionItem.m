@@ -19,6 +19,7 @@
 @property (weak) CALayer *innerLayer;
 @property (weak) IBOutlet NSTextField *itemLabel;
 @property (nonatomic, weak) IBOutlet NSView *innerView;
+@property (nonatomic, weak) IBOutlet NSButton *shareButton;
 -(void)startEditing;
 -(void)endEditing;
 @end
@@ -78,6 +79,16 @@
 	return (MacProjectCellView*)self.view;
 }
 
+-(IBAction)showShareInfo:(id)sender
+{
+	//reset button to current state
+	self.cellView.shareButton.state = [[self.representedObject name] length] > 6;
+	//tell delegate
+	id del = self.collectionView.delegate;
+	NSRect r = [self.cellView.shareButton convertRect:self.cellView.shareButton.frame toView:self.view];
+	[del collectionView:(id)self.collectionView showShareInfo:self.representedObject fromRect:r];
+}
+
 -(void)reloadItemDetails
 {
 	if ([self.representedObject isKindOfClass:[RCProject class]]) {
@@ -104,7 +115,7 @@
 -(void)setRepresentedObject:(id)representedObject
 {
 	[super setRepresentedObject:representedObject];
-	if (nil == self.itemLabel) {
+	if (representedObject) {
 		NSString *nibName = [representedObject isKindOfClass:[RCProject class]] ? @"MCProjectCollectionItem" : @"MCProjectItemWorkspace";
 		ZAssert([[NSBundle mainBundle] loadNibNamed:nibName owner:self topLevelObjects:nil], @"failed to load nib");
 		[(AMControlledView*)self.view setViewController:self];
@@ -112,6 +123,7 @@
 	self.itemLabel.delegate = self;
 	[self.cellView setItemLabel:self.itemLabel];
 	self.cellView.isProject = [representedObject isKindOfClass:[RCProject class]];
+	self.cellView.shareButton.state = [[representedObject name] length] > 6;
 	[self reloadItemDetails];
 }
 
@@ -142,6 +154,10 @@
 	layer.backgroundColor = self.regColor.CGColor;
 	[self.layer addSublayer:layer];
 	self.innerLayer = layer;
+	NSImage *baseImg = self.shareButton.image;
+	self.shareButton.image = [baseImg tintedImageWithColor:[NSColor darkGrayColor]];
+	self.shareButton.alternateImage = [baseImg tintedImageWithColor:[NSColor lightGrayColor]];
+	
 	
 	self.layer.backgroundColor = [NSColor clearColor].CGColor;
 
@@ -174,6 +190,11 @@
 	if (NSPointInRect(aPoint, f) && nil == self.itemLabel.currentEditor) {
 		[self startEditing];
 		return nil;
+	}
+	
+	f = [self.superview convertRect:self.shareButton.frame fromView:self.shareButton.superview];
+	if (NSPointInRect(aPoint, f)) {
+		return self.shareButton;
 	}
 	if (NSPointInRect(aPoint, [self convertRect:self.bounds toView:self.superview]))
 		return self;
