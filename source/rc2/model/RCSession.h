@@ -41,6 +41,7 @@ enum {
 @property (assign) BOOL restrictedMode;
 @property (nonatomic) BOOL variablesVisible;
 @property (nonatomic, readonly) BOOL isClassroomMode;
+@property (assign) BOOL showResultDetails;
 
 -(id)initWithWorkspace:(RCWorkspace*)wspace serverResponse:(NSDictionary*)rsp;
 

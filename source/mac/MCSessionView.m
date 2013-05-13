@@ -97,7 +97,7 @@ const CGFloat kFrameWidth = 214;
 	if (_dragging) {
 		NSPoint loc = [self convertPoint:evt.locationInWindow fromView:nil];
 		CGFloat newWidth = loc.x - NSMinX(self.editorView.frame);
-		if (newWidth > 200) {
+		if (newWidth >= 300) {
 			self.editorWidthConstraint.constant = newWidth;
 		}
 	}

@@ -235,6 +235,25 @@
 	}
 }
 
+-(BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	SEL action = menuItem.action;
+	if (action == @selector(toggleShowDetails:)) {
+		menuItem.state = self.session.showResultDetails ? NSOnState : NSOffState;
+		return YES;
+	} else if (action == @selector(executeCurrentLine:)) {
+		NSString *str = self.editView.string;
+		NSRange selRng = self.editView.selectedRange;
+		if (selRng.length > 0) {
+			menuItem.title = @"Execute Selection";
+		} else {
+			menuItem.title = @"Execute Line";
+		}
+		return str.length > 0;
+	}
+	return NO;
+}
+
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
 	SEL action = [item action];
@@ -270,22 +289,16 @@
 		return YES;
 	} else if (action == @selector(restartR:)) {
 		return YES;
-	} else if (action == @selector(executeCurrentLine:)) {
-		NSString *str = self.editView.string;
-		if ([(id)item isKindOfClass:[NSMenuItem class]]) {
-			NSRange selRng = self.editView.selectedRange;
-			if (selRng.length > 0) {
-				[(NSMenuItem*)item setTitle:@"Execute Selection"];
-			} else {
-				[(NSMenuItem*)item setTitle:@"Execute Line"];
-			}
-		}
-		return str.length > 0;
 	}
 	return NO;
 }
 
 #pragma mark - actions
+
+-(IBAction)toggleShowDetails:(id)sender
+{
+	self.session.showResultDetails = !self.session.showResultDetails;
+}
 
 -(IBAction)toggleLeftSideView:(id)sender
 {
@@ -548,6 +561,7 @@
 	if (nil == savedState.currentFile)
 		savedState.inputText = self.editView.string;
 	[savedState setBoolProperty:self.sessionView.leftViewVisible forKey:@"fileListVisible"];
+	[savedState setBoolProperty:self.session.showResultDetails forKey:@"showDetailResults"];
 	[savedState setProperty:@(self.selectedLeftViewIndex) forKey:@"selLeftViewIdx"];
 	[self.sessionView saveSessionState:savedState];
 	[savedState.managedObjectContext save:nil];
@@ -565,6 +579,7 @@
 		[self.sessionView restoreSessionState:savedState];
 	});
 	__fileListInitiallyVisible = [savedState boolPropertyForKey:@"fileListVisible"];
+	self.session.showResultDetails = [savedState boolPropertyForKey:@"showDetailResults"];
 	self.selectedLeftViewIndex = [[savedState propertyForKey:@"selLeftViewIdx"] intValue];
 	[self adjustLeftViewButtonsToMatchState:YES];
 	[[RCImageCache sharedInstance] cacheImagesReferencedInHTML:savedState.consoleHtml];
