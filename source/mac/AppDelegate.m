@@ -128,7 +128,8 @@
 		else
 			menuItem.state = NSOffState;
 		return YES;
-	}
+	} else if (menuItem.action == @selector(showPreferences:))
+		return YES;
 	return NO;
 }
 

@@ -271,7 +271,16 @@
 	} else if (action == @selector(restartR:)) {
 		return YES;
 	} else if (action == @selector(executeCurrentLine:)) {
-		return YES;
+		NSString *str = self.editView.string;
+		if ([(id)item isKindOfClass:[NSMenuItem class]]) {
+			NSRange selRng = self.editView.selectedRange;
+			if (selRng.length > 0) {
+				[(NSMenuItem*)item setTitle:@"Execute Selection"];
+			} else {
+				[(NSMenuItem*)item setTitle:@"Execute Line"];
+			}
+		}
+		return str.length > 0;
 	}
 	return NO;
 }
@@ -364,7 +373,8 @@
 		cmd = [str substringWithRange:rng];
 	}
 	[self.session executeScript:cmd scriptName:nil];
-
+	if (selRng.length < 1)
+		[self.editView moveDown:self];
 }
 
 -(IBAction)exportFile:(id)sender

@@ -11,6 +11,7 @@
 #import "RCProject.h"
 #import "RCWorkspace.h"
 #import "ThemeEngine.h"
+#import "Rc2Server.h"
 
 @interface MacProjectCellView : AMControlledView
 @property (nonatomic) BOOL selected;
@@ -101,6 +102,7 @@
 		else
 			self.imageView.image = [NSImage imageNamed:NSImageNameFolder];
 		[self.lastModifiedField setStringValue:@""];
+		[[self.cellView shareButton] setHidden: !proj.userEditable];
 	} else {
 		//workspace
 		self.imageView.image = [NSImage imageNamed:NSImageNameMultipleDocuments];

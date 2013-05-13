@@ -923,6 +923,15 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
+								<object class="NSMenuItem" id="549349807">
+									<reference key="NSMenu" ref="1066737987"/>
+									<string key="NSTitle">Execute Line</string>
+									<string type="base64-UTF8" key="NSKeyEquiv">DQ</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
 								<object class="NSMenuItem" id="503436787">
 									<reference key="NSMenu" ref="1066737987"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -1614,6 +1623,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
+						<string key="label">executeCurrentLine:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="549349807"/>
+					</object>
+					<int key="connectionID">696</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
 						<string key="label">orderFrontFontPanel:</string>
 						<reference key="source" ref="755631768"/>
 						<reference key="destination" ref="548863041"/>
@@ -2230,6 +2247,7 @@
 							<reference ref="580481212"/>
 							<reference ref="21129090"/>
 							<reference ref="258883681"/>
+							<reference ref="549349807"/>
 						</array>
 						<reference key="parent" ref="778227331"/>
 					</object>
@@ -2440,6 +2458,11 @@
 						<reference key="object" ref="258883681"/>
 						<reference key="parent" ref="1066737987"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">694</int>
+						<reference key="object" ref="549349807"/>
+						<reference key="parent" ref="1066737987"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -2558,6 +2581,7 @@
 				<string key="687.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="690.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="692.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="694.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="78.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2571,13 +2595,13 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">693</int>
+			<int key="maxID">696</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">AMTableView</string>
-					<string key="superclassName">NSTableView</string>
+					<string key="superclassName">UITableView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AMTableView.h</string>
@@ -2787,6 +2811,7 @@
 						<string key="tbVarsButton">NSButton</string>
 						<string key="userTableView">NSTableView</string>
 						<string key="varTableView">NSTableView</string>
+						<string key="varsTable">NSTableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="backButton">
@@ -2847,6 +2872,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="varTableView">
 							<string key="name">varTableView</string>
+							<string key="candidateClassName">NSTableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="varsTable">
+							<string key="name">varsTable</string>
 							<string key="candidateClassName">NSTableView</string>
 						</object>
 					</dictionary>
