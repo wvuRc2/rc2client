@@ -788,6 +788,11 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	}];
 }
 
+-(void)fetchCourses:(Rc2FetchCompletionHandler)hblock
+{
+	return [self genericGetRequest:@"courses" parameters:nil handler:hblock];
+}
+
 #pragma mark - login/logout
 
 -(void)handleLoginResponse:(id)response forUser:(NSString*)user completionHandler:(Rc2FetchCompletionHandler)handler

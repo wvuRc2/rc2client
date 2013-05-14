@@ -10,6 +10,7 @@
 #import "RCMUserAdminController.h"
 #import "RCMRolePermController.h"
 #import "MCMainWindowController.h"
+#import "RCMCourseAdminController.h"
 
 @interface RCMAdminController () <NSTabViewDelegate>
 @property (weak) IBOutlet NSTabView *tabView;
@@ -28,7 +29,8 @@
 
 -(void)awakeFromNib
 {
-	self.controllers = @[[[RCMUserAdminController alloc] init], [[RCMRolePermController alloc] init]];
+	self.controllers = @[[[RCMUserAdminController alloc] init], [[RCMRolePermController alloc] init],
+					  [[RCMCourseAdminController alloc] init]];
 	self.currentController = [self.controllers firstObject];
 	[[self.tabView tabViewItemAtIndex:0] setView:self.currentController.view];
 	[self.tabView selectTabViewItemAtIndex:0];

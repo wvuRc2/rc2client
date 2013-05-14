@@ -156,7 +156,7 @@ extern NSString * const FilesChagedNotification;
 -(void)addUser:(RCUser*)user password:(NSString*)password completionHandler:(Rc2FetchCompletionHandler)handler;
 -(void)toggleRole:(NSNumber*)roleId user:(NSNumber*)userId
 	completionHandler:(Rc2FetchCompletionHandler)hblock;
-
+-(void)fetchCourses:(Rc2FetchCompletionHandler)hblock;
 
 #pragma mark - misc/other
 

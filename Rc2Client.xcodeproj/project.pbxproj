@@ -45,6 +45,8 @@
 		082CEEBD161E2D2600E01F48 /* users@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB9161E2D2600E01F48 /* users@2x.png */; };
 		082CEEC0161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
 		082CEEC1161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
+		0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */; };
+		0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */; };
 		083AAEE8162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
 		083AAEE9162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
 		083AAEF2162DDECF0037AAB3 /* VariableListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */; };
@@ -604,6 +606,9 @@
 		082CEEB9161E2D2600E01F48 /* users@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "users@2x.png"; path = "resources/mac/users@2x.png"; sourceTree = SOURCE_ROOT; };
 		082CEEBE161F685900E01F48 /* RCVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCVariable.h; sourceTree = "<group>"; };
 		082CEEBF161F685900E01F48 /* RCVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCVariable.m; sourceTree = "<group>"; };
+		0833CAAD174160CA0007B54E /* RCMCourseAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMCourseAdminController.h; sourceTree = "<group>"; };
+		0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMCourseAdminController.m; sourceTree = "<group>"; };
+		0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMCourseAdminController.xib; sourceTree = "<group>"; };
 		083AAEE6162CA73E0037AAB3 /* MAKVONotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAKVONotificationCenter.h; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.h; sourceTree = "<group>"; };
 		083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAKVONotificationCenter.m; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.m; sourceTree = "<group>"; };
 		083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableListViewController.h; sourceTree = "<group>"; };
@@ -1312,6 +1317,9 @@
 				0811F99016FB6A290060BAB4 /* RCMAdminController.h */,
 				0811F99116FB6A290060BAB4 /* RCMAdminController.m */,
 				0811F99216FB6A290060BAB4 /* RCMAdminController.xib */,
+				0833CAAD174160CA0007B54E /* RCMCourseAdminController.h */,
+				0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */,
+				0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */,
 			);
 			name = admin;
 			path = source/mac/admin;
@@ -2623,6 +2631,7 @@
 				08063D5D173AF33C0054FD1D /* MCVariableDetailsController.xib in Resources */,
 				08063D68173D8E290054FD1D /* shareperm.png in Resources */,
 				08063D69173D8E290054FD1D /* shareperm@2x.png in Resources */,
+				0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3015,6 +3024,7 @@
 				0811F9F917189C390060BAB4 /* RCMMultiUpView.m in Sources */,
 				0811F9FC17342CB70060BAB4 /* RCMPreviewImageView.m in Sources */,
 				08063D5C173AF33C0054FD1D /* MCVariableDetailsController.m in Sources */,
+				0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

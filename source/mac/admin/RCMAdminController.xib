@@ -76,15 +76,18 @@
 						<string key="NSFrame">{{13, 10}, {714, 541}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="584656674"/>
+						<reference key="NSNextKeyView" ref="910414855"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<array class="NSMutableArray" key="NSTabViewItems">
 							<object class="NSTabViewItem" id="205820033">
 								<string key="NSIdentifier">users</string>
 								<object class="NSView" key="NSView" id="910414855">
-									<nil key="NSNextResponder"/>
+									<reference key="NSNextResponder" ref="136774958"/>
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{10, 33}, {694, 495}}</string>
+									<reference key="NSSuperview" ref="136774958"/>
+									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="873884603"/>
 									<string key="NSReuseIdentifierKey">_NS:11</string>
 								</object>
 								<string key="NSLabel">Users</string>
@@ -102,11 +105,9 @@
 							<object class="NSTabViewItem" id="318089321">
 								<string key="NSIdentifier">perms</string>
 								<object class="NSView" key="NSView" id="584656674">
-									<reference key="NSNextResponder" ref="136774958"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{10, 33}, {694, 495}}</string>
-									<reference key="NSSuperview" ref="136774958"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="873884603"/>
 									<string key="NSReuseIdentifierKey">_NS:28</string>
 								</object>
@@ -114,14 +115,26 @@
 								<reference key="NSColor" ref="659398460"/>
 								<reference key="NSTabView" ref="136774958"/>
 							</object>
+							<object class="NSTabViewItem" id="132546903">
+								<string key="NSIdentifier">courses</string>
+								<object class="NSView" key="NSView" id="747885949">
+									<nil key="NSNextResponder"/>
+									<int key="NSvFlags">256</int>
+									<string key="NSFrame">{{10, 33}, {694, 495}}</string>
+									<reference key="NSNextKeyView" ref="873884603"/>
+								</object>
+								<string key="NSLabel">Courses</string>
+								<reference key="NSColor" ref="659398460"/>
+								<reference key="NSTabView" ref="136774958"/>
+							</object>
 						</array>
-						<reference key="NSSelectedTabViewItem" ref="318089321"/>
+						<reference key="NSSelectedTabViewItem" ref="205820033"/>
 						<reference key="NSFont" ref="550030649"/>
 						<int key="NSTvFlags">0</int>
 						<bool key="NSAllowTruncatedLabels">YES</bool>
 						<bool key="NSDrawsBackground">YES</bool>
 						<array class="NSMutableArray" key="NSSubviews">
-							<reference ref="584656674"/>
+							<reference ref="910414855"/>
 						</array>
 					</object>
 				</array>
@@ -336,6 +349,7 @@
 								<float key="scoringTypeFloat">40</float>
 								<int key="contentType">1</int>
 							</object>
+							<reference ref="132546903"/>
 						</array>
 						<reference key="parent" ref="1005"/>
 					</object>
@@ -439,6 +453,19 @@
 						<reference key="object" ref="458235874"/>
 						<reference key="parent" ref="873884603"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">33</int>
+						<reference key="object" ref="132546903"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="747885949"/>
+						</array>
+						<reference key="parent" ref="136774958"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">34</int>
+						<reference key="object" ref="747885949"/>
+						<reference key="parent" ref="132546903"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -468,6 +495,14 @@
 				<string key="18.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="3.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">InitialTabViewItem</string>
+					<object class="IBInitialTabViewItemAttribute" key="NS.object.0">
+						<string key="name">InitialTabViewItem</string>
+						<reference key="object" ref="136774958"/>
+						<reference key="initialTabViewItem" ref="205820033"/>
+					</object>
+				</object>
 				<array key="3.IBNSViewMetadataConstraints">
 					<reference ref="1062009336"/>
 				</array>
@@ -475,6 +510,8 @@
 				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="30.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="33.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="34.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -484,7 +521,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">32</int>
+			<int key="maxID">34</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
