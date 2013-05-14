@@ -251,7 +251,7 @@
 		}
 		return str.length > 0;
 	}
-	return NO;
+	return [self validateUserInterfaceItem:menuItem];
 }
 
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
