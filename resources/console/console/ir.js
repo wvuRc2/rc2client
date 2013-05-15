@@ -1,3 +1,12 @@
+function forceStyleRefresh() {
+	var scroll = $(window).scrollTop();
+	$('#consoleOutput').css('display', 'none'); 
+	setTimeout(function() { 
+		$('#consoleOutput').css('display','block'); 
+	//	$("html").scrollTop(scroll)
+	}, 0);
+}
+
 //test functions that will eventually be replaced
 function executeConsoleInput() {
 	var txt = document.getElementById('consoleTextField').value;

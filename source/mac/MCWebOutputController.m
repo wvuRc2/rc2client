@@ -95,6 +95,8 @@
 -(NSString*)themedStyleSheet
 {
 	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
+	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"$('#themecss').attr('href','%@?%1f'); forceStyleRefresh();", theme.cssfile, [NSDate timeIntervalSinceReferenceDate]]];
+
 	return [NSString stringWithFormat:@"$(\"<style type='text/css'>#consoleOutputGenerated > table > tbody > tr:nth-child(even) {	background-color: #%@; } "
 			"#consoleOutputGenerated > table > tbody > tr:nth-child(odd) {background-color: #%@; } table.ir-mx th {background-color: #%@} "
 			"</style>\").appendTo('head')",
