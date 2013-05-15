@@ -47,6 +47,8 @@
 		082CEEC1161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
 		0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */; };
 		0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */; };
+		0833CABE17441D640007B54E /* fontDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 0833CABC17441D640007B54E /* fontDown.png */; };
+		0833CABF17441D640007B54E /* fontUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 0833CABD17441D640007B54E /* fontUp.png */; };
 		083AAEE8162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
 		083AAEE9162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
 		083AAEF2162DDECF0037AAB3 /* VariableListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */; };
@@ -609,6 +611,8 @@
 		0833CAAD174160CA0007B54E /* RCMCourseAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMCourseAdminController.h; sourceTree = "<group>"; };
 		0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMCourseAdminController.m; sourceTree = "<group>"; };
 		0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMCourseAdminController.xib; sourceTree = "<group>"; };
+		0833CABC17441D640007B54E /* fontDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fontDown.png; path = resources/mac/fontDown.png; sourceTree = SOURCE_ROOT; };
+		0833CABD17441D640007B54E /* fontUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fontUp.png; path = resources/mac/fontUp.png; sourceTree = SOURCE_ROOT; };
 		083AAEE6162CA73E0037AAB3 /* MAKVONotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAKVONotificationCenter.h; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.h; sourceTree = "<group>"; };
 		083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAKVONotificationCenter.m; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.m; sourceTree = "<group>"; };
 		083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableListViewController.h; sourceTree = "<group>"; };
@@ -1343,6 +1347,8 @@
 				0845940E15B5F22700297C9D /* baccord-right.png */,
 				082CEEB6161E2D2600E01F48 /* files.png */,
 				082CEEB7161E2D2600E01F48 /* files@2x.png */,
+				0833CABC17441D640007B54E /* fontDown.png */,
+				0833CABD17441D640007B54E /* fontUp.png */,
 				082CEEB8161E2D2600E01F48 /* users.png */,
 				082CEEB9161E2D2600E01F48 /* users@2x.png */,
 				082CEEB1161E2ADD00E01F48 /* variables.png */,
@@ -2632,6 +2638,8 @@
 				08063D68173D8E290054FD1D /* shareperm.png in Resources */,
 				08063D69173D8E290054FD1D /* shareperm@2x.png in Resources */,
 				0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */,
+				0833CABE17441D640007B54E /* fontDown.png in Resources */,
+				0833CABF17441D640007B54E /* fontUp.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

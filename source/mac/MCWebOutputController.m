@@ -137,6 +137,8 @@
 {
 	savedState.consoleHtml = [self.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];
 	savedState.commandHistory = self.commandHistory;
+	NSData *wprefs = [NSKeyedArchiver archivedDataWithRootObject:self.webView.preferences];
+	[savedState setProperty:wprefs forKey:@"webPreferences"];
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
@@ -145,6 +147,9 @@
 	[self.commandHistory removeAllObjects];
 	[self.commandHistory addObjectsFromArray:savedState.commandHistory];
 	self.historyHasItems = self.commandHistory.count > 0;
+	NSData *wpdata = [savedState propertyForKey:@"webPreferences"];
+	if (wpdata)
+		self.webView.preferences = [NSKeyedUnarchiver unarchiveObjectWithData:wpdata];
 }
 
 -(NSString*)executeJavaScript:(NSString*)js
