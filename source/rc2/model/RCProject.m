@@ -27,7 +27,7 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 	static NSArray *sds=nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		sds = @[[NSSortDescriptor sortDescriptorWithKey:@"isAdmin" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
+		sds = @[[NSSortDescriptor sortDescriptorWithKey:@"isAdmin" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"isClass" ascending:NO],[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
 	});
 	return sds;
 }

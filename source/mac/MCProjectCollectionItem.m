@@ -127,7 +127,7 @@
 	self.itemLabel.delegate = self;
 	[self.cellView setItemLabel:self.itemLabel];
 	self.cellView.isProject = [representedObject isKindOfClass:[RCProject class]];
-	self.cellView.isCourse = [representedObject isClass];
+	self.cellView.isCourse = self.cellView.isProject && [representedObject isClass];
 	[self.cellView adjustColors];
 	self.cellView.shareButton.state = [[representedObject name] length] > 6;
 	[self reloadItemDetails];
