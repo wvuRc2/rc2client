@@ -793,6 +793,19 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	return [self genericGetRequest:@"courses" parameters:nil handler:hblock];
 }
 
+-(void)addCourse:(NSDictionary*)params completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	[_httpClient postPath:@"courses" parameters:params success:^(id op, id rsp) {
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			hblock(YES, rsp);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
 #pragma mark - login/logout
 
 -(void)handleLoginResponse:(id)response forUser:(NSString*)user completionHandler:(Rc2FetchCompletionHandler)handler

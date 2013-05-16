@@ -20,6 +20,8 @@
 		<string>45a7bc</string>
 		<key>WorkspaceColor</key>
 		<string>b7b7b7</string>
+		<key>ClassColor</key>
+		<string>eeb6b7</string>
 		<key>NoteCellStart</key>
 		<string>e5d28d</string>
 		<key>NoteCellEnd</key>

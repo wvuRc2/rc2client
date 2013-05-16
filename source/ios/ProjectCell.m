@@ -56,7 +56,8 @@
 -(void)adjustColors
 {
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
-	self.curColor = [AMColor colorWithColor:[theme colorForKey: [self.cellItem isKindOfClass:[RCProject class]] ? @"ProjectColor" : @"WorkspaceColor"]];
+	NSString *colorKey = [self.cellItem isKindOfClass:[RCProject class]] ? ([self.cellItem isClass] ? @"ClassColor" : @"ProjectColor") : @"WorkspaceColor";
+	self.curColor = [AMColor colorWithColor:[theme colorForKey: colorKey]];
 	self.curColor = [self.curColor colorWithAlpha:0.3];
 	self.cellLayer.backgroundColor = [self.curColor CGColor];
 }

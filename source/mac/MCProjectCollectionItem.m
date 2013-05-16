@@ -16,6 +16,7 @@
 @interface MacProjectCellView : AMControlledView
 @property (nonatomic) BOOL selected;
 @property (nonatomic) BOOL isProject;
+@property (nonatomic) BOOL isCourse;
 @property (strong) AMColor *regColor;
 @property (weak) CALayer *innerLayer;
 @property (weak) IBOutlet NSTextField *itemLabel;
@@ -23,6 +24,7 @@
 @property (nonatomic, weak) IBOutlet NSButton *shareButton;
 -(void)startEditing;
 -(void)endEditing;
+-(void)adjustColors;
 @end
 
 @interface MCProjectCollectionItem()
@@ -125,6 +127,8 @@
 	self.itemLabel.delegate = self;
 	[self.cellView setItemLabel:self.itemLabel];
 	self.cellView.isProject = [representedObject isKindOfClass:[RCProject class]];
+	self.cellView.isCourse = [representedObject isClass];
+	[self.cellView adjustColors];
 	self.cellView.shareButton.state = [[representedObject name] length] > 6;
 	[self reloadItemDetails];
 }
@@ -225,16 +229,8 @@
 -(void)adjustColors
 {
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
-	AMColor *color = [AMColor colorWithColor: [theme colorForKey: self.isProject ? @"ProjectColor" : @"WorkspaceColor"]];
-	self.regColor = [color colorWithAlpha:0.3];
-	self.innerLayer.backgroundColor = self.regColor.CGColor;
-}
-
--(void)setIsProject:(BOOL)isProject
-{
-	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
-	_isProject = isProject;
-	AMColor *color = [AMColor colorWithColor: [theme colorForKey: isProject ? @"ProjectColor" : @"WorkspaceColor"]];
+	NSString *cstring = self.isCourse ? @"ClassColor" : (self.isProject ? @"ProjectColor" : @"WorkspaceColor");
+	AMColor *color = [AMColor colorWithColor: [theme colorForKey: cstring]];
 	self.regColor = [color colorWithAlpha:0.3];
 	self.innerLayer.backgroundColor = self.regColor.CGColor;
 }

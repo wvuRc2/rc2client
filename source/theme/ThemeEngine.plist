@@ -6,6 +6,7 @@
 	<array>
 		<string>ProjectColor</string>
 		<string>WorkspaceColor</string>
+		<string>ClassColor</string>
 		<string>NoteCellStart</string>
 		<string>NoteCellEnd</string>
 		<string>WelcomeBackground</string>

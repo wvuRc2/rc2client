@@ -19,6 +19,7 @@
 @property (nonatomic, strong, readonly) NSArray *workspaces;
 @property (nonatomic, copy, readonly) NSArray *files;
 @property (nonatomic, readonly) BOOL userEditable;
+@property (nonatomic, readonly) BOOL isClass;
 
 +(NSArray*)projectsForJsonArray:(NSArray*)jsonArray includeAdmin:(BOOL)admin;
 +(NSArray*)projectSortDescriptors;

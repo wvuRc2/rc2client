@@ -133,6 +133,11 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 	return [_type isEqualToString:@"admin"];
 }
 
+-(BOOL)isClass
+{
+	return [_type isEqualToString:@"class"];
+}
+
 -(NSString*)description
 {
 	return [NSString stringWithFormat:@"RCProject: %@, (%d workspaces)", self.name, (int)_workspaces.count];
