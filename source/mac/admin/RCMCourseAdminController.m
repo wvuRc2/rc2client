@@ -47,17 +47,16 @@
 			Rc2LogError(@"failed to fetch courses");
 		}
 	}];
-	[self observeTarget:self.courseController keyPath:@"selection" options:0 block:^(MAKVONotification *notification) {
+	[self observeTarget:self.instanceController keyPath:@"selectionIndex" options:0 block:^(MAKVONotification *notification) {
 		[notification.observer fetchStudents];
 	}];
 }
 
 -(void)fetchStudents
 {
-	NSDictionary *course = self.courseController.selectedObjects.firstObject;
-	if (nil == course)
-		self.studentsController.content = @[];
-	else {
+	NSDictionary *course = self.instanceController.selectedObjects.firstObject;
+	self.studentsController.content = @[];
+	if (course) {
 		[[Rc2Server sharedInstance] fetchCourseStudents:[course objectForKey:@"id"] completionHandler:^(BOOL success, id results) {
 			self.studentsController.content = [[results objectForKey:@"students"] mutableCopy];
 		}];
@@ -79,7 +78,11 @@
 		 [bself.requestLock lock];
 		 //only if we are the most recent request
 		 if ([bself.requestId isEqualToString:rid]) {
-			 self.searchResults = [results objectForKey:@"users"];
+			 if (success) {
+				 self.searchResults = [results objectForKey:@"users"];
+			 } else {
+				 NSLog(@"search:%@", results);
+			 }
 		 }
 		 [bself.requestLock unlock];
 	 }];
@@ -88,14 +91,44 @@
 
 -(IBAction)addToClass:(id)sender
 {
-	if (![sender isKindOfClass:[NSArray class]])
-		sender = self.searchResultsController.selectedObjects;
-	NSLog(@"addToClass:%@", sender);
+	id userDict;
+	if ([sender isKindOfClass:[NSArray class]])
+		userDict = [sender firstObject];
+	else
+		userDict = self.searchResultsController.selectedObjects.firstObject;
+	if (nil == userDict)
+		return;
+	NSNumber *userId = [userDict objectForKey:@"id"];
+	NSDictionary *courseDict = self.instanceController.selectedObjects.firstObject;
+	NSNumber *courseId = [courseDict objectForKey:@"id"];
+	[[Rc2Server sharedInstance] addStudent:userId toCourse:courseId completionHandler:^(BOOL success, id results) {
+		if (success) {
+			[self.studentsController addObject:userDict];
+		} else {
+			[NSAlert displayAlertWithTitle:@"Error Adding Student" details:results window:self.view.window];
+		}
+	}];
 }
 
 -(IBAction)removeFromClass:(id)sender
 {
-	
+	id userDict;
+	if ([sender isKindOfClass:[NSArray class]])
+		userDict = [sender firstObject];
+	else
+		userDict = self.studentsController.selectedObjects.firstObject;
+	if (nil == userDict)
+		return;
+	NSNumber *userId = [userDict objectForKey:@"id"];
+	NSDictionary *courseDict = self.instanceController.selectedObjects.firstObject;
+	NSNumber *courseId = [courseDict objectForKey:@"id"];
+	[[Rc2Server sharedInstance] removeStudent:userId fromCourse:courseId completionHandler:^(BOOL success, id results) {
+		if (success) {
+			[self.studentsController removeObject:userDict];
+		} else {
+			[NSAlert displayAlertWithTitle:@"Error Removing Student" details:results window:self.view.window];
+		}
+	}];
 }
 
 -(void)loadCourses:(id)results

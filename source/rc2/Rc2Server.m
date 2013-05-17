@@ -811,6 +811,34 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	}];
 }
 
+-(void)addStudent:(NSNumber*)userId toCourse:(NSNumber*)courseId completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSString *path = [NSString stringWithFormat:@"/courses/%@/student", courseId];
+	[_httpClient postPath:path parameters:@{@"student":userId} success:^(AFHTTPRequestOperation *operation, id rsp) {
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			hblock(YES, rsp);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
+-(void)removeStudent:(NSNumber*)userId fromCourse:(NSNumber*)courseId completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSString *path = [NSString stringWithFormat:@"/courses/%@/student/%@", courseId, userId];
+	[_httpClient deletePath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id rsp) {
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			hblock(YES, rsp);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
 #pragma mark - login/logout
 
 -(void)handleLoginResponse:(id)response forUser:(NSString*)user completionHandler:(Rc2FetchCompletionHandler)handler
