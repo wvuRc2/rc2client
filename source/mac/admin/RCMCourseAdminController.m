@@ -8,6 +8,7 @@
 
 #import "RCMCourseAdminController.h"
 #import "Rc2Server.h"
+#import "MAKVONotificationCenter.h"
 
 @interface RCMCourseAdminController ()
 @property (nonatomic, copy) NSArray *semesters;
@@ -17,7 +18,14 @@
 @property (nonatomic, strong) IBOutlet NSArrayController *courseController;
 @property (nonatomic, strong) IBOutlet NSArrayController *instructorController;
 @property (nonatomic, strong) IBOutlet NSArrayController *instanceController;
+@property (nonatomic, strong) IBOutlet NSArrayController *searchResultsController;
+@property (nonatomic, strong) IBOutlet NSArrayController *studentsController;
+@property (nonatomic, copy) NSString *searchString;
 @property (nonatomic, strong) IBOutlet NSWindow *addDialog;
+@property (nonatomic, strong) NSRecursiveLock *requestLock;
+@property (copy) NSString *requestId;
+@property (copy) NSArray *searchResults;
+-(void)fetchStudents;
 @end
 
 @implementation RCMCourseAdminController
@@ -31,6 +39,7 @@
 
 -(void)awakeFromNib
 {
+	self.requestLock = [[NSRecursiveLock alloc] init];
 	[[Rc2Server sharedInstance] fetchCourses:^(BOOL success, id results) {
 		if (success) {
 			[self loadCourses:results];
@@ -38,6 +47,55 @@
 			Rc2LogError(@"failed to fetch courses");
 		}
 	}];
+	[self observeTarget:self.courseController keyPath:@"selection" options:0 block:^(MAKVONotification *notification) {
+		[notification.observer fetchStudents];
+	}];
+}
+
+-(void)fetchStudents
+{
+	NSDictionary *course = self.courseController.selectedObjects.firstObject;
+	if (nil == course)
+		self.studentsController.content = @[];
+	else {
+		[[Rc2Server sharedInstance] fetchCourseStudents:[course objectForKey:@"id"] completionHandler:^(BOOL success, id results) {
+			self.studentsController.content = [[results objectForKey:@"students"] mutableCopy];
+		}];
+	}
+}
+
+-(IBAction)searchUsers:(id)sender
+{
+	if (_searchString.length < 1) {
+		self.searchResultsController.content = [NSArray array];
+		return;
+	}
+	[self.requestLock lock];
+	NSString *rid = [NSString stringWithUUID];
+	self.requestId = rid;
+	__weak RCMCourseAdminController *bself = self;
+	[[Rc2Server sharedInstance] searchUsers:@{@"type":@"all", @"value":_searchString} completionHandler:^(BOOL success, id results)
+	 {
+		 [bself.requestLock lock];
+		 //only if we are the most recent request
+		 if ([bself.requestId isEqualToString:rid]) {
+			 self.searchResults = [results objectForKey:@"users"];
+		 }
+		 [bself.requestLock unlock];
+	 }];
+	[self.requestLock unlock];
+}
+
+-(IBAction)addToClass:(id)sender
+{
+	if (![sender isKindOfClass:[NSArray class]])
+		sender = self.searchResultsController.selectedObjects;
+	NSLog(@"addToClass:%@", sender);
+}
+
+-(IBAction)removeFromClass:(id)sender
+{
+	
 }
 
 -(void)loadCourses:(id)results

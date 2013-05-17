@@ -793,6 +793,11 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	return [self genericGetRequest:@"courses" parameters:nil handler:hblock];
 }
 
+-(void)fetchCourseStudents:(NSNumber*)courseId completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	return [self genericGetRequest:[NSString stringWithFormat:@"/courses/%@/student", courseId] parameters:nil handler:hblock];
+}
+
 -(void)addCourse:(NSDictionary*)params completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	[_httpClient postPath:@"courses" parameters:params success:^(id op, id rsp) {
