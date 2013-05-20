@@ -142,9 +142,12 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 
 -(void)executeScript:(NSString*)script scriptName:(NSString*)fname
 {
-	//fname could be null, so at end of list
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"executeScript", @"cmd", script, @"script", 
-						  fname, @"fname", nil];
+	//fname or script could be null, so can't use literals
+	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObject:@"executeScript" forKey:@"cmd"];
+	if (script)
+		[dict setObject:script forKey:@"script"];
+	if (fname)
+		[dict setObject:fname forKey:@"fname"];
 	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }
