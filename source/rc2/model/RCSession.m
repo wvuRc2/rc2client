@@ -235,7 +235,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 {
 	if (self.socketOpen && fabs([self.timeOfLastTraffic timeIntervalSinceNow]) > 120) {
 		//send a dummy message that will be ignored
-		[_ws sendText:@"{cmd:\"keepAlive\"}"];
+		[_ws sendText:@"{\"cmd\":\"keepAlive\"}"];
 		self.timeOfLastTraffic = [NSDate date];
 	}
 }
