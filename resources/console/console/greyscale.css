@@ -3,27 +3,31 @@ body {
  }
 
 .logText {
-  color: rgba(58,214,58,0.9);
+  color: #999;
  }
 
+.sessionMsg {
+	white-space:inherit;
+}
+
 .statusText {
-  background-color: #f28ef2; }
+  background-color: #999; }
 
 .helpMsg {
-  color: #3757d6;
+  color: #333;
   }
 
 .inputText {
-  background-color: #f1de38; }
+  background-color: #e9e9e9; margin-bottom:4px; margin-top:4px;}
 
 .serverError {
-  background-color: #e5a7b8; }
+  background-color: #666; }
 
 #consoleOutputGenerated > table > tbody > tr:nth-child(even) {
-  background-color: #E2FF87; }
+  background-color: #fff; }
 
 #consoleOutputGenerated > table > tbody > tr:nth-child(odd) {
-  background-color: #FFDB87; }
+  background-color: #fff; }
 
 table.ir-mx th {
   background-color: #aaa;

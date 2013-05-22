@@ -17,7 +17,11 @@
 		<key>ResultsEvenRow</key>
 		<string>cccccc</string>
 		<key>ProjectColor</key>
-		<string>E9E9E9</string>
+		<string>dcdcdc</string>
+		<key>WorkspaceColor</key>
+		<string>e9e9e9</string>
+		<key>ClassColor</key>
+		<string>cfcfcf</string>
 		<key>PriorityColors</key>
 		<array>
 			<string>db0404</string>
