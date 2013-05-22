@@ -36,6 +36,7 @@
 		[self.textContainer setWidthTracksTextView:NO];
 		[self setHorizontallyResizable:YES];
 	}
+	[self setAutomaticSpellingCorrectionEnabled:NO];
 //	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontPrefsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
 	[self fontPrefsChanged:nil];
 }
