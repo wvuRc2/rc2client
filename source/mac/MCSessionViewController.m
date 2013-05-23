@@ -153,6 +153,10 @@
 		[self.editView.enclosingScrollView setVerticalRulerView:lnv];
 		[self.editView.enclosingScrollView setRulersVisible:YES];
 		
+		
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:kPref_EditorShowInvisible])
+			[self.editView.layoutManager setShowsInvisibleCharacters:YES];
+		
 		//caches
 		__unsafe_unretained MCSessionViewController *blockSelf = self;
 		[self observeTarget:self.sessionView keyPath:@"leftViewVisible" options:0 block:^(MAKVONotification *notification) {
@@ -241,6 +245,9 @@
 	if (action == @selector(toggleShowDetails:)) {
 		menuItem.state = self.session.showResultDetails ? NSOnState : NSOffState;
 		return YES;
+	} else if (action == @selector(toggleShowInvisibles:)) {
+		menuItem.state = [[NSUserDefaults standardUserDefaults] boolForKey:kPref_EditorShowInvisible];
+		return YES;
 	} else if (action == @selector(executeCurrentLine:)) {
 		NSString *str = self.editView.string;
 		NSRange selRng = self.editView.selectedRange;
@@ -298,6 +305,14 @@
 -(IBAction)toggleShowDetails:(id)sender
 {
 	self.session.showResultDetails = !self.session.showResultDetails;
+}
+
+-(IBAction)toggleShowInvisibles:(id)sender
+{
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+	BOOL newVal = ![defs boolForKey:kPref_EditorShowInvisible];
+	[defs setBool:newVal forKey:kPref_EditorShowInvisible];
+	[self.editView.layoutManager setShowsInvisibleCharacters:newVal];
 }
 
 -(IBAction)toggleLeftSideView:(id)sender

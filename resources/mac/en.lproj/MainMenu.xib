@@ -834,6 +834,14 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
+								<object class="NSMenuItem" id="584051671">
+									<reference key="NSMenu" ref="466310130"/>
+									<string key="NSTitle">Show Invisibles</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
 								<object class="NSMenuItem" id="506912274">
 									<reference key="NSMenu" ref="466310130"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -1647,6 +1655,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleShowInvisibles:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="584051671"/>
+					</object>
+					<int key="connectionID">703</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
 						<string key="label">orderFrontFontPanel:</string>
 						<reference key="source" ref="755631768"/>
 						<reference key="destination" ref="548863041"/>
@@ -2069,6 +2085,7 @@
 							<reference ref="816098811"/>
 							<reference ref="732652535"/>
 							<reference ref="1046863369"/>
+							<reference ref="584051671"/>
 						</array>
 						<reference key="parent" ref="586577488"/>
 					</object>
@@ -2485,6 +2502,11 @@
 						<reference key="object" ref="1020729073"/>
 						<reference key="parent" ref="1066737987"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">701</int>
+						<reference key="object" ref="584051671"/>
+						<reference key="parent" ref="466310130"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -2605,6 +2627,7 @@
 				<string key="692.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="694.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="697.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="701.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="78.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2618,7 +2641,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">700</int>
+			<int key="maxID">703</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2706,15 +2729,28 @@
 					<string key="superclassName">MCAbstractViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeMode:">id</string>
+						<string key="contextualHelp:">id</string>
 						<string key="createNewFile:">id</string>
+						<string key="deleteFile:">id</string>
+						<string key="duplicateFile:">id</string>
+						<string key="executeCurrentLine:">id</string>
 						<string key="executeScript:">id</string>
 						<string key="exportFile:">id</string>
 						<string key="importFile:">id</string>
+						<string key="refreshVariables:">id</string>
+						<string key="renameFile:">id</string>
+						<string key="restartR:">id</string>
+						<string key="revert:">id</string>
 						<string key="saveFileEdits:">id</string>
 						<string key="showImageDetails:">id</string>
 						<string key="tbTabButtonPressed:">NSButton</string>
+						<string key="toggleFiles:">id</string>
 						<string key="toggleHand:">id</string>
+						<string key="toggleLeftSideView:">id</string>
 						<string key="toggleMicrophone:">id</string>
+						<string key="toggleShowDetails:">id</string>
+						<string key="toggleShowInvisibles:">id</string>
+						<string key="toggleUsers:">id</string>
 						<string key="toggleVariables:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -2722,8 +2758,24 @@
 							<string key="name">changeMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="contextualHelp:">
+							<string key="name">contextualHelp:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="createNewFile:">
 							<string key="name">createNewFile:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="deleteFile:">
+							<string key="name">deleteFile:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="duplicateFile:">
+							<string key="name">duplicateFile:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="executeCurrentLine:">
+							<string key="name">executeCurrentLine:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="executeScript:">
@@ -2738,6 +2790,22 @@
 							<string key="name">importFile:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="refreshVariables:">
+							<string key="name">refreshVariables:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="renameFile:">
+							<string key="name">renameFile:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="restartR:">
+							<string key="name">restartR:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="revert:">
+							<string key="name">revert:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="saveFileEdits:">
 							<string key="name">saveFileEdits:</string>
 							<string key="candidateClassName">id</string>
@@ -2750,12 +2818,32 @@
 							<string key="name">tbTabButtonPressed:</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
+						<object class="IBActionInfo" key="toggleFiles:">
+							<string key="name">toggleFiles:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="toggleHand:">
 							<string key="name">toggleHand:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="toggleLeftSideView:">
+							<string key="name">toggleLeftSideView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="toggleMicrophone:">
 							<string key="name">toggleMicrophone:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleShowDetails:">
+							<string key="name">toggleShowDetails:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleShowInvisibles:">
+							<string key="name">toggleShowInvisibles:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleUsers:">
+							<string key="name">toggleUsers:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleVariables:">

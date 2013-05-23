@@ -28,6 +28,7 @@ extern NSString * const RCMToolbarItem_Users;
 #define kPref_EditorFontColor @"EditorFontColor"
 #define kPref_EditorBGColor @"EditorBGColor"
 #define kPref_EditorWordWrap @"EditorWordWrap"
+#define kPref_EditorShowInvisible @"ShowInvisibleChars"
 
 #define kMenuView 2
 #define kMenuView_Theme 2112
