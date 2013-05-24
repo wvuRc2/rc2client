@@ -12,6 +12,7 @@
 
 
 extern const struct RCFileAttributes {
+	__unsafe_unretained NSString *endDate;
 	__unsafe_unretained NSString *fileContents;
 	__unsafe_unretained NSString *fileId;
 	__unsafe_unretained NSString *isAssignmentFile;
@@ -22,6 +23,8 @@ extern const struct RCFileAttributes {
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *readOnly;
 	__unsafe_unretained NSString *sizeString;
+	__unsafe_unretained NSString *startDate;
+	__unsafe_unretained NSString *turnedIn;
 	__unsafe_unretained NSString *version;
 } RCFileAttributes;
 
@@ -45,6 +48,9 @@ extern const struct RCFileFetchedProperties {
 
 
 
+
+
+
 @interface RCFileID : NSManagedObjectID {}
 @end
 
@@ -53,6 +59,13 @@ extern const struct RCFileFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (RCFileID*)objectID;
+
+
+
+@property (nonatomic, strong) NSDate *endDate;
+
+
+//- (BOOL)validateEndDate:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -138,6 +151,24 @@ extern const struct RCFileFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSDate *startDate;
+
+
+//- (BOOL)validateStartDate:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, strong) NSNumber *turnedIn;
+
+
+@property BOOL turnedInValue;
+- (BOOL)turnedInValue;
+- (void)setTurnedInValue:(BOOL)value_;
+
+//- (BOOL)validateTurnedIn:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, strong) NSNumber *version;
 
 
@@ -175,6 +206,12 @@ extern const struct RCFileFetchedProperties {
 @end
 
 @interface _RCFile (CoreDataGeneratedPrimitiveAccessors)
+
+
+- (NSDate*)primitiveEndDate;
+- (void)setPrimitiveEndDate:(NSDate*)value;
+
+
 
 
 - (NSString*)primitiveFileContents;
@@ -242,6 +279,21 @@ extern const struct RCFileFetchedProperties {
 
 - (NSString*)primitiveSizeString;
 - (void)setPrimitiveSizeString:(NSString*)value;
+
+
+
+
+- (NSDate*)primitiveStartDate;
+- (void)setPrimitiveStartDate:(NSDate*)value;
+
+
+
+
+- (NSNumber*)primitiveTurnedIn;
+- (void)setPrimitiveTurnedIn:(NSNumber*)value;
+
+- (BOOL)primitiveTurnedInValue;
+- (void)setPrimitiveTurnedInValue:(BOOL)value_;
 
 
 

@@ -52,7 +52,11 @@
 //	if ([[dict objectForKey:@"fsize"] cgFloatValue] < 4096)
 //		[[Rc2Server sharedInstance] fetchFileContents:file completionHandler:^(BOOL success, id obj) {}];
 
-	
+	NSNumber *aDate = [dict objectForKey:@"startDate"];
+	self.startDate = aDate ? [NSDate dateWithTimeIntervalSince1970:[aDate longLongValue]/1000] : nil;
+	aDate = [dict objectForKey:@"endDate"];
+	self.endDate = aDate ? [NSDate dateWithTimeIntervalSince1970:[aDate longLongValue]/1000] : nil;
+
 	NSDate *lm = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"lastmodified"] longLongValue]/1000];
 	//flush contents if file has been updated
 	if (lm.timeIntervalSinceNow > self.lastModified.timeIntervalSinceNow) {

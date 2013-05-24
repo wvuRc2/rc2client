@@ -11,6 +11,7 @@
 #import "_RCFile.h"
 
 const struct RCFileAttributes RCFileAttributes = {
+	.endDate = @"endDate",
 	.fileContents = @"fileContents",
 	.fileId = @"fileId",
 	.isAssignmentFile = @"isAssignmentFile",
@@ -21,6 +22,8 @@ const struct RCFileAttributes RCFileAttributes = {
 	.name = @"name",
 	.readOnly = @"readOnly",
 	.sizeString = @"sizeString",
+	.startDate = @"startDate",
+	.turnedIn = @"turnedIn",
 	.version = @"version",
 };
 
@@ -69,6 +72,10 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 		NSSet *affectingKey = [NSSet setWithObject:@"readOnly"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 	}
+	if ([key isEqualToString:@"turnedInValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"turnedIn"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+	}
 	if ([key isEqualToString:@"versionValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"version"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -76,6 +83,13 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 
 	return keyPaths;
 }
+
+
+
+
+@dynamic endDate;
+
+
 
 
 
@@ -202,6 +216,39 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 
 @dynamic sizeString;
 
+
+
+
+
+
+@dynamic startDate;
+
+
+
+
+
+
+@dynamic turnedIn;
+
+
+
+- (BOOL)turnedInValue {
+	NSNumber *result = [self turnedIn];
+	return [result boolValue];
+}
+
+- (void)setTurnedInValue:(BOOL)value_ {
+	[self setTurnedIn:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveTurnedInValue {
+	NSNumber *result = [self primitiveTurnedIn];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveTurnedInValue:(BOOL)value_ {
+	[self setPrimitiveTurnedIn:[NSNumber numberWithBool:value_]];
+}
 
 
 

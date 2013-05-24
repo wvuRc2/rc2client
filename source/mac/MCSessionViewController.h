@@ -37,6 +37,7 @@
 -(IBAction)changeMode:(id)sender;
 -(IBAction)toggleHand:(id)sender;
 -(IBAction)toggleMicrophone:(id)sender;
+-(IBAction)promoteFile:(id)sender;
 
 -(void)saveChanges;
 

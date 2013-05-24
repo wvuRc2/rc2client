@@ -469,6 +469,12 @@
 	
 }
 
+-(IBAction)promoteFile:(id)sender
+{
+	
+}
+
+
 -(IBAction)deleteFile:(id)sender
 {
 	NSAlert *alert = [NSAlert alertWithMessageText:@"Delete File?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Are you sure you want to delete the file \"%@\"? This action can not be undone.", self.fileHelper.selectedFile.name];

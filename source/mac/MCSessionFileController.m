@@ -78,6 +78,12 @@
 -(void)menuNeedsUpdate:(NSMenu *)menu
 {
 	//we are the delegate for the contextual/action menu. Need to disable/remove any actions not permissable (such as for shared files)
+	[menu.itemArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if ([obj action] == @selector(promoteFile:)) {
+			[obj setHidden:![self.session fileCanBePromotedToAssignment:self.selectedFile]];
+			*stop = YES;
+		}
+	}];
 }
 
 -(void)updateFileArray
@@ -122,13 +128,20 @@
 {
 	id obj = [self.fileArray objectAtIndexNoExceptions:row];
 	if ([obj isKindOfClass:[RCFile class]]) {
-		RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
-		view.objectValue = obj;
-		__unsafe_unretained MCSessionFileController *blockSelf = self;
-		view.editCompleteBlock = ^(RCMSessionFileCellView *cellView) {
-			[blockSelf.delegate renameFile:cellView.objectValue to:cellView.nameField.stringValue];
-		};
-		return view;
+		if ([tableColumn.identifier isEqualToString:@"name"]) {
+			RCMSessionFileCellView *view = [tableView makeViewWithIdentifier:@"file" owner:nil];
+			view.objectValue = obj;
+			__unsafe_unretained MCSessionFileController *blockSelf = self;
+			view.editCompleteBlock = ^(RCMSessionFileCellView *cellView) {
+				[blockSelf.delegate renameFile:cellView.objectValue to:cellView.nameField.stringValue];
+			};
+			return view;
+		} else if ([tableColumn.identifier isEqualToString:@"duedate"]) {
+			NSTableCellView *cell = [tableView makeViewWithIdentifier:@"filedate" owner:nil];
+			cell.objectValue = [obj endDate];
+			cell.textField.objectValue = [obj endDate];
+			return cell;
+		}
 	}
 	NSTableCellView *tview = [tableView makeViewWithIdentifier:@"string" owner:nil];
 	tview.textField.stringValue = obj;

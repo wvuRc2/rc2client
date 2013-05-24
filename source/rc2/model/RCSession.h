@@ -72,6 +72,8 @@ enum {
 
 -(void)sendAudioInput:(NSData*)data;
 
+-(BOOL)fileCanBePromotedToAssignment:(RCFile*)file;
+
 //for classroom mode
 -(void)sendFileOpened:(RCFile*)file fullscreen:(BOOL)fs;
 

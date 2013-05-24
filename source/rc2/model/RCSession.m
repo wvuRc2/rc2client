@@ -16,7 +16,9 @@
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
 #import "RCVariable.h"
+#import "RCProject.h"
 #import "RCFile.h"
+#import "Rc2FileType.h"
 #import "RCImageCache.h"
 #import "WebSocket.h"
 #import "WebSocketConnectConfig.h"
@@ -219,6 +221,18 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 {
 	ZAssert(nil == del || [del conformsToProtocol:@protocol(RCSessionDelegate)], @"delegate not valid");
 	_delegate = del;
+}
+
+-(BOOL)fileCanBePromotedToAssignment:(RCFile*)file
+{
+	if (!self.workspace.project.isClass)
+		return NO;
+	if (!file.fileType.isSourceFile)
+		return NO;
+	if (file.isAssignmentFile)
+		return NO;
+	//TODO: need to check if student or teacher
+	return YES;
 }
 
 -(id)savedSessionState
