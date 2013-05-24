@@ -42,11 +42,9 @@
 -(void)updateWithDictionary:(NSDictionary*)dict
 {
 	self.name = [dict objectForKey:@"name"];
-	self.sizeString = [dict objectForKey:@"size"];
+	self.sizeString = [dict objectForKey:@"friendlySize"];
 	self.versionValue = [[dict objectForKey:@"version"] intValue];
-	if ([[dict objectForKey:@"kind"] isKindOfClass:[NSString class]])
-		self.kind = [dict objectForKey:@"kind"];
-	self.readOnlyValue = [[dict objectForKey:@"readonly"] boolValue];
+//	self.readOnlyValue = [[dict objectForKey:@"readonly"] boolValue];
 
 	//fire off fetching the contets if we don't have them
 	//TODO: this should check the version field and any cached value
@@ -54,7 +52,7 @@
 //		[[Rc2Server sharedInstance] fetchFileContents:file completionHandler:^(BOOL success, id obj) {}];
 
 	
-	NSDate *lm = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"timestamp"] integerValue]];
+	NSDate *lm = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"lastmodified"] longLongValue]/1000];
 	//flush contents if file has been updated
 	if (lm.timeIntervalSinceNow > self.lastModified.timeIntervalSinceNow) {
 		[[NSFileManager defaultManager] removeItemAtPath:self.fileContentsPath error:nil];
