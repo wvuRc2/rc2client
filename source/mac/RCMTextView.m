@@ -87,6 +87,9 @@
 	if (nil == fnt)
 		fnt = [NSFont userFixedPitchFontOfSize:12.0];
 	[super setString:string];
+	RunAfterDelay(0.5,  ^{
+		[self.enclosingScrollView.verticalRulerView setNeedsDisplay:YES];
+	});
 //	[self.textStorage addAttribute:NSFontAttributeName value:fnt range:NSMakeRange(0, string.length)];
 }
 
@@ -197,6 +200,7 @@
 		self.textContainer.widthTracksTextView = YES;
 	}
 	[self didChangeText];
+	[self.enclosingScrollView.verticalRulerView setNeedsDisplay:YES];
 	[[NSUserDefaults standardUserDefaults] setBool:self.wordWrapEnabled forKey:kPref_EditorWordWrap];
 }
 

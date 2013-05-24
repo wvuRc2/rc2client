@@ -401,8 +401,22 @@
 		cmd = [str substringWithRange:rng];
 	}
 	[self.session executeScript:cmd scriptName:nil];
-	if (selRng.length < 1)
-		[self.editView moveDown:self];
+	//if no selection (execute line), move to next line that isn't blank
+	if (selRng.length < 1) {
+		NSUInteger lastLoc=0;
+		while (YES) {
+			[self.editView moveToEndOfParagraph:self];
+			[self.editView moveRight:self];
+			NSRange nxtLineRng = [str lineRangeForRange:self.editView.selectedRange];
+			//if at same start point as last time, must be at end of string
+			if (lastLoc == nxtLineRng.location)
+				break;
+			lastLoc = nxtLineRng.location;
+			NSString *nlstr = [[str substringWithRange:nxtLineRng] stringByTrimmingWhitespace];
+			if (nlstr.length > 0)
+				break;
+		}
+	}
 }
 
 -(IBAction)exportFile:(id)sender
@@ -736,8 +750,13 @@
 		astr = [NSMutableAttributedString attributedStringWithString:@"" attributes:nil];
 	[astr addAttributes:self.editView.textAttributes range:NSMakeRange(0, [astr length])];
 	astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:astr ofType:self.editorFile.name.pathExtension];
-	if (astr)
+	if (astr) {
 		[self.editView.textStorage setAttributedString:astr];
+		//for some reason, the initial line numbers weren't right. This causes them to be recalculated
+		RunAfterDelay(0.4, ^{
+			[self.editView.enclosingScrollView.verticalRulerView setNeedsDisplay:YES];
+		});
+	}
 	[self.editView setEditable: !self.restrictedMode && (self.editorFile.readOnlyValue) ? NO : YES];
 }
 

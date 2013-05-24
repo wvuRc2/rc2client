@@ -143,6 +143,8 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 -(void)executeScript:(NSString*)script scriptName:(NSString*)fname
 {
 	//fname or script could be null, so can't use literals
+	if (script.stringByTrimmingWhitespace.length < 1)
+		return; //don't send empty strings
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObject:@"executeScript" forKey:@"cmd"];
 	if (script)
 		[dict setObject:script forKey:@"script"];
