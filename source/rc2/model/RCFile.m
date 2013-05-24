@@ -44,6 +44,7 @@
 	self.name = [dict objectForKey:@"name"];
 	self.sizeString = [dict objectForKey:@"friendlySize"];
 	self.versionValue = [[dict objectForKey:@"version"] intValue];
+	self.isAssignmentFileValue = [[dict objectForKey:@"assignmentFile"] boolValue];
 //	self.readOnlyValue = [[dict objectForKey:@"readonly"] boolValue];
 
 	//fire off fetching the contets if we don't have them
@@ -272,12 +273,12 @@
 -(id)permissionImage
 {
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-	if ([self.kind isEqualToString:@"done"]) return [NSImage imageNamed:@"turnedin"];
-	if ([self.kind isEqualToString:@"graded"]) return [NSImage imageNamed:@"graded"];
+//	if ([self.kind isEqualToString:@"done"]) return [NSImage imageNamed:@"turnedin"];
+//	if ([self.kind isEqualToString:@"graded"]) return [NSImage imageNamed:@"graded"];
 	if ([self readOnlyValue]) return [NSImage imageNamed:NSImageNameLockLockedTemplate];
 #else
-	if ([self.kind isEqualToString:@"done"]) return [UIImage imageNamed:@"turnedin"];
-	if ([self.kind isEqualToString:@"graded"]) return [UIImage imageNamed:@"graded"];
+//	if ([self.kind isEqualToString:@"done"]) return [UIImage imageNamed:@"turnedin"];
+//	if ([self.kind isEqualToString:@"graded"]) return [UIImage imageNamed:@"graded"];
 	if ([self readOnlyValue]) return [UIImage imageNamed:@"lock"];
 #endif
 	return nil;

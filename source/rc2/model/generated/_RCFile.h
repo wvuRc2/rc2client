@@ -14,7 +14,7 @@
 extern const struct RCFileAttributes {
 	__unsafe_unretained NSString *fileContents;
 	__unsafe_unretained NSString *fileId;
-	__unsafe_unretained NSString *kind;
+	__unsafe_unretained NSString *isAssignmentFile;
 	__unsafe_unretained NSString *lastModified;
 	__unsafe_unretained NSString *localAttributes;
 	__unsafe_unretained NSString *localEdits;
@@ -74,10 +74,14 @@ extern const struct RCFileFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString *kind;
+@property (nonatomic, strong) NSNumber *isAssignmentFile;
 
 
-//- (BOOL)validateKind:(id*)value_ error:(NSError**)error_;
+@property BOOL isAssignmentFileValue;
+- (BOOL)isAssignmentFileValue;
+- (void)setIsAssignmentFileValue:(BOOL)value_;
+
+//- (BOOL)validateIsAssignmentFile:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -188,8 +192,11 @@ extern const struct RCFileFetchedProperties {
 
 
 
-- (NSString*)primitiveKind;
-- (void)setPrimitiveKind:(NSString*)value;
+- (NSNumber*)primitiveIsAssignmentFile;
+- (void)setPrimitiveIsAssignmentFile:(NSNumber*)value;
+
+- (BOOL)primitiveIsAssignmentFileValue;
+- (void)setPrimitiveIsAssignmentFileValue:(BOOL)value_;
 
 
 

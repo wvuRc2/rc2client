@@ -13,7 +13,7 @@
 const struct RCFileAttributes RCFileAttributes = {
 	.fileContents = @"fileContents",
 	.fileId = @"fileId",
-	.kind = @"kind",
+	.isAssignmentFile = @"isAssignmentFile",
 	.lastModified = @"lastModified",
 	.localAttributes = @"localAttributes",
 	.localEdits = @"localEdits",
@@ -59,6 +59,10 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 	
 	if ([key isEqualToString:@"fileIdValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"fileId"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+	}
+	if ([key isEqualToString:@"isAssignmentFileValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"isAssignmentFile"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 	}
 	if ([key isEqualToString:@"readOnlyValue"]) {
@@ -109,8 +113,27 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 
 
 
-@dynamic kind;
+@dynamic isAssignmentFile;
 
+
+
+- (BOOL)isAssignmentFileValue {
+	NSNumber *result = [self isAssignmentFile];
+	return [result boolValue];
+}
+
+- (void)setIsAssignmentFileValue:(BOOL)value_ {
+	[self setIsAssignmentFile:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsAssignmentFileValue {
+	NSNumber *result = [self primitiveIsAssignmentFile];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsAssignmentFileValue:(BOOL)value_ {
+	[self setPrimitiveIsAssignmentFile:[NSNumber numberWithBool:value_]];
+}
 
 
 
