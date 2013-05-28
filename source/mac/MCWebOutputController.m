@@ -198,8 +198,13 @@
 	[self.delegate previewImages:nil atPoint:NSZeroPoint];
 }
 
+-(void)loadFileUrl:(NSURL*)url
+{
+	[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:url]];
+}
+
 // adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
--(NSString*)webTmpFilePath:(RCFile*)file
+-(void)loadFileFromWebTmp:(RCFile*)file
 {
 	NSFileManager *fm = [[NSFileManager alloc] init];
 	if (nil == self.webTmpFileDirectory) {
@@ -209,20 +214,30 @@
 	NSString *newPath = [self.webTmpFileDirectory stringByAppendingPathComponent:file.name];
 	if (![file.name hasSuffix:@".html"])
 		newPath = [newPath stringByAppendingPathExtension:@"txt"];
-	NSError *err=nil;
+	__block NSError *err=nil;
 	if ([fm fileExistsAtPath:newPath])
 		[fm removeItemAtPath:newPath error:nil];
-	if (!file.contentsLoaded)
-		[file updateContentsFromServer:^(NSInteger success){}]; //TODO: need to handle synchronously
-	if (![fm fileExistsAtPath:file.fileContentsPath]) {
-		if (![file.fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
-			Rc2LogError(@"failed to write web tmp file:%@", err);
-	} else if (![fm copyItemAtPath:file.fileContentsPath toPath:newPath error:&err]) {
-		Rc2LogError(@"error copying file:%@", err);
+	if (file.contentsLoaded) {
+		if (![fm fileExistsAtPath:file.fileContentsPath]) {
+			if (![file.fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
+				Rc2LogError(@"failed to write web tmp file:%@", err);
+		} else if (![fm copyItemAtPath:file.fileContentsPath toPath:newPath error:&err]) {
+			Rc2LogError(@"error copying file:%@", err);
+		}
+		[self loadFileUrl:[NSURL fileURLWithPath:newPath]];
+	} else {
+		[file updateContentsFromServer:^(NSInteger success){
+			if (success) {
+				if ([file.fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
+					[self loadFileUrl:[NSURL fileURLWithPath:newPath]];
+				else
+					Rc2LogError(@"failed to write web tmp file:%@", err);
+				
+			} else {
+				Rc2LogWarn(@"failed to load file from server");
+			}
+		}];
 	}
-	if (![fm fileExistsAtPath:newPath])
-		NSLog(@"webTmpFilePath failed to write file like it should have");
-	return newPath;
 }
 
 -(void)loadLocalFile:(RCFile*)file
@@ -238,11 +253,10 @@
 		return;
 	}
 	NSString *filePath = file.fileContentsPath;
-	if (![file.name hasSuffix:@".pdf"]) {
-		//we need to adjust the path to use
-		filePath = [self webTmpFilePath:file];
-	}
-	[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:filePath]]];
+	if ([file.name hasSuffix:@".pdf"])
+		[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:filePath]]];
+	else
+		[self loadFileFromWebTmp:file];
 }
 
 #pragma mark - actions
