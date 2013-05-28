@@ -412,7 +412,8 @@
 			if (lastLoc == nxtLineRng.location)
 				break;
 			lastLoc = nxtLineRng.location;
-			NSString *nlstr = [[str substringWithRange:nxtLineRng] stringByTrimmingWhitespace];
+			NSString *nlstr = [str substringWithRange:nxtLineRng];
+			nlstr = [nlstr stringByTrimmingWhitespace];
 			if (nlstr.length > 0)
 				break;
 		}
@@ -926,6 +927,7 @@
 
 -(void)loadHelpURL:(NSURL*)url
 {
+	Rc2LogInfo(@"loading help url:%@", url);
 	[self.outputController.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
@@ -1141,6 +1143,8 @@
 			__curImgPoint = [self.view convertPoint:__curImgPoint fromView:self.outputController.view];
 			NSString *imgPath = [urlStr substringToIndex:posRng.location];
 			_currentImageGroup = [[RCImageCache sharedInstance] groupImagesForLinkPath:imgPath];
+		} else {
+			_currentImageGroup = [[RCImageCache sharedInstance] groupImagesForLinkPath:urlStr];
 		}
 		urlStr = [urlStr substringToIndex:[urlStr rangeOfString:@"?"].location];
 	}
