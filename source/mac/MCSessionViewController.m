@@ -248,6 +248,9 @@
 	} else if (action == @selector(toggleShowInvisibles:)) {
 		menuItem.state = [[NSUserDefaults standardUserDefaults] boolForKey:kPref_EditorShowInvisible];
 		return YES;
+	} else if (action == @selector(toggleWordWrap:)) {
+		menuItem.state = self.editView.wordWrapEnabled ? NSOnState : NSOffState;
+		return YES;
 	} else if (action == @selector(executeCurrentLine:)) {
 		NSString *str = self.editView.string;
 		NSRange selRng = self.editView.selectedRange;
@@ -313,6 +316,11 @@
 	BOOL newVal = ![defs boolForKey:kPref_EditorShowInvisible];
 	[defs setBool:newVal forKey:kPref_EditorShowInvisible];
 	[self.editView.layoutManager setShowsInvisibleCharacters:newVal];
+}
+
+-(IBAction)toggleWordWrap:(id)sender
+{
+	[self.editView toggleWordWrap:sender];
 }
 
 -(IBAction)toggleLeftSideView:(id)sender
