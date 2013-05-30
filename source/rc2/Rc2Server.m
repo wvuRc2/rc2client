@@ -25,7 +25,6 @@
 
 #define kServerHostKey @"ServerHostKey"
 
-NSString * const WorkspaceItemsChangedNotification = @"WorkspaceItemsChangedNotification";
 NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNotification";
 NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 NSString * const FilesChagedNotification = @"FilesChagedNotification";
@@ -156,11 +155,6 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	}
 }
 
--(void)broadcastWorkspaceItemsUpdated
-{
-	[[NSNotificationCenter defaultCenter] postNotificationName:WorkspaceItemsChangedNotification object:self];
-}
-
 -(NSMutableString*)containerPath:(id<RCFileContainer>)container
 {
 	NSMutableString *path = [NSMutableString stringWithFormat:@"proj/%@", [container projectId]];
@@ -229,6 +223,19 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
 	}];
+}
+
+-(void)updateProjects
+{
+	static NSTimeInterval lastUpdate = 0;
+	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+	if (now - lastUpdate > 60) {
+		lastUpdate = now;
+		Rc2LogInfo(@"updating project list");
+		[self genericGetRequest:@"/proj" parameters:nil handler:^(BOOL success, id results) {
+			self.projects = [RCProject projectsForJsonArray:[results objectForKey:@"projects"] includeAdmin:self.isAdmin];
+		}];
+	}
 }
 
 #pragma mark - workspaces
@@ -586,7 +593,6 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	}
 	if (container) {
 		[container removeFile:file];
-		[[NSNotificationCenter defaultCenter] postNotificationName:WorkspaceItemsChangedNotification object:container];
 	}
 }
 

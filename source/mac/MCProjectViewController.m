@@ -47,6 +47,9 @@
 		[blockSelf willChangeValueForKey:@"canDeleteSelection"];
 		[blockSelf didChangeValueForKey:@"canDeleteSelection"];
 	}];
+	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
+		blockSelf.arrayController.content = [[[Rc2Server sharedInstance] projects] mutableCopy];
+	}];
 }
 
 #pragma mark - meat & potatos
@@ -142,6 +145,7 @@
 		[self.collectionView setNeedsDisplay:YES];
 	});
 	self.selectedProject=nil;
+	[[Rc2Server sharedInstance] updateProjects];
 }
 
 #pragma mark - actions

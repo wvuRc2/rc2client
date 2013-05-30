@@ -27,7 +27,8 @@
 	if ((self = [super init])) {
 		self.name = [dict objectForKey:@"name"];
 		self.wspaceId = [dict objectForKey:@"id"];
-		self.lastAccess = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"lastaccess"] doubleValue]];
+		NSNumber *ladate = [dict objectForKey:@"lastaccess"];
+		self.lastAccess = [NSDate dateWithTimeIntervalSince1970:[ladate longLongValue]/1000];
 		//this needs to run after init has returned so we'll have had our project set
 		dispatch_async(dispatch_get_main_queue(), ^{
 			self.files = [RCFile filesFromJsonArray:[dict objectForKey:@"files"] container:self];
@@ -69,27 +70,7 @@
 		}
 	}];
 }
-/*
--(void)refreshFilesPerformingBlockBeforeNotification:(BasicBlock)block
-{
-	//!FILECHANGE!
-	
-	self.fetchingFiles=YES;
-	[[Rc2Server sharedInstance] fetchFileList:self completionHandler:^(BOOL success, id results) {
-		if (success && [results isKindOfClass:[NSArray class]]) {
-			self.files = [RCFile filesFromJsonArray:results];
-			if (self.updateFileContentsOnNextFetch) {
-				for (RCFile *file in self.files)
-					[file updateContentsFromServer];
-				self.updateFileContentsOnNextFetch=NO;
-			}
-			block();
-			[[NSNotificationCenter defaultCenter] postNotificationName:RCWorkspaceFilesFetchedNotification object:self];
-		}
-		self.fetchingFiles=NO;
-	}]; 
-}
-*/
+
 -(void)updateFileId:(NSNumber*)fileId
 {
 	RCFile *file = [self fileWithId:fileId];

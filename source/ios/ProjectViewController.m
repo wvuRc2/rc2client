@@ -50,7 +50,12 @@
 -(void)viewDidLoad
 {
 	[super viewDidLoad];
+	__weak ProjectViewController *bself = self;
 	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(loginStatusChanged) userInfo:nil options:0];
+	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
+		bself.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
+		[bself.collectionView reloadData];
+	}];
 	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	ProjectViewLayout *flow = [[ProjectViewLayout alloc] init];
 	[flow setItemSize:CGSizeMake(200, 150)];
@@ -236,6 +241,7 @@
 		self.selectedProject = nil;
 		[_collectionView insertItemsAtIndexPaths:paths];
 		self.titleItem.title = NSLocalizedString(@"Rc2 Projects", @"");
+		[[Rc2Server sharedInstance] updateProjects];
 	});
 }
 

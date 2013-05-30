@@ -30,7 +30,6 @@ enum {
 //results varies depending on the call
 typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
-extern NSString * const WorkspaceItemsChangedNotification;
 //following is posted after all other login steps are complete
 extern NSString * const NotificationsReceivedNotification;
 //following is posted after messages are synced
@@ -80,6 +79,8 @@ extern NSString * const FilesChagedNotification;
 -(void)editProject:(RCProject*)project newName:(NSString*)newName completionBlock:(Rc2FetchCompletionHandler)hblock;
 //will remove it from projects array before hblock called
 -(void)deleteProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock;
+//triggers a refresh of projects. use KVO to know when it has been updated
+-(void)updateProjects;
 
 #pragma mark - workspaces
 
