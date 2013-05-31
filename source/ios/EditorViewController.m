@@ -121,9 +121,17 @@
 				[weakSelf.session executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
 		};
 		self.richEditor.executeBlock = ^(SessionEditView *editView) {
-			NSString *str = [editView textInRange:editView.selectedTextRange];
-			if ([str length] > 0)
-				[weakSelf.session executeScript:str scriptName:nil];
+			if (editView.selectedTextRange.empty) {
+				//execute the line
+				NSString *str = [[editView.text substringWithRange:[editView.text lineRangeForRange:editView.selectedRange]] stringByTrimmingWhitespace];
+				if ([str length] > 0)
+					[weakSelf.session executeScript:str scriptName:nil];
+			} else {
+				//excute selecction
+				NSString *str = [[editView textInRange:editView.selectedTextRange] stringByTrimmingWhitespace];
+				if ([str length] > 0)
+					[weakSelf.session executeScript:str scriptName:nil];
+			}
 		};
 		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
 		self.keyboardToolbar.delegate = self;

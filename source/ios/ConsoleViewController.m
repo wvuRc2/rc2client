@@ -323,7 +323,10 @@
 		[self.session.delegate displayImage:path];
 	} else if ([[[request URL] scheme] isEqualToString:@"rc2file"]) {
 		[self.session.delegate displayLinkedFile:request.URL.path];
-	} else if ([[[request URL] absoluteString] hasPrefix:@"http://rc2.stat.wvu.edu/"]) {
+	} else if ([[[request URL] absoluteString] hasPrefix:@"http://rc2.stat.wvu.edu/"]) { //used to have help, no reason to not allow
+		[self saveCurrentContent];
+		return YES;
+	} else if ([[[request URL] absoluteString] hasPrefix:@"http://www.stat.wvu.edu/"]) { //for help pages
 		[self saveCurrentContent];
 		return YES;
 	}
