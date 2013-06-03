@@ -23,6 +23,8 @@
 }
 @property (nonatomic, strong) NSMenuItem *clearMenuItem;
 @property (nonatomic, strong) NSMenuItem *saveAsMenuItem;
+@property (nonatomic, strong) NSMenuItem *openFullMenuItem;
+@property (nonatomic, weak) RCFile *currentPdf;
 @property (nonatomic, copy) NSString *lastContent;
 @property (nonatomic) BOOL ignoreExecuteMessage;
 @property (nonatomic, strong) NSPopover *imagePopover;
@@ -66,6 +68,7 @@
 		self.clearMenuItem = [[NSMenuItem alloc] initWithTitle:@"Clear Output" action:@selector(doClear:) keyEquivalent:@""];
 		self.saveAsMenuItem = [[NSMenuItem alloc] initWithTitle:@"Save As…" action:@selector(saveSelectedPDF:) keyEquivalent:@""];
 		self.viewSourceMenuItem = [[NSMenuItem alloc] initWithTitle:@"View Source" action:@selector(viewSource:) keyEquivalent:@""];
+		self.openFullMenuItem = [[NSMenuItem alloc] initWithTitle:@"View Full Window" action:@selector(viewFullWindow:) keyEquivalent:@""];
 		self.consoleVisible = YES;
 		self.historyPopUp.preferredEdge = NSMinYEdge;
 		[[NSNotificationCenter defaultCenter] addObserver:self 
@@ -87,6 +90,8 @@
 	if (action == @selector(loadPreviousCommand:) || action == @selector(loadNextCommand:)) {
 		return self.consoleField.fieldOrEditorIsFirstResponder && self.commandHistory.count > 0;
 	}
+	if (action == @selector(viewFullWindow:) && nil != self.currentPdf)
+		return YES;
 	return NO;
 }
 
@@ -253,9 +258,10 @@
 		return;
 	}
 	NSString *filePath = file.fileContentsPath;
-	if ([file.name hasSuffix:@".pdf"])
+	if ([file.name hasSuffix:@".pdf"]) {
+		self.currentPdf = file;
 		[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:filePath]]];
-	else
+	} else
 		[self loadFileFromWebTmp:file];
 }
 
@@ -305,6 +311,7 @@
 		return;
 	}
 	[self.webView goBack:sender];
+	self.currentPdf = nil;
 }
 
 -(IBAction)loadPreviousCommand:(id)sender
@@ -339,6 +346,14 @@
 	self.inputText = mi.title;
 	self.canExecute = self.inputText.length > 0;
 	[self.consoleField.window makeFirstResponder:self.consoleField];
+}
+
+-(IBAction)viewFullWindow:(id)sender
+{
+	if (self.currentPdf) {
+		[(AppDelegate*)[NSApp delegate] displayPdfFile:self.currentPdf];
+	}
+//	NSURL *pdfUrl = self.webView.mainFrame.dataSource.request.URL;
 }
 
 #pragma mark - text field
@@ -525,6 +540,12 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 		if (mi.tag == WebMenuItemTagGoBack || mi.tag == WebMenuItemTagGoForward || [@"Inspect Element" isEqualToString:mi.title])
 			[items addObject:mi];
 	}
+	//see if a pdf
+	if ([[[[[(WebDataSource*)[[element objectForKey:@"WebElementFrame"] dataSource] request] URL] path] lastPathComponent] hasSuffix:@"pdf"]) {
+		[items addObject:[self.openFullMenuItem copy]];
+		return items;
+	}
+	//check for html element
 	DOMNode *node = [element objectForKey:@"WebElementDOMNode"];
 	if (![node isKindOfClass:[DOMHTMLElement class]])
 		return items;
