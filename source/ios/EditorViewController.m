@@ -132,6 +132,7 @@
 				if ([str length] > 0)
 					[weakSelf.session executeScript:str scriptName:nil];
 			}
+			[editView resignFirstResponder];
 		};
 		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
 		self.keyboardToolbar.delegate = self;
