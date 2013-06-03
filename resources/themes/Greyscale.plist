@@ -58,6 +58,8 @@
 		<string>999999</string>
 		<key>MasterCellSelectedEnd</key>
 		<string>aaaaaa</string>
+		<key>TextSelectionColor</key>
+		<string>cccccc</string>
 	</dict>
 	<key>cssfile</key>
 	<string>greyscale.css</string>

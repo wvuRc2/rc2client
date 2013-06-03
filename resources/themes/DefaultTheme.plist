@@ -66,6 +66,8 @@
 		<string>e1bf82</string>
 		<key>SessionPaneSplitterEnd</key>
 		<string>dbdf81</string>
+		<key>TextSelectionColor</key>
+		<string>e7f431</string>
 	</dict>
 	<key>cssfile</key>
 	<string>standard.css</string>

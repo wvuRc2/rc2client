@@ -8,8 +8,12 @@
 
 #import "RCMTextView.h"
 #import "RCMAppConstants.h"
+#import "ThemeEngine.h"
 
-@interface RCMTextView()
+@interface RCMTextView() {
+	NSRange _lastLineRange;
+}
+@property (nonatomic, strong) NSColor *selColor;
 -(NSUInteger)findMatchingParen:(NSUInteger)closeLoc string:(NSString*)str;
 @end
 
@@ -39,11 +43,21 @@
 	[self setAutomaticSpellingCorrectionEnabled:NO];
 //	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontPrefsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
 	[self fontPrefsChanged:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectionDidChange:) name:NSTextViewDidChangeSelectionNotification object:self];
+	//listen for changes to selection color
+	__unsafe_unretained RCMTextView *bself = self;
+	ThemeEngine *te = [ThemeEngine sharedInstance];
+	self.selColor = [[te currentTheme] colorForKey:@"TextSelectionColor"];
+	[te registerThemeChangeObserver:self block:^(Theme *t) {
+		bself.selColor = [t colorForKey:@"TextSelectionColor"];
+		[bself selectionDidChange:nil];
+	}];
 }
 
 -(void)dealloc
 {
 //	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTextViewDidChangeSelectionNotification object:nil];
 }
 
 -(void)viewDidMoveToWindow
@@ -86,6 +100,9 @@
 	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_EditorFont];
 	if (nil == fnt)
 		fnt = [NSFont userFixedPitchFontOfSize:12.0];
+	//always have a newline at the end
+	if (![string hasSuffix:@"\n"])
+		string = [string stringByAppendingString:@"\n"];
 	[super setString:string];
 	RunAfterDelay(0.5,  ^{
 		[self.enclosingScrollView.verticalRulerView setNeedsDisplay:YES];
@@ -145,6 +162,16 @@
 //		[super insertNewline:sender];
 //	}
 }
+
+-(void)selectionDidChange:(NSNotification*)note
+{
+	if (_lastLineRange.length)
+		[self.layoutManager removeTemporaryAttribute:NSBackgroundColorAttributeName forCharacterRange:_lastLineRange];
+	_lastLineRange = [self.textStorage.string paragraphRangeForRange:self.selectedRange];
+	if (_lastLineRange.length)
+		[self.layoutManager addTemporaryAttribute:NSBackgroundColorAttributeName value:self.selColor forCharacterRange:_lastLineRange];
+}
+
 
 -(NSUInteger)findMatchingParen:(NSUInteger)closeLoc string:(NSString*)str
 {

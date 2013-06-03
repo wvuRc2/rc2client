@@ -32,6 +32,7 @@
 		<string>MessageSelectedEnd</string>
 		<string>MessageCenterBackground</string>
 		<string>PriorityColors</string>
+		<string>TextSelectionColor</string>
 	</array>
 </dict>
 </plist>
