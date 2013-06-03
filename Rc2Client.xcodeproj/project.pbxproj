@@ -142,6 +142,7 @@
 		084594DD15B5F71500297C9D /* rc2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CD15B5F71500297C9D /* rc2@2x.png */; };
 		084594DE15B5F71500297C9D /* turnedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CE15B5F71500297C9D /* turnedin.png */; };
 		084594DF15B5F71500297C9D /* turnedin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CF15B5F71500297C9D /* turnedin@2x.png */; };
+		0847FDAC175D30AF00D950EA /* MCTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDAB175D30AF00D950EA /* MCTableRowView.m */; };
 		084B47931677DF98000A0A6F /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 084B47911677DF98000A0A6F /* add.png */; };
 		084B47941677DF98000A0A6F /* addDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 084B47921677DF98000A0A6F /* addDown.png */; };
 		084B479D167A8B3D000A0A6F /* MLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245F515B5DCD70064A9FA /* MLReachability.m */; };
@@ -150,6 +151,8 @@
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
+		08B3477E175D2C4000B86FD2 /* no.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B3477C175D2C4000B86FD2 /* no.png */; };
+		08B3477F175D2C4000B86FD2 /* no@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B3477D175D2C4000B86FD2 /* no@2x.png */; };
 		08B74C2B1635C08800083F9A /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2A1635C08800083F9A /* RCMatrix.m */; };
 		08B74C2C1635C08800083F9A /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2A1635C08800083F9A /* RCMatrix.m */; };
 		08B74C311635CA8700083F9A /* VariableSpreadsheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2F1635CA8700083F9A /* VariableSpreadsheetController.m */; };
@@ -743,6 +746,8 @@
 		084594CD15B5F71500297C9D /* rc2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rc2@2x.png"; path = "resources/sharedImages/rc2@2x.png"; sourceTree = SOURCE_ROOT; };
 		084594CE15B5F71500297C9D /* turnedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = turnedin.png; path = resources/sharedImages/turnedin.png; sourceTree = SOURCE_ROOT; };
 		084594CF15B5F71500297C9D /* turnedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "turnedin@2x.png"; path = "resources/sharedImages/turnedin@2x.png"; sourceTree = SOURCE_ROOT; };
+		0847FDAA175D30AF00D950EA /* MCTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTableRowView.h; sourceTree = "<group>"; };
+		0847FDAB175D30AF00D950EA /* MCTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTableRowView.m; sourceTree = "<group>"; };
 		084B47911677DF98000A0A6F /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		084B47921677DF98000A0A6F /* addDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addDown.png; sourceTree = "<group>"; };
 		084D39B51627300F00B8A06B /* RCDataFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDataFrame.h; sourceTree = "<group>"; };
@@ -751,6 +756,8 @@
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBE15DD500D00EF28F1 /* Rnw.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rnw.icns; path = resources/mac/Rnw.icns; sourceTree = SOURCE_ROOT; };
+		08B3477C175D2C4000B86FD2 /* no.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = no.png; path = resources/mac/no.png; sourceTree = SOURCE_ROOT; };
+		08B3477D175D2C4000B86FD2 /* no@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no@2x.png"; path = "resources/mac/no@2x.png"; sourceTree = SOURCE_ROOT; };
 		08B74C291635C08800083F9A /* RCMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMatrix.h; sourceTree = "<group>"; };
 		08B74C2A1635C08800083F9A /* RCMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMatrix.m; sourceTree = "<group>"; };
 		08B74C2E1635CA8700083F9A /* VariableSpreadsheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableSpreadsheetController.h; sourceTree = "<group>"; };
@@ -1349,6 +1356,8 @@
 				082CEEB7161E2D2600E01F48 /* files@2x.png */,
 				0833CABC17441D640007B54E /* fontDown.png */,
 				0833CABD17441D640007B54E /* fontUp.png */,
+				08B3477C175D2C4000B86FD2 /* no.png */,
+				08B3477D175D2C4000B86FD2 /* no@2x.png */,
 				082CEEB8161E2D2600E01F48 /* users.png */,
 				082CEEB9161E2D2600E01F48 /* users@2x.png */,
 				082CEEB1161E2ADD00E01F48 /* variables.png */,
@@ -1454,6 +1463,8 @@
 				0845944A15B5F2BC00297C9D /* MultiFileImporter.m */,
 				0845944B15B5F2BC00297C9D /* PasswordVerifier.h */,
 				0845944C15B5F2BC00297C9D /* PasswordVerifier.m */,
+				0847FDAA175D30AF00D950EA /* MCTableRowView.h */,
+				0847FDAB175D30AF00D950EA /* MCTableRowView.m */,
 			);
 			name = utility;
 			sourceTree = "<group>";
@@ -2640,6 +2651,8 @@
 				0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */,
 				0833CABE17441D640007B54E /* fontDown.png in Resources */,
 				0833CABF17441D640007B54E /* fontUp.png in Resources */,
+				08B3477E175D2C4000B86FD2 /* no.png in Resources */,
+				08B3477F175D2C4000B86FD2 /* no@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3033,6 +3046,7 @@
 				0811F9FC17342CB70060BAB4 /* RCMPreviewImageView.m in Sources */,
 				08063D5C173AF33C0054FD1D /* MCVariableDetailsController.m in Sources */,
 				0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */,
+				0847FDAC175D30AF00D950EA /* MCTableRowView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

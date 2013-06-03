@@ -68,6 +68,7 @@ enum {
 -(void)raiseHand;
 -(void)lowerHand;
 
+-(void)clearVariables;
 -(void)forceVariableRefresh;
 
 -(void)sendAudioInput:(NSData*)data;

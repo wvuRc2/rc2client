@@ -205,6 +205,12 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	self.timeOfLastTraffic = [NSDate date];
 }
 
+-(void)clearVariables
+{
+	[_ws sendText:[@{@"cmd":@"executeScript", @"script":@"rc2.clearEnvironment()"} JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
+}
+
 -(void)forceVariableRefresh
 {
 	NSDictionary *dict = @{@"cmd":@"watchvariables", @"watch": @YES};
@@ -310,8 +316,10 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	NSArray *delKeys = [variableDict objectForKey:@"deleted"];
 	for (NSString *aKey in delKeys) {
 		NSUInteger idx = [vars indexOfFirstObjectWithValue:aKey forKey:@"name"];
-		if (idx != NSNotFound)
+		if (idx != NSNotFound) {
 			[vars removeObjectAtIndex:idx];
+			NSLog(@"removed %@", aKey);
+		}
 	}
 	self.variables = vars;
 	[self.delegate variablesUpdated];

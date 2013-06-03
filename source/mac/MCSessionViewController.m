@@ -33,6 +33,7 @@
 #import "MCVariableDetailsController.h"
 #import "MCSessionFileController.h"
 #import "MAKVONotificationCenter.h"
+#import "MCTableRowView.h"
 #import "MLReachability.h"
 
 #define logJson 0
@@ -576,6 +577,12 @@
 	[self.session forceVariableRefresh];
 }
 
+-(IBAction)clearVariables:(id)sender
+{
+	[self.session clearVariables];
+	[self.varTableView reloadData];
+}
+
 -(IBAction)restartR:(id)sender
 {
 	[self.session restartR];
@@ -1104,7 +1111,9 @@
 		[ma addObjectsFromArray:funcs];
 	}
 	self.variableHelper.data = ma;
+	NSLog(@"reloading var table %ld", ma.count);
 	[self.varTableView reloadData];
+	[self.varTableView setNeedsDisplay:YES];
 }
 
 -(void)processBinaryMessage:(NSData*)data
@@ -1311,6 +1320,11 @@
 	return proposedSelectionIndexes;
 }
 
+-(NSTableRowView*)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+{
+	return [[MCTableRowView alloc] init];
+}
+
 #pragma mark - accessors
 
 -(void)setSession:(RCSession *)session
@@ -1458,4 +1472,10 @@
 		return var.summary;
 	return var.name;
 }
+
+-(NSTableRowView*)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+{
+	return [[MCTableRowView alloc] init];
+}
+
 @end
