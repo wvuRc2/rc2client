@@ -152,6 +152,8 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		[dict setObject:script forKey:@"script"];
 	if (fname)
 		[dict setObject:fname forKey:@"fname"];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TreatNewlinesAsSemicolons"])
+		[dict setObject:@YES forKey:@"nlAsSemi"];
 	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }

@@ -17,6 +17,7 @@ extern NSString * const RCMToolbarItem_Add;
 extern NSString * const RCMToolbarItem_Users;
 
 #define kPref_SupressDeleteFileWarning @"SupressDeleteFileWarning"
+#define kPref_SupressClearWorkspaceWarning @"SupressClearWorkspaceWarning"
 #define kPref_CommandHistoryMaxLen @"CommandHistoryMaxLen"
 #define kPref_NumImagesVisible @"NumImagesVisible"
 #define kPref_SyntaxColor_Comment @"SyntaxColor_Comment"
@@ -29,6 +30,7 @@ extern NSString * const RCMToolbarItem_Users;
 #define kPref_EditorBGColor @"EditorBGColor"
 #define kPref_EditorWordWrap @"EditorWordWrap"
 #define kPref_EditorShowInvisible @"ShowInvisibleChars"
+#define kPref_TreatNewlinesAsSemicolons @"TreatNewlinesAsSemicolons"
 
 #define kMenuView 2
 #define kMenuView_Theme 2112

@@ -21,7 +21,7 @@ NSString * const RCMToolbarItem_Users = @"RCMToolbarItem_Users";
 	static NSArray *supressKeys;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		supressKeys = ARRAY(kPref_SupressDeleteFileWarning);
+		supressKeys = @[kPref_SupressDeleteFileWarning,kPref_SupressClearWorkspaceWarning];
 	});
 	return supressKeys;
 }
