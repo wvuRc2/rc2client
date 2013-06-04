@@ -86,6 +86,21 @@
 	}
 }
 
+-(void)keyboardWillShow:(NSNotification*)note
+{
+	CGRect keyframe = [[[note userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+	BOOL isLand = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+	self.externalKeyboardVisible = NO;
+	if (isLand) {
+		if (keyframe.origin.x < 0)
+			self.externalKeyboardVisible = YES;
+	} else if (keyframe.origin.y + self.keyboardToolbar.view.frame.size.height > 1000) {
+		self.externalKeyboardVisible = YES;
+	}
+	self.richEditor.inputAccessoryView.hidden = self.externalKeyboardVisible;
+}
+
+
 -(void)keyboardHiding:(NSNotification*)note
 {
 	self.richEditor.contentInset = UIEdgeInsetsZero;
@@ -100,7 +115,10 @@
 {
     [super viewDidLoad];
 	if (!_viewLoaded) {
-		[[NSNotificationCenter defaultCenter] addObserver:self 
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(keyboardWillShow:)
+													 name:UIKeyboardWillShowNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(keyboardVisible:)
 												 name:UIKeyboardDidShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
@@ -132,7 +150,8 @@
 				if ([str length] > 0)
 					[weakSelf.session executeScript:str scriptName:nil];
 			}
-			[editView resignFirstResponder];
+			if (!self.externalKeyboardVisible)
+				[editView resignFirstResponder];
 		};
 		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
 		self.keyboardToolbar.delegate = self;

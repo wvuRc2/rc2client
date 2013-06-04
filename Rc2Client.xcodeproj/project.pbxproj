@@ -1742,6 +1742,8 @@
 				08D243A515B5D5FA0064A9FA /* DoodleView.m */,
 				08D243A615B5D5FA0064A9FA /* DoodleViewController.h */,
 				08D243A715B5D5FA0064A9FA /* DoodleViewController.m */,
+				08D243D715B5D7590064A9FA /* SessionEditView.h */,
+				08D243D815B5D7590064A9FA /* SessionEditView.m */,
 			);
 			name = "session related controllers";
 			sourceTree = "<group>";
@@ -1802,8 +1804,6 @@
 				08D243D415B5D7590064A9FA /* NotificationCell.h */,
 				08D243D515B5D7590064A9FA /* NotificationCell.m */,
 				08D243D615B5D7590064A9FA /* NotificationCell.xib */,
-				08D243D715B5D7590064A9FA /* SessionEditView.h */,
-				08D243D815B5D7590064A9FA /* SessionEditView.m */,
 				08D243D915B5D7590064A9FA /* StudentAssignmentCell.h */,
 				08D243DA15B5D7590064A9FA /* StudentAssignmentCell.m */,
 				08D243DB15B5D7590064A9FA /* StudentAssignmentCell.xib */,

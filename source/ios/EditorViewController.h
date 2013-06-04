@@ -16,6 +16,7 @@
 //@property (nonatomic, strong) IBOutlet UITextView *textView;
 @property (nonatomic, strong) RCFile *currentFile;
 @property (nonatomic, strong) RCSession *session;
+@property (nonatomic, assign) BOOL externalKeyboardVisible;
 
 -(IBAction)doExecute:(id)sender;
 -(IBAction)doShowFiles:(id)sender;
