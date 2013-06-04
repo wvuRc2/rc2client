@@ -318,7 +318,6 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		NSUInteger idx = [vars indexOfFirstObjectWithValue:aKey forKey:@"name"];
 		if (idx != NSNotFound) {
 			[vars removeObjectAtIndex:idx];
-			NSLog(@"removed %@", aKey);
 		}
 	}
 	self.variables = vars;

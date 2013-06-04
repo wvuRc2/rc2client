@@ -1111,7 +1111,6 @@
 		[ma addObjectsFromArray:funcs];
 	}
 	self.variableHelper.data = ma;
-	NSLog(@"reloading var table %ld", ma.count);
 	[self.varTableView reloadData];
 	[self.varTableView setNeedsDisplay:YES];
 }
