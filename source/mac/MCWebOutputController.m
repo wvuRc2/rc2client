@@ -556,7 +556,6 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 			//they are right-clicking on a pdf icon
 			[items addObject:[NSMenuItem separatorItem]];
 			NSMenuItem *mi = [self.saveAsMenuItem copy];
-			NSLog(@"par = %@", [(DOMHTMLAnchorElement*)imgElem.parentElement href]);
 			mi.representedObject = [(DOMHTMLAnchorElement*)imgElem.parentElement href];
 			[items addObject:mi];
 		}

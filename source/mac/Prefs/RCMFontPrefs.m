@@ -60,7 +60,6 @@
 	[fm orderFrontFontPanel:self];
 	[[NSFontManager sharedFontManager] setAction:@selector(changeEditorFont:)];
 	[[NSFontManager sharedFontManager] setTarget:self];
-	NSLog(@"chain:%@", self.view.window.responderChainDescription);
 	[self.view.window makeFirstResponder:self.wsheetFontField];
 }
 

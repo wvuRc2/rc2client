@@ -886,7 +886,6 @@
 
 -(void)renameFile:(RCFile*)file to:(NSString*)newName
 {
-	NSLog(@"should change file %@ to %@", file.name, newName);
 	self.busy = YES;
 	self.statusMessage = [NSString stringWithFormat:@"Renaming %@…", newName];
 	[[Rc2Server sharedInstance] renameFile:file toName:newName completionHandler:^(BOOL success, id rsp) {
@@ -925,7 +924,7 @@
 {
 	if ([error.domain isEqualToString:NSPOSIXErrorDomain] && error.code == ENOTCONN)
 		return;
-	NSLog(@"connection error:%@", error);
+	Rc2LogError(@"websocket connection error:%@", error);
 	if (!self.isBusy)
 		[self presentError:error];
 	if (self.reconnecting) {

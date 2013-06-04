@@ -66,7 +66,7 @@
 		[self.cellView.window makeFirstResponder:nil];
 		result = YES;
 	} else {
-		NSLog(@"call %@", NSStringFromSelector(commandSelector));
+		Rc2LogVerbose(@"call %@", NSStringFromSelector(commandSelector));
 	}
 	return result;
 }

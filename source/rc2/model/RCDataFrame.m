@@ -71,7 +71,7 @@
 			returnVal = [val description]; break;
 	}
 	if (![returnVal isKindOfClass:[NSString class]])
-		NSLog(@"Why, oh why?");
+		Rc2LogError(@"Why, oh why is it not a string?");
 	return returnVal;
 }
 

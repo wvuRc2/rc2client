@@ -81,7 +81,7 @@
 		}
 		[[NSUserDefaults standardUserDefaults] setObject:self.loginName forKey:kLastLoginKey];
 	} @catch (NSException *e) {
-		NSLog(@"got exception %@", [e reason]);
+		Rc2LogError(@"got exception in saveLoginInfo: %@", e);
 	}
 }
 

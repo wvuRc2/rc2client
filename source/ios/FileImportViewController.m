@@ -65,7 +65,7 @@
 	if ([selItem isKindOfClass:[RCWorkspace class]]) {
 		[self dismissSelf];
 		//we do the actual import
-		NSLog(@"imported %@ to %@", self.inputUrl.lastPathComponent, [selItem name]);
+		Rc2LogVerbose(@"imported %@ to %@", self.inputUrl.lastPathComponent, [selItem name]);
 	}
 }
 

@@ -109,7 +109,6 @@ enum {
 	pwc.indeterminate = NO;
 	pwc.percentComplete = 0;
 	[[Rc2Server sharedInstance] importFiles:self.fileUrls toContainer:self.container completionHandler:^(BOOL success, id results) {
-		NSLog(@"results=%@", results);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self markAsComplete];
 			[NSApp endSheet:pwc.window];

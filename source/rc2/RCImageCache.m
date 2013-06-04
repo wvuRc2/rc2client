@@ -216,7 +216,7 @@
 		if (img)
 			[outImages addObject:img];
 		else
-			NSLog(@"failed to find image %@ in cache", anId);
+			Rc2LogWarn(@"failed to find image %@ in cache", anId);
 	}
 	return [outImages copy];
 }

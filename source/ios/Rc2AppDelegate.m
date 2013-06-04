@@ -129,7 +129,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 {
 	if ([[DBSession sharedSession] handleOpenURL:url]) {
 		if ([[DBSession sharedSession] isLinked]) {
-			NSLog(@"dropbox linked");
 			if (self.dropboxCompletionBlock)
 				self.dropboxCompletionBlock();
 		}

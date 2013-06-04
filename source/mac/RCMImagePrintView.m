@@ -84,7 +84,6 @@
 	}
 	RCImage *rcimg = [self.images objectAtIndex:__curPageNum-1];
 	NSImage *img = [rcimg image];
-	NSLog(@"f=%@, b=%@, dr=%@", NSStringFromRect(self.frame), NSStringFromRect(self.bounds), NSStringFromRect(dirtyRect));
 	[img drawInRect:dirtyRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 }
 
