@@ -127,12 +127,12 @@
 			//flash the inserted character and it's matching item
 			NSRange closeRange = NSMakeRange(curLoc.location, 1);
 			NSRange openRange = NSMakeRange(openLoc, 1);
-			NSColor *hcolor = [NSColor colorWithHexString:@"cccccc"];
-			[self.textStorage addAttribute:NSBackgroundColorAttributeName value:hcolor range:openRange];
-			[self.textStorage addAttribute:NSBackgroundColorAttributeName value:hcolor range:closeRange];
+			NSColor *hcolor = [NSColor colorWithHexString:@"999999"];
+			[self.layoutManager addTemporaryAttribute:NSBackgroundColorAttributeName value:hcolor forCharacterRange:openRange];
+			[self.layoutManager addTemporaryAttribute:NSBackgroundColorAttributeName value:hcolor forCharacterRange:closeRange];
 			RunAfterDelay(0.2, ^{
-				[self.textStorage removeAttribute:NSBackgroundColorAttributeName range:openRange];
-				[self.textStorage removeAttribute:NSBackgroundColorAttributeName range:closeRange];
+				[self.layoutManager removeTemporaryAttribute:NSBackgroundColorAttributeName forCharacterRange:openRange];
+				[self.layoutManager removeTemporaryAttribute:NSBackgroundColorAttributeName forCharacterRange:closeRange];
 			});
 		}
 	}
