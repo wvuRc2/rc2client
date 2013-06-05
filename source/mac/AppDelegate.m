@@ -25,6 +25,7 @@
 #import <HockeySDK/HockeySDK.h>
 
 #define kPref_LastLoginString @"LastLoginString"
+#define kPref_StartInFullScreen @"StartInFullScreen"
 
 @interface AppDelegate() <BITCrashReportManagerDelegate> {
 	BOOL __haveMoc;
@@ -220,6 +221,9 @@
 											 selector:@selector(windowWillClose:) 
 												 name:NSWindowWillCloseNotification 
 											   object:self.mainWindowController.window];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:kPref_StartInFullScreen]) {
+		[self.mainWindowController.window toggleFullScreen:self];
+	}
 }
 
 -(void)displayTextInExternalEditor:(NSString*)text
@@ -410,6 +414,12 @@ LOADFILE:
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+	if (self.isFullScreen)
+		[defs setBool:YES forKey:kPref_StartInFullScreen];
+	else
+		[defs removeObjectForKey:kPref_StartInFullScreen];
+	[defs synchronize];
 	[self.mainWindowController close];
 	
 	// Save changes in the application's managed object context before the application terminates.
