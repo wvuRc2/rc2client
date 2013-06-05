@@ -97,7 +97,10 @@
 {
 	if (nil == string)
 		string = @"";
-	NSFont *fnt = [[NSUserDefaults standardUserDefaults] unarchiveObjectForKey:kPref_EditorFont];
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+	NSString *fntName = [defs objectForKey:kPref_EditorFont];
+	CGFloat fntSize = [defs doubleForKey:kPref_EditorFontSize];
+	NSFont *fnt = [NSFont fontWithName:fntName size:fntSize];
 	if (nil == fnt)
 		fnt = [NSFont userFixedPitchFontOfSize:12.0];
 	//always have a newline at the end

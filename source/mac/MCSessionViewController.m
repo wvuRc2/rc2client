@@ -579,8 +579,26 @@
 
 -(IBAction)clearVariables:(id)sender
 {
-	[self.session clearVariables];
-	[self.varTableView reloadData];
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:kPref_SupressClearWorkspaceWarning]) {
+		NSAlert *alert = [[NSAlert alloc] init];
+		alert.messageText = NSLocalizedString(@"Are you sure you want to clear your workspace?", @"");
+		alert.informativeText = NSLocalizedString(@"This will remove all variables, including data sets, from your R workspace.", @"");
+		alert.showsSuppressionButton = YES;
+		alert.alertStyle = NSWarningAlertStyle;
+		[alert addButtonWithTitle:@"Clear Workspace"];
+		[alert addButtonWithTitle:@"Cancel"];
+		[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *thealert, NSInteger rsp) {
+			if (thealert.suppressionButton.state == NSOnState)
+				[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kPref_SupressClearWorkspaceWarning];
+			if (rsp == NSAlertFirstButtonReturn) {
+				[self.session clearVariables];
+				[self.varTableView reloadData];
+			}
+		}];
+	} else {
+		[self.session clearVariables];
+		[self.varTableView reloadData];
+	}
 }
 
 -(IBAction)restartR:(id)sender
