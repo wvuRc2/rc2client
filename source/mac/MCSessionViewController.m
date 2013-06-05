@@ -761,6 +761,7 @@
 	}];
 }
 
+//this is the bottleneck for adjusting the text in the editView
 -(void)setEditViewTextWithHighlighting:(NSAttributedString*)srcStr
 {
 	if (nil == srcStr || nil == self.editorFile) {
@@ -771,6 +772,9 @@
 	if (astr == nil)
 		astr = [NSMutableAttributedString attributedStringWithString:@"" attributes:nil];
 	[astr addAttributes:self.editView.textAttributes range:NSMakeRange(0, [astr length])];
+	NSMutableParagraphStyle *pstyle = [[NSMutableParagraphStyle alloc] init];
+	[pstyle setHeadIndent:24];
+	[astr addAttribute:NSParagraphStyleAttributeName value:pstyle range:NSMakeRange(0, [astr length])];
 	astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:astr ofType:self.editorFile.name.pathExtension];
 	if (astr) {
 		[self.editView.textStorage setAttributedString:astr];
