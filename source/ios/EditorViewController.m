@@ -35,7 +35,7 @@
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *openFileButtonItem;
 @property (nonatomic, weak) IBOutlet UILabel *docTitleLabel;
 @property (nonatomic, weak) IBOutlet UIButton *handButton;
-@property (nonatomic, weak) IBOutlet SessionEditView *richEditor;
+@property (nonatomic, weak) IBOutlet id <SessionEditor> richEditor;
 @property (nonatomic, strong) NSDictionary *defaultTextAttrs;
 @property (nonatomic, strong) KeyboardToolbar *keyboardToolbar;
 @property (nonatomic, strong) SessionFilesController *fileController;
@@ -74,18 +74,6 @@
 	}
 }
 
--(void)keyboardVisible:(NSNotification*)note
-{
-	BOOL isLand = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
-	if (isLand) {
-		NSDictionary *userInfo = [note userInfo];
-		CGSize kbsize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-		UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, kbsize.width, 0);
-		self.richEditor.contentInset = insets;
-		self.richEditor.scrollIndicatorInsets = insets;
-	}
-}
-
 -(void)keyboardWillShow:(NSNotification*)note
 {
 	CGRect keyframe = [[[note userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
@@ -97,15 +85,13 @@
 	} else if (keyframe.origin.y + self.keyboardToolbar.view.frame.size.height > 1000) {
 		self.externalKeyboardVisible = YES;
 	}
-	self.richEditor.inputAccessoryView.hidden = self.externalKeyboardVisible;
+	self.richEditor.inputAccessoryVisible = self.externalKeyboardVisible;
 }
 
 
 -(void)keyboardHiding:(NSNotification*)note
 {
-	self.richEditor.contentInset = UIEdgeInsetsZero;
-	self.richEditor.scrollIndicatorInsets = UIEdgeInsetsZero;
-	self.currentFile.localEdits = self.richEditor.text;
+	self.currentFile.localEdits = self.richEditor.string;
 	[self updateDocumentState];
 }
 
@@ -118,19 +104,13 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(keyboardWillShow:)
 													 name:UIKeyboardWillShowNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(keyboardVisible:)
-												 name:UIKeyboardDidShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(keyboardHiding:)
 												 name:UIKeyboardWillHideNotification object:nil];
 		self.docTitleLabel.text = @"Untitled Document";
-		self.richEditor.font = [UIFont fontWithName:@"Inconsolata" size:18.0];
-		if ([self.richEditor respondsToSelector:@selector(attributedText)]) {
-			self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
-									 [UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName,
-									 nil];
-		}
+		[self.richEditor setDefaultFontName:@"Inconsolata" size:18.0];
+		self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+			[UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName, nil];
 		__weak EditorViewController *weakSelf = self;
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
 			//need to sanitize the input string. we'll just test for only alphanumeric
@@ -156,9 +136,6 @@
 		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
 		self.keyboardToolbar.delegate = self;
 		self.richEditor.inputAccessoryView = self.keyboardToolbar.view;
-		self.richEditor.autocapitalizationType = UITextAutocapitalizationTypeNone;
-		self.richEditor.autocorrectionType = UITextAutocorrectionTypeNo;
-		self.richEditor.layer.masksToBounds=YES;
 		_viewLoaded=YES;
 	}
 }
@@ -194,45 +171,24 @@
 	});
 }
 
-//doesn't work with rich editor.
--(void)arrowUp
-{
-	UITextRange *curRange = self.richEditor.selectedTextRange;
-	UITextRange *extRange = [self.richEditor characterRangeByExtendingPosition:curRange.start inDirection:UITextLayoutDirectionDown];
-	UITextRange *newRange = [self.richEditor textRangeFromPosition:extRange.start toPosition:extRange.start];
-	self.richEditor.selectedTextRange = newRange;
-}
-
 -(void)upArrow
 {
-	UITextPosition *pos = self.richEditor.selectedTextRange.start;
-	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionUp offset:1];
-	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
-	self.richEditor.selectedTextRange = rng;
+	[self.richEditor upArrow];
 }
 
 -(void)downArrow
 {
-	UITextPosition *pos = self.richEditor.selectedTextRange.start;
-	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionDown offset:1];
-	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
-	self.richEditor.selectedTextRange = rng;
+	[self.richEditor downArrow];
 }
 
 -(void)leftArrow
 {
-	UITextPosition *pos = self.richEditor.selectedTextRange.start;
-	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionLeft offset:1];
-	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
-	self.richEditor.selectedTextRange = rng;
+	[self.richEditor leftArrow];
 }
 
 -(void)rightArrow
 {
-	UITextPosition *pos = self.richEditor.selectedTextRange.start;
-	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionRight offset:1];
-	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
-	self.richEditor.selectedTextRange = rng;
+	[self.richEditor rightArrow];
 }
 
 #pragma mark - meat & potatoes
@@ -242,14 +198,9 @@
 	[self.fileController reloadData];
 }
 
--(void)setInputView:(id)inputView
-{
-	self.richEditor.inputView = inputView;
-}
-
 -(BOOL)isEditorFirstResponder
 {
-	return self.richEditor.isFirstResponder;
+	return self.richEditor.isEditorFirstResponder;
 }
 
 -(void)editorResignFirstResponder
@@ -289,7 +240,7 @@
 {
 	RCFile *oldFile = _currentFile;
 	if (self.currentFile != nil && self.currentFile != file) {
-		self.currentFile.localEdits = self.richEditor.text;
+		self.currentFile.localEdits = self.richEditor.string;
 	}
 	if (nil == file) {
 		Rc2LogWarn(@"asked to load file <nil>");
@@ -477,7 +428,7 @@
 
 -(IBAction)doExecute:(id)sender
 {
-	if ([self.richEditor isFirstResponder])
+	if ([self.richEditor isEditorFirstResponder])
 		[self.richEditor resignFirstResponder];
 	if ([self.currentFile.name hasSuffix:@".sas"]) {
 		[self executeBlockAfterSave:^{ [self.session executeSas:self.currentFile]; }];

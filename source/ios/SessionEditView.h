@@ -6,9 +6,9 @@
 //  Copyright 2012 West Virginia University. All rights reserved.
 //
 
-@interface SessionEditView : UITextView
-@property (nonatomic, copy) void (^helpBlock)(SessionEditView *editView);
-@property (nonatomic, copy) void (^executeBlock)(SessionEditView *editView);
-@property (nonatomic, copy) NSAttributedString *attributedString;
+#import "SessionEditorProtocol.h"
+
+@interface SessionEditView : UITextView <SessionEditor>
+//@property (nonatomic, copy) NSAttributedString *attributedString;
 -(IBAction)showHelp:(id)sender;
 @end
