@@ -423,7 +423,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 -(void)startLoginProcess
 {
-	//FIXME: show progress dialog
 	Rc2Server *rc2 = [Rc2Server sharedInstance];
 	NSString *login = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefLastLogin];
 	if (nil == login) {

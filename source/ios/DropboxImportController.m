@@ -183,7 +183,8 @@
 	[MBProgressHUD hideHUDForView:self.view animated:YES];
 	self.currentDownload=nil;
 	self.currentProgress=nil;
-	//FIXME: display error message
+	Rc2LogWarn(@"error loading file from dropbox:%@", error);
+	[UIAlertView showAlertWithTitle:@"Error Loading File" message:error.localizedDescription];
 }
 
 -(IBAction)importFile:(id)sender
