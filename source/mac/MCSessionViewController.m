@@ -388,11 +388,20 @@
 
 -(IBAction)executeScript:(id)sender
 {
+	BasicBlock eblock = ^{
+		RCFile *selFile = self.editorFile;
+		if ([selFile.name hasSuffix:@".sas"]) {
+			[self.session executeSas:selFile];
+		} else {
+			[self.session executeScriptFile:selFile];
+		}
+	};
 	RCFile *selFile = self.editorFile;
-	if ([selFile.name hasSuffix:@".sas"]) {
-		[self.session executeSas:selFile];
+	if (selFile.isTextFile) {
+		selFile.localEdits = self.editView.string;
+		[self syncFile:self.editorFile completionBlock:eblock];
 	} else {
-		[self.session executeScriptFile:selFile];
+		eblock();
 	}
 }
 
@@ -514,7 +523,7 @@
 	RCFile *selFile = self.editorFile;
 	if (selFile.isTextFile) {
 		selFile.localEdits = self.editView.string;
-		[self syncFile:selFile];
+		[self syncFile:selFile completionBlock:nil];
 	}
 }
 
@@ -759,6 +768,34 @@
 //	self.fileHelper.selectedFile=nil;
 }
 
+-(void)syncFile:(RCFile*)file completionBlock:(BasicBlock)block
+{
+	ZAssert(file.isTextFile, @"asked to sync non-text file");
+	self.statusMessage = [NSString stringWithFormat:@"Saving %@ to server…", file.name];
+	self.busy=YES;
+	//was the delay here just to confirm ui freeze worked? lowered from 2 seconds
+	int64_t delayInSeconds = 0.1;
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+		[[Rc2Server sharedInstance] saveFile:file toContainer:self.session.workspace completionHandler:^(BOOL success, RCFile *theFile) {
+			self.busy=NO;
+			if (success) {
+				[self.fileTableView reloadData];
+				self.statusMessage = [NSString stringWithFormat:@"%@ successfully saved to server", theFile.name];
+				//update display of html files
+				if (file == self.editorFile && [file.fileContentsPath.pathExtension isEqualToString:@"html"])
+					[self.outputController loadLocalFile:file];
+			} else {
+				Rc2LogWarn(@"error syncing file to server:%@", file.name);
+				self.statusMessage = [NSString stringWithFormat:@"Unknown error while saving %@ to server:%@", file.name, (NSString*)theFile];
+			}
+			if (block)
+				block();
+		}];
+	});
+}
+
+
 -(void)completeSessionStartup:(id)response
 {
 	[self.session updateWithServerResponse:response];
@@ -852,26 +889,7 @@
 
 -(void)syncFile:(RCFile*)file
 {
-	ZAssert(file.isTextFile, @"asked to sync non-text file");
-	self.statusMessage = [NSString stringWithFormat:@"Saving %@ to server…", file.name];
-	self.busy=YES;
-	int64_t delayInSeconds = 2.0;
-	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-		[[Rc2Server sharedInstance] saveFile:file toContainer:self.session.workspace completionHandler:^(BOOL success, RCFile *theFile) {
-			self.busy=NO;
-			if (success) {
-				[self.fileTableView reloadData];
-				self.statusMessage = [NSString stringWithFormat:@"%@ successfully saved to server", theFile.name];
-				//update display of html files
-				if (file == self.editorFile && [file.fileContentsPath.pathExtension isEqualToString:@"html"])
-					[self.outputController loadLocalFile:file];
-			} else {
-				Rc2LogWarn(@"error syncing file to server:%@", file.name);
-				self.statusMessage = [NSString stringWithFormat:@"Unknown error while saving %@ to server:%@", file.name, (NSString*)theFile];
-			}
-		}];
-	});
+	[self syncFile:file completionBlock:nil];
 }
 
 -(void)fileSelectionChanged:(RCFile*)selectedFile oldSelection:(RCFile*)oldFile
