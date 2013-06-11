@@ -97,6 +97,9 @@
 {
 	if (nil == string)
 		string = @"";
+	if (![string isKindOfClass:[NSString class]]) {
+		Rc2LogWarn(@"RCMTextView setString caled with object that is not a string");
+	}
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	NSString *fntName = [defs objectForKey:kPref_EditorFont];
 	CGFloat fntSize = [defs doubleForKey:kPref_EditorFontSize];

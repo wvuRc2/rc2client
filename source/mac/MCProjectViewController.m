@@ -189,8 +189,8 @@
 			if (isProj) {
 				[[Rc2Server sharedInstance] createProject:pc.stringValue completionBlock:^(BOOL success, id obj) {
 					if (success) {
-						NSInteger idx = [[Rc2Server sharedInstance].projects indexOfObject:obj];
-								[self.arrayController insertObject:obj atArrangedObjectIndex:idx];
+						//NSInteger idx = [[Rc2Server sharedInstance].projects indexOfObject:obj];
+					//			[self.arrayController insertObject:obj atArrangedObjectIndex:idx];
 					} else {
 						//TODO: notify user that failed
 						Rc2LogError(@"failed to create project:%@", obj);
