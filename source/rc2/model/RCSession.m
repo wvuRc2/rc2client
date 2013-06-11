@@ -433,8 +433,8 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 			if (self.showResultDetails)
 				js = [NSString stringWithFormat:@"iR.appendComplexResults(%@)", [self escapeForJS:[dict objectForKey:@"json"]]];
 		} else if ([dict objectForKey:@"json"]) {
-			js = [NSString stringWithFormat:@"iR.appendResults(%@)",
-				  [self escapeForJS:[dict objectForKey:@"json"]]];
+			if (self.showResultDetails)
+				js = [NSString stringWithFormat:@"iR.appendResults(%@)", [self escapeForJS:[dict objectForKey:@"json"]]];
 		} else if ([dict objectForKey:@"stdout"]) {
 			NSString *sostr = [self escapeForJS:[dict objectForKey:@"string"]];
 			//FIXME: this seems buggy. seems like all \ escapes need to be re-escaped or we need to send json or something encoded
