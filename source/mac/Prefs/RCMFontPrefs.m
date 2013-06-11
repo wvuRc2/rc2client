@@ -20,19 +20,20 @@
 -(void)loadView
 {
 	[super loadView];
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
 	//stick ourselves in the responder chain
 	[self setNextResponder: [self.view nextResponder]];
 	[self.view setNextResponder: self];
-	id fontName = [_prefs objectForKey:kPref_EditorFont];
+	id fontName = [prefs objectForKey:kPref_EditorFont];
 	if (![fontName isKindOfClass:[NSString class]])
 		fontName = @"Menlo";
-	CGFloat fntSize = [_prefs floatForKey:kPref_EditorFontSize];
+	CGFloat fntSize = [prefs floatForKey:kPref_EditorFontSize];
 	if ((fntSize < 9) || (fntSize > 72))
 		fntSize = 13.0;
 	self.wsheetFont = [NSFont fontWithName:fontName size:fntSize];
 	self.wsheetFontField.font = self.wsheetFont;
-	self.wsheetFontField.backgroundColor = [NSColor colorWithHexString:[_prefs objectForKey:kPref_EditorBGColor]];
-	self.wsheetFontField.textColor = [NSColor colorWithHexString:[_prefs objectForKey:kPref_EditorFontColor]];
+	self.wsheetFontField.backgroundColor = [NSColor colorWithHexString:[prefs objectForKey:kPref_EditorBGColor]];
+	self.wsheetFontField.textColor = [NSColor colorWithHexString:[prefs objectForKey:kPref_EditorFontColor]];
 	self.wsheetFontDescription = [NSString stringWithFormat:@"%@ %1.1f",
 								self.wsheetFont.fontName, self.wsheetFont.pointSize];
 }
@@ -42,13 +43,34 @@
 	return NSFontPanelFaceModeMask|NSFontPanelSizeModeMask|NSFontPanelCollectionModeMask|NSFontPanelTextColorEffectModeMask|NSFontPanelDocumentColorEffectModeMask;
 }
 
+-(NSView*)initialKeyView
+{
+	return self.wsheetFontField;
+}
+
+-(NSString*)identifier
+{
+	return @"FontPrefs";
+}
+
+-(NSImage*)toolbarItemImage
+{
+	return [NSImage imageNamed:NSImageNameFontPanel];
+}
+
+-(NSString*)toolbarItemLabel
+{
+	return @"Fonts";
+}
+
 -(IBAction)setColor:(NSColor*)color forAttribute:(NSString*)attr
 {
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
 	if ([attr isEqualToString:NSForegroundColorAttributeName]) {
-		[_prefs setObject:[color hexString] forKey:kPref_EditorFontColor];
+		[prefs setObject:[color hexString] forKey:kPref_EditorFontColor];
 		[self.wsheetFontField setTextColor:color];
 	} else if ([attr isEqualToString:@"NSDocumentBackgroundColor"]) {
-		[_prefs setObject:[color hexString] forKey:kPref_EditorBGColor];
+		[prefs setObject:[color hexString] forKey:kPref_EditorBGColor];
 		[self.wsheetFontField setBackgroundColor:color];
 	}
 }
@@ -65,12 +87,13 @@
 
 -(IBAction)changeEditorFont:(id)sender
 {
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
 	self.wsheetFont = [sender convertFont:self.wsheetFont];
 	self.wsheetFontField.font = self.wsheetFont;
 	self.wsheetFontDescription = [NSString stringWithFormat:@"%@ %1.1f",
 								self.wsheetFont.fontName, self.wsheetFont.pointSize];
-	[_prefs setObject:self.wsheetFont.fontName forKey:kPref_EditorFont];
-	[_prefs setFloat:self.wsheetFont.pointSize forKey:kPref_EditorFontSize];
+	[prefs setObject:self.wsheetFont.fontName forKey:kPref_EditorFont];
+	[prefs setFloat:self.wsheetFont.pointSize forKey:kPref_EditorFontSize];
 }
 
 - (BOOL)control:(NSControl *)control textShouldBeginEditing:(NSText *)fieldEditor

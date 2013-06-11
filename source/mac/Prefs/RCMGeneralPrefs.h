@@ -6,8 +6,9 @@
 //  Copyright 2012 West Virginia University. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
+#import "MASPreferencesViewController.h"
 
-@interface RCMGeneralPrefs : AMPreferenceModule
+@interface RCMGeneralPrefs : NSViewController<MASPreferencesViewController>
 
 @end

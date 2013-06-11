@@ -7,8 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MASPreferencesViewController.h"
 
-@interface RCMFontPrefs : AMPreferenceModule<NSTextFieldDelegate>
+@interface RCMFontPrefs : NSViewController<NSTextFieldDelegate,MASPreferencesViewController>
 -(IBAction)changeEditorFont:(id)sender;
 -(IBAction)changeWorksheetFont:(id)sender;
 @end

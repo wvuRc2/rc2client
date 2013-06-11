@@ -22,9 +22,24 @@
 
 -(IBAction)resetWarnings:(id)sender
 {
-	for (NSString *key in [RCMAppConstants alertSupressionKeys]) 
-		[_prefs removeObjectForKey:key];
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+	for (NSString *key in [RCMAppConstants alertSupressionKeys])
+		[prefs removeObjectForKey:key];
 }
 
-@synthesize resetButton;
+-(NSString*)identifier
+{
+	return @"GeneralPrefs";
+}
+
+-(NSImage*)toolbarItemImage
+{
+	return [NSImage imageNamed:NSImageNamePreferencesGeneral];
+}
+
+-(NSString*)toolbarItemLabel
+{
+	return @"General";
+}
+
 @end

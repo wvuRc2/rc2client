@@ -143,6 +143,10 @@
 		084594DE15B5F71500297C9D /* turnedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CE15B5F71500297C9D /* turnedin.png */; };
 		084594DF15B5F71500297C9D /* turnedin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CF15B5F71500297C9D /* turnedin@2x.png */; };
 		0847FDAC175D30AF00D950EA /* MCTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDAB175D30AF00D950EA /* MCTableRowView.m */; };
+		0847FDB917627D8300D950EA /* DTRichTextEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0847FDB817627D8300D950EA /* DTRichTextEditor.framework */; };
+		0847FDC117627E4200D950EA /* RichSessionEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDC017627E4200D950EA /* RichSessionEditor.m */; };
+		0847FDC617679F6F00D950EA /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0847FDC317679F6F00D950EA /* MASPreferencesWindow.xib */; };
+		0847FDC717679F6F00D950EA /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDC517679F6F00D950EA /* MASPreferencesWindowController.m */; };
 		084B47931677DF98000A0A6F /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 084B47911677DF98000A0A6F /* add.png */; };
 		084B47941677DF98000A0A6F /* addDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 084B47921677DF98000A0A6F /* addDown.png */; };
 		084B479D167A8B3D000A0A6F /* MLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245F515B5DCD70064A9FA /* MLReachability.m */; };
@@ -748,6 +752,14 @@
 		084594CF15B5F71500297C9D /* turnedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "turnedin@2x.png"; path = "resources/sharedImages/turnedin@2x.png"; sourceTree = SOURCE_ROOT; };
 		0847FDAA175D30AF00D950EA /* MCTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTableRowView.h; sourceTree = "<group>"; };
 		0847FDAB175D30AF00D950EA /* MCTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTableRowView.m; sourceTree = "<group>"; };
+		0847FDB21762682300D950EA /* SessionEditorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionEditorProtocol.h; sourceTree = "<group>"; };
+		0847FDB817627D8300D950EA /* DTRichTextEditor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTRichTextEditor.framework; path = 3rdParty/DTRichTextEditor.framework; sourceTree = "<group>"; };
+		0847FDBF17627E4200D950EA /* RichSessionEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichSessionEditor.h; sourceTree = "<group>"; };
+		0847FDC017627E4200D950EA /* RichSessionEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RichSessionEditor.m; sourceTree = "<group>"; };
+		0847FDC217679F6E00D950EA /* MASPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASPreferencesViewController.h; path = Dependencies/MASPreferences/MASPreferencesViewController.h; sourceTree = SOURCE_ROOT; };
+		0847FDC317679F6F00D950EA /* MASPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MASPreferencesWindow.xib; path = Dependencies/MASPreferences/MASPreferencesWindow.xib; sourceTree = SOURCE_ROOT; };
+		0847FDC417679F6F00D950EA /* MASPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASPreferencesWindowController.h; path = Dependencies/MASPreferences/MASPreferencesWindowController.h; sourceTree = SOURCE_ROOT; };
+		0847FDC517679F6F00D950EA /* MASPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASPreferencesWindowController.m; path = Dependencies/MASPreferences/MASPreferencesWindowController.m; sourceTree = SOURCE_ROOT; };
 		084B47911677DF98000A0A6F /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		084B47921677DF98000A0A6F /* addDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addDown.png; sourceTree = "<group>"; };
 		084D39B51627300F00B8A06B /* RCDataFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDataFrame.h; sourceTree = "<group>"; };
@@ -1259,6 +1271,7 @@
 				08D2432415B5D04D0064A9FA /* UIKit.framework in Frameworks */,
 				08D2432615B5D04D0064A9FA /* Foundation.framework in Frameworks */,
 				08D2450215B5DA4E0064A9FA /* DropboxSDK.framework in Frameworks */,
+				0847FDB917627D8300D950EA /* DTRichTextEditor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1478,6 +1491,10 @@
 				084594B415B5F53900297C9D /* NoodleLineNumberMarker.m */,
 				084594B515B5F53900297C9D /* NoodleLineNumberView.h */,
 				084594B615B5F53900297C9D /* NoodleLineNumberView.m */,
+				0847FDC217679F6E00D950EA /* MASPreferencesViewController.h */,
+				0847FDC317679F6F00D950EA /* MASPreferencesWindow.xib */,
+				0847FDC417679F6F00D950EA /* MASPreferencesWindowController.h */,
+				0847FDC517679F6F00D950EA /* MASPreferencesWindowController.m */,
 				084594B715B5F53900297C9D /* PXSourceList */,
 			);
 			name = "mac 3rdParty";
@@ -1642,6 +1659,7 @@
 			isa = PBXGroup;
 			children = (
 				08D245FA15B5DDD00064A9FA /* libz.dylib */,
+				0847FDB817627D8300D950EA /* DTRichTextEditor.framework */,
 				08D245F815B5DDCB0064A9FA /* CFNetwork.framework */,
 				08D245EB15B5DBFF0064A9FA /* libVyana-ios.a */,
 				08D2432315B5D04D0064A9FA /* UIKit.framework */,
@@ -1742,8 +1760,11 @@
 				08D243A515B5D5FA0064A9FA /* DoodleView.m */,
 				08D243A615B5D5FA0064A9FA /* DoodleViewController.h */,
 				08D243A715B5D5FA0064A9FA /* DoodleViewController.m */,
+				0847FDB21762682300D950EA /* SessionEditorProtocol.h */,
 				08D243D715B5D7590064A9FA /* SessionEditView.h */,
 				08D243D815B5D7590064A9FA /* SessionEditView.m */,
+				0847FDBF17627E4200D950EA /* RichSessionEditor.h */,
+				0847FDC017627E4200D950EA /* RichSessionEditor.m */,
 			);
 			name = "session related controllers";
 			sourceTree = "<group>";
@@ -2653,6 +2674,7 @@
 				0833CABF17441D640007B54E /* fontUp.png in Resources */,
 				08B3477E175D2C4000B86FD2 /* no.png in Resources */,
 				08B3477F175D2C4000B86FD2 /* no@2x.png in Resources */,
+				0847FDC617679F6F00D950EA /* MASPreferencesWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2908,6 +2930,7 @@
 				08FF3D4A16F10E1900F3E09E /* ColorPickerController.mm in Sources */,
 				08FF3D4D16F10E1900F3E09E /* GradientView.mm in Sources */,
 				08FF3D5416F278EE00F3E09E /* SendMailController.m in Sources */,
+				0847FDC117627E4200D950EA /* RichSessionEditor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3047,6 +3070,7 @@
 				08063D5C173AF33C0054FD1D /* MCVariableDetailsController.m in Sources */,
 				0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */,
 				0847FDAC175D30AF00D950EA /* MCTableRowView.m in Sources */,
+				0847FDC717679F6F00D950EA /* MASPreferencesWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

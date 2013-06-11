@@ -23,6 +23,7 @@
 #import "RCMFontPrefs.h"
 #import <HockeySDK/BITCrashReportManagerDelegate.h>
 #import <HockeySDK/HockeySDK.h>
+#import "MASPreferencesWindowController.h"
 
 #define kPref_LastLoginString @"LastLoginString"
 #define kPref_StartInFullScreen @"StartInFullScreen"
@@ -33,6 +34,7 @@
 }
 @property (strong) MCLoginController *loginController;
 @property (readwrite, strong, nonatomic) MCMainWindowController *mainWindowController;
+@property (nonatomic, strong) MASPreferencesWindowController *prefsController;
 @property (nonatomic, strong) NSTimer *autosaveTimer;
 @property (nonatomic, readwrite) BOOL loggedIn;
 @property (nonatomic, readwrite) BOOL isFullScreen;
@@ -167,15 +169,12 @@
 
 -(IBAction)showPreferences:(id)sender
 {
-	AMPreferencesController *prefsController = [AMPreferencesController defaultInstance];
-	if (![prefsController areModulesLoaded]) {
-		//need to load our prefs modules
-		[prefsController addModule:[RCMGeneralPrefs moduleWithNibName: @"GeneralPrefs"
-															   bundle: nil title: @"General" identifier:@"general" imageName:nil]];
-		[prefsController addModule:[RCMFontPrefs moduleWithNibName: @"FontsPrefs"
-															bundle: nil title: @"Fonts" identifier:@"fonts" imageName:NSImageNameFontPanel]];
+	if (nil == self.prefsController) {
+		RCMGeneralPrefs *gen = [[RCMGeneralPrefs alloc] initWithNibName:@"GeneralPrefs" bundle:nil];
+		RCMFontPrefs *fonts = [[RCMFontPrefs alloc] initWithNibName:@"FontsPrefs" bundle:nil];
+		self.prefsController = [[MASPreferencesWindowController alloc] initWithViewControllers:@[gen,fonts] title:@"Preferences"];
 	}
-	[prefsController showWindow:sender];
+	[self.prefsController showWindow:self];
 }
 
 #pragma mark - meat & potatoes
