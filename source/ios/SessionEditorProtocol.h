@@ -21,6 +21,8 @@
 @property (readonly) BOOL isEditorFirstResponder;
 @property (nonatomic, assign) BOOL editable;
 
+@property (readonly) UIView *view;
+
 -(void)upArrow;
 -(void)downArrow;
 -(void)leftArrow;

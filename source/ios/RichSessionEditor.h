@@ -10,5 +10,6 @@
 #import "SessionEditorProtocol.h"
 
 @interface RichSessionEditor : UIViewController <SessionEditor>
+-(id)initWithFrame:(CGRect)frame;
 
 @end

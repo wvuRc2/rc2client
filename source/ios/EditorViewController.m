@@ -24,6 +24,7 @@
 #import "KeyboardToolbar.h"
 #import "WHMailActivity.h"
 #import "MAKVONotificationCenter.h"
+#import "RichSessionEditor.h"
 
 @interface EditorViewController() <KeyboardToolbarDelegate> {
 	BOOL _viewLoaded;
@@ -35,7 +36,7 @@
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *openFileButtonItem;
 @property (nonatomic, weak) IBOutlet UILabel *docTitleLabel;
 @property (nonatomic, weak) IBOutlet UIButton *handButton;
-@property (nonatomic, weak) IBOutlet id <SessionEditor> richEditor;
+@property (nonatomic, strong) IBOutlet id <SessionEditor> richEditor;
 @property (nonatomic, strong) NSDictionary *defaultTextAttrs;
 @property (nonatomic, strong) KeyboardToolbar *keyboardToolbar;
 @property (nonatomic, strong) SessionFilesController *fileController;
@@ -101,6 +102,14 @@
 {
     [super viewDidLoad];
 	if (!_viewLoaded) {
+#if 0
+		CGRect editRect = self.richEditor.view.frame;
+		[self.richEditor.view removeFromSuperview];
+		self.richEditor = [[RichSessionEditor alloc] initWithFrame:editRect];
+		[(RichSessionEditor*)self.richEditor loadView];
+		[self.view addSubview:self.richEditor.view];
+		self.richEditor.view.frame = editRect;
+#endif
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(keyboardWillShow:)
 													 name:UIKeyboardWillShowNotification object:nil];
@@ -111,6 +120,8 @@
 		[self.richEditor setDefaultFontName:@"Inconsolata" size:18.0];
 		self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
 			[UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName, nil];
+		self.docTitleLabel.font = [UIFont fontWithName:@"Inconsolata" size:18.0];
+		
 		__weak EditorViewController *weakSelf = self;
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
 			//need to sanitize the input string. we'll just test for only alphanumeric
@@ -118,19 +129,19 @@
 			if (str && ![str containsCharacterNotInSet:[NSCharacterSet alphanumericCharacterSet]])
 				[weakSelf.session executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
 		};
-		self.richEditor.executeBlock = ^(SessionEditView *editView) {
-			if (editView.selectedTextRange.empty) {
+		self.richEditor.executeBlock = ^(id<SessionEditor> editView) {
+			if (editView.selectedRange.length < 1) {
 				//execute the line
-				NSString *str = [[editView.text substringWithRange:[editView.text lineRangeForRange:editView.selectedRange]] stringByTrimmingWhitespace];
+				NSString *str = [[editView.string substringWithRange:[editView.string lineRangeForRange:editView.selectedRange]] stringByTrimmingWhitespace];
 				if ([str length] > 0)
 					[weakSelf.session executeScript:str scriptName:nil];
 			} else {
 				//excute selecction
-				NSString *str = [[editView textInRange:editView.selectedTextRange] stringByTrimmingWhitespace];
-				if ([str length] > 0)
-					[weakSelf.session executeScript:str scriptName:nil];
+//				NSString *str = [[editView textInRange:editView.selectedTextRange] stringByTrimmingWhitespace];
+//				if ([str length] > 0)
+//					[weakSelf.session executeScript:str scriptName:nil];
 			}
-			if (!self.externalKeyboardVisible)
+			if (!weakSelf.externalKeyboardVisible)
 				[editView resignFirstResponder];
 		};
 		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
@@ -691,11 +702,11 @@
 {
 	if (nil == srcStr)
 		srcStr = self.richEditor.attributedString;
-	if ([self.richEditor respondsToSelector:@selector(attributedText)]) {
+//	if ([self.richEditor respondsToSelector:@selector(attributedText)]) {
 		NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
 		[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
 		srcStr = astr;
-	}
+//	}
 	self.richEditor.attributedString = srcStr;
 	[self.keyboardToolbar switchToPanelForFileExtension:self.currentFile.name.pathExtension];
 }

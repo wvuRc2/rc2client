@@ -50,6 +50,11 @@
 	self.layer.masksToBounds=YES;
 }
 
+-(UIView*)view
+{
+	return self;
+}
+
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
 	if (action == @selector(showHelp:) || action == @selector(executeSelection:))

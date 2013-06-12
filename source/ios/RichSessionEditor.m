@@ -28,9 +28,14 @@
 	UIView *view = [[UIView alloc] initWithFrame:self.initialFrame];
 	self.richEditor = [[DTRichTextEditorView alloc] initWithFrame:view.bounds];
 	self.richEditor.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-	self.richEditor.textDelegate = self;
+//	self.richEditor.textDelegate = self;
 	[view addSubview:self.richEditor];
 	self.view = view;
+}
+
+-(UIView*)view
+{
+	return self.richEditor;
 }
 
 -(void)upArrow
@@ -69,14 +74,79 @@
 }
 
 
+-(NSString*)string
+{
+	return self.richEditor.attributedString.string;
+}
+
+-(void)setString:(NSString *)string
+{
+	self.richEditor.attributedString = [[NSAttributedString alloc] initWithString:string];
+}
+
+-(NSAttributedString*)attributedString
+{
+	return self.richEditor.attributedString;
+}
+
+-(void)setAttributedString:(NSAttributedString *)attributedString
+{
+	self.richEditor.attributedString = attributedString;
+}
+
+-(BOOL)inputAccessoryVisible
+{
+	return self.richEditor.inputAccessoryView.hidden;
+}
+
+-(void)setInputAccessoryVisible:(BOOL)inputAccessoryVisible
+{
+	self.richEditor.inputAccessoryView.hidden = inputAccessoryVisible;
+}
+
+-(UIView*)inputAccessoryView
+{
+	return self.richEditor.inputAccessoryView;
+}
+
+-(void)setInputAccessoryView:(UIView *)inputAccessoryView
+{
+	self.richEditor.inputAccessoryView = inputAccessoryView;
+}
+
+-(NSRange)selectedRange
+{
+	return [(DTTextRange*)self.richEditor.selectedTextRange NSRangeValue];
+}
+
+-(void)setSelectedRange:(NSRange)selectedRange
+{
+	DTTextRange *rng = [DTTextRange rangeWithNSRange:selectedRange];
+	self.richEditor.selectedTextRange = rng;
+}
+
+-(BOOL)isEditorFirstResponder
+{
+	return self.richEditor.isFirstResponder;
+}
+
+-(BOOL)editable
+{
+	return self.richEditor.editable;
+}
+
+-(void)setEditable:(BOOL)editable
+{
+	self.richEditor.editable = editable;
+}
 
 -(void)setDefaultFontName:(NSString*)fontName size:(CGFloat)fontSize
 {
-	
+	self.richEditor.defaultFontFamily = fontName;
+	self.richEditor.defaultFontSize = fontSize;
 }
 
 @synthesize helpBlock;
 @synthesize executeBlock;
-
 
 @end
