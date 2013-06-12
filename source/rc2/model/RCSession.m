@@ -466,6 +466,9 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 			[self.workspace updateFileId:[fd objectForKey:@"fileId"]];
 		}
 		js = [NSString stringWithFormat:@"iR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
+		if ([dict objectForKey:@"error"]) {
+			js = [NSString stringWithFormat:@"iR.displayError('%@'); %@", [self escapeForJS:dict[@"error"]], js];
+		}
 	} else {
 		Rc2LogWarn(@"unknown message received:%@", dict);
 	}
