@@ -97,7 +97,7 @@
 -(void)switchToPanelForFileExtension:(NSString*)fileExtension
 {
 	NSString *panelName=nil;
-	if ([fileExtension isEqualToString:@"Rnw"])
+	if (NSOrderedSame == [fileExtension caseInsensitiveCompare:@"Rnw"])
 		panelName = @"Latex";
 	if (panelName) {
 		for (ButtonPanel *panel in self.panels) {

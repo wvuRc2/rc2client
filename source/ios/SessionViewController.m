@@ -312,7 +312,7 @@
 		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
 	}
 	NSString *ext = @"txt";
-	if ([file.name hasSuffix:@".html"])
+	if (NSOrderedSame == [file.name.pathExtension caseInsensitiveCompare:@"html"])
 		ext = @"html";
 	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:ext];
 	NSError *err=nil;

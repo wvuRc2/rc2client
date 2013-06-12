@@ -299,7 +299,7 @@
 	[self.queueLock unlock];
 	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"$('#themecss').attr('href','%@')",
 														  [[ThemeEngine sharedInstance] currentTheme].cssfile]];
-	self.webView.scalesPageToFit = [self.webView.request.URL.pathExtension isEqualToString:@"pdf"];
+	self.webView.scalesPageToFit = NSOrderedSame == [self.webView.request.URL.pathExtension caseInsensitiveCompare:@"pdf"];
 	[self adjustInterface];
 }
 

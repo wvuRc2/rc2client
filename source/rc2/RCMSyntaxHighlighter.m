@@ -131,13 +131,13 @@
 -(NSAttributedString*)syntaxHighlightCode:(NSAttributedString*)sourceStr ofType:(NSString*)fileExtension
 {
 	id retVal = sourceStr;
-	if ([fileExtension isEqualToString:@"R"])
+	if (NSOrderedSame == [fileExtension caseInsensitiveCompare:@"R"])
 		retVal = [self syntaxHighlightRCode:sourceStr];
-	else if ([fileExtension isEqualToString:@"Rnw"])
+	else if (NSOrderedSame == [fileExtension caseInsensitiveCompare:@"Rnw"])
 		retVal = [self syntaxHighlightLatexCode:sourceStr];
-	else if ([fileExtension isEqualToString:@"sas"])
+	else if (NSOrderedSame == [fileExtension caseInsensitiveCompare:@"sas"])
 		retVal = [self syntaxHighlightSasCode:sourceStr];
-	else if ([fileExtension isEqualToString:@"Rmd"])
+	else if (NSOrderedSame == [fileExtension caseInsensitiveCompare:@"Rmd"])
 		retVal = [self syntaxHighlightRmarkdownCode:sourceStr];
 	return retVal;
 }

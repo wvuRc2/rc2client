@@ -779,7 +779,7 @@
 			[self.fileTableView reloadData];
 			self.statusMessage = [NSString stringWithFormat:@"%@ successfully saved to server", theFile.name];
 			//update display of html files
-			if (file == self.editorFile && [file.fileContentsPath.pathExtension isEqualToString:@"html"])
+			if (file == self.editorFile && NSOrderedSame == [file.fileContentsPath.pathExtension caseInsensitiveCompare:@"html"])
 				[self.outputController loadLocalFile:file];
 		} else {
 			Rc2LogWarn(@"error syncing file to server:%@", file.name);
@@ -904,9 +904,9 @@
 		self.editorFile = selectedFile;
 		[self setEditViewTextWithHighlighting:[NSMutableAttributedString attributedStringWithString:selectedFile.currentContents attributes:nil]];
 		//html files are edited and viewed
-		if ([selectedFile.fileContentsPath.pathExtension isEqualToString:@"html"])
+		if (NSOrderedSame == [selectedFile.fileContentsPath.pathExtension caseInsensitiveCompare:@"html"])
 			[self.outputController loadLocalFile:selectedFile];
-	} else if ([selectedFile.name hasSuffix:@".pdf"]) {
+	} else if (NSOrderedSame == [selectedFile.name.pathExtension caseInsensitiveCompare:@".pdf"]) {
 		if (![[NSFileManager defaultManager] fileExistsAtPath:selectedFile.fileContentsPath])
 			[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:selectedFile];
 		AppDelegate *del = (AppDelegate*)[TheApp delegate];

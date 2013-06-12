@@ -217,7 +217,7 @@
 		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
 	}
 	NSString *newPath = [self.webTmpFileDirectory stringByAppendingPathComponent:file.name];
-	if (![file.name hasSuffix:@".html"])
+	if (NSOrderedSame != [file.name caseInsensitiveCompare:@".html"])
 		newPath = [newPath stringByAppendingPathExtension:@"txt"];
 	__block NSError *err=nil;
 	if ([fm fileExistsAtPath:newPath])
@@ -541,7 +541,8 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 			[items addObject:mi];
 	}
 	//see if a pdf
-	if ([[[[[(WebDataSource*)[[element objectForKey:@"WebElementFrame"] dataSource] request] URL] path] lastPathComponent] hasSuffix:@"pdf"]) {
+	NSString *filepath = [[[(WebDataSource*)[[element objectForKey:@"WebElementFrame"] dataSource] request] URL] path];
+	if (NSOrderedSame == [filepath.pathExtension caseInsensitiveCompare:@"pdf"]) {
 		[items addObject:[self.openFullMenuItem copy]];
 		return items;
 	}
