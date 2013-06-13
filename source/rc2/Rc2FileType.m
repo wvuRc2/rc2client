@@ -33,7 +33,7 @@
 +(Rc2FileType*)fileTypeWithExtension:(NSString*)fileExt
 {
 	for (Rc2FileType *ft in [Rc2FileType allFileTypes]) {
-		if ([ft.extension isEqualToString:fileExt])
+		if (NSOrderedSame == [ft.extension caseInsensitiveCompare:fileExt])
 			return ft;
 	}
 	return nil;

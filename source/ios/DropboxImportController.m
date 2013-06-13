@@ -119,10 +119,10 @@
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata
 {
 	self.metaData = metadata;
-	NSArray *fileTypes = [Rc2Server acceptableImportFileSuffixes];
+	NSArray *fileTypes = [[Rc2Server acceptableImportFileSuffixes] arrayByPerformingSelector:@selector(lowercaseString)];
 	NSMutableArray *a = [NSMutableArray array];
 	for (DBMetadata *item in self.metaData.contents) {
-		NSString *ftype = [item.path pathExtension];
+		NSString *ftype = [[item.path pathExtension] lowercaseString];
 		if (item.isDirectory) {
 			[a addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:[item.path lastPathComponent], @"name",
 						   (id)kCFBooleanTrue, @"isdir", item, @"metadata", nil]];
