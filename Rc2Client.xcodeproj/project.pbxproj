@@ -455,6 +455,10 @@
 		08D2468015B5EF630064A9FA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2467915B5EF5F0064A9FA /* WebKit.framework */; };
 		08D2468315B5EFDD0064A9FA /* Vyana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
 		08D248B41767C6BD00D71F02 /* DTLoupe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08D248B31767C6BD00D71F02 /* DTLoupe.bundle */; };
+		08D248BC176A498900D71F02 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D248BB176A498900D71F02 /* SenTestingKit.framework */; };
+		08D248BE176A498900D71F02 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D248BD176A498900D71F02 /* Cocoa.framework */; };
+		08D248C8176A498A00D71F02 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08D248C6176A498A00D71F02 /* InfoPlist.strings */; };
+		08D248D3176A4A5600D71F02 /* ProjectWorkspaceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D248D2176A4A5600D71F02 /* ProjectWorkspaceTests.m */; };
 		08D8C331169638DC000DDA04 /* renameActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D8C32F169638DC000DDA04 /* renameActivity.png */; };
 		08D8C332169638DC000DDA04 /* renameActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D8C330169638DC000DDA04 /* renameActivity@2x.png */; };
 		08D8C336169E1637000DDA04 /* FileImportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D8C335169E1637000DDA04 /* FileImportViewController.m */; };
@@ -1124,6 +1128,16 @@
 		08D2467915B5EF5F0064A9FA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		08D2468215B5EFCE0064A9FA /* Vyana.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Vyana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08D248B31767C6BD00D71F02 /* DTLoupe.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DTLoupe.bundle; path = 3rdParty/DTRichTextEditor.framework/Versions/A/Resources/DTLoupe.bundle; sourceTree = SOURCE_ROOT; };
+		08D248BA176A498900D71F02 /* CoreUnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreUnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		08D248BB176A498900D71F02 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		08D248BD176A498900D71F02 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		08D248C0176A498900D71F02 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		08D248C1176A498900D71F02 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		08D248C2176A498900D71F02 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		08D248C5176A498A00D71F02 /* CoreUnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreUnitTests-Info.plist"; sourceTree = "<group>"; };
+		08D248C7176A498A00D71F02 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		08D248CC176A498A00D71F02 /* CoreUnitTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreUnitTests-Prefix.pch"; sourceTree = "<group>"; };
+		08D248D2176A4A5600D71F02 /* ProjectWorkspaceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectWorkspaceTests.m; sourceTree = "<group>"; };
 		08D8C32F169638DC000DDA04 /* renameActivity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = renameActivity.png; sourceTree = "<group>"; };
 		08D8C330169638DC000DDA04 /* renameActivity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "renameActivity@2x.png"; sourceTree = "<group>"; };
 		08D8C334169E1637000DDA04 /* FileImportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileImportViewController.h; sourceTree = "<group>"; };
@@ -1292,6 +1306,15 @@
 				08D2461F15B5EBC20064A9FA /* Cocoa.framework in Frameworks */,
 				084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */,
 				082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08D248B6176A498900D71F02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08D248BC176A498900D71F02 /* SenTestingKit.framework in Frameworks */,
+				08D248BE176A498900D71F02 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1642,6 +1665,7 @@
 				08D2435515B5D3F00064A9FA /* ios */,
 				08D2462415B5EBC20064A9FA /* mac */,
 				08D244E415B5D98A0064A9FA /* shared */,
+				08D248C3176A498900D71F02 /* CoreUnitTests */,
 				08D2432215B5D04D0064A9FA /* Frameworks */,
 				08D2468115B5EF770064A9FA /* Mac Frameworks */,
 				08D2432015B5D04D0064A9FA /* Products */,
@@ -1653,6 +1677,7 @@
 			children = (
 				08D2431F15B5D04D0064A9FA /* Rc².app */,
 				08D2461C15B5EBC20064A9FA /* Rc2.app */,
+				08D248BA176A498900D71F02 /* CoreUnitTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1682,6 +1707,9 @@
 				08D244ED15B5D9F60064A9FA /* QuartzCore.framework */,
 				08D244EE15B5D9F60064A9FA /* Security.framework */,
 				08D244EF15B5D9F60064A9FA /* SystemConfiguration.framework */,
+				08D248BB176A498900D71F02 /* SenTestingKit.framework */,
+				08D248BD176A498900D71F02 /* Cocoa.framework */,
+				08D248BF176A498900D71F02 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2168,6 +2196,35 @@
 			name = "Mac Frameworks";
 			sourceTree = "<group>";
 		};
+		08D248BF176A498900D71F02 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				08D248C0176A498900D71F02 /* AppKit.framework */,
+				08D248C1176A498900D71F02 /* CoreData.framework */,
+				08D248C2176A498900D71F02 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		08D248C3176A498900D71F02 /* CoreUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				08D248C4176A498A00D71F02 /* Supporting Files */,
+				08D248D2176A4A5600D71F02 /* ProjectWorkspaceTests.m */,
+			);
+			path = CoreUnitTests;
+			sourceTree = "<group>";
+		};
+		08D248C4176A498A00D71F02 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				08D248C5176A498A00D71F02 /* CoreUnitTests-Info.plist */,
+				08D248C6176A498A00D71F02 /* InfoPlist.strings */,
+				08D248CC176A498A00D71F02 /* CoreUnitTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		08DF3D5315BDBC80000A339D /* AMResizableSplitterViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2420,6 +2477,24 @@
 			productReference = 08D2461C15B5EBC20064A9FA /* Rc2.app */;
 			productType = "com.apple.product-type.application";
 		};
+		08D248B9176A498900D71F02 /* CoreUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08D248D0176A498A00D71F02 /* Build configuration list for PBXNativeTarget "CoreUnitTests" */;
+			buildPhases = (
+				08D248B5176A498900D71F02 /* Sources */,
+				08D248B6176A498900D71F02 /* Frameworks */,
+				08D248B7176A498900D71F02 /* Resources */,
+				08D248B8176A498900D71F02 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CoreUnitTests;
+			productName = CoreUnitTests;
+			productReference = 08D248BA176A498900D71F02 /* CoreUnitTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2443,6 +2518,7 @@
 			targets = (
 				08D2431E15B5D04D0064A9FA /* iPad App */,
 				08D2461B15B5EBC20064A9FA /* Mac App */,
+				08D248B9176A498900D71F02 /* CoreUnitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2682,6 +2758,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		08D248B7176A498900D71F02 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08D248C8176A498A00D71F02 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -2769,6 +2853,19 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/bash\nif [[ ${CONFIGURATION} == \"Archive\" ]]; then\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\necho \"incremeting build to ${buildNumber}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${INFOPLIST_FILE}\"\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		08D248B8176A498900D71F02 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3078,6 +3175,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		08D248B5176A498900D71F02 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08D248D3176A4A5600D71F02 /* ProjectWorkspaceTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -3117,6 +3222,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				08B74C75163B31C700083F9A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		08D248C6176A498A00D71F02 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				08D248C7176A498A00D71F02 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3393,6 +3506,87 @@
 			};
 			name = Archive;
 		};
+		08D248CD176A498A00D71F02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreUnitTests/CoreUnitTests-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "CoreUnitTests/CoreUnitTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				TEST_HOST = "${BUNDLE_LOADER}";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		08D248CE176A498A00D71F02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreUnitTests/CoreUnitTests-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "CoreUnitTests/CoreUnitTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				TEST_HOST = "${BUNDLE_LOADER}";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		08D248CF176A498A00D71F02 /* Archive */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreUnitTests/CoreUnitTests-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "CoreUnitTests/CoreUnitTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				TEST_HOST = "${BUNDLE_LOADER}";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Archive;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3425,6 +3619,15 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		08D248D0176A498A00D71F02 /* Build configuration list for PBXNativeTarget "CoreUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08D248CD176A498A00D71F02 /* Debug */,
+				08D248CE176A498A00D71F02 /* Release */,
+				08D248CF176A498A00D71F02 /* Archive */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 

@@ -81,6 +81,8 @@
 			[aView setMultiHConstraint:[NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem: nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + kBoxHeightDiff]];
 			[[aView multiHConstraint] setPriority:400];
 			[self addConstraint:[aView multiHConstraint]];
+			//don't allow any of the views to be taller than self
+			[self addConstraint:[NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
 		}
 	}
 	//pin size of views to size of first view so all are same size and can just reize first one.
@@ -123,6 +125,7 @@
 	CGFloat marginspace = 10 + 10 + 20;
 	CGFloat newWidth = fabs((containerSize.width - marginspace)/2);
 	CGFloat xAdjust = fabs((newWidth+20)/2);
+	CGFloat yAdjust = 0;
 	id view1 = [_viewControllers[0] view];
 	id view2 = [_viewControllers[1] view];
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
@@ -136,8 +139,8 @@
 		[[[view1 multiHConstraint] animator] setConstant:  newWidth + kBoxHeightDiff];
 		[[[view1 multiXConstraint] animator] setConstant: -xAdjust];
 		[[[view2 multiXConstraint] animator] setConstant: xAdjust];
-		[[[view1 multiYConstraint] animator] setConstant:0];
-		[[[view2 multiYConstraint] animator] setConstant:0];
+		[[[view1 multiYConstraint] animator] setConstant: yAdjust];
+		[[[view2 multiYConstraint] animator] setConstant: yAdjust];
 	} completionHandler:nil];
 
 }

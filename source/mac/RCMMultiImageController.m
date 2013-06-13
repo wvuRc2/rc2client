@@ -54,9 +54,11 @@
 		[[NSUserDefaults standardUserDefaults] setInteger:self.numberImagesVisible forKey:kPref_NumImagesVisible];
 		if (self.didLeaveWindowBlock)
 			self.didLeaveWindowBlock();
+		//our view is still involved in an animation, so we need to keep a reference around for longer than the animation
+		RunAfterDelay(0.5, ^{
+			[self.mupView description];
+		});
 	} else {
-//		[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[container]-|" options:0 metrics:nil views:@{@"container":self.view}]];
-//		[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[container]-|" options:0 metrics:nil views:@{@"container":self.view}]];
 		[self.view.window makeFirstResponder:self];
 	}
 }

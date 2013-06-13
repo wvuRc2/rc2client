@@ -1,0 +1,11 @@
+//
+// Prefix header for all source files of the 'CoreUnitTests' target in the 'CoreUnitTests' project
+//
+
+#ifdef __OBJC__
+	#import <Cocoa/Cocoa.h>
+#import <Vyana/Vyana.h>
+#endif
+
+#define TheApp NSApp
+#define Rc2LogError(fmt,...) 

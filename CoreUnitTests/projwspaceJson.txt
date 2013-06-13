@@ -1,0 +1,98 @@
+{
+  "projects": [
+    {
+      "files": [], 
+      "id": 102, 
+      "name": "Cornocopia", 
+      "type": null, 
+      "workspaces": [
+        {
+          "datecreated": 1363642115250, 
+          "files": [
+            {
+              "assignmentFile": false, 
+              "datecreated": 1364491044080, 
+              "filesize": 482, 
+              "friendlySize": "482 bytes", 
+              "id": 215, 
+              "lastmodified": 1364491044080, 
+              "name": "test.Rnw", 
+              "version": 1
+            }, 
+            {
+              "assignmentFile": false, 
+              "datecreated": 1369763120690, 
+              "filesize": 94, 
+              "friendlySize": "94 bytes", 
+              "id": 256, 
+              "lastmodified": 1369763120690, 
+              "name": "itest.R", 
+              "version": 1
+            }, 
+            {
+              "assignmentFile": false, 
+              "datecreated": 1369764166270, 
+              "filesize": 234, 
+              "friendlySize": "234 bytes", 
+              "id": 257, 
+              "lastmodified": 1369764166270, 
+              "name": "mtest.Rmd", 
+              "version": 1
+            }, 
+            {
+              "assignmentFile": false, 
+              "datecreated": 1363642448680, 
+              "filesize": 184, 
+              "friendlySize": "184 bytes", 
+              "id": 184, 
+              "lastmodified": 1371070416960, 
+              "name": "samples.R", 
+              "version": 4
+            }
+          ], 
+          "id": 169, 
+          "lastaccess": 1371070402750, 
+          "name": "goo"
+        }, 
+        {
+          "datecreated": 1354051068260, 
+          "files": [
+            {
+              "assignmentFile": false, 
+              "datecreated": 1371146622933, 
+              "filesize": 42, 
+              "friendlySize": "42 bytes", 
+              "id": 293, 
+              "lastmodified": 1371146622933, 
+              "name": "lowercase.r", 
+              "version": 1
+            }
+          ], 
+          "id": 145, 
+          "lastaccess": 1371146419182, 
+          "name": "foo"
+        }, 
+       {
+          "datecreated": 1352322780700, 
+          "files": [
+            {
+              "assignmentFile": false, 
+              "datecreated": 1363637163340, 
+              "filesize": 33, 
+              "friendlySize": "33 bytes", 
+              "id": 160, 
+              "lastmodified": 1363637163340, 
+              "name": "2plots.R", 
+              "version": 0
+            }
+          ], 
+          "id": 140, 
+          "lastaccess": 1368562109680, 
+          "name": "Default"
+        }
+      ]
+    }
+   }
+  ], 
+  "status": 0
+}
