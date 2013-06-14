@@ -568,8 +568,16 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	[path appendFormat:@"/file/%@", file.fileId];
 	[_httpClient deletePath:path parameters:nil success:^(id req, id rsp) {
 		BOOL success = [[rsp objectForKey:@"status"] intValue] == 0;
-		if (success)
+		if (success) {
 			[container removeFile:file];
+			if ([rsp objectForKey:@"alsoDeleted"]) {
+				for (NSNumber *anId in [rsp objectForKey:@"alsoDeleted"]) {
+					RCFile *otherFile = [[container files] firstObjectWithValue:anId forKey:@"fileId"];
+					if (otherFile)
+						[container removeFile:otherFile];
+				}
+			}
+		}
 		hblock(success, rsp);
 	} failure:^(id op, NSError *error) {
 		hblock(NO, error.localizedDescription);
