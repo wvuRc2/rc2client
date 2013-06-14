@@ -13,6 +13,7 @@
 
 @interface RCMImageViewer()
 @property (strong) NSMutableDictionary *twoFingersTouches;
+@property (weak) IBOutlet NSButton *shareButton;
 @end
 
 @implementation RCMImageViewer
@@ -30,6 +31,7 @@
 	self.imageView.allowsCutCopyPaste = YES;
 	__unsafe_unretained RCMImageViewer *blockSelf = self;
 	[self observeTarget:self.imageArrayController keyPath:@"selection" selector:@selector(imageChanged) userInfo:nil options:0];
+	[self.shareButton sendActionOn:NSLeftMouseDownMask];
 }
 
 -(void)imageChanged
@@ -81,6 +83,17 @@
 	self.detailsBlock();
 }
 
+-(IBAction)shareImages:(id)sender
+{
+	//get images to share
+	NSMutableArray *images = [NSMutableArray arrayWithCapacity:[self.imageArrayController.arrangedObjects count]];
+	for (RCImage *img in self.imageArrayController.arrangedObjects) {
+		[images addObject:img.fileUrl];
+	}
+	
+	NSSharingServicePicker *picker = [[NSSharingServicePicker alloc] initWithItems:images];
+	[picker showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMinYEdge];
+}
 
 #define kSwipeMinimumLength 0.3
 
