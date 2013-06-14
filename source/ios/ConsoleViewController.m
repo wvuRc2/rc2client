@@ -178,6 +178,10 @@
 		self.varablePopover = [[UIPopoverController alloc] initWithContentViewController:nav];
 		self.varablePopover.delegate = self.variableController;
 	}
+	if (self.actionSheet.isVisible) {
+		[self.actionSheet dismissWithClickedButtonIndex:-1 animated:YES];
+		self.actionSheet=nil;
+	}
 	if (self.varablePopover.isPopoverVisible) {
 		[self.varablePopover dismissPopoverAnimated:YES];
 	} else {
@@ -211,11 +215,13 @@
 		self.actionSheet=nil;
 		return;
 	}
-	NSArray *actionItems = ARRAY(
+	if (self.varablePopover.isPopoverVisible)
+		[self.varablePopover dismissPopoverAnimated:YES];
+	NSArray *actionItems = @[
 								 [AMActionItem actionItemWithName:@"Clear" target:self action:@selector(doClear:) userInfo:nil],
 								 [AMActionItem actionItemWithName:@"Decrease Font Size" target:self action:@selector(doDecreaseFont:) userInfo:nil],
 								 [AMActionItem actionItemWithName:@"Increase Font Size" target:self action:@selector(doIncreaseFont:) userInfo:nil]
-	);
+	];
 	self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Console Actions" actionItems:actionItems];
 	[self.actionSheet showFromBarButtonItem:sender animated:YES];
 }
