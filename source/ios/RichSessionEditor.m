@@ -9,7 +9,7 @@
 #import "RichSessionEditor.h"
 #import <DTRichTextEditor/DTRichTextEditor.h>
 
-@interface RichSessionEditor ()
+@interface RichSessionEditor() <DTRichTextEditorViewDelegate> 
 @property CGRect initialFrame;
 @property (strong) DTRichTextEditorView *richEditor;
 @end
@@ -31,6 +31,12 @@
 //	self.richEditor.textDelegate = self;
 	[view addSubview:self.richEditor];
 	self.view = view;
+	self.menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Execute" action:@selector(executeSelection:)],
+				   [[UIMenuItem alloc] initWithTitle:@"Help" action:@selector(showHelp:)]];
+	UIMenuController *mc = [UIMenuController sharedMenuController];
+	NSLog(@"menu=%@", mc.menuItems);
+	self.richEditor.editorViewDelegate = self;
+	NSLog(@"menu=%@", mc.menuItems);
 }
 
 -(UIView*)view
@@ -64,13 +70,13 @@
 
 -(void)resignFirstResponder
 {
-	
+	[self.richEditor resignFirstResponder];
 }
 
 
 -(void)becomeFirstResponder
 {
-	
+	[self.richEditor becomeFirstResponder];
 }
 
 
@@ -146,7 +152,19 @@
 	self.richEditor.defaultFontSize = fontSize;
 }
 
+-(IBAction)executeSelection:(id)sender
+{
+	if (self.executeBlock)
+		self.executeBlock(self);
+}
+
+-(IBAction)showHelp:(id)sender
+{
+	if (self.helpBlock)
+		self.helpBlock(self);
+}
+
 @synthesize helpBlock;
 @synthesize executeBlock;
-
+@synthesize menuItems;
 @end
