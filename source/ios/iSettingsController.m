@@ -19,6 +19,27 @@ enum { eTree_Theme, eTree_Keyboard };
 @interface iSettingsController() {
 	int _treeType;
 }
+@property (nonatomic, weak) IBOutlet UITableView *settingsTable;
+@property (nonatomic, weak) IBOutlet UITableViewCell *keyboardCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *themeCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *emailCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *twitterCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *smsCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *emailNoteCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *logoutCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *editThemeCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *editorCell;
+@property (nonatomic, weak) IBOutlet UISwitch *editorSwitch;
+@property (nonatomic, weak) IBOutlet UISwitch *emailNoteSwitch;
+@property (nonatomic, weak) IBOutlet GradientButton *logoutButton;
+@property (nonatomic, weak) IBOutlet GradientButton *editThemeButton;
+@property (nonatomic, weak) IBOutlet UILabel *keyboardLabel;
+@property (nonatomic, weak) IBOutlet UILabel *themeLabel;
+@property (nonatomic, weak) IBOutlet UITextField *emailField;
+@property (nonatomic, weak) IBOutlet UITextField *twitterField;
+@property (nonatomic, weak) IBOutlet UITextField *smsField;
+@property (nonatomic, weak) IBOutlet UIView *headerView;
+@property (nonatomic, weak) IBOutlet UILabel *versionLabel;
 @property (nonatomic, strong) AMNavigationTreeController *treeController;
 @property (nonatomic, copy) NSArray *keyboards;
 @property (nonatomic, copy) NSArray *themes;
@@ -78,6 +99,12 @@ enum { eTree_Theme, eTree_Keyboard };
 	];
 	[self.logoutButton useWhiteStyle];
 	[self.editThemeButton useWhiteStyle];
+	CGRect newFrame = CGRectMake(0, 0, self.settingsTable.bounds.size.width, self.headerView.frame.size.height);
+	self.headerView.backgroundColor = [UIColor clearColor];
+	self.headerView.frame = newFrame;
+	self.settingsTable.tableFooterView = self.headerView;
+	NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+	self.versionLabel.text = [NSString stringWithFormat:@"%@ %@ (Build %@)", info[@"CFBundleDisplayName"], info[@"CFBundleShortVersionString"], info[@"CFBundleVersion"]];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

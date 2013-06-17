@@ -3628,6 +3628,7 @@
 				08D248CF176A498A00D71F02 /* Archive */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

@@ -217,7 +217,7 @@
 		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
 	}
 	NSString *newPath = [self.webTmpFileDirectory stringByAppendingPathComponent:file.name];
-	if (NSOrderedSame != [file.name caseInsensitiveCompare:@".html"])
+	if (NSOrderedSame != [file.name.pathExtension caseInsensitiveCompare:@"html"])
 		newPath = [newPath stringByAppendingPathExtension:@"txt"];
 	__block NSError *err=nil;
 	if ([fm fileExistsAtPath:newPath])
