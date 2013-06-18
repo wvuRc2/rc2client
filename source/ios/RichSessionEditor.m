@@ -45,24 +45,36 @@
 
 -(void)upArrow
 {
-	
+	UITextPosition *pos = self.richEditor.selectedTextRange.start;
+	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionUp offset:1];
+	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
+	self.richEditor.selectedTextRange = rng;
 }
 
 -(void)downArrow
 {
-	
+	UITextPosition *pos = self.richEditor.selectedTextRange.start;
+	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionDown offset:1];
+	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
+	self.richEditor.selectedTextRange = rng;
 }
 
 
 -(void)leftArrow
 {
-	
+	UITextPosition *pos = self.richEditor.selectedTextRange.start;
+	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionLeft offset:1];
+	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
+	self.richEditor.selectedTextRange = rng;
 }
 
 
 -(void)rightArrow
 {
-	
+	UITextPosition *pos = self.richEditor.selectedTextRange.start;
+	pos = [self.richEditor positionFromPosition:pos inDirection:UITextLayoutDirectionRight offset:1];
+	UITextRange *rng = [self.richEditor textRangeFromPosition:pos toPosition:pos];
+	self.richEditor.selectedTextRange = rng;
 }
 
 -(BOOL)editorView:(DTRichTextEditorView *)editorView canPerformAction:(SEL)action withSender:(id)sender
