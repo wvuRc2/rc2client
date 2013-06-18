@@ -28,7 +28,6 @@
 	UIView *view = [[UIView alloc] initWithFrame:self.initialFrame];
 	self.richEditor = [[DTRichTextEditorView alloc] initWithFrame:view.bounds];
 	self.richEditor.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-//	self.richEditor.textDelegate = self;
 	[view addSubview:self.richEditor];
 	self.view = view;
 	self.menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Execute" action:@selector(executeSelection:)],
@@ -66,7 +65,10 @@
 	
 }
 
-
+-(BOOL)editorView:(DTRichTextEditorView *)editorView canPerformAction:(SEL)action withSender:(id)sender
+{
+	return action == @selector(showHelp:) || action == @selector(executeSelection:);
+}
 
 -(void)resignFirstResponder
 {

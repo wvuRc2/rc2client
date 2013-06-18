@@ -143,7 +143,6 @@
 		084594DE15B5F71500297C9D /* turnedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CE15B5F71500297C9D /* turnedin.png */; };
 		084594DF15B5F71500297C9D /* turnedin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CF15B5F71500297C9D /* turnedin@2x.png */; };
 		0847FDAC175D30AF00D950EA /* MCTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDAB175D30AF00D950EA /* MCTableRowView.m */; };
-		0847FDB917627D8300D950EA /* DTRichTextEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0847FDB817627D8300D950EA /* DTRichTextEditor.framework */; };
 		0847FDC117627E4200D950EA /* RichSessionEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDC017627E4200D950EA /* RichSessionEditor.m */; };
 		0847FDC617679F6F00D950EA /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0847FDC317679F6F00D950EA /* MASPreferencesWindow.xib */; };
 		0847FDC717679F6F00D950EA /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDC517679F6F00D950EA /* MASPreferencesWindowController.m */; };
@@ -454,7 +453,6 @@
 		08D2467F15B5EF630064A9FA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2467815B5EF5B0064A9FA /* SystemConfiguration.framework */; };
 		08D2468015B5EF630064A9FA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2467915B5EF5F0064A9FA /* WebKit.framework */; };
 		08D2468315B5EFDD0064A9FA /* Vyana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
-		08D248B41767C6BD00D71F02 /* DTLoupe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08D248B31767C6BD00D71F02 /* DTLoupe.bundle */; };
 		08D248BC176A498900D71F02 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D248BB176A498900D71F02 /* SenTestingKit.framework */; };
 		08D248BE176A498900D71F02 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D248BD176A498900D71F02 /* Cocoa.framework */; };
 		08D248C8176A498A00D71F02 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08D248C6176A498A00D71F02 /* InfoPlist.strings */; };
@@ -466,6 +464,8 @@
 		08DF3D5115BDBC79000A339D /* AMResizableSplitterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D4E15BDBC79000A339D /* AMResizableSplitterView.m */; };
 		08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */; };
 		08E49223166E7834005E83DE /* MCSessionFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E49222166E7834005E83DE /* MCSessionFileController.m */; };
+		08E63B0C1770D9D1005BB3BB /* DTLoupe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08E63B0B1770D9D1005BB3BB /* DTLoupe.bundle */; };
+		08E63B371770DF0A005BB3BB /* DTRichTextEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3CC616E920BB00F3E09E /* GRMustache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8216E920BB00F3E09E /* GRMustache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -758,7 +758,6 @@
 		0847FDAA175D30AF00D950EA /* MCTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTableRowView.h; sourceTree = "<group>"; };
 		0847FDAB175D30AF00D950EA /* MCTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTableRowView.m; sourceTree = "<group>"; };
 		0847FDB21762682300D950EA /* SessionEditorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionEditorProtocol.h; sourceTree = "<group>"; };
-		0847FDB817627D8300D950EA /* DTRichTextEditor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTRichTextEditor.framework; path = 3rdParty/DTRichTextEditor.framework; sourceTree = "<group>"; };
 		0847FDBF17627E4200D950EA /* RichSessionEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichSessionEditor.h; sourceTree = "<group>"; };
 		0847FDC017627E4200D950EA /* RichSessionEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RichSessionEditor.m; sourceTree = "<group>"; };
 		0847FDC217679F6E00D950EA /* MASPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASPreferencesViewController.h; path = Dependencies/MASPreferences/MASPreferencesViewController.h; sourceTree = SOURCE_ROOT; };
@@ -1127,7 +1126,6 @@
 		08D2467815B5EF5B0064A9FA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		08D2467915B5EF5F0064A9FA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		08D2468215B5EFCE0064A9FA /* Vyana.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Vyana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		08D248B31767C6BD00D71F02 /* DTLoupe.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DTLoupe.bundle; path = 3rdParty/DTRichTextEditor.framework/Versions/A/Resources/DTLoupe.bundle; sourceTree = SOURCE_ROOT; };
 		08D248BA176A498900D71F02 /* CoreUnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreUnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08D248BB176A498900D71F02 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		08D248BD176A498900D71F02 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
@@ -1149,6 +1147,8 @@
 		08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMResizableSplitViewController.m; sourceTree = "<group>"; };
 		08E49221166E7834005E83DE /* MCSessionFileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSessionFileController.h; sourceTree = "<group>"; };
 		08E49222166E7834005E83DE /* MCSessionFileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSessionFileController.m; sourceTree = "<group>"; };
+		08E63B0B1770D9D1005BB3BB /* DTLoupe.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; name = DTLoupe.bundle; path = "/Users/mlilback/Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos/DTLoupe.bundle"; sourceTree = "<absolute>"; };
+		08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTRichTextEditor.framework; path = "../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos/DTRichTextEditor.framework"; sourceTree = "<group>"; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
 		08FF3C8116E920BB00F3E09E /* GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustache.h; sourceTree = "<group>"; };
 		08FF3C8216E920BB00F3E09E /* GRMustache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustache.m; sourceTree = "<group>"; };
@@ -1268,6 +1268,7 @@
 			files = (
 				08D245FB15B5DDD00064A9FA /* libz.dylib in Frameworks */,
 				08D245F915B5DDCB0064A9FA /* CFNetwork.framework in Frameworks */,
+				08E63B371770DF0A005BB3BB /* DTRichTextEditor.framework in Frameworks */,
 				08D245EC15B5DBFF0064A9FA /* libVyana-ios.a in Frameworks */,
 				08D244FE15B5DA230064A9FA /* CoreImage.framework in Frameworks */,
 				08D244FF15B5DA230064A9FA /* ImageIO.framework in Frameworks */,
@@ -1287,7 +1288,6 @@
 				08D2432415B5D04D0064A9FA /* UIKit.framework in Frameworks */,
 				08D2432615B5D04D0064A9FA /* Foundation.framework in Frameworks */,
 				08D2450215B5DA4E0064A9FA /* DropboxSDK.framework in Frameworks */,
-				0847FDB917627D8300D950EA /* DTRichTextEditor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1686,7 +1686,7 @@
 			isa = PBXGroup;
 			children = (
 				08D245FA15B5DDD00064A9FA /* libz.dylib */,
-				0847FDB817627D8300D950EA /* DTRichTextEditor.framework */,
+				08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */,
 				08D245F815B5DDCB0064A9FA /* CFNetwork.framework */,
 				08D245EB15B5DBFF0064A9FA /* libVyana-ios.a */,
 				08D2432315B5D04D0064A9FA /* UIKit.framework */,
@@ -1929,7 +1929,7 @@
 				08D244D615B5D9090064A9FA /* DefaultDefaults.plist */,
 				08D244D715B5D9090064A9FA /* Inconsolata.otf */,
 				08D244D815B5D9090064A9FA /* mailsent.caf */,
-				08D248B31767C6BD00D71F02 /* DTLoupe.bundle */,
+				08E63B0B1770D9D1005BB3BB /* DTLoupe.bundle */,
 				08D244DC15B5D92A0064A9FA /* Default-Landscape~ipad.png */,
 				08D244DD15B5D92A0064A9FA /* Default-Portrait~ipad.png */,
 				08B74C74163B31C700083F9A /* InfoPlist.strings */,
@@ -2664,7 +2664,7 @@
 				08FF3D4E16F10E1900F3E09E /* HorizontalSelector.png in Resources */,
 				08FF3D4F16F10E1900F3E09E /* HorizontalSelector@2x.png in Resources */,
 				08FF3D5016F10E1900F3E09E /* HueSaturationGradient.png in Resources */,
-				08D248B41767C6BD00D71F02 /* DTLoupe.bundle in Resources */,
+				08E63B0C1770D9D1005BB3BB /* DTLoupe.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3303,7 +3303,11 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/3rdParty\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/3rdParty\"",
+					"$(BUILT_PRODUCTS_DIR)",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "source/ios/rc2-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "CONFIGURATION_$(CONFIGURATION)";
@@ -3329,7 +3333,11 @@
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/3rdParty\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/3rdParty\"",
+					"$(BUILT_PRODUCTS_DIR)",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "source/ios/rc2-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "CONFIGURATION_$(CONFIGURATION)";
@@ -3382,7 +3390,11 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/3rdParty\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/3rdParty\"",
+					"$(BUILT_PRODUCTS_DIR)",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "source/ios/rc2-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "CONFIGURATION_$(CONFIGURATION)";

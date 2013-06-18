@@ -102,7 +102,7 @@
 {
     [super viewDidLoad];
 	if (!_viewLoaded) {
-#if 0
+#if 1
 		CGRect editRect = self.richEditor.view.frame;
 		[self.richEditor.view removeFromSuperview];
 		self.richEditor = [[RichSessionEditor alloc] initWithFrame:editRect];
@@ -123,11 +123,13 @@
 		self.docTitleLabel.font = [UIFont fontWithName:@"Inconsolata" size:18.0];
 		
 		__weak EditorViewController *weakSelf = self;
-		self.richEditor.helpBlock = ^(SessionEditView *editView) {
+		self.richEditor.helpBlock = ^(id<SessionEditor> editView) {
 			//need to sanitize the input string. we'll just test for only alphanumeric
-			NSString *str = [editView textInRange:editView.selectedTextRange];
+			NSString *str = [editView.string substringWithRange:editView.selectedRange];
 			if (str && ![str containsCharacterNotInSet:[NSCharacterSet alphanumericCharacterSet]])
 				[weakSelf.session executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
+			if (!weakSelf.externalKeyboardVisible)
+				[editView resignFirstResponder];
 		};
 		self.richEditor.executeBlock = ^(id<SessionEditor> editView) {
 			if (editView.selectedRange.length < 1) {
@@ -137,9 +139,9 @@
 					[weakSelf.session executeScript:str scriptName:nil];
 			} else {
 				//excute selecction
-//				NSString *str = [[editView textInRange:editView.selectedTextRange] stringByTrimmingWhitespace];
-//				if ([str length] > 0)
-//					[weakSelf.session executeScript:str scriptName:nil];
+				NSString *str = [[editView.string substringWithRange:editView.selectedRange] stringByTrimmingWhitespace];
+				if ([str length] > 0)
+					[weakSelf.session executeScript:str scriptName:nil];
 			}
 			if (!weakSelf.externalKeyboardVisible)
 				[editView resignFirstResponder];
