@@ -8,10 +8,12 @@
 
 #import "RichSessionEditor.h"
 #import <DTRichTextEditor/DTRichTextEditor.h>
+#import "LineNumberView.h"
 
 @interface RichSessionEditor() <DTRichTextEditorViewDelegate> 
 @property CGRect initialFrame;
 @property (strong) DTRichTextEditorView *richEditor;
+@property (strong) LineNumberView *lineView;
 @end
 
 @implementation RichSessionEditor
@@ -32,11 +34,26 @@
 	self.view = view;
 	self.menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Execute" action:@selector(executeSelection:)],
 				   [[UIMenuItem alloc] initWithTitle:@"Help" action:@selector(showHelp:)]];
-	UIMenuController *mc = [UIMenuController sharedMenuController];
-	NSLog(@"menu=%@", mc.menuItems);
 	self.richEditor.editorViewDelegate = self;
-	NSLog(@"menu=%@", mc.menuItems);
+	dispatch_async(dispatch_get_main_queue(), ^{
+		CGRect cframe = _richEditor.frame;
+		cframe.size.width -=20;
+		cframe.origin.x += 20;
+		_richEditor.frame = cframe;
+		cframe.size.width = 20;
+		cframe.origin.x = 0;
+		LineNumberView *numView = [[LineNumberView alloc] initWithFrame:cframe];
+		numView.editor = self.richEditor;
+		[self.richEditor.superview addSubview:numView];
+		self.lineView = numView;
+	});
 }
+
+-(void)editorViewDidChange:(DTRichTextEditorView *)editorView
+{
+	[self.lineView editorContentChanged];
+}
+
 
 -(UIView*)view
 {

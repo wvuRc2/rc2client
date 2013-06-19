@@ -466,6 +466,7 @@
 		08E49223166E7834005E83DE /* MCSessionFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E49222166E7834005E83DE /* MCSessionFileController.m */; };
 		08E63B0C1770D9D1005BB3BB /* DTLoupe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08E63B0B1770D9D1005BB3BB /* DTLoupe.bundle */; };
 		08E63B371770DF0A005BB3BB /* DTRichTextEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */; };
+		08E63B3A1770F997005BB3BB /* LineNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B391770F997005BB3BB /* LineNumberView.m */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3CC616E920BB00F3E09E /* GRMustache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8216E920BB00F3E09E /* GRMustache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1149,6 +1150,8 @@
 		08E49222166E7834005E83DE /* MCSessionFileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSessionFileController.m; sourceTree = "<group>"; };
 		08E63B0B1770D9D1005BB3BB /* DTLoupe.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; name = DTLoupe.bundle; path = "/Users/mlilback/Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos/DTLoupe.bundle"; sourceTree = "<absolute>"; };
 		08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTRichTextEditor.framework; path = "../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos/DTRichTextEditor.framework"; sourceTree = "<group>"; };
+		08E63B381770F997005BB3BB /* LineNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineNumberView.h; sourceTree = "<group>"; };
+		08E63B391770F997005BB3BB /* LineNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineNumberView.m; sourceTree = "<group>"; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
 		08FF3C8116E920BB00F3E09E /* GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustache.h; sourceTree = "<group>"; };
 		08FF3C8216E920BB00F3E09E /* GRMustache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustache.m; sourceTree = "<group>"; };
@@ -1795,6 +1798,8 @@
 				08D243D815B5D7590064A9FA /* SessionEditView.m */,
 				0847FDBF17627E4200D950EA /* RichSessionEditor.h */,
 				0847FDC017627E4200D950EA /* RichSessionEditor.m */,
+				08E63B381770F997005BB3BB /* LineNumberView.h */,
+				08E63B391770F997005BB3BB /* LineNumberView.m */,
 			);
 			name = "session related controllers";
 			sourceTree = "<group>";
@@ -3032,6 +3037,7 @@
 				08FF3D4D16F10E1900F3E09E /* GradientView.mm in Sources */,
 				08FF3D5416F278EE00F3E09E /* SendMailController.m in Sources */,
 				0847FDC117627E4200D950EA /* RichSessionEditor.m in Sources */,
+				08E63B3A1770F997005BB3BB /* LineNumberView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
