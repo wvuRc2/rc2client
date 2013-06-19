@@ -23,25 +23,19 @@
 -(void)drawRect:(CGRect)rect
 {
 	NSArray *visLines = self.editor.visibleLayoutLines;
-	UIFont *fnt = [UIFont systemFontOfSize:self.editor.defaultFontSize];
-	CGFloat vertOffset = fnt.xHeight;//self.editor.contentOffset.y + self.editor.contentInset.top + fnt.lineHeight;
-	NSString *string = self.editor.attributedText.string;
+	UIFont *fnt = [UIFont systemFontOfSize:14];
+	CGFloat vertOffset = _editor.contentInset.top +10 - _editor.contentOffset.y;//self.editor.contentOffset.y + self.editor.contentInset.top + fnt.lineHeight;
 	NSInteger lastGraph = 0;
 	for (DTCoreTextLayoutLine *line in visLines) {
 		CGRect f = line.frame;
 		f.origin.x = 2;
 		f.origin.y += vertOffset;
-		f.size.width = 16;
+		f.size.width = 26;
 		NSRange strRange = [line stringRange];
-		if (strRange.location + strRange.length >= string.length)
-			NSLog(@"found it");
-		NSRange lineRange = [string lineRangeForRange:strRange];
-		NSString *lineStr = [string substringWithRange:strRange];
-		NSLog(@"sr=%@, lr=%@, str=%@", NSStringFromRange(strRange), NSStringFromRange(lineRange), lineStr);
 		NSInteger gnum = [_editor.attributedTextContentView.layoutFrame paragraphIndexContainingStringIndex:strRange.location]+1;
 		if (gnum > lastGraph) {
 			NSString *lnstr = [NSString stringWithFormat:@"%d", gnum];
-			[lnstr drawInRect:f withFont:fnt];
+			[lnstr drawInRect:f withFont:fnt lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentRight];
 			lastGraph = gnum;
 		}
 	}

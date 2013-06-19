@@ -75,7 +75,7 @@ iR.echoInput = function(txt, username, userid) {
 		//		if (userid != iR.userid)
 		html += '<span class="inputUser">' + username + ':</span> ';
 	}
-	html += txt + '</span></div>';
+	html += txt.replace(/\n/g, "<br>") + '</span></div>';
 	iR.appendConsoleText(html);
 };
 

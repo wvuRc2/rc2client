@@ -10,7 +10,7 @@
 #import <DTRichTextEditor/DTRichTextEditor.h>
 #import "LineNumberView.h"
 
-@interface RichSessionEditor() <DTRichTextEditorViewDelegate> 
+@interface RichSessionEditor() <DTRichTextEditorViewDelegate,UIScrollViewDelegate>
 @property CGRect initialFrame;
 @property (strong) DTRichTextEditorView *richEditor;
 @property (strong) LineNumberView *lineView;
@@ -32,15 +32,17 @@
 	self.richEditor.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 	[view addSubview:self.richEditor];
 	self.view = view;
+	self.richEditor.delegate = self;
 	self.menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Execute" action:@selector(executeSelection:)],
 				   [[UIMenuItem alloc] initWithTitle:@"Help" action:@selector(showHelp:)]];
 	self.richEditor.editorViewDelegate = self;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		CGRect cframe = _richEditor.frame;
-		cframe.size.width -=20;
-		cframe.origin.x += 20;
+		cframe.size.width -=30;
+		cframe.origin.x += 30;
 		_richEditor.frame = cframe;
-		cframe.size.width = 20;
+		cframe.size.width = 30;
+		cframe.size.height += 6;
 		cframe.origin.x = 0;
 		LineNumberView *numView = [[LineNumberView alloc] initWithFrame:cframe];
 		numView.editor = self.richEditor;
@@ -54,6 +56,10 @@
 	[self.lineView editorContentChanged];
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+	[self.lineView editorContentChanged];
+}
 
 -(UIView*)view
 {
