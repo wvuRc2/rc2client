@@ -257,6 +257,20 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	}];
 }
 
+-(void)updateWorkspace:(RCWorkspace*)wspace completionBlock:(Rc2FetchCompletionHandler)hblock
+{
+	[_httpClient putPath:[self containerPath:wspace] parameters:@{@"dbuser":wspace.dropboxUser, @"dbpath":wspace.dropboxPath} success:^(AFHTTPRequestOperation *operation, id rsp)
+	{
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			hblock(YES, rsp);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
 -(void)renameWorkspce:(RCWorkspace*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
 {
 	[_httpClient putPath:[self containerPath:wspace] parameters:@{@"name":newName} success:^(id op, id rsp) {

@@ -18,6 +18,8 @@
 @property (nonatomic, strong) NSNumber *wspaceId;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, strong) NSDate *lastAccess;
+@property (nonatomic, copy) NSString *dropboxUser;
+@property (nonatomic, copy) NSString *dropboxPath;
 
 @property (nonatomic, copy, readonly) NSArray *files;
 @property (nonatomic, readonly) RCWorkspaceCache *cache;

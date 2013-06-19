@@ -86,10 +86,13 @@ extern NSString * const FilesChagedNotification;
 
 //updates the project object, calls hblock with the new workspace
 -(void)createWorkspace:(NSString*)projectName inProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock;
-
+-(void)updateWorkspace:(RCWorkspace*)wspace completionBlock:(Rc2FetchCompletionHandler)hblock;
+//results is tesponse dict from server with either workspace or error entry
+-(void)deleteWorkspce:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(void)renameWorkspce:(RCWorkspace*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(void)refereshWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace;
-
 
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
@@ -105,10 +108,6 @@ extern NSString * const FilesChagedNotification;
 -(void)sendMessage:(NSDictionary*)params completionHandler:(Rc2FetchCompletionHandler)hblock;
 #endif
 
-//results is tesponse dict from server with either workspace or error entry
--(void)deleteWorkspce:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
--(void)renameWorkspce:(RCWorkspace*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
--(void)refereshWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 #pragma mark - files
 -(void)importFile:(NSURL*)fileUrl toContainer:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock;
