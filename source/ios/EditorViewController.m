@@ -647,7 +647,7 @@
 			if (blockSelf.view.window)
 				[blockSelf presentDropboxImport:blockSelf];
 		};
-		[[DBSession sharedSession] link];
+		[[DBSession sharedSession] linkFromController:self.view.window.rootViewController];
 	}
 }
 

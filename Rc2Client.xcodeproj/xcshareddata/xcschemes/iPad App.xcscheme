@@ -48,6 +48,20 @@
                ReferencedContainer = "container:Rc2Client.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3196B821412FE180060E7C6"
+               BuildableName = "DropboxSDK.framework"
+               BlueprintName = "DropboxSDK"
+               ReferencedContainer = "container:Dependencies/Dropbox/DropboxSDK/DropboxSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
