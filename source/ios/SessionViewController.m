@@ -328,6 +328,12 @@
 	return newPath;
 }
 
+///called when settings are to be displayed to get workspace to show settings for
+-(RCWorkspace*)workspaceForSettings
+{
+	return self.session.workspace;
+}
+
 #pragma mark - state management
 
 -(void)saveSessionState

@@ -467,6 +467,7 @@
 		08E63B0C1770D9D1005BB3BB /* DTLoupe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08E63B0B1770D9D1005BB3BB /* DTLoupe.bundle */; };
 		08E63B371770DF0A005BB3BB /* DTRichTextEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */; };
 		08E63B3A1770F997005BB3BB /* LineNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B391770F997005BB3BB /* LineNumberView.m */; };
+		08E63B3D1773824D005BB3BB /* DropboxSyncSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3CC616E920BB00F3E09E /* GRMustache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8216E920BB00F3E09E /* GRMustache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1152,6 +1153,8 @@
 		08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTRichTextEditor.framework; path = "../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos/DTRichTextEditor.framework"; sourceTree = "<group>"; };
 		08E63B381770F997005BB3BB /* LineNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineNumberView.h; sourceTree = "<group>"; };
 		08E63B391770F997005BB3BB /* LineNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineNumberView.m; sourceTree = "<group>"; };
+		08E63B3B1773824D005BB3BB /* DropboxSyncSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxSyncSettingController.h; sourceTree = "<group>"; };
+		08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxSyncSettingController.m; sourceTree = "<group>"; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
 		08FF3C8116E920BB00F3E09E /* GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustache.h; sourceTree = "<group>"; };
 		08FF3C8216E920BB00F3E09E /* GRMustache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustache.m; sourceTree = "<group>"; };
@@ -1813,6 +1816,8 @@
 				08D243B215B5D6310064A9FA /* iSettingsController.h */,
 				08D243B315B5D6310064A9FA /* iSettingsController.m */,
 				08D243B415B5D6310064A9FA /* iSettingsController.xib */,
+				08E63B3B1773824D005BB3BB /* DropboxSyncSettingController.h */,
+				08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */,
 				08D8C334169E1637000DDA04 /* FileImportViewController.h */,
 				08D8C335169E1637000DDA04 /* FileImportViewController.m */,
 				08D8C337169E1977000DDA04 /* FileImportViewController.xib */,
@@ -3038,6 +3043,7 @@
 				08FF3D5416F278EE00F3E09E /* SendMailController.m in Sources */,
 				0847FDC117627E4200D950EA /* RichSessionEditor.m in Sources */,
 				08E63B3A1770F997005BB3BB /* LineNumberView.m in Sources */,
+				08E63B3D1773824D005BB3BB /* DropboxSyncSettingController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

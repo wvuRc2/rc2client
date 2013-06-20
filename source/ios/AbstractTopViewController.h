@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class Theme;
+@class RCWorkspace;
 
 @interface AbstractTopViewController : UIViewController
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *messagesButton;
@@ -24,4 +25,6 @@
 //registered so subclasses can respond to theme changes. also called from viewDidLoad so intiial values can be set
 -(void)updateForNewTheme:(Theme*)theme;
 
+///called when settings are to be displayed to get workspace to show settings for. Defaults to nil.
+-(RCWorkspace*)workspaceForSettings;
 @end

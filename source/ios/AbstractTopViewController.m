@@ -66,6 +66,7 @@
 		self.isettingsController = [[iSettingsController alloc] init];
 		self.isettingsController.contentSizeForViewInPopover = CGSizeMake(350, 500);
 	}
+	self.isettingsController.currentWorkspace = [self workspaceForSettings];
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.isettingsController];
 	self.isettingsPopover = [[UIPopoverController alloc] initWithContentViewController:navController];
 	[self.isettingsPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
@@ -91,6 +92,12 @@
 -(void)updateForNewTheme:(Theme*)theme
 {
 	
+}
+
+///called when settings are to be displayed to get workspace to show settings for. Defaults to nil.
+-(RCWorkspace*)workspaceForSettings
+{
+	return nil;
 }
 
 -(UIImage*)editMessageImage:(UIImage*)origImage messageCount:(NSInteger)count

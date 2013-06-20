@@ -521,7 +521,7 @@
 	NSMutableArray *items = [NSMutableArray arrayWithCapacity:5];
 	NSMutableArray *activs = [NSMutableArray arrayWithCapacity:5];
 	if (self.currentFile.isTextFile)
-		[items addObject:self.currentFile.fileContents];
+		[items addObject:self.richEditor.string];
 	AMActivity *renameActivity = [[AMActivity alloc] initWithActivityType:@"edu.wvu.stat.rc2.renameActivity" title:@"Rename" image:@"renameActivity"];
 	renameActivity.canPerformBlock = ^(NSArray *items) {
 		return YES;

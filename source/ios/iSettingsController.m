@@ -13,6 +13,8 @@
 #import "Vyana-ios/AMNavigationTreeController.h"
 #import "Rc2Server.h"
 #import "GradientButton.h"
+#import "RCWorkspace.h"
+#import "DropboxSyncSettingController.h"
 
 enum { eTree_Theme, eTree_Keyboard };
 
@@ -29,12 +31,14 @@ enum { eTree_Theme, eTree_Keyboard };
 @property (nonatomic, weak) IBOutlet UITableViewCell *logoutCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *editThemeCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *editorCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *dbpathCell;
 @property (nonatomic, weak) IBOutlet UISwitch *editorSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *emailNoteSwitch;
 @property (nonatomic, weak) IBOutlet GradientButton *logoutButton;
 @property (nonatomic, weak) IBOutlet GradientButton *editThemeButton;
 @property (nonatomic, weak) IBOutlet UILabel *keyboardLabel;
 @property (nonatomic, weak) IBOutlet UILabel *themeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *dbpathLabel;
 @property (nonatomic, weak) IBOutlet UITextField *emailField;
 @property (nonatomic, weak) IBOutlet UITextField *twitterField;
 @property (nonatomic, weak) IBOutlet UITextField *smsField;
@@ -94,9 +98,14 @@ enum { eTree_Theme, eTree_Keyboard };
 	if ([[Rc2Server  sharedInstance] isAdmin])
 		settingsCells = [settingsCells arrayByAddingObject:self.editThemeCell];
 	self.sectionData = @[
-		@{@"name":@"Account", @"isSettings": @NO, @"cells": @[self.logoutCell, self.emailCell,self.emailNoteCell,self.twitterCell,self.smsCell]},
+		@{@"name":@"Account", @"isSettings": @NO, @"cells": @[self.emailCell,self.emailNoteCell,self.twitterCell,self.smsCell,self.logoutCell]},
 		@{@"name":@"Settings", @"isSettings": @YES,  @"cells": settingsCells}
 	];
+	if (self.currentWorkspace) {
+		NSString *sectitle = [NSString stringWithFormat:@"Workspace %@ Settings", self.currentWorkspace.name];
+		self.sectionData = @[@{@"name":sectitle, @"isSettings":@NO, @"cells":@[self.dbpathCell]}, self.sectionData[0], self.sectionData[1]];
+		self.dbpathLabel.text = self.currentWorkspace.dropboxPath;
+	}
 	[self.logoutButton useWhiteStyle];
 	[self.editThemeButton useWhiteStyle];
 	CGRect newFrame = CGRectMake(0, 0, self.settingsTable.bounds.size.width, self.headerView.frame.size.height);
@@ -105,6 +114,13 @@ enum { eTree_Theme, eTree_Keyboard };
 	self.settingsTable.tableFooterView = self.headerView;
 	NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
 	self.versionLabel.text = [NSString stringWithFormat:@"%@ %@ (Build %@)", info[@"CFBundleDisplayName"], info[@"CFBundleShortVersionString"], info[@"CFBundleVersion"]];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	if (self.currentWorkspace)
+		self.dbpathLabel.text = self.currentWorkspace.dropboxPath;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -221,7 +237,7 @@ enum { eTree_Theme, eTree_Keyboard };
 	id cell = [self cellAtIndexPath:indexPath];
 	if ([[[self.sectionData objectAtIndex:indexPath.section] objectForKey:@"isSettings"] boolValue])
 		return indexPath; //all settings rows are selectable
-	if (cell == self.emailCell)
+	if (cell == self.emailCell || cell == self.dbpathCell)
 		return indexPath;
 	return nil;
 }
@@ -249,6 +265,12 @@ enum { eTree_Theme, eTree_Keyboard };
 			self.treeController.selectedItem = [[[ThemeEngine sharedInstance] currentTheme] name];
 		}
 		[self.navigationController pushViewController:self.treeController animated:YES];
+	} else if (cell == self.dbpathCell) {
+		//push a dropbox browser on navigation stack
+		DropboxSyncSettingController *dbc = [[DropboxSyncSettingController alloc] init];
+		dbc.workspace = self.currentWorkspace;
+		dbc.dropboxCache = [[NSMutableDictionary alloc] init];
+		[self.navigationController pushViewController:dbc animated:YES];
 	}
 }
 

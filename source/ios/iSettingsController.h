@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @class GradientButton;
+@class RCWorkspace;
 
 @interface iSettingsController : UIViewController<UITextFieldDelegate>
 @property (nonatomic, strong) UIPopoverController *containingPopover;
+@property (nonatomic, strong) RCWorkspace *currentWorkspace;
 @end

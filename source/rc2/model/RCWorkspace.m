@@ -27,7 +27,11 @@
 	if ((self = [super init])) {
 		self.name = [dict objectForKey:@"name"];
 		self.dropboxUser = [dict objectForKey:@"dbuser"];
+		if (self.dropboxUser == (id)[NSNull null])
+			self.dropboxUser = nil;
 		self.dropboxPath = [dict objectForKey:@"dbpath"];
+		if (self.dropboxPath == (id)[NSNull null])
+			self.dropboxPath = nil;
 		self.wspaceId = [dict objectForKey:@"id"];
 		NSNumber *ladate = [dict objectForKey:@"lastaccess"];
 		self.lastAccess = [NSDate dateWithTimeIntervalSince1970:[ladate longLongValue]/1000];
