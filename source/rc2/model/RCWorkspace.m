@@ -25,7 +25,7 @@
 -(id)initWithDictionary:(NSDictionary*)dict
 {
 	if ((self = [super init])) {
-		self.name = [dict objectForKey:@"name"];
+		self.name = [dict objectForKeyWithNullAsNil:@"name"];
 		self.dropboxUser = [dict objectForKeyWithNullAsNil:@"dbuser"];
 		self.dropboxPath = [dict objectForKeyWithNullAsNil:@"dbpath"];
 		self.dropboxHash = [dict objectForKeyWithNullAsNil:@"dbhash"];
@@ -88,6 +88,8 @@
 
 -(NSComparisonResult)compareWithItem:(RCWorkspace*)anItem
 {
+	ZAssert(![self.name isKindOfClass:[NSNull class]], @"my name is null");
+	ZAssert(![anItem.name isKindOfClass:[NSNull class]], @"your name is null");
     return [self.name localizedStandardCompare: anItem.name];
 }
 

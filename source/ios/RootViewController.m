@@ -66,7 +66,8 @@
 
 -(void)showWelcome
 {
-	[self switchToController:self.welcomeController];
+	[self showWorkspaces];
+//	[self switchToController:self.welcomeController];
 }
 
 -(void)showMessages

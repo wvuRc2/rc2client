@@ -102,7 +102,7 @@
 {
     [super viewDidLoad];
 	if (!_viewLoaded) {
-#if 1
+#if 0
 		CGRect editRect = self.richEditor.view.frame;
 		[self.richEditor.view removeFromSuperview];
 		self.richEditor = [[RichSessionEditor alloc] initWithFrame:editRect];

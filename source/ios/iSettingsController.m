@@ -28,13 +28,11 @@ enum { eTree_Theme, eTree_Keyboard };
 @property (nonatomic, weak) IBOutlet UITableViewCell *twitterCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *smsCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *emailNoteCell;
-@property (nonatomic, weak) IBOutlet UITableViewCell *logoutCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *editThemeCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *editorCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *dbpathCell;
 @property (nonatomic, weak) IBOutlet UISwitch *editorSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *emailNoteSwitch;
-@property (nonatomic, weak) IBOutlet GradientButton *logoutButton;
 @property (nonatomic, weak) IBOutlet GradientButton *editThemeButton;
 @property (nonatomic, weak) IBOutlet UILabel *keyboardLabel;
 @property (nonatomic, weak) IBOutlet UILabel *themeLabel;
@@ -98,7 +96,7 @@ enum { eTree_Theme, eTree_Keyboard };
 	if ([[Rc2Server  sharedInstance] isAdmin])
 		settingsCells = [settingsCells arrayByAddingObject:self.editThemeCell];
 	self.sectionData = @[
-		@{@"name":@"Account", @"isSettings": @NO, @"cells": @[self.emailCell,self.emailNoteCell,self.twitterCell,self.smsCell,self.logoutCell]},
+		@{@"name":@"Account", @"isSettings": @NO, @"cells": @[self.emailCell,self.emailNoteCell,self.twitterCell,self.smsCell]},
 		@{@"name":@"Settings", @"isSettings": @YES,  @"cells": settingsCells}
 	];
 	if (self.currentWorkspace) {
@@ -106,7 +104,6 @@ enum { eTree_Theme, eTree_Keyboard };
 		self.sectionData = @[@{@"name":sectitle, @"isSettings":@NO, @"cells":@[self.dbpathCell]}, self.sectionData[0], self.sectionData[1]];
 		self.dbpathLabel.text = self.currentWorkspace.dropboxPath;
 	}
-	[self.logoutButton useWhiteStyle];
 	[self.editThemeButton useWhiteStyle];
 	CGRect newFrame = CGRectMake(0, 0, self.settingsTable.bounds.size.width, self.headerView.frame.size.height);
 	self.headerView.backgroundColor = [UIColor clearColor];

@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -46,8 +46,9 @@
 							<object class="IBUIButton" id="239124583">
 								<reference key="NSNextResponder" ref="17363702"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{869, 6}, {44, 33}}</string>
+								<string key="NSFrame">{{867, 6}, {44, 33}}</string>
 								<reference key="NSSuperview" ref="17363702"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="750308518"/>
 								<string key="NSReuseIdentifierKey">_NS:226</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="824850081">
@@ -92,8 +93,9 @@
 							<object class="IBUIButton" id="750308518">
 								<reference key="NSNextResponder" ref="17363702"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{923, 6}, {44, 33}}</string>
+								<string key="NSFrame">{{921, 6}, {44, 33}}</string>
 								<reference key="NSSuperview" ref="17363702"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="339559077"/>
 								<string key="NSReuseIdentifierKey">_NS:226</string>
 								<reference key="IBUIBackgroundColor" ref="824850081"/>
@@ -119,6 +121,7 @@
 						</array>
 						<string key="NSFrameSize">{1024, 44}</string>
 						<reference key="NSSuperview" ref="766721923"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="239124583"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -126,7 +129,6 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<array class="NSMutableArray" key="IBUIItems">
 							<object class="IBUIBarButtonItem" id="456593126">
-								<bool key="IBUIEnabled">NO</bool>
 								<string key="IBUITitle">Projects</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">1</int>
@@ -153,25 +155,6 @@
 								<reference key="IBUIToolbar" ref="17363702"/>
 								<int key="IBUISystemItemIdentifier">5</int>
 							</object>
-							<object class="IBUIBarButtonItem" id="19280856">
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">grade-tbar.png</string>
-								</object>
-								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<int key="IBUIStyle">1</int>
-								<reference key="IBUIToolbar" ref="17363702"/>
-							</object>
-							<object class="IBUIBarButtonItem" id="323094175">
-								<bool key="IBUIEnabled">NO</bool>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">wspace-tbar.png</string>
-								</object>
-								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<int key="IBUIStyle">1</int>
-								<reference key="IBUIToolbar" ref="17363702"/>
-							</object>
 							<object class="IBUIBarButtonItem" id="950421123">
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<float key="IBUIWidth">44</float>
@@ -179,6 +162,7 @@
 								<reference key="IBUIToolbar" ref="17363702"/>
 							</object>
 							<object class="IBUIBarButtonItem" id="646897897">
+								<bool key="IBUIEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<float key="IBUIWidth">44</float>
 								<reference key="IBUICustomView" ref="750308518"/>
@@ -201,6 +185,7 @@
 						<array class="NSMutableArray" key="NSSubviews"/>
 						<string key="NSFrame">{{31, 52}, {973, 676}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
+						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="824850081"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -220,6 +205,7 @@
 				</array>
 				<string key="NSFrameSize">{1024, 748}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="17363702"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -272,14 +258,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">gradingButton</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="19280856"/>
-					</object>
-					<int key="connectionID">23</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">collectionView</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="339559077"/>
@@ -309,22 +287,6 @@
 						<reference key="destination" ref="503286469"/>
 					</object>
 					<int key="connectionID">62</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">showWelcome:</string>
-						<reference key="source" ref="646897897"/>
-						<reference key="destination" ref="606714003"/>
-					</object>
-					<int key="connectionID">52</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">showGrading:</string>
-						<reference key="source" ref="19280856"/>
-						<reference key="destination" ref="606714003"/>
-					</object>
-					<int key="connectionID">53</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -426,12 +388,10 @@
 						<reference key="object" ref="17363702"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="161620756"/>
-							<reference ref="323094175"/>
 							<reference ref="950421123"/>
 							<reference ref="232983087"/>
 							<reference ref="339971176"/>
 							<reference ref="1047194494"/>
-							<reference ref="19280856"/>
 							<reference ref="646897897"/>
 							<reference ref="456593126"/>
 							<reference ref="503286469"/>
@@ -441,11 +401,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">13</int>
 						<reference key="object" ref="161620756"/>
-						<reference key="parent" ref="17363702"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">12</int>
-						<reference key="object" ref="323094175"/>
 						<reference key="parent" ref="17363702"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -469,11 +424,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">7</int>
 						<reference key="object" ref="1047194494"/>
-						<reference key="parent" ref="17363702"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">6</int>
-						<reference key="object" ref="19280856"/>
 						<reference key="parent" ref="17363702"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -525,7 +475,6 @@
 				<string key="-2.CustomClassName">UIResponder</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="0.0" key="14.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
@@ -537,7 +486,6 @@
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="60.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -597,6 +545,30 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ProjectViewController</string>
 					<string key="superclassName">AbstractTopViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="addNewObject:">id</string>
+						<string key="backToProjects:">id</string>
+						<string key="deleteObject:">id</string>
+						<string key="renameObject:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="addNewObject:">
+							<string key="name">addNewObject:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="backToProjects:">
+							<string key="name">backToProjects:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="deleteObject:">
+							<string key="name">deleteObject:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="renameObject:">
+							<string key="name">renameObject:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addButton">UIBarButtonItem</string>
 						<string key="collectionView">UICollectionView</string>
@@ -630,6 +602,7 @@
 					<string key="className">Rc2AppDelegate</string>
 					<string key="superclassName">UIResponder</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="editTheme:">id</string>
 						<string key="endSession:">id</string>
 						<string key="logout:">id</string>
 						<string key="showGrading:">id</string>
@@ -638,6 +611,10 @@
 						<string key="showWorkspaces:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="editTheme:">
+							<string key="name">editTheme:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="endSession:">
 							<string key="name">endSession:</string>
 							<string key="candidateClassName">id</string>
@@ -694,12 +671,10 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="gear.png">{20, 20}</string>
-			<string key="grade-tbar.png">{20, 20}</string>
+			<string key="gear.png">{22, 22}</string>
 			<string key="home-tbar.png">{44, 32}</string>
 			<string key="message-tbar-down.png">{44, 32}</string>
 			<string key="message-tbar.png">{44, 32}</string>
-			<string key="wspace-tbar.png">{20, 20}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

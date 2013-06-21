@@ -96,7 +96,7 @@
 	}
 	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	[self.collectionView reloadData];
-	self.projectButton.enabled = NO;
+	self.projectButton.title = @"Logout";
 	self.selectedProject = nil;
 	self.titleItem.title = NSLocalizedString(@"Rc2 Projects", @"");
 }
@@ -223,7 +223,14 @@
 
 -(IBAction)backToProjects:(id)sender
 {
-	self.projectButton.enabled = NO;
+	if (nil == self.selectedProject) {
+		//a logout request
+		[(Rc2AppDelegate*)TheApp.delegate logout:sender];
+		[self.projects removeAllObjects];
+		[self.collectionView reloadData];
+		return;
+	}
+	self.projectButton.title = @"Logout";
 	[(ProjectViewLayout*)self.collectionView.collectionViewLayout setRemoveAll:YES];
 	NSInteger cnt = _selectedProject.workspaces.count;
 	NSMutableArray *paths = [NSMutableArray arrayWithCapacity:cnt];
@@ -326,7 +333,7 @@
 			self.selectedProject = selProject;
 			if (paths.count > 0)
 				[collectionView insertItemsAtIndexPaths:paths];
-			self.projectButton.enabled = YES;
+			self.projectButton.title = @"Projects";
 			self.titleItem.title = [NSLocalizedString(@"Project Title Prefix", @"") stringByAppendingString:[selProject name]];
 		});
 	} else {
