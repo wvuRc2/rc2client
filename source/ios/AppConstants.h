@@ -29,3 +29,5 @@ typedef enum {
 #define kChatMessageNotification @"ChatMessageNotification"
 
 #define kTableViewDoubleClickedNotification @"kTableViewDoubleClickedNotification"
+
+#define kDropboxSyncRequestedNotification @"kDropboxSyncRequestedNotification"

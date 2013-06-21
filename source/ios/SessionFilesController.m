@@ -15,12 +15,13 @@
 #import "RCFile.h"
 #import "Rc2FileType.h"
 #import "FileDetailsCell.h"
+#import "AppConstants.h"
 
 @interface SessionFilesController()
 @property (nonatomic, weak) RCSession *session;
 @property (nonatomic, copy) NSArray *fileSections;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *editButton;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *syncButton;
 -(void)handleDoubleTap;
 @end
 
@@ -79,9 +80,6 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
-	//exit editing mode
-	if (self.tableView.editing)
-		[self doEdit:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -91,18 +89,12 @@
 
 #pragma mark - actions
 
--(IBAction)doEdit:(id)sender
+-(IBAction)doDBSync:(id)sender
 {
-	if (self.tableView.editing) {
-		[self.editButton setStyle:UIBarButtonItemStyleBordered];
-		[self.editButton setTitle:NSLocalizedString(@"Edit", @"")];
-		[self.tableView setEditing:NO animated:YES];
-	} else {
-		[self.editButton setStyle:UIBarButtonItemStyleDone];
-		[self.editButton setTitle:NSLocalizedString(@"Done", @"")];
-		[self.tableView setEditing:YES animated:YES];
-	}
+	[self.delegate dismissSessionsFilesController];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDropboxSyncRequestedNotification object:self.session.workspace];
 }
+
 
 -(void)reloadData
 {

@@ -468,6 +468,8 @@
 		08E63B3A1770F997005BB3BB /* LineNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B391770F997005BB3BB /* LineNumberView.m */; };
 		08E63B3D1773824D005BB3BB /* DropboxSyncSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */; };
 		08E63B411773A0BA005BB3BB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E63B401773A0B9005BB3BB /* DropboxSDK.framework */; };
+		08E63B441774E3C5005BB3BB /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B431774E3C5005BB3BB /* DropBlocks.m */; };
+		08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B461774E409005BB3BB /* RCDropboxSync.m */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3CC616E920BB00F3E09E /* GRMustache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8216E920BB00F3E09E /* GRMustache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1155,6 +1157,10 @@
 		08E63B3B1773824D005BB3BB /* DropboxSyncSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxSyncSettingController.h; sourceTree = "<group>"; };
 		08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxSyncSettingController.m; sourceTree = "<group>"; };
 		08E63B401773A0B9005BB3BB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = DropboxSDK.framework; path = "Dependencies/Dropbox/DropboxSDK/build/Release-iphoneos/DropboxSDK.framework"; sourceTree = "<group>"; };
+		08E63B421774E3C4005BB3BB /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = source/DropBlocks.h; sourceTree = "<group>"; };
+		08E63B431774E3C5005BB3BB /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = source/DropBlocks.m; sourceTree = "<group>"; };
+		08E63B451774E409005BB3BB /* RCDropboxSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDropboxSync.h; sourceTree = "<group>"; };
+		08E63B461774E409005BB3BB /* RCDropboxSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDropboxSync.m; sourceTree = "<group>"; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
 		08FF3C8116E920BB00F3E09E /* GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustache.h; sourceTree = "<group>"; };
 		08FF3C8216E920BB00F3E09E /* GRMustache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustache.m; sourceTree = "<group>"; };
@@ -1961,6 +1967,8 @@
 				08D245F515B5DCD70064A9FA /* MLReachability.m */,
 				083AAEE6162CA73E0037AAB3 /* MAKVONotificationCenter.h */,
 				083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */,
+				08E63B421774E3C4005BB3BB /* DropBlocks.h */,
+				08E63B431774E3C5005BB3BB /* DropBlocks.m */,
 				08FF3D0316E9250900F3E09E /* ThemeEngine.h */,
 				08FF3D0416E9250900F3E09E /* ThemeEngine.m */,
 				08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */,
@@ -2085,6 +2093,8 @@
 				08C99AC215EE9CDF002D430D /* Rc2FileType.m */,
 				08C99AC615EE9D35002D430D /* RC2FileTypes.plist */,
 				08D2459815B5DBB70064A9FA /* model */,
+				08E63B451774E409005BB3BB /* RCDropboxSync.h */,
+				08E63B461774E409005BB3BB /* RCDropboxSync.m */,
 			);
 			name = rc2;
 			path = source/rc2;
@@ -3044,6 +3054,8 @@
 				0847FDC117627E4200D950EA /* RichSessionEditor.m in Sources */,
 				08E63B3A1770F997005BB3BB /* LineNumberView.m in Sources */,
 				08E63B3D1773824D005BB3BB /* DropboxSyncSettingController.m in Sources */,
+				08E63B441774E3C5005BB3BB /* DropBlocks.m in Sources */,
+				08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
