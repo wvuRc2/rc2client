@@ -45,7 +45,7 @@
 	self.sizeString = [dict objectForKey:@"friendlySize"];
 	self.versionValue = [[dict objectForKey:@"version"] intValue];
 	self.isAssignmentFileValue = [[dict objectForKey:@"assignmentFile"] boolValue];
-//	self.readOnlyValue = [[dict objectForKey:@"readonly"] boolValue];
+	self.fileSize = [dict objectForKey:@"filesize"];
 
 	//fire off fetching the contets if we don't have them
 	//TODO: this should check the version field and any cached value
@@ -86,6 +86,11 @@
 				self.fileContents = [NSString stringWithContentsOfFile:self.fileContentsPath encoding:NSUTF8StringEncoding error:nil];
 				AMFileSizeTransformer *trans = [[AMFileSizeTransformer alloc] init];
 				self.sizeString = [trans transformedValue:[NSNumber numberWithLong:[self.fileContents length]]];
+				NSFileManager *fm = [[NSFileManager alloc] init];
+				NSError *err=nil;
+				[fm setAttributes:@{NSFileCreationDate:self.lastModified, NSFileModificationDate:self.lastModified} ofItemAtPath:self.fileContentsPath error:&err];
+				if (err)
+					NSLog(@"got error:%@", err);
 				hblock(YES);
 			} else {
 				Rc2LogError(@"error fetching content for file %@", self.fileId);
@@ -293,7 +298,8 @@
 	return [[self.container fileCachePath] stringByAppendingPathComponent:self.name];
 }
 
-@synthesize fileType=_fileType;
+@synthesize fileType;
+@synthesize fileSize;
 @synthesize attrCache;
 @synthesize locallyModified;
 @synthesize container;

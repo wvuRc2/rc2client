@@ -20,6 +20,7 @@
 @property (nonatomic, readonly) BOOL locallyModified;
 @property (weak, nonatomic, readonly) NSString *currentContents; //not KVO compliant
 @property (nonatomic, strong) NSMutableDictionary *localAttrs;
+@property (nonatomic, strong) NSNumber *fileSize;
 @property (nonatomic, weak, readonly) id<RCFileContainer> container;
 @property (nonatomic, readonly) NSString *mimeType;
 

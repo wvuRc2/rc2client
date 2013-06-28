@@ -9,12 +9,18 @@
 #import <Foundation/Foundation.h>
 
 @class RCWorkspace;
+@protocol RCDropboxSyncDelegate;
 
 @interface RCDropboxSync : NSObject
 -(id)initWithWorkspace:(RCWorkspace*)wspace;
 
 -(void)startSync;
 
-@property (nonatomic, copy) void (^progressHandler)(CGFloat percent, NSString *message);
-@property (nonatomic, copy) void (^completionHandler)(BOOL success, NSError *error);
+@property (nonatomic, weak) id<RCDropboxSyncDelegate> syncDelegate;
+@end
+
+
+@protocol RCDropboxSyncDelegate <NSObject>
+-(void)dbsync:(RCDropboxSync*)sync updateProgress:(CGFloat)percent message:(NSString*)message;
+-(void)dbsync:(RCDropboxSync*)sync syncComplete:(BOOL)success error:(NSError*)error;
 @end

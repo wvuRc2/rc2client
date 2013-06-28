@@ -8,10 +8,32 @@
 
 #import "RCDropboxSync.h"
 #import "RCWorkspace.h"
-#import "DropBlocks.h"
+#import "RCFile.h"
+#import "Rc2Server.h"
 
-@interface RCDropboxSync ()
+typedef NS_ENUM(NSUInteger, SyncState) {
+	kCachingRc2Files,
+	kLoadMetadata,
+	kLoadRemoteFiles,
+	kUploadingToRc2,
+	kUploadingToDropbox,
+	kLastMetaRefresh,
+	kFinished
+};
+
+@interface RCDropboxSync () <DBRestClientDelegate>
 @property (nonatomic, strong) RCWorkspace *wspace;
+@property (nonatomic, strong) DBRestClient *client;
+@property (nonatomic, strong) DBMetadata *metad;
+@property (nonatomic, strong) NSMutableArray *dloadedFiles;
+@property (nonatomic, copy) NSSet *vaildExtensions;
+@property (nonatomic, copy) NSString *tmpPath;
+@property (nonatomic, copy) NSArray *previousState;
+@property (nonatomic, strong) NSFileManager *fm;
+@property SyncState state;
+@property NSUInteger curFileIdx;
+@property NSUInteger filesDloadingFromRc2;
+@property NSUInteger filesUploadingToDB;
 @end
 
 @implementation RCDropboxSync
@@ -20,36 +42,262 @@
 {
 	if ((self = [super init])) {
 		self.wspace = wspace;
+		self.fm = [[NSFileManager alloc] init];
+		self.tmpPath = [NSTemporaryDirectory() stringByAppendingString:[NSString stringWithUUID]];
+		[_fm createDirectoryAtPath:self.tmpPath withIntermediateDirectories:YES attributes:nil error:nil];
+		self.dloadedFiles = [NSMutableArray array];
+		self.vaildExtensions = [NSSet setWithArray:[[Rc2Server acceptableImportFileSuffixes] arrayByPerformingSelector:@selector(lowercaseString)]];
 	}
 	return self;
 }
 
+-(void)dealloc
+{
+	[_fm removeItemAtPath:self.tmpPath error:nil];
+}
+
+-(NSString*)serializeFilesToJSON
+{
+	NSMutableArray *a = [NSMutableArray arrayWithCapacity:self.wspace.files.count];
+	//build a hash on filename to get dropbox rev values
+	NSMutableDictionary *dbmd = [NSMutableDictionary dictionaryWithCapacity:self.metad.contents.count];
+	for (DBMetadata *md in self.metad.contents)
+		[dbmd setObject:md forKey:md.filename.lowercaseString];
+	[self.wspace.files enumerateObjectsUsingBlock:^(RCFile *obj, NSUInteger idx, BOOL *stop) {
+		NSString *rev = [[dbmd objectForKey:obj.name.lowercaseString] rev];
+		if (nil == rev)
+			rev = @"";
+		[a addObject:@{@"name":[obj name], @"lastMod":[NSNumber numberWithLongLong:obj.lastModified.timeIntervalSince1970 * 1000], @"filesize":obj.fileSize, @"dbrev":rev}];
+	}];
+	NSString *json = [a JSONRepresentation];
+	ZAssert(json.length > 2, @"failed to serializae to json");
+	return json;
+}
+
 -(void)startSync
 {
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		NSString *dbpath = self.wspace.dropboxPath;
-		ZAssert(dbpath, @"workspace not configured for sync");
-		if (nil == self.wspace.dropboxHash) {
-			[self doFirstSync];
-		}  else {
-			[self doRegularSync];
+	self.client = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+	self.client.delegate = self;
+	self.state = kCachingRc2Files;
+	//make sure all files are cached locally
+	for (RCFile *file in self.wspace.files) {
+		if (![_fm fileExistsAtPath:file.fileContentsPath]) {
+			_filesDloadingFromRc2++;
+			[file updateContentsFromServer:^(NSInteger success) {
+				if (success) {
+					NSLog(@"cached %@", file.name);
+					_filesDloadingFromRc2--;
+				}
+				if (_filesDloadingFromRc2 == 0)
+					[self preflightComplete];
+			}];
 		}
+	}
+}
+
+-(void)preflightComplete
+{
+	//dropbox only works on main thread
+	dispatch_async(dispatch_get_main_queue(), ^{
+		NSString *dbpath = self.wspace.dropboxPath;
+		if (nil == dbpath) {
+			[self.syncDelegate dbsync:self syncComplete:NO error:[NSError errorWithDomain:@"Rc2" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"workspace not configured for sync"}]];
+			return;
+		}
+		//load metadata
+		self.state = kLoadMetadata;
+		[_client loadMetadata:dbpath];
 	});
+}
+
+-(void)loadedMetadata
+{
+	if (kLastMetaRefresh == self.state) {
+		[self syncSuccessful];
+	} else if (nil == self.wspace.dropboxHistory) {
+		[self doFirstSync];
+	}  else {
+		[self doRegularSync];
+	}
 }
 
 -(void)doFirstSync
 {
-	[DropBlocks loadMetadata:self.wspace.dropboxPath completionBlock:^(DBMetadata *metadata, NSError *error) {
-		NSLog(@"md=%@", metadata);
-	}];
-	if (self.completionHandler)
-		self.completionHandler(NO, [NSError errorWithDomain:@"Rc2" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"first time sync not implemented"}]);
+	self.state = kLoadRemoteFiles;
+	[self processNextDropboxFile];
 }
 
 -(void)doRegularSync
 {
-	if (self.completionHandler)
-		self.completionHandler(NO, [NSError errorWithDomain:@"Rc2" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"regular sync not implemented"}]);
+	self.previousState = [self.wspace.dropboxHistory JSONValue];
+	ZAssert(self.previousState.count > 0, @"failed to parse sync history");
+	//TODO: What next?
+	//we have three lists of files (previousState, wspace.files, and metadata). Need to store based on filename
+	NSMutableDictionary *history = [NSMutableDictionary dictionary];
+	[self.previousState enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		[history setObject:obj forKey:[obj objectForKey:@"name"]];
+	}];
+	NSMutableDictionary *dbox = [NSMutableDictionary dictionary];
+	[self.metad.contents enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		[dbox setObject:obj forKey:[obj filename]];
+	}];
+	NSMutableDictionary *wsfiles = [NSMutableDictionary dictionary];
+	[self.wspace.files enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		[wsfiles setObject:obj forKey:[obj name]];
+	}];
+	//first, iterate through history files
+	for (NSString *fname in history.allKeys) {
+		NSDictionary *hitem = [history objectForKey:fname];
+		NSDate *histMod = [NSDate dateWithTimeIntervalSince1970:[[hitem objectForKey:@"lastMod"] longLongValue] / 1000];
+		NSLog(@"hist of %@ (%@)", fname, histMod);
+		RCFile *wsfile = [wsfiles objectForKey:fname];
+		if (wsfile.lastModified.timeIntervalSince1970 > histMod.timeIntervalSince1970) {
+			NSLog(@"ws version modified (%@)", wsfile.lastModified);
+		}
+		DBMetadata *filemd = [dbox objectForKey:fname];
+		//[filemd.lastModifiedDate laterDate:histMod] || 
+		if (![[hitem objectForKey:@"dbrev"] isEqualToString:filemd.rev]) {
+			NSLog(@"dbox version modified (%@)", filemd.lastModifiedDate);
+		}
+	}
+}
+
+-(void)lookForConflicts
+{
+	NSSet *wsfilenames = [NSSet setWithArray:[[self.wspace.files arrayByPerformingSelector:@selector(name)] arrayByPerformingSelector:@selector(lowercaseString)]];
+	NSMutableArray *conflicts = [NSMutableArray array];
+	for (NSString *fname in _dloadedFiles) {
+		if ([wsfilenames containsObject:fname.lowercaseString]) {
+			[conflicts addObject:fname];
+		}
+	}
+	if (conflicts.count > 0) {
+		[self.syncDelegate dbsync:self syncComplete:NO error:[NSError errorWithDomain:@"Rc2" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"conflict resolution not supported"}]];
+		return;
+	}
+	[self uploadToDropbox];
+}
+
+-(void)startUploadToRc2
+{
+	NSMutableArray *files = [NSMutableArray array];
+	[self.dloadedFiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		[files addObject:[NSURL fileURLWithPath:[self.tmpPath stringByAppendingPathComponent:obj]]];
+	}];
+	[[Rc2Server sharedInstance] importFiles:files toContainer:self.wspace completionHandler:^(BOOL success, id results) {
+		if (!success) {
+			NSLog(@"error importing to rc2:%@", results);
+			[self.syncDelegate dbsync:self syncComplete:NO error:[NSError errorWithDomain:@"Rc2" code:-1 userInfo:@{NSLocalizedDescriptionKey:results}]];
+		} else {
+			NSLog(@"sync complete");
+			self.state = kLastMetaRefresh;
+			[self.client loadMetadata:self.wspace.dropboxPath];
+			[self syncSuccessful];
+		}
+	} progress:^(CGFloat per) {
+		[self.syncDelegate dbsync:self updateProgress:per message:nil];
+	}];
+}
+
+-(void)uploadToDropbox
+{
+	self.state = kUploadingToDropbox;
+	for (RCFile *file in self.wspace.files) {
+		++_filesUploadingToDB;
+		if ([_fm fileExistsAtPath:file.fileContentsPath])
+			[self.client uploadFile:file.name toPath:self.wspace.dropboxPath withParentRev:nil fromPath:file.fileContentsPath];
+		else {
+			[file updateContentsFromServer:^(NSInteger success) {
+				if (success)
+					[self.client uploadFile:file.name toPath:self.wspace.dropboxPath withParentRev:nil fromPath:file.fileContentsPath];
+			}];
+		}
+	}
+}
+
+-(void)syncSuccessful
+{
+	self.wspace.dropboxHash = self.metad.hash;
+	self.wspace.dropboxHistory = [self serializeFilesToJSON];
+	[[Rc2Server sharedInstance] updateWorkspace:self.wspace completionBlock:^(BOOL success, id results) {
+		[self.syncDelegate dbsync:self syncComplete:YES error:nil];
+	}];	
+}
+
+-(void)processNextDropboxFile
+{
+	//need to bounds check
+	if (_curFileIdx >= self.metad.contents.count) {
+		//done processing files
+		Rc2LogInfo(@"done with files");
+		[self lookForConflicts];
+		return;
+	}
+	DBMetadata *meta = [self.metad.contents objectAtIndex:self.curFileIdx];
+	if (meta.isDirectory) {
+		//skip to next file
+		_curFileIdx++;
+		[self processNextDropboxFile];
+		return;
+	}
+	//it is a file. download it if not too large
+	if ((meta.totalBytes > 1024 * 1024 *10) || ![_vaildExtensions containsObject:meta.filename.lowercaseString.pathExtension]) {
+		//file too large or invalid extension
+		Rc2LogInfo(@"skipping %@ for size/extension", meta.filename);
+		_curFileIdx++;
+		[self processNextDropboxFile];
+		return;
+	}
+	//load next file
+	[self.client loadFile:meta.path intoPath:[_tmpPath stringByAppendingPathComponent:meta.filename]];
+}
+
+-(void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath contentType:(NSString*)contentType metadata:(DBMetadata*)metadata
+{
+	NSLog(@"%@ lastmod=%@", [destPath lastPathComponent], metadata.lastModifiedDate);
+	[self.dloadedFiles addObject:[destPath lastPathComponent]];
+	++_curFileIdx;
+	[self processNextDropboxFile];
+}
+
+-(void)restClient:(DBRestClient *)client loadFileFailedWithError:(NSError *)error
+{
+	Rc2LogError(@"error dloading file:%@", error);
+	[self.syncDelegate dbsync:self syncComplete:NO error:error];
+}
+
+-(void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath from:(NSString*)srcPath
+		  metadata:(DBMetadata*)metadata
+{
+	--_filesUploadingToDB;
+	if (_filesUploadingToDB < 1) {
+		NSLog(@"uploads complete");
+		self.state = kUploadingToRc2;
+		[self startUploadToRc2];
+	}
+}
+
+-(void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error;
+{
+	[self.client cancelAllRequests];
+	[self.syncDelegate dbsync:self syncComplete:NO error:error];
+}
+
+-(void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata
+{
+	self.metad = metadata;
+	[self loadedMetadata];
+}
+
+- (void)restClient:(DBRestClient*)client metadataUnchangedAtPath:(NSString*)path
+{
+	NSLog(@"md unchanged");
+}
+
+-(void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error
+{
+	Rc2LogError(@"dropbox error syncing workspace:%@", error);
+	[self.syncDelegate dbsync:self syncComplete:NO error:error];
 }
 
 @end

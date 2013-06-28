@@ -143,7 +143,6 @@
 		084594DE15B5F71500297C9D /* turnedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CE15B5F71500297C9D /* turnedin.png */; };
 		084594DF15B5F71500297C9D /* turnedin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 084594CF15B5F71500297C9D /* turnedin@2x.png */; };
 		0847FDAC175D30AF00D950EA /* MCTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDAB175D30AF00D950EA /* MCTableRowView.m */; };
-		0847FDC117627E4200D950EA /* RichSessionEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDC017627E4200D950EA /* RichSessionEditor.m */; };
 		0847FDC617679F6F00D950EA /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0847FDC317679F6F00D950EA /* MASPreferencesWindow.xib */; };
 		0847FDC717679F6F00D950EA /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDC517679F6F00D950EA /* MASPreferencesWindowController.m */; };
 		084B47931677DF98000A0A6F /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 084B47911677DF98000A0A6F /* add.png */; };
@@ -464,8 +463,6 @@
 		08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */; };
 		08E49223166E7834005E83DE /* MCSessionFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E49222166E7834005E83DE /* MCSessionFileController.m */; };
 		08E63B0C1770D9D1005BB3BB /* DTLoupe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08E63B0B1770D9D1005BB3BB /* DTLoupe.bundle */; };
-		08E63B371770DF0A005BB3BB /* DTRichTextEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */; };
-		08E63B3A1770F997005BB3BB /* LineNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B391770F997005BB3BB /* LineNumberView.m */; };
 		08E63B3D1773824D005BB3BB /* DropboxSyncSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */; };
 		08E63B411773A0BA005BB3BB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E63B401773A0B9005BB3BB /* DropboxSDK.framework */; };
 		08E63B441774E3C5005BB3BB /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B431774E3C5005BB3BB /* DropBlocks.m */; };
@@ -1151,12 +1148,12 @@
 		08E49221166E7834005E83DE /* MCSessionFileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSessionFileController.h; sourceTree = "<group>"; };
 		08E49222166E7834005E83DE /* MCSessionFileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSessionFileController.m; sourceTree = "<group>"; };
 		08E63B0B1770D9D1005BB3BB /* DTLoupe.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; name = DTLoupe.bundle; path = "/Users/mlilback/Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos/DTLoupe.bundle"; sourceTree = "<absolute>"; };
-		08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTRichTextEditor.framework; path = "../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos/DTRichTextEditor.framework"; sourceTree = "<group>"; };
+		08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DTRichTextEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08E63B381770F997005BB3BB /* LineNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineNumberView.h; sourceTree = "<group>"; };
 		08E63B391770F997005BB3BB /* LineNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineNumberView.m; sourceTree = "<group>"; };
 		08E63B3B1773824D005BB3BB /* DropboxSyncSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxSyncSettingController.h; sourceTree = "<group>"; };
 		08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxSyncSettingController.m; sourceTree = "<group>"; };
-		08E63B401773A0B9005BB3BB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = DropboxSDK.framework; path = "Dependencies/Dropbox/DropboxSDK/build/Release-iphoneos/DropboxSDK.framework"; sourceTree = "<group>"; };
+		08E63B401773A0B9005BB3BB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08E63B421774E3C4005BB3BB /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = source/DropBlocks.h; sourceTree = "<group>"; };
 		08E63B431774E3C5005BB3BB /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = source/DropBlocks.m; sourceTree = "<group>"; };
 		08E63B451774E409005BB3BB /* RCDropboxSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDropboxSync.h; sourceTree = "<group>"; };
@@ -1280,7 +1277,6 @@
 			files = (
 				08D245FB15B5DDD00064A9FA /* libz.dylib in Frameworks */,
 				08D245F915B5DDCB0064A9FA /* CFNetwork.framework in Frameworks */,
-				08E63B371770DF0A005BB3BB /* DTRichTextEditor.framework in Frameworks */,
 				08D245EC15B5DBFF0064A9FA /* libVyana-ios.a in Frameworks */,
 				08D244FE15B5DA230064A9FA /* CoreImage.framework in Frameworks */,
 				08D244FF15B5DA230064A9FA /* ImageIO.framework in Frameworks */,
@@ -3051,8 +3047,6 @@
 				08FF3D4A16F10E1900F3E09E /* ColorPickerController.mm in Sources */,
 				08FF3D4D16F10E1900F3E09E /* GradientView.mm in Sources */,
 				08FF3D5416F278EE00F3E09E /* SendMailController.m in Sources */,
-				0847FDC117627E4200D950EA /* RichSessionEditor.m in Sources */,
-				08E63B3A1770F997005BB3BB /* LineNumberView.m in Sources */,
 				08E63B3D1773824D005BB3BB /* DropboxSyncSettingController.m in Sources */,
 				08E63B441774E3C5005BB3BB /* DropBlocks.m in Sources */,
 				08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */,

@@ -21,6 +21,7 @@
 @property (nonatomic, copy) NSString *dropboxUser;
 @property (nonatomic, copy) NSString *dropboxPath;
 @property (nonatomic, copy) NSString *dropboxHash;
+@property (nonatomic, copy) NSString *dropboxHistory;
 
 @property (nonatomic, copy, readonly) NSArray *files;
 @property (nonatomic, readonly) RCWorkspaceCache *cache;

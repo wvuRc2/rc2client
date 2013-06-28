@@ -29,6 +29,7 @@
 		self.dropboxUser = [dict objectForKeyWithNullAsNil:@"dbuser"];
 		self.dropboxPath = [dict objectForKeyWithNullAsNil:@"dbpath"];
 		self.dropboxHash = [dict objectForKeyWithNullAsNil:@"dbhash"];
+		self.dropboxHistory = [dict objectForKeyWithNullAsNil:@"dbhistory"];
 		self.wspaceId = [dict objectForKey:@"id"];
 		NSNumber *ladate = [dict objectForKey:@"lastaccess"];
 		self.lastAccess = [NSDate dateWithTimeIntervalSince1970:[ladate longLongValue]/1000];
@@ -128,7 +129,7 @@
 -(RCFile*)fileWithName:(NSString*)fileName
 {
 	for (RCFile *aFile in self.files) {
-		if ([fileName isEqualToString:aFile.name])
+		if (NSOrderedSame == [fileName caseInsensitiveCompare:aFile.name])
 			return aFile;
 	}
 	return nil;

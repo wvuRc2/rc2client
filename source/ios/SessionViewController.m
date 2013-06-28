@@ -28,8 +28,9 @@
 #import "RCAudioChatEngine.h"
 #import "DoodleViewController.h"
 #import "MAKVONotificationCenter.h"
+#import "RCDropboxSync.h"
 
-@interface SessionViewController() <KeyboardToolbarDelegate,AMResizableSplitViewControllerDelegate>
+@interface SessionViewController() <KeyboardToolbarDelegate,AMResizableSplitViewControllerDelegate,RCDropboxSyncDelegate>
 @property (nonatomic, strong) IBOutlet AMResizableSplitViewController *splitController;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) ImageDisplayController *imgController;
@@ -43,6 +44,7 @@
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL showingProgress;
 @property (nonatomic, assign) BOOL autoReconnect;
+@property (nonatomic, strong) RCDropboxSync *dbsync;
 @end
 
 #pragma mark -
@@ -65,6 +67,7 @@
 													 name: UIApplicationWillEnterForegroundNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnteringBackground:) 
 													 name: UIApplicationDidEnterBackgroundNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDropboxSync:) name:kDropboxSyncRequestedNotification object:nil];
 		[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(loginStatusChanged:) userInfo:nil options:0];
 	}
 	return self;
@@ -333,6 +336,30 @@
 {
 	return self.session.workspace;
 }
+
+#pragma mark - dropbox sync
+
+-(void)handleDropboxSync:(NSNotification*)note
+{
+	self.dbsync = [[RCDropboxSync alloc] initWithWorkspace:self.session.workspace];
+	[self.dbsync startSync];
+}
+
+-(void)dbsync:(RCDropboxSync*)sync updateProgress:(CGFloat)percent message:(NSString*)message
+{
+	
+}
+
+-(void)dbsync:(RCDropboxSync*)sync syncComplete:(BOOL)success error:(NSError*)error
+{
+	self.dbsync = nil;
+	if (!success) {
+		Rc2LogError(@"error on sync:%@", error.localizedDescription);
+	} else {
+		Rc2LogInfo(@"sync complete");
+	}
+}
+
 
 #pragma mark - state management
 
