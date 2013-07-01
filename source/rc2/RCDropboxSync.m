@@ -131,7 +131,6 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 {
 	self.previousState = [self.wspace.dropboxHistory JSONValue];
 	ZAssert(self.previousState.count > 0, @"failed to parse sync history");
-	//TODO: What next?
 	//we have three lists of files (previousState, wspace.files, and metadata). Need to store based on filename
 	NSMutableDictionary *history = [NSMutableDictionary dictionary];
 	[self.previousState enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -145,21 +144,47 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 	[self.wspace.files enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		[wsfiles setObject:obj forKey:[obj name]];
 	}];
+	NSMutableArray *addToDB = [NSMutableArray array];
+	NSMutableArray *addToRc2 = [NSMutableArray array];
+	NSMutableArray *deleteFromDB = [NSMutableArray array];
 	//first, iterate through history files
 	for (NSString *fname in history.allKeys) {
 		NSDictionary *hitem = [history objectForKey:fname];
 		NSDate *histMod = [NSDate dateWithTimeIntervalSince1970:[[hitem objectForKey:@"lastMod"] longLongValue] / 1000];
-		NSLog(@"hist of %@ (%@)", fname, histMod);
 		RCFile *wsfile = [wsfiles objectForKey:fname];
-		if (wsfile.lastModified.timeIntervalSince1970 > histMod.timeIntervalSince1970) {
-			NSLog(@"ws version modified (%@)", wsfile.lastModified);
-		}
 		DBMetadata *filemd = [dbox objectForKey:fname];
-		//[filemd.lastModifiedDate laterDate:histMod] || 
-		if (![[hitem objectForKey:@"dbrev"] isEqualToString:filemd.rev]) {
-			NSLog(@"dbox version modified (%@)", filemd.lastModifiedDate);
+		if (nil == wsfile) {
+			//this file was deleted from workspace. We want to delete from dropbox unless dropbox rev is more recent than history
+			if (![[hitem objectForKey:@"dbrev"] isEqualToString:filemd.rev]) {
+				//the dbfile has changed. keep it
+				[addToRc2 addObject:fname];
+			} else {
+				//want to delete from dropbox
+				[deleteFromDB addObject:fname];
+			}
+		} else if (wsfile.lastModified.timeIntervalSince1970 > histMod.timeIntervalSince1970) {
+			[addToDB addObject:wsfile];
 		}
+		if (nil == filemd) {
+			//either need to add or delete from rc2
+			if (wsfile)
+				[addToDB addObject:wsfile];
+			else {
+				//not in db or rc2. guess that counts as deletion
+			}
+		} else if (![[hitem objectForKey:@"dbrev"] isEqualToString:filemd.rev]) {
+			//todo: handle change in poth`
+			[addToRc2 addObject:fname];
+		}
+		//each loop we rmove files handled
+		if (wsfile)
+			[wsfiles removeObjectForKey:fname];
+		if (filemd)
+			[dbox removeObjectForKey:fname];
 	}
+	//TODO: files in wsfiles need to go to db
+	//TODO: files in dbox need to go to rc2
+	//TODO: only add once if both have a new file
 }
 
 -(void)lookForConflicts
