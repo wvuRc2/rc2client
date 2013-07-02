@@ -25,6 +25,11 @@ enum {
 #define kMode_Control @"control"
 #define kMode_Classroom @"classroom"
 
+typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
+	RCSessionExecuteOptionNone,
+	RCSessionExecuteOptionSource
+};
+
 @interface RCSession : NSObject
 @property (nonatomic, strong, readonly) RCWorkspace *workspace;
 @property (nonatomic, unsafe_unretained) id<RCSessionDelegate> delegate;
@@ -56,7 +61,9 @@ enum {
 -(RCSessionUser*)userWithSid:(NSNumber*)sid;
 
 -(void)requestModeChange:(NSString*)newMode;
+-(void)executeScript:(NSString*)script scriptName:(NSString*)sname options:(RCSessionExecuteOptions)options;
 -(void)executeScript:(NSString*)script scriptName:(NSString*)sname;
+-(void)executeScriptFile:(RCFile*)file options:(RCSessionExecuteOptions)options;
 -(void)executeScriptFile:(RCFile*)file;
 -(void)executeSas:(RCFile*)file;
 -(void)sendChatMessage:(NSString*)message;

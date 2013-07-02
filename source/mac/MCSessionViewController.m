@@ -104,6 +104,10 @@
 		[self.serverReach startNotifier];
 		//listen for sleep notification so we will save our changes
 		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(prepareForSleep) name:NSWorkspaceWillSleepNotification object:nil];
+		[self observeTarget:[NSUserDefaultsController sharedUserDefaultsController] keyPath:@"values.ExecuteInsteadOfSource" options:0 block:^(MAKVONotification *notification) {
+			[notification.observer adjustExecuteButton];
+		}];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustExecuteButton) name:NSApplicationDidBecomeActiveNotification object:[NSApplication sharedApplication]];
 #if logJson
 		_jsonLog = [NSFileHandle fileHandleForWritingAtPath:@"/tmp/jsonLog.txt"];
 		NSLog(@"opened log %@", _jsonLog);
@@ -184,6 +188,7 @@
 				[blockSelf.userTableView reloadData];
 			});
 		}];
+		[self adjustExecuteButton];
 		[self.modeLabel setHidden:YES];
 		__didInit=YES;
 	}
@@ -304,6 +309,16 @@
 	return NO;
 }
 
+-(void)flagsChanged:(NSEvent *)theEvent
+{
+	BOOL pref = [[NSUserDefaults standardUserDefaults] boolForKey:kPref_ExecuteByDefault];
+	if (theEvent.modifierFlags & NSCommandKeyMask) {
+		self.executeButton.title = pref ? @"Source" : @"Execute";
+	} else {
+		self.executeButton.title = pref ? @"Execute" : @"Source";
+	}
+}
+
 #pragma mark - actions
 
 -(IBAction)toggleShowDetails:(id)sender
@@ -388,12 +403,20 @@
 
 -(IBAction)executeScript:(id)sender
 {
+	NSUInteger flags = [[NSApp currentEvent] modifierFlags];
+	BOOL executeFlag = (flags & NSCommandKeyMask) > 0;
+	BOOL pref = [[NSUserDefaults standardUserDefaults] boolForKey:kPref_ExecuteByDefault];
+	BOOL source = YES; //deefaults
+	if (pref && !executeFlag)
+		source = NO;
+	else if (!pref & executeFlag)
+		source = NO;
 	BasicBlock eblock = ^{
 		RCFile *selFile = self.editorFile;
 		if ([selFile.name hasSuffix:@".sas"]) {
 			[self.session executeSas:selFile];
 		} else {
-			[self.session executeScriptFile:selFile];
+			[self.session executeScriptFile:selFile options:source ? RCSessionExecuteOptionSource : RCSessionExecuteOptionNone];
 		}
 	};
 	RCFile *selFile = self.editorFile;
@@ -860,6 +883,12 @@
 	}
 	[fm copyItemAtPath:file.fileContentsPath toPath:newPath error:nil];
 	return newPath;
+}
+
+-(void)adjustExecuteButton
+{
+	BOOL pref = [[NSUserDefaults standardUserDefaults] boolForKey:kPref_ExecuteByDefault];
+	self.executeButton.title = pref ? @"Execute" : @"Source";
 }
 
 -(void)reachabilityChanged:(NSNotification*)note
@@ -1512,3 +1541,4 @@
 }
 
 @end
+

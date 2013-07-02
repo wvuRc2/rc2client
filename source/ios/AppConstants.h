@@ -18,6 +18,7 @@
 #define kPref_CurrentSessionWorkspace @"currentSessionID"
 #define kPref_CurrentProject @"currentProductID"
 
+
 typedef enum {
 	eKeyboardLayout_Standard=0,
 	eKeyboardLayout_Custom1,

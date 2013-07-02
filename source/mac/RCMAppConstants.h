@@ -31,6 +31,7 @@ extern NSString * const RCMToolbarItem_Users;
 #define kPref_EditorWordWrap @"EditorWordWrap"
 #define kPref_EditorShowInvisible @"ShowInvisibleChars"
 #define kPref_TreatNewlinesAsSemicolons @"TreatNewlinesAsSemicolons"
+#define kPref_ExecuteByDefault @"ExecuteInsteadOfSource"
 
 #define kMenuView 2
 #define kMenuView_Theme 2112

@@ -444,7 +444,6 @@
 						<string key="NSFrame">{{433, 0}, {435, 473}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:1167</string>
 						<string key="NSClassName">NSView</string>
 					</object>
@@ -495,7 +494,7 @@
 								<object class="NSButtonCell" key="NSCell" id="46035543">
 									<int key="NSCellFlags">67108864</int>
 									<int key="NSCellFlags2">134217728</int>
-									<string key="NSContents">Execute</string>
+									<string key="NSContents">Source</string>
 									<reference key="NSSupport" ref="725514408"/>
 									<string key="NSCellIdentifier">_NS:687</string>
 									<reference key="NSControlView" ref="885409590"/>
@@ -1348,7 +1347,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 													<int key="NSvFlags">292</int>
 													<string key="NSFrame">{{182, 6}, {23, 23}}</string>
 													<reference key="NSSuperview" ref="125828518"/>
-													<reference key="NSNextKeyView" ref="874418216"/>
 													<string key="NSReuseIdentifierKey">_NS:22</string>
 													<bool key="NSEnabled">YES</bool>
 													<object class="NSButtonCell" key="NSCell" id="156026543">
@@ -1568,7 +1566,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="NSFrame">{{317, 4}, {122, 15}}</string>
 						<reference key="NSSuperview" ref="581032746"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:868</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="949759875">
@@ -1661,7 +1658,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="NSFrame">{{18, 18}, {267, 18}}</string>
 						<reference key="NSSuperview" ref="996912943"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="634826099">
@@ -7976,22 +7972,60 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string key="superclassName">MCAbstractViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeMode:">id</string>
+						<string key="clearVariables:">id</string>
+						<string key="contextualHelp:">id</string>
 						<string key="createNewFile:">id</string>
+						<string key="deleteFile:">id</string>
+						<string key="duplicateFile:">id</string>
+						<string key="executeCurrentLine:">id</string>
 						<string key="executeScript:">id</string>
 						<string key="exportFile:">id</string>
 						<string key="importFile:">id</string>
 						<string key="promoteFile:">id</string>
+						<string key="refreshVariables:">id</string>
+						<string key="renameFile:">id</string>
+						<string key="restartR:">id</string>
+						<string key="revert:">id</string>
 						<string key="saveFileEdits:">id</string>
+						<string key="showImageDetails:">id</string>
+						<string key="tbTabButtonPressed:">NSButton</string>
+						<string key="toggleFiles:">id</string>
 						<string key="toggleHand:">id</string>
+						<string key="toggleLeftSideView:">id</string>
 						<string key="toggleMicrophone:">id</string>
+						<string key="toggleShowDetails:">id</string>
+						<string key="toggleShowInvisibles:">id</string>
+						<string key="toggleUsers:">id</string>
+						<string key="toggleVariables:">id</string>
+						<string key="toggleWordWrap:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="changeMode:">
 							<string key="name">changeMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="clearVariables:">
+							<string key="name">clearVariables:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="contextualHelp:">
+							<string key="name">contextualHelp:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="createNewFile:">
 							<string key="name">createNewFile:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="deleteFile:">
+							<string key="name">deleteFile:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="duplicateFile:">
+							<string key="name">duplicateFile:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="executeCurrentLine:">
+							<string key="name">executeCurrentLine:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="executeScript:">
@@ -8010,16 +8044,68 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">promoteFile:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="refreshVariables:">
+							<string key="name">refreshVariables:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="renameFile:">
+							<string key="name">renameFile:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="restartR:">
+							<string key="name">restartR:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="revert:">
+							<string key="name">revert:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="saveFileEdits:">
 							<string key="name">saveFileEdits:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showImageDetails:">
+							<string key="name">showImageDetails:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="tbTabButtonPressed:">
+							<string key="name">tbTabButtonPressed:</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBActionInfo" key="toggleFiles:">
+							<string key="name">toggleFiles:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleHand:">
 							<string key="name">toggleHand:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="toggleLeftSideView:">
+							<string key="name">toggleLeftSideView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="toggleMicrophone:">
 							<string key="name">toggleMicrophone:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleShowDetails:">
+							<string key="name">toggleShowDetails:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleShowInvisibles:">
+							<string key="name">toggleShowInvisibles:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleUsers:">
+							<string key="name">toggleUsers:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleVariables:">
+							<string key="name">toggleVariables:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleWordWrap:">
+							<string key="name">toggleWordWrap:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

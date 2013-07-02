@@ -57,7 +57,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		[_settings setValuesForKeysWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:settingKey]];
 		if (rsp)
 			[self updateWithServerResponse:rsp];
-		self.keepAliveTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(keepAliveTimerFired:) userInfo:nil repeats:YES];
+		self.keepAliveTimer = [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(keepAliveTimerFired:) userInfo:nil repeats:YES];
     }
     return self;
 }
@@ -137,12 +137,24 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 
 -(void)executeScriptFile:(RCFile*)file
 {
-	NSDictionary *dict = @{@"cmd":@"executeScriptFile", @"fname":file.name, @"fileId":file.fileId};
+	[self executeScriptFile:file options:RCSessionExecuteOptionNone];
+}
+
+-(void)executeScriptFile:(RCFile*)file options:(RCSessionExecuteOptions)options
+{
+	NSMutableDictionary *dict = [@{@"cmd":@"executeScriptFile", @"fname":file.name, @"fileId":file.fileId} mutableCopy];
+	if (options & RCSessionExecuteOptionSource)
+		[dict setObject:@YES forKey:@"source"];
 	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }
 
 -(void)executeScript:(NSString*)script scriptName:(NSString*)fname
+{
+	[self executeScript:script scriptName:fname options:RCSessionExecuteOptionNone];
+}
+
+-(void)executeScript:(NSString*)script scriptName:(NSString*)fname options:(RCSessionExecuteOptions)options
 {
 	//fname or script could be null, so can't use literals
 	if (script.stringByTrimmingWhitespace.length < 1)
@@ -154,6 +166,8 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		[dict setObject:fname forKey:@"fname"];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TreatNewlinesAsSemicolons"])
 		[dict setObject:@YES forKey:@"nlAsSemi"];
+	if (options & RCSessionExecuteOptionSource)
+		[dict setObject:@YES forKey:@"source"];
 	[_ws sendText:[dict JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }
