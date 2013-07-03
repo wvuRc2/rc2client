@@ -70,7 +70,6 @@
 	pt.y = 36;
 	[self.dateString drawAtPoint:pt withAttributes:dict];
 	str = [[self.images objectAtIndex:__curPageNum-1] name];
-	strSz = [str sizeWithAttributes:dict];
 	pt.x = horzMargin;
 	[str drawAtPoint:pt withAttributes:dict];
 	[self unlockFocus];

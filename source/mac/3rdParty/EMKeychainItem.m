@@ -248,7 +248,7 @@ static BOOL _logsErrors;
 + (EMGenericKeychainItem *)genericKeychainItemForService:(NSString *)serviceName 
 											withUsername:(NSString *)username
 {
-	if (!serviceName || !username)
+	if (nil == serviceName || nil == username)
 		return nil;
 	
 	const char *serviceNameCString = [serviceName UTF8String];
@@ -259,10 +259,12 @@ static BOOL _logsErrors;
 	
 	SecKeychainItemRef item = nil;
 	OSStatus returnStatus = SecKeychainFindGenericPassword(NULL, (UInt32)strlen(serviceNameCString), serviceNameCString, (UInt32)strlen(usernameCString), usernameCString, &passwordLength, (void **)&password, &item);
-	if (returnStatus != noErr || !item)
+	if (returnStatus != noErr || nil == item)
 	{
 		if (_logsErrors)
 			NSLog(@"Error (%@) - %s", NSStringFromSelector(_cmd), GetMacOSStatusErrorString(returnStatus));
+		if (password)
+			SecKeychainItemFreeContent(NULL, password);
 		return nil;
 	}
 	NSString *passwordString = [[[NSString alloc] initWithData:[NSData dataWithBytes:password length:passwordLength] encoding:NSUTF8StringEncoding] autorelease];
@@ -405,6 +407,8 @@ static BOOL _logsErrors;
 	{
 		if (_logsErrors)
 			NSLog(@"Error (%@) - %s", NSStringFromSelector(_cmd), GetMacOSStatusErrorString(returnStatus));
+		if (password)
+			SecKeychainItemFreeContent(NULL, password);
 		return nil;
 	}
 	NSString *passwordString = [[[NSString alloc] initWithData:[NSData dataWithBytes:password length:passwordLength] encoding:NSUTF8StringEncoding] autorelease];

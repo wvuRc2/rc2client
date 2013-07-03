@@ -3454,7 +3454,7 @@
 				HEADER_SEARCH_PATHS = source/ios/3rdParty;
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lz";
@@ -3490,7 +3490,7 @@
 				HEADER_SEARCH_PATHS = source/ios/3rdParty;
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = Rc2;
@@ -3525,7 +3525,7 @@
 				HEADER_SEARCH_PATHS = source/ios/3rdParty;
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = Rc2;

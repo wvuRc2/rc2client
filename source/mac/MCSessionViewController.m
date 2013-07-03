@@ -758,9 +758,6 @@
 
 -(void)handleFileImport:(NSArray*)urls
 {
-	id<RCFileContainer> container = self.session.workspace;
-	if (self.importToProject)
-		container = self.session.workspace.project;
 	MultiFileImporter *mfi = [[MultiFileImporter alloc] init];
 	mfi.container = self.importToProject ? self.session.workspace.project : self.session.workspace;
 	mfi.replaceExisting = YES;
