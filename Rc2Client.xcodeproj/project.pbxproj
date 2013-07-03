@@ -235,6 +235,7 @@
 		08B74CF61643045F00083F9A /* ProjectViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74CF51643045F00083F9A /* ProjectViewLayout.m */; };
 		08B74CF81648615800083F9A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CF71648615800083F9A /* Localizable.strings */; };
 		08B74CF91648615800083F9A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CF71648615800083F9A /* Localizable.strings */; };
+		08C3A27D1784A0210050BD28 /* KeyboardToolbar.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08C3A27C1784A0210050BD28 /* KeyboardToolbar.plist */; };
 		08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F38E15DEB59C00B0402F /* rc2app.icns */; };
 		08C5F39315DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
 		08C5F39415DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
@@ -462,7 +463,6 @@
 		08DF3D5115BDBC79000A339D /* AMResizableSplitterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D4E15BDBC79000A339D /* AMResizableSplitterView.m */; };
 		08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */; };
 		08E49223166E7834005E83DE /* MCSessionFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E49222166E7834005E83DE /* MCSessionFileController.m */; };
-		08E63B0C1770D9D1005BB3BB /* DTLoupe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08E63B0B1770D9D1005BB3BB /* DTLoupe.bundle */; };
 		08E63B3D1773824D005BB3BB /* DropboxSyncSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */; };
 		08E63B411773A0BA005BB3BB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E63B401773A0B9005BB3BB /* DropboxSDK.framework */; };
 		08E63B441774E3C5005BB3BB /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B431774E3C5005BB3BB /* DropBlocks.m */; };
@@ -759,8 +759,6 @@
 		0847FDAA175D30AF00D950EA /* MCTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTableRowView.h; sourceTree = "<group>"; };
 		0847FDAB175D30AF00D950EA /* MCTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTableRowView.m; sourceTree = "<group>"; };
 		0847FDB21762682300D950EA /* SessionEditorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionEditorProtocol.h; sourceTree = "<group>"; };
-		0847FDBF17627E4200D950EA /* RichSessionEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichSessionEditor.h; sourceTree = "<group>"; };
-		0847FDC017627E4200D950EA /* RichSessionEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RichSessionEditor.m; sourceTree = "<group>"; };
 		0847FDC217679F6E00D950EA /* MASPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASPreferencesViewController.h; path = Dependencies/MASPreferences/MASPreferencesViewController.h; sourceTree = SOURCE_ROOT; };
 		0847FDC317679F6F00D950EA /* MASPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MASPreferencesWindow.xib; path = Dependencies/MASPreferences/MASPreferencesWindow.xib; sourceTree = SOURCE_ROOT; };
 		0847FDC417679F6F00D950EA /* MASPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASPreferencesWindowController.h; path = Dependencies/MASPreferences/MASPreferencesWindowController.h; sourceTree = SOURCE_ROOT; };
@@ -863,6 +861,7 @@
 		08B74CF41643045E00083F9A /* ProjectViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewLayout.h; sourceTree = "<group>"; };
 		08B74CF51643045F00083F9A /* ProjectViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewLayout.m; sourceTree = "<group>"; };
 		08B74CF71648615800083F9A /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = resources/Localizable.strings; sourceTree = "<group>"; };
+		08C3A27C1784A0210050BD28 /* KeyboardToolbar.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KeyboardToolbar.plist; sourceTree = "<group>"; };
 		08C5F38E15DEB59C00B0402F /* rc2app.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = rc2app.icns; path = resources/mac/rc2app.icns; sourceTree = SOURCE_ROOT; };
 		08C5F39215DEC50A00B0402F /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console/console; sourceTree = "<group>"; };
 		08C5F3A015DEC74800B0402F /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = microphone.png; path = resources/mac/microphone.png; sourceTree = SOURCE_ROOT; };
@@ -1101,7 +1100,7 @@
 		08D245C915B5DBB70064A9FA /* RCImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCImageCache.m; sourceTree = "<group>"; };
 		08D245CA15B5DBB70064A9FA /* RCMSyntaxHighlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMSyntaxHighlighter.h; sourceTree = "<group>"; };
 		08D245CB15B5DBB70064A9FA /* RCMSyntaxHighlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMSyntaxHighlighter.m; sourceTree = "<group>"; };
-		08D245EB15B5DBFF0064A9FA /* libVyana-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libVyana-ios.a"; path = "../Vyana/build/Release-iphoneos/libVyana-ios.a"; sourceTree = "<group>"; };
+		08D245EB15B5DBFF0064A9FA /* libVyana-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libVyana-ios.a"; path = "../../../../../../../../working/rc2proj/Vyana/build/Release-iphoneos/libVyana-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08D245F415B5DCD70064A9FA /* MLReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLReachability.h; path = source/MLReachability.h; sourceTree = "<group>"; };
 		08D245F515B5DCD70064A9FA /* MLReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLReachability.m; path = source/MLReachability.m; sourceTree = "<group>"; };
 		08D245F815B5DDCB0064A9FA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -1147,10 +1146,6 @@
 		08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMResizableSplitViewController.m; sourceTree = "<group>"; };
 		08E49221166E7834005E83DE /* MCSessionFileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSessionFileController.h; sourceTree = "<group>"; };
 		08E49222166E7834005E83DE /* MCSessionFileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSessionFileController.m; sourceTree = "<group>"; };
-		08E63B0B1770D9D1005BB3BB /* DTLoupe.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; name = DTLoupe.bundle; path = "/Users/mlilback/Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos/DTLoupe.bundle"; sourceTree = "<absolute>"; };
-		08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DTRichTextEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		08E63B381770F997005BB3BB /* LineNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineNumberView.h; sourceTree = "<group>"; };
-		08E63B391770F997005BB3BB /* LineNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineNumberView.m; sourceTree = "<group>"; };
 		08E63B3B1773824D005BB3BB /* DropboxSyncSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxSyncSettingController.h; sourceTree = "<group>"; };
 		08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxSyncSettingController.m; sourceTree = "<group>"; };
 		08E63B401773A0B9005BB3BB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1695,7 +1690,6 @@
 			children = (
 				08E63B401773A0B9005BB3BB /* DropboxSDK.framework */,
 				08D245FA15B5DDD00064A9FA /* libz.dylib */,
-				08E63B361770DF0A005BB3BB /* DTRichTextEditor.framework */,
 				08D245F815B5DDCB0064A9FA /* CFNetwork.framework */,
 				08D245EB15B5DBFF0064A9FA /* libVyana-ios.a */,
 				08D2432315B5D04D0064A9FA /* UIKit.framework */,
@@ -1801,10 +1795,6 @@
 				0847FDB21762682300D950EA /* SessionEditorProtocol.h */,
 				08D243D715B5D7590064A9FA /* SessionEditView.h */,
 				08D243D815B5D7590064A9FA /* SessionEditView.m */,
-				0847FDBF17627E4200D950EA /* RichSessionEditor.h */,
-				0847FDC017627E4200D950EA /* RichSessionEditor.m */,
-				08E63B381770F997005BB3BB /* LineNumberView.h */,
-				08E63B391770F997005BB3BB /* LineNumberView.m */,
 			);
 			name = "session related controllers";
 			sourceTree = "<group>";
@@ -1939,9 +1929,9 @@
 			children = (
 				08B74C77163B31F000083F9A /* images */,
 				08D244D615B5D9090064A9FA /* DefaultDefaults.plist */,
+				08C3A27C1784A0210050BD28 /* KeyboardToolbar.plist */,
 				08D244D715B5D9090064A9FA /* Inconsolata.otf */,
 				08D244D815B5D9090064A9FA /* mailsent.caf */,
-				08E63B0B1770D9D1005BB3BB /* DTLoupe.bundle */,
 				08D244DC15B5D92A0064A9FA /* Default-Landscape~ipad.png */,
 				08D244DD15B5D92A0064A9FA /* Default-Portrait~ipad.png */,
 				08B74C74163B31C700083F9A /* InfoPlist.strings */,
@@ -2680,7 +2670,7 @@
 				08FF3D4E16F10E1900F3E09E /* HorizontalSelector.png in Resources */,
 				08FF3D4F16F10E1900F3E09E /* HorizontalSelector@2x.png in Resources */,
 				08FF3D5016F10E1900F3E09E /* HueSaturationGradient.png in Resources */,
-				08E63B0C1770D9D1005BB3BB /* DTLoupe.bundle in Resources */,
+				08C3A27D1784A0210050BD28 /* KeyboardToolbar.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3335,7 +3325,10 @@
 					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "9DE4A953-EF27-4F01-9B4A-2AD81E259306";
@@ -3365,7 +3358,10 @@
 					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "9DE4A953-EF27-4F01-9B4A-2AD81E259306";
@@ -3422,7 +3418,10 @@
 					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "9DE4A953-EF27-4F01-9B4A-2AD81E259306";

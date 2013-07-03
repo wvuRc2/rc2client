@@ -24,7 +24,6 @@
 #import "KeyboardToolbar.h"
 #import "WHMailActivity.h"
 #import "MAKVONotificationCenter.h"
-#import "RichSessionEditor.h"
 
 @interface EditorViewController() <KeyboardToolbarDelegate> {
 	BOOL _viewLoaded;
@@ -102,14 +101,6 @@
 {
     [super viewDidLoad];
 	if (!_viewLoaded) {
-#if 0
-		CGRect editRect = self.richEditor.view.frame;
-		[self.richEditor.view removeFromSuperview];
-		self.richEditor = [[RichSessionEditor alloc] initWithFrame:editRect];
-		[(RichSessionEditor*)self.richEditor loadView];
-		[self.view addSubview:self.richEditor.view];
-		self.richEditor.view.frame = editRect;
-#endif
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(keyboardWillShow:)
 													 name:UIKeyboardWillShowNotification object:nil];

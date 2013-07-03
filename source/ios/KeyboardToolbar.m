@@ -29,6 +29,8 @@
 @property (nonatomic, strong) UIView *buttonView;
 @property (nonatomic, copy) NSArray *buttonColors;
 @property (nonatomic, copy) NSArray *buttonColorsHighlighted;
+@property (nonatomic, copy) NSArray *landscapePanels;
+@property (nonatomic, copy) NSArray *portraitPanels;
 @property (nonatomic, copy) NSArray *panels;
 @property (nonatomic, strong) UIView *currentPanel;
 @property (nonatomic) NSInteger currentPanelIndex;
@@ -49,11 +51,16 @@
 		buttonView.layer.masksToBounds=YES;
 		[self.view addSubview:buttonView];
 		self.buttonView = buttonView;
-		NSArray *panelDicts = [[NSUserDefaults standardUserDefaults] objectForKey:@"KeyToolbar"];
-		NSMutableArray *panelViews = [NSMutableArray arrayWithCapacity:panelDicts.count];
-		for (NSDictionary *panelDict in panelDicts) 
-			[panelViews addObject:[self panelViewForDict:panelDict]];
-		self.panels = panelViews;
+		NSArray *panelDicts = [[self toolbarDict] objectForKey:@"KeyToolbar"];
+		NSMutableArray *pViews = [NSMutableArray arrayWithCapacity:panelDicts.count];
+		NSMutableArray *lViews = [NSMutableArray arrayWithCapacity:panelDicts.count];
+		for (NSDictionary *panelDict in panelDicts) {
+			[pViews addObject:[self panelViewForDict:panelDict isLandscape:NO]];
+			[lViews addObject:[self panelViewForDict:panelDict isLandscape:YES]];
+		}
+		self.landscapePanels = lViews;
+		self.portraitPanels = pViews;
+		self.panels = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]) ? lViews : pViews;
 		[self switchToPanel:self.panels.firstObject toTheLeft:YES];
 		UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToLeft:)];
 		leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -77,21 +84,33 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+-(NSDictionary*)toolbarDict
+{
+	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"KeyboardToolbar" ofType:@"plist"];
+	return [NSDictionary dictionaryWithContentsOfFile:filePath];
+}
+
 -(void)orientationDidChange:(NSNotification*)note
 {
 	CGRect r = self.buttonView.frame;
 	BOOL isLandscape = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
-	if (isLandscape)
+	if (isLandscape) {
 		r.size.width = 1014;
-	else
+		self.panels = self.landscapePanels;
+	} else {
 		r.size.width = 758;
-	self.buttonView.frame = r;
-	for (UIView *aView in self.currentPanel.subviews) {
-		if (![aView isKindOfClass:[KeyboardButton class]])
-			continue;
-		KeyboardButton *kbtn = (KeyboardButton*)aView;
-		kbtn.frame = isLandscape ? kbtn.landscapeFrame : kbtn.portraitFrame;
+		self.panels = self.portraitPanels;
 	}
+	[self.currentPanel removeFromSuperview];
+	self.currentPanel = nil;
+	[self switchToPanel:[self.panels objectAtIndex:self.currentPanelIndex] toTheLeft:YES];
+	self.buttonView.frame = r;
+//	for (UIView *aView in self.currentPanel.subviews) {
+//		if (![aView isKindOfClass:[KeyboardButton class]])
+//			continue;
+//		KeyboardButton *kbtn = (KeyboardButton*)aView;
+//		kbtn.frame = isLandscape ? kbtn.landscapeFrame : kbtn.portraitFrame;
+//	}
 }
 
 -(void)switchToPanelForFileExtension:(NSString*)fileExtension
@@ -147,20 +166,28 @@
 	self.currentPanelIndex = [self.panels indexOfObject:panel];
 }
 
--(ButtonPanel*)panelViewForDict:(NSDictionary*)dict
+-(ButtonPanel*)panelViewForDict:(NSDictionary*)dict isLandscape:(BOOL)isLandscape
 {
 	static dispatch_once_t onceToken;
 	static NSInteger sNextTag;
 	dispatch_once(&onceToken, ^{
 		sNextTag = 10000;
 	});
-	BOOL isLandscape = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
 	ButtonPanel *pview = [[ButtonPanel alloc] initWithFrame:self.view.bounds];
 	CGRect pRect = CGRectMake(6, 5, 56, 40);
 	CGRect lRect = CGRectMake(6, 5, 80, 40);
 	for (NSDictionary *btnDict in [dict objectForKey:@"Buttons"]) {
+		CGRect pframe = pRect;
+		CGRect lframe = lRect;
+		CGRect btnFrame = pframe;
 		if (nil == [btnDict objectForKey:@"Empty"]) {
-			CGRect btnFrame = isLandscape ? lRect : pRect;
+			if ([btnDict objectForKey:@"Double"]) {
+				pframe.size.width *= 2;
+				pframe.size.width += 13;
+				lframe.size.width *= 2;
+				lframe.size.width += 13;
+			}
+			btnFrame = isLandscape ? lframe : pframe;
 			KeyboardButton *btn = [self buttonWithFrame:btnFrame];
 			[btn setupWithDictionary:btnDict];
 			[btn setTitle:[btnDict objectForKey:@"Title"] forState:UIControlStateNormal];
@@ -169,8 +196,8 @@
 			btn.landscapeFrame = lRect;
 			[pview addSubview:btn];
 		}
-		pRect.origin.x += 13 + pRect.size.width;
-		lRect.origin.x += 13 + lRect.size.width;
+		pRect.origin.x += 13 + btnFrame.size.width;
+		lRect.origin.x += 13 + btnFrame.size.width;
 	}
 	pview.panelName = [dict objectForKey:@"Name"];
 	return pview;

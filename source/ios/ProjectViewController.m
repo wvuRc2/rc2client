@@ -32,7 +32,6 @@
 
 @implementation ProjectViewController {
 	BOOL _transitioning;
-	BOOL _doingInitialLoad;
 }
 
 -(id)init
@@ -70,10 +69,6 @@
 -(void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
-	if (![Rc2Server sharedInstance].loggedIn) {
-		_doingInitialLoad = YES;
-		[[MBProgressHUD showHUDAddedTo:self.view.window animated:YES] setLabelText:@"Loading Projects"];
-	}
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -90,10 +85,6 @@
 
 -(void)loginStatusChanged
 {
-	if (_doingInitialLoad) {
-		[MBProgressHUD hideAllHUDsForView:self.view.window animated:YES];
-		_doingInitialLoad = NO;
-	}
 	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	[self.collectionView reloadData];
 	self.projectButton.title = @"Logout";
