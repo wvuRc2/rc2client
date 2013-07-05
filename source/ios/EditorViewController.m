@@ -195,6 +195,30 @@
 	[self.richEditor rightArrow];
 }
 
+-(void)execute
+{
+	[self internalExecute:RCSessionExecuteOptionNone];
+	if (!self.externalKeyboardVisible)
+		[self.richEditor resignFirstResponder];
+}
+
+-(void)executeLine
+{
+	id<SessionEditor> editor = self.richEditor;
+	NSString *str = [[editor.string substringWithRange:[editor.string lineRangeForRange:editor.selectedRange]] stringByTrimmingWhitespace];
+	if ([str length] > 0)
+		[self.session executeScript:str scriptName:nil];
+	if (!self.externalKeyboardVisible)
+		[editor resignFirstResponder];
+}
+
+-(void)executeSource
+{
+	[self internalExecute:RCSessionExecuteOptionSource];
+	if (!self.externalKeyboardVisible)
+		[self.richEditor resignFirstResponder];
+}
+
 #pragma mark - meat & potatoes
 
 -(void)reloadFileData
@@ -426,11 +450,7 @@
 	self.currentAlert=nil;
 }
 
-
-
-#pragma mark - actions
-
--(IBAction)doExecute:(id)sender
+-(void)internalExecute:(RCSessionExecuteOptions)options
 {
 	if ([self.richEditor isEditorFirstResponder])
 		[self.richEditor resignFirstResponder];
@@ -438,9 +458,16 @@
 		[self executeBlockAfterSave:^{ [self.session executeSas:self.currentFile]; }];
 	} else {
 		[self executeBlockAfterSave:^{
-			[_session executeScriptFile:self.currentFile];
+			[_session executeScriptFile:self.currentFile options:options];
 		}];
 	}
+}
+
+#pragma mark - actions
+
+-(IBAction)doExecute:(id)sender
+{
+	[self internalExecute:RCSessionExecuteOptionNone];
 }
 
 -(void)loadFile:(RCFile*)file

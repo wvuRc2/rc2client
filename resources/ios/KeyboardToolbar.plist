@@ -199,7 +199,7 @@
 					<key>Double</key>
 					<true/>
 					<key>Selector</key>
-					<string>executeSource</string>
+					<string>execute</string>
 				</dict>
 				<dict>
 					<key>Title</key>
@@ -207,7 +207,7 @@
 					<key>Double</key>
 					<true/>
 					<key>Selector</key>
-					<string>execute</string>
+					<string>executeSource</string>
 				</dict>
 				<dict>
 					<key>Title</key>
