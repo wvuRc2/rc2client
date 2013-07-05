@@ -150,6 +150,7 @@
 		084B479D167A8B3D000A0A6F /* MLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245F515B5DCD70064A9FA /* MLReachability.m */; };
 		084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
 		084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
+		08541980178771DA008AF602 /* projwspaceJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0854197F178771DA008AF602 /* projwspaceJson.txt */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
@@ -560,6 +561,16 @@
 		08FF3D5416F278EE00F3E09E /* SendMailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D5316F278EE00F3E09E /* SendMailController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0854197D17876F34008AF602 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08D2431615B5D04D0064A9FA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 08D2461B15B5EBC20064A9FA;
+			remoteInfo = "Mac App";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		084593D615B5F09F00297C9D /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -767,6 +778,7 @@
 		084B47921677DF98000A0A6F /* addDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addDown.png; sourceTree = "<group>"; };
 		084D39B51627300F00B8A06B /* RCDataFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDataFrame.h; sourceTree = "<group>"; };
 		084D39B61627300F00B8A06B /* RCDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDataFrame.m; sourceTree = "<group>"; };
+		0854197F178771DA008AF602 /* projwspaceJson.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = projwspaceJson.txt; sourceTree = "<group>"; };
 		086CC4B5167122C7004356F6 /* RCFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFileContainer.h; sourceTree = "<group>"; };
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
@@ -2226,6 +2238,7 @@
 			children = (
 				08D248C5176A498A00D71F02 /* CoreUnitTests-Info.plist */,
 				08D248C6176A498A00D71F02 /* InfoPlist.strings */,
+				0854197F178771DA008AF602 /* projwspaceJson.txt */,
 				08D248CC176A498A00D71F02 /* CoreUnitTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -2495,6 +2508,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				0854197E17876F34008AF602 /* PBXTargetDependency */,
 			);
 			name = CoreUnitTests;
 			productName = CoreUnitTests;
@@ -2769,6 +2783,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08D248C8176A498A00D71F02 /* InfoPlist.strings in Resources */,
+				08541980178771DA008AF602 /* projwspaceJson.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3193,6 +3208,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0854197E17876F34008AF602 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 08D2461B15B5EBC20064A9FA /* Mac App */;
+			targetProxy = 0854197D17876F34008AF602 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		084593FE15B5F20100297C9D /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
@@ -3539,7 +3562,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app";
+				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app/Contents/MacOS/Rc2";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3566,7 +3589,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app";
+				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app/Contents/MacOS/Rc2";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3593,7 +3616,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app";
+				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app/Contents/MacOS/Rc2";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
