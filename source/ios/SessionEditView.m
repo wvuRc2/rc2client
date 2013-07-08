@@ -7,6 +7,8 @@
 //
 
 #import "SessionEditView.h"
+#import <objc/runtime.h>
+#import <objc/message.h>
 
 @implementation SessionEditView
 
@@ -118,14 +120,17 @@
 	return self.isFirstResponder;
 }
 
--(BOOL)inputAccessoryVisible
+-(void)becomeFirstResponder
 {
-	return self.inputAccessoryView.hidden;
-}
+	//this is a skanky hack using private API. There appears to be no other way to hide the accessory
+	// view once keyboard notifications are received.
+	Class cz = NSClassFromString(@"UIKeyboardImpl");
+	id keybd = objc_msgSend(cz, NSSelectorFromString(@"sharedInstance"));
+	id val = [keybd valueForKey:@"inHardwareKeyboardMode"];
+	if ([val boolValue])
+		self.inputAccessoryView = nil;
 
--(void)setInputAccessoryVisible:(BOOL)inputAccessoryVisible
-{
-	self.inputAccessoryView.hidden = inputAccessoryVisible;
+	[super becomeFirstResponder];
 }
 
 -(NSString*)string
@@ -152,6 +157,7 @@
 	else
 		self.text = attributedString.string;
 }
+
 
 @synthesize helpBlock;
 @synthesize executeBlock;

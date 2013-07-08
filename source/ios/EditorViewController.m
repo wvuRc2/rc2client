@@ -85,7 +85,6 @@
 	} else if (keyframe.origin.y + self.keyboardToolbar.view.frame.size.height > 1000) {
 		self.externalKeyboardVisible = YES;
 	}
-	self.richEditor.inputAccessoryVisible = self.externalKeyboardVisible;
 }
 
 
@@ -93,6 +92,7 @@
 {
 	self.currentFile.localEdits = self.richEditor.string;
 	[self updateDocumentState];
+	self.richEditor.inputAccessoryView = self.keyboardToolbar.view;
 }
 
 #pragma mark - View lifecycle

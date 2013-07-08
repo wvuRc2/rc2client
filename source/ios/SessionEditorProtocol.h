@@ -12,7 +12,6 @@
 
 @property (nonatomic, copy) NSString *string;
 @property (nonatomic, copy) NSAttributedString *attributedString;
-@property (nonatomic, assign) BOOL inputAccessoryVisible;
 
 @property (nonatomic, copy) void (^helpBlock)(id<SessionEditor> editView);
 @property (nonatomic, copy) void (^executeBlock)(id<SessionEditor> editView);
