@@ -28,8 +28,8 @@
 	NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:self.testJson options:0 error:&err];
 	STAssertNotNil(jsonDict, @"failed to parse test json:%@", err);
 	NSArray *projects = [RCProject projectsForJsonArray:[jsonDict objectForKey:@"projects"] includeAdmin:NO];
-	STAssertEquals(projects.count, 1, @"inaccruate number of projects:%d", projects.count);
-	STAssertEqualObjects(@"Cornocopia", [projects[0] objectForKey:@"name"], @"incorrect project name");
+	STAssertTrue(projects.count == 1, @"inaccruate number of projects:%d", projects.count);
+	STAssertEqualObjects(@"Cornocopia", [projects[0] name], @"incorrect project name");
 }
 
 @end
