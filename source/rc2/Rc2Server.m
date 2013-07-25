@@ -557,7 +557,7 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 			error:(NSError *__autoreleasing *)outError
 {
 	NSString *path = [NSString stringWithFormat:@"file/%@", file.fileId];
-	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"POST" path:path parameters:nil
+	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"PUT" path:path parameters:nil
 												 constructingBodyWithBlock:^(id <AFMultipartFormData>formData)
 	{
 		[formData appendPartWithFileURL:contentsFileUrl name:@"content" error:outError];

@@ -10,6 +10,8 @@
 #import "RCWorkspace.h"
 #import "RCFile.h"
 #import "Rc2Server.h"
+#import "DropBlocks.h"
+#import "RC2LoopQueue.h"
 
 typedef NS_ENUM(NSUInteger, SyncState) {
 	kCachingRc2Files,
@@ -67,10 +69,11 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 		NSString *rev = [[dbmd objectForKey:obj.name.lowercaseString] rev];
 		if (nil == rev)
 			rev = @"";
+		ZAssert([obj name], @"file with no name");
 		[a addObject:@{@"name":[obj name], @"lastMod":[NSNumber numberWithLongLong:obj.lastModified.timeIntervalSince1970 * 1000], @"filesize":obj.fileSize, @"dbrev":rev}];
 	}];
 	NSString *json = [a JSONRepresentation];
-	ZAssert(json.length > 2, @"failed to serializae to json");
+	ZAssert(json.length > 2, @"failed to serialize to json");
 	return json;
 }
 
@@ -173,7 +176,7 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 				//not in db or rc2. guess that counts as deletion
 			}
 		} else if (![[hitem objectForKey:@"dbrev"] isEqualToString:filemd.rev]) {
-			//todo: handle change in poth`
+			//TODO: handle change in poth`
 			[addToRc2 addObject:fname];
 		}
 		//each loop we rmove files handled
@@ -182,9 +185,87 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 		if (filemd)
 			[dbox removeObjectForKey:fname];
 	}
-	//TODO: files in wsfiles need to go to db
-	//TODO: files in dbox need to go to rc2
-	//TODO: only add once if both have a new file
+	for (NSString *delfname in deleteFromDB) {
+		Rc2LogInfo(@"deleting %@ from dropbox", delfname);
+		[self.client deletePath:[self.wspace.dropboxPath stringByAppendingPathComponent:delfname]];
+	}
+	//need to load any new db files being uploaded to rc2
+	if (addToRc2.count > 0) {
+		RC2LoopQueue *dbuploadq = [[RC2LoopQueue alloc] initWithObjectArray:addToRc2 task:^(NSString *fname) {
+			NSString *fpath = [_tmpPath stringByAppendingPathComponent:fname];
+			if (![[NSFileManager defaultManager] fileExistsAtPath:fpath]) {
+				__block NSCondition *dblock = [[NSCondition alloc] init];
+				__block NSInteger dcnt=1;
+				dispatch_sync(dispatch_get_main_queue(), ^{
+					[DropBlocks loadFile:[self.wspace.dropboxPath stringByAppendingPathComponent:fname] intoPath:fpath
+						 completionBlock:^(NSString *contentType, DBMetadata *metadata, NSError *error)
+					 {
+						 if (error) {
+							 [self.syncDelegate dbsync:self syncComplete:NO error:error];
+						 } else {
+							 NSLog(@"downloaded %@ for upload to rc2", fname);
+						 }
+						 [dblock lock];
+						 dcnt = 0;
+						 [dblock signal];
+						 [dblock unlock];
+					 } progressBlock:^(CGFloat prog) {
+						 
+					 }];
+				});
+				[dblock lock];
+				while (dcnt > 0)
+					[dblock wait];
+				[dblock unlock];
+			}
+		}];
+		dbuploadq.completionHandler = ^(id foo) {
+			[self regSyncPhase2:addToDB forRc2:addToRc2];
+		};
+		[dbuploadq startTasks];
+	} else {
+		[self regSyncPhase2:addToDB forRc2:addToRc2];
+	}
+}
+
+-(void)regSyncPhase2:(NSMutableArray*)addToDB forRc2:(NSMutableArray*)addToRc2
+{
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		//add files to rc2
+		for (NSString *rcfname in addToRc2) {
+			Rc2LogInfo(@"adding %@ to rc", rcfname);
+			NSURL *furl = [NSURL fileURLWithPath:[self.tmpPath stringByAppendingPathComponent:rcfname]];
+			if (![[NSFileManager defaultManager] fileExistsAtPath:furl.path])
+				Rc2LogError(@"db file isn't cached");
+			NSError *err=nil;
+			RCFile *efile = [self.wspace fileWithName:rcfname];
+			if (efile.existsOnServer) {
+				if ([[Rc2Server sharedInstance] updateFile:efile withContents:furl workspace:self.wspace error:&err]) {
+					NSLog(@"uploaded %@ to rc2", rcfname);
+				} else {
+					NSLog(@"error updating %@ via sync:%@", rcfname, err);
+					[self.syncDelegate dbsync:self syncComplete:NO error:err];
+					return;
+				}
+			} else {
+				//synchronous call
+				[[Rc2Server sharedInstance] importFile:furl fileName:rcfname toContainer:self.wspace error:&err];
+				if (err) {
+					Rc2LogError(@"error syncing %@ to rc2:%@", rcfname, err);
+					[self.syncDelegate dbsync:self syncComplete:NO error:err];
+					return;
+				} else {
+					NSLog(@"uploaded %@ to rc2", rcfname);
+				}
+			}
+		}
+		//TODO: add files to db
+		for (NSString *dbfname in addToDB) {
+			Rc2LogInfo(@"adding %@ to db", dbfname);
+		}
+		Rc2LogInfo(@"regular sync complete");
+		[self syncSuccessful];
+	});
 }
 
 -(void)lookForConflicts
@@ -228,6 +309,7 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 {
 	self.state = kUploadingToDropbox;
 	for (RCFile *file in self.wspace.files) {
+		Rc2LogInfo(@"uploading %@ to dropbox", file.name);
 		++_filesUploadingToDB;
 		if ([_fm fileExistsAtPath:file.fileContentsPath])
 			[self.client uploadFile:file.name toPath:self.wspace.dropboxPath withParentRev:nil fromPath:file.fileContentsPath];
@@ -323,6 +405,12 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 {
 	Rc2LogError(@"dropbox error syncing workspace:%@", error);
 	[self.syncDelegate dbsync:self syncComplete:NO error:error];
+}
+
+-(void)lsTmp
+{
+	for (NSString *aFile in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_tmpPath error:nil])
+		NSLog(@"%@", aFile);
 }
 
 @end

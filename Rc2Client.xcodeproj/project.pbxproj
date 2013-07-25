@@ -154,6 +154,10 @@
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
+		08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
+		08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
+		08ADBE2717A06C9F0004A89C /* RC2LoopQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */; };
+		08ADBE2817A06C9F0004A89C /* RC2LoopQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */; };
 		08B3477E175D2C4000B86FD2 /* no.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B3477C175D2C4000B86FD2 /* no.png */; };
 		08B3477F175D2C4000B86FD2 /* no@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B3477D175D2C4000B86FD2 /* no@2x.png */; };
 		08B74C2B1635C08800083F9A /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2A1635C08800083F9A /* RCMatrix.m */; };
@@ -466,7 +470,6 @@
 		08E49223166E7834005E83DE /* MCSessionFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E49222166E7834005E83DE /* MCSessionFileController.m */; };
 		08E63B3D1773824D005BB3BB /* DropboxSyncSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */; };
 		08E63B411773A0BA005BB3BB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E63B401773A0B9005BB3BB /* DropboxSDK.framework */; };
-		08E63B441774E3C5005BB3BB /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B431774E3C5005BB3BB /* DropBlocks.m */; };
 		08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B461774E409005BB3BB /* RCDropboxSync.m */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
@@ -783,6 +786,10 @@
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBE15DD500D00EF28F1 /* Rnw.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rnw.icns; path = resources/mac/Rnw.icns; sourceTree = SOURCE_ROOT; };
+		08ADBE2117A054B40004A89C /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = source/DropBlocks.h; sourceTree = "<group>"; };
+		08ADBE2217A054B40004A89C /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = source/DropBlocks.m; sourceTree = "<group>"; };
+		08ADBE2517A06C9F0004A89C /* RC2LoopQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RC2LoopQueue.h; sourceTree = "<group>"; };
+		08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RC2LoopQueue.m; sourceTree = "<group>"; };
 		08B3477C175D2C4000B86FD2 /* no.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = no.png; path = resources/mac/no.png; sourceTree = SOURCE_ROOT; };
 		08B3477D175D2C4000B86FD2 /* no@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no@2x.png"; path = "resources/mac/no@2x.png"; sourceTree = SOURCE_ROOT; };
 		08B74C291635C08800083F9A /* RCMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMatrix.h; sourceTree = "<group>"; };
@@ -1161,8 +1168,6 @@
 		08E63B3B1773824D005BB3BB /* DropboxSyncSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxSyncSettingController.h; sourceTree = "<group>"; };
 		08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxSyncSettingController.m; sourceTree = "<group>"; };
 		08E63B401773A0B9005BB3BB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		08E63B421774E3C4005BB3BB /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = source/DropBlocks.h; sourceTree = "<group>"; };
-		08E63B431774E3C5005BB3BB /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = source/DropBlocks.m; sourceTree = "<group>"; };
 		08E63B451774E409005BB3BB /* RCDropboxSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDropboxSync.h; sourceTree = "<group>"; };
 		08E63B461774E409005BB3BB /* RCDropboxSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDropboxSync.m; sourceTree = "<group>"; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
@@ -1965,8 +1970,8 @@
 				08D245F515B5DCD70064A9FA /* MLReachability.m */,
 				083AAEE6162CA73E0037AAB3 /* MAKVONotificationCenter.h */,
 				083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */,
-				08E63B421774E3C4005BB3BB /* DropBlocks.h */,
-				08E63B431774E3C5005BB3BB /* DropBlocks.m */,
+				08ADBE2117A054B40004A89C /* DropBlocks.h */,
+				08ADBE2217A054B40004A89C /* DropBlocks.m */,
 				08FF3D0316E9250900F3E09E /* ThemeEngine.h */,
 				08FF3D0416E9250900F3E09E /* ThemeEngine.m */,
 				08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */,
@@ -2093,6 +2098,8 @@
 				08D2459815B5DBB70064A9FA /* model */,
 				08E63B451774E409005BB3BB /* RCDropboxSync.h */,
 				08E63B461774E409005BB3BB /* RCDropboxSync.m */,
+				08ADBE2517A06C9F0004A89C /* RC2LoopQueue.h */,
+				08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */,
 			);
 			name = rc2;
 			path = source/rc2;
@@ -3053,8 +3060,9 @@
 				08FF3D4D16F10E1900F3E09E /* GradientView.mm in Sources */,
 				08FF3D5416F278EE00F3E09E /* SendMailController.m in Sources */,
 				08E63B3D1773824D005BB3BB /* DropboxSyncSettingController.m in Sources */,
-				08E63B441774E3C5005BB3BB /* DropBlocks.m in Sources */,
 				08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */,
+				08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */,
+				08ADBE2717A06C9F0004A89C /* RC2LoopQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3195,6 +3203,8 @@
 				0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */,
 				0847FDAC175D30AF00D950EA /* MCTableRowView.m in Sources */,
 				0847FDC717679F6F00D950EA /* MASPreferencesWindowController.m in Sources */,
+				08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */,
+				08ADBE2817A06C9F0004A89C /* RC2LoopQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
