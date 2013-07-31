@@ -24,6 +24,7 @@
 #import <HockeySDK/BITCrashReportManagerDelegate.h>
 #import <HockeySDK/HockeySDK.h>
 #import "MASPreferencesWindowController.h"
+#import <DropboxOSX/DropboxOSX.h>
 
 #define kPref_LastLoginString @"LastLoginString"
 #define kPref_StartInFullScreen @"StartInFullScreen"
@@ -74,6 +75,17 @@
 	[[BITHockeyManager sharedHockeyManager] startManager];
 #endif
 
+	DBSession *session = [[DBSession alloc] initWithAppKey:@"663yb1illxbs5rl"
+												 appSecret:@"on576o50uxrjxhj"
+													  root:kDBRootDropbox];
+	[DBSession setSharedSession:session];
+	NSAppleEventManager *appleEventManager = [NSAppleEventManager sharedAppleEventManager];// 1
+	[appleEventManager setEventHandler:self
+						   andSelector:@selector(handleGetURLEvent:withReplyEvent:)
+						 forEventClass:kInternetEventClass
+							andEventID:kAEGetURL];
+
+	
 	NSString *fileCache = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:fileCache])
 		[[NSFileManager defaultManager] createDirectoryAtPath:fileCache withIntermediateDirectories:YES attributes:nil error:nil];
@@ -153,6 +165,14 @@
 		[[NSNotificationCenter defaultCenter] removeObserver:self 
 														name:NSWindowWillCloseNotification 
 													  object:self.mainWindowController.window];
+	}
+}
+
+-(void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
+{
+	NSString* url = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
+	if ([url hasPrefix:@"db-:"]) {
+		[NSApp activate];
 	}
 }
 

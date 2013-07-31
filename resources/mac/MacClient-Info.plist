@@ -20,6 +20,17 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Rc2</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>db-663yb1illxbs5rl</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>145</string>
 	<key>LSMinimumSystemVersion</key>

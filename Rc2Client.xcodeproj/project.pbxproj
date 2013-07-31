@@ -153,6 +153,10 @@
 		08541980178771DA008AF602 /* projwspaceJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0854197F178771DA008AF602 /* projwspaceJson.txt */; };
 		085C6EF817A99DE80085DE88 /* DropboxOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085C6EF717A99DE80085DE88 /* DropboxOSX.framework */; };
 		085C6EF917A99E370085DE88 /* DropboxOSX.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 085C6EF717A99DE80085DE88 /* DropboxOSX.framework */; };
+		085E3C4417A9A832005C523F /* dropbox-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4017A9A832005C523F /* dropbox-logo.png */; };
+		085E3C4517A9A832005C523F /* dropbox-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4117A9A832005C523F /* dropbox-logo@2x.png */; };
+		085E3C4617A9A832005C523F /* dropbox-long.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4217A9A832005C523F /* dropbox-long.png */; };
+		085E3C4717A9A832005C523F /* dropbox-long@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4317A9A832005C523F /* dropbox-long@2x.png */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
@@ -786,6 +790,10 @@
 		084D39B61627300F00B8A06B /* RCDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDataFrame.m; sourceTree = "<group>"; };
 		0854197F178771DA008AF602 /* projwspaceJson.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = projwspaceJson.txt; sourceTree = "<group>"; };
 		085C6EF717A99DE80085DE88 /* DropboxOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxOSX.framework; path = ../Debug/DropboxOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		085E3C4017A9A832005C523F /* dropbox-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropbox-logo.png"; path = "resources/mac/dropbox-logo.png"; sourceTree = SOURCE_ROOT; };
+		085E3C4117A9A832005C523F /* dropbox-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropbox-logo@2x.png"; path = "resources/mac/dropbox-logo@2x.png"; sourceTree = SOURCE_ROOT; };
+		085E3C4217A9A832005C523F /* dropbox-long.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropbox-long.png"; path = "resources/mac/dropbox-long.png"; sourceTree = SOURCE_ROOT; };
+		085E3C4317A9A832005C523F /* dropbox-long@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropbox-long@2x.png"; path = "resources/mac/dropbox-long@2x.png"; sourceTree = SOURCE_ROOT; };
 		086CC4B5167122C7004356F6 /* RCFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFileContainer.h; sourceTree = "<group>"; };
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
@@ -1442,6 +1450,10 @@
 				0845941715B5F22700297C9D /* syncArrows.png */,
 				0845941815B5F22700297C9D /* syncArrowsSelected.png */,
 				0845941915B5F22700297C9D /* webback.png */,
+				085E3C4017A9A832005C523F /* dropbox-logo.png */,
+				085E3C4117A9A832005C523F /* dropbox-logo@2x.png */,
+				085E3C4217A9A832005C523F /* dropbox-long.png */,
+				085E3C4317A9A832005C523F /* dropbox-long@2x.png */,
 			);
 			name = "mac resources";
 			sourceTree = "<group>";
@@ -2788,6 +2800,10 @@
 				08B3477E175D2C4000B86FD2 /* no.png in Resources */,
 				08B3477F175D2C4000B86FD2 /* no@2x.png in Resources */,
 				0847FDC617679F6F00D950EA /* MASPreferencesWindow.xib in Resources */,
+				085E3C4417A9A832005C523F /* dropbox-logo.png in Resources */,
+				085E3C4517A9A832005C523F /* dropbox-logo@2x.png in Resources */,
+				085E3C4617A9A832005C523F /* dropbox-long.png in Resources */,
+				085E3C4717A9A832005C523F /* dropbox-long@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
