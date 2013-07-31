@@ -82,10 +82,13 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 	self.client = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
 	self.client.delegate = self;
 	self.state = kCachingRc2Files;
+	_filesDloadingFromRc2 = 0;
+	NSInteger totFiles=0;
 	//make sure all files are cached locally
 	for (RCFile *file in self.wspace.files) {
 		if (![_fm fileExistsAtPath:file.fileContentsPath]) {
 			_filesDloadingFromRc2++;
+			totFiles++;
 			[file updateContentsFromServer:^(NSInteger success) {
 				if (success) {
 					NSLog(@"cached %@", file.name);
@@ -96,10 +99,13 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 			}];
 		}
 	}
+	if (totFiles < 1)
+		[self preflightComplete];
 }
 
 -(void)preflightComplete
 {
+	NSLog(@"preflight complete");
 	//dropbox only works on main thread
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSString *dbpath = self.wspace.dropboxPath;

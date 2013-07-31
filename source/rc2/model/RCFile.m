@@ -237,8 +237,8 @@
 
 -(BOOL)contentsLoaded
 {
-	if (self.isTextFile)
-		return nil != self.cachedContent;
+	if (self.isTextFile && self.cachedContent)
+		return YES;
 	return [[NSFileManager defaultManager] fileExistsAtPath:self.fileContentsPath];
 }
 

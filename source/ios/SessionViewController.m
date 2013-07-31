@@ -498,11 +498,14 @@
 
 -(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted
 {
-	if (deleted) {
-		[self.editorController reloadFileData];
-		[self.editorController loadFile:self.session.workspace.files.firstObject];
-	} else if (file.fileId.intValue == self.editorController.currentFile.fileId.intValue) {
-		[self.editorController loadFile:file];
+	//ignore updates while syncing files, as we are making the changes
+	if (nil == self.dbsync) {
+		if (deleted) {
+			[self.editorController reloadFileData];
+			[self.editorController loadFile:self.session.workspace.files.firstObject];
+		} else if (file.fileId.intValue == self.editorController.currentFile.fileId.intValue) {
+			[self.editorController loadFile:file];
+		}
 	}
 }
 
