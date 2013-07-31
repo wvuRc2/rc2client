@@ -287,7 +287,7 @@
 	} else if (action == @selector(saveFileEdits:)) {
 		return selFile.isTextFile && ![self.editView.string isEqualToString:selFile.currentContents];
 	} else if (action == @selector(revert:)) {
-		return selFile.isTextFile && ![self.editView.string isEqualToString:selFile.fileContents];
+		return selFile.isTextFile && selFile.locallyModified;
 	} else if (action == @selector(toggleUsers:)) {
 		return YES;
 	} else if (action == @selector(changeMode:)) {
@@ -554,7 +554,7 @@
 {
 	RCFile *selFile = self.editorFile;
 	if (selFile.isTextFile)
-		[self setEditViewTextWithHighlighting:[NSAttributedString attributedStringWithString:selFile.fileContents attributes:nil]];
+		[self setEditViewTextWithHighlighting:[NSAttributedString attributedStringWithString:selFile.currentContents attributes:nil]];
 }
 
 -(IBAction)showImageDetails:(id)sender
@@ -738,7 +738,7 @@
 	RCFile *file = [RCFile insertInManagedObjectContext:moc];
 	RCWorkspace *wspace = self.session.workspace;
 	file.name = fileName;
-	file.fileContents = @" ";
+	file.localEdits = @" ";
 	[wspace addFile:file];
 	self.statusMessage = [NSString stringWithFormat:@"Sending %@ to server…", file.name];
 	self.busy=YES;
@@ -918,7 +918,7 @@
 	if (oldFile) {
 		if (oldFile.readOnlyValue)
 			;
-		else if ([oldFile.fileContents isEqualToString:self.editView.string])
+		else if ([oldFile.currentContents isEqualToString:self.editView.string])
 			[oldFile setLocalEdits:nil];
 		else
 			[oldFile setLocalEdits:self.editView.string];

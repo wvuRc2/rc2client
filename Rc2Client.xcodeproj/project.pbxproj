@@ -151,6 +151,8 @@
 		084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
 		084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
 		08541980178771DA008AF602 /* projwspaceJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0854197F178771DA008AF602 /* projwspaceJson.txt */; };
+		085C6EF817A99DE80085DE88 /* DropboxOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085C6EF717A99DE80085DE88 /* DropboxOSX.framework */; };
+		085C6EF917A99E370085DE88 /* DropboxOSX.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 085C6EF717A99DE80085DE88 /* DropboxOSX.framework */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
@@ -583,6 +585,7 @@
 			files = (
 				084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */,
 				084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */,
+				085C6EF917A99E370085DE88 /* DropboxOSX.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -782,6 +785,7 @@
 		084D39B51627300F00B8A06B /* RCDataFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDataFrame.h; sourceTree = "<group>"; };
 		084D39B61627300F00B8A06B /* RCDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDataFrame.m; sourceTree = "<group>"; };
 		0854197F178771DA008AF602 /* projwspaceJson.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = projwspaceJson.txt; sourceTree = "<group>"; };
+		085C6EF717A99DE80085DE88 /* DropboxOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxOSX.framework; path = ../Debug/DropboxOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		086CC4B5167122C7004356F6 /* RCFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFileContainer.h; sourceTree = "<group>"; };
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
@@ -1326,6 +1330,7 @@
 				08D2461F15B5EBC20064A9FA /* Cocoa.framework in Frameworks */,
 				084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */,
 				082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */,
+				085C6EF817A99DE80085DE88 /* DropboxOSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2205,6 +2210,7 @@
 		08D2468115B5EF770064A9FA /* Mac Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				085C6EF717A99DE80085DE88 /* DropboxOSX.framework */,
 				082CEE8E161C8C8900E01F48 /* FScript.framework */,
 				084593D415B5F09500297C9D /* HockeySDK.framework */,
 				08D2468215B5EFCE0064A9FA /* Vyana.framework */,
@@ -3476,6 +3482,7 @@
 					"\"$(SRCROOT)/3rdParty/HockeySDK-Mac\"",
 					"$(BUILT_PRODUCTS_DIR)",
 					"\"$(SRCROOT)/3rdParty\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3512,6 +3519,7 @@
 					"\"$(SRCROOT)/3rdParty/HockeySDK-Mac\"",
 					"$(BUILT_PRODUCTS_DIR)",
 					"\"$(SRCROOT)/3rdParty\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3547,6 +3555,7 @@
 					"\"$(SRCROOT)/3rdParty/HockeySDK-Mac\"",
 					"$(BUILT_PRODUCTS_DIR)",
 					"\"$(SRCROOT)/3rdParty\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
