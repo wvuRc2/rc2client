@@ -6,8 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+#import <DropboxOSX/DropboxOSX.h>
+#import <DropboxOSX/DBDeltaEntry.h>
+#else
 #import <DropboxSDK/DropboxSDK.h>
 #import <DropboxSDK/DBDeltaEntry.h>
+#endif
 
 typedef void (^LoadMetadataCallback)(DBMetadata *metadata, NSError *error);
 typedef void (^LoadDeltaCallback)(NSArray *entries, BOOL shouldReset, NSString *cursor, BOOL hasMore, NSError *error);

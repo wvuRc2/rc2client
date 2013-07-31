@@ -224,7 +224,7 @@
 		[fm removeItemAtPath:newPath error:nil];
 	if (file.contentsLoaded) {
 		if (![fm fileExistsAtPath:file.fileContentsPath]) {
-			if (![file.fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
+			if (![file.currentContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
 				Rc2LogError(@"failed to write web tmp file:%@", err);
 		} else if (![fm copyItemAtPath:file.fileContentsPath toPath:newPath error:&err]) {
 			Rc2LogError(@"error copying file:%@", err);
@@ -233,7 +233,7 @@
 	} else {
 		[file updateContentsFromServer:^(NSInteger success){
 			if (success) {
-				if ([file.fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
+				if ([file.currentContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
 					[self loadFileUrl:[NSURL fileURLWithPath:newPath]];
 				else
 					Rc2LogError(@"failed to write web tmp file:%@", err);
