@@ -28,20 +28,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A73F89BF1754AD2C00E5CAA3"
-               BuildableName = "DTRichTextEditor.framework"
-               BlueprintName = "Static Framework"
-               ReferencedContainer = "container:Dependencies/dtrichtexteditor/DTRichTextEditor.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "08D2431E15B5D04D0064A9FA"
                BuildableName = "Rc&#178;.app"
                BlueprintName = "iPad App"

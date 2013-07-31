@@ -11,6 +11,7 @@
 #import "Rc2FileType.h"
 
 @interface RCFile()
+@property (nonatomic, copy) NSString *cachedContent;
 @property (nonatomic, readwrite) Rc2FileType *fileType;
 @property (nonatomic, readwrite) BOOL locallyModified;
 @property (nonatomic, strong) NSMutableDictionary *attrCache;
@@ -44,7 +45,6 @@
 	self.name = [dict objectForKey:@"name"];
 	self.sizeString = [dict objectForKey:@"friendlySize"];
 	self.versionValue = [[dict objectForKey:@"version"] intValue];
-	self.isAssignmentFileValue = [[dict objectForKey:@"assignmentFile"] boolValue];
 	self.fileSize = [dict objectForKey:@"filesize"];
 
 	//fire off fetching the contets if we don't have them
@@ -59,16 +59,16 @@
 
 	NSDate *lm = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"lastmodified"] longLongValue]/1000];
 	//flush contents if file has been updated
-	if (lm.timeIntervalSinceNow > self.lastModified.timeIntervalSinceNow) {
+	if (!self.savingToServer && lm.timeIntervalSinceReferenceDate > self.lastModified.timeIntervalSinceReferenceDate) {
 		[[NSFileManager defaultManager] removeItemAtPath:self.fileContentsPath error:nil];
-		self.fileContents=nil;
+		self.cachedContent=nil;
 		//FIXME: we are dumping uer's local edits. we should probably ask them something
 		self.localEdits=nil;
 	}
 	self.lastModified = lm;
 	if (!self.isInserted && [lm timeIntervalSince1970] > [self.localLastModified timeIntervalSince1970]) {
 		//this case should likely never happen
-		self.fileContents=nil;
+		self.cachedContent=nil;
 		self.lastModified = lm;
 		self.localEdits=nil;
 	}
@@ -83,14 +83,19 @@
 	if (self.isTextFile) {
 		[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id results) {
 			if (success) {
-				self.fileContents = [NSString stringWithContentsOfFile:self.fileContentsPath encoding:NSUTF8StringEncoding error:nil];
-				AMFileSizeTransformer *trans = [[AMFileSizeTransformer alloc] init];
-				self.sizeString = [trans transformedValue:[NSNumber numberWithLong:[self.fileContents length]]];
-				NSFileManager *fm = [[NSFileManager alloc] init];
 				NSError *err=nil;
+				NSURL *fileUrl = [NSURL fileURLWithPath:self.fileContentsPath];
+				NSNumber *fsize;
+				if (![fileUrl getResourceValue:&fsize forKey:NSURLFileSizeKey error:&err]) {
+					Rc2LogWarn(@"failed to get file size for %@:%@", self.name, err);
+				}
+				self.fileSize = fsize;
+				AMFileSizeTransformer *trans = [[AMFileSizeTransformer alloc] init];
+				self.sizeString = [trans transformedValue:fsize];
+				NSFileManager *fm = [[NSFileManager alloc] init];
 				[fm setAttributes:@{NSFileCreationDate:self.lastModified, NSFileModificationDate:self.lastModified} ofItemAtPath:self.fileContentsPath error:&err];
 				if (err)
-					NSLog(@"got error:%@", err);
+					NSLog(@"got error setting file attrs:%@", err);
 				hblock(YES);
 			} else {
 				Rc2LogError(@"error fetching content for file %@", self.fileId);
@@ -110,6 +115,7 @@
 {
 	self.localEdits=nil;
 	self.localLastModified=nil;
+	self.cachedContent=nil;
 }
 
 #pragma mark - core data overrides
@@ -142,7 +148,7 @@
 -(void)willSave
 {
 	[super willSave];
-	if ([self.fileContents isEqualToString:self.localEdits])
+	if ([self.cachedContent isEqualToString:self.localEdits])
 		self.localEdits=nil;
 }
 
@@ -159,15 +165,16 @@
 {
 	[super didSave];
 	self.locallyModified = self.localEdits.length > 0;
-	if (self.fileContents)
-		[self.fileContents writeToFile:self.fileContentsPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+	//FIXME: this is overblown
+	if (self.cachedContent && nil == self.localEdits)
+		[self.cachedContent writeToFile:self.fileContentsPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
 -(void)setLocalEdits:(NSString *)edits
 {
 	if (!self.isTextFile)
 		return;
-	if ([edits isEqualToString:self.fileContents])
+	if (self.cachedContent && [edits isEqualToString:self.cachedContent])
 		edits = nil;
 	[self willChangeValueForKey:@"localEdits"];
 	[self setPrimitiveLocalEdits:[edits copy]];
@@ -176,17 +183,6 @@
 		self.localLastModified = [NSDate date];
 	else
 		self.localLastModified = nil;
-	self.locallyModified = self.localEdits.length > 0;
-}
-
--(void)setFileContents:(NSString *)ftext
-{
-	if (!self.isTextFile)
-		return;
-	[self willChangeValueForKey:@"fileContents"];
-	[self setPrimitiveFileContents:[ftext copy]];
-	[self didChangeValueForKey:@"fileContents"];
-	self.localEdits = ftext; //will clear them if the same
 	self.locallyModified = self.localEdits.length > 0;
 }
 
@@ -242,7 +238,7 @@
 -(BOOL)contentsLoaded
 {
 	if (self.isTextFile)
-		return nil != self.fileContents;
+		return nil != self.cachedContent;
 	return [[NSFileManager defaultManager] fileExistsAtPath:self.fileContentsPath];
 }
 
@@ -254,19 +250,23 @@
 		return nil;
 	if ([self.localEdits length] > 0)
 		return self.localEdits;
-	if (!self.existsOnServer && nil == self.fileContents)
-		self.fileContents = @"\n";
-	if (nil == self.fileContents) {
+	if (!self.existsOnServer && nil == self.cachedContent)
+		self.cachedContent = @"\n";
+	if (nil == self.cachedContent) {
 		//we need to load our file contents. first, see if they exist on the file system
 		NSString *cacheContents = [NSString stringWithContentsOfFile:self.fileContentsPath encoding:NSUTF8StringEncoding error:nil];
 		if (nil == cacheContents) {
 			//load synchronously from server
 			cacheContents = [[Rc2Server sharedInstance] fetchFileContentsSynchronously:self];
+			if (cacheContents)
+				[cacheContents writeToFile:self.fileContentsPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 		}
-		self.fileContents = cacheContents;
+		//only cache if less than 10K
+		if (cacheContents.length < 10240)
+			self.cachedContent = cacheContents;
 		return cacheContents;
 	}
-	return self.fileContents;
+	return self.cachedContent;
 }
 
 -(BOOL)existsOnServer
@@ -303,4 +303,6 @@
 @synthesize attrCache;
 @synthesize locallyModified;
 @synthesize container;
+@synthesize cachedContent;
+@synthesize savingToServer;
 @end

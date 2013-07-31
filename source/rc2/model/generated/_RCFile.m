@@ -12,9 +12,7 @@
 
 const struct RCFileAttributes RCFileAttributes = {
 	.endDate = @"endDate",
-	.fileContents = @"fileContents",
 	.fileId = @"fileId",
-	.isAssignmentFile = @"isAssignmentFile",
 	.lastModified = @"lastModified",
 	.localAttributes = @"localAttributes",
 	.localEdits = @"localEdits",
@@ -23,7 +21,6 @@ const struct RCFileAttributes RCFileAttributes = {
 	.readOnly = @"readOnly",
 	.sizeString = @"sizeString",
 	.startDate = @"startDate",
-	.turnedIn = @"turnedIn",
 	.version = @"version",
 };
 
@@ -64,16 +61,8 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 		NSSet *affectingKey = [NSSet setWithObject:@"fileId"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 	}
-	if ([key isEqualToString:@"isAssignmentFileValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"isAssignmentFile"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-	}
 	if ([key isEqualToString:@"readOnlyValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"readOnly"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-	}
-	if ([key isEqualToString:@"turnedInValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"turnedIn"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 	}
 	if ([key isEqualToString:@"versionValue"]) {
@@ -88,13 +77,6 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 
 
 @dynamic endDate;
-
-
-
-
-
-
-@dynamic fileContents;
 
 
 
@@ -121,32 +103,6 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 
 - (void)setPrimitiveFileIdValue:(int)value_ {
 	[self setPrimitiveFileId:[NSNumber numberWithInt:value_]];
-}
-
-
-
-
-
-@dynamic isAssignmentFile;
-
-
-
-- (BOOL)isAssignmentFileValue {
-	NSNumber *result = [self isAssignmentFile];
-	return [result boolValue];
-}
-
-- (void)setIsAssignmentFileValue:(BOOL)value_ {
-	[self setIsAssignmentFile:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsAssignmentFileValue {
-	NSNumber *result = [self primitiveIsAssignmentFile];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsAssignmentFileValue:(BOOL)value_ {
-	[self setPrimitiveIsAssignmentFile:[NSNumber numberWithBool:value_]];
 }
 
 
@@ -223,32 +179,6 @@ const struct RCFileFetchedProperties RCFileFetchedProperties = {
 
 @dynamic startDate;
 
-
-
-
-
-
-@dynamic turnedIn;
-
-
-
-- (BOOL)turnedInValue {
-	NSNumber *result = [self turnedIn];
-	return [result boolValue];
-}
-
-- (void)setTurnedInValue:(BOOL)value_ {
-	[self setTurnedIn:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveTurnedInValue {
-	NSNumber *result = [self primitiveTurnedIn];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveTurnedInValue:(BOOL)value_ {
-	[self setPrimitiveTurnedIn:[NSNumber numberWithBool:value_]];
-}
 
 
 

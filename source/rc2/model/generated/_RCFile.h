@@ -13,9 +13,7 @@
 
 extern const struct RCFileAttributes {
 	__unsafe_unretained NSString *endDate;
-	__unsafe_unretained NSString *fileContents;
 	__unsafe_unretained NSString *fileId;
-	__unsafe_unretained NSString *isAssignmentFile;
 	__unsafe_unretained NSString *lastModified;
 	__unsafe_unretained NSString *localAttributes;
 	__unsafe_unretained NSString *localEdits;
@@ -24,7 +22,6 @@ extern const struct RCFileAttributes {
 	__unsafe_unretained NSString *readOnly;
 	__unsafe_unretained NSString *sizeString;
 	__unsafe_unretained NSString *startDate;
-	__unsafe_unretained NSString *turnedIn;
 	__unsafe_unretained NSString *version;
 } RCFileAttributes;
 
@@ -36,9 +33,6 @@ extern const struct RCFileFetchedProperties {
 } RCFileFetchedProperties;
 
 @class RCSavedSession;
-
-
-
 
 
 
@@ -69,13 +63,6 @@ extern const struct RCFileFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString *fileContents;
-
-
-//- (BOOL)validateFileContents:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, strong) NSNumber *fileId;
 
 
@@ -84,17 +71,6 @@ extern const struct RCFileFetchedProperties {
 - (void)setFileIdValue:(int)value_;
 
 //- (BOOL)validateFileId:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, strong) NSNumber *isAssignmentFile;
-
-
-@property BOOL isAssignmentFileValue;
-- (BOOL)isAssignmentFileValue;
-- (void)setIsAssignmentFileValue:(BOOL)value_;
-
-//- (BOOL)validateIsAssignmentFile:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -158,17 +134,6 @@ extern const struct RCFileFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber *turnedIn;
-
-
-@property BOOL turnedInValue;
-- (BOOL)turnedInValue;
-- (void)setTurnedInValue:(BOOL)value_;
-
-//- (BOOL)validateTurnedIn:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, strong) NSNumber *version;
 
 
@@ -214,26 +179,11 @@ extern const struct RCFileFetchedProperties {
 
 
 
-- (NSString*)primitiveFileContents;
-- (void)setPrimitiveFileContents:(NSString*)value;
-
-
-
-
 - (NSNumber*)primitiveFileId;
 - (void)setPrimitiveFileId:(NSNumber*)value;
 
 - (int)primitiveFileIdValue;
 - (void)setPrimitiveFileIdValue:(int)value_;
-
-
-
-
-- (NSNumber*)primitiveIsAssignmentFile;
-- (void)setPrimitiveIsAssignmentFile:(NSNumber*)value;
-
-- (BOOL)primitiveIsAssignmentFileValue;
-- (void)setPrimitiveIsAssignmentFileValue:(BOOL)value_;
 
 
 
@@ -285,15 +235,6 @@ extern const struct RCFileFetchedProperties {
 
 - (NSDate*)primitiveStartDate;
 - (void)setPrimitiveStartDate:(NSDate*)value;
-
-
-
-
-- (NSNumber*)primitiveTurnedIn;
-- (void)setPrimitiveTurnedIn:(NSNumber*)value;
-
-- (BOOL)primitiveTurnedInValue;
-- (void)setPrimitiveTurnedInValue:(BOOL)value_;
 
 
 

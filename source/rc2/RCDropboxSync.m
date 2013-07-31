@@ -260,11 +260,45 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 			}
 		}
 		//TODO: add files to db
-		for (NSString *dbfname in addToDB) {
-			Rc2LogInfo(@"adding %@ to db", dbfname);
+		if (addToDB.count > 0) {
+			RC2LoopQueue *dbuploadq = [[RC2LoopQueue alloc] initWithObjectArray:addToDB task:^(NSString *fname) {
+				for (RCFile *file in addToDB) {
+					Rc2LogInfo(@"adding %@ to db", file.name);
+					DBMetadata *filemd = [_metad.contents firstObjectWithValue:file.name forKey:@"filename"];
+					NSString *parentRev = filemd.rev;
+					__block NSCondition *dblock = [[NSCondition alloc] init];
+					__block NSInteger dcnt=1;
+					NSLog(@"dbfile=%@", [NSString stringWithContentsOfFile:file.fileContentsPath encoding:NSUTF8StringEncoding error:nil]);
+					dispatch_sync(dispatch_get_main_queue(), ^{
+						[DropBlocks uploadFile:file.name toPath:_wspace.dropboxPath withParentRev:parentRev fromPath:file.fileContentsPath completionBlock:^(NSString *destpath, DBMetadata *metadata, NSError *error) {
+							 if (error) {
+								 [self.syncDelegate dbsync:self syncComplete:NO error:error];
+							 } else {
+								 NSLog(@"uploaded %@ to db at %@", fname, destpath);
+							 }
+							 [dblock lock];
+							 dcnt = 0;
+							 [dblock signal];
+							 [dblock unlock];
+						 } progressBlock:^(CGFloat prog) {
+							 
+						 }];
+					});
+					[dblock lock];
+					while (dcnt > 0)
+						[dblock wait];
+					[dblock unlock];
+				}
+			}];
+			dbuploadq.completionHandler = ^(RC2LoopQueue *q) {
+				Rc2LogInfo(@"regular sync complete (db)");
+				[self syncSuccessful];
+			};
+			[dbuploadq startTasks];
+		} else {
+			Rc2LogInfo(@"regular sync complete");
+			[self syncSuccessful];
 		}
-		Rc2LogInfo(@"regular sync complete");
-		[self syncSuccessful];
 	});
 }
 

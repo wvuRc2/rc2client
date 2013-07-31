@@ -23,6 +23,10 @@
 @property (nonatomic, strong) NSNumber *fileSize;
 @property (nonatomic, weak, readonly) id<RCFileContainer> container;
 @property (nonatomic, readonly) NSString *mimeType;
+//it is possible to receive a fileupdate message via websocket while still waiting on the results from the REST call that updated the file.
+// this caused all kinds of havoc. A rest call should set this to YES when starting request, NO when complete. If set, update call will take care of
+// possible conflict.
+@property (assign) BOOL savingToServer;
 
 //parses an array of dictionaries sent from the server
 +(NSArray*)filesFromJsonArray:(NSArray*)inArray container:(id<RCFileContainer>)container;

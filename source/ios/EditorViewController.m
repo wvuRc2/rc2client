@@ -6,6 +6,7 @@
 //  Copyright (c) 2011 University of West Virginia. All rights reserved.
 //
 
+#import <libkern/OSAtomic.h>
 #import "EditorViewController.h"
 #import "Rc2Server.h"
 #import "Rc2AppDelegate.h"
@@ -45,7 +46,7 @@
 @property (nonatomic, strong) UINavigationController *importController;
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
 @property (nonatomic, strong) UIAlertView *currentAlert;
-@property BOOL syncInProgress;
+@property int32_t syncInProgress;
 @end
 
 @implementation EditorViewController
@@ -93,6 +94,8 @@
 	self.currentFile.localEdits = self.richEditor.string;
 	[self updateDocumentState];
 	self.richEditor.inputAccessoryView = self.keyboardToolbar.view;
+	if (self.currentFile.locallyModified && self.currentFile.localEdits.length < 4096)
+		[self saveFileData:nil];
 }
 
 #pragma mark - View lifecycle
@@ -293,6 +296,40 @@
 	}
 }
 
+-(void)saveFileData:(BasicBlock1IntArg)completion
+{
+	if (!OSAtomicCompareAndSwap32(0, 1, &_syncInProgress)) {
+		//sync already in progress
+		completion(YES);
+		return;
+	}
+	UIView *rootView = self.view.superview;
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
+	hud.labelText = @"Saving…";
+	self.currentFile.localEdits = [self.richEditor string];
+	[[Rc2Server sharedInstance] saveFile:self.currentFile
+							 toContainer:_session.workspace
+					   completionHandler:^(BOOL success, id results)
+	 {
+		 [MBProgressHUD hideHUDForView:rootView animated:YES];
+		 if (!OSAtomicCompareAndSwap32(1, 0, &_syncInProgress))
+			 Rc2LogError(@"unlocking sync lock failed");
+		 if (success) {
+			 [self.fileController.tableView reloadData];
+		 } else {
+			 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Saving"
+															 message:results
+															delegate:nil
+												   cancelButtonTitle:@"OK"
+												   otherButtonTitles:nil];
+			 [alert show];
+		 }
+		 [self updateDocumentState];
+		 if (completion)
+			 completion(success);
+	 }];
+}
+
 -(void)userConfirmedDelete:(RCFile*)file
 {
 	RCWorkspace *wspace = self.session.workspace;
@@ -386,35 +423,12 @@
 
 -(void)executeBlockAfterSave:(BasicBlock)block
 {
-	if (self.currentFile.locallyModified) {
-		//force a sync of the file
-		UIView *rootView = self.view.superview;
-		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
-		hud.labelText = @"Sending File to Server…";
-		self.syncInProgress = YES;
-		[[Rc2Server sharedInstance] saveFile:self.currentFile 
-								   toContainer:_session.workspace
-						   completionHandler:^(BOOL success, id results) 
-		{
-			[MBProgressHUD hideHUDForView:rootView animated:YES];
-			if (success) {
-				[self.fileController.tableView reloadData];
-				block();
-			 } else {
-				 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Saving"
-																 message:results
-																delegate:nil
-													   cancelButtonTitle:@"OK"
-													   otherButtonTitles:nil];
-				 [alert show];
-			 }
-			 [self updateDocumentState];
-			self.syncInProgress = NO;
-		 }];
-		
-	} else {
+	if (self.currentFile.locallyModified)
+		[self saveFileData:^(NSInteger x) {
+			block();
+		}];
+	else
 		block();
-	}
 }
 
 -(void)promptForNewFile:(BOOL)shared
@@ -435,7 +449,7 @@
 		NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
 		RCFile *file = [RCFile insertInManagedObjectContext:moc];
 		file.name = str;
-		file.fileContents = @"";
+		file.localEdits = @"";
 		id<RCFileContainer> container = shared ? blockSelf.session.workspace.project : blockSelf.session.workspace;
 		[[Rc2Server sharedInstance] saveFile:file toContainer:container completionHandler:^(BOOL success, id results) {
 			if (success) {
@@ -477,8 +491,11 @@
 
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress
 {
-	if (self.syncInProgress)
+	if (self.syncInProgress) {
+		//this can happen if a workspacefileupdated message comes via the websocket before our REST call to save the file returns.
+		Rc2LogWarn(@"loadFile called while save in progress");
 		return;
+	}
 	UIView *rootView = self.view.superview;
 	MBProgressHUD *hud = nil;
 
@@ -597,28 +614,7 @@
 
 -(IBAction)doSaveFile:(id)sender
 {
-	UIView *rootView = self.view.superview;
-	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
-	hud.labelText = @"Saving…";
-	self.syncInProgress=YES;
-	[[Rc2Server sharedInstance] saveFile:self.currentFile 
-							   toContainer:_session.workspace
-					   completionHandler:^(BOOL success, id results) 
-	{
-		[MBProgressHUD hideHUDForView:rootView animated:YES];
-		self.syncInProgress=NO;
-		if (success) {
-			[self.fileController.tableView reloadData];
-		} else {
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Saving"
-															message:results
-														   delegate:nil
-												  cancelButtonTitle:@"OK"
-												  otherButtonTitles:nil];
-			[alert show];
-		}
-		[self updateDocumentState];
-	}];
+	[self saveFileData:nil];
 }
 
 -(IBAction)doRevertFile:(id)sender

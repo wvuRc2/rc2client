@@ -355,7 +355,9 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 {
 	NSString *path = [NSString stringWithFormat:@"file/%@", file.fileId];
 	NSMutableURLRequest *req = [_httpClient requestWithMethod:@"GET" path:path parameters:nil];
-	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id op, id rsp) {
+	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(AFHTTPRequestOperation *op, id rsp) {
+		[op.outputStream close];
+		[file discardEdits];
 		hblock(YES, [NSString stringWithUTF8Data:rsp]);
 	} failure:^(id op, NSError *error) {
 		hblock(NO, error.localizedDescription);
@@ -364,6 +366,7 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	if (nil == fpath)
 		Rc2LogError(@"not file with no path:%@", file);
 	op.outputStream = [NSOutputStream outputStreamToFileAtPath:file.fileContentsPath append:NO];
+	NSLog(@"fetching contents:%@", file.name);
 	[_httpClient enqueueHTTPRequestOperation:op];
 }
 
@@ -505,13 +508,19 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	{
 		[fdata appendPartWithFileData:[file.currentContents dataUsingEncoding:NSUTF8StringEncoding] name:file.name fileName:file.name mimeType:@"plain/text"];
 	}];
+	file.savingToServer = YES;
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
+		NSError *err=nil;
 		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
 			if (file.existsOnServer) {
 				NSString *oldContents = file.localEdits;
 				[file updateWithDictionary:[rsp objectForKey:@"file"]];
-				file.fileContents = oldContents;
 				[file discardEdits];
+				if (![oldContents writeToFile:file.fileContentsPath atomically:YES encoding:NSUTF8StringEncoding error:&err]) {
+					Rc2LogWarn(@"failed to write file after save to server:%@", err);
+					if (![[NSFileManager defaultManager] fileExistsAtPath:[file.fileContentsPath stringByDeletingLastPathComponent]])
+						NSLog(@"ws file dir does not exist");
+				}
 				hblock(YES, file);
 			} else {
 				NSDictionary *fdata = [[rsp objectForKey:@"files"] firstObject];
@@ -525,6 +534,7 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 		} else {
 			hblock(NO, [rsp objectForKey:@"message"]);
 		}
+		file.savingToServer = NO;
 	} failure:^(id operation, NSError *error) {
 		hblock(NO, error.localizedDescription);
 	}];
@@ -570,8 +580,6 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 		NSDictionary *dict = [[NSString stringWithUTF8Data:data] JSONValue];
 		[file discardEdits];
 		[file updateWithDictionary:[dict objectForKey:@"file"]];
-		if (file.isTextFile)
-			file.fileContents = [NSString stringWithContentsOfURL:contentsFileUrl encoding:NSUTF8StringEncoding error:nil];
 		return YES;
 	}
 }

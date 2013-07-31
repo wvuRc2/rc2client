@@ -92,6 +92,9 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 													  root:kDBRootDropbox];
 	[DBSession setSharedSession:session];
 	
+	//disable nsurl caching since we'll do our own
+	[NSURLCache setSharedURLCache:[[NSURLCache alloc] initWithMemoryCapacity:0 diskCapacity:0 diskPath:nil]];
+	
 	//make sure file cache folder exists
 	NSString *cachePath = [[TheApp thisApplicationsCacheFolder] stringByAppendingPathComponent:@"files"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:cachePath])

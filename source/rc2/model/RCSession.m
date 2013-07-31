@@ -251,8 +251,6 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		return NO;
 	if (!file.fileType.isSourceFile)
 		return NO;
-	if (file.isAssignmentFile)
-		return NO;
 	//TODO: need to check if student or teacher
 	return YES;
 }
