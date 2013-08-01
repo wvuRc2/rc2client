@@ -35,6 +35,8 @@
 #import "MAKVONotificationCenter.h"
 #import "MCTableRowView.h"
 #import "MLReachability.h"
+#import "RCDropboxSync.h"
+#import <DropboxOSX/DropboxOSX.h>
 
 #define logJson 0
 
@@ -42,7 +44,7 @@
 @property (nonatomic, copy) NSArray *data;
 @end
 
-@interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate> {
+@interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate> {
 	NSPoint __curImgPoint;
 	BOOL __didInit;
 	BOOL __movingFileList;
@@ -79,6 +81,7 @@
 @property (nonatomic, strong) RCMMultiImageController *multiImageController;
 @property (nonatomic, strong) NSPopover *variablePopover;
 @property (nonatomic, strong) MCVariableDetailsController *varableDetailsController;
+@property (nonatomic, strong) RCDropboxSync *dbsync;
 @property BOOL importToProject;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL shouldReconnect;
@@ -266,6 +269,8 @@
 			menuItem.title = @"Execute Line";
 		}
 		return str.length > 0;
+	} else if (action == @selector(handleDropboxSync:)) {
+		return self.session.workspace.dropboxPath.length > 0 && [[DBSession sharedSession] isLinked];
 	}
 	return [self validateUserInterfaceItem:menuItem];
 }
@@ -905,6 +910,35 @@
 	}
 }
 
+#pragma mark - dropbox sync
+
+-(IBAction)handleDropboxSync:(id)useless
+{
+	self.dbsync = [[RCDropboxSync alloc] initWithWorkspace:self.session.workspace];
+	self.dbsync.syncDelegate = self;
+	[self.dbsync startSync];
+	if (!self.busy)
+		self.busy = YES;
+	self.statusMessage = @"Starting Dropbox sync…";
+}
+
+-(void)dbsync:(RCDropboxSync*)sync updateProgress:(CGFloat)percent message:(NSString*)message
+{
+	if (message)
+		self.statusMessage = message;
+}
+
+-(void)dbsync:(RCDropboxSync*)sync syncComplete:(BOOL)success error:(NSError*)error
+{
+	self.dbsync = nil;
+	if (!success) {
+		Rc2LogError(@"error on sync:%@", error.localizedDescription);
+	} else {
+		Rc2LogInfo(@"sync complete");
+	}
+	self.statusMessage = nil;
+	self.busy = NO;
+}
 
 #pragma mark - file helper delegate
 
@@ -963,7 +997,6 @@
 
 -(void)connectionOpened
 {
-	self.busy=NO;
 	self.statusMessage = @"Connected";
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.session requestUserList];
@@ -974,6 +1007,11 @@
 	if (!self.reconnecting)
 		self.shouldReconnect=YES;
 	self.reconnecting=NO;
+	if (self.session.workspace.dropboxPath != nil) {
+		[self performSelectorOnMainThread:@selector(handleDropboxSync:) withObject:nil waitUntilDone:NO];
+	} else {
+		self.busy=NO;
+	}
 }
 
 -(void)connectionClosed

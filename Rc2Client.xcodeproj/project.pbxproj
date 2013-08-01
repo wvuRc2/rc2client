@@ -157,6 +157,7 @@
 		085E3C4517A9A832005C523F /* dropbox-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4117A9A832005C523F /* dropbox-logo@2x.png */; };
 		085E3C4617A9A832005C523F /* dropbox-long.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4217A9A832005C523F /* dropbox-long.png */; };
 		085E3C4717A9A832005C523F /* dropbox-long@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4317A9A832005C523F /* dropbox-long@2x.png */; };
+		085E3C4817AAE386005C523F /* RCDropboxSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B461774E409005BB3BB /* RCDropboxSync.m */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
@@ -3227,6 +3228,7 @@
 				0847FDC717679F6F00D950EA /* MASPreferencesWindowController.m in Sources */,
 				08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */,
 				08ADBE2817A06C9F0004A89C /* RC2LoopQueue.m in Sources */,
+				085E3C4817AAE386005C523F /* RCDropboxSync.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
