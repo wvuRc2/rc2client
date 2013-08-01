@@ -158,6 +158,8 @@
 		085E3C4617A9A832005C523F /* dropbox-long.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4217A9A832005C523F /* dropbox-long.png */; };
 		085E3C4717A9A832005C523F /* dropbox-long@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4317A9A832005C523F /* dropbox-long@2x.png */; };
 		085E3C4817AAE386005C523F /* RCDropboxSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B461774E409005BB3BB /* RCDropboxSync.m */; };
+		085E3C4C17AAEADB005C523F /* MCDropboxConfigWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E3C4A17AAEADB005C523F /* MCDropboxConfigWindow.m */; };
+		085E3C4D17AAEADB005C523F /* MCDropboxConfigWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4B17AAEADB005C523F /* MCDropboxConfigWindow.xib */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
@@ -795,6 +797,9 @@
 		085E3C4117A9A832005C523F /* dropbox-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropbox-logo@2x.png"; path = "resources/mac/dropbox-logo@2x.png"; sourceTree = SOURCE_ROOT; };
 		085E3C4217A9A832005C523F /* dropbox-long.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropbox-long.png"; path = "resources/mac/dropbox-long.png"; sourceTree = SOURCE_ROOT; };
 		085E3C4317A9A832005C523F /* dropbox-long@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropbox-long@2x.png"; path = "resources/mac/dropbox-long@2x.png"; sourceTree = SOURCE_ROOT; };
+		085E3C4917AAEADB005C523F /* MCDropboxConfigWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDropboxConfigWindow.h; sourceTree = "<group>"; };
+		085E3C4A17AAEADB005C523F /* MCDropboxConfigWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCDropboxConfigWindow.m; sourceTree = "<group>"; };
+		085E3C4B17AAEADB005C523F /* MCDropboxConfigWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCDropboxConfigWindow.xib; sourceTree = "<group>"; };
 		086CC4B5167122C7004356F6 /* RCFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFileContainer.h; sourceTree = "<group>"; };
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
@@ -2302,6 +2307,9 @@
 				08063D59173AF33B0054FD1D /* MCVariableDetailsController.h */,
 				08063D5A173AF33B0054FD1D /* MCVariableDetailsController.m */,
 				08063D5B173AF33B0054FD1D /* MCVariableDetailsController.xib */,
+				085E3C4917AAEADB005C523F /* MCDropboxConfigWindow.h */,
+				085E3C4A17AAEADB005C523F /* MCDropboxConfigWindow.m */,
+				085E3C4B17AAEADB005C523F /* MCDropboxConfigWindow.xib */,
 			);
 			name = session;
 			sourceTree = "<group>";
@@ -2805,6 +2813,7 @@
 				085E3C4517A9A832005C523F /* dropbox-logo@2x.png in Resources */,
 				085E3C4617A9A832005C523F /* dropbox-long.png in Resources */,
 				085E3C4717A9A832005C523F /* dropbox-long@2x.png in Resources */,
+				085E3C4D17AAEADB005C523F /* MCDropboxConfigWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3229,6 +3238,7 @@
 				08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */,
 				08ADBE2817A06C9F0004A89C /* RC2LoopQueue.m in Sources */,
 				085E3C4817AAE386005C523F /* RCDropboxSync.m in Sources */,
+				085E3C4C17AAEADB005C523F /* MCDropboxConfigWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

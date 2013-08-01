@@ -35,6 +35,7 @@
 #import "MAKVONotificationCenter.h"
 #import "MCTableRowView.h"
 #import "MLReachability.h"
+#import "MCDropboxConfigWindow.h"
 #import "RCDropboxSync.h"
 #import <DropboxOSX/DropboxOSX.h>
 
@@ -271,6 +272,8 @@
 		return str.length > 0;
 	} else if (action == @selector(handleDropboxSync:)) {
 		return self.session.workspace.dropboxPath.length > 0 && [[DBSession sharedSession] isLinked];
+	} else if (action == @selector(configureDropboxSync:)) {
+		return YES;
 	}
 	return [self validateUserInterfaceItem:menuItem];
 }
@@ -938,6 +941,19 @@
 	}
 	self.statusMessage = nil;
 	self.busy = NO;
+}
+
+-(IBAction)configureDropboxSync:(id)sender
+{
+	__block MCDropboxConfigWindow *cwin = [[MCDropboxConfigWindow alloc] initWithWorkspace:self.session.workspace];
+	__weak NSWindow *winRef = cwin.window;
+	cwin.handler = ^(NSInteger code) {
+		[NSApp endSheet:winRef returnCode:code];
+		[winRef orderOut:sender];
+	};
+	[NSApp beginSheet:cwin.window modalForWindow:self.view.window completionHandler:^(NSInteger code) {
+		cwin = nil;
+	}];
 }
 
 #pragma mark - file helper delegate

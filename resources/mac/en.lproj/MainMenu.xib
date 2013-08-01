@@ -976,17 +976,17 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="1020729073">
+								<object class="NSMenuItem" id="961974266">
 									<reference key="NSMenu" ref="1066737987"/>
-									<string key="NSTitle">Show Result Details</string>
+									<string key="NSTitle">Sync with Dropbox</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="23754690">
+								<object class="NSMenuItem" id="985249321">
 									<reference key="NSMenu" ref="1066737987"/>
-									<string key="NSTitle">Sync with Dropbox</string>
+									<string key="NSTitle">Configure Dropbox Sync…</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
@@ -1655,14 +1655,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleShowDetails:</string>
-						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="1020729073"/>
-					</object>
-					<int key="connectionID">700</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleShowInvisibles:</string>
 						<reference key="source" ref="1014"/>
 						<reference key="destination" ref="584051671"/>
@@ -1673,9 +1665,17 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">handleDropboxSync:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="23754690"/>
+						<reference key="destination" ref="961974266"/>
 					</object>
 					<int key="connectionID">706</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">configureDropboxSync:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="985249321"/>
+					</object>
+					<int key="connectionID">709</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2297,8 +2297,8 @@
 							<reference ref="258883681"/>
 							<reference ref="21129090"/>
 							<reference ref="795055496"/>
-							<reference ref="1020729073"/>
-							<reference ref="23754690"/>
+							<reference ref="961974266"/>
+							<reference ref="985249321"/>
 						</array>
 						<reference key="parent" ref="778227331"/>
 					</object>
@@ -2515,18 +2515,18 @@
 						<reference key="parent" ref="1066737987"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">697</int>
-						<reference key="object" ref="1020729073"/>
-						<reference key="parent" ref="1066737987"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">701</int>
 						<reference key="object" ref="584051671"/>
 						<reference key="parent" ref="466310130"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">704</int>
-						<reference key="object" ref="23754690"/>
+						<reference key="object" ref="961974266"/>
+						<reference key="parent" ref="1066737987"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">707</int>
+						<reference key="object" ref="985249321"/>
 						<reference key="parent" ref="1066737987"/>
 					</object>
 				</array>
@@ -2648,9 +2648,9 @@
 				<string key="690.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="692.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="694.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="697.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="701.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="704.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="707.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="78.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2664,7 +2664,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">706</int>
+			<int key="maxID">709</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2753,6 +2753,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeMode:">id</string>
 						<string key="clearVariables:">id</string>
+						<string key="configureDropboxSync:">id</string>
 						<string key="contextualHelp:">id</string>
 						<string key="createNewFile:">id</string>
 						<string key="deleteFile:">id</string>
@@ -2787,6 +2788,10 @@
 						</object>
 						<object class="IBActionInfo" key="clearVariables:">
 							<string key="name">clearVariables:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="configureDropboxSync:">
+							<string key="name">configureDropboxSync:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="contextualHelp:">
