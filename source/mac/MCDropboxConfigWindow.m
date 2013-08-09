@@ -9,6 +9,7 @@
 #import "MCDropboxConfigWindow.h"
 #import "RCWorkspace.h"
 #import "DropBlocks.h"
+#import "Rc2Server.h"
 
 @interface DBItem : NSObject
 +(NSArray*)itemsforMetadataArray:(NSArray*)inArray;
@@ -56,6 +57,14 @@
 {
 	DBItem *item = [_browser itemAtIndexPath:_browser.selectionIndexPath];
 	NSLog(@"saving %@", item.metadata.path);
+
+	_wspace.dropboxPath = item.metadata.path;
+	_wspace.dropboxUser = [[[DBSession sharedSession] userIds] firstObject];
+	[[Rc2Server sharedInstance] updateWorkspace:_wspace completionBlock:^(BOOL success, id results) {
+		if (!success)
+			Rc2LogError(@"Failed to save db sync info:%@", results);
+	}];
+
 	self.handler(1);
 }
 
@@ -66,6 +75,13 @@
 
 -(IBAction)disableSync:(id)sender
 {
+	_wspace.dropboxPath = nil;
+	_wspace.dropboxUser = nil;
+	[[Rc2Server sharedInstance] updateWorkspace:_wspace completionBlock:^(BOOL success, id results) {
+		if (!success)
+			Rc2LogError(@"Failed to save db sync info:%@", results);
+	}];
+
 	self.handler(-1);
 }
 

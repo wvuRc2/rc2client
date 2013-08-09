@@ -259,7 +259,12 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 
 -(void)updateWorkspace:(RCWorkspace*)wspace completionBlock:(Rc2FetchCompletionHandler)hblock
 {
-	[_httpClient putPath:[self containerPath:wspace] parameters:@{@"dbuser":wspace.dropboxUser, @"dbpath":wspace.dropboxPath,@"dbhash":wspace.dropboxHash,@"dbhistory":wspace.dropboxHistory} success:^(AFHTTPRequestOperation *operation, id rsp)
+	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
+	[dict setObjectIgnoringNil:wspace.dropboxUser forKey:@"dbuser"];
+	[dict setObjectIgnoringNil:wspace.dropboxPath forKey:@"dbpath"];
+	[dict setObjectIgnoringNil:wspace.dropboxHash forKey:@"dbhash"];
+	[dict setObjectIgnoringNil:wspace.dropboxHistory forKey:@"dbhistory"];
+	[_httpClient putPath:[self containerPath:wspace] parameters:dict success:^(AFHTTPRequestOperation *operation, id rsp)
 	{
 		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
 			hblock(YES, rsp);
