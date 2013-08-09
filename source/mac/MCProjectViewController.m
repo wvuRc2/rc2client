@@ -219,7 +219,7 @@
 		return;
 	}
 	NSAlert *alert = [NSAlert alertWithMessageText:@"Confirm Delete?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Are you sure you want to delete %@ \"%@\"? This can not be undone.", [selObj isKindOfClass:[RCProject class]] ? @"project" : @"workspace", [selObj name]];
-	[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *balert, NSInteger rc) {
+	[alert am_beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *balert, NSInteger rc) {
 		if (NSAlertDefaultReturn == rc) {
 			if ([selObj isKindOfClass:[RCProject class]]) {
 				[[Rc2Server sharedInstance] deleteProject:selObj completionBlock:^(BOOL success, id obj) {

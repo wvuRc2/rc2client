@@ -418,18 +418,18 @@
 
 +(NSString*)webScriptNameForSelector:(SEL)sel
 {
-	if (sel == @selector(previewImage:images:))
-		return @"preview";
-	else if (sel == @selector(closePreview:))
+//	if (sel == @selector(previewImage:images:))
+//		return @"preview";
+	if (sel == @selector(closePreview:))
 		return @"closePreview";
 	return nil;
 }
 
 +(BOOL)isSelectorExcludedFromWebScript:(SEL)sel
 {
-	if (sel == @selector(previewImage:images:))
-		return NO;
-	else if (sel == @selector(closePreview:))
+//	if (sel == @selector(previewImage:images:))
+//		return NO;
+	if (sel == @selector(closePreview:))
 		return NO;
 	return YES;
 }

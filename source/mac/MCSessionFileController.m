@@ -14,6 +14,7 @@
 #import "Rc2FileType.h"
 #import "RCMSessionFileCellView.h"
 #import "MultiFileImporter.h"
+#import "MCSessionViewController.h"
 
 @interface MCSessionFileController ()
 @property (nonatomic, strong) NSArray *fileArray;

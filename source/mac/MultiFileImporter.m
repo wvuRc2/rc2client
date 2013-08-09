@@ -77,7 +77,7 @@ enum {
 		NSButton *uniqButton = [alert addButtonWithTitle:@"Create Unique Names"];
 		[uniqButton setKeyEquivalent:@"u"];
 		[uniqButton setKeyEquivalentModifierMask:NSCommandKeyMask];
-		[alert beginSheetModalForWindow:tableView.window completionHandler:^(NSAlert *theAlert, NSInteger btxIdx) {
+		[alert am_beginSheetModalForWindow:tableView.window completionHandler:^(NSAlert *theAlert, NSInteger btxIdx) {
 			if (NSAlertSecondButtonReturn != btxIdx) {
 				handler(urls, btxIdx == NSAlertFirstButtonReturn);
 			}

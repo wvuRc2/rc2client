@@ -528,7 +528,7 @@
 -(IBAction)deleteFile:(id)sender
 {
 	NSAlert *alert = [NSAlert alertWithMessageText:@"Delete File?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Are you sure you want to delete the file \"%@\"? This action can not be undone.", self.fileHelper.selectedFile.name];
-	[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *theAlert, NSInteger rc) {
+	[alert am_beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *theAlert, NSInteger rc) {
 		if (rc == NSFileHandlingPanelOKButton)
 			[self deleteSelectedFile];
 	}];
@@ -627,7 +627,7 @@
 		alert.alertStyle = NSWarningAlertStyle;
 		[alert addButtonWithTitle:@"Clear Workspace"];
 		[alert addButtonWithTitle:@"Cancel"];
-		[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *thealert, NSInteger rsp) {
+		[alert am_beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *thealert, NSInteger rsp) {
 			if (thealert.suppressionButton.state == NSOnState)
 				[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kPref_SupressClearWorkspaceWarning];
 			if (rsp == NSAlertFirstButtonReturn) {
