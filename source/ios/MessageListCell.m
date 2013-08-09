@@ -126,7 +126,7 @@
 	UIFont *theFont = [UIFont systemFontOfSize:14];
 	CGRect textRect = self.bodyView.frame;
 	textRect.size.height = 100;
-	CGSize sz = [body sizeWithFont:theFont constrainedToSize:textRect.size lineBreakMode:UILineBreakModeWordWrap];
+	CGSize sz = [body sizeWithFont:theFont constrainedToSize:textRect.size lineBreakMode:NSLineBreakByWordWrapping];
 	textRect.size.height = sz.height;
 	self.bodyView.frame = textRect;
 	self.bodyView.bodyText = self.theMessage.body;
@@ -141,7 +141,7 @@
 -(void)drawRect:(CGRect)rect
 {
 	UIFont *theFont = [UIFont systemFontOfSize:14];
-	[self.bodyText drawInRect:rect withFont:theFont lineBreakMode:UILineBreakModeWordWrap];
+	[self.bodyText drawInRect:rect withFont:theFont lineBreakMode:NSLineBreakByWordWrapping];
 }
 
 @synthesize bodyText;

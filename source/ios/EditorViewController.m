@@ -350,7 +350,7 @@
 
 -(void)userDone:(RCFile*)lastImport
 {
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 	self.importController=nil;
 	[self.dropboxCache removeAllObjects];
 	[self.fileController reloadData];
@@ -394,7 +394,7 @@
 	}
 	
 	CGSize sz = self.importController.view.frame.size;
-	[self presentModalViewController: self.importController animated:YES];
+	[self presentViewController:self.importController animated:YES completion:nil];
 	//center the modal view
 	self.importController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
 	| UIViewAutoresizingFlexibleBottomMargin;

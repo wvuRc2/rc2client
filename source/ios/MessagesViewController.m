@@ -123,12 +123,12 @@
 	__weak MessagesViewController *blockSelf = self;
 	self.composeController = [[SendMessageViewController alloc] init];
 	self.composeController.completionBlock = ^(NSInteger success) {
-		[blockSelf dismissModalViewControllerAnimated:YES];
+		[blockSelf dismissViewControllerAnimated:YES completion:nil];
 		blockSelf.composeController=nil;
 	};
 	self.composeController.priorityImages = self.flagImages;
 	self.composeController.modalPresentationStyle = UIModalPresentationPageSheet;
-	[self presentModalViewController:self.composeController animated:YES];
+	[self presentViewController:self.composeController animated:YES completion:nil];
 }
 
 -(IBAction)doDeleteMessage:(id)sender

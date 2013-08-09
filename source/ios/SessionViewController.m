@@ -453,9 +453,9 @@
 	}
 	__unsafe_unretained SessionViewController *blockSelf = self;
 	self.imgController.closeHandler = ^{
-		[blockSelf dismissModalViewControllerAnimated:YES];
+		[blockSelf dismissViewControllerAnimated:YES completion:nil];
 	};
-	[self presentModalViewController:self.imgController animated:YES];
+	[self presentViewController:self.imgController animated:YES completion:nil];
 	[self.imgController loadImages];
 	//TODO: need to load the other images that should be shown for this group.
 	if (imgGroup)

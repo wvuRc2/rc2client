@@ -326,7 +326,7 @@
 		 didFinishWithResult:(MFMailComposeResult)result 
 					   error:(NSError *)error
 {
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(IBAction)doPhotoLib:(id)sender
@@ -360,7 +360,7 @@
 	[picker addAttachmentData:UIImagePNGRepresentation(self.actionImage.image) 
 					 mimeType:@"image/png" 
 					 fileName:self.actionImage.name];
-	[self presentModalViewController:picker animated:YES];
+	[self presentViewController:picker animated:YES completion:nil];
 }
 
 -(IBAction)close:(id)sender

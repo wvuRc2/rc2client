@@ -28,6 +28,10 @@
 @interface UITableView (DoubleClick)
 -(void)myTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 @end
+@interface UIDevice (BringBackDeprecatedMethods)
+-(id)uniqueIdentifier;
+@end
+
 
 @interface Rc2AppDelegate() {
 	NSManagedObjectModel *__mom;
