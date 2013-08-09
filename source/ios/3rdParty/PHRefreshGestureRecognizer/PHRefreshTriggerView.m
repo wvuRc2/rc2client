@@ -22,7 +22,7 @@
         self.arrowView      = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"blackArrow"]] autorelease];
         self.activityView   = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
         
-        self.titleLabel.textAlignment   = UITextAlignmentCenter;
+        self.titleLabel.textAlignment   = NSTextAlignmentCenter;
         self.titleLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:self.titleLabel];
         

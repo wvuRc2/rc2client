@@ -25,11 +25,6 @@
 	return self;
 }
 
--(void)dealloc
-{
-	dispatch_release(_dgroup);
-}
-
 -(void)startTasks
 {
 	dispatch_queue_t dqueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);

@@ -171,7 +171,7 @@ NSString *const JSDeletedTokenKey = @"JSDeletedTokenKey";
 			[token removeFromSuperview];
 			[[token retain] autorelease]; // removing it from the array will dealloc the object, but we want to keep it around for the delegate method below
 			[_tokens removeObject:token];
-			if ([self.delegate respondsToSelector:@selector(tokenField:didRemoveToken:representedObject:)])
+			if ([self.delegate respondsToSelector:@selector(tokenField:didRemoveTokenAtIndex:)])
 			{
 				[self.delegate tokenField:self didRemoveTokenAtIndex:i];
 			}

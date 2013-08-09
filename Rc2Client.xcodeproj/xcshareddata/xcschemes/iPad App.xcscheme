@@ -48,6 +48,20 @@
                ReferencedContainer = "container:Dependencies/Dropbox/DropboxSDK/DropboxSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1E5954CB15B6F24A00A03429"
+               BuildableName = "libHockeySDK.a"
+               BlueprintName = "HockeySDK"
+               ReferencedContainer = "container:Dependencies/HockeySDK-iOS/Support/HockeySDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

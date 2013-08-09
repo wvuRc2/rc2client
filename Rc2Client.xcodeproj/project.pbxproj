@@ -163,6 +163,9 @@
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
+		087DB8C417B57A8200724811 /* libHockeySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 087DB8C317B57A8200724811 /* libHockeySDK.a */; };
+		087DB8C617B57AB400724811 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087DB8C517B57AB400724811 /* CrashReporter.framework */; };
+		087DB8C817B57AFF00724811 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */; };
 		08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
 		08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
 		08ADBE2717A06C9F0004A89C /* RC2LoopQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */; };
@@ -353,18 +356,6 @@
 		08D244FE15B5DA230064A9FA /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D244FB15B5DA230064A9FA /* CoreImage.framework */; };
 		08D244FF15B5DA230064A9FA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D244FC15B5DA230064A9FA /* ImageIO.framework */; };
 		08D2450015B5DA230064A9FA /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D244FD15B5DA230064A9FA /* libxml2.dylib */; };
-		08D2452C15B5DAE90064A9FA /* BWApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2451215B5DAE90064A9FA /* BWApp.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2452D15B5DAE90064A9FA /* BWGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2451415B5DAE90064A9FA /* BWGlobal.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2452E15B5DAE90064A9FA /* BWHockeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2451615B5DAE90064A9FA /* BWHockeyManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2452F15B5DAE90064A9FA /* BWHockeySettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2451815B5DAE90064A9FA /* BWHockeySettingsViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2453015B5DAE90064A9FA /* BWHockeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2451A15B5DAE90064A9FA /* BWHockeyViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2453115B5DAE90064A9FA /* NSString+HockeyAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2451D15B5DAE90064A9FA /* NSString+HockeyAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2453215B5DAE90064A9FA /* PSAppStoreHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2451F15B5DAE90064A9FA /* PSAppStoreHeader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2453315B5DAE90064A9FA /* PSStoreButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2452115B5DAE90064A9FA /* PSStoreButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2453415B5DAE90064A9FA /* PSWebTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2452315B5DAE90064A9FA /* PSWebTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-format"; }; };
-		08D2453515B5DAE90064A9FA /* UIImage+HockeyAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2452515B5DAE90064A9FA /* UIImage+HockeyAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2453615B5DAE90064A9FA /* Hockey.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08D2452615B5DAE90064A9FA /* Hockey.bundle */; };
-		08D2453915B5DAE90064A9FA /* README.mkdown in Resources */ = {isa = PBXBuildFile; fileRef = 08D2452B15B5DAE90064A9FA /* README.mkdown */; };
 		08D2458315B5DB270064A9FA /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 08D2455315B5DB270064A9FA /* LICENSE */; };
 		08D2458415B5DB270064A9FA /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455515B5DB270064A9FA /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458515B5DB270064A9FA /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455715B5DB270064A9FA /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -482,64 +473,6 @@
 		08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B461774E409005BB3BB /* RCDropboxSync.m */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
-		08FF3CC616E920BB00F3E09E /* GRMustache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8216E920BB00F3E09E /* GRMustache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CC716E920BB00F3E09E /* GRMustache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8216E920BB00F3E09E /* GRMustache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CC816E920BB00F3E09E /* GRMustacheAccumulatorTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8416E920BB00F3E09E /* GRMustacheAccumulatorTag.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CC916E920BB00F3E09E /* GRMustacheAccumulatorTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8416E920BB00F3E09E /* GRMustacheAccumulatorTag.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CCA16E920BB00F3E09E /* GRMustacheCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8816E920BB00F3E09E /* GRMustacheCompiler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CCB16E920BB00F3E09E /* GRMustacheCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8816E920BB00F3E09E /* GRMustacheCompiler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CCC16E920BB00F3E09E /* GRMustacheConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8B16E920BB00F3E09E /* GRMustacheConfiguration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CCD16E920BB00F3E09E /* GRMustacheConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8B16E920BB00F3E09E /* GRMustacheConfiguration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CCE16E920BB00F3E09E /* GRMustacheContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8E16E920BB00F3E09E /* GRMustacheContext.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CCF16E920BB00F3E09E /* GRMustacheContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C8E16E920BB00F3E09E /* GRMustacheContext.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CD016E920BB00F3E09E /* GRMustacheError.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9116E920BB00F3E09E /* GRMustacheError.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CD116E920BB00F3E09E /* GRMustacheError.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9116E920BB00F3E09E /* GRMustacheError.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CD216E920BB00F3E09E /* GRMustacheExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9216E920BB00F3E09E /* GRMustacheExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CD316E920BB00F3E09E /* GRMustacheExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9216E920BB00F3E09E /* GRMustacheExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CD416E920BB00F3E09E /* GRMustacheFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9516E920BB00F3E09E /* GRMustacheFilter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CD516E920BB00F3E09E /* GRMustacheFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9516E920BB00F3E09E /* GRMustacheFilter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CD616E920BB00F3E09E /* GRMustacheFilteredExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9716E920BB00F3E09E /* GRMustacheFilteredExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CD716E920BB00F3E09E /* GRMustacheFilteredExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9716E920BB00F3E09E /* GRMustacheFilteredExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CD816E920BB00F3E09E /* GRMustacheHTMLLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9916E920BB00F3E09E /* GRMustacheHTMLLibrary.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CD916E920BB00F3E09E /* GRMustacheHTMLLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9916E920BB00F3E09E /* GRMustacheHTMLLibrary.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CDA16E920BB00F3E09E /* GRMustacheIdentifierExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9B16E920BB00F3E09E /* GRMustacheIdentifierExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CDB16E920BB00F3E09E /* GRMustacheIdentifierExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9B16E920BB00F3E09E /* GRMustacheIdentifierExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CDC16E920BB00F3E09E /* GRMustacheImplicitIteratorExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9D16E920BB00F3E09E /* GRMustacheImplicitIteratorExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CDD16E920BB00F3E09E /* GRMustacheImplicitIteratorExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9D16E920BB00F3E09E /* GRMustacheImplicitIteratorExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CDE16E920BB00F3E09E /* GRMustacheJavascriptLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9F16E920BB00F3E09E /* GRMustacheJavascriptLibrary.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CDF16E920BB00F3E09E /* GRMustacheJavascriptLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3C9F16E920BB00F3E09E /* GRMustacheJavascriptLibrary.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CE016E920BB00F3E09E /* GRMustacheLocalizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CA216E920BB00F3E09E /* GRMustacheLocalizer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CE116E920BB00F3E09E /* GRMustacheLocalizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CA216E920BB00F3E09E /* GRMustacheLocalizer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CE216E920BB00F3E09E /* GRMustacheParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CA316E920BB00F3E09E /* GRMustacheParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CE316E920BB00F3E09E /* GRMustacheParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CA316E920BB00F3E09E /* GRMustacheParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CE416E920BB00F3E09E /* GRMustacheScopedExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CA616E920BB00F3E09E /* GRMustacheScopedExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CE516E920BB00F3E09E /* GRMustacheScopedExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CA616E920BB00F3E09E /* GRMustacheScopedExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CE616E920BB00F3E09E /* GRMustacheSectionTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CA816E920BB00F3E09E /* GRMustacheSectionTag.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CE716E920BB00F3E09E /* GRMustacheSectionTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CA816E920BB00F3E09E /* GRMustacheSectionTag.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CE816E920BB00F3E09E /* GRMustacheStandardLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CAA16E920BB00F3E09E /* GRMustacheStandardLibrary.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CE916E920BB00F3E09E /* GRMustacheStandardLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CAA16E920BB00F3E09E /* GRMustacheStandardLibrary.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CEA16E920BB00F3E09E /* GRMustacheTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CAD16E920BB00F3E09E /* GRMustacheTag.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CEB16E920BB00F3E09E /* GRMustacheTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CAD16E920BB00F3E09E /* GRMustacheTag.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CEC16E920BB00F3E09E /* GRMustacheTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CB116E920BB00F3E09E /* GRMustacheTemplate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CED16E920BB00F3E09E /* GRMustacheTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CB116E920BB00F3E09E /* GRMustacheTemplate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CEE16E920BB00F3E09E /* GRMustacheTemplateOverride.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CB416E920BB00F3E09E /* GRMustacheTemplateOverride.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CEF16E920BB00F3E09E /* GRMustacheTemplateOverride.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CB416E920BB00F3E09E /* GRMustacheTemplateOverride.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CF016E920BB00F3E09E /* GRMustacheTemplateRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CB716E920BB00F3E09E /* GRMustacheTemplateRepository.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CF116E920BB00F3E09E /* GRMustacheTemplateRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CB716E920BB00F3E09E /* GRMustacheTemplateRepository.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CF216E920BB00F3E09E /* GRMustacheTextComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CB916E920BB00F3E09E /* GRMustacheTextComponent.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CF316E920BB00F3E09E /* GRMustacheTextComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CB916E920BB00F3E09E /* GRMustacheTextComponent.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CF416E920BB00F3E09E /* GRMustacheToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CBB16E920BB00F3E09E /* GRMustacheToken.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CF516E920BB00F3E09E /* GRMustacheToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CBB16E920BB00F3E09E /* GRMustacheToken.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CF616E920BB00F3E09E /* GRMustacheURLLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CBD16E920BB00F3E09E /* GRMustacheURLLibrary.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CF716E920BB00F3E09E /* GRMustacheURLLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CBD16E920BB00F3E09E /* GRMustacheURLLibrary.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CF816E920BB00F3E09E /* GRMustacheVariableTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CBF16E920BB00F3E09E /* GRMustacheVariableTag.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CF916E920BB00F3E09E /* GRMustacheVariableTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CBF16E920BB00F3E09E /* GRMustacheVariableTag.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CFA16E920BB00F3E09E /* NSFormatter+GRMustache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CC316E920BB00F3E09E /* NSFormatter+GRMustache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CFB16E920BB00F3E09E /* NSFormatter+GRMustache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CC316E920BB00F3E09E /* NSFormatter+GRMustache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CFC16E920BB00F3E09E /* NSValueTransformer+GRMustache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CC516E920BB00F3E09E /* NSValueTransformer+GRMustache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3CFD16E920BB00F3E09E /* NSValueTransformer+GRMustache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3CC516E920BB00F3E09E /* NSValueTransformer+GRMustache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3D0116E920DC00F3E09E /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0016E920DC00F3E09E /* JRSwizzle.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08FF3D0216E920DC00F3E09E /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0016E920DC00F3E09E /* JRSwizzle.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
 		08FF3D0616E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
 		08FF3D0716E92ABD00F3E09E /* themes in Resources */ = {isa = PBXBuildFile; fileRef = 08D2446A15B5D8DE0064A9FA /* themes */; };
@@ -804,6 +737,9 @@
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBE15DD500D00EF28F1 /* Rnw.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rnw.icns; path = resources/mac/Rnw.icns; sourceTree = SOURCE_ROOT; };
+		087DB8C317B57A8200724811 /* libHockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHockeySDK.a; path = "Dependencies/HockeySDK-iOS/Support/build/Debug-iphoneos/libHockeySDK.a"; sourceTree = "<group>"; };
+		087DB8C517B57AB400724811 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = "Dependencies/HockeySDK-iOS/Vendor/CrashReporter.framework"; sourceTree = "<group>"; };
+		087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HockeySDKResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		08ADBE2117A054B40004A89C /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = source/DropBlocks.h; sourceTree = "<group>"; };
 		08ADBE2217A054B40004A89C /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = source/DropBlocks.m; sourceTree = "<group>"; };
 		08ADBE2517A06C9F0004A89C /* RC2LoopQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RC2LoopQueue.h; sourceTree = "<group>"; };
@@ -1032,28 +968,6 @@
 		08D244FB15B5DA230064A9FA /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		08D244FC15B5DA230064A9FA /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		08D244FD15B5DA230064A9FA /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		08D2451115B5DAE90064A9FA /* BWApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWApp.h; sourceTree = "<group>"; };
-		08D2451215B5DAE90064A9FA /* BWApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWApp.m; sourceTree = "<group>"; };
-		08D2451315B5DAE90064A9FA /* BWGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWGlobal.h; sourceTree = "<group>"; };
-		08D2451415B5DAE90064A9FA /* BWGlobal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWGlobal.m; sourceTree = "<group>"; };
-		08D2451515B5DAE90064A9FA /* BWHockeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWHockeyManager.h; sourceTree = "<group>"; };
-		08D2451615B5DAE90064A9FA /* BWHockeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWHockeyManager.m; sourceTree = "<group>"; };
-		08D2451715B5DAE90064A9FA /* BWHockeySettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWHockeySettingsViewController.h; sourceTree = "<group>"; };
-		08D2451815B5DAE90064A9FA /* BWHockeySettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWHockeySettingsViewController.m; sourceTree = "<group>"; };
-		08D2451915B5DAE90064A9FA /* BWHockeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWHockeyViewController.h; sourceTree = "<group>"; };
-		08D2451A15B5DAE90064A9FA /* BWHockeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWHockeyViewController.m; sourceTree = "<group>"; };
-		08D2451C15B5DAE90064A9FA /* NSString+HockeyAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HockeyAdditions.h"; sourceTree = "<group>"; };
-		08D2451D15B5DAE90064A9FA /* NSString+HockeyAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HockeyAdditions.m"; sourceTree = "<group>"; };
-		08D2451E15B5DAE90064A9FA /* PSAppStoreHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSAppStoreHeader.h; sourceTree = "<group>"; };
-		08D2451F15B5DAE90064A9FA /* PSAppStoreHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSAppStoreHeader.m; sourceTree = "<group>"; };
-		08D2452015B5DAE90064A9FA /* PSStoreButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSStoreButton.h; sourceTree = "<group>"; };
-		08D2452115B5DAE90064A9FA /* PSStoreButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSStoreButton.m; sourceTree = "<group>"; };
-		08D2452215B5DAE90064A9FA /* PSWebTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSWebTableViewCell.h; sourceTree = "<group>"; };
-		08D2452315B5DAE90064A9FA /* PSWebTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSWebTableViewCell.m; sourceTree = "<group>"; };
-		08D2452415B5DAE90064A9FA /* UIImage+HockeyAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HockeyAdditions.h"; sourceTree = "<group>"; };
-		08D2452515B5DAE90064A9FA /* UIImage+HockeyAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HockeyAdditions.m"; sourceTree = "<group>"; };
-		08D2452615B5DAE90064A9FA /* Hockey.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Hockey.bundle; sourceTree = "<group>"; };
-		08D2452B15B5DAE90064A9FA /* README.mkdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mkdown; sourceTree = "<group>"; };
 		08D2455215B5DB270064A9FA /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		08D2455315B5DB270064A9FA /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		08D2455415B5DB270064A9FA /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
@@ -1189,77 +1103,6 @@
 		08E63B451774E409005BB3BB /* RCDropboxSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDropboxSync.h; sourceTree = "<group>"; };
 		08E63B461774E409005BB3BB /* RCDropboxSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDropboxSync.m; sourceTree = "<group>"; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
-		08FF3C8116E920BB00F3E09E /* GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustache.h; sourceTree = "<group>"; };
-		08FF3C8216E920BB00F3E09E /* GRMustache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustache.m; sourceTree = "<group>"; };
-		08FF3C8316E920BB00F3E09E /* GRMustache_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustache_private.h; sourceTree = "<group>"; };
-		08FF3C8416E920BB00F3E09E /* GRMustacheAccumulatorTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheAccumulatorTag.m; sourceTree = "<group>"; };
-		08FF3C8516E920BB00F3E09E /* GRMustacheAccumulatorTag_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheAccumulatorTag_private.h; sourceTree = "<group>"; };
-		08FF3C8616E920BB00F3E09E /* GRMustacheAvailabilityMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheAvailabilityMacros.h; sourceTree = "<group>"; };
-		08FF3C8716E920BB00F3E09E /* GRMustacheAvailabilityMacros_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheAvailabilityMacros_private.h; sourceTree = "<group>"; };
-		08FF3C8816E920BB00F3E09E /* GRMustacheCompiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheCompiler.m; sourceTree = "<group>"; };
-		08FF3C8916E920BB00F3E09E /* GRMustacheCompiler_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheCompiler_private.h; sourceTree = "<group>"; };
-		08FF3C8A16E920BB00F3E09E /* GRMustacheConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheConfiguration.h; sourceTree = "<group>"; };
-		08FF3C8B16E920BB00F3E09E /* GRMustacheConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheConfiguration.m; sourceTree = "<group>"; };
-		08FF3C8C16E920BB00F3E09E /* GRMustacheConfiguration_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheConfiguration_private.h; sourceTree = "<group>"; };
-		08FF3C8D16E920BB00F3E09E /* GRMustacheContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheContext.h; sourceTree = "<group>"; };
-		08FF3C8E16E920BB00F3E09E /* GRMustacheContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheContext.m; sourceTree = "<group>"; };
-		08FF3C8F16E920BB00F3E09E /* GRMustacheContext_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheContext_private.h; sourceTree = "<group>"; };
-		08FF3C9016E920BB00F3E09E /* GRMustacheError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheError.h; sourceTree = "<group>"; };
-		08FF3C9116E920BB00F3E09E /* GRMustacheError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheError.m; sourceTree = "<group>"; };
-		08FF3C9216E920BB00F3E09E /* GRMustacheExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheExpression.m; sourceTree = "<group>"; };
-		08FF3C9316E920BB00F3E09E /* GRMustacheExpression_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheExpression_private.h; sourceTree = "<group>"; };
-		08FF3C9416E920BB00F3E09E /* GRMustacheFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheFilter.h; sourceTree = "<group>"; };
-		08FF3C9516E920BB00F3E09E /* GRMustacheFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheFilter.m; sourceTree = "<group>"; };
-		08FF3C9616E920BB00F3E09E /* GRMustacheFilter_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheFilter_private.h; sourceTree = "<group>"; };
-		08FF3C9716E920BB00F3E09E /* GRMustacheFilteredExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheFilteredExpression.m; sourceTree = "<group>"; };
-		08FF3C9816E920BB00F3E09E /* GRMustacheFilteredExpression_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheFilteredExpression_private.h; sourceTree = "<group>"; };
-		08FF3C9916E920BB00F3E09E /* GRMustacheHTMLLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheHTMLLibrary.m; sourceTree = "<group>"; };
-		08FF3C9A16E920BB00F3E09E /* GRMustacheHTMLLibrary_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheHTMLLibrary_private.h; sourceTree = "<group>"; };
-		08FF3C9B16E920BB00F3E09E /* GRMustacheIdentifierExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheIdentifierExpression.m; sourceTree = "<group>"; };
-		08FF3C9C16E920BB00F3E09E /* GRMustacheIdentifierExpression_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheIdentifierExpression_private.h; sourceTree = "<group>"; };
-		08FF3C9D16E920BB00F3E09E /* GRMustacheImplicitIteratorExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheImplicitIteratorExpression.m; sourceTree = "<group>"; };
-		08FF3C9E16E920BB00F3E09E /* GRMustacheImplicitIteratorExpression_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheImplicitIteratorExpression_private.h; sourceTree = "<group>"; };
-		08FF3C9F16E920BB00F3E09E /* GRMustacheJavascriptLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheJavascriptLibrary.m; sourceTree = "<group>"; };
-		08FF3CA016E920BB00F3E09E /* GRMustacheJavascriptLibrary_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheJavascriptLibrary_private.h; sourceTree = "<group>"; };
-		08FF3CA116E920BB00F3E09E /* GRMustacheLocalizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheLocalizer.h; sourceTree = "<group>"; };
-		08FF3CA216E920BB00F3E09E /* GRMustacheLocalizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheLocalizer.m; sourceTree = "<group>"; };
-		08FF3CA316E920BB00F3E09E /* GRMustacheParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheParser.m; sourceTree = "<group>"; };
-		08FF3CA416E920BB00F3E09E /* GRMustacheParser_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheParser_private.h; sourceTree = "<group>"; };
-		08FF3CA516E920BB00F3E09E /* GRMustacheRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheRendering.h; sourceTree = "<group>"; };
-		08FF3CA616E920BB00F3E09E /* GRMustacheScopedExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheScopedExpression.m; sourceTree = "<group>"; };
-		08FF3CA716E920BB00F3E09E /* GRMustacheScopedExpression_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheScopedExpression_private.h; sourceTree = "<group>"; };
-		08FF3CA816E920BB00F3E09E /* GRMustacheSectionTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheSectionTag.m; sourceTree = "<group>"; };
-		08FF3CA916E920BB00F3E09E /* GRMustacheSectionTag_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheSectionTag_private.h; sourceTree = "<group>"; };
-		08FF3CAA16E920BB00F3E09E /* GRMustacheStandardLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheStandardLibrary.m; sourceTree = "<group>"; };
-		08FF3CAB16E920BB00F3E09E /* GRMustacheStandardLibrary_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheStandardLibrary_private.h; sourceTree = "<group>"; };
-		08FF3CAC16E920BB00F3E09E /* GRMustacheTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTag.h; sourceTree = "<group>"; };
-		08FF3CAD16E920BB00F3E09E /* GRMustacheTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheTag.m; sourceTree = "<group>"; };
-		08FF3CAE16E920BB00F3E09E /* GRMustacheTag_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTag_private.h; sourceTree = "<group>"; };
-		08FF3CAF16E920BB00F3E09E /* GRMustacheTagDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTagDelegate.h; sourceTree = "<group>"; };
-		08FF3CB016E920BB00F3E09E /* GRMustacheTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTemplate.h; sourceTree = "<group>"; };
-		08FF3CB116E920BB00F3E09E /* GRMustacheTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheTemplate.m; sourceTree = "<group>"; };
-		08FF3CB216E920BB00F3E09E /* GRMustacheTemplate_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTemplate_private.h; sourceTree = "<group>"; };
-		08FF3CB316E920BB00F3E09E /* GRMustacheTemplateComponent_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTemplateComponent_private.h; sourceTree = "<group>"; };
-		08FF3CB416E920BB00F3E09E /* GRMustacheTemplateOverride.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheTemplateOverride.m; sourceTree = "<group>"; };
-		08FF3CB516E920BB00F3E09E /* GRMustacheTemplateOverride_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTemplateOverride_private.h; sourceTree = "<group>"; };
-		08FF3CB616E920BB00F3E09E /* GRMustacheTemplateRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTemplateRepository.h; sourceTree = "<group>"; };
-		08FF3CB716E920BB00F3E09E /* GRMustacheTemplateRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheTemplateRepository.m; sourceTree = "<group>"; };
-		08FF3CB816E920BB00F3E09E /* GRMustacheTemplateRepository_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTemplateRepository_private.h; sourceTree = "<group>"; };
-		08FF3CB916E920BB00F3E09E /* GRMustacheTextComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheTextComponent.m; sourceTree = "<group>"; };
-		08FF3CBA16E920BB00F3E09E /* GRMustacheTextComponent_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTextComponent_private.h; sourceTree = "<group>"; };
-		08FF3CBB16E920BB00F3E09E /* GRMustacheToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheToken.m; sourceTree = "<group>"; };
-		08FF3CBC16E920BB00F3E09E /* GRMustacheToken_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheToken_private.h; sourceTree = "<group>"; };
-		08FF3CBD16E920BB00F3E09E /* GRMustacheURLLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheURLLibrary.m; sourceTree = "<group>"; };
-		08FF3CBE16E920BB00F3E09E /* GRMustacheURLLibrary_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheURLLibrary_private.h; sourceTree = "<group>"; };
-		08FF3CBF16E920BB00F3E09E /* GRMustacheVariableTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheVariableTag.m; sourceTree = "<group>"; };
-		08FF3CC016E920BB00F3E09E /* GRMustacheVariableTag_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheVariableTag_private.h; sourceTree = "<group>"; };
-		08FF3CC116E920BB00F3E09E /* GRMustacheVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheVersion.h; sourceTree = "<group>"; };
-		08FF3CC216E920BB00F3E09E /* NSFormatter+GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFormatter+GRMustache.h"; sourceTree = "<group>"; };
-		08FF3CC316E920BB00F3E09E /* NSFormatter+GRMustache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFormatter+GRMustache.m"; sourceTree = "<group>"; };
-		08FF3CC416E920BB00F3E09E /* NSValueTransformer+GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValueTransformer+GRMustache.h"; sourceTree = "<group>"; };
-		08FF3CC516E920BB00F3E09E /* NSValueTransformer+GRMustache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValueTransformer+GRMustache.m"; sourceTree = "<group>"; };
-		08FF3CFF16E920DC00F3E09E /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRSwizzle.h; path = Dependencies/GRMustache/src/vendor/groue/jrswizzle/JRSwizzle.h; sourceTree = "<group>"; };
-		08FF3D0016E920DC00F3E09E /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRSwizzle.m; path = Dependencies/GRMustache/src/vendor/groue/jrswizzle/JRSwizzle.m; sourceTree = "<group>"; };
 		08FF3D0316E9250900F3E09E /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/theme/ThemeEngine.h; sourceTree = "<group>"; };
 		08FF3D0416E9250900F3E09E /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/theme/ThemeEngine.m; sourceTree = "<group>"; };
 		08FF3D1116F0C71F00F3E09E /* mailActivity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mailActivity.png; sourceTree = "<group>"; };
@@ -1305,6 +1148,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				087DB8C417B57A8200724811 /* libHockeySDK.a in Frameworks */,
 				08D245FB15B5DDD00064A9FA /* libz.dylib in Frameworks */,
 				08D245F915B5DDCB0064A9FA /* CFNetwork.framework in Frameworks */,
 				08D245EC15B5DBFF0064A9FA /* libVyana-ios.a in Frameworks */,
@@ -1322,6 +1166,7 @@
 				08D244F815B5D9F60064A9FA /* QuartzCore.framework in Frameworks */,
 				08E63B411773A0BA005BB3BB /* DropboxSDK.framework in Frameworks */,
 				08D244F915B5D9F60064A9FA /* Security.framework in Frameworks */,
+				087DB8C617B57AB400724811 /* CrashReporter.framework in Frameworks */,
 				08D244FA15B5D9F60064A9FA /* SystemConfiguration.framework in Frameworks */,
 				08D2432815B5D04D0064A9FA /* CoreGraphics.framework in Frameworks */,
 				08D2432415B5D04D0064A9FA /* UIKit.framework in Frameworks */,
@@ -1728,6 +1573,8 @@
 		08D2432215B5D04D0064A9FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				087DB8C317B57A8200724811 /* libHockeySDK.a */,
+				087DB8C517B57AB400724811 /* CrashReporter.framework */,
 				08E63B401773A0B9005BB3BB /* DropboxSDK.framework */,
 				08D245FA15B5DDD00064A9FA /* libz.dylib */,
 				08D245F815B5DDCB0064A9FA /* CFNetwork.framework */,
@@ -1911,7 +1758,6 @@
 			isa = PBXGroup;
 			children = (
 				08DF3D5315BDBC80000A339D /* AMResizableSplitterViewController */,
-				08D2451015B5DAE90064A9FA /* HockeyKit-ios */,
 				08FF3D4016F10E1900F3E09E /* ColorPicker-for-iOS */,
 				08D243F115B5D78A0064A9FA /* CoolButton.h */,
 				08D243F215B5D78A0064A9FA /* CoolButton.m */,
@@ -1967,6 +1813,7 @@
 		08D2446815B5D8C10064A9FA /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */,
 				08B74C77163B31F000083F9A /* images */,
 				08D244D615B5D9090064A9FA /* DefaultDefaults.plist */,
 				08C3A27C1784A0210050BD28 /* KeyboardToolbar.plist */,
@@ -2001,50 +1848,11 @@
 				08FF3D3A16F0EC7E00F3E09E /* ThemeColorEntry.h */,
 				08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */,
 				08D2459715B5DBB70064A9FA /* rc2 */,
-				08FF3CFE16E920C200F3E09E /* GRMustache */,
 				080E506E166FDFB800E95531 /* AFNetworking */,
 				08D2455115B5DB270064A9FA /* json */,
 				08D2455E15B5DB270064A9FA /* WebSocketClient */,
 			);
 			name = shared;
-			sourceTree = "<group>";
-		};
-		08D2451015B5DAE90064A9FA /* HockeyKit-ios */ = {
-			isa = PBXGroup;
-			children = (
-				08D2451115B5DAE90064A9FA /* BWApp.h */,
-				08D2451215B5DAE90064A9FA /* BWApp.m */,
-				08D2451315B5DAE90064A9FA /* BWGlobal.h */,
-				08D2451415B5DAE90064A9FA /* BWGlobal.m */,
-				08D2451515B5DAE90064A9FA /* BWHockeyManager.h */,
-				08D2451615B5DAE90064A9FA /* BWHockeyManager.m */,
-				08D2451715B5DAE90064A9FA /* BWHockeySettingsViewController.h */,
-				08D2451815B5DAE90064A9FA /* BWHockeySettingsViewController.m */,
-				08D2451915B5DAE90064A9FA /* BWHockeyViewController.h */,
-				08D2451A15B5DAE90064A9FA /* BWHockeyViewController.m */,
-				08D2451B15B5DAE90064A9FA /* Helper */,
-				08D2452615B5DAE90064A9FA /* Hockey.bundle */,
-				08D2452B15B5DAE90064A9FA /* README.mkdown */,
-			);
-			name = "HockeyKit-ios";
-			path = "3rdParty/HockeyKit-ios";
-			sourceTree = SOURCE_ROOT;
-		};
-		08D2451B15B5DAE90064A9FA /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				08D2451C15B5DAE90064A9FA /* NSString+HockeyAdditions.h */,
-				08D2451D15B5DAE90064A9FA /* NSString+HockeyAdditions.m */,
-				08D2451E15B5DAE90064A9FA /* PSAppStoreHeader.h */,
-				08D2451F15B5DAE90064A9FA /* PSAppStoreHeader.m */,
-				08D2452015B5DAE90064A9FA /* PSStoreButton.h */,
-				08D2452115B5DAE90064A9FA /* PSStoreButton.m */,
-				08D2452215B5DAE90064A9FA /* PSWebTableViewCell.h */,
-				08D2452315B5DAE90064A9FA /* PSWebTableViewCell.m */,
-				08D2452415B5DAE90064A9FA /* UIImage+HockeyAdditions.h */,
-				08D2452515B5DAE90064A9FA /* UIImage+HockeyAdditions.m */,
-			);
-			path = Helper;
 			sourceTree = "<group>";
 		};
 		08D2455115B5DB270064A9FA /* json */ = {
@@ -2314,93 +2122,6 @@
 			name = session;
 			sourceTree = "<group>";
 		};
-		08FF3C8016E920BB00F3E09E /* classes */ = {
-			isa = PBXGroup;
-			children = (
-				08FF3C8116E920BB00F3E09E /* GRMustache.h */,
-				08FF3C8216E920BB00F3E09E /* GRMustache.m */,
-				08FF3C8316E920BB00F3E09E /* GRMustache_private.h */,
-				08FF3C8416E920BB00F3E09E /* GRMustacheAccumulatorTag.m */,
-				08FF3C8516E920BB00F3E09E /* GRMustacheAccumulatorTag_private.h */,
-				08FF3C8616E920BB00F3E09E /* GRMustacheAvailabilityMacros.h */,
-				08FF3C8716E920BB00F3E09E /* GRMustacheAvailabilityMacros_private.h */,
-				08FF3C8816E920BB00F3E09E /* GRMustacheCompiler.m */,
-				08FF3C8916E920BB00F3E09E /* GRMustacheCompiler_private.h */,
-				08FF3C8A16E920BB00F3E09E /* GRMustacheConfiguration.h */,
-				08FF3C8B16E920BB00F3E09E /* GRMustacheConfiguration.m */,
-				08FF3C8C16E920BB00F3E09E /* GRMustacheConfiguration_private.h */,
-				08FF3C8D16E920BB00F3E09E /* GRMustacheContext.h */,
-				08FF3C8E16E920BB00F3E09E /* GRMustacheContext.m */,
-				08FF3C8F16E920BB00F3E09E /* GRMustacheContext_private.h */,
-				08FF3C9016E920BB00F3E09E /* GRMustacheError.h */,
-				08FF3C9116E920BB00F3E09E /* GRMustacheError.m */,
-				08FF3C9216E920BB00F3E09E /* GRMustacheExpression.m */,
-				08FF3C9316E920BB00F3E09E /* GRMustacheExpression_private.h */,
-				08FF3C9416E920BB00F3E09E /* GRMustacheFilter.h */,
-				08FF3C9516E920BB00F3E09E /* GRMustacheFilter.m */,
-				08FF3C9616E920BB00F3E09E /* GRMustacheFilter_private.h */,
-				08FF3C9716E920BB00F3E09E /* GRMustacheFilteredExpression.m */,
-				08FF3C9816E920BB00F3E09E /* GRMustacheFilteredExpression_private.h */,
-				08FF3C9916E920BB00F3E09E /* GRMustacheHTMLLibrary.m */,
-				08FF3C9A16E920BB00F3E09E /* GRMustacheHTMLLibrary_private.h */,
-				08FF3C9B16E920BB00F3E09E /* GRMustacheIdentifierExpression.m */,
-				08FF3C9C16E920BB00F3E09E /* GRMustacheIdentifierExpression_private.h */,
-				08FF3C9D16E920BB00F3E09E /* GRMustacheImplicitIteratorExpression.m */,
-				08FF3C9E16E920BB00F3E09E /* GRMustacheImplicitIteratorExpression_private.h */,
-				08FF3C9F16E920BB00F3E09E /* GRMustacheJavascriptLibrary.m */,
-				08FF3CA016E920BB00F3E09E /* GRMustacheJavascriptLibrary_private.h */,
-				08FF3CA116E920BB00F3E09E /* GRMustacheLocalizer.h */,
-				08FF3CA216E920BB00F3E09E /* GRMustacheLocalizer.m */,
-				08FF3CA316E920BB00F3E09E /* GRMustacheParser.m */,
-				08FF3CA416E920BB00F3E09E /* GRMustacheParser_private.h */,
-				08FF3CA516E920BB00F3E09E /* GRMustacheRendering.h */,
-				08FF3CA616E920BB00F3E09E /* GRMustacheScopedExpression.m */,
-				08FF3CA716E920BB00F3E09E /* GRMustacheScopedExpression_private.h */,
-				08FF3CA816E920BB00F3E09E /* GRMustacheSectionTag.m */,
-				08FF3CA916E920BB00F3E09E /* GRMustacheSectionTag_private.h */,
-				08FF3CAA16E920BB00F3E09E /* GRMustacheStandardLibrary.m */,
-				08FF3CAB16E920BB00F3E09E /* GRMustacheStandardLibrary_private.h */,
-				08FF3CAC16E920BB00F3E09E /* GRMustacheTag.h */,
-				08FF3CAD16E920BB00F3E09E /* GRMustacheTag.m */,
-				08FF3CAE16E920BB00F3E09E /* GRMustacheTag_private.h */,
-				08FF3CAF16E920BB00F3E09E /* GRMustacheTagDelegate.h */,
-				08FF3CB016E920BB00F3E09E /* GRMustacheTemplate.h */,
-				08FF3CB116E920BB00F3E09E /* GRMustacheTemplate.m */,
-				08FF3CB216E920BB00F3E09E /* GRMustacheTemplate_private.h */,
-				08FF3CB316E920BB00F3E09E /* GRMustacheTemplateComponent_private.h */,
-				08FF3CB416E920BB00F3E09E /* GRMustacheTemplateOverride.m */,
-				08FF3CB516E920BB00F3E09E /* GRMustacheTemplateOverride_private.h */,
-				08FF3CB616E920BB00F3E09E /* GRMustacheTemplateRepository.h */,
-				08FF3CB716E920BB00F3E09E /* GRMustacheTemplateRepository.m */,
-				08FF3CB816E920BB00F3E09E /* GRMustacheTemplateRepository_private.h */,
-				08FF3CB916E920BB00F3E09E /* GRMustacheTextComponent.m */,
-				08FF3CBA16E920BB00F3E09E /* GRMustacheTextComponent_private.h */,
-				08FF3CBB16E920BB00F3E09E /* GRMustacheToken.m */,
-				08FF3CBC16E920BB00F3E09E /* GRMustacheToken_private.h */,
-				08FF3CBD16E920BB00F3E09E /* GRMustacheURLLibrary.m */,
-				08FF3CBE16E920BB00F3E09E /* GRMustacheURLLibrary_private.h */,
-				08FF3CBF16E920BB00F3E09E /* GRMustacheVariableTag.m */,
-				08FF3CC016E920BB00F3E09E /* GRMustacheVariableTag_private.h */,
-				08FF3CC116E920BB00F3E09E /* GRMustacheVersion.h */,
-				08FF3CC216E920BB00F3E09E /* NSFormatter+GRMustache.h */,
-				08FF3CC316E920BB00F3E09E /* NSFormatter+GRMustache.m */,
-				08FF3CC416E920BB00F3E09E /* NSValueTransformer+GRMustache.h */,
-				08FF3CC516E920BB00F3E09E /* NSValueTransformer+GRMustache.m */,
-			);
-			name = classes;
-			path = Dependencies/GRMustache/src/classes;
-			sourceTree = "<group>";
-		};
-		08FF3CFE16E920C200F3E09E /* GRMustache */ = {
-			isa = PBXGroup;
-			children = (
-				08FF3CFF16E920DC00F3E09E /* JRSwizzle.h */,
-				08FF3D0016E920DC00F3E09E /* JRSwizzle.m */,
-				08FF3C8016E920BB00F3E09E /* classes */,
-			);
-			name = GRMustache;
-			sourceTree = "<group>";
-		};
 		08FF3D0E16F0C71F00F3E09E /* WHMessageActivities */ = {
 			isa = PBXGroup;
 			children = (
@@ -2613,8 +2334,6 @@
 				08D244DB15B5D9090064A9FA /* mailsent.caf in Resources */,
 				08D244DE15B5D92A0064A9FA /* Default-Landscape~ipad.png in Resources */,
 				08D244DF15B5D92A0064A9FA /* Default-Portrait~ipad.png in Resources */,
-				08D2453615B5DAE90064A9FA /* Hockey.bundle in Resources */,
-				08D2453915B5DAE90064A9FA /* README.mkdown in Resources */,
 				08D2458315B5DB270064A9FA /* LICENSE in Resources */,
 				08D2461615B5E0780064A9FA /* DropboxImportController.xib in Resources */,
 				08D2461715B5E07C0064A9FA /* ControlViewController.xib in Resources */,
@@ -2718,6 +2437,7 @@
 				08FF3D4E16F10E1900F3E09E /* HorizontalSelector.png in Resources */,
 				08FF3D4F16F10E1900F3E09E /* HorizontalSelector@2x.png in Resources */,
 				08FF3D5016F10E1900F3E09E /* HueSaturationGradient.png in Resources */,
+				087DB8C817B57AFF00724811 /* HockeySDKResources.bundle in Resources */,
 				08C3A27D1784A0210050BD28 /* KeyboardToolbar.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2970,16 +2690,6 @@
 				08D2441D15B5D78A0064A9FA /* PHRefreshGestureRecognizer.m in Sources */,
 				08D2441E15B5D78A0064A9FA /* PHRefreshTriggerView.m in Sources */,
 				08D2442415B5D7B90064A9FA /* Rc2.xcdatamodeld in Sources */,
-				08D2452C15B5DAE90064A9FA /* BWApp.m in Sources */,
-				08D2452D15B5DAE90064A9FA /* BWGlobal.m in Sources */,
-				08D2452E15B5DAE90064A9FA /* BWHockeyManager.m in Sources */,
-				08D2452F15B5DAE90064A9FA /* BWHockeySettingsViewController.m in Sources */,
-				08D2453015B5DAE90064A9FA /* BWHockeyViewController.m in Sources */,
-				08D2453115B5DAE90064A9FA /* NSString+HockeyAdditions.m in Sources */,
-				08D2453215B5DAE90064A9FA /* PSAppStoreHeader.m in Sources */,
-				08D2453315B5DAE90064A9FA /* PSStoreButton.m in Sources */,
-				08D2453415B5DAE90064A9FA /* PSWebTableViewCell.m in Sources */,
-				08D2453515B5DAE90064A9FA /* UIImage+HockeyAdditions.m in Sources */,
 				08D2458415B5DB270064A9FA /* NSObject+SBJSON.m in Sources */,
 				08D2458515B5DB270064A9FA /* NSString+SBJSON.m in Sources */,
 				08D2458615B5DB270064A9FA /* SBJsonBase.m in Sources */,
@@ -3051,35 +2761,6 @@
 				080E5090166FDFB800E95531 /* AFXMLRequestOperation.m in Sources */,
 				080E5092166FDFB800E95531 /* UIImageView+AFNetworking.m in Sources */,
 				08D8C336169E1637000DDA04 /* FileImportViewController.m in Sources */,
-				08FF3CC616E920BB00F3E09E /* GRMustache.m in Sources */,
-				08FF3CC816E920BB00F3E09E /* GRMustacheAccumulatorTag.m in Sources */,
-				08FF3CCA16E920BB00F3E09E /* GRMustacheCompiler.m in Sources */,
-				08FF3CCC16E920BB00F3E09E /* GRMustacheConfiguration.m in Sources */,
-				08FF3CCE16E920BB00F3E09E /* GRMustacheContext.m in Sources */,
-				08FF3CD016E920BB00F3E09E /* GRMustacheError.m in Sources */,
-				08FF3CD216E920BB00F3E09E /* GRMustacheExpression.m in Sources */,
-				08FF3CD416E920BB00F3E09E /* GRMustacheFilter.m in Sources */,
-				08FF3CD616E920BB00F3E09E /* GRMustacheFilteredExpression.m in Sources */,
-				08FF3CD816E920BB00F3E09E /* GRMustacheHTMLLibrary.m in Sources */,
-				08FF3CDA16E920BB00F3E09E /* GRMustacheIdentifierExpression.m in Sources */,
-				08FF3CDC16E920BB00F3E09E /* GRMustacheImplicitIteratorExpression.m in Sources */,
-				08FF3CDE16E920BB00F3E09E /* GRMustacheJavascriptLibrary.m in Sources */,
-				08FF3CE016E920BB00F3E09E /* GRMustacheLocalizer.m in Sources */,
-				08FF3CE216E920BB00F3E09E /* GRMustacheParser.m in Sources */,
-				08FF3CE416E920BB00F3E09E /* GRMustacheScopedExpression.m in Sources */,
-				08FF3CE616E920BB00F3E09E /* GRMustacheSectionTag.m in Sources */,
-				08FF3CE816E920BB00F3E09E /* GRMustacheStandardLibrary.m in Sources */,
-				08FF3CEA16E920BB00F3E09E /* GRMustacheTag.m in Sources */,
-				08FF3CEC16E920BB00F3E09E /* GRMustacheTemplate.m in Sources */,
-				08FF3CEE16E920BB00F3E09E /* GRMustacheTemplateOverride.m in Sources */,
-				08FF3CF016E920BB00F3E09E /* GRMustacheTemplateRepository.m in Sources */,
-				08FF3CF216E920BB00F3E09E /* GRMustacheTextComponent.m in Sources */,
-				08FF3CF416E920BB00F3E09E /* GRMustacheToken.m in Sources */,
-				08FF3CF616E920BB00F3E09E /* GRMustacheURLLibrary.m in Sources */,
-				08FF3CF816E920BB00F3E09E /* GRMustacheVariableTag.m in Sources */,
-				08FF3CFA16E920BB00F3E09E /* NSFormatter+GRMustache.m in Sources */,
-				08FF3CFC16E920BB00F3E09E /* NSValueTransformer+GRMustache.m in Sources */,
-				08FF3D0116E920DC00F3E09E /* JRSwizzle.m in Sources */,
 				08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */,
 				08FF3D2716F0C71F00F3E09E /* WHMailActivity.m in Sources */,
 				08FF3D2816F0C71F00F3E09E /* WHMailActivityItem.m in Sources */,
@@ -3197,35 +2878,6 @@
 				080E508F166FDFB800E95531 /* AFURLConnectionOperation.m in Sources */,
 				080E5091166FDFB800E95531 /* AFXMLRequestOperation.m in Sources */,
 				084B479D167A8B3D000A0A6F /* MLReachability.m in Sources */,
-				08FF3CC716E920BB00F3E09E /* GRMustache.m in Sources */,
-				08FF3CC916E920BB00F3E09E /* GRMustacheAccumulatorTag.m in Sources */,
-				08FF3CCB16E920BB00F3E09E /* GRMustacheCompiler.m in Sources */,
-				08FF3CCD16E920BB00F3E09E /* GRMustacheConfiguration.m in Sources */,
-				08FF3CCF16E920BB00F3E09E /* GRMustacheContext.m in Sources */,
-				08FF3CD116E920BB00F3E09E /* GRMustacheError.m in Sources */,
-				08FF3CD316E920BB00F3E09E /* GRMustacheExpression.m in Sources */,
-				08FF3CD516E920BB00F3E09E /* GRMustacheFilter.m in Sources */,
-				08FF3CD716E920BB00F3E09E /* GRMustacheFilteredExpression.m in Sources */,
-				08FF3CD916E920BB00F3E09E /* GRMustacheHTMLLibrary.m in Sources */,
-				08FF3CDB16E920BB00F3E09E /* GRMustacheIdentifierExpression.m in Sources */,
-				08FF3CDD16E920BB00F3E09E /* GRMustacheImplicitIteratorExpression.m in Sources */,
-				08FF3CDF16E920BB00F3E09E /* GRMustacheJavascriptLibrary.m in Sources */,
-				08FF3CE116E920BB00F3E09E /* GRMustacheLocalizer.m in Sources */,
-				08FF3CE316E920BB00F3E09E /* GRMustacheParser.m in Sources */,
-				08FF3CE516E920BB00F3E09E /* GRMustacheScopedExpression.m in Sources */,
-				08FF3CE716E920BB00F3E09E /* GRMustacheSectionTag.m in Sources */,
-				08FF3CE916E920BB00F3E09E /* GRMustacheStandardLibrary.m in Sources */,
-				08FF3CEB16E920BB00F3E09E /* GRMustacheTag.m in Sources */,
-				08FF3CED16E920BB00F3E09E /* GRMustacheTemplate.m in Sources */,
-				08FF3CEF16E920BB00F3E09E /* GRMustacheTemplateOverride.m in Sources */,
-				08FF3CF116E920BB00F3E09E /* GRMustacheTemplateRepository.m in Sources */,
-				08FF3CF316E920BB00F3E09E /* GRMustacheTextComponent.m in Sources */,
-				08FF3CF516E920BB00F3E09E /* GRMustacheToken.m in Sources */,
-				08FF3CF716E920BB00F3E09E /* GRMustacheURLLibrary.m in Sources */,
-				08FF3CF916E920BB00F3E09E /* GRMustacheVariableTag.m in Sources */,
-				08FF3CFB16E920BB00F3E09E /* NSFormatter+GRMustache.m in Sources */,
-				08FF3CFD16E920BB00F3E09E /* NSValueTransformer+GRMustache.m in Sources */,
-				08FF3D0216E920DC00F3E09E /* JRSwizzle.m in Sources */,
 				08FF3D0616E9250900F3E09E /* ThemeEngine.m in Sources */,
 				08FF3D5116F24F5200F3E09E /* ThemeColorEntry.m in Sources */,
 				0811F99316FB6A290060BAB4 /* RCMAdminController.m in Sources */,
@@ -3387,7 +3039,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/3rdParty\"",
 					"$(BUILT_PRODUCTS_DIR)",
-					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/Dependencies/HockeySDK-iOS/Vendor\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "source/ios/rc2-Prefix.pch";
@@ -3420,7 +3072,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/3rdParty\"",
 					"$(BUILT_PRODUCTS_DIR)",
-					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/Dependencies/HockeySDK-iOS/Vendor\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "source/ios/rc2-Prefix.pch";
@@ -3483,7 +3135,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/3rdParty\"",
 					"$(BUILT_PRODUCTS_DIR)",
-					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/Dependencies/HockeySDK-iOS/Vendor\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "source/ios/rc2-Prefix.pch";

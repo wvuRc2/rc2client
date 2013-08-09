@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BWHockeyManager.h"
 
 @class SessionViewController;
 @class RCFile;
 @class RCWorkspace;
 
-@interface Rc2AppDelegate : UIResponder <UIApplicationDelegate, BWHockeyManagerDelegate>
+@interface Rc2AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic, strong) IBOutlet UIWindow *window;
 @property (nonatomic, strong) SessionViewController *sessionController;

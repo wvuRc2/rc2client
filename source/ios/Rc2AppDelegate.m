@@ -7,6 +7,7 @@
 //
 
 #import "Rc2AppDelegate.h"
+#import "include/HockeySDK/HockeySDK.h"
 #import "LoginController.h"
 #import "SessionViewController.h"
 #import "RootViewController.h"
@@ -33,7 +34,7 @@
 @end
 
 
-@interface Rc2AppDelegate() {
+@interface Rc2AppDelegate() <BITHockeyManagerDelegate,BITUpdateManagerDelegate> {
 	NSManagedObjectModel *__mom;
 }
 @property (nonatomic, strong) MLReachability *reachability;
@@ -66,10 +67,10 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	Method origMethod = class_getInstanceMethod([UITableView class], @selector(touchesEnded:withEvent:));
 	method_exchangeImplementations(origMethod, customMethod);
 
-#ifndef CONFIGURATION_Debug
-	[[BWHockeyManager sharedHockeyManager] setAppIdentifier:@"1ecec8cd34e796a9159794e9e86610ee"];
-	[[BWHockeyManager sharedHockeyManager] setDelegate:self];
-#endif
+//#ifndef CONFIGURATION_Debug
+	[[BITHockeyManager sharedHockeyManager] configureWithBetaIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" liveIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" delegate:self];
+	[[BITHockeyManager sharedHockeyManager] startManager];
+//#endif
 	
 	self.reachability = [MLReachability reachabilityForInternetConnection];
 	self.reachability.reachableBlock = ^(MLReachability *reach){
@@ -329,7 +330,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[svc view];
 	[MBProgressHUD hideHUDForView:self.rootController.view animated:YES];
 	RunAfterDelay(0.25, ^{
-		[self.rootController presentModalViewController:svc animated:YES];
+		[self.rootController presentViewController:svc animated:YES completion:nil];
 	});
 }
 
@@ -408,7 +409,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 -(IBAction)endSession:(id)sender
 {
-	[self.rootController dismissModalViewControllerAnimated:YES];
+	[self.rootController dismissViewControllerAnimated:YES completion:nil];
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:kPref_CurrentSessionWorkspace];
 	self.sessionController=nil;
 }
@@ -460,7 +461,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	__weak UIViewController *blockVC = self.window.rootViewController;
 	__unsafe_unretained Rc2AppDelegate *blockSelf = self;
 	self.authController.loginCompleteHandler = ^ {
-		[blockVC dismissModalViewControllerAnimated:YES];
+		[blockVC dismissViewControllerAnimated:YES completion:nil];
 		blockSelf.authController=nil;
 		[blockSelf registerForPushNotification];
 		if ([[NSUserDefaults standardUserDefaults] objectForKey:kPref_CurrentSessionWorkspace]) {
@@ -470,7 +471,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	self.authController.modalPresentationStyle = UIModalPresentationPageSheet;
 	[self.authController view];
 	CGSize sz = self.authController.view.frame.size;
-	[blockVC presentModalViewController:self.authController animated:YES];
+	[blockVC presentViewController:self.authController animated:YES completion:nil];
 
 
    self.authController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
@@ -486,7 +487,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 }
 
 
--(NSString *)customDeviceIdentifier 
+-(NSString *)customDeviceIdentifierForUpdateManager:(BITUpdateManager *)updateManager
 {
 	if ([[UIDevice currentDevice] respondsToSelector:@selector(uniqueIdentifier)])
 		return [[UIDevice currentDevice] performSelector:@selector(uniqueIdentifier)];
