@@ -363,7 +363,7 @@
 		08D2458715B5DB270064A9FA /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455B15B5DB270064A9FA /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458815B5DB270064A9FA /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455D15B5DB270064A9FA /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458915B5DB270064A9FA /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456015B5DB270064A9FA /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2458A15B5DB270064A9FA /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456215B5DB270064A9FA /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08D2458A15B5DB270064A9FA /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456215B5DB270064A9FA /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-Wno-undeclared-selector"; }; };
 		08D2458B15B5DB270064A9FA /* HandshakeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456415B5DB270064A9FA /* HandshakeHeader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458C15B5DB270064A9FA /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456615B5DB270064A9FA /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458D15B5DB270064A9FA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456815B5DB270064A9FA /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -437,7 +437,7 @@
 		08D2466415B5EDE30064A9FA /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455B15B5DB270064A9FA /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466515B5EDE30064A9FA /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455D15B5DB270064A9FA /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466615B5EE670064A9FA /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456015B5DB270064A9FA /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2466715B5EE670064A9FA /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456215B5DB270064A9FA /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08D2466715B5EE670064A9FA /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456215B5DB270064A9FA /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-Wno-undeclared-selector -Wno-sometimes-uninitialized"; }; };
 		08D2466815B5EE670064A9FA /* HandshakeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456415B5DB270064A9FA /* HandshakeHeader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466915B5EE670064A9FA /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456615B5DB270064A9FA /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466A15B5EE670064A9FA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456815B5DB270064A9FA /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
