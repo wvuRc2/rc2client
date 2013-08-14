@@ -32,6 +32,7 @@
 -(void)viewDidLoad
 {
 	[super viewDidLoad];
+	self.view.translatesAutoresizingMaskIntoConstraints = NO;
 	__weak AbstractTopViewController *blockSelf = self;
 	[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *theme) {
 		[blockSelf updateForNewTheme:theme];
@@ -52,6 +53,24 @@
 	theButton = (UIButton*)self.homeButton.customView;
 	[theButton setImage:[UIImage imageNamed:@"home-tbar"] forState:UIControlStateNormal];
 	[theButton setImage:[UIImage imageNamed:@"home-tbar-down"] forState:UIControlStateHighlighted];
+	[self checkConstraints];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	[self checkConstraints]; //would prefer to happen in viewWillAppear, but just in case it didn't (which can happen)
+}
+
+-(void)checkConstraints
+{
+	if (self.view.superview && self.view.constraints.count < 2) {
+		UIView *view = self.view;
+		id topbar = self.topLayoutGuide;
+		NSDictionary *vd = NSDictionaryOfVariableBindings(view, topbar);
+		[view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[view]-0-|" options:0 metrics:nil views:vd]];
+		[view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[view]-0-|" options:0 metrics:nil views:vd]];
+	}
 }
 
 -(IBAction)doActionMenu:(id)sender

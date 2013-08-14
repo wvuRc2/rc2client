@@ -18,7 +18,7 @@
 #import "MAKVONotificationCenter.h"
 #import "MBProgressHUD.h"
 
-@interface ProjectViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
+@interface ProjectViewController () <UICollectionViewDataSource,UICollectionViewDelegate,UIBarPositioningDelegate>
 @property (weak) IBOutlet UIBarButtonItem *addButton;
 @property (weak) IBOutlet UIBarButtonItem *projectButton;
 @property (weak) IBOutlet UIBarButtonItem *titleItem;
@@ -66,14 +66,9 @@
 	[self.collectionView addGestureRecognizer:g];
 }
 
--(void)viewDidAppear:(BOOL)animated
+-(UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
 {
-	[super viewDidAppear:animated];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
+	return UIBarPositionTopAttached;
 }
 
 -(void)updateForNewTheme:(Theme*)theme

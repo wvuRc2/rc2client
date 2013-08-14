@@ -11,13 +11,17 @@
 #import "MessagesViewController.h"
 #import "GradingViewController.h"
 #import "ProjectViewController.h"
+#import "ThemeEngine.h"
 
-@interface RootViewController ()
+@interface RootViewController () <UIBarPositioningDelegate>
 @property (nonatomic, strong) WelcomeViewController *welcomeController;
 @property (nonatomic, strong) ProjectViewController *projectController;
 @property (nonatomic, strong) MessagesViewController *messageController;
 @property (nonatomic, strong) GradingViewController *gradingController;
 @property (nonatomic, strong) id currentController;
+@end
+
+@interface RootView : UIView
 @end
 
 @implementation RootViewController
@@ -32,8 +36,7 @@
 
 -(void)loadView
 {
-	UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 760)];
-	view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+	UIView *view = [[RootView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.view = view;
 	self.welcomeController = [[WelcomeViewController alloc] init];
 	[self addChildViewController:self.welcomeController];
@@ -43,14 +46,40 @@
 	[self.projectController didMoveToParentViewController:self];
 	[view addSubview:self.projectController.view];
 	self.currentController = self.projectController;
+
+	__weak RootViewController *blockSelf = self;
+	[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *theme) {
+		[blockSelf updateForNewTheme:theme];
+	}];
+	[self updateForNewTheme:[[ThemeEngine sharedInstance] currentTheme]];
+
+}
+
+-(void)updateForNewTheme:(Theme*)theme
+{
+	self.view.backgroundColor = [theme colorForKey:@"WelcomeBackground"];
+	[self.view setNeedsDisplay];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
+	self.view.translatesAutoresizingMaskIntoConstraints = NO;
+	UIView* view = self.view;
+	NSDictionary *vd = NSDictionaryOfVariableBindings(view);
+	[view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[view]-0-|" options:0 metrics:nil views:vd]];
+	[view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[view]-0-|" options:0 metrics:nil views:vd]];
 	[super viewDidAppear:animated];
+	self.view.layer.borderWidth = 3;
+	self.view.layer.borderColor = [UIColor redColor].CGColor;
 	self.welcomeController.view.frame = self.view.bounds;
 }
 
+-(UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
+{
+	return UIBarPositionTopAttached;
+}
+
+/*
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -58,16 +87,11 @@
 		[self.welcomeController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	}
 }
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
-}
-
+*/
 -(void)showWelcome
 {
 	[self showWorkspaces];
-//	[self switchToController:self.welcomeController];
+	[self switchToController:self.welcomeController];
 }
 
 -(void)showMessages
@@ -134,3 +158,10 @@
 	}
 }
 @end
+
+@implementation RootView
+
++(BOOL)requiresConstraintBasedLayout { return YES; }
+
+@end
+

@@ -44,11 +44,6 @@
 	}
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
-}
-
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -63,6 +58,12 @@
 		[self.noteTable reloadData];
 	}];
 }
+
+-(UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
+{
+	return UIBarPositionTopAttached;
+}
+
 
 #pragma mark - meat & potatos
 
