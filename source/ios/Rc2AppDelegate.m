@@ -25,6 +25,7 @@
 #import "ThemeEngine.h"
 #import "ThemeColorViewController.h"
 #import "SendMailController.h"
+#import "ProjectViewController.h"
 
 @interface UITableView (DoubleClick)
 -(void)myTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
@@ -82,9 +83,12 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 		[del networkUnreachable];
 	};
 	
-	self.rootController = [[RootViewController alloc] init];
-	self.window.rootViewController = self.rootController;
-	[self.window addSubview:self.rootController.view];
+	ProjectViewController *pvc = [[ProjectViewController alloc] init];
+	UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:pvc];
+	self.window.rootViewController = navc;
+//	self.rootController = [[RootViewController alloc] init];
+//	self.window.rootViewController = self.rootController;
+//	[self.window addSubview:self.rootController.view];
 	[self.window makeKeyAndVisible];
 
 	[(iAMApplication*)application sendDelegateEventNotifications];

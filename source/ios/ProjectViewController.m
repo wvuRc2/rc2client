@@ -21,7 +21,6 @@
 @interface ProjectViewController () <UICollectionViewDataSource,UICollectionViewDelegate,UIBarPositioningDelegate>
 @property (weak) IBOutlet UIBarButtonItem *addButton;
 @property (weak) IBOutlet UIBarButtonItem *projectButton;
-@property (weak) IBOutlet UIBarButtonItem *titleItem;
 @property (weak) IBOutlet UICollectionView *collectionView;
 @property (strong) UIActionSheet *contextMenuSheet;
 @property (strong) NSMutableArray *projects;
@@ -64,6 +63,12 @@
 	[self.collectionView reloadData];
 	UILongPressGestureRecognizer *g = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longGesture:)];
 	[self.collectionView addGestureRecognizer:g];
+	
+	NSMutableArray *leftItems = [self.standardLeftNavBarItems mutableCopy];
+	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add"] style:UIBarButtonItemStyleBordered target:self action:@selector(addNewObject:)];
+	[leftItems insertObject:addItem atIndex:0];
+	self.navigationItem.leftBarButtonItems = leftItems;
+	self.navigationItem.title = @"Projects";
 }
 
 -(UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
@@ -84,7 +89,7 @@
 	[self.collectionView reloadData];
 	self.projectButton.title = @"Logout";
 	self.selectedProject = nil;
-	self.titleItem.title = NSLocalizedString(@"Rc2 Projects", @"");
+	self.navigationItem.title = NSLocalizedString(@"Rc2 Projects", @"");
 }
 
 -(void)longGesture:(UILongPressGestureRecognizer*)gesture
@@ -233,7 +238,7 @@
 		_transitioning = NO;
 		self.selectedProject = nil;
 		[_collectionView insertItemsAtIndexPaths:paths];
-		self.titleItem.title = NSLocalizedString(@"Rc2 Projects", @"");
+		self.navigationItem.title = NSLocalizedString(@"Rc2 Projects", @"");
 		[[Rc2Server sharedInstance] updateProjects];
 	});
 }
@@ -320,7 +325,7 @@
 			if (paths.count > 0)
 				[collectionView insertItemsAtIndexPaths:paths];
 			self.projectButton.title = @"Projects";
-			self.titleItem.title = [NSLocalizedString(@"Project Title Prefix", @"") stringByAppendingString:[selProject name]];
+			self.navigationItem.title = [NSLocalizedString(@"Project Title Prefix", @"") stringByAppendingString:[selProject name]];
 		});
 	} else {
 		//selected a workspace

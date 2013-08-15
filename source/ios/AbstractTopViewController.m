@@ -14,6 +14,8 @@
 @interface AbstractTopViewController ()
 @property (nonatomic, strong) UIPopoverController *isettingsPopover;
 @property (nonatomic, strong) iSettingsController *isettingsController;
+@property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
+@property (nonatomic, copy, readwrite) NSArray *standardRightNavBarItems;
 @end
 
 @implementation AbstractTopViewController
@@ -41,6 +43,20 @@
 	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(adjustInterfaceBasedOnLogin) userInfo:nil options:0];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messagesUpdated:) name:MessagesUpdatedNotification object:nil];
 	[self adjustInterfaceBasedOnLogin];
+
+	self.standardLeftNavBarItems = @[];
+
+	NSMutableArray *rightItems = [NSMutableArray arrayWithCapacity:3];
+	UIBarButtonItem *gearItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStyleBordered target:self action:@selector(showGearMenu:)];
+	[rightItems addObject:gearItem];
+	UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home-tbar"] style:UIBarButtonItemStyleBordered target:self action:@selector(showProjects:)];
+	[rightItems addObject:homeItem];
+//	UIBarButtonItem *mailItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"messages-tbar"] style:UIBarButtonItemStyleBordered target:self action:@selector(showMessages:)];
+//	[rightItems addObject:mailItem];
+	self.standardRightNavBarItems = rightItems;
+
+	self.navigationItem.leftBarButtonItems = self.standardLeftNavBarItems;
+	self.navigationItem.rightBarButtonItems = self.standardRightNavBarItems;
 }
 
 
@@ -73,7 +89,17 @@
 	}
 }
 
--(IBAction)doActionMenu:(id)sender
+-(IBAction)showProjects:(id)sender
+{
+	
+}
+
+-(IBAction)showMessages:(id)sender
+{
+	
+}
+
+-(IBAction)showGearMenu:(id)sender
 {
 	if (self.isettingsPopover) {
 		//alraady displauing it, so dimiss it

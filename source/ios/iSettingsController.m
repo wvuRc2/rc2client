@@ -33,7 +33,7 @@ enum { eTree_Theme, eTree_Keyboard };
 @property (nonatomic, weak) IBOutlet UITableViewCell *dbpathCell;
 @property (nonatomic, weak) IBOutlet UISwitch *editorSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *emailNoteSwitch;
-@property (nonatomic, weak) IBOutlet GradientButton *editThemeButton;
+@property (nonatomic, weak) IBOutlet UIButton *editThemeButton;
 @property (nonatomic, weak) IBOutlet UILabel *keyboardLabel;
 @property (nonatomic, weak) IBOutlet UILabel *themeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *dbpathLabel;
@@ -104,13 +104,15 @@ enum { eTree_Theme, eTree_Keyboard };
 		self.sectionData = @[@{@"name":sectitle, @"isSettings":@NO, @"cells":@[self.dbpathCell]}, self.sectionData[0], self.sectionData[1]];
 		self.dbpathLabel.text = self.currentWorkspace.dropboxPath;
 	}
-	[self.editThemeButton useWhiteStyle];
+//	[self.editThemeButton useWhiteStyle];
 	CGRect newFrame = CGRectMake(0, 0, self.settingsTable.bounds.size.width, self.headerView.frame.size.height);
 	self.headerView.backgroundColor = [UIColor clearColor];
 	self.headerView.frame = newFrame;
 	self.settingsTable.tableFooterView = self.headerView;
 	NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
 	self.versionLabel.text = [NSString stringWithFormat:@"%@ %@ (Build %@)", info[@"CFBundleDisplayName"], info[@"CFBundleShortVersionString"], info[@"CFBundleVersion"]];
+	self.editThemeButton.tintColor = [UIColor blackColor];
+	self.editThemeButton.layer.cornerRadius = 8.0;
 }
 
 -(void)viewWillAppear:(BOOL)animated

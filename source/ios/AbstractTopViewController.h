@@ -12,12 +12,20 @@
 @class RCWorkspace;
 
 @interface AbstractTopViewController : UIViewController
+
+@property (nonatomic, copy, readonly) NSArray *standardLeftNavBarItems;
+@property (nonatomic, copy, readonly) NSArray *standardRightNavBarItems;
+
+
+
+
+
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *messagesButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *homeButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *gradingButton;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
 
--(IBAction)doActionMenu:(id)sender;
+-(IBAction)showGearMenu:(id)sender;
 
 //subclasses can implement this to adjust things on login/logout. must call super
 -(void)adjustInterfaceBasedOnLogin;
