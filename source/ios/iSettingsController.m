@@ -90,8 +90,7 @@ enum { eTree_Theme, eTree_Keyboard };
 	ThemeEngine *te = [ThemeEngine sharedInstance];
 	Theme *curTheme = te.currentTheme;
 	self.themeLabel.text = curTheme.name;
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-																							target:self action:@selector(dismiss:)];
+
 	NSArray *settingsCells = @[self.keyboardCell,self.themeCell];
 	if ([[Rc2Server  sharedInstance] isAdmin])
 		settingsCells = [settingsCells arrayByAddingObject:self.editThemeCell];
