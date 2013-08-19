@@ -14,23 +14,31 @@
 @property (strong) NSMutableArray *layoutAttrs;
 @property (strong) NSMutableArray *previousAttrs;
 @property CGSize contentSize;
+@property (weak) id<UICollectionViewDataSource> weakDataSource;
 @end
 
 #define MARGIN 20
 
 @implementation ProjectViewLayout
-
+{ BOOL _madeWeakRef; }
 -(void)prepareLayout
 {
-	if (_removeAll) {
+/*	if (!_madeWeakRef) {
+		_madeWeakRef=YES;
+		self.weakDataSource = self.collectionView.dataSource;
+	} else if (nil == self.weakDataSource) {
+		return;
+	}
+*/	if (_removeAll) {
 		self.previousAttrs = [_layoutAttrs mutableCopy];
 	}
+	self.weakDataSource = self.collectionView.dataSource;
 	if (nil == self.layoutAttrs)
 		self.layoutAttrs = [NSMutableArray array];
 	[_layoutAttrs removeAllObjects];
 	CGRect cvFrame = self.collectionView.frame;
 	CGFloat maxWidth = cvFrame.size.width;
-	NSInteger cnt = [[self.collectionView dataSource] collectionView:self.collectionView numberOfItemsInSection:0];
+	NSInteger cnt = [self.weakDataSource collectionView:self.collectionView numberOfItemsInSection:0];
 	int row=0, col=0, maxCol=1;
 	int widthIncrement = _itemSize.width + MARGIN;
 	CGPoint nextCenter = CGPointMake(MARGIN + (_itemSize.width/2), MARGIN + (_itemSize.height/2));

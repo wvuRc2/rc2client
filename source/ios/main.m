@@ -27,7 +27,13 @@ int main(int argc, char *argv[])
     _oldStdWrite = stderr->_write;
     stderr->_write = __pyStderrWrite;
 	@autoreleasepool {
-		int retVal = UIApplicationMain(argc, argv, @"iAMApplication", nil);
-		return retVal;
+		@try {
+			int retVal = UIApplicationMain(argc, argv, @"iAMApplication", nil);
+			return retVal;
+		}
+		@catch (NSException *exception) {
+			NSLog(@"got exception:%@", exception);
+			return 1;
+		}
 	}
 }

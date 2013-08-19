@@ -35,10 +35,11 @@
 @end
 
 
-@interface Rc2AppDelegate() <BITHockeyManagerDelegate,BITUpdateManagerDelegate> {
+@interface Rc2AppDelegate() <BITHockeyManagerDelegate,BITUpdateManagerDelegate,UINavigationControllerDelegate> {
 	NSManagedObjectModel *__mom;
 }
 @property (nonatomic, strong) MLReachability *reachability;
+@property (nonatomic, strong) UINavigationController *rootNavController;
 @property (nonatomic, strong) RootViewController *rootController;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *myPsc;
 @property (nonatomic, strong) LoginController *authController;
@@ -47,6 +48,8 @@
 @property (nonatomic, strong) UIView *currentMasterView;
 @property (nonatomic, strong) NSData *pushToken;
 @property (nonatomic, strong) NSURL *fileToImport;
+@property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
+@property (nonatomic, copy, readwrite) NSArray *standardRightNavBarItems;
 @end
 
 #define kCustomKeyboardDBPathTemplate @"/rc2shares/keyboards/custom%d-%d%@.txt"
@@ -82,10 +85,13 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 		Rc2AppDelegate *del = (Rc2AppDelegate*)[UIApplication sharedApplication].delegate;
 		[del networkUnreachable];
 	};
+	[self setupNavBarButtons];
 	
 	ProjectViewController *pvc = [[ProjectViewController alloc] init];
 	UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:pvc];
 	self.window.rootViewController = navc;
+	navc.delegate = self;
+	self.rootNavController = navc;
 //	self.rootController = [[RootViewController alloc] init];
 //	self.window.rootViewController = self.rootController;
 //	[self.window addSubview:self.rootController.view];
@@ -291,6 +297,27 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	NSLog(@"network became unreachable:%@", self.reachability.currentReachabilityString);	
 }
 
+#pragma mark - private
+
+-(void)setupNavBarButtons
+{
+	self.standardLeftNavBarItems = @[];
+	
+	NSMutableArray *rightItems = [NSMutableArray arrayWithCapacity:3];
+	UIBarButtonItem *gearItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStyleBordered target:nil action:@selector(showGearMenu:)];
+	[rightItems addObject:gearItem];
+	//	UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home-tbar"] style:UIBarButtonItemStyleBordered target:self action:@selector(showProjects:)];
+	//	[rightItems addObject:homeItem];
+	//	UIBarButtonItem *mailItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"messages-tbar"] style:UIBarButtonItemStyleBordered target:self action:@selector(showMessages:)];
+	//	[rightItems addObject:mailItem];
+	self.standardRightNavBarItems = rightItems;
+}
+
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+	NSLog(@"showing %@", viewController);
+}
+
 #pragma mark - meat & potatoes
 
 -(void)completeFileImport
@@ -332,9 +359,9 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	SessionViewController *svc = [[SessionViewController alloc] initWithSession:session];
 	self.sessionController = svc;
 	[svc view];
-	[MBProgressHUD hideHUDForView:self.rootController.view animated:YES];
+	[MBProgressHUD hideHUDForView:self.rootNavController.view animated:YES];
 	RunAfterDelay(0.25, ^{
-		[self.rootController presentViewController:svc animated:YES completion:nil];
+		[self.rootNavController pushViewController:svc animated:YES];
 	});
 }
 
@@ -351,7 +378,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	}
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
 	BOOL restoring = nil != savedState;
-	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.rootController.view animated:YES];
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.rootNavController.view animated:YES];
 	hud.labelText = restoring ? @"Restoring session…" : @"Loading…";
 	[[Rc2Server sharedInstance] prepareWorkspace:wspace completionHandler:^(BOOL success, id response) {
 		if (success) {
@@ -361,7 +388,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 				[self completeSessionStartup:response selectedFile:nil workspace:wspace];
 			});
 		} else {
-			[MBProgressHUD hideHUDForView:self.rootController.view animated:YES];
+			[MBProgressHUD hideHUDForView:self.rootNavController.view animated:YES];
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Server Error"
 															message:response
 														   delegate:nil
@@ -390,7 +417,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	ZAssert(wspace, @"startSession called without a selected workspace");
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
 	BOOL restoring = nil != savedState;
-	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.rootController.view animated:YES];
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.rootNavController.view animated:YES];
 	hud.labelText = restoring ? @"Restoring session…" : @"Loading…";
 	[[Rc2Server sharedInstance] prepareWorkspace: wspace completionHandler:^(BOOL success, id response) {
 		if (success) {
@@ -400,7 +427,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 				[self completeSessionStartup:response selectedFile:initialFile workspace:wspace];
 			});
 		} else {
-			[MBProgressHUD hideHUDForView:self.rootController.view animated:YES];
+			[MBProgressHUD hideHUDForView:self.rootNavController.view animated:YES];
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Server Error"
 															message:response
 														   delegate:nil

@@ -8,6 +8,7 @@
 
 #import "AbstractTopViewController.h"
 
-@interface ProjectViewController : AbstractTopViewController
--(void)loginStatusChanged;
+#import "AbstractProjectViewController.h"
+
+@interface ProjectViewController : AbstractProjectViewController
 @end

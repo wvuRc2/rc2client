@@ -21,6 +21,10 @@
 @property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+//these should only be accessed by top level controller classes like AbstractTopViewController
+@property (nonatomic, copy, readonly) NSArray *standardLeftNavBarItems;
+@property (nonatomic, copy, readonly) NSArray *standardRightNavBarItems;
+
 -(IBAction)showMessages:(id)sender;
 -(IBAction)showWelcome:(id)sender;
 -(IBAction)showWorkspaces:(id)sender;

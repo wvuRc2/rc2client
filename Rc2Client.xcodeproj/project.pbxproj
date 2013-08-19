@@ -164,6 +164,7 @@
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
 		087342C917BD6953000EC1E0 /* AbstractProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 087342C817BD6953000EC1E0 /* AbstractProjectViewController.m */; };
+		087342CC17BD6A73000EC1E0 /* WorkspaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 087342CB17BD6A73000EC1E0 /* WorkspaceViewController.m */; };
 		087DB8C417B57A8200724811 /* libHockeySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 087DB8C317B57A8200724811 /* libHockeySDK.a */; };
 		087DB8C617B57AB400724811 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087DB8C517B57AB400724811 /* CrashReporter.framework */; };
 		087DB8C817B57AFF00724811 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */; };
@@ -247,7 +248,6 @@
 		08B74CE8163B31F000083F9A /* wspace-tbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CAF163B31F000083F9A /* wspace-tbar.png */; };
 		08B74CE9163B31F000083F9A /* wspace-tbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CB0163B31F000083F9A /* wspace-tbar@2x.png */; };
 		08B74CED163B330500083F9A /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74CEB163B330500083F9A /* ProjectViewController.m */; };
-		08B74CEE163B330500083F9A /* AbstractProjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CEC163B330500083F9A /* AbstractProjectViewController.xib */; };
 		08B74CF1163B357600083F9A /* ProjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74CF0163B357600083F9A /* ProjectCell.m */; };
 		08B74CF3163B367D00083F9A /* ProjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CF2163B367D00083F9A /* ProjectCell.xib */; };
 		08B74CF61643045F00083F9A /* ProjectViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74CF51643045F00083F9A /* ProjectViewLayout.m */; };
@@ -740,6 +740,9 @@
 		086D6EBE15DD500D00EF28F1 /* Rnw.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rnw.icns; path = resources/mac/Rnw.icns; sourceTree = SOURCE_ROOT; };
 		087342C717BD6953000EC1E0 /* AbstractProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = AbstractProjectViewController.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; wrapsLines = 1; };
 		087342C817BD6953000EC1E0 /* AbstractProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractProjectViewController.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; wrapsLines = 1; };
+		087342CA17BD6A73000EC1E0 /* WorkspaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkspaceViewController.h; sourceTree = "<group>"; };
+		087342CB17BD6A73000EC1E0 /* WorkspaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkspaceViewController.m; sourceTree = "<group>"; };
+		0873431217C2AA15000EC1E0 /* Rc2NavBarChildProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rc2NavBarChildProtocol.h; sourceTree = "<group>"; };
 		087DB8C317B57A8200724811 /* libHockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHockeySDK.a; path = "Dependencies/HockeySDK-iOS/Support/build/Debug-iphoneos/libHockeySDK.a"; sourceTree = "<group>"; };
 		087DB8C517B57AB400724811 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = "Dependencies/HockeySDK-iOS/Vendor/CrashReporter.framework"; sourceTree = "<group>"; };
 		087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HockeySDKResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -830,7 +833,6 @@
 		08B74CB0163B31F000083F9A /* wspace-tbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wspace-tbar@2x.png"; sourceTree = "<group>"; };
 		08B74CEA163B330500083F9A /* ProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewController.h; sourceTree = "<group>"; };
 		08B74CEB163B330500083F9A /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
-		08B74CEC163B330500083F9A /* AbstractProjectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AbstractProjectViewController.xib; sourceTree = "<group>"; };
 		08B74CEF163B357600083F9A /* ProjectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectCell.h; sourceTree = "<group>"; };
 		08B74CF0163B357600083F9A /* ProjectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectCell.m; sourceTree = "<group>"; };
 		08B74CF2163B367D00083F9A /* ProjectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectCell.xib; sourceTree = "<group>"; };
@@ -1517,9 +1519,10 @@
 			children = (
 				087342C717BD6953000EC1E0 /* AbstractProjectViewController.h */,
 				087342C817BD6953000EC1E0 /* AbstractProjectViewController.m */,
+				087342CA17BD6A73000EC1E0 /* WorkspaceViewController.h */,
+				087342CB17BD6A73000EC1E0 /* WorkspaceViewController.m */,
 				08B74CEA163B330500083F9A /* ProjectViewController.h */,
 				08B74CEB163B330500083F9A /* ProjectViewController.m */,
-				08B74CEC163B330500083F9A /* AbstractProjectViewController.xib */,
 				08B74CEF163B357600083F9A /* ProjectCell.h */,
 				08B74CF0163B357600083F9A /* ProjectCell.m */,
 				08B74CF2163B367D00083F9A /* ProjectCell.xib */,
@@ -1636,6 +1639,7 @@
 		08D2436015B5D4680064A9FA /* top level controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0873431217C2AA15000EC1E0 /* Rc2NavBarChildProtocol.h */,
 				08D2436215B5D49C0064A9FA /* AbstractTopViewController.h */,
 				08D2436315B5D49C0064A9FA /* AbstractTopViewController.m */,
 				08B74CFA164B12AB00083F9A /* Project View */,
@@ -2417,7 +2421,6 @@
 				08B74CE7163B31F000083F9A /* workspaceHi.png in Resources */,
 				08B74CE8163B31F000083F9A /* wspace-tbar.png in Resources */,
 				08B74CE9163B31F000083F9A /* wspace-tbar@2x.png in Resources */,
-				08B74CEE163B330500083F9A /* AbstractProjectViewController.xib in Resources */,
 				08B74CF3163B367D00083F9A /* ProjectCell.xib in Resources */,
 				08B74CF81648615800083F9A /* Localizable.strings in Resources */,
 				084B47931677DF98000A0A6F /* add.png in Resources */,
@@ -2693,6 +2696,7 @@
 				08D2441315B5D78A0064A9FA /* JSTokenField.m in Sources */,
 				08D2441915B5D78A0064A9FA /* MBProgressHUD.m in Sources */,
 				08D2441D15B5D78A0064A9FA /* PHRefreshGestureRecognizer.m in Sources */,
+				087342CC17BD6A73000EC1E0 /* WorkspaceViewController.m in Sources */,
 				08D2441E15B5D78A0064A9FA /* PHRefreshTriggerView.m in Sources */,
 				08D2442415B5D7B90064A9FA /* Rc2.xcdatamodeld in Sources */,
 				08D2458415B5DB270064A9FA /* NSObject+SBJSON.m in Sources */,

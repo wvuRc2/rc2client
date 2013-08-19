@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Rc2NavBarChildProtocol.h"
 
 @class Theme;
 @class RCWorkspace;
 
-@interface AbstractTopViewController : UIViewController
+@interface AbstractTopViewController : UIViewController<Rc2NavBarChildProtocol>
 
+//from Rc2NavBarChildProtocol protocol
 @property (nonatomic, copy, readonly) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readonly) NSArray *standardRightNavBarItems;
 

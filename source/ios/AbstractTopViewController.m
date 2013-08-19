@@ -44,19 +44,8 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messagesUpdated:) name:MessagesUpdatedNotification object:nil];
 	[self adjustInterfaceBasedOnLogin];
 
-	self.standardLeftNavBarItems = @[];
-
-	NSMutableArray *rightItems = [NSMutableArray arrayWithCapacity:3];
-	UIBarButtonItem *gearItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStyleBordered target:self action:@selector(showGearMenu:)];
-	[rightItems addObject:gearItem];
-	UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home-tbar"] style:UIBarButtonItemStyleBordered target:self action:@selector(showProjects:)];
-	[rightItems addObject:homeItem];
-//	UIBarButtonItem *mailItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"messages-tbar"] style:UIBarButtonItemStyleBordered target:self action:@selector(showMessages:)];
-//	[rightItems addObject:mailItem];
-	self.standardRightNavBarItems = rightItems;
-
-	self.navigationItem.leftBarButtonItems = self.standardLeftNavBarItems;
-	self.navigationItem.rightBarButtonItems = self.standardRightNavBarItems;
+	self.standardLeftNavBarItems = [(id)[TheApp delegate] standardLeftNavBarItems];
+	self.standardRightNavBarItems = [(id)[TheApp delegate] standardRightNavBarItems];
 }
 
 
