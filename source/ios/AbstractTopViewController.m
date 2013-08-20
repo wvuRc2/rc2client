@@ -12,8 +12,6 @@
 #import "Rc2Server.h"
 
 @interface AbstractTopViewController ()
-@property (nonatomic, strong) UIPopoverController *isettingsPopover;
-@property (nonatomic, strong) iSettingsController *isettingsController;
 @property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readwrite) NSArray *standardRightNavBarItems;
 @end
@@ -86,25 +84,6 @@
 -(IBAction)showMessages:(id)sender
 {
 	
-}
-
--(IBAction)showGearMenu:(id)sender
-{
-	if (self.isettingsPopover) {
-		//alraady displauing it, so dimiss it
-		[self.isettingsPopover dismissPopoverAnimated:YES];
-		self.isettingsPopover=nil;
-		return;
-	}
-	if (nil == self.isettingsController) {
-		self.isettingsController = [[iSettingsController alloc] init];
-		self.isettingsController.contentSizeForViewInPopover = CGSizeMake(350, 500);
-	}
-	self.isettingsController.currentWorkspace = [self workspaceForSettings];
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.isettingsController];
-	self.isettingsPopover = [[UIPopoverController alloc] initWithContentViewController:navController];
-	[self.isettingsPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-	self.isettingsController.containingPopover = self.isettingsPopover;
 }
 
 -(void)adjustInterfaceBasedOnLogin

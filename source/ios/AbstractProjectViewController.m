@@ -75,6 +75,7 @@
 	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add"] style:UIBarButtonItemStyleBordered target:self action:@selector(addNewObject:)];
 	[leftItems insertObject:addItem atIndex:0];
 	self.navigationItem.leftBarButtonItems = leftItems;
+	self.navigationItem.rightBarButtonItems = self.standardRightNavBarItems;
 	self.navigationItem.title = @"Projects";
 }
 
@@ -87,6 +88,14 @@
 -(void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
+	[self adjustConstraints];
+	[self becomeFirstResponder];
+}
+
+-(BOOL)canBecomeFirstResponder { return YES;}
+
+-(void)adjustConstraints
+{
 	if ([self.view.superview constraints].count == 0) {
 		id cview = self.view;
 		[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[cview]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(cview)]];
@@ -272,7 +281,6 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-	NSLog(@"%@ giving item count", self);
 	if (self.selectedProject)
 		return self.selectedProject.workspaces.count;
 	return self.projects.count;
@@ -291,11 +299,12 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+	self.clickedCellFrame = [[self.collectionView cellForItemAtIndexPath:indexPath] frame];
 	if (nil == self.selectedProject) {
 		//selecting a project
 		WorkspaceViewController *wvc = [[WorkspaceViewController alloc] init];
 		wvc.selectedProject = [self.projects objectAtIndex:indexPath.row];
-		wvc.useLayoutToLayoutNavigationTransitions = YES;
+//		wvc.useLayoutToLayoutNavigationTransitions = YES;
 		[self.navigationController pushViewController:wvc animated:YES];
 		self.myChild = wvc;
 	} else {

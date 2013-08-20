@@ -12,7 +12,8 @@
 
 @interface AbstractProjectViewController : UICollectionViewController<Rc2NavBarChildProtocol>
 @property (nonatomic, weak) RCProject *selectedProject;
-
+@property (nonatomic) CGRect clickedCellFrame;
 -(void)loginStatusChanged;
+-(void)adjustConstraints;
 
 @end

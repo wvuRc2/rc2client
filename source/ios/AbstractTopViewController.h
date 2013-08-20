@@ -27,8 +27,6 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *gradingButton;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
 
--(IBAction)showGearMenu:(id)sender;
-
 //subclasses can implement this to adjust things on login/logout. must call super
 -(void)adjustInterfaceBasedOnLogin;
 

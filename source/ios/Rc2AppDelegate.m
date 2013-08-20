@@ -26,6 +26,8 @@
 #import "ThemeColorViewController.h"
 #import "SendMailController.h"
 #import "ProjectViewController.h"
+#import "ProjectViewTransition.h"
+#import "iSettingsController.h"
 
 @interface UITableView (DoubleClick)
 -(void)myTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
@@ -50,6 +52,8 @@
 @property (nonatomic, strong) NSURL *fileToImport;
 @property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readwrite) NSArray *standardRightNavBarItems;
+@property (nonatomic, strong) UIPopoverController *isettingsPopover;
+@property (nonatomic, strong) iSettingsController *isettingsController;
 @end
 
 #define kCustomKeyboardDBPathTemplate @"/rc2shares/keyboards/custom%d-%d%@.txt"
@@ -285,6 +289,27 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[self.rootController presentViewController:smc.composer animated:YES completion:nil];
 }
 
+-(void)showGearMenu:(id)sender
+{
+	if (self.isettingsPopover) {
+		//alraady displauing it, so dimiss it
+		[self.isettingsPopover dismissPopoverAnimated:YES];
+		self.isettingsPopover=nil;
+		return;
+	}
+	if (nil == self.isettingsController) {
+		self.isettingsController = [[iSettingsController alloc] init];
+		self.isettingsController.contentSizeForViewInPopover = CGSizeMake(350, 500);
+	}
+	id frontController = self.rootNavController.topViewController;
+	if ([frontController respondsToSelector:@selector(workspaceForSettings)])
+		self.isettingsController.currentWorkspace = [frontController workspaceForSettings];
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.isettingsController];
+	self.isettingsPopover = [[UIPopoverController alloc] initWithContentViewController:navController];
+	[self.isettingsPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+	self.isettingsController.containingPopover = self.isettingsPopover;
+}
+
 #pragma mark - reachability
 
 -(void)networkReachable
@@ -304,7 +329,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	self.standardLeftNavBarItems = @[];
 	
 	NSMutableArray *rightItems = [NSMutableArray arrayWithCapacity:3];
-	UIBarButtonItem *gearItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStyleBordered target:nil action:@selector(showGearMenu:)];
+	UIBarButtonItem *gearItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStyleBordered target:self action:@selector(showGearMenu:)];
 	[rightItems addObject:gearItem];
 	//	UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home-tbar"] style:UIBarButtonItemStyleBordered target:self action:@selector(showProjects:)];
 	//	[rightItems addObject:homeItem];
@@ -313,9 +338,17 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	self.standardRightNavBarItems = rightItems;
 }
 
+#pragma mark - navigation controller delegate
+
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-	NSLog(@"showing %@", viewController);
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
+{
+	if ([fromVC isKindOfClass:[AbstractProjectViewController class]] && [toVC isKindOfClass:[AbstractProjectViewController class]])
+		return [[ProjectViewTransition alloc] initWithFromController:(AbstractProjectViewController*)fromVC toController:(AbstractProjectViewController*)toVC];
+	return nil;
 }
 
 #pragma mark - meat & potatoes

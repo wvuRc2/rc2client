@@ -12,4 +12,6 @@
 @property (nonatomic, copy, readonly) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readonly) NSArray *standardRightNavBarItems;
 
+@optional
+-(id)workspaceForSettings;
 @end
