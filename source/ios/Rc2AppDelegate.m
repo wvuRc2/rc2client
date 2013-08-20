@@ -299,7 +299,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	}
 	if (nil == self.isettingsController) {
 		self.isettingsController = [[iSettingsController alloc] init];
-		self.isettingsController.contentSizeForViewInPopover = CGSizeMake(350, 500);
+		self.isettingsController.contentSizeForViewInPopover = CGSizeMake(350, 430);
 	}
 	id frontController = self.rootNavController.topViewController;
 	if ([frontController respondsToSelector:@selector(workspaceForSettings)])
@@ -400,15 +400,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 -(void)openSession:(RCWorkspace*)wspace
 {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
-	if (eKeyboardLayout_Standard == keylayout) {
-		[self resetKeyboardPaths];
-	} else {
-		NSString *basePath = [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"customKeyboard"];
-		[defaults setObject:[basePath stringByAppendingString:@"1.txt"] forKey:kPrefCustomKey1URL];
-		[defaults setObject:[basePath stringByAppendingString:@"2.txt"] forKey:kPrefCustomKey2URL];
-	}
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
 	BOOL restoring = nil != savedState;
 	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.rootNavController.view animated:YES];
@@ -437,15 +428,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	if ([initialFile.name.pathExtension isEqualToString:@"pdf"]) {
 		[self displayPdfFile:initialFile];
 		return;
-	}
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	eKeyboardLayout keylayout = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
-	if (eKeyboardLayout_Standard == keylayout) {
-		[self resetKeyboardPaths];
-	} else {
-		NSString *basePath = [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"customKeyboard"];
-		[defaults setObject:[basePath stringByAppendingString:@"1.txt"] forKey:kPrefCustomKey1URL];
-		[defaults setObject:[basePath stringByAppendingString:@"2.txt"] forKey:kPrefCustomKey2URL];
 	}
 	ZAssert(wspace, @"startSession called without a selected workspace");
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];

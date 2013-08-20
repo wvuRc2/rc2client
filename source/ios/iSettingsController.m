@@ -22,7 +22,6 @@ enum { eTree_Theme, eTree_Keyboard };
 	int _treeType;
 }
 @property (nonatomic, weak) IBOutlet UITableView *settingsTable;
-@property (nonatomic, weak) IBOutlet UITableViewCell *keyboardCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *themeCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *emailCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *twitterCell;
@@ -34,7 +33,6 @@ enum { eTree_Theme, eTree_Keyboard };
 @property (nonatomic, weak) IBOutlet UISwitch *editorSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *emailNoteSwitch;
 @property (nonatomic, weak) IBOutlet UIButton *editThemeButton;
-@property (nonatomic, weak) IBOutlet UILabel *keyboardLabel;
 @property (nonatomic, weak) IBOutlet UILabel *themeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *dbpathLabel;
 @property (nonatomic, weak) IBOutlet UITextField *emailField;
@@ -43,7 +41,6 @@ enum { eTree_Theme, eTree_Keyboard };
 @property (nonatomic, weak) IBOutlet UIView *headerView;
 @property (nonatomic, weak) IBOutlet UILabel *versionLabel;
 @property (nonatomic, strong) AMNavigationTreeController *treeController;
-@property (nonatomic, copy) NSArray *keyboards;
 @property (nonatomic, copy) NSArray *themes;
 @property (nonatomic, copy) NSArray *sectionData;
 -(IBAction)dismiss:(id)sender;
@@ -56,7 +53,6 @@ enum { eTree_Theme, eTree_Keyboard };
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self) {
 		// Custom initialization
-		self.keyboards = ARRAY(@"Default", @"Custom 1", @"Custom 2");
 		self.navigationItem.title = @"Settings";
 		id myThemes= [[[[ThemeEngine sharedInstance] allThemes] valueForKey:@"name"] mutableCopy];
 		self.themes = myThemes;
@@ -69,19 +65,6 @@ enum { eTree_Theme, eTree_Keyboard };
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	switch ([defaults integerForKey:kPrefKeyboardLayout]) {
-		case 0:
-		default:
-			self.keyboardLabel.text = @"Default";
-			break;
-		case 1:
-			self.keyboardLabel.text = @"Custom 1";
-			break;
-		case 2:
-			self.keyboardLabel.text = @"Custom 2";
-			break;
-	}
 	NSDictionary *settings = [[Rc2Server sharedInstance] userSettings];
 	self.emailField.text = [settings objectForKey:@"email"];
 	self.smsField.text = [settings objectForKey:@"smsphone"];
@@ -91,7 +74,7 @@ enum { eTree_Theme, eTree_Keyboard };
 	Theme *curTheme = te.currentTheme;
 	self.themeLabel.text = curTheme.name;
 
-	NSArray *settingsCells = @[self.keyboardCell,self.themeCell];
+	NSArray *settingsCells = @[self.themeCell];
 	if ([[Rc2Server  sharedInstance] isAdmin])
 		settingsCells = [settingsCells arrayByAddingObject:self.editThemeCell];
 	self.sectionData = @[
@@ -250,13 +233,7 @@ enum { eTree_Theme, eTree_Keyboard };
 			self.treeController.delegate = (id)self;
 			self.treeController.contentSizeForViewInPopover = self.contentSizeForViewInPopover;
 			self.treeController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
-		if (cell == self.keyboardCell) {
-			_treeType = eTree_Keyboard;
-			self.treeController.title = @"Select Keyboard";
-			self.treeController.contentItems = self.keyboards;
-			NSInteger k = [[NSUserDefaults standardUserDefaults] integerForKey:kPrefKeyboardLayout];
-			self.treeController.selectedItem = [self.keyboards objectAtIndex:k];
-		} else if (cell == self.themeCell) {
+		if (cell == self.themeCell) {
 			_treeType = eTree_Theme;
 			self.treeController.title = @"Select Theme";
 			self.treeController.contentItems = self.themes;
@@ -279,11 +256,6 @@ enum { eTree_Theme, eTree_Keyboard };
 		if (theme)
 			[[ThemeEngine sharedInstance] setCurrentTheme:theme];
 		self.themeLabel.text = item;
-	} else if (_treeType == eTree_Keyboard) {
-		[[NSUserDefaults standardUserDefaults] setInteger:[self.keyboards indexOfObject:item] forKey:kPrefKeyboardLayout];
-		[[NSNotificationCenter defaultCenter] postNotificationName:KeyboardPrefsChangedNotification 
-															object:[UIApplication sharedApplication].delegate];
-		self.keyboardLabel.text = item;
 	}
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
