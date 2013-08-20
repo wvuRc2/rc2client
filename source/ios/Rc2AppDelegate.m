@@ -346,9 +346,9 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 -(id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
 {
-	if ([fromVC isKindOfClass:[AbstractProjectViewController class]] && [toVC isKindOfClass:[AbstractProjectViewController class]])
+//	if ([fromVC isKindOfClass:[AbstractProjectViewController class]] && [toVC isKindOfClass:[AbstractProjectViewController class]])
 		return [[ProjectViewTransition alloc] initWithFromController:(AbstractProjectViewController*)fromVC toController:(AbstractProjectViewController*)toVC];
-	return nil;
+//	return nil;
 }
 
 #pragma mark - meat & potatoes

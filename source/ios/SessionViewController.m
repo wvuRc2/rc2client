@@ -463,7 +463,11 @@
 			return [obj1.name caseInsensitiveCompare:obj2.name];
 		}];
 	}
-	__unsafe_unretained SessionViewController *blockSelf = self;
+	[self.imgController loadImages];
+	if (imgGroup)
+		[self.imgController setImageDisplayCount:imgGroup.count];
+	[self.navigationController pushViewController:self.imgController animated:YES];
+/*	__unsafe_unretained SessionViewController *blockSelf = self;
 	self.imgController.closeHandler = ^{
 		[blockSelf dismissViewControllerAnimated:YES completion:nil];
 	};
@@ -472,7 +476,7 @@
 	//TODO: need to load the other images that should be shown for this group.
 	if (imgGroup)
 		[self.imgController setImageDisplayCount:imgGroup.count];
-}
+*/}
 
 -(void)displayLinkedFile:(NSString*)urlPath
 {

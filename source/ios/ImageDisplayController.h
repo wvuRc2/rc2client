@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "AbstractTopViewController.h"
+
 @class ImageHolderView;
 @class RCImage;
 
-@interface ImageDisplayController : UIViewController<MFMailComposeViewControllerDelegate>
+@interface ImageDisplayController : AbstractTopViewController<MFMailComposeViewControllerDelegate>
 @property (nonatomic, strong) IBOutlet UISegmentedControl *whatUp;
 @property (nonatomic, strong) IBOutlet ImageHolderView *holder1;
 @property (nonatomic, strong) IBOutlet ImageHolderView *holder2;

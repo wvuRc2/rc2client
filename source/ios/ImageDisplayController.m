@@ -74,6 +74,15 @@
 	frame.size.height = 36;
 	frame.origin.y = 4;
 	self.whatUp.frame = frame;
+	
+	self.whatUp = [[UISegmentedControl alloc] initWithItems:@[@"1",@"2",@"4"]];
+	[self.whatUp setWidth:40 forSegmentAtIndex:0];
+	[self.whatUp setWidth:40 forSegmentAtIndex:1];
+	[self.whatUp setWidth:40 forSegmentAtIndex:2];
+	[self.whatUp addTarget:self action:@selector(whatUpDawg:) forControlEvents:UIControlEventValueChanged];
+	self.navigationItem.rightBarButtonItems = [self.standardRightNavBarItems arrayByAddingObject:[[UIBarButtonItem alloc] initWithCustomView:self.whatUp]];
+	self.navigationItem.title = @"Image";
+	self.navigationItem.leftBarButtonItems = self.standardLeftNavBarItems;
 
 	self.holder1.delegate=self;
 	self.holder2.delegate=self;
@@ -86,11 +95,6 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
 {
     return YES;
-}
-
--(void)didReceiveMemoryWarning
-{
-	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -365,7 +369,7 @@
 
 -(IBAction)close:(id)sender
 {
-	self.closeHandler();
+//	self.closeHandler();
 }
 
 -(IBAction)whatUpDawg:(id)sender
