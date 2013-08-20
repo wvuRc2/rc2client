@@ -32,6 +32,9 @@
 
 @interface SessionViewController() <KeyboardToolbarDelegate,AMResizableSplitViewControllerDelegate,RCDropboxSyncDelegate>
 @property (nonatomic, strong) IBOutlet AMResizableSplitViewController *splitController;
+@property (nonatomic, strong) UIBarButtonItem *mikeButton;
+@property (nonatomic, strong) UIBarButtonItem *doodleButton;
+@property (nonatomic, strong) UIBarButtonItem *controlButton;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) ImageDisplayController *imgController;
 @property (nonatomic, strong) ControlViewController *controlController;
@@ -84,7 +87,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.titleLabel.text = self.session.workspace.name;
+	self.navigationItem.title = self.session.workspace.name;
 	CGFloat splitPos = [[_session settingForKey:@"splitPosition"] floatValue];
 	if (splitPos < 300 || splitPos > 1024)
 		splitPos = 512;
@@ -137,12 +140,21 @@
 			});
 		});
 	}
-	if (![[[Rc2Server sharedInstance] usersPermissions] containsObject:@"CROOM_SESS"]) {
-		NSArray *a = self.toolbar.items;
-		a = [a arrayByRemovingObjectAtIndex:[a indexOfObject:self.doodleButton]];
-		[self.toolbar setItems:a animated:NO];
+	Rc2Server *server = [Rc2Server sharedInstance];
+	NSMutableArray *ritems = [self.standardRightNavBarItems mutableCopy];
+	if (nil == ritems)
+		ritems = [NSMutableArray array];
+	self.mikeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mikeOff"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleMicrophone:)];
+	[ritems addObject:self.mikeButton];
+	if ([server isAdmin] || [[server usersPermissions] containsObject:@"CROOM_SESS"]) {
+		self.doodleButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"doodle"] style:UIBarButtonItemStylePlain target:self action:@selector(showDoodleView:)];
+		[ritems addObject:self.doodleButton];
 	}
+	self.controlButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"controller"] style:UIBarButtonItemStylePlain target:self action:@selector(showControls:)];
+	[ritems addObject:self.controlButton];
+	self.navigationItem.rightBarButtonItems = ritems;
 }
+
 
 #pragma mark - orientations & rotation
 

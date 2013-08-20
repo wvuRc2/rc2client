@@ -14,5 +14,6 @@
 {
 	[super viewDidLoad];
 	self.navigationItem.title = [NSLocalizedString(@"Project Title Prefix", @"") stringByAppendingString:[self.selectedProject name]];
+	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.selectedProject.name style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 @end

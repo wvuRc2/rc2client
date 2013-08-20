@@ -13,19 +13,11 @@
 @class EditorViewController;
 @class ConsoleViewController;
 
-@interface SessionViewController : AbstractTopViewController<RCSessionDelegate,UIDocumentInteractionControllerDelegate> {
-	IBOutlet UITextField *textField;
-	IBOutlet UITextView *textView;
-}
+@interface SessionViewController : AbstractTopViewController<RCSessionDelegate,UIDocumentInteractionControllerDelegate>
 -(id)initWithSession:(RCSession*)session;
-//@property (nonatomic, weak) IBOutlet UIToolbar *toolbar;
-@property (nonatomic, strong) IBOutlet UILabel *titleLabel;
 @property (nonatomic, strong) IBOutlet EditorViewController *editorController;
 @property (nonatomic, strong) IBOutlet ConsoleViewController *consoleController;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *executeButton;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *controlButton;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *mikeButton;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *doodleButton;
+//@property (nonatomic, weak) IBOutlet UIBarButtonItem *executeButton;
 @property (weak, nonatomic, readonly) RCSession *session;
 
 -(IBAction)showControls:(id)sender;
