@@ -175,10 +175,14 @@ static const CGFloat kKeyboardHeight = 354;
 	if (img == _image)
 		return;
 	_image = img;
-	self.imageView.image = [img image];
+	[img image];
+	self.imageView.image = img.image;
 	[self.nameLabel setTitle:[img.name stringByDeletingPathExtension] forState:UIControlStateNormal];
 	self.dateLabel.text = [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:img.timestamp]];
 	[self adjustImageDetails];
+	RunAfterDelay(0.3, ^{
+		_imageView.image = img.image;
+	});
 }
 
 @end

@@ -25,8 +25,6 @@
 -(IBAction)whatUpDawg:(id)sender;
 -(IBAction)close:(id)sender;
 
--(void)loadImage:(RCImage*)img;
 -(void)loadImages;
--(void)loadImage1:(RCImage*)img;
 -(void)setImageDisplayCount:(NSInteger)imgCount; //1, 2, or 4
 @end

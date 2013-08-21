@@ -19,6 +19,8 @@
 	self.image = [[NSImage alloc] initWithContentsOfFile:aPath];
 #else
 	UIImage *img = [[UIImage alloc] initWithContentsOfFile:aPath];
+	if (nil == img)
+		Rc2LogError(@"failed to load image:%@", aPath);
 	self.image = img;
 #endif
 	self.timestamp = [NSDate timeIntervalSinceReferenceDate];

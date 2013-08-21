@@ -239,19 +239,6 @@
 	}
 }
 
--(void)loadImage1:(RCImage*)img
-{
-	self.holder1.image = img;
-}
-
--(void)loadImage:(RCImage*)img
-{
-	self.holder1.image = img;
-	self.holder2.image = img;
-	self.holder3.image = img;
-	self.holder4.image = img;
-}
-
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	switch(buttonIndex) {

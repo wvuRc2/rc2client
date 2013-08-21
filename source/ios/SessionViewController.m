@@ -448,8 +448,10 @@
 		imgGroup = [[RCImageCache sharedInstance] groupImagesForLinkPath:fileOrPath];
 	}
 	
-	if (nil == self.imgController)
+	if (nil == self.imgController) {
 		self.imgController = [[ImageDisplayController alloc] init];
+		[self.imgController view]; //force loading
+	}
 	if (imgGroup.count > 0) {
 			self.imgController.allImages = imgGroup;
 	} else {
