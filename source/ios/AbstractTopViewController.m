@@ -67,14 +67,14 @@
 
 -(void)checkConstraints
 {
-	if (self.view.superview && self.view.constraints.count < 2) {
+/*	if (self.view.superview && self.view.constraints.count < 4) {
 		UIView *view = self.view;
 		id topbar = self.topLayoutGuide;
 		NSDictionary *vd = NSDictionaryOfVariableBindings(view, topbar);
 		[view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[view]-0-|" options:0 metrics:nil views:vd]];
 		[view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[view]-0-|" options:0 metrics:nil views:vd]];
 	}
-}
+*/}
 
 -(IBAction)showProjects:(id)sender
 {

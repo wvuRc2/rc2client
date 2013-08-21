@@ -155,7 +155,6 @@
 	self.navigationItem.rightBarButtonItems = ritems;
 }
 
-
 #pragma mark - orientations & rotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
@@ -300,10 +299,10 @@
 -(void)loginStatusChanged:(MAKVONotification*)note
 {
 	if (![[Rc2Server sharedInstance] loggedIn])
-		[self endSession:self];
+		[(id)TheApp.delegate endSession];
 }
 
--(IBAction)endSession:(id)sender
+-(void)endSession
 {
 	if (self.controlPopover.popoverVisible)
 		[self.controlPopover dismissPopoverAnimated:YES];
@@ -315,7 +314,6 @@
 		[[NSFileManager defaultManager] removeItemAtPath:self.webTmpFileDirectory error:nil];
 		self.webTmpFileDirectory=nil;
 	}
-	[(id)[UIApplication sharedApplication].delegate endSession:sender];
 }
 
 // adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
@@ -573,7 +571,7 @@
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil 
 												  cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
 			[alert showWithCompletionHandler: ^(UIAlertView *av, NSInteger idx) {
-				[(id)[UIApplication sharedApplication].delegate endSession:nil];
+				[(id)[UIApplication sharedApplication].delegate endSession];
 			}];
 		});
 	}

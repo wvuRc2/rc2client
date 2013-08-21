@@ -22,4 +22,6 @@
 
 -(IBAction)showControls:(id)sender;
 -(IBAction)toggleMicrophone:(id)sender;
+
+-(void)endSession; //for app delegate to calls
 @end

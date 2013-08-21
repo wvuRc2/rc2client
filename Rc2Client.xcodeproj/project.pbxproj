@@ -166,6 +166,7 @@
 		087342C917BD6953000EC1E0 /* AbstractProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 087342C817BD6953000EC1E0 /* AbstractProjectViewController.m */; };
 		087342CC17BD6A73000EC1E0 /* WorkspaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 087342CB17BD6A73000EC1E0 /* WorkspaceViewController.m */; };
 		0873431517C3DF41000EC1E0 /* ProjectViewTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0873431417C3DF41000EC1E0 /* ProjectViewTransition.m */; };
+		0873431817C53911000EC1E0 /* AddFullConstraintsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0873431717C53911000EC1E0 /* AddFullConstraintsView.m */; };
 		087DB8C417B57A8200724811 /* libHockeySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 087DB8C317B57A8200724811 /* libHockeySDK.a */; };
 		087DB8C617B57AB400724811 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087DB8C517B57AB400724811 /* CrashReporter.framework */; };
 		087DB8C817B57AFF00724811 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */; };
@@ -746,6 +747,8 @@
 		0873431217C2AA15000EC1E0 /* Rc2NavBarChildProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rc2NavBarChildProtocol.h; sourceTree = "<group>"; };
 		0873431317C3DF41000EC1E0 /* ProjectViewTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewTransition.h; sourceTree = "<group>"; };
 		0873431417C3DF41000EC1E0 /* ProjectViewTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewTransition.m; sourceTree = "<group>"; };
+		0873431617C53911000EC1E0 /* AddFullConstraintsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFullConstraintsView.h; sourceTree = "<group>"; };
+		0873431717C53911000EC1E0 /* AddFullConstraintsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFullConstraintsView.m; sourceTree = "<group>"; };
 		087DB8C317B57A8200724811 /* libHockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHockeySDK.a; path = "Dependencies/HockeySDK-iOS/Support/build/Debug-iphoneos/libHockeySDK.a"; sourceTree = "<group>"; };
 		087DB8C517B57AB400724811 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = "Dependencies/HockeySDK-iOS/Vendor/CrashReporter.framework"; sourceTree = "<group>"; };
 		087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HockeySDKResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1625,6 +1628,8 @@
 				08B74C71163B2E7D00083F9A /* MainWindow.xib */,
 				08D2435B15B5D42E0064A9FA /* RootViewController.h */,
 				08D2435C15B5D42E0064A9FA /* RootViewController.m */,
+				0873431617C53911000EC1E0 /* AddFullConstraintsView.h */,
+				0873431717C53911000EC1E0 /* AddFullConstraintsView.m */,
 				08D2436015B5D4680064A9FA /* top level controllers */,
 				08D2438415B5D5220064A9FA /* session related controllers */,
 				08D243AC15B5D6080064A9FA /* secondary controllers */,
@@ -2719,6 +2724,7 @@
 				08D2459015B5DB270064A9FA /* WebSocket07.m in Sources */,
 				08D2459115B5DB270064A9FA /* WebSocket08.m in Sources */,
 				08D2459215B5DB270064A9FA /* WebSocket10.m in Sources */,
+				0873431817C53911000EC1E0 /* AddFullConstraintsView.m in Sources */,
 				08D2459315B5DB270064A9FA /* WebSocketConnectConfig.m in Sources */,
 				08D2459415B5DB270064A9FA /* WebSocketFragment.m in Sources */,
 				08D2459515B5DB270064A9FA /* WebSocketMessage.m in Sources */,

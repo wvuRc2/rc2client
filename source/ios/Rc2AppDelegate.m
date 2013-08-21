@@ -342,6 +342,10 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
+	NSLog(@"will show %@", NSStringFromClass([viewController class]));
+	if (self.sessionController && [viewController isKindOfClass:[AbstractTopViewController class]]) {
+		[self endSession:nil];
+	}
 }
 
 -(id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
@@ -455,7 +459,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 -(IBAction)endSession:(id)sender
 {
-	[self.rootController dismissViewControllerAnimated:YES completion:nil];
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:kPref_CurrentSessionWorkspace];
 	self.sessionController=nil;
 }
