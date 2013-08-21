@@ -71,7 +71,7 @@ static const CGFloat kKeyboardHeight = 354;
 	[bv addSubview:self.dateLabel];
 	self.dateLabel.textColor = [UIColor whiteColor];
 	self.dateLabel.opaque=NO;
-	self.dateLabel.font = [UIFont italicSystemFontOfSize:10.0];
+	self.dateLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
 	self.dateLabel.backgroundColor = [UIColor clearColor];
 	self.dateFormatter = [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];

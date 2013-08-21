@@ -102,8 +102,9 @@
 	if (queryRng.location != NSNotFound) {
 		//need to strip query string off end
 		imgPath = [imgPath substringToIndex:queryRng.location];
+	} else if (![imgPath hasSuffix:@".png"]) {
+		imgPath = [imgPath stringByAppendingPathExtension:@"png"];
 	}
-	ZAssert([imgPath hasSuffix:@"png"], @"only png supported");
 	NSString *fpath = [self.imgCachePath stringByAppendingPathComponent:imgPath];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:fpath])
 		return nil;

@@ -81,7 +81,8 @@
 	[self.whatUp setWidth:40 forSegmentAtIndex:2];
 	[self.whatUp addTarget:self action:@selector(whatUpDawg:) forControlEvents:UIControlEventValueChanged];
 	self.navigationItem.rightBarButtonItems = [self.standardRightNavBarItems arrayByAddingObject:[[UIBarButtonItem alloc] initWithCustomView:self.whatUp]];
-	self.navigationItem.title = @"Image";
+	if (nil == self.navigationItem.title)
+		self.navigationItem.title = @"Image";
 	self.navigationItem.leftBarButtonItems = self.standardLeftNavBarItems;
 
 	self.holder1.delegate=self;
@@ -352,11 +353,6 @@
 					 mimeType:@"image/png" 
 					 fileName:self.actionImage.name];
 	[self presentViewController:picker animated:YES completion:nil];
-}
-
--(IBAction)close:(id)sender
-{
-//	self.closeHandler();
 }
 
 -(IBAction)whatUpDawg:(id)sender

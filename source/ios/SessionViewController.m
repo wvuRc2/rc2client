@@ -450,6 +450,7 @@
 	
 	if (nil == self.imgController) {
 		self.imgController = [[ImageDisplayController alloc] init];
+		self.imgController.navigationItem.title = [NSString stringWithFormat:@"%@ Images", self.session.workspace.name];
 		[self.imgController view]; //force loading
 	}
 	if (imgGroup.count > 0) {
@@ -467,16 +468,7 @@
 	if (imgGroup)
 		[self.imgController setImageDisplayCount:imgGroup.count];
 	[self.navigationController pushViewController:self.imgController animated:YES];
-/*	__unsafe_unretained SessionViewController *blockSelf = self;
-	self.imgController.closeHandler = ^{
-		[blockSelf dismissViewControllerAnimated:YES completion:nil];
-	};
-	[self presentViewController:self.imgController animated:YES completion:nil];
-	[self.imgController loadImages];
-	//TODO: need to load the other images that should be shown for this group.
-	if (imgGroup)
-		[self.imgController setImageDisplayCount:imgGroup.count];
-*/}
+}
 
 -(void)displayLinkedFile:(NSString*)urlPath
 {

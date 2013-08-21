@@ -23,7 +23,6 @@
 @property (nonatomic, copy) BasicBlock closeHandler;
 
 -(IBAction)whatUpDawg:(id)sender;
--(IBAction)close:(id)sender;
 
 -(void)loadImages;
 -(void)setImageDisplayCount:(NSInteger)imgCount; //1, 2, or 4
