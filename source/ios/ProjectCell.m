@@ -13,8 +13,7 @@
 
 @interface ProjectCell ()
 @property (weak) IBOutlet UILabel *nameLabel;
-@property (weak) IBOutlet UILabel *lastModLabel;
-@property (weak) IBOutlet UILabel *lastModValueLabel;
+@property (weak) IBOutlet AMLabel *lastAccessLabel;
 @property (weak) IBOutlet UIImageView *imageView;
 @property (weak) CALayer *cellLayer;
 @property (strong) IBOutlet UIView *myView;
@@ -74,13 +73,14 @@
 	
 	_cellItem = cellItem;
 	self.nameLabel.text = [cellItem name];
+	self.nameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+	self.lastAccessLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+	self.lastAccessLabel.verticalAlignment =  VerticalAlignmentBottom;
 	if ([cellItem isKindOfClass:[RCProject class]]) {
-		self.lastModLabel.hidden = YES;
-		self.lastModValueLabel.hidden = YES;
+		self.lastAccessLabel.hidden = YES;
 	} else {
-		self.lastModLabel.hidden = NO;
-		self.lastModValueLabel.hidden = NO;
-		self.lastModValueLabel.text = [dateFormatter stringFromDate:[cellItem lastAccess]];
+		self.lastAccessLabel.hidden = NO;
+		self.lastAccessLabel.text = [NSString stringWithFormat:@"Last Access:\n%@",[dateFormatter stringFromDate:[cellItem lastAccess]]];
 	}
 	[self adjustColors];
 }

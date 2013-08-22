@@ -60,6 +60,10 @@
 		bself.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
 		[bself.collectionView reloadData];
 	}];
+	[[NSNotificationCenter defaultCenter] addObserverForName:UIContentSizeCategoryDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note)
+	{
+		[bself.collectionView reloadData];
+	}];
 	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	ProjectViewLayout *flow = (ProjectViewLayout*)self.collectionViewLayout;
 	[flow setItemSize:CGSizeMake(200, 150)];
