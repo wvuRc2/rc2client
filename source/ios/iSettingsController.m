@@ -102,6 +102,16 @@ enum { eTree_Theme, eTree_Keyboard };
 	[super viewWillAppear:animated];
 	if (self.currentWorkspace)
 		self.dbpathLabel.text = self.currentWorkspace.dropboxPath;
+	[self.settingsTable reloadData];
+	self.preferredContentSize = self.settingsTable.contentSize;
+	NSLog(@"content height=%1.1f", self.preferredContentSize.height);
+	[self.view setNeedsLayout];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	[self.view setNeedsLayout];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

@@ -347,6 +347,11 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	}
 }
 
+-(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+	self.isettingsController = nil;
+}
+
 -(id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
 {
 //	if ([fromVC isKindOfClass:[AbstractProjectViewController class]] && [toVC isKindOfClass:[AbstractProjectViewController class]])
