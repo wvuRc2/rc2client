@@ -7,14 +7,12 @@
 //
 
 #import "DropboxImportCell.h"
-#import "IPadButton.h"
 
 @implementation DropboxImportCell
 
 - (void)awakeFromNib
 {
 	[self.importButton removeFromSuperview];
-	((IPadButton*)self.importButton).isLightStyle = YES;
 	[self.statusImage removeFromSuperview];
 }
 

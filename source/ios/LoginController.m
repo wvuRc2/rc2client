@@ -9,7 +9,6 @@
 #import "LoginController.h"
 #import "Rc2Server.h"
 #import <Vyana-ios/UIAlertView+AMExtensions.h>
-#import "IPadButton.h"
 #import "AppConstants.h"
 
 
@@ -43,7 +42,6 @@
 		[self.useridField becomeFirstResponder];
 	}
 	self.hostControl.selectedSegmentIndex = [[Rc2Server sharedInstance] serverHost];
-	[(IPadButton*)self.loginButton setIsLightStyle:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
