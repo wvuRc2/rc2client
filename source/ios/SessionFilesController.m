@@ -56,15 +56,6 @@
 	};
 	[self reloadData];
 	//add dropbox item to toolbar
-/*	UISegmentedControl *button = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObject:@""]];
-	button.momentary = YES;
-	button.segmentedControlStyle = UISegmentedControlStyleBar;
-	button.selectedSegmentIndex = UISegmentedControlNoSegment;
-	[button setImage:[UIImage imageNamed:@"dropboxIcon"] forSegmentAtIndex:0];
-	button.tintColor = [UIColor clearColor];
-	[button addTarget:self action:@selector(doDropboxImport:) forControlEvents:UIControlEventValueChanged];
-	UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-*/	//the above failed at one point with no error. so we'll be safe and check what was returned
 	UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"dropboxIcon"] style:UIBarButtonItemStyleBordered target:self action:@selector(doDropboxImport:)];
 	if (barButton) {
 		barButton.target = self;
