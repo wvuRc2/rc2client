@@ -498,7 +498,7 @@
 		0811F9FF17345C6D0060BAB4 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image.png; path = resources/mac/image.png; sourceTree = SOURCE_ROOT; };
 		0811FA0017345C6D0060BAB4 /* image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "image@2x.png"; path = "resources/mac/image@2x.png"; sourceTree = SOURCE_ROOT; };
 		08137A2F17C8024C005EA804 /* SharedImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = SharedImages.xcassets; path = resources/SharedImages.xcassets; sourceTree = "<group>"; };
-		08137A3217C804DA005EA804 /* iOSIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = iOSIcons.xcassets; sourceTree = "<group>"; };
+		08137A3217C804DA005EA804 /* iOSIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = iOSIcons.xcassets; path = resources/ios/iOSIcons.xcassets; sourceTree = SOURCE_ROOT; };
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
