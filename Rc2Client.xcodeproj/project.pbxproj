@@ -181,8 +181,6 @@
 		08B74C76163B31C700083F9A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C74163B31C700083F9A /* InfoPlist.strings */; };
 		08B74CC5163B31F000083F9A /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C8C163B31F000083F9A /* flag.png */; };
 		08B74CC6163B31F000083F9A /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C8D163B31F000083F9A /* folder.png */; };
-		08B74CCD163B31F000083F9A /* Icon144.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C94163B31F000083F9A /* Icon144.png */; };
-		08B74CCE163B31F000083F9A /* Icon72.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C95163B31F000083F9A /* Icon72.png */; };
 		08B74CCF163B31F000083F9A /* importCheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C96163B31F000083F9A /* importCheck.png */; };
 		08B74CD2163B31F000083F9A /* message-tbar-badged-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C99163B31F000083F9A /* message-tbar-badged-down.png */; };
 		08B74CD3163B31F000083F9A /* message-tbar-badged.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B74C9A163B31F000083F9A /* message-tbar-badged.png */; };
@@ -276,8 +274,6 @@
 		08D244D915B5D9090064A9FA /* DefaultDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08D244D615B5D9090064A9FA /* DefaultDefaults.plist */; };
 		08D244DA15B5D9090064A9FA /* Inconsolata.otf in Resources */ = {isa = PBXBuildFile; fileRef = 08D244D715B5D9090064A9FA /* Inconsolata.otf */; };
 		08D244DB15B5D9090064A9FA /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 08D244D815B5D9090064A9FA /* mailsent.caf */; };
-		08D244DE15B5D92A0064A9FA /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D244DC15B5D92A0064A9FA /* Default-Landscape~ipad.png */; };
-		08D244DF15B5D92A0064A9FA /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D244DD15B5D92A0064A9FA /* Default-Portrait~ipad.png */; };
 		08D244F015B5D9F60064A9FA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D244E515B5D9F50064A9FA /* AssetsLibrary.framework */; };
 		08D244F115B5D9F60064A9FA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D244E615B5D9F50064A9FA /* AudioToolbox.framework */; };
 		08D244F215B5D9F60064A9FA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D244E715B5D9F60064A9FA /* AVFoundation.framework */; };
@@ -699,8 +695,6 @@
 		08B74C75163B31C700083F9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		08B74C8C163B31F000083F9A /* flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag.png; sourceTree = "<group>"; };
 		08B74C8D163B31F000083F9A /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
-		08B74C94163B31F000083F9A /* Icon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon144.png; sourceTree = "<group>"; };
-		08B74C95163B31F000083F9A /* Icon72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon72.png; sourceTree = "<group>"; };
 		08B74C96163B31F000083F9A /* importCheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = importCheck.png; sourceTree = "<group>"; };
 		08B74C99163B31F000083F9A /* message-tbar-badged-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message-tbar-badged-down.png"; sourceTree = "<group>"; };
 		08B74C9A163B31F000083F9A /* message-tbar-badged.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message-tbar-badged.png"; sourceTree = "<group>"; };
@@ -834,8 +828,6 @@
 		08D244D615B5D9090064A9FA /* DefaultDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultDefaults.plist; sourceTree = "<group>"; };
 		08D244D715B5D9090064A9FA /* Inconsolata.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Inconsolata.otf; sourceTree = "<group>"; };
 		08D244D815B5D9090064A9FA /* mailsent.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mailsent.caf; sourceTree = "<group>"; };
-		08D244DC15B5D92A0064A9FA /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		08D244DD15B5D92A0064A9FA /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		08D244E015B5D9500064A9FA /* rc2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rc2-Prefix.pch"; sourceTree = "<group>"; };
 		08D244E515B5D9F50064A9FA /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		08D244E615B5D9F50064A9FA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -1327,8 +1319,6 @@
 			children = (
 				08B74C8C163B31F000083F9A /* flag.png */,
 				08B74C8D163B31F000083F9A /* folder.png */,
-				08B74C94163B31F000083F9A /* Icon144.png */,
-				08B74C95163B31F000083F9A /* Icon72.png */,
 				08B74C96163B31F000083F9A /* importCheck.png */,
 				08B74C99163B31F000083F9A /* message-tbar-badged-down.png */,
 				08B74C9A163B31F000083F9A /* message-tbar-badged.png */,
@@ -1640,8 +1630,6 @@
 				08C3A27C1784A0210050BD28 /* KeyboardToolbar.plist */,
 				08D244D715B5D9090064A9FA /* Inconsolata.otf */,
 				08D244D815B5D9090064A9FA /* mailsent.caf */,
-				08D244DC15B5D92A0064A9FA /* Default-Landscape~ipad.png */,
-				08D244DD15B5D92A0064A9FA /* Default-Portrait~ipad.png */,
 				08B74C74163B31C700083F9A /* InfoPlist.strings */,
 				08D2435115B5D23E0064A9FA /* ipad-Info.plist */,
 			);
@@ -2152,9 +2140,7 @@
 				08D244D915B5D9090064A9FA /* DefaultDefaults.plist in Resources */,
 				08D244DA15B5D9090064A9FA /* Inconsolata.otf in Resources */,
 				08D244DB15B5D9090064A9FA /* mailsent.caf in Resources */,
-				08D244DE15B5D92A0064A9FA /* Default-Landscape~ipad.png in Resources */,
 				08137A3017C8024C005EA804 /* SharedImages.xcassets in Resources */,
-				08D244DF15B5D92A0064A9FA /* Default-Portrait~ipad.png in Resources */,
 				08D2458315B5DB270064A9FA /* LICENSE in Resources */,
 				08D2461615B5E0780064A9FA /* DropboxImportController.xib in Resources */,
 				08D2461715B5E07C0064A9FA /* ControlViewController.xib in Resources */,
@@ -2168,8 +2154,6 @@
 				08B74C76163B31C700083F9A /* InfoPlist.strings in Resources */,
 				08B74CC5163B31F000083F9A /* flag.png in Resources */,
 				08B74CC6163B31F000083F9A /* folder.png in Resources */,
-				08B74CCD163B31F000083F9A /* Icon144.png in Resources */,
-				08B74CCE163B31F000083F9A /* Icon72.png in Resources */,
 				08B74CCF163B31F000083F9A /* importCheck.png in Resources */,
 				08B74CD2163B31F000083F9A /* message-tbar-badged-down.png in Resources */,
 				08B74CD3163B31F000083F9A /* message-tbar-badged.png in Resources */,
@@ -2788,6 +2772,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2820,6 +2806,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
@@ -2884,6 +2872,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				FRAMEWORK_SEARCH_PATHS = (
