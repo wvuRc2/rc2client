@@ -11,8 +11,8 @@
 
 @interface ImageHolderView : UIView<UIScrollViewDelegate>
 @property (nonatomic, strong) RCImage *image;
-@property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) id delegate;
 
 -(IBAction)doActionMenu:(id)sender;

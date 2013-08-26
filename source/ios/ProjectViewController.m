@@ -17,6 +17,8 @@
 #import "Rc2AppDelegate.h"
 #import "MAKVONotificationCenter.h"
 #import "MBProgressHUD.h"
+#import "ImageDisplayController.h"
+#import "RCImage.h"
 
 @interface ProjectViewController ()
 @end
@@ -27,6 +29,18 @@
 {
 	[super viewDidLoad];
 	self.navigationItem.title = NSLocalizedString(@"Rc2 Projects", @"");
+
+	ImageDisplayController *imgController = [[ImageDisplayController alloc] init];
+	[imgController view]; //force loading
+	/* debug code for working on image display
+	NSString *ipath = [[NSBundle mainBundle] pathForResource:@"RDoc" ofType:@"png"];
+	RCImage *img = [[RCImage alloc] initWithPath:ipath];
+	imgController.allImages = @[img];
+	[imgController loadImages];
+	[imgController setImageDisplayCount:1];
+	RunAfterDelay(1, ^{
+		[self.navigationController pushViewController:imgController animated:YES];
+	}); */
 }
 
 -(void)loginStatusChanged
