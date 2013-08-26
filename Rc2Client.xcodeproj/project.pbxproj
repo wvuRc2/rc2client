@@ -1107,6 +1107,31 @@
 			path = Dependencies/AFNetworking/AFNetworking;
 			sourceTree = "<group>";
 		};
+		08137A3917CBF4F7005EA804 /* Variables */ = {
+			isa = PBXGroup;
+			children = (
+				083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */,
+				083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */,
+				083AAEF1162DDECF0037AAB3 /* VariableListViewController.xib */,
+				083AAEF9162EFFBE0037AAB3 /* VariableDetailViewController.h */,
+				083AAEFA162EFFBF0037AAB3 /* VariableDetailViewController.m */,
+				08B74C2E1635CA8700083F9A /* VariableSpreadsheetController.h */,
+				08B74C2F1635CA8700083F9A /* VariableSpreadsheetController.m */,
+				08B74C301635CA8700083F9A /* VariableSpreadsheetController.xib */,
+				08B74C3B1635CF4B00083F9A /* SpreadsheetScroller.h */,
+				08B74C3C1635CF4B00083F9A /* SpreadsheetScroller.m */,
+				08B74C3F1635D14800083F9A /* SpreadsheetCell.h */,
+				08B74C401635D14800083F9A /* SpreadsheetCell.m */,
+				083AAEF4162DE7870037AAB3 /* BasicVariableCell.h */,
+				083AAEF5162DE7870037AAB3 /* BasicVariableCell.m */,
+				083AAEF7162DE7B10037AAB3 /* BasicVariableCell.xib */,
+				083AAEFE162F480C0037AAB3 /* FunctionVariableSummaryCell.h */,
+				083AAEFF162F480C0037AAB3 /* FunctionVariableSummaryCell.m */,
+				083AAF01162F48210037AAB3 /* FunctionVariableSummaryCell.xib */,
+			);
+			name = Variables;
+			sourceTree = "<group>";
+		};
 		084593F315B5F1D700297C9D /* admin */ = {
 			isa = PBXGroup;
 			children = (
@@ -1472,14 +1497,6 @@
 				08D2438F15B5D5B90064A9FA /* ConsoleViewController.h */,
 				08D2439015B5D5B90064A9FA /* ConsoleViewController.m */,
 				08D2439115B5D5B90064A9FA /* ConsoleViewController.xib */,
-				083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */,
-				083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */,
-				083AAEF1162DDECF0037AAB3 /* VariableListViewController.xib */,
-				083AAEF9162EFFBE0037AAB3 /* VariableDetailViewController.h */,
-				083AAEFA162EFFBF0037AAB3 /* VariableDetailViewController.m */,
-				08B74C2E1635CA8700083F9A /* VariableSpreadsheetController.h */,
-				08B74C2F1635CA8700083F9A /* VariableSpreadsheetController.m */,
-				08B74C301635CA8700083F9A /* VariableSpreadsheetController.xib */,
 				08D2439415B5D5E20064A9FA /* ImageDisplayController.h */,
 				08D2439515B5D5E20064A9FA /* ImageDisplayController.m */,
 				08D2439615B5D5E20064A9FA /* ImageDisplayController.xib */,
@@ -1498,6 +1515,7 @@
 				0847FDB21762682300D950EA /* SessionEditorProtocol.h */,
 				08D243D715B5D7590064A9FA /* SessionEditView.h */,
 				08D243D815B5D7590064A9FA /* SessionEditView.m */,
+				08137A3917CBF4F7005EA804 /* Variables */,
 			);
 			name = "session related controllers";
 			sourceTree = "<group>";
@@ -1536,13 +1554,6 @@
 		08D243C215B5D6780064A9FA /* views and cells */ = {
 			isa = PBXGroup;
 			children = (
-				08B74C3B1635CF4B00083F9A /* SpreadsheetScroller.h */,
-				08B74C3C1635CF4B00083F9A /* SpreadsheetScroller.m */,
-				08B74C3F1635D14800083F9A /* SpreadsheetCell.h */,
-				08B74C401635D14800083F9A /* SpreadsheetCell.m */,
-				083AAEF4162DE7870037AAB3 /* BasicVariableCell.h */,
-				083AAEF5162DE7870037AAB3 /* BasicVariableCell.m */,
-				083AAEF7162DE7B10037AAB3 /* BasicVariableCell.xib */,
 				08D243C415B5D7590064A9FA /* ControllerUserCell.h */,
 				08D243C515B5D7590064A9FA /* ControllerUserCell.m */,
 				08D243C615B5D7590064A9FA /* ControllerUserCell.xib */,
@@ -1561,9 +1572,6 @@
 				08D243D915B5D7590064A9FA /* StudentAssignmentCell.h */,
 				08D243DA15B5D7590064A9FA /* StudentAssignmentCell.m */,
 				08D243DB15B5D7590064A9FA /* StudentAssignmentCell.xib */,
-				083AAEFE162F480C0037AAB3 /* FunctionVariableSummaryCell.h */,
-				083AAEFF162F480C0037AAB3 /* FunctionVariableSummaryCell.m */,
-				083AAF01162F48210037AAB3 /* FunctionVariableSummaryCell.xib */,
 			);
 			name = "views and cells";
 			sourceTree = "<group>";

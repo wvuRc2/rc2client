@@ -8,6 +8,10 @@
 
 #import "BasicVariableCell.h"
 
+@interface BasicVariableCell ()
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *horizConstraint;
+@end
+
 @implementation BasicVariableCell
 
 

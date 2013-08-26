@@ -186,7 +186,7 @@
 		[self.varablePopover dismissPopoverAnimated:YES];
 	} else {
 		[self.varablePopover presentPopoverFromBarButtonItem:sender
-									permittedArrowDirections:UIPopoverArrowDirectionUp|UIPopoverArrowDirectionRight
+									permittedArrowDirections:UIPopoverArrowDirectionUp|UIPopoverArrowDirectionAny
 													animated:YES];
 	}
 }
