@@ -222,7 +222,7 @@
 								 [AMActionItem actionItemWithName:@"Decrease Font Size" target:self action:@selector(doDecreaseFont:) userInfo:nil],
 								 [AMActionItem actionItemWithName:@"Increase Font Size" target:self action:@selector(doIncreaseFont:) userInfo:nil]
 	];
-	self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Console Actions" actionItems:actionItems];
+	self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil actionItems:actionItems];
 	[self.actionSheet showFromBarButtonItem:sender animated:YES];
 }
 
