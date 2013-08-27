@@ -23,7 +23,6 @@
 #import "MBProgressHUD.h"
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
-#import "ThemeEngine.h"
 #import "ControlViewController.h"
 #import "RCAudioChatEngine.h"
 #import "DoodleViewController.h"
@@ -100,20 +99,15 @@
 	self.splitController.minimumView2Size = CGSizeMake(240, 240);
 	// Calc splitViewController's view's frame:
 	CGRect rec = self.view.bounds;
-	rec.origin.y += 44;
-	rec.size.height -= 44;
+	rec.origin.y += 30;
+	rec.size.height -= 30;
 	self.splitController.view.frame = rec;
 	self.splitController.splitterPosition = splitPos;
 	[self addChildViewController:self.splitController];
 	[self.view addSubview:self.splitController.view];
 	[self.splitController didMoveToParentViewController:self];
 
-	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
-	self.splitController.splitterView.backgroundColor = [theme colorForKey:@"SessionPaneSplitterStart"];
-	__weak SessionViewController *blockSelf = self;
-	[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *aTheme) {
-		blockSelf.splitController.splitterView.backgroundColor = [aTheme colorForKey:@"SessionPaneSplitterStart"];
-	}];
+	self.splitController.splitterView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2];
 
 	RCSavedSession *savedState = self.session.savedSessionState;
 	self.consoleController.session = self.session;
