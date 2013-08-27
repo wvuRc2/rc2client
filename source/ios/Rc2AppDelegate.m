@@ -513,7 +513,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 {
 	self.authController = [[LoginController alloc] init];
 	__weak UIViewController *blockVC = self.window.rootViewController;
-	__unsafe_unretained Rc2AppDelegate *blockSelf = self;
+	__weak Rc2AppDelegate *blockSelf = self;
 	self.authController.loginCompleteHandler = ^ {
 		[blockVC dismissViewControllerAnimated:YES completion:nil];
 		blockSelf.authController=nil;
@@ -522,11 +522,13 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 			[blockSelf restoreLastSession];
 		}
 	};
-	self.authController.modalPresentationStyle = UIModalPresentationPageSheet;
+	self.authController.modalPresentationStyle = UIModalPresentationFormSheet;
+	self.authController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 	[self.authController view];
 	CGSize sz = self.authController.view.frame.size;
 	[blockVC presentViewController:self.authController animated:YES completion:nil];
 
+	BOOL land = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
 
    self.authController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
 	| UIViewAutoresizingFlexibleBottomMargin;
@@ -534,7 +536,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	r.size = sz;
 	self.authController.view.superview.frame = r;
 
-	BOOL land = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
 	CGSize screenSize = land ? CGSizeMake(1024, 748) : CGSizeMake(768, 1004);
 	CGPoint pt = CGPointMake(screenSize.width/2, floor(screenSize.height/3));
 	self.authController.view.superview.center = pt;
