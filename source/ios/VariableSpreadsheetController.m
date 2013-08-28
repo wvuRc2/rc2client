@@ -32,6 +32,7 @@
 	self.dataView.dataSource = self;
 	self.ssheetCellSize = CGSizeMake(80, 40);
 	self.dataView.showRowHeaders = self.variable.rowNames.count > 0;
+	self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
 
 -(CGSize)contentSizeForViewInPopover

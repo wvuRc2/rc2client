@@ -14,5 +14,15 @@
 
 @implementation BasicVariableCell
 
+-(void)updateFonts
+{
+	self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+	self.valueLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+}
 
+-(void)prepareForReuse
+{
+	[super prepareForReuse];
+	[self updateFonts];
+}
 @end

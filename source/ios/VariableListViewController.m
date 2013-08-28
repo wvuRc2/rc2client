@@ -39,6 +39,14 @@
 	UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStyleBordered target:self action:@selector(clearVariables:)];
 	self.navigationItem.rightBarButtonItem = clearButton;
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;
+	__weak UITableView *btable = self.tableView;
+	[[NSNotificationCenter defaultCenter] addObserverForName:UIContentSizeCategoryDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note)
+	 {
+		for (BasicVariableCell *cell in btable.visibleCells)
+		{
+			[cell updateFonts];
+		}
+	 }];
 }
 
 -(void)viewWillAppear:(BOOL)animated

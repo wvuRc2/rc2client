@@ -11,4 +11,6 @@
 @interface SpreadsheetCell : UIView
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic) BOOL isHeader;
+
+-(void)updateFont;
 @end

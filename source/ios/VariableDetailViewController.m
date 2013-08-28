@@ -29,6 +29,11 @@
 	self.navigationItem.title = self.variable.name;
 	UINib *nib = [UINib nibWithNibName:@"FunctionVariableSummaryCell" bundle:nil];
 	[self.tableView registerNib:nib forCellReuseIdentifier:@"function"];
+	__weak VariableDetailViewController *bself = self;
+	[[NSNotificationCenter defaultCenter] addObserverForName:UIContentSizeCategoryDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note)
+	{
+		[bself.tableView reloadData];
+	}];
 }
 
 -(CGSize)contentSizeForViewInPopover
@@ -58,6 +63,7 @@
 		if (_variable.type == eVarType_Function) {
 			cell = [tableView dequeueReusableCellWithIdentifier:@"function"];
 			[(FunctionVariableSummaryCell*)cell setVariable:self.variable];
+			[(FunctionVariableSummaryCell*)cell updateFonts];
 		} else {
 			//summary cell
 			cell = [tableView dequeueReusableCellWithIdentifier:@"summary"];
@@ -65,6 +71,8 @@
 				cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"summary"];
 			cell.textLabel.text = self.variable.name;
 			cell.detailTextLabel.text = self.variable.description;
+			cell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+			cell.detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
 		}
 	} else {
 		cell = [tableView dequeueReusableCellWithIdentifier:@"dvalue"];
@@ -73,6 +81,7 @@
 		id val=nil;
 		val = [self.variable valueAtIndex:indexPath.row];
 		cell.textLabel.text = [val description];
+		cell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
 	}
 	return cell;
 }

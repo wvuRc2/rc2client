@@ -18,7 +18,7 @@
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-	;
+
 	if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
 	}
 	return self;
@@ -28,6 +28,13 @@
 {
 	[super prepareForReuse];
 	self.variable=nil;
+	[self updateFonts];
+}
+
+-(void)updateFonts
+{
+	UIFontDescriptor *fd = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
+	self.textView.font = [UIFont fontWithName:@"Courier" size:fd.pointSize];
 }
 
 -(void)setVariable:(RCVariable *)variable

@@ -21,7 +21,7 @@
                             <constraint firstAttribute="width" constant="100" id="35"/>
                             <constraint firstAttribute="height" constant="21" id="xMU-hI-2VN"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </label>
@@ -32,7 +32,7 @@
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="12"/>
                             <constraint firstAttribute="height" constant="21" id="Xbs-RL-q0j"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </label>

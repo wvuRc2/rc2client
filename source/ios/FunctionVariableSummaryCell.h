@@ -13,4 +13,6 @@
 @interface FunctionVariableSummaryCell : UITableViewCell
 @property (nonatomic, weak) RCVariable *variable;
 @property (nonatomic) NSInteger customRowHeight;
+
+-(void)updateFonts;
 @end

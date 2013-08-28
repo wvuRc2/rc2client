@@ -38,6 +38,14 @@
 	self.delegate = self;
 	_firstVisibleRow = _firstVisibleCol = NSIntegerMax;
 	_lastVisibleRow = _lastVisibleCol = NSIntegerMin;
+	[[NSNotificationCenter defaultCenter] addObserverForName:UIContentSizeCategoryDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note)
+	 {
+		 for (SpreadsheetCell *cell in _containerView.subviews)
+		 {
+			 [cell updateFont];
+		 }
+	 }];
+
 }
 
 -(void)initialSetup

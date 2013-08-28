@@ -18,7 +18,7 @@
 {
 	self = [super initWithFrame:frame];
 	self.layer.borderWidth = 1.0;
-	self.layer.borderColor = [UIColor grayColor].CGColor;
+	self.layer.borderColor = [[UIColor blackColor] colorWithAlphaComponent:0.2].CGColor;
 	return self;
 }
 
@@ -36,21 +36,11 @@
 	[self.bgLayer removeFromSuperlayer];
 	UILabel *label = [[UILabel alloc] initWithFrame:self.bounds];
 	if (self.isHeader) {
-		CAGradientLayer *gl = [CAGradientLayer layer];
-		gl.colors = @[
-		(id)[UIColor colorWithWhite:0.9 alpha:1.0].CGColor,
-		(id)[UIColor colorWithWhite:0.8 alpha:1.0].CGColor,
-		(id)[UIColor colorWithWhite:0.6 alpha:1.0].CGColor,
-		(id)[UIColor colorWithWhite:0.5 alpha:1.0].CGColor
-		];
-		gl.locations = @[@0.0, @0.02, @0.99, @1.0];
-		gl.frame = self.bounds;
-		[self.layer addSublayer:gl];
-		self.bgLayer = gl;
-		self.backgroundColor = [UIColor clearColor];
-		label.font = [UIFont boldSystemFontOfSize:18.0];
+		self.backgroundColor = [UIColor colorWithHexString:@"cbcbcb"];
+		label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
 	} else {
 		self.backgroundColor = [UIColor whiteColor];
+		label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
 	}
 	label.opaque = NO;
 	label.backgroundColor = [UIColor clearColor];
@@ -58,6 +48,15 @@
 	[self addSubview:label];
 	self.label = label;
 	self.label.text = self.content;
+}
+
+-(void)updateFont
+{
+	if (self.isHeader) {
+		self.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+	} else {
+		self.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+	}
 }
 
 -(void)setIsHeader:(BOOL)isHeader
