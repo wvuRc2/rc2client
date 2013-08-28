@@ -135,7 +135,7 @@
 	
 	NSArray *items = @[ [AMActionItem actionItemWithName:@"Rename" target:self action:@selector(renameObject:) userInfo:@{@"item":item}],
 						[AMActionItem actionItemWithName:@"Delete" target:self action:@selector(deleteObject:) userInfo:@{@"item":item}]];
-	self.contextMenuSheet = [[UIActionSheet alloc] initWithTitle:@"Actions" actionItems:items];
+	self.contextMenuSheet = [[UIActionSheet alloc] initWithTitle:nil actionItems:items];
 	
 	CGRect rect = CGRectZero;
 	rect.origin = [gesture locationInView:self.collectionView];

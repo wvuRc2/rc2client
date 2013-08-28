@@ -111,7 +111,8 @@
 											 selector:@selector(keyboardHiding:)
 												 name:UIKeyboardWillHideNotification object:nil];
 		self.docTitleLabel.text = @"Untitled Document";
-		[self.richEditor setDefaultFontName:@"Inconsolata" size:18.0];
+		UIFontDescriptor *sysFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
+		[self.richEditor setDefaultFontName:@"Inconsolata" size:sysFont.pointSize];
 		self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
 			[UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName, nil];
 		self.docTitleLabel.font = [UIFont fontWithName:@"Inconsolata" size:18.0];
@@ -140,6 +141,12 @@
 			if (!weakSelf.externalKeyboardVisible)
 				[editView resignFirstResponder];
 		};
+		[[NSNotificationCenter defaultCenter] addObserverForName:UIContentSizeCategoryDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note)
+		{
+			UIFontDescriptor *stdFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
+			[weakSelf.richEditor setDefaultFontName:@"Inconsolata" size:stdFont.pointSize];
+		}];
+		self.handButton.hidden = YES;
 		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
 		self.keyboardToolbar.delegate = self;
 		self.richEditor.inputAccessoryView = self.keyboardToolbar.view;
