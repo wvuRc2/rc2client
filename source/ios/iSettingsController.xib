@@ -18,6 +18,7 @@
                 <outlet property="emailNoteCell" destination="40" id="44"/>
                 <outlet property="emailNoteSwitch" destination="43" id="45"/>
                 <outlet property="headerView" destination="71" id="73"/>
+                <outlet property="logoutCell" destination="fNb-Nl-T3O" id="fIP-dm-rqP"/>
                 <outlet property="settingsTable" destination="4" id="17"/>
                 <outlet property="smsCell" destination="28" id="37"/>
                 <outlet property="smsField" destination="29" id="31"/>
@@ -252,6 +253,27 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                </subviews>
+            </tableViewCellContentView>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" id="fNb-Nl-T3O" userLabel="logout cell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fNb-Nl-T3O" id="aN2-g7-iHl">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cL5-6l-mZo">
+                        <rect key="frame" x="120" y="4" width="80" height="36"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                        <state key="normal" title="Logout">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="logout:" destination="-1" eventType="touchUpInside" id="MSK-E2-sJP"/>
+                        </connections>
+                    </button>
                 </subviews>
             </tableViewCellContentView>
         </tableViewCell>

@@ -944,6 +944,7 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	self.loggedIn=NO;
 	self.currentLogin=nil;
 	self.remoteLogger.logHost=nil;
+	self.projects = nil;
 	[self.cachedData removeAllObjects];
 	[self.cachedDataTimestamps removeAllObjects];
 	//FIXME: need to send a logout request to server

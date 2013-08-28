@@ -12,7 +12,6 @@
 #import "Rc2AppDelegate.h"
 #import "Vyana-ios/AMNavigationTreeController.h"
 #import "Rc2Server.h"
-#import "GradientButton.h"
 #import "RCWorkspace.h"
 #import "DropboxSyncSettingController.h"
 
@@ -30,6 +29,7 @@ enum { eTree_Theme, eTree_Keyboard };
 @property (nonatomic, weak) IBOutlet UITableViewCell *editThemeCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *editorCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *dbpathCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *logoutCell;
 @property (nonatomic, weak) IBOutlet UISwitch *editorSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *emailNoteSwitch;
 @property (nonatomic, weak) IBOutlet UIButton *editThemeButton;
@@ -78,7 +78,7 @@ enum { eTree_Theme, eTree_Keyboard };
 	if ([[Rc2Server  sharedInstance] isAdmin])
 		settingsCells = [settingsCells arrayByAddingObject:self.editThemeCell];
 	self.sectionData = @[
-		@{@"name":@"Account", @"isSettings": @NO, @"cells": @[self.emailCell,self.emailNoteCell,self.twitterCell,self.smsCell]},
+		@{@"name":@"Account", @"isSettings": @NO, @"cells": @[self.emailCell,self.emailNoteCell,self.twitterCell,self.smsCell,self.logoutCell]},
 		@{@"name":@"Settings", @"isSettings": @YES,  @"cells": settingsCells}
 	];
 	if (self.currentWorkspace) {
@@ -86,15 +86,12 @@ enum { eTree_Theme, eTree_Keyboard };
 		self.sectionData = @[@{@"name":sectitle, @"isSettings":@NO, @"cells":@[self.dbpathCell]}, self.sectionData[0], self.sectionData[1]];
 		self.dbpathLabel.text = self.currentWorkspace.dropboxPath;
 	}
-//	[self.editThemeButton useWhiteStyle];
 	CGRect newFrame = CGRectMake(0, 0, self.settingsTable.bounds.size.width, self.headerView.frame.size.height);
 	self.headerView.backgroundColor = [UIColor clearColor];
 	self.headerView.frame = newFrame;
 	self.settingsTable.tableFooterView = self.headerView;
 	NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
 	self.versionLabel.text = [NSString stringWithFormat:@"%@ %@ (Build %@)", info[@"CFBundleDisplayName"], info[@"CFBundleShortVersionString"], info[@"CFBundleVersion"]];
-	self.editThemeButton.tintColor = [UIColor blackColor];
-	self.editThemeButton.layer.cornerRadius = 8.0;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -103,14 +100,15 @@ enum { eTree_Theme, eTree_Keyboard };
 	if (self.currentWorkspace)
 		self.dbpathLabel.text = self.currentWorkspace.dropboxPath;
 	[self.settingsTable reloadData];
-	self.preferredContentSize = self.settingsTable.contentSize;
-	NSLog(@"content height=%1.1f", self.preferredContentSize.height);
 	[self.view setNeedsLayout];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
+	CGSize sz = self.settingsTable.contentSize;
+	sz.height += self.settingsTable.tableFooterView.bounds.size.height;
+	[self.containingPopover setPopoverContentSize:sz animated:NO];
 	[self.view setNeedsLayout];
 }
 

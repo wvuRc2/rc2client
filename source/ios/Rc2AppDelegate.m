@@ -99,6 +99,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 //	self.rootController = [[RootViewController alloc] init];
 //	self.window.rootViewController = self.rootController;
 //	[self.window addSubview:self.rootController.view];
+	self.window.tintColor = [UIColor colorWithHexString:@"003366"];
 	[self.window makeKeyAndVisible];
 
 	[(iAMApplication*)application sendDelegateEventNotifications];

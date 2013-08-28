@@ -12,6 +12,6 @@
 @class RCWorkspace;
 
 @interface iSettingsController : UIViewController<UITextFieldDelegate>
-@property (nonatomic, strong) UIPopoverController *containingPopover;
+@property (nonatomic, weak) UIPopoverController *containingPopover;
 @property (nonatomic, strong) RCWorkspace *currentWorkspace;
 @end

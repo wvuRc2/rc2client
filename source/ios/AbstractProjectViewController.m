@@ -120,6 +120,7 @@
 	self.projectButton.title = @"Logout";
 	self.selectedProject = nil;
 	self.navigationItem.title = NSLocalizedString(@"Rc2 Projects", @"");
+	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(void)longGesture:(UILongPressGestureRecognizer*)gesture
