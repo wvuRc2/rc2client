@@ -6,9 +6,21 @@
 //  Copyright 2012 West Virginia University. All rights reserved.
 //
 
-#import "SessionEditorProtocol.h"
+#import <UIKit/UIKit.h>
 
-@interface SessionEditView : UITextView <SessionEditor>
-//@property (nonatomic, copy) NSAttributedString *attributedString;
+@interface SessionEditView : UITextView
 -(IBAction)showHelp:(id)sender;
+
+@property (nonatomic, copy) void (^helpBlock)(SessionEditView *editView);
+@property (nonatomic, copy) void (^executeBlock)(SessionEditView *editView);
+@property (nonatomic, assign) NSRange selectedRange;
+@property (readonly) BOOL isEditorFirstResponder;
+
+@property (readonly) UIView *view;
+
+-(void)upArrow;
+-(void)downArrow;
+-(void)leftArrow;
+-(void)rightArrow;
+
 @end

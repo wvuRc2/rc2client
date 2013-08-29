@@ -26,7 +26,7 @@
 #import "WHMailActivity.h"
 #import "MAKVONotificationCenter.h"
 
-@interface EditorViewController() <KeyboardToolbarDelegate> {
+@interface EditorViewController() <KeyboardToolbarDelegate,NSTextStorageDelegate> {
 	BOOL _viewLoaded;
 	BOOL _handUp;
 }
@@ -36,7 +36,8 @@
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *openFileButtonItem;
 @property (nonatomic, weak) IBOutlet UILabel *docTitleLabel;
 @property (nonatomic, weak) IBOutlet UIButton *handButton;
-@property (nonatomic, strong) IBOutlet id <SessionEditor> richEditor;
+@property (nonatomic, weak) IBOutlet UITextView *lineNumberView;
+@property (nonatomic, strong) IBOutlet SessionEditView *richEditor;
 @property (nonatomic, strong) NSDictionary *defaultTextAttrs;
 @property (nonatomic, strong) KeyboardToolbar *keyboardToolbar;
 @property (nonatomic, strong) SessionFilesController *fileController;
@@ -46,6 +47,7 @@
 @property (nonatomic, strong) UINavigationController *importController;
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
 @property (nonatomic, strong) UIAlertView *currentAlert;
+@property (atomic) BOOL isScrolling;
 @property int32_t syncInProgress;
 @end
 
@@ -91,7 +93,7 @@
 
 -(void)keyboardHiding:(NSNotification*)note
 {
-	self.currentFile.localEdits = self.richEditor.string;
+	self.currentFile.localEdits = self.richEditor.text;
 	[self updateDocumentState];
 	self.richEditor.inputAccessoryView = self.keyboardToolbar.view;
 	if (self.currentFile.locallyModified && self.currentFile.localEdits.length < 4096)
@@ -112,29 +114,31 @@
 												 name:UIKeyboardWillHideNotification object:nil];
 		self.docTitleLabel.text = @"Untitled Document";
 		UIFontDescriptor *sysFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
-		[self.richEditor setDefaultFontName:@"Inconsolata" size:sysFont.pointSize];
+		UIFont *myFont = [UIFont fontWithName:@"Inconsolata" size:sysFont.pointSize];
+		self.richEditor.font = myFont;
+		self.lineNumberView.font = myFont;
 		self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
 			[UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName, nil];
 		self.docTitleLabel.font = [UIFont fontWithName:@"Inconsolata" size:18.0];
 		
 		__weak EditorViewController *weakSelf = self;
-		self.richEditor.helpBlock = ^(id<SessionEditor> editView) {
+		self.richEditor.helpBlock = ^(SessionEditView *editView) {
 			//need to sanitize the input string. we'll just test for only alphanumeric
-			NSString *str = [editView.string substringWithRange:editView.selectedRange];
+			NSString *str = [editView.text substringWithRange:editView.selectedRange];
 			if (str && ![str containsCharacterNotInSet:[NSCharacterSet alphanumericCharacterSet]])
 				[weakSelf.session executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
 			if (!weakSelf.externalKeyboardVisible)
 				[editView resignFirstResponder];
 		};
-		self.richEditor.executeBlock = ^(id<SessionEditor> editView) {
+		self.richEditor.executeBlock = ^(SessionEditView *editView) {
 			if (editView.selectedRange.length < 1) {
 				//execute the line
-				NSString *str = [[editView.string substringWithRange:[editView.string lineRangeForRange:editView.selectedRange]] stringByTrimmingWhitespace];
+				NSString *str = [[editView.text substringWithRange:[editView.text lineRangeForRange:editView.selectedRange]] stringByTrimmingWhitespace];
 				if ([str length] > 0)
 					[weakSelf.session executeScript:str scriptName:nil];
 			} else {
 				//excute selecction
-				NSString *str = [[editView.string substringWithRange:editView.selectedRange] stringByTrimmingWhitespace];
+				NSString *str = [[editView.text substringWithRange:editView.selectedRange] stringByTrimmingWhitespace];
 				if ([str length] > 0)
 					[weakSelf.session executeScript:str scriptName:nil];
 			}
@@ -144,8 +148,13 @@
 		[[NSNotificationCenter defaultCenter] addObserverForName:UIContentSizeCategoryDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note)
 		{
 			UIFontDescriptor *stdFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
-			[weakSelf.richEditor setDefaultFontName:@"Inconsolata" size:stdFont.pointSize];
+			UIFont *myFont = [UIFont fontWithName:@"Inconsolata" size:stdFont.pointSize];
+			weakSelf.richEditor.font = myFont;
+			weakSelf.lineNumberView.font = myFont;
 		}];
+		
+		self.richEditor.textStorage.delegate = self;
+		
 		self.handButton.hidden = YES;
 		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
 		self.keyboardToolbar.delegate = self;
@@ -169,10 +178,10 @@
 
 -(void)keyboardToolbar:(KeyboardToolbar*)tbar insertString:(NSString*)str
 {
-	NSMutableAttributedString *astr = [self.richEditor.attributedString mutableCopy];
+	NSMutableAttributedString *astr = [self.richEditor.attributedText mutableCopy];
 	NSRange rng = self.richEditor.selectedRange;
 	[astr replaceCharactersInRange:rng withString:str];
-	self.richEditor.attributedString = astr;
+	self.richEditor.attributedText = astr;
 	self.richEditor.selectedRange = NSMakeRange(rng.location + str.length, 0);
 }
 
@@ -214,8 +223,8 @@
 
 -(void)executeLine
 {
-	id<SessionEditor> editor = self.richEditor;
-	NSString *str = [[editor.string substringWithRange:[editor.string lineRangeForRange:editor.selectedRange]] stringByTrimmingWhitespace];
+	SessionEditView *editor = self.richEditor;
+	NSString *str = [[editor.text substringWithRange:[editor.text lineRangeForRange:editor.selectedRange]] stringByTrimmingWhitespace];
 	if ([str length] > 0)
 		[self.session executeScript:str scriptName:nil];
 	if (!self.externalKeyboardVisible)
@@ -248,12 +257,12 @@
 
 -(NSString*)editorContents
 {
-	return [self.richEditor.attributedString string];
+	return self.richEditor.text;
 }
 
 -(void)updateDocumentState
 {
-	self.executeButton.enabled = self.richEditor.attributedString.length > 0;
+	self.executeButton.enabled = self.richEditor.attributedText.length > 0;
 	if (self.currentFile && _currentFile.readOnlyValue) {
 		[self.richEditor setEditable:NO];
 	} else {
@@ -278,7 +287,7 @@
 {
 	RCFile *oldFile = _currentFile;
 	if (self.currentFile != nil && self.currentFile != file) {
-		self.currentFile.localEdits = self.richEditor.string;
+		self.currentFile.localEdits = self.richEditor.text;
 	}
 	if (nil == file) {
 		Rc2LogWarn(@"asked to load file <nil>");
@@ -313,7 +322,7 @@
 	UIView *rootView = self.view.superview;
 	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
 	hud.labelText = @"Saving…";
-	self.currentFile.localEdits = [self.richEditor string];
+	self.currentFile.localEdits = self.richEditor.text;
 	[[Rc2Server sharedInstance] saveFile:self.currentFile
 							 toContainer:_session.workspace
 					   completionHandler:^(BOOL success, id results)
@@ -484,6 +493,41 @@
 	}
 }
 
+-(void)adjustLineNumbers
+{
+	if (nil == self.view.window)
+		return;
+	NSString *str = self.richEditor.textStorage.string;
+	NSLayoutManager *layout = self.richEditor.layoutManager;
+	NSTextContainer *tcon = layout.textContainers.firstObject;
+	NSInteger lineNum = 0;
+	NSUInteger strlen = str.length;
+	CGFloat lineHeight = self.richEditor.font.lineHeight;
+	NSMutableArray *lineYs = [NSMutableArray array];
+	NSMutableString *lnstr = [NSMutableString string];
+	NSInteger lastY = 0;
+	for (NSUInteger idx=0; idx < strlen; idx++) {
+		if ([str characterAtIndex:idx] == '\n') {
+			NSUInteger gidx = [layout glyphIndexForCharacterAtIndex:idx];
+			CGRect charRect = [layout boundingRectForGlyphRange:NSMakeRange(gidx, 1) inTextContainer:tcon];
+			lineNum++;
+			[lnstr appendFormat:@"%d\n", lineNum];
+			NSInteger newY = floor(charRect.origin.y);
+			CGFloat compare = fabs(newY - lastY - lineHeight);
+			while (compare > 6 && lineNum > 1) {
+				[lnstr appendString:@"\n"];
+				compare -= 13;
+			}
+			lastY = floor(charRect.origin.y);
+			[lineYs addObject:[NSNumber numberWithDouble:charRect.origin.y]];
+		}
+	}
+	NSMutableParagraphStyle *style = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+	style.alignment = NSTextAlignmentRight;
+	NSMutableAttributedString *astr = [[NSMutableAttributedString alloc] initWithString:lnstr attributes:@{NSParagraphStyleAttributeName:style}];
+	[self.lineNumberView.textStorage replaceCharactersInRange:NSMakeRange(0, self.lineNumberView.textStorage.length) withAttributedString:astr];
+}
+
 #pragma mark - actions
 
 -(IBAction)doExecute:(id)sender
@@ -546,7 +590,7 @@
 -(IBAction)doClear:(id)sender
 {
 	self.docTitleLabel.text = @"Untitled Document";
-	self.richEditor.attributedString = [[NSAttributedString alloc] initWithString:@""];
+	self.richEditor.attributedText = [[NSAttributedString alloc] initWithString:@""];
 	self.currentFile=nil;
 	[self updateDocumentState];
 }
@@ -563,7 +607,7 @@
 	NSMutableArray *items = [NSMutableArray arrayWithCapacity:5];
 	NSMutableArray *activs = [NSMutableArray arrayWithCapacity:5];
 	if (self.currentFile.isTextFile)
-		[items addObject:self.richEditor.string];
+		[items addObject:self.richEditor.text];
 	AMActivity *renameActivity = [[AMActivity alloc] initWithActivityType:@"edu.wvu.stat.rc2.renameActivity" title:@"Rename" image:@"renameActivity"];
 	renameActivity.canPerformBlock = ^(NSArray *items) {
 		return YES;
@@ -724,13 +768,11 @@
 -(void)updateTextContents:(NSAttributedString*)srcStr
 {
 	if (nil == srcStr)
-		srcStr = self.richEditor.attributedString;
-//	if ([self.richEditor respondsToSelector:@selector(attributedText)]) {
-		NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
-		[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
-		srcStr = astr;
-//	}
-	self.richEditor.attributedString = srcStr;
+		srcStr = self.richEditor.attributedText;
+	NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
+	[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
+	srcStr = astr;
+	self.richEditor.attributedText = srcStr;
 	[self.keyboardToolbar switchToPanelForFileExtension:self.currentFile.name.pathExtension];
 }
 
@@ -738,6 +780,37 @@
 {
 	[self updateDocumentState];
 }
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+	if (self.isScrolling)
+		return;
+	self.isScrolling = YES;
+	if (scrollView == self.richEditor) {
+		CGPoint offset = self.lineNumberView.contentOffset;
+		offset.y = self.richEditor.contentOffset.y;
+		[self.lineNumberView setContentOffset:offset animated:NO];
+	} else if (scrollView == self.lineNumberView) {
+		CGPoint offset = self.richEditor.contentOffset;
+		offset.y = self.lineNumberView.contentOffset.y;
+		[self.richEditor setContentOffset:offset animated:NO];
+	}
+	self.isScrolling = NO;
+}
+
+
+#pragma mark - text storage delegate
+
+-(void)textStorage:(NSTextStorage *)textStorage willProcessEditing:(NSTextStorageEditActions)editedMask range:(NSRange)editedRange changeInLength:(NSInteger)delta
+{
+	
+}
+
+-(void)textStorage:(NSTextStorage *)textStorage didProcessEditing:(NSTextStorageEditActions)editedMask range:(NSRange)editedRange changeInLength:(NSInteger)delta
+{
+	[self adjustLineNumbers];
+}
+
 
 #pragma mark - accessors
 

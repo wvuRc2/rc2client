@@ -110,17 +110,7 @@
 		self.helpBlock(self);
 }
 
--(void)setDefaultFontName:(NSString*)fontName size:(CGFloat)fontSize
-{
-	self.font = [UIFont fontWithName:fontName size:fontSize];
-}
-
--(BOOL)isEditorFirstResponder
-{
-	return self.isFirstResponder;
-}
-
--(void)becomeFirstResponder
+-(BOOL)becomeFirstResponder
 {
 	//this is a skanky hack using private API. There appears to be no other way to hide the accessory
 	// view once keyboard notifications are received.
@@ -130,32 +120,7 @@
 	if ([val boolValue])
 		self.inputAccessoryView = nil;
 
-	[super becomeFirstResponder];
-}
-
--(NSString*)string
-{
-	return self.text;
-}
-
--(void)setString:(NSString *)string
-{
-	self.text = string;
-}
-
--(NSAttributedString*)attributedString
-{
-	if ([self respondsToSelector:@selector(attributedText)])
-		return [self attributedText];
-	return [[NSAttributedString alloc] initWithString:self.text];
-}
-
--(void)setAttributedString:(NSAttributedString *)attributedString
-{
-	if ([self respondsToSelector:@selector(attributedText)] && attributedString.length < 8200)
-		self.attributedText = attributedString;
-	else
-		self.text = attributedString.string;
+	return [super becomeFirstResponder];
 }
 
 
