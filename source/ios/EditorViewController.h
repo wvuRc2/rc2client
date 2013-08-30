@@ -31,6 +31,7 @@
 -(void)editorResignFirstResponder;
 -(NSString*)editorContents;
 -(void)reloadFileData;
+-(void)adjustLineNumbers;
 
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress;
 -(void)loadFile:(RCFile*)file; //shows progress

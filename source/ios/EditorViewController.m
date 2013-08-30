@@ -112,6 +112,8 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(keyboardHiding:)
 												 name:UIKeyboardWillHideNotification object:nil];
+		self.lineNumberView.text = @"1\n2\n\n3";
+		self.richEditor.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
 		self.docTitleLabel.text = @"Untitled Document";
 		UIFontDescriptor *sysFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
 		UIFont *myFont = [UIFont fontWithName:@"Inconsolata" size:sysFont.pointSize];
@@ -120,6 +122,7 @@
 		self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
 			[UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName, nil];
 		self.docTitleLabel.font = [UIFont fontWithName:@"Inconsolata" size:18.0];
+		
 		
 		__weak EditorViewController *weakSelf = self;
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
@@ -163,15 +166,10 @@
 	}
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+-(void)viewDidAppear:(BOOL)animated
 {
-    // Return YES for supported orientations
-	return YES;
-}
-
--(void)didReceiveMemoryWarning
-{
-	Rc2LogWarn(@"%@: memory warning:", THIS_FILE);
+	[super viewDidAppear:animated];
+	[self adjustLineNumbers];
 }
 
 #pragma mark - keybard toolbar delegate
@@ -498,34 +496,41 @@
 	if (nil == self.view.window)
 		return;
 	NSString *str = self.richEditor.textStorage.string;
+	if (![str hasSuffix:@"\n"])
+		str = [str stringByAppendingString:@"\n"];
 	NSLayoutManager *layout = self.richEditor.layoutManager;
 	NSTextContainer *tcon = layout.textContainers.firstObject;
 	NSInteger lineNum = 0;
 	NSUInteger strlen = str.length;
 	CGFloat lineHeight = self.richEditor.font.lineHeight;
-	NSMutableArray *lineYs = [NSMutableArray array];
 	NSMutableString *lnstr = [NSMutableString string];
 	NSInteger lastY = 0;
 	for (NSUInteger idx=0; idx < strlen; idx++) {
 		if ([str characterAtIndex:idx] == '\n') {
+			if ((lineNum * lineHeight) > self.richEditor.contentSize.height) {
+				NSLog(@"oops, early end");
+				break;
+			}
 			NSUInteger gidx = [layout glyphIndexForCharacterAtIndex:idx];
 			CGRect charRect = [layout boundingRectForGlyphRange:NSMakeRange(gidx, 1) inTextContainer:tcon];
+//			if (lineNum > 10)
+//				NSLog(@"%@", [str substringWithRange:NSMakeRange(idx, 12)]);
 			lineNum++;
 			[lnstr appendFormat:@"%d\n", lineNum];
 			NSInteger newY = floor(charRect.origin.y);
 			CGFloat compare = fabs(newY - lastY - lineHeight);
 			while (compare > 6 && lineNum > 1) {
 				[lnstr appendString:@"\n"];
-				compare -= 13;
+				compare -= lineHeight;
 			}
 			lastY = floor(charRect.origin.y);
-			[lineYs addObject:[NSNumber numberWithDouble:charRect.origin.y]];
 		}
 	}
 	NSMutableParagraphStyle *style = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
 	style.alignment = NSTextAlignmentRight;
 	NSMutableAttributedString *astr = [[NSMutableAttributedString alloc] initWithString:lnstr attributes:@{NSParagraphStyleAttributeName:style}];
 	[self.lineNumberView.textStorage replaceCharactersInRange:NSMakeRange(0, self.lineNumberView.textStorage.length) withAttributedString:astr];
+	self.lineNumberView.font = self.richEditor.font; //a bug in ios 7b5: the font is reset after text is set if in a container view.
 }
 
 #pragma mark - actions

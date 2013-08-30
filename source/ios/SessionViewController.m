@@ -202,6 +202,11 @@
 		[self.editorController editorResignFirstResponder];
 }
 
+-(void)didMoveSplitter:(AMResizableSplitViewController*)controller
+{
+	[self.editorController adjustLineNumbers];
+}
+
 #pragma mark - console keyboard toolbar delegate
 
 -(void)keyboardToolbar:(KeyboardToolbar*)tbar insertString:(NSString*)str
