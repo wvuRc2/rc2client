@@ -112,7 +112,7 @@
 	NSString *cachedName = [self.metaData objectForKey:img.imageId.description];
 	if (cachedName)
 		img.name = cachedName;
-	[self.imgCache setObject:img forKey:imageIdStr];
+	[self.imgCache setObject:img forKey:[imgPath stringByDeletingPathExtension]];
 	return img;
 }
 

@@ -21,7 +21,7 @@
 -(void)cacheImages:(NSArray*)imgDicts; //json dicts from server
 -(NSArray*)allImages;
 -(NSArray*)adjustImageArray:(NSArray*)inArray;
--(RCImage*)imageWithId:(NSString*)imgId;
+-(RCImage*)imageWithId:(NSString*)imgId; //should be the number as a string
 -(NSArray*)groupImagesForLinkPath:(NSString*)group;
 -(void)clearCache;
 @end
