@@ -18,17 +18,4 @@
 #define kPref_CurrentSessionWorkspace @"currentSessionID"
 #define kPref_CurrentProject @"currentProductID"
 
-
-typedef enum {
-	eKeyboardLayout_Standard=0,
-	eKeyboardLayout_Custom1,
-	eKeyboardLayout_Custom2
-} eKeyboardLayout;
-
-#define KeyboardPrefsChangedNotification @"KeyboardPrefsChangedNotification"
-
-#define kChatMessageNotification @"ChatMessageNotification"
-
-#define kTableViewDoubleClickedNotification @"kTableViewDoubleClickedNotification"
-
 #define kDropboxSyncRequestedNotification @"kDropboxSyncRequestedNotification"

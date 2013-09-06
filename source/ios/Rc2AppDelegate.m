@@ -29,9 +29,6 @@
 #import "ProjectViewTransition.h"
 #import "iSettingsController.h"
 
-@interface UITableView (DoubleClick)
--(void)myTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
-@end
 @interface UIDevice (BringBackDeprecatedMethods)
 -(id)uniqueIdentifier;
 @end
@@ -56,7 +53,6 @@
 @property (nonatomic, strong) iSettingsController *isettingsController;
 @end
 
-#define kCustomKeyboardDBPathTemplate @"/rc2shares/keyboards/custom%d-%d%@.txt"
 static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionState);
 
 @implementation Rc2AppDelegate
@@ -70,11 +66,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 	[(iAMApplication*)application loadDefaultDefaults];
 	 
-	//swizzle UITableView method so can get double click notifications
-	Method customMethod = class_getInstanceMethod([UITableView class], @selector(myTouchesEnded:withEvent:));
-	Method origMethod = class_getInstanceMethod([UITableView class], @selector(touchesEnded:withEvent:));
-	method_exchangeImplementations(origMethod, customMethod);
-
 //#ifndef CONFIGURATION_Debug
 	[[BITHockeyManager sharedHockeyManager] configureWithBetaIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" liveIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" delegate:self];
 	[[BITHockeyManager sharedHockeyManager] startManager];
@@ -667,18 +658,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	return psc;
 }
 
-@end
-
-@implementation UITableView (DoubleClick)
--(void)myTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	for (UITouch *aTouch in touches) {
-		if (aTouch.tapCount == 2)
-			[[NSNotificationCenter defaultCenter] postNotificationName:kTableViewDoubleClickedNotification 
-																object:self];
-	}
-	[self myTouchesEnded:touches withEvent:event]; //calls original 'cause we've been swizzled
-}
 @end
 
 
