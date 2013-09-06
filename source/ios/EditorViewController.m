@@ -47,6 +47,7 @@
 @property (nonatomic, strong) UINavigationController *importController;
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
 @property (nonatomic, strong) UIAlertView *currentAlert;
+@property (nonatomic, strong) NSTimer *widthAdjustTimer;
 @property (atomic) BOOL isScrolling;
 @property int32_t syncInProgress;
 @end
@@ -496,6 +497,8 @@
 	if (nil == self.view.window)
 		return;
 	NSString *str = self.richEditor.textStorage.string;
+	if (str.length < 1)
+		return;
 	if (![str hasSuffix:@"\n"])
 		str = [str stringByAppendingString:@"\n"];
 	NSLayoutManager *layout = self.richEditor.layoutManager;
@@ -504,26 +507,37 @@
 	NSUInteger strlen = str.length;
 	CGFloat lineHeight = self.richEditor.font.lineHeight;
 	NSMutableString *lnstr = [NSMutableString string];
-	NSInteger lastY = 0;
+	NSInteger lineStart=0;
+	CGRect lastRect = CGRectZero;
 	for (NSUInteger idx=0; idx < strlen; idx++) {
 		if ([str characterAtIndex:idx] == '\n') {
 			if ((lineNum * lineHeight) > self.richEditor.contentSize.height) {
 				NSLog(@"oops, early end");
 				break;
 			}
-			NSUInteger gidx = [layout glyphIndexForCharacterAtIndex:idx];
-			CGRect charRect = [layout boundingRectForGlyphRange:NSMakeRange(gidx, 1) inTextContainer:tcon];
-//			if (lineNum > 10)
-//				NSLog(@"%@", [str substringWithRange:NSMakeRange(idx, 12)]);
+			NSUInteger gidx = [layout glyphIndexForCharacterAtIndex:lineStart];
+			if (gidx == NSNotFound)
+				break;
+			CGRect charRect = CGRectZero;
+			NSRange rng = NSMakeRange(gidx, idx - lineStart);
+			if (rng.length > 0) rng.length--; //subtract for newine, unless on first line
+			if (rng.length == 0) {
+				//for empty strings, we'll fake a rect
+				charRect = CGRectMake(0, lastRect.origin.y + lastRect.size.height, 100, lineHeight);
+			} else {
+				charRect = [layout boundingRectForGlyphRange:rng inTextContainer:tcon];
+			}
+//			NSLog(@"str='%@', r=%@", [str substringWithRange:rng], NSStringFromCGRect(charRect));
 			lineNum++;
 			[lnstr appendFormat:@"%d\n", lineNum];
-			NSInteger newY = floor(charRect.origin.y);
-			CGFloat compare = fabs(newY - lastY - lineHeight);
-			while (compare > 6 && lineNum > 1) {
+			CGFloat blockHeight = charRect.size.height;
+			CGFloat compare = blockHeight - lineHeight;
+			while (compare > 6) {
 				[lnstr appendString:@"\n"];
 				compare -= lineHeight;
 			}
-			lastY = floor(charRect.origin.y);
+			lineStart = idx+1;
+			lastRect = charRect;
 		}
 	}
 	NSMutableParagraphStyle *style = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -531,6 +545,19 @@
 	NSMutableAttributedString *astr = [[NSMutableAttributedString alloc] initWithString:lnstr attributes:@{NSParagraphStyleAttributeName:style}];
 	[self.lineNumberView.textStorage replaceCharactersInRange:NSMakeRange(0, self.lineNumberView.textStorage.length) withAttributedString:astr];
 	self.lineNumberView.font = self.richEditor.font; //a bug in ios 7b5: the font is reset after text is set if in a container view.
+}
+
+-(void)userWillAdjustWidth
+{
+	self.widthAdjustTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 repeats:YES usingBlock:^(NSTimer *timer) {
+		[self adjustLineNumbers];
+	}];
+}
+
+-(void)userDidAdjustWidth
+{
+	[self.widthAdjustTimer invalidate];
+	[self adjustLineNumbers];
 }
 
 #pragma mark - actions
@@ -803,7 +830,6 @@
 	self.isScrolling = NO;
 }
 
-
 #pragma mark - text storage delegate
 
 -(void)textStorage:(NSTextStorage *)textStorage willProcessEditing:(NSTextStorageEditActions)editedMask range:(NSRange)editedRange changeInLength:(NSInteger)delta
@@ -813,7 +839,9 @@
 
 -(void)textStorage:(NSTextStorage *)textStorage didProcessEditing:(NSTextStorageEditActions)editedMask range:(NSRange)editedRange changeInLength:(NSInteger)delta
 {
-	[self adjustLineNumbers];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self adjustLineNumbers];
+	});
 }
 
 

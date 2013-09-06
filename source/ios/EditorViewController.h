@@ -33,6 +33,9 @@
 -(void)reloadFileData;
 -(void)adjustLineNumbers;
 
+-(void)userWillAdjustWidth;
+-(void)userDidAdjustWidth;
+
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress;
 -(void)loadFile:(RCFile*)file; //shows progress
 -(void)restoreSessionState:(RCSavedSession*)savedState;

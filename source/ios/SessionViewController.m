@@ -200,11 +200,12 @@
 {
 	if ([self.editorController isEditorFirstResponder])
 		[self.editorController editorResignFirstResponder];
+	[self.editorController userWillAdjustWidth];
 }
 
 -(void)didMoveSplitter:(AMResizableSplitViewController*)controller
 {
-	[self.editorController adjustLineNumbers];
+	[self.editorController userDidAdjustWidth];
 }
 
 #pragma mark - console keyboard toolbar delegate
