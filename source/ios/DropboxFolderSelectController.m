@@ -1,21 +1,21 @@
 //
-//  DropboxSyncSettingController.m
+//  DropboxFolderSelectController.m
 //  Rc2Client
 //
 //  Created by Mark Lilback on 6/20/13.
 //  Copyright 2013 West Virginia University. All rights reserved.
 //
 
-#import "DropboxSyncSettingController.h"
+#import "DropboxFolderSelectController.h"
 #import "RCWorkspace.h"
 #import "Rc2Server.h"
 
-@interface DropboxSyncSettingController ()
+@interface DropboxFolderSelectController ()
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, copy) NSArray *entries;
 @end
 
-@implementation DropboxSyncSettingController
+@implementation DropboxFolderSelectController
 
 -(id)init
 {
@@ -26,7 +26,11 @@
 
 -(void)viewDidLoad
 {
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(userDone:)];
+	UIBarButtonItem *doneButton;
+	if (self.doneButtonTitle)
+		doneButton = [[UIBarButtonItem alloc] initWithTitle:self.doneButtonTitle style:UIBarButtonItemStylePlain target:self action:@selector(userDone:)];
+	else
+		doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(userDone:)];
 	self.navigationItem.rightBarButtonItem = doneButton;
 
 	[self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"dbpath"];
@@ -48,13 +52,9 @@
 
 -(void)userDone:(id)sender
 {
-	self.workspace.dropboxPath = self.thePath;
-	self.workspace.dropboxUser = [[[DBSession sharedSession] userIds] firstObject];
-	[[Rc2Server sharedInstance] updateWorkspace:self.workspace completionBlock:^(BOOL success, id results) {
-		if (!success)
-			Rc2LogError(@"Failed to save db sync info:%@", results);
-	}];
 	[self.navigationController popToRootViewControllerAnimated:YES];
+	if (self.doneHandler)
+		self.doneHandler(self.thePath);
 }
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata
@@ -96,7 +96,7 @@
 {
 	NSMutableDictionary *item = [self.entries objectAtIndex:indexPath.row];
 	//need to push next item on the stack
-	DropboxSyncSettingController *dfc = [[DropboxSyncSettingController alloc] init];
+	DropboxFolderSelectController *dfc = [[DropboxFolderSelectController alloc] init];
 	dfc.workspace = self.workspace;
 	dfc.thePath = [[item objectForKey:@"metadata"] path];
 	dfc.dropboxCache = self.dropboxCache;

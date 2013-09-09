@@ -399,7 +399,7 @@
 		08DF3D5115BDBC79000A339D /* AMResizableSplitterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D4E15BDBC79000A339D /* AMResizableSplitterView.m */; };
 		08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */; };
 		08E49223166E7834005E83DE /* MCSessionFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E49222166E7834005E83DE /* MCSessionFileController.m */; };
-		08E63B3D1773824D005BB3BB /* DropboxSyncSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */; };
+		08E63B3D1773824D005BB3BB /* DropboxFolderSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B3C1773824D005BB3BB /* DropboxFolderSelectController.m */; };
 		08E63B411773A0BA005BB3BB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E63B401773A0B9005BB3BB /* DropboxSDK.framework */; };
 		08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B461774E409005BB3BB /* RCDropboxSync.m */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
@@ -972,8 +972,8 @@
 		08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMResizableSplitViewController.m; sourceTree = "<group>"; };
 		08E49221166E7834005E83DE /* MCSessionFileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSessionFileController.h; sourceTree = "<group>"; };
 		08E49222166E7834005E83DE /* MCSessionFileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSessionFileController.m; sourceTree = "<group>"; };
-		08E63B3B1773824D005BB3BB /* DropboxSyncSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxSyncSettingController.h; sourceTree = "<group>"; };
-		08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxSyncSettingController.m; sourceTree = "<group>"; };
+		08E63B3B1773824D005BB3BB /* DropboxFolderSelectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxFolderSelectController.h; sourceTree = "<group>"; };
+		08E63B3C1773824D005BB3BB /* DropboxFolderSelectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxFolderSelectController.m; sourceTree = "<group>"; };
 		08E63B401773A0B9005BB3BB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08E63B451774E409005BB3BB /* RCDropboxSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDropboxSync.h; sourceTree = "<group>"; };
 		08E63B461774E409005BB3BB /* RCDropboxSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDropboxSync.m; sourceTree = "<group>"; };
@@ -1531,8 +1531,8 @@
 				08D243B415B5D6310064A9FA /* iSettingsController.xib */,
 				08FF3D5216F278EE00F3E09E /* SendMailController.h */,
 				08FF3D5316F278EE00F3E09E /* SendMailController.m */,
-				08E63B3B1773824D005BB3BB /* DropboxSyncSettingController.h */,
-				08E63B3C1773824D005BB3BB /* DropboxSyncSettingController.m */,
+				08E63B3B1773824D005BB3BB /* DropboxFolderSelectController.h */,
+				08E63B3C1773824D005BB3BB /* DropboxFolderSelectController.m */,
 				08D8C334169E1637000DDA04 /* FileImportViewController.h */,
 				08D8C335169E1637000DDA04 /* FileImportViewController.m */,
 				08D8C337169E1977000DDA04 /* FileImportViewController.xib */,
@@ -2522,7 +2522,7 @@
 				08FF3D4A16F10E1900F3E09E /* ColorPickerController.mm in Sources */,
 				08FF3D4D16F10E1900F3E09E /* GradientView.mm in Sources */,
 				08FF3D5416F278EE00F3E09E /* SendMailController.m in Sources */,
-				08E63B3D1773824D005BB3BB /* DropboxSyncSettingController.m in Sources */,
+				08E63B3D1773824D005BB3BB /* DropboxFolderSelectController.m in Sources */,
 				08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */,
 				08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */,
 				08ADBE2717A06C9F0004A89C /* RC2LoopQueue.m in Sources */,

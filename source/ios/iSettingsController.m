@@ -13,7 +13,7 @@
 #import "Vyana-ios/AMNavigationTreeController.h"
 #import "Rc2Server.h"
 #import "RCWorkspace.h"
-#import "DropboxSyncSettingController.h"
+#import "DropboxFolderSelectController.h"
 
 enum { eTree_Theme, eTree_Keyboard };
 
@@ -250,9 +250,19 @@ enum { eTree_Theme, eTree_Keyboard };
 		[self.navigationController pushViewController:self.treeController animated:YES];
 	} else if (cell == self.dbpathCell) {
 		//push a dropbox browser on navigation stack
-		DropboxSyncSettingController *dbc = [[DropboxSyncSettingController alloc] init];
+		DropboxFolderSelectController *dbc = [[DropboxFolderSelectController alloc] init];
 		dbc.workspace = self.currentWorkspace;
+		dbc.doneButtonTitle = @"Select";
 		dbc.dropboxCache = [[NSMutableDictionary alloc] init];
+		dbc.contentSizeForViewInPopover = self.containingPopover.popoverContentSize;
+		dbc.doneHandler = ^(NSString *thePath) {
+			self.currentWorkspace.dropboxPath = thePath;
+			self.currentWorkspace.dropboxUser = [[[DBSession sharedSession] userIds] firstObject];
+			[[Rc2Server sharedInstance] updateWorkspace:self.currentWorkspace completionBlock:^(BOOL success, id results) {
+				if (!success)
+					Rc2LogError(@"Failed to save db sync info:%@", results);
+			}];
+		};
 		[self.navigationController pushViewController:dbc animated:YES];
 	}
 }
