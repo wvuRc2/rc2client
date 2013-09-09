@@ -10,7 +10,7 @@
         <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" indentationWidth="10" reuseIdentifier="basicValueCell" rowHeight="28" id="3" userLabel="cell" customClass="BasicVariableCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="28"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="3" id="f09-MV-VGn">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="3" id="f09-MV-VGn" userLabel="cell">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="27"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -18,8 +18,8 @@
                         <rect key="frame" x="20" y="3" width="100" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="100" id="35"/>
-                            <constraint firstAttribute="height" constant="21" id="xMU-hI-2VN"/>
+                            <constraint firstAttribute="width" constant="100" id="iog-pS-XtS"/>
+                            <constraint firstAttribute="height" constant="21" id="uC7-oH-z39"/>
                         </constraints>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -29,8 +29,8 @@
                         <rect key="frame" x="128" y="3" width="172" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="12"/>
-                            <constraint firstAttribute="height" constant="21" id="Xbs-RL-q0j"/>
+                            <constraint firstAttribute="height" constant="21" id="BWW-17-Flw"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="edw-61-Sl7"/>
                         </constraints>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -38,15 +38,13 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="4" firstAttribute="centerY" secondItem="10" secondAttribute="centerY" id="5QK-HR-huX"/>
-                    <constraint firstAttribute="centerY" secondItem="10" secondAttribute="centerY" id="CbO-4u-GaD"/>
-                    <constraint firstAttribute="trailing" secondItem="4" secondAttribute="trailing" constant="20" id="Huc-yZ-CNZ"/>
-                    <constraint firstItem="10" firstAttribute="leading" secondItem="f09-MV-VGn" secondAttribute="leading" constant="20" id="vC6-q1-ocW"/>
+                    <constraint firstItem="10" firstAttribute="leading" secondItem="f09-MV-VGn" secondAttribute="leading" constant="20" id="0AX-i0-GeH"/>
+                    <constraint firstAttribute="centerY" secondItem="10" secondAttribute="centerY" id="0kB-cD-FhE"/>
+                    <constraint firstAttribute="trailing" secondItem="4" secondAttribute="trailing" constant="20" id="4Il-EC-mhH"/>
+                    <constraint firstItem="4" firstAttribute="leading" secondItem="10" secondAttribute="trailing" constant="8" symbolic="YES" id="OcG-pJ-hlW"/>
+                    <constraint firstAttribute="centerY" secondItem="4" secondAttribute="centerY" id="UdQ-Dg-dxA"/>
                 </constraints>
             </tableViewCellContentView>
-            <constraints>
-                <constraint firstItem="4" firstAttribute="leading" secondItem="10" secondAttribute="trailing" constant="8" symbolic="YES" id="E9i-FZ-SJj"/>
-            </constraints>
             <connections>
                 <outlet property="titleLabel" destination="10" id="13"/>
                 <outlet property="valueLabel" destination="4" id="14"/>

@@ -11,6 +11,7 @@
                 <outlet property="barView" destination="k1A-Eo-wTM" id="Gqj-yY-buB"/>
                 <outlet property="contentView" destination="1" id="k2U-xd-rqD"/>
                 <outlet property="dateLabel" destination="UKU-WN-nze" id="huc-fD-JPX"/>
+                <outlet property="dateLabelWidthConstraint" destination="gCJ-jO-huq" id="i5M-z3-8RP"/>
                 <outlet property="imageView" destination="B9x-tN-Mcp" id="wZ6-r3-YoB"/>
                 <outlet property="nameLabel" destination="zdH-h4-BHe" id="Esk-il-b1f"/>
                 <outlet property="scrollView" destination="31g-ui-XIy" id="anj-9N-lh8"/>
@@ -25,10 +26,11 @@
                     <rect key="frame" x="0.0" y="0.0" width="480" height="38"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date goes here" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKU-WN-nze">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKU-WN-nze">
                             <rect key="frame" x="2" y="22" width="100" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <constraints>
+                                <constraint firstAttribute="height" constant="14" id="a6N-3X-Nor"/>
                                 <constraint firstAttribute="width" constant="100" id="gCJ-jO-huq"/>
                             </constraints>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
@@ -56,7 +58,7 @@
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="8Dv-PP-G6L"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <state key="normal" title="Name">
+                            <state key="normal">
                                 <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -82,7 +84,7 @@
                     <rect key="frame" x="0.0" y="38" width="480" height="362"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B9x-tN-Mcp" userLabel="img">
+                        <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B9x-tN-Mcp" userLabel="img">
                             <rect key="frame" x="0.0" y="0.0" width="480" height="362"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
