@@ -49,6 +49,14 @@
 		082CEEBD161E2D2600E01F48 /* users@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB9161E2D2600E01F48 /* users@2x.png */; };
 		082CEEC0161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
 		082CEEC1161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
+		082D1EB617E23B2C00723EB3 /* RCChunk.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EB517E23B2C00723EB3 /* RCChunk.m */; };
+		082D1EB717E23B2C00723EB3 /* RCChunk.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EB517E23B2C00723EB3 /* RCChunk.m */; };
+		082D1EBB17E2406000723EB3 /* RCSweaveParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EBA17E2406000723EB3 /* RCSweaveParser.m */; };
+		082D1EBC17E2406000723EB3 /* RCSweaveParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EBA17E2406000723EB3 /* RCSweaveParser.m */; };
+		082D1EC017E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */; };
+		082D1EC117E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */; };
+		082D1EC317E2460A00723EB3 /* libParseKitMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 082D1EC217E2460A00723EB3 /* libParseKitMobile.a */; };
+		082D1EC517E2475200723EB3 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 082D1EC417E2475200723EB3 /* libicucore.dylib */; };
 		0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */; };
 		0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */; };
 		0833CABE17441D640007B54E /* fontDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 0833CABC17441D640007B54E /* fontDown.png */; };
@@ -512,6 +520,15 @@
 		082CEEB9161E2D2600E01F48 /* users@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "users@2x.png"; path = "resources/mac/users@2x.png"; sourceTree = SOURCE_ROOT; };
 		082CEEBE161F685900E01F48 /* RCVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCVariable.h; sourceTree = "<group>"; };
 		082CEEBF161F685900E01F48 /* RCVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCVariable.m; sourceTree = "<group>"; };
+		082D1EB417E23B2C00723EB3 /* RCChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCChunk.h; sourceTree = "<group>"; };
+		082D1EB517E23B2C00723EB3 /* RCChunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCChunk.m; sourceTree = "<group>"; };
+		082D1EB917E2406000723EB3 /* RCSweaveParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSweaveParser.h; sourceTree = "<group>"; };
+		082D1EBA17E2406000723EB3 /* RCSweaveParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSweaveParser.m; sourceTree = "<group>"; };
+		082D1EBD17E2429E00723EB3 /* RCSyntaxHighlighter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCSyntaxHighlighter.h; sourceTree = "<group>"; };
+		082D1EBE17E2442E00723EB3 /* RCCodeHighlighterR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCodeHighlighterR.h; sourceTree = "<group>"; };
+		082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCodeHighlighterR.m; sourceTree = "<group>"; };
+		082D1EC217E2460A00723EB3 /* libParseKitMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libParseKitMobile.a; path = "../../../../../../../../working/rc2proj/Client/Dependencies/ParseKit/build/Debug-iphoneos/libParseKitMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		082D1EC417E2475200723EB3 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		0833CAAD174160CA0007B54E /* RCMCourseAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMCourseAdminController.h; sourceTree = "<group>"; };
 		0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMCourseAdminController.m; sourceTree = "<group>"; };
 		0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMCourseAdminController.xib; sourceTree = "<group>"; };
@@ -1023,6 +1040,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				082D1EC517E2475200723EB3 /* libicucore.dylib in Frameworks */,
+				082D1EC317E2460A00723EB3 /* libParseKitMobile.a in Frameworks */,
 				087DB8C417B57A8200724811 /* libHockeySDK.a in Frameworks */,
 				08D245FB15B5DDD00064A9FA /* libz.dylib in Frameworks */,
 				08D245F915B5DDCB0064A9FA /* CFNetwork.framework in Frameworks */,
@@ -1130,6 +1149,23 @@
 				083AAF01162F48210037AAB3 /* FunctionVariableSummaryCell.xib */,
 			);
 			name = Variables;
+			sourceTree = "<group>";
+		};
+		082D1EB817E2402400723EB3 /* syntax highlighting */ = {
+			isa = PBXGroup;
+			children = (
+				08D245CA15B5DBB70064A9FA /* RCMSyntaxHighlighter.h */,
+				08D245CB15B5DBB70064A9FA /* RCMSyntaxHighlighter.m */,
+				082D1EB417E23B2C00723EB3 /* RCChunk.h */,
+				082D1EB517E23B2C00723EB3 /* RCChunk.m */,
+				082D1EB917E2406000723EB3 /* RCSweaveParser.h */,
+				082D1EBA17E2406000723EB3 /* RCSweaveParser.m */,
+				082D1EBD17E2429E00723EB3 /* RCSyntaxHighlighter.h */,
+				082D1EBE17E2442E00723EB3 /* RCCodeHighlighterR.h */,
+				082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */,
+			);
+			name = "syntax highlighting";
+			path = source/rc2;
 			sourceTree = "<group>";
 		};
 		084593F315B5F1D700297C9D /* admin */ = {
@@ -1409,6 +1445,8 @@
 		08D2432215B5D04D0064A9FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				082D1EC417E2475200723EB3 /* libicucore.dylib */,
+				082D1EC217E2460A00723EB3 /* libParseKitMobile.a */,
 				087DB8C317B57A8200724811 /* libHockeySDK.a */,
 				087DB8C517B57AB400724811 /* CrashReporter.framework */,
 				08E63B401773A0B9005BB3BB /* DropboxSDK.framework */,
@@ -1666,6 +1704,7 @@
 				08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */,
 				08FF3D3A16F0EC7E00F3E09E /* ThemeColorEntry.h */,
 				08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */,
+				082D1EB817E2402400723EB3 /* syntax highlighting */,
 				08D2459715B5DBB70064A9FA /* rc2 */,
 				080E506E166FDFB800E95531 /* AFNetworking */,
 				08D2455115B5DB270064A9FA /* json */,
@@ -1740,8 +1779,6 @@
 				08D245C715B5DBB70064A9FA /* RCAudioChatEngine.m */,
 				08D245C815B5DBB70064A9FA /* RCImageCache.h */,
 				08D245C915B5DBB70064A9FA /* RCImageCache.m */,
-				08D245CA15B5DBB70064A9FA /* RCMSyntaxHighlighter.h */,
-				08D245CB15B5DBB70064A9FA /* RCMSyntaxHighlighter.m */,
 				08C99AC115EE9CDF002D430D /* Rc2FileType.h */,
 				08C99AC215EE9CDF002D430D /* Rc2FileType.m */,
 				08C99AC615EE9D35002D430D /* RC2FileTypes.plist */,
@@ -2401,6 +2438,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				082D1EC017E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */,
 				08D2435415B5D2940064A9FA /* main.m in Sources */,
 				08D2436E15B5D4C80064A9FA /* MessagesViewController.m in Sources */,
 				08D2437015B5D4D00064A9FA /* WelcomeViewController.m in Sources */,
@@ -2515,9 +2553,11 @@
 				08FF3D2716F0C71F00F3E09E /* WHMailActivity.m in Sources */,
 				08FF3D2816F0C71F00F3E09E /* WHMailActivityItem.m in Sources */,
 				08FF3D2D16F0C71F00F3E09E /* WHTextActivity.m in Sources */,
+				082D1EB617E23B2C00723EB3 /* RCChunk.m in Sources */,
 				08FF3D2E16F0C71F00F3E09E /* WHTextActivityItem.m in Sources */,
 				08FF3D3216F0E99600F3E09E /* ThemeColorViewController.m in Sources */,
 				08FF3D3716F0EB7D00F3E09E /* ThemeColorCell.m in Sources */,
+				082D1EBB17E2406000723EB3 /* RCSweaveParser.m in Sources */,
 				08FF3D3C16F0EC7E00F3E09E /* ThemeColorEntry.m in Sources */,
 				08FF3D4A16F10E1900F3E09E /* ColorPickerController.mm in Sources */,
 				08FF3D4D16F10E1900F3E09E /* GradientView.mm in Sources */,
@@ -2571,6 +2611,7 @@
 				08D2466B15B5EE670064A9FA /* WebSocket.m in Sources */,
 				08D2466C15B5EE670064A9FA /* WebSocket00.m in Sources */,
 				08D2466D15B5EE670064A9FA /* WebSocket07.m in Sources */,
+				082D1EC117E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */,
 				08D2466E15B5EE670064A9FA /* WebSocket08.m in Sources */,
 				08D2466F15B5EE670064A9FA /* WebSocketMessage.m in Sources */,
 				08D2467015B5EE950064A9FA /* WebSocket10.m in Sources */,
@@ -2580,6 +2621,7 @@
 				084593FA15B5F1D700297C9D /* RCMEditUserController.m in Sources */,
 				084593FC15B5F1D700297C9D /* RCMUserAdminController.m in Sources */,
 				0845943A15B5F29200297C9D /* MCAbstractViewController.m in Sources */,
+				082D1EB717E23B2C00723EB3 /* RCChunk.m in Sources */,
 				0845943B15B5F29200297C9D /* MCLoginController.m in Sources */,
 				0845944015B5F29200297C9D /* MCMainWindowController.m in Sources */,
 				0845944115B5F29200297C9D /* MCSessionViewController.m in Sources */,
@@ -2606,6 +2648,7 @@
 				084594AC15B5F46900297C9D /* RCMUserSearchPopupController.m in Sources */,
 				084594BC15B5F53900297C9D /* EMKeychainItem.m in Sources */,
 				084594BD15B5F53900297C9D /* NoodleLineNumberMarker.m in Sources */,
+				082D1EBC17E2406000723EB3 /* RCSweaveParser.m in Sources */,
 				084594BE15B5F53900297C9D /* NoodleLineNumberView.m in Sources */,
 				084594BF15B5F53900297C9D /* PXSourceList.m in Sources */,
 				08C99AC415EE9CDF002D430D /* Rc2FileType.m in Sources */,
@@ -2784,6 +2827,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = (
+					armv7,
+					armv7s,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
@@ -2800,6 +2847,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
 					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+					"\"$(BUILT_PRODUCTS_DIR)/include",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -2818,6 +2866,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = (
+					armv7,
+					armv7s,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
@@ -2835,6 +2887,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
 					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+					"\"$(BUILT_PRODUCTS_DIR)/include",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -2884,6 +2937,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = (
+					armv7,
+					armv7s,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
@@ -2900,6 +2957,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
 					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+					"\"$(BUILT_PRODUCTS_DIR)/include",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				LIBRARY_SEARCH_PATHS = (

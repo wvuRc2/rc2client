@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3FDC5820FFC4BFC00F1F797"
+               BuildableName = "libParseKitMobile.a"
+               BlueprintName = "libParseKitMobile"
+               ReferencedContainer = "container:Dependencies/ParseKit/ParseKit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "08B65229134BE1BC001C6159"
                BuildableName = "libVyana-ios.a"
                BlueprintName = "Vyana-ios"

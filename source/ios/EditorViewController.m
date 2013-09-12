@@ -12,6 +12,7 @@
 #import "Rc2AppDelegate.h"
 #import "RCSession.h"
 #import "RCFile.h"
+#import "Rc2FileType.h"
 #import "RCWorkspace.h"
 #import "RCProject.h"
 #import "RCSavedSession.h"
@@ -21,10 +22,11 @@
 #import "MBProgressHUD.h"
 #import "DropboxImportController.h"
 #import "SessionEditView.h"
-#import "RCMSyntaxHighlighter.h"
+//#import "RCMSyntaxHighlighter.h"
 #import "KeyboardToolbar.h"
 #import "WHMailActivity.h"
 #import "MAKVONotificationCenter.h"
+#import "RCSweaveParser.h"
 
 @interface EditorViewController() <KeyboardToolbarDelegate,NSTextStorageDelegate> {
 	BOOL _viewLoaded;
@@ -48,8 +50,10 @@
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
 @property (nonatomic, strong) UIAlertView *currentAlert;
 @property (nonatomic, strong) NSTimer *widthAdjustTimer;
+@property (nonatomic, strong) RCSweaveParser *sweaveParser;
 @property (atomic) BOOL isScrolling;
 @property int32_t syncInProgress;
+@property (nonatomic) NSTimeInterval lastParseTime;
 @end
 
 @implementation EditorViewController
@@ -80,7 +84,8 @@
 
 -(void)keyboardWillShow:(NSNotification*)note
 {
-	CGRect keyframe = [[[note userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+	NSDictionary *info = note.userInfo;
+	CGRect keyframe = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 	BOOL isLand = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
 	self.externalKeyboardVisible = NO;
 	if (isLand) {
@@ -89,16 +94,51 @@
 	} else if (keyframe.origin.y + self.keyboardToolbar.view.frame.size.height > 1000) {
 		self.externalKeyboardVisible = YES;
 	}
+
+    double duration = [(NSNumber *)[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    unsigned int curve = [(NSNumber *)[info objectForKey:UIKeyboardAnimationCurveUserInfoKey] unsignedIntValue];
+    
+    UIEdgeInsets contentInset = self.richEditor.contentInset;
+    UIEdgeInsets scrollInset = self.richEditor.scrollIndicatorInsets;
+    contentInset.bottom = keyframe.size.height;
+    scrollInset.bottom = keyframe.size.height;
+    
+    [UIView animateWithDuration:duration
+                          delay:0.0
+                        options:curve
+                     animations:^{
+                         self.richEditor.contentInset = contentInset;
+                         self.richEditor.scrollIndicatorInsets = scrollInset;
+                     }
+                     completion:nil];
 }
 
 
 -(void)keyboardHiding:(NSNotification*)note
 {
+	NSDictionary *info = note.userInfo;
 	self.currentFile.localEdits = self.richEditor.text;
 	[self updateDocumentState];
 	self.richEditor.inputAccessoryView = self.keyboardToolbar.view;
 	if (self.currentFile.locallyModified && self.currentFile.localEdits.length < 4096)
 		[self saveFileData:nil];
+
+    double duration = [(NSNumber *)[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    unsigned int curve = [(NSNumber *)[info objectForKey:UIKeyboardAnimationCurveUserInfoKey] unsignedIntValue];
+    
+    UIEdgeInsets contentInset = self.richEditor.contentInset;
+    UIEdgeInsets scrollInset = self.richEditor.scrollIndicatorInsets;
+    contentInset.bottom = 0;
+    scrollInset.bottom = 0;
+    
+    [UIView animateWithDuration:duration
+                          delay:0.0
+                        options:curve
+                     animations:^{
+                         self.richEditor.contentInset = contentInset;
+                         self.richEditor.scrollIndicatorInsets = scrollInset;
+                     }
+                     completion:nil]; 
 }
 
 #pragma mark - View lifecycle
@@ -123,7 +163,7 @@
 		self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
 			[UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName, nil];
 		self.docTitleLabel.font = [UIFont fontWithName:@"Inconsolata" size:18.0];
-		
+		self.sweaveParser = [RCSweaveParser parserWithTextStorage:self.richEditor.textStorage];
 		
 		__weak EditorViewController *weakSelf = self;
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
@@ -799,12 +839,18 @@
 
 -(void)updateTextContents:(NSAttributedString*)srcStr
 {
-	if (nil == srcStr)
-		srcStr = self.richEditor.attributedText;
+//	if (nil == srcStr)
+//		srcStr = self.richEditor.attributedText;
+	if (![srcStr.string isEqualToString:self.richEditor.attributedText.string])
+		[self.richEditor.textStorage setAttributedString:srcStr];
+	[self.richEditor.textStorage addAttributes:self.defaultTextAttrs range:NSMakeRange(0, srcStr.length)];
+	if ([self.currentFile.fileType.extension isEqualToString:@"Rnw"])
+		[self.sweaveParser parse];
+/*
 	NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
 	[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
 	srcStr = astr;
-	self.richEditor.attributedText = srcStr;
+	self.richEditor.attributedText = srcStr; */
 	[self.keyboardToolbar switchToPanelForFileExtension:self.currentFile.name.pathExtension];
 }
 
@@ -839,11 +885,16 @@
 
 -(void)textStorage:(NSTextStorage *)textStorage didProcessEditing:(NSTextStorageEditActions)editedMask range:(NSRange)editedRange changeInLength:(NSInteger)delta
 {
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[self adjustLineNumbers];
-	});
+	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+	if (now - self.lastParseTime > .5) {
+		self.lastParseTime = now;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSLog(@"calling parse");
+			[self adjustLineNumbers];
+			[self.sweaveParser parse];
+		});
+	}
 }
-
 
 #pragma mark - accessors
 

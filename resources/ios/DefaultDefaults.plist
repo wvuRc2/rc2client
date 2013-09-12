@@ -16,6 +16,10 @@
 	<string>C71267</string>
 	<key>SyntaxColor_Function</key>
 	<string>C78312</string>
+	<key>SyntaxColor_Quote</key>
+	<string>31aa2a</string>
+	<key>SyntaxColor_Symbol</key>
+	<string>c7c431</string>
 	<key>EditorFontSize</key>
 	<integer>13</integer>
 	<key>EditorFontColor</key>
