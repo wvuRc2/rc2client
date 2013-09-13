@@ -9,6 +9,7 @@
 #import "RCSweaveParser.h"
 #import "RCChunk.h"
 #import "RCCodeHighlighterR.h"
+#import "RCCodeHighlighterLatex.h"
 #import "AppConstants.h"
 
 #define kChunkStartAttribute @"RCChunkStart"
@@ -23,6 +24,7 @@
 @interface RCSweaveParser ()
 @property (nonatomic, strong) NSRegularExpression *startExpression;
 @property (nonatomic, strong) RCCodeHighlighterR *rHighlighter;
+@property (nonatomic, strong) RCCodeHighlighterLatex *latexHighlighter;
 @end
 
 @implementation RCSweaveParser
@@ -45,7 +47,10 @@
 		self.startExpression = expression;
 		NSAssert(self.startExpression, @"failed to get reg ex:%@", error);
 		self.rHighlighter = [[RCCodeHighlighterR alloc] init];
-		self.rHighlighter.colorMap = [self syntaxColors];
+		NSDictionary *colors = [self syntaxColors];
+		self.rHighlighter.colorMap = colors;
+		self.latexHighlighter = [[RCCodeHighlighterLatex alloc] init];
+		self.latexHighlighter.colorMap = colors;
 	}
 	return self;
 }
@@ -96,7 +101,7 @@
 			 newChunk = [RCChunk codeChunkWithNumber:curChunkIndex++ name:cname];
 		 }
 		 newChunk.parseRange = result.range;
-		 NSLog(@"chunk at %@", NSStringFromRange(result.range));
+//		 NSLog(@"chunk at %@", NSStringFromRange(result.range));
 		 [chunkArray addObject:newChunk];
 	 }];
 	//iterate array to adjust the content array
@@ -107,7 +112,7 @@
 		NSRange rng = aChunk.parseRange;
 		rng.length = nextChunk.parseRange.location - aChunk.parseRange.location;
 		aChunk.parseRange = rng;
-		NSLog(@"adj chunk at %@", NSStringFromRange(rng));
+//		NSLog(@"adj chunk at %@", NSStringFromRange(rng));
 	}
 	//adjust final one
 	NSRange finalRange = [[chunkArray lastObject] parseRange];
@@ -118,6 +123,8 @@
 		[self.textStorage addAttribute:kChunkStartAttribute value:aChunk range:aChunk.parseRange];
 		if (aChunk.chunkType == eChunkType_RCode) {
 			[self.rHighlighter highlightText:self.textStorage range:aChunk.parseRange];
+		} else if (aChunk.chunkType == eChunkType_Document) {
+			[self.latexHighlighter highlightText:self.textStorage range:aChunk.parseRange];
 		}
 	}
 }

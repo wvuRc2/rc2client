@@ -844,8 +844,13 @@
 	if (![srcStr.string isEqualToString:self.richEditor.attributedText.string])
 		[self.richEditor.textStorage setAttributedString:srcStr];
 	[self.richEditor.textStorage addAttributes:self.defaultTextAttrs range:NSMakeRange(0, srcStr.length)];
-	if ([self.currentFile.fileType.extension isEqualToString:@"Rnw"])
-		[self.sweaveParser parse];
+	if (self.currentFile.fileType.isSweave) {
+		if (nil == self.sweaveParser)
+			self.sweaveParser = [RCSweaveParser parserWithTextStorage:self.richEditor.textStorage];
+	} else {
+		self.sweaveParser = nil;
+	}
+	[self.sweaveParser parse];
 /*
 	NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
 	[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
@@ -890,8 +895,8 @@
 		self.lastParseTime = now;
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSLog(@"calling parse");
-			[self adjustLineNumbers];
 			[self.sweaveParser parse];
+			[self adjustLineNumbers];
 		});
 	}
 }

@@ -19,6 +19,8 @@
 @property (readonly) BOOL isImportable;
 @property (readonly) BOOL isCreatable;
 @property (readonly) BOOL isImage;
+@property (readonly) BOOL isSweave;
+@property (readonly) BOOL isRMarkdown;
 @property (readonly) id image; //always from a png
 @property (readonly) id fileImage; //on mac, loads icon file or asks system for appropriate icon
 

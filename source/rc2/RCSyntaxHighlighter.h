@@ -1,5 +1,5 @@
 //
-//  RCSyntaxHighlighter.h
+//  RCCodeHighlighter.h
 //  Rc2Client
 //
 //  Created by Mark Lilback on 9/12/13.
@@ -10,7 +10,7 @@
 
 
 
-@protocol RCSyntaxHighlighter <NSObject>
+@protocol RCCodeHighlighter <NSObject>
 /// a dictionary with the #define kPref_SyntaxColor_* values as keys and (NS/UI)Colors as the values
 @property (nonatomic, copy) NSDictionary *colorMap;
 

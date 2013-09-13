@@ -16,6 +16,19 @@
 
 @implementation RCCodeHighlighterR
 
++(NSSet*)keywords
+{
+	static NSSet *keys;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSURL *url = [[NSBundle mainBundle] URLForResource:@"RKeywords" withExtension:@"txt"];
+		NSArray *keyArray = [[NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
+		NSAssert(keyArray, @"failed to load R keywords");
+		keys = [[NSSet alloc] initWithArray:keyArray];
+	});
+	return keys;
+}
+
 - (id)init
 {
 	if ((self = [super init])) {
@@ -44,7 +57,7 @@
 	while ((token = [t nextToken]) != eof) {
 		NSRange rng = NSMakeRange(range.location + nlRange.location + nlRange.length + token.offset, token.stringValue.length);
 		id color=nil;
-		NSLog(@"tk=%@", token.debugDescription);
+//		NSLog(@"tk=%@", token.debugDescription);
 		switch (token.tokenType) {
 			case PKTokenTypeComment:
 				color = [colorMap objectForKey:kPref_SyntaxColor_Comment];
@@ -57,6 +70,10 @@
 				break;
 			case PKTokenTypeSymbol:
 				color = [colorMap objectForKey:kPref_SyntaxColor_Symbol];
+				break;
+			case PKTokenTypeWord:
+				if ([[RCCodeHighlighterR keywords] containsObject:token.stringValue])
+					color = [colorMap objectForKey:kPref_SyntaxColor_Keyword];
 				break;
 			default:
 				break;

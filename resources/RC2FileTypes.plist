@@ -39,6 +39,8 @@
 			<true/>
 			<key>IsSrc</key>
 			<true/>
+			<key>IsSweave</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>Extension</key>
@@ -56,6 +58,8 @@
 			<key>Creatable</key>
 			<true/>
 			<key>IsSrc</key>
+			<true/>
+			<key>IsRMarkdown</key>
 			<true/>
 		</dict>
 		<dict>

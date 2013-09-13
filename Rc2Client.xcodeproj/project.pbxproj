@@ -57,6 +57,10 @@
 		082D1EC117E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */; };
 		082D1EC317E2460A00723EB3 /* libParseKitMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 082D1EC217E2460A00723EB3 /* libParseKitMobile.a */; };
 		082D1EC517E2475200723EB3 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 082D1EC417E2475200723EB3 /* libicucore.dylib */; };
+		082D1EC717E38B6900723EB3 /* RKeywords.txt in Resources */ = {isa = PBXBuildFile; fileRef = 082D1EC617E38B6900723EB3 /* RKeywords.txt */; };
+		082D1EC817E38B6900723EB3 /* RKeywords.txt in Resources */ = {isa = PBXBuildFile; fileRef = 082D1EC617E38B6900723EB3 /* RKeywords.txt */; };
+		082D1ECB17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ECA17E38E7B00723EB3 /* RCCodeHighlighterLatex.m */; };
+		082D1ECC17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ECA17E38E7B00723EB3 /* RCCodeHighlighterLatex.m */; };
 		0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */; };
 		0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */; };
 		0833CABE17441D640007B54E /* fontDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 0833CABC17441D640007B54E /* fontDown.png */; };
@@ -529,6 +533,9 @@
 		082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCodeHighlighterR.m; sourceTree = "<group>"; };
 		082D1EC217E2460A00723EB3 /* libParseKitMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libParseKitMobile.a; path = "../../../../../../../../working/rc2proj/Client/Dependencies/ParseKit/build/Debug-iphoneos/libParseKitMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		082D1EC417E2475200723EB3 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		082D1EC617E38B6900723EB3 /* RKeywords.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RKeywords.txt; path = resources/RKeywords.txt; sourceTree = SOURCE_ROOT; };
+		082D1EC917E38E7B00723EB3 /* RCCodeHighlighterLatex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCodeHighlighterLatex.h; sourceTree = "<group>"; };
+		082D1ECA17E38E7B00723EB3 /* RCCodeHighlighterLatex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCodeHighlighterLatex.m; sourceTree = "<group>"; };
 		0833CAAD174160CA0007B54E /* RCMCourseAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMCourseAdminController.h; sourceTree = "<group>"; };
 		0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMCourseAdminController.m; sourceTree = "<group>"; };
 		0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMCourseAdminController.xib; sourceTree = "<group>"; };
@@ -1154,6 +1161,7 @@
 		082D1EB817E2402400723EB3 /* syntax highlighting */ = {
 			isa = PBXGroup;
 			children = (
+				082D1EC617E38B6900723EB3 /* RKeywords.txt */,
 				08D245CA15B5DBB70064A9FA /* RCMSyntaxHighlighter.h */,
 				08D245CB15B5DBB70064A9FA /* RCMSyntaxHighlighter.m */,
 				082D1EB417E23B2C00723EB3 /* RCChunk.h */,
@@ -1163,6 +1171,8 @@
 				082D1EBD17E2429E00723EB3 /* RCSyntaxHighlighter.h */,
 				082D1EBE17E2442E00723EB3 /* RCCodeHighlighterR.h */,
 				082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */,
+				082D1EC917E38E7B00723EB3 /* RCCodeHighlighterLatex.h */,
+				082D1ECA17E38E7B00723EB3 /* RCCodeHighlighterLatex.m */,
 			);
 			name = "syntax highlighting";
 			path = source/rc2;
@@ -2176,6 +2186,7 @@
 				08D243E815B5D7590064A9FA /* MessageListCell.xib in Resources */,
 				08D243EA15B5D7590064A9FA /* NotificationCell.xib in Resources */,
 				08D243ED15B5D7590064A9FA /* StudentAssignmentCell.xib in Resources */,
+				082D1EC717E38B6900723EB3 /* RKeywords.txt in Resources */,
 				08D2441415B5D78A0064A9FA /* README.mdown in Resources */,
 				08D2441515B5D78A0064A9FA /* tokenHighlighted.png in Resources */,
 				08D2441615B5D78A0064A9FA /* tokenHighlighted@2x.png in Resources */,
@@ -2260,6 +2271,7 @@
 				0845942315B5F22700297C9D /* history.png in Resources */,
 				0845942515B5F22700297C9D /* openother.png in Resources */,
 				0845942615B5F22700297C9D /* Rdoc.icns in Resources */,
+				082D1EC817E38B6900723EB3 /* RKeywords.txt in Resources */,
 				0845942715B5F22700297C9D /* RLogo.icns in Resources */,
 				0845942915B5F22700297C9D /* syncArrows.png in Resources */,
 				0845942A15B5F22700297C9D /* syncArrowsSelected.png in Resources */,
@@ -2475,6 +2487,7 @@
 				087342CC17BD6A73000EC1E0 /* WorkspaceViewController.m in Sources */,
 				08D2441E15B5D78A0064A9FA /* PHRefreshTriggerView.m in Sources */,
 				08D2442415B5D7B90064A9FA /* Rc2.xcdatamodeld in Sources */,
+				082D1ECB17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */,
 				08D2458415B5DB270064A9FA /* NSObject+SBJSON.m in Sources */,
 				08D2458515B5DB270064A9FA /* NSString+SBJSON.m in Sources */,
 				08D2458615B5DB270064A9FA /* SBJsonBase.m in Sources */,
@@ -2637,6 +2650,7 @@
 				0845948C15B5F31100297C9D /* RCMImagePrintView.m in Sources */,
 				0845948D15B5F31100297C9D /* RCMImageViewer.m in Sources */,
 				0845948F15B5F31100297C9D /* RCMManageCourseController.m in Sources */,
+				082D1ECC17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */,
 				0845949115B5F31100297C9D /* RCMMultiImageController.m in Sources */,
 				0845949315B5F31100297C9D /* RCMPDFViewController.m in Sources */,
 				0845949715B5F31100297C9D /* RCMSessionFileCellView.m in Sources */,

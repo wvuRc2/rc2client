@@ -8,6 +8,6 @@
 
 #import "RCSyntaxHighlighter.h"
 
-@interface RCCodeHighlighterR : NSObject <RCSyntaxHighlighter>
+@interface RCCodeHighlighterR : NSObject <RCCodeHighlighter>
 
 @end

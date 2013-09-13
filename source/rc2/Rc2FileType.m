@@ -108,6 +108,8 @@
 -(BOOL)isCreatable  { return [[self.data objectForKey:@"Creatable"] boolValue]; }
 -(BOOL)isImage  { return [[self.data objectForKey:@"IsImage"] boolValue]; }
 -(BOOL)isSourceFile { return [[self.data objectForKey:@"IsSrc"] boolValue]; }
+-(BOOL)isSweave { return [[self.data objectForKey:@"IsSweave"] boolValue]; }
+-(BOOL)isRMarkdown { return [[self.data objectForKey:@"IsRMarkdown"] boolValue]; }
 
 -(id)image
 {
