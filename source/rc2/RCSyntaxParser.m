@@ -11,6 +11,8 @@
 #import "RCChunk.h"
 #import "Rc2FileType.h"
 #import "RCSweaveParser.h"
+#import "RCHighlightingParser.h"
+#import "RCCodeHighlighterR.h"
 
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 #define ColorClass NSColor
@@ -24,12 +26,19 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 
 +(instancetype)parserWithTextStorage:(NSTextStorage*)storage fileType:(Rc2FileType*)fileType
 {
+	Class highClass = nil;
 	Class theClass = self;
 	if (fileType.isSweave)
 		theClass = [RCSweaveParser class];
+	else if ([fileType.extension isEqualToString:@"R"]) {
+		theClass = [RCHighlightingParser class];
+		highClass = [RCCodeHighlighterR class];
+	}
 	RCSyntaxParser *p = [[theClass alloc] init];
 	p.textStorage = storage;
 	p.colorMap = [RCSyntaxParser syntaxColors];
+	if (highClass)
+		p.codeHighlighter = [[highClass alloc] init];
 	return p;
 }
 
@@ -129,4 +138,9 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 	
 }
 
+-(void)setCodeHighlighter:(id<RCCodeHighlighter>)codeHighlighter
+{
+	_codeHighlighter = codeHighlighter;
+	_codeHighlighter.colorMap = self.colorMap;
+}
 @end

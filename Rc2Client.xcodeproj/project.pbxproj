@@ -63,6 +63,8 @@
 		082D1ECC17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ECA17E38E7B00723EB3 /* RCCodeHighlighterLatex.m */; };
 		082D1ECF17E3B5C800723EB3 /* RCSyntaxParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ECE17E3B5C800723EB3 /* RCSyntaxParser.m */; };
 		082D1ED017E3B5C800723EB3 /* RCSyntaxParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ECE17E3B5C800723EB3 /* RCSyntaxParser.m */; };
+		082D1ED317E3C12C00723EB3 /* RCHighlightingParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ED217E3C12C00723EB3 /* RCHighlightingParser.m */; };
+		082D1ED417E3C12C00723EB3 /* RCHighlightingParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ED217E3C12C00723EB3 /* RCHighlightingParser.m */; };
 		0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */; };
 		0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */; };
 		0833CABE17441D640007B54E /* fontDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 0833CABC17441D640007B54E /* fontDown.png */; };
@@ -540,6 +542,8 @@
 		082D1ECA17E38E7B00723EB3 /* RCCodeHighlighterLatex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCodeHighlighterLatex.m; sourceTree = "<group>"; };
 		082D1ECD17E3B5C800723EB3 /* RCSyntaxParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSyntaxParser.h; sourceTree = "<group>"; };
 		082D1ECE17E3B5C800723EB3 /* RCSyntaxParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSyntaxParser.m; sourceTree = "<group>"; };
+		082D1ED117E3C12C00723EB3 /* RCHighlightingParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHighlightingParser.h; sourceTree = "<group>"; };
+		082D1ED217E3C12C00723EB3 /* RCHighlightingParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHighlightingParser.m; sourceTree = "<group>"; };
 		0833CAAD174160CA0007B54E /* RCMCourseAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMCourseAdminController.h; sourceTree = "<group>"; };
 		0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMCourseAdminController.m; sourceTree = "<group>"; };
 		0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMCourseAdminController.xib; sourceTree = "<group>"; };
@@ -1174,6 +1178,8 @@
 				082D1ECE17E3B5C800723EB3 /* RCSyntaxParser.m */,
 				082D1EB917E2406000723EB3 /* RCSweaveParser.h */,
 				082D1EBA17E2406000723EB3 /* RCSweaveParser.m */,
+				082D1ED117E3C12C00723EB3 /* RCHighlightingParser.h */,
+				082D1ED217E3C12C00723EB3 /* RCHighlightingParser.m */,
 				082D1EBD17E2429E00723EB3 /* RCCodeHighlighter.h */,
 				082D1EBE17E2442E00723EB3 /* RCCodeHighlighterR.h */,
 				082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */,
@@ -2537,6 +2543,7 @@
 				08D245E515B5DBB70064A9FA /* RCImageCache.m in Sources */,
 				08D245E615B5DBB70064A9FA /* RCMSyntaxHighlighter.m in Sources */,
 				08D245F615B5DCD70064A9FA /* MLReachability.m in Sources */,
+				082D1ED317E3C12C00723EB3 /* RCHighlightingParser.m in Sources */,
 				08D2461415B5E0660064A9FA /* ControlViewController.m in Sources */,
 				08D2461515B5E0750064A9FA /* DropboxImportController.m in Sources */,
 				08DF3D5115BDBC79000A339D /* AMResizableSplitterView.m in Sources */,
@@ -2646,6 +2653,7 @@
 				0845944015B5F29200297C9D /* MCMainWindowController.m in Sources */,
 				0845944115B5F29200297C9D /* MCSessionViewController.m in Sources */,
 				082D1ED017E3B5C800723EB3 /* RCSyntaxParser.m in Sources */,
+				082D1ED417E3C12C00723EB3 /* RCHighlightingParser.m in Sources */,
 				0845944D15B5F2BC00297C9D /* MCNewFileController.m in Sources */,
 				0845944F15B5F2BC00297C9D /* MCWebOutputController.m in Sources */,
 				0845945115B5F2BC00297C9D /* MultiFileImporter.m in Sources */,

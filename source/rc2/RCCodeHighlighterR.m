@@ -57,7 +57,7 @@
 	while ((token = [t nextToken]) != eof) {
 		NSRange rng = NSMakeRange(range.location + nlRange.location + nlRange.length + token.offset, token.stringValue.length);
 		id color=nil;
-//		NSLog(@"tk=%@", token.debugDescription);
+		NSLog(@"tk=%@", token.debugDescription);
 		switch (token.tokenType) {
 			case PKTokenTypeComment:
 				color = [colorMap objectForKey:kPref_SyntaxColor_Comment];

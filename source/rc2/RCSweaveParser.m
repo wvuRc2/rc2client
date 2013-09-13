@@ -12,27 +12,11 @@
 #import "RCCodeHighlighterLatex.h"
 #import "AppConstants.h"
 
-#define kChunkStartAttribute @"RCChunkStart"
-
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-#define ColorClass NSColor
-#else
-#define ColorClass UIColor
-#endif
-
-
 @interface RCSweaveParser ()
 @property (nonatomic, strong) NSRegularExpression *startExpression;
 @end
 
 @implementation RCSweaveParser
-
-+(instancetype)parserWithTextStorage:(NSTextStorage*)storage
-{
-	RCSweaveParser *p = [[RCSweaveParser alloc] init];
-	p.textStorage = storage;
-	return p;
-}
 
 - (id)init
 {

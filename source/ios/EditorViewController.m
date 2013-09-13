@@ -324,6 +324,7 @@
 
 -(void)loadFileData:(RCFile*)file
 {
+	self.syntaxParser=nil;
 	RCFile *oldFile = _currentFile;
 	if (self.currentFile != nil && self.currentFile != file) {
 		self.currentFile.localEdits = self.richEditor.text;
