@@ -52,6 +52,7 @@
 @property (nonatomic, strong) NSTimer *widthAdjustTimer;
 @property (nonatomic, strong) RCSweaveParser *sweaveParser;
 @property (atomic) BOOL isScrolling;
+@property (atomic) BOOL isParsing;
 @property int32_t syncInProgress;
 @property (nonatomic) NSTimeInterval lastParseTime;
 @end
@@ -110,7 +111,7 @@
                          self.richEditor.contentInset = contentInset;
                          self.richEditor.scrollIndicatorInsets = scrollInset;
                      }
-                     completion:nil];
+                     completion:^(BOOL s){ [self scrollSelectionVisible:YES];}];
 }
 
 
@@ -859,9 +860,25 @@
 	[self.keyboardToolbar switchToPanelForFileExtension:self.currentFile.name.pathExtension];
 }
 
+-(void)scrollSelectionVisible:(BOOL)animate
+{
+    CGRect caretRect = [self.richEditor caretRectForPosition:self.richEditor.selectedTextRange.end];
+	if (!self.isScrolling) {
+		self.isScrolling = YES;
+		[self.richEditor scrollRectToVisible:caretRect animated:animate];
+		self.isScrolling = NO;
+	}
+}
+
 - (void)textViewDidChange:(UITextView *)tview
 {
 	[self updateDocumentState];
+	[self scrollSelectionVisible:NO];
+}
+
+- (void)textViewDidChangeSelection:(UITextView *)tview
+{
+	[self scrollSelectionVisible:NO];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -875,8 +892,12 @@
 		[self.lineNumberView setContentOffset:offset animated:NO];
 	} else if (scrollView == self.lineNumberView) {
 		CGPoint offset = self.richEditor.contentOffset;
-		offset.y = self.lineNumberView.contentOffset.y;
-		[self.richEditor setContentOffset:offset animated:NO];
+		NSInteger lnOffset = self.lineNumberView.contentOffset.y;
+		double diff = lnOffset - offset.y;
+		if (diff > 1) {
+			offset.y = self.lineNumberView.contentOffset.y;
+			[self.richEditor setContentOffset:offset animated:NO];
+		}
 	}
 	self.isScrolling = NO;
 }
@@ -890,13 +911,19 @@
 
 -(void)textStorage:(NSTextStorage *)textStorage didProcessEditing:(NSTextStorageEditActions)editedMask range:(NSRange)editedRange changeInLength:(NSInteger)delta
 {
+	if (self.isParsing)
+		return;
 	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
 	if (now - self.lastParseTime > .5) {
 		self.lastParseTime = now;
 		dispatch_async(dispatch_get_main_queue(), ^{
-			NSLog(@"calling parse");
-			[self.sweaveParser parse];
-			[self adjustLineNumbers];
+			if (!self.isParsing) {
+				self.isParsing = YES;
+				NSLog(@"calling parse");
+				[self.sweaveParser parse];
+				[self adjustLineNumbers];
+				self.isParsing = NO;
+			}
 		});
 	}
 }

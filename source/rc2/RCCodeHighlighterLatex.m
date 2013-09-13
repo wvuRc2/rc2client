@@ -12,7 +12,6 @@
 
 @interface RCCodeHighlighterLatex ()
 @property (nonatomic, strong) NSRegularExpression *commentRegex;
-@property (nonatomic, strong) NSRegularExpression *keywordRegex;
 @end
 
 @implementation RCCodeHighlighterLatex
@@ -24,9 +23,6 @@
 		self.commentRegex = [NSRegularExpression regularExpressionWithPattern:@"(?<!\\\\)(%.*\n)" options:0 error:&err];
 		if (err)
 			Rc2LogError(@"error compiling latex comment regex: %@", err);
-		self.keywordRegex = [NSRegularExpression regularExpressionWithPattern:@"\\\\([A-Za-z]+)"
-																		   options:NSRegularExpressionDotMatchesLineSeparators|NSRegularExpressionAnchorsMatchLines
-																			 error:&err];
 		if (err)
 			Rc2LogError(@"error compiling latex keyword regex: %@", err);
 		
