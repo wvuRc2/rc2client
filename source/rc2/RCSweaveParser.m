@@ -23,8 +23,6 @@
 
 @interface RCSweaveParser ()
 @property (nonatomic, strong) NSRegularExpression *startExpression;
-@property (nonatomic, strong) RCCodeHighlighterR *rHighlighter;
-@property (nonatomic, strong) RCCodeHighlighterLatex *latexHighlighter;
 @end
 
 @implementation RCSweaveParser
@@ -46,33 +44,16 @@
 		
 		self.startExpression = expression;
 		NSAssert(self.startExpression, @"failed to get reg ex:%@", error);
-		self.rHighlighter = [[RCCodeHighlighterR alloc] init];
-		NSDictionary *colors = [self syntaxColors];
-		self.rHighlighter.colorMap = colors;
-		self.latexHighlighter = [[RCCodeHighlighterLatex alloc] init];
-		self.latexHighlighter.colorMap = colors;
+		self.codeHighlighter = [[RCCodeHighlighterR alloc] init];
+		self.codeHighlighter.colorMap = self.colorMap;
+		self.docHighlighter = [[RCCodeHighlighterLatex alloc] init];
+		self.docHighlighter.colorMap = self.colorMap;
 	}
 	return self;
 }
 
--(RCChunk*)chunkForString:(NSMutableAttributedString*)string range:(NSRange)range
+-(void)parseRange:(NSRange)fullRange
 {
-	if (range.location == NSNotFound)
-		return nil;
-	if (range.location == 0 && range.length == 0) {
-		if (string.length < 1)
-			return nil;
-		range = NSMakeRange(0, 1); //first chunk
-	}
-	if (range.location == string.length && range.length == 0)
-		range.location -= 1;
-	RCChunk *c = [string attribute:kChunkStartAttribute atIndex:range.location effectiveRange:nil];
-	return c;
-}
-
--(void)parse
-{
-	NSRange fullRange = NSMakeRange(0, self.textStorage.length);
 	NSRange curRange = fullRange;
 	NSString *str = self.textStorage.string;
 	NSInteger numChunks = [self.startExpression numberOfMatchesInString:str options:0 range:fullRange];
@@ -104,41 +85,8 @@
 //		 NSLog(@"chunk at %@", NSStringFromRange(result.range));
 		 [chunkArray addObject:newChunk];
 	 }];
-	//iterate array to adjust the content array
-	numChunks = chunkArray.count;
-	for (curChunkIndex=0; curChunkIndex < numChunks-1; curChunkIndex++) {
-		RCChunk *aChunk = [chunkArray objectAtIndex:curChunkIndex];
-		RCChunk *nextChunk = [chunkArray objectAtIndex:curChunkIndex+1];
-		NSRange rng = aChunk.parseRange;
-		rng.length = nextChunk.parseRange.location - aChunk.parseRange.location;
-		aChunk.parseRange = rng;
-//		NSLog(@"adj chunk at %@", NSStringFromRange(rng));
-	}
-	//adjust final one
-	NSRange finalRange = [[chunkArray lastObject] parseRange];
-	finalRange.length = str.length - finalRange.location;
-	[[chunkArray lastObject] setParseRange:finalRange];
-	//now color them
-	for (RCChunk *aChunk in chunkArray) {
-		[self.textStorage addAttribute:kChunkStartAttribute value:aChunk range:aChunk.parseRange];
-		if (aChunk.chunkType == eChunkType_RCode) {
-			[self.rHighlighter highlightText:self.textStorage range:aChunk.parseRange];
-		} else if (aChunk.chunkType == eChunkType_Document) {
-			[self.latexHighlighter highlightText:self.textStorage range:aChunk.parseRange];
-		}
-	}
-}
-
--(NSDictionary*)syntaxColors
-{
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSMutableDictionary *colors = [NSMutableDictionary dictionaryWithCapacity:6];
-	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Comment]] forKey:kPref_SyntaxColor_Comment];
-	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Function]] forKey:kPref_SyntaxColor_Function];
-	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Keyword]] forKey:kPref_SyntaxColor_Keyword];
-	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Quote]] forKey:kPref_SyntaxColor_Quote];
-	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Symbol]] forKey:kPref_SyntaxColor_Symbol];
-	return colors;
+	[self adjustParseRanges:chunkArray fullRange:fullRange];
+	[self colorChunks:chunkArray];
 }
 
 

@@ -6,17 +6,7 @@
 //  Copyright 2013 West Virginia University. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "RCSyntaxParser.h"
 
-@class NSTextStorage;
-@class RCChunk;
-
-@interface RCSweaveParser : NSObject
-@property (nonatomic, strong) NSTextStorage *textStorage;
-
-+(instancetype)parserWithTextStorage:(NSTextStorage*)storage;
-
--(void)parse;
-
--(RCChunk*)chunkForString:(NSMutableAttributedString*)string range:(NSRange)range;
+@interface RCSweaveParser : RCSyntaxParser
 @end

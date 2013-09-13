@@ -61,6 +61,8 @@
 		082D1EC817E38B6900723EB3 /* RKeywords.txt in Resources */ = {isa = PBXBuildFile; fileRef = 082D1EC617E38B6900723EB3 /* RKeywords.txt */; };
 		082D1ECB17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ECA17E38E7B00723EB3 /* RCCodeHighlighterLatex.m */; };
 		082D1ECC17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ECA17E38E7B00723EB3 /* RCCodeHighlighterLatex.m */; };
+		082D1ECF17E3B5C800723EB3 /* RCSyntaxParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ECE17E3B5C800723EB3 /* RCSyntaxParser.m */; };
+		082D1ED017E3B5C800723EB3 /* RCSyntaxParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ECE17E3B5C800723EB3 /* RCSyntaxParser.m */; };
 		0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */; };
 		0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */; };
 		0833CABE17441D640007B54E /* fontDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 0833CABC17441D640007B54E /* fontDown.png */; };
@@ -528,7 +530,7 @@
 		082D1EB517E23B2C00723EB3 /* RCChunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCChunk.m; sourceTree = "<group>"; };
 		082D1EB917E2406000723EB3 /* RCSweaveParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSweaveParser.h; sourceTree = "<group>"; };
 		082D1EBA17E2406000723EB3 /* RCSweaveParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSweaveParser.m; sourceTree = "<group>"; };
-		082D1EBD17E2429E00723EB3 /* RCSyntaxHighlighter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCSyntaxHighlighter.h; sourceTree = "<group>"; };
+		082D1EBD17E2429E00723EB3 /* RCCodeHighlighter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCCodeHighlighter.h; sourceTree = "<group>"; };
 		082D1EBE17E2442E00723EB3 /* RCCodeHighlighterR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCodeHighlighterR.h; sourceTree = "<group>"; };
 		082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCodeHighlighterR.m; sourceTree = "<group>"; };
 		082D1EC217E2460A00723EB3 /* libParseKitMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libParseKitMobile.a; path = "../../../../../../../../working/rc2proj/Client/Dependencies/ParseKit/build/Debug-iphoneos/libParseKitMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -536,6 +538,8 @@
 		082D1EC617E38B6900723EB3 /* RKeywords.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RKeywords.txt; path = resources/RKeywords.txt; sourceTree = SOURCE_ROOT; };
 		082D1EC917E38E7B00723EB3 /* RCCodeHighlighterLatex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCodeHighlighterLatex.h; sourceTree = "<group>"; };
 		082D1ECA17E38E7B00723EB3 /* RCCodeHighlighterLatex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCodeHighlighterLatex.m; sourceTree = "<group>"; };
+		082D1ECD17E3B5C800723EB3 /* RCSyntaxParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSyntaxParser.h; sourceTree = "<group>"; };
+		082D1ECE17E3B5C800723EB3 /* RCSyntaxParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSyntaxParser.m; sourceTree = "<group>"; };
 		0833CAAD174160CA0007B54E /* RCMCourseAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMCourseAdminController.h; sourceTree = "<group>"; };
 		0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMCourseAdminController.m; sourceTree = "<group>"; };
 		0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMCourseAdminController.xib; sourceTree = "<group>"; };
@@ -1166,9 +1170,11 @@
 				08D245CB15B5DBB70064A9FA /* RCMSyntaxHighlighter.m */,
 				082D1EB417E23B2C00723EB3 /* RCChunk.h */,
 				082D1EB517E23B2C00723EB3 /* RCChunk.m */,
+				082D1ECD17E3B5C800723EB3 /* RCSyntaxParser.h */,
+				082D1ECE17E3B5C800723EB3 /* RCSyntaxParser.m */,
 				082D1EB917E2406000723EB3 /* RCSweaveParser.h */,
 				082D1EBA17E2406000723EB3 /* RCSweaveParser.m */,
-				082D1EBD17E2429E00723EB3 /* RCSyntaxHighlighter.h */,
+				082D1EBD17E2429E00723EB3 /* RCCodeHighlighter.h */,
 				082D1EBE17E2442E00723EB3 /* RCCodeHighlighterR.h */,
 				082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */,
 				082D1EC917E38E7B00723EB3 /* RCCodeHighlighterLatex.h */,
@@ -2482,6 +2488,7 @@
 				08D2441115B5D78A0064A9FA /* GradientButton.m in Sources */,
 				08D2441215B5D78A0064A9FA /* JSTokenButton.m in Sources */,
 				08D2441315B5D78A0064A9FA /* JSTokenField.m in Sources */,
+				082D1ECF17E3B5C800723EB3 /* RCSyntaxParser.m in Sources */,
 				08D2441915B5D78A0064A9FA /* MBProgressHUD.m in Sources */,
 				08D2441D15B5D78A0064A9FA /* PHRefreshGestureRecognizer.m in Sources */,
 				087342CC17BD6A73000EC1E0 /* WorkspaceViewController.m in Sources */,
@@ -2638,6 +2645,7 @@
 				0845943B15B5F29200297C9D /* MCLoginController.m in Sources */,
 				0845944015B5F29200297C9D /* MCMainWindowController.m in Sources */,
 				0845944115B5F29200297C9D /* MCSessionViewController.m in Sources */,
+				082D1ED017E3B5C800723EB3 /* RCSyntaxParser.m in Sources */,
 				0845944D15B5F2BC00297C9D /* MCNewFileController.m in Sources */,
 				0845944F15B5F2BC00297C9D /* MCWebOutputController.m in Sources */,
 				0845945115B5F2BC00297C9D /* MultiFileImporter.m in Sources */,

@@ -26,7 +26,7 @@
 #import "KeyboardToolbar.h"
 #import "WHMailActivity.h"
 #import "MAKVONotificationCenter.h"
-#import "RCSweaveParser.h"
+#import "RCSyntaxParser.h"
 
 @interface EditorViewController() <KeyboardToolbarDelegate,NSTextStorageDelegate> {
 	BOOL _viewLoaded;
@@ -50,7 +50,7 @@
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
 @property (nonatomic, strong) UIAlertView *currentAlert;
 @property (nonatomic, strong) NSTimer *widthAdjustTimer;
-@property (nonatomic, strong) RCSweaveParser *sweaveParser;
+@property (nonatomic, strong) RCSyntaxParser *syntaxParser;
 @property (atomic) BOOL isScrolling;
 @property (atomic) BOOL isParsing;
 @property int32_t syncInProgress;
@@ -164,7 +164,6 @@
 		self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
 			[UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName, nil];
 		self.docTitleLabel.font = [UIFont fontWithName:@"Inconsolata" size:18.0];
-		self.sweaveParser = [RCSweaveParser parserWithTextStorage:self.richEditor.textStorage];
 		
 		__weak EditorViewController *weakSelf = self;
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
@@ -845,13 +844,9 @@
 	if (![srcStr.string isEqualToString:self.richEditor.attributedText.string])
 		[self.richEditor.textStorage setAttributedString:srcStr];
 	[self.richEditor.textStorage addAttributes:self.defaultTextAttrs range:NSMakeRange(0, srcStr.length)];
-	if (self.currentFile.fileType.isSweave) {
-		if (nil == self.sweaveParser)
-			self.sweaveParser = [RCSweaveParser parserWithTextStorage:self.richEditor.textStorage];
-	} else {
-		self.sweaveParser = nil;
-	}
-	[self.sweaveParser parse];
+	if (nil == self.syntaxParser)
+		self.syntaxParser = [RCSyntaxParser parserWithTextStorage:self.richEditor.textStorage fileType:self.currentFile.fileType];
+	[self.syntaxParser parse];
 /*
 	NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
 	[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
@@ -920,7 +915,7 @@
 			if (!self.isParsing) {
 				self.isParsing = YES;
 				NSLog(@"calling parse");
-				[self.sweaveParser parse];
+				[self.syntaxParser parse];
 				[self adjustLineNumbers];
 				self.isParsing = NO;
 			}

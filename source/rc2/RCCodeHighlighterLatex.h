@@ -6,7 +6,7 @@
 //  Copyright 2013 West Virginia University. All rights reserved.
 //
 
-#import "RCSyntaxHighlighter.h"
+#import "RCCodeHighlighter.h"
 
 @interface RCCodeHighlighterLatex : NSObject <RCCodeHighlighter>
 
