@@ -28,7 +28,7 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 +(instancetype)parserWithTextStorage:(NSTextStorage*)storage fileType:(Rc2FileType*)fileType
 {
 	Class highClass = nil;
-	Class theClass = self;
+	Class theClass = nil;
 	if (fileType.isSweave)
 		theClass = [RCSweaveParser class];
 	else if ([fileType.extension isEqualToString:@"R"]) {

@@ -65,6 +65,8 @@
 		082D1ED017E3B5C800723EB3 /* RCSyntaxParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ECE17E3B5C800723EB3 /* RCSyntaxParser.m */; };
 		082D1ED317E3C12C00723EB3 /* RCHighlightingParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ED217E3C12C00723EB3 /* RCHighlightingParser.m */; };
 		082D1ED417E3C12C00723EB3 /* RCHighlightingParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ED217E3C12C00723EB3 /* RCHighlightingParser.m */; };
+		082D1ED717E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ED617E8C77C00723EB3 /* RCCodeHighlighterSas.m */; };
+		082D1ED817E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ED617E8C77C00723EB3 /* RCCodeHighlighterSas.m */; };
 		0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */; };
 		0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */; };
 		0833CABE17441D640007B54E /* fontDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 0833CABC17441D640007B54E /* fontDown.png */; };
@@ -544,6 +546,8 @@
 		082D1ECE17E3B5C800723EB3 /* RCSyntaxParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSyntaxParser.m; sourceTree = "<group>"; };
 		082D1ED117E3C12C00723EB3 /* RCHighlightingParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHighlightingParser.h; sourceTree = "<group>"; };
 		082D1ED217E3C12C00723EB3 /* RCHighlightingParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHighlightingParser.m; sourceTree = "<group>"; };
+		082D1ED517E8C77C00723EB3 /* RCCodeHighlighterSas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCodeHighlighterSas.h; sourceTree = "<group>"; };
+		082D1ED617E8C77C00723EB3 /* RCCodeHighlighterSas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCodeHighlighterSas.m; sourceTree = "<group>"; };
 		0833CAAD174160CA0007B54E /* RCMCourseAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMCourseAdminController.h; sourceTree = "<group>"; };
 		0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMCourseAdminController.m; sourceTree = "<group>"; };
 		0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMCourseAdminController.xib; sourceTree = "<group>"; };
@@ -1183,6 +1187,8 @@
 				082D1EBD17E2429E00723EB3 /* RCCodeHighlighter.h */,
 				082D1EBE17E2442E00723EB3 /* RCCodeHighlighterR.h */,
 				082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */,
+				082D1ED517E8C77C00723EB3 /* RCCodeHighlighterSas.h */,
+				082D1ED617E8C77C00723EB3 /* RCCodeHighlighterSas.m */,
 				082D1EC917E38E7B00723EB3 /* RCCodeHighlighterLatex.h */,
 				082D1ECA17E38E7B00723EB3 /* RCCodeHighlighterLatex.m */,
 			);
@@ -2549,6 +2555,7 @@
 				08DF3D5115BDBC79000A339D /* AMResizableSplitterView.m in Sources */,
 				08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */,
 				08C99AC315EE9CDF002D430D /* Rc2FileType.m in Sources */,
+				082D1ED717E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */,
 				082CEEC0161F685900E01F48 /* RCVariable.m in Sources */,
 				084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */,
 				083AAEE8162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */,
@@ -2620,6 +2627,7 @@
 				08D2464F15B5ED9D0064A9FA /* RCStudentAssignment.m in Sources */,
 				08D2465015B5ED9D0064A9FA /* RCUser.m in Sources */,
 				08D2465115B5ED9D0064A9FA /* RCWorkspace.m in Sources */,
+				082D1ED817E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */,
 				08D2465215B5ED9D0064A9FA /* RCWorkspaceCache.m in Sources */,
 				08D2465615B5EDA60064A9FA /* _RCFile.m in Sources */,
 				08D2465715B5EDA60064A9FA /* _RCMessage.m in Sources */,
