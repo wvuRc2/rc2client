@@ -13,6 +13,7 @@
 #import "RCSweaveParser.h"
 #import "RCHighlightingParser.h"
 #import "RCCodeHighlighterR.h"
+#import "RCCodeHighlighterSas.h"
 
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 #define ColorClass NSColor
@@ -33,6 +34,9 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 	else if ([fileType.extension isEqualToString:@"R"]) {
 		theClass = [RCHighlightingParser class];
 		highClass = [RCCodeHighlighterR class];
+	} else if ([fileType.extension isEqualToString:@"sas"]) {
+		theClass = [RCHighlightingParser class];
+		highClass = [RCCodeHighlighterSas class];
 	}
 	RCSyntaxParser *p = [[theClass alloc] init];
 	p.textStorage = storage;
