@@ -67,6 +67,8 @@
 		082D1ED417E3C12C00723EB3 /* RCHighlightingParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ED217E3C12C00723EB3 /* RCHighlightingParser.m */; };
 		082D1ED717E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ED617E8C77C00723EB3 /* RCCodeHighlighterSas.m */; };
 		082D1ED817E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ED617E8C77C00723EB3 /* RCCodeHighlighterSas.m */; };
+		082D1EDB17E8D2DC00723EB3 /* RCRmdParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EDA17E8D2DC00723EB3 /* RCRmdParser.m */; };
+		082D1EDC17E8D2DC00723EB3 /* RCRmdParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EDA17E8D2DC00723EB3 /* RCRmdParser.m */; };
 		0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */; };
 		0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */; };
 		0833CABE17441D640007B54E /* fontDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 0833CABC17441D640007B54E /* fontDown.png */; };
@@ -548,6 +550,8 @@
 		082D1ED217E3C12C00723EB3 /* RCHighlightingParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHighlightingParser.m; sourceTree = "<group>"; };
 		082D1ED517E8C77C00723EB3 /* RCCodeHighlighterSas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCodeHighlighterSas.h; sourceTree = "<group>"; };
 		082D1ED617E8C77C00723EB3 /* RCCodeHighlighterSas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCodeHighlighterSas.m; sourceTree = "<group>"; };
+		082D1ED917E8D2DC00723EB3 /* RCRmdParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRmdParser.h; sourceTree = "<group>"; };
+		082D1EDA17E8D2DC00723EB3 /* RCRmdParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRmdParser.m; sourceTree = "<group>"; };
 		0833CAAD174160CA0007B54E /* RCMCourseAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMCourseAdminController.h; sourceTree = "<group>"; };
 		0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMCourseAdminController.m; sourceTree = "<group>"; };
 		0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMCourseAdminController.xib; sourceTree = "<group>"; };
@@ -1184,6 +1188,8 @@
 				082D1EBA17E2406000723EB3 /* RCSweaveParser.m */,
 				082D1ED117E3C12C00723EB3 /* RCHighlightingParser.h */,
 				082D1ED217E3C12C00723EB3 /* RCHighlightingParser.m */,
+				082D1ED917E8D2DC00723EB3 /* RCRmdParser.h */,
+				082D1EDA17E8D2DC00723EB3 /* RCRmdParser.m */,
 				082D1EBD17E2429E00723EB3 /* RCCodeHighlighter.h */,
 				082D1EBE17E2442E00723EB3 /* RCCodeHighlighterR.h */,
 				082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */,
@@ -2494,6 +2500,7 @@
 				08D243E515B5D7590064A9FA /* ImageHolderView.m in Sources */,
 				08D243E715B5D7590064A9FA /* MessageListCell.m in Sources */,
 				08D243E915B5D7590064A9FA /* NotificationCell.m in Sources */,
+				082D1EDB17E8D2DC00723EB3 /* RCRmdParser.m in Sources */,
 				08D243EB15B5D7590064A9FA /* SessionEditView.m in Sources */,
 				08D243EC15B5D7590064A9FA /* StudentAssignmentCell.m in Sources */,
 				08D2441015B5D78A0064A9FA /* CoolButton.m in Sources */,
@@ -2716,6 +2723,7 @@
 				0811F9FC17342CB70060BAB4 /* RCMPreviewImageView.m in Sources */,
 				08063D5C173AF33C0054FD1D /* MCVariableDetailsController.m in Sources */,
 				0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */,
+				082D1EDC17E8D2DC00723EB3 /* RCRmdParser.m in Sources */,
 				0847FDAC175D30AF00D950EA /* MCTableRowView.m in Sources */,
 				0847FDC717679F6F00D950EA /* MASPreferencesWindowController.m in Sources */,
 				08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */,

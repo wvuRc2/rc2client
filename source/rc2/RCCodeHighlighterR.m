@@ -41,7 +41,9 @@
 	[content removeAttribute:NSForegroundColorAttributeName range:range]; //remove old colors
 	NSString *sourceStr = [content.string substringWithRange:range];
 	NSRange nlRange = [sourceStr rangeOfString:@"\n"];
-	NSAssert(nlRange.location != NSNotFound, @"failed to find newline on code chunk");
+//	NSAssert(nlRange.location != NSNotFound, @"failed to find newline on code chunk");
+	if (NSNotFound == nlRange.location)
+		nlRange.location = nlRange.length = 0;
 	if (nlRange.length > 0)
 		sourceStr = [sourceStr substringFromIndex:nlRange.location + nlRange.length];
 

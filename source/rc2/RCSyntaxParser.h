@@ -32,6 +32,9 @@ extern NSString *kChunkStartAttribute;
 //returns all chunks in range
 -(NSArray*)chunksForRange:(NSRange)range;
 
+//for subclasses to run post-init code
+-(void)performSetup;
+
 //for subclasses to call
 
 //highlights the syntax in chunkArray

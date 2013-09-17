@@ -12,6 +12,7 @@
 #import "Rc2FileType.h"
 #import "RCSweaveParser.h"
 #import "RCHighlightingParser.h"
+#import "RCRmdParser.h"
 #import "RCCodeHighlighterR.h"
 #import "RCCodeHighlighterSas.h"
 
@@ -31,6 +32,8 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 	Class theClass = nil;
 	if (fileType.isSweave)
 		theClass = [RCSweaveParser class];
+	else if ([fileType.extension isEqualToString:@"Rmd"])
+		theClass = [RCRmdParser class];
 	else if ([fileType.extension isEqualToString:@"R"]) {
 		theClass = [RCHighlightingParser class];
 		highClass = [RCCodeHighlighterR class];
@@ -43,6 +46,7 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 	p.colorMap = [RCSyntaxParser syntaxColors];
 	if (highClass)
 		p.codeHighlighter = [[highClass alloc] init];
+	[p performSetup];
 	return p;
 }
 
@@ -55,6 +59,7 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Keyword]] forKey:kPref_SyntaxColor_Keyword];
 	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Quote]] forKey:kPref_SyntaxColor_Quote];
 	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Symbol]] forKey:kPref_SyntaxColor_Symbol];
+	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_CodeBackground]] forKey:kPref_SyntaxColor_CodeBackground];
 	return colors;
 }
 
@@ -109,6 +114,11 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 	[self colorChunks:chunks];
 }
 
+-(void)performSetup
+{
+	
+}
+
 //sets the parseRange property for the chunks
 -(void)adjustParseRanges:(NSArray*)chunkArray fullRange:(NSRange)fullRange
 {
@@ -134,6 +144,9 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 	for (RCChunk *aChunk in chunkArray) {
 		[self.textStorage addAttribute:kChunkStartAttribute value:aChunk range:aChunk.parseRange];
 		if (aChunk.chunkType == eChunkType_RCode) {
+			id bgc = [self.colorMap objectForKey:kPref_SyntaxColor_CodeBackground];
+			if (bgc)
+				[self.textStorage addAttribute:NSBackgroundColorAttributeName value:bgc range:aChunk.parseRange];
 			[self.codeHighlighter highlightText:self.textStorage range:aChunk.parseRange];
 		} else if (aChunk.chunkType == eChunkType_Document) {
 			[self.docHighlighter highlightText:self.textStorage range:aChunk.parseRange];

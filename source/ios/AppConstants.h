@@ -17,6 +17,7 @@
 #define kPref_SyntaxColor_Keyword @"SyntaxColor_Keyword"
 #define kPref_SyntaxColor_Quote @"SyntaxColor_Quote"
 #define kPref_SyntaxColor_Symbol @"SyntaxColor_Symbol"
+#define kPref_SyntaxColor_CodeBackground @"SyntaxColor_CodeBG"
 #define kPref_CurrentSessionWorkspace @"currentSessionID"
 #define kPref_CurrentProject @"currentProductID"
 

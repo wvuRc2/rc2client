@@ -29,11 +29,16 @@
 		self.startExpression = expression;
 		NSAssert(self.startExpression, @"failed to get reg ex:%@", error);
 		self.codeHighlighter = [[RCCodeHighlighterR alloc] init];
-		self.codeHighlighter.colorMap = self.colorMap;
 		self.docHighlighter = [[RCCodeHighlighterLatex alloc] init];
-		self.docHighlighter.colorMap = self.colorMap;
 	}
 	return self;
+}
+
+-(void)performSetup
+{
+	[super performSetup];
+	self.codeHighlighter.colorMap = self.colorMap;
+	self.docHighlighter.colorMap = self.colorMap;
 }
 
 -(void)parseRange:(NSRange)fullRange
