@@ -17,6 +17,8 @@
 
 #define TheApp NSApp
 
+#define ColorClass NSColor
+
 #define RC2_LOG_CONTEXT 0x32635200
 #define Rc2LogLevel [[VyanaLogger sharedInstance] logLevelForKey:@"rc2"]
 

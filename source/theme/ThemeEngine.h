@@ -10,16 +10,9 @@
 
 #define kPrefCustomThemeURL @"CustomThemeURL"
 
-#if TARGET_OS_IPHONE
-#define COLOR_CLASS UIColor
-#else
-#define COLOR_CLASS NSColor
-#endif
-
-
 @interface Theme : NSObject
 -(CGColorRef)cgColorForKey:(NSString*)key;
--(COLOR_CLASS*)colorForKey:(NSString*)key;
+-(ColorClass*)colorForKey:(NSString*)key;
 -(NSString*)hexStringForKey:(NSString*)key;
 -(NSDictionary*)themeColors;
 @property (weak, nonatomic, readonly) NSString *name;

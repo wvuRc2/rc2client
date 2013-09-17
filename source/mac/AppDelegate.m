@@ -21,15 +21,14 @@
 #import "BBEdit.h"
 #import "RCMGeneralPrefs.h"
 #import "RCMFontPrefs.h"
-#import <HockeySDK/BITCrashReportManagerDelegate.h>
-#import <HockeySDK/HockeySDK.h>
+//#import <HockeySDK/HockeySDK.h>
 #import "MASPreferencesWindowController.h"
 #import <DropboxOSX/DropboxOSX.h>
 
 #define kPref_LastLoginString @"LastLoginString"
 #define kPref_StartInFullScreen @"StartInFullScreen"
 
-@interface AppDelegate() <BITCrashReportManagerDelegate> {
+@interface AppDelegate() /*<BITCrashReportManagerDelegate> */ {
 	BOOL __haveMoc;
 	BOOL __firstLogin;
 }

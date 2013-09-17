@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
+               BuildableName = "ParseKit.framework"
+               BlueprintName = "ParseKit"
+               ReferencedContainer = "container:Dependencies/ParseKit/ParseKit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "08D2461B15B5EBC20064A9FA"
                BuildableName = "Rc2.app"
                BlueprintName = "Mac App"

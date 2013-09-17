@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, RCChunkEquationType) {
 };
 
 @interface RCChunk : NSObject
-@property (assign, readonly) NSInteger chunkNumber;
+@property (nonatomic, assign) NSInteger chunkNumber;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) RCChunkType chunkType;
 @property (nonatomic, assign) RCChunkEquationType equationType;

@@ -26,6 +26,8 @@
 	#import "MAKVONotificationCenter.h"
 #endif
 
+#define ColorClass UIColor
+
 #define TheApp [UIApplication sharedApplication]
 
 #define RC2_LOG_CONTEXT 0x32635200

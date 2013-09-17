@@ -16,12 +16,6 @@
 #import "RCCodeHighlighterR.h"
 #import "RCCodeHighlighterSas.h"
 
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
-#define ColorClass NSColor
-#else
-#define ColorClass UIColor
-#endif
-
 @interface RCSyntaxParser ()
 @property (nonatomic, copy) NSString *lastSource;
 @end

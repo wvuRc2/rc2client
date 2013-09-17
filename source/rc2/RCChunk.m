@@ -9,7 +9,6 @@
 #import "RCChunk.h"
 
 @interface RCChunk()
-@property (assign, readwrite) NSInteger chunkNumber;
 @end
 
 @implementation RCChunk

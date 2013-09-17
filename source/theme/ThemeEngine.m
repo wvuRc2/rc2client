@@ -65,12 +65,12 @@
 	return [self colorForKey:key].CGColor;
 }
 
--(COLOR_CLASS*)colorForKey:(NSString*)key
+-(ColorClass*)colorForKey:(NSString*)key
 {
-	COLOR_CLASS *color = [_colorCache objectForKey:key];
+	ColorClass *color = [_colorCache objectForKey:key];
 	if (nil == color) {
 		@try {
-			color = [COLOR_CLASS colorWithHexString:[self hexStringForKey:key]];
+			color = [ColorClass colorWithHexString:[self hexStringForKey:key]];
 			if (color)
 				[_colorCache setObject:color forKey:key];
 		} @catch (id e) {
@@ -233,8 +233,8 @@
 	gl.name = kThemeBGLayerName;
 	//now we need to find out what colors to use
 	Theme *th = _currentTheme;
-	COLOR_CLASS *startColor = [th colorForKey:[key stringByAppendingString:@"Start"]];
-	COLOR_CLASS *endColor = [th colorForKey:[key stringByAppendingString:@"End"]];
+	ColorClass *startColor = [th colorForKey:[key stringByAppendingString:@"Start"]];
+	ColorClass *endColor = [th colorForKey:[key stringByAppendingString:@"End"]];
 	if (startColor && endColor) {
 		NSArray *colors = [NSArray arrayWithObjects:(id)startColor.CGColor, (id)endColor.CGColor, nil];
 		[gl setColors:colors];
@@ -340,11 +340,11 @@
     CAGradientLayer *shineLayer = [CAGradientLayer layer];
     shineLayer.frame = bounds;
     shineLayer.colors = [NSArray arrayWithObjects:
-                         (id)[COLOR_CLASS COLOR_W_WHITE:0.8f alpha:0.4f].CGColor,
-                         (id)[COLOR_CLASS COLOR_W_WHITE:0.8f alpha:0.2f].CGColor,
-                         (id)[COLOR_CLASS COLOR_W_WHITE:0.75f alpha:0.2f].CGColor,
-                         (id)[COLOR_CLASS COLOR_W_WHITE:0.4f alpha:0.2f].CGColor,
-                         (id)[COLOR_CLASS COLOR_W_WHITE:1.0f alpha:0.4f].CGColor,
+                         (id)[ColorClass COLOR_W_WHITE:0.8f alpha:0.4f].CGColor,
+                         (id)[ColorClass COLOR_W_WHITE:0.8f alpha:0.2f].CGColor,
+                         (id)[ColorClass COLOR_W_WHITE:0.75f alpha:0.2f].CGColor,
+                         (id)[ColorClass COLOR_W_WHITE:0.4f alpha:0.2f].CGColor,
+                         (id)[ColorClass COLOR_W_WHITE:1.0f alpha:0.4f].CGColor,
                          nil];
     shineLayer.locations = @[@0.0f, @0.3f, @0.3f, @0.8f, @1.0f];
     [parentLayer addSublayer:shineLayer];
