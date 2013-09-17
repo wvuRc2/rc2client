@@ -28,6 +28,8 @@
 #import "MAKVONotificationCenter.h"
 #import "RCSyntaxParser.h"
 
+#define DEFAUT_UIFONT [UIFont fontWithName:@"Inconsolata" size:18.0]
+
 @interface EditorViewController() <KeyboardToolbarDelegate,NSTextStorageDelegate> {
 	BOOL _viewLoaded;
 	BOOL _handUp;
@@ -110,6 +112,8 @@
                      animations:^{
                          self.richEditor.contentInset = contentInset;
                          self.richEditor.scrollIndicatorInsets = scrollInset;
+						 self.lineNumberView.contentInset = contentInset;
+						 self.lineNumberView.scrollIndicatorInsets = scrollInset;
                      }
                      completion:^(BOOL s){ [self scrollSelectionVisible:YES];}];
 }
@@ -138,6 +142,8 @@
                      animations:^{
                          self.richEditor.contentInset = contentInset;
                          self.richEditor.scrollIndicatorInsets = scrollInset;
+						 self.lineNumberView.contentInset = contentInset;
+						 self.lineNumberView.scrollIndicatorInsets = scrollInset;
                      }
                      completion:nil]; 
 }
@@ -161,9 +167,8 @@
 		UIFont *myFont = [UIFont fontWithName:@"Inconsolata" size:sysFont.pointSize];
 		self.richEditor.font = myFont;
 		self.lineNumberView.font = myFont;
-		self.defaultTextAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
-			[UIFont fontWithName:@"Inconsolata" size:18.0], NSFontAttributeName, nil];
-		self.docTitleLabel.font = [UIFont fontWithName:@"Inconsolata" size:18.0];
+		self.defaultTextAttrs = @{NSFontAttributeName:DEFAUT_UIFONT};
+		self.docTitleLabel.font = DEFAUT_UIFONT;
 		
 		__weak EditorViewController *weakSelf = self;
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
@@ -583,9 +588,8 @@
 	}
 	NSMutableParagraphStyle *style = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
 	style.alignment = NSTextAlignmentRight;
-	NSMutableAttributedString *astr = [[NSMutableAttributedString alloc] initWithString:lnstr attributes:@{NSParagraphStyleAttributeName:style}];
+	NSMutableAttributedString *astr = [[NSMutableAttributedString alloc] initWithString:lnstr attributes:@{NSParagraphStyleAttributeName:style, NSFontAttributeName:DEFAUT_UIFONT}];
 	[self.lineNumberView.textStorage replaceCharactersInRange:NSMakeRange(0, self.lineNumberView.textStorage.length) withAttributedString:astr];
-	self.lineNumberView.font = self.richEditor.font; //a bug in ios 7b5: the font is reset after text is set if in a container view.
 }
 
 -(void)userWillAdjustWidth
@@ -842,12 +846,13 @@
 {
 //	if (nil == srcStr)
 //		srcStr = self.richEditor.attributedText;
+	if (nil == self.syntaxParser)
+		self.syntaxParser = [RCSyntaxParser parserWithTextStorage:self.richEditor.textStorage fileType:self.currentFile.fileType];
 	if (![srcStr.string isEqualToString:self.richEditor.attributedText.string])
 		[self.richEditor.textStorage setAttributedString:srcStr];
 	[self.richEditor.textStorage addAttributes:self.defaultTextAttrs range:NSMakeRange(0, srcStr.length)];
-	if (nil == self.syntaxParser)
-		self.syntaxParser = [RCSyntaxParser parserWithTextStorage:self.richEditor.textStorage fileType:self.currentFile.fileType];
-	[self.syntaxParser parse];
+	[self.lineNumberView.textStorage addAttributes:self.defaultTextAttrs range:NSMakeRange(0, self.lineNumberView.textStorage.length)];
+//	[self.syntaxParser parse];
 /*
 	NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
 	[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
@@ -890,7 +895,7 @@
 		CGPoint offset = self.richEditor.contentOffset;
 		NSInteger lnOffset = self.lineNumberView.contentOffset.y;
 		double diff = lnOffset - offset.y;
-		if (diff > 1) {
+		if (fabs(diff) > 1) {
 			offset.y = self.lineNumberView.contentOffset.y;
 			[self.richEditor setContentOffset:offset animated:NO];
 		}

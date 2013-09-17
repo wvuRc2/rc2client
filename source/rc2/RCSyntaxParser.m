@@ -22,6 +22,10 @@
 #define ColorClass UIColor
 #endif
 
+@interface RCSyntaxParser ()
+@property (nonatomic, copy) NSString *lastSource;
+@end
+
 NSString *kChunkStartAttribute = @"RCChunkStart";
 
 @implementation RCSyntaxParser
@@ -100,7 +104,10 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 
 -(void)parse
 {
-	[self parseRange:NSMakeRange(0, self.textStorage.length)];
+	if (![self.textStorage.string isEqualToString:self.lastSource]) {
+		[self parseRange:NSMakeRange(0, self.textStorage.length)];
+		self.lastSource = self.textStorage.string;
+	}
 }
 
 -(void)parseRange:(NSRange)range
