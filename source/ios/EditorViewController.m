@@ -507,8 +507,7 @@
 		NSString *ext = [str pathExtension];
 		if (![[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
 			str = [str stringByAppendingPathExtension:@"R"];
-		NSManagedObjectContext *moc = [[UIApplication sharedApplication] valueForKeyPath:@"delegate.managedObjectContext"];
-		RCFile *file = [RCFile insertInManagedObjectContext:moc];
+		RCFile *file = [RCFile MR_createEntity];
 		file.name = str;
 		file.localEdits = @"";
 		id<RCFileContainer> container = shared ? blockSelf.session.workspace.project : blockSelf.session.workspace;
@@ -914,13 +913,13 @@
 {
 	if (self.isParsing)
 		return;
+	//only parse if last parse was longer than .5 seconds ago
 	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
 	if (now - self.lastParseTime > .5) {
 		self.lastParseTime = now;
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if (!self.isParsing) {
 				self.isParsing = YES;
-				NSLog(@"calling parse");
 				[self.syntaxParser parse];
 				[self adjustLineNumbers];
 				self.isParsing = NO;

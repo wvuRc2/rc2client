@@ -113,8 +113,7 @@
 
 -(void)refreshMessages
 {
-	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
-	self.messages = [moc fetchObjectsForEntityName:@"RCMessage" withPredicate:nil sortDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"dateSent" ascending:NO])];
+	self.messages = [RCMessage MR_findAllSortedBy:@"dateSent" ascending:NO];
 	[self.tableView reloadData];
 }
 

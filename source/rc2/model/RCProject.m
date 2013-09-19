@@ -91,7 +91,7 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 
 -(void)removeFile:(RCFile*)aFile
 {
-	[aFile.managedObjectContext deleteObject:aFile];
+	[aFile MR_deleteEntity];
 	NSInteger idx = [_files indexOfObject:aFile];
 	if (idx != NSNotFound)
 		self.files = [_files arrayByRemovingObjectAtIndex:idx];

@@ -257,10 +257,9 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 
 -(id)savedSessionState
 {
-	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:self.workspace];
 	if (nil == savedState) {
-		savedState = [RCSavedSession insertInManagedObjectContext:moc];
+		savedState = [RCSavedSession MR_createEntity];
 		savedState.login = [Rc2Server sharedInstance].currentLogin;
 		savedState.wspaceId = self.workspace.wspaceId;
 	}

@@ -10,6 +10,7 @@
 #import "iSettingsController.h"
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
+#import "RCMessage.h"
 
 @interface AbstractTopViewController ()
 @property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
@@ -140,8 +141,7 @@
 -(void)messagesUpdated:(NSNotification*)note
 {
 	UIButton *theButton = (UIButton*)self.messagesButton.customView;
-	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
-	NSInteger count = [moc countForEntityName:@"RCMessage" withPredicate:@"dateRead = nil"];
+	NSUInteger count = [RCMessage MR_countOfEntities];
 	if (count < 1) {
 		[theButton setImage:[UIImage imageNamed:@"message-tbar"] forState:UIControlStateNormal];
 		[theButton setImage:[UIImage imageNamed:@"message-tbar-down"] forState:UIControlStateHighlighted];

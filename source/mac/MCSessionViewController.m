@@ -673,7 +673,7 @@
 	[savedState setBoolProperty:self.session.showResultDetails forKey:@"showDetailResults"];
 	[savedState setProperty:@(self.selectedLeftViewIndex) forKey:@"selLeftViewIdx"];
 	[self.sessionView saveSessionState:savedState];
-	[savedState.managedObjectContext save:nil];
+	[savedState.managedObjectContext MR_saveToPersistentStoreAndWait];
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
@@ -742,8 +742,7 @@
 
 -(void)handleNewFile:(NSString*)fileName
 {
-	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
-	RCFile *file = [RCFile insertInManagedObjectContext:moc];
+	RCFile *file = [RCFile MR_createEntity];
 	RCWorkspace *wspace = self.session.workspace;
 	file.name = fileName;
 	file.localEdits = @" ";

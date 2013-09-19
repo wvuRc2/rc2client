@@ -25,13 +25,11 @@
 {
 	if (nil == inArray || [[NSNull null] isEqual:inArray])
 		return [NSArray array];
-	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
 	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
 	for (NSDictionary *dict in inArray) {
-		RCFile *file = [[moc fetchObjectsForEntityName:@"RCFile" withPredicate:@"fileId = %@",
-						[dict objectForKey:@"id"]] anyObject];
+		RCFile *file = [RCFile MR_findFirstByAttribute:@"fileId" withValue:[dict objectForKey:@"id"]];
 		if (nil == file) {
-			file = [RCFile insertInManagedObjectContext:moc];
+			file = [RCFile MR_createEntity];
 		}
 		file.container = container;
 		[file updateWithDictionary:dict];

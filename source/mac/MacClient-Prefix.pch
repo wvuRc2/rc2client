@@ -13,6 +13,7 @@
 	#import <AudioToolbox/AudioToolbox.h>
 	#import "JSON.h"
 	#import "MAKVONotificationCenter.h"
+	#import "CoreData+MagicalRecord.h"
 #endif
 
 #define TheApp NSApp
@@ -26,3 +27,9 @@
 #define Rc2LogWarn(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_WARN,    RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)
 #define Rc2LogInfo(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_INFO,    RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)
 #define Rc2LogVerbose(frmt, ...)  ASYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_VERBOSE, RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)
+
+//MagicalRecord expects logging to be compiled in app, not vyana. this fixes that problem.
+#if MR_ENABLE_ACTIVE_RECORD_LOGGING != 0
+#undef MRLog
+#define MRLog(...)  Rc2LogVerbose(__VA_ARGS__)
+#endif

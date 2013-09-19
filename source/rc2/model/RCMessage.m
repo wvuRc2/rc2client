@@ -5,13 +5,11 @@
 //parses an array of dictionaries sent from the server and updates stored messages
 +(void)syncFromJsonArray:(NSArray*)inArray
 {
-	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
-	NSMutableSet *unTouched = [[moc fetchObjectsForEntityName:@"RCMessage" withPredicate:nil] mutableCopy];
+	NSMutableSet *unTouched = [NSMutableSet setWithArray:[RCMessage MR_findAll]];
 	for (NSDictionary *dict in inArray) {
-		RCMessage *msg = [[moc fetchObjectsForEntityName:@"RCMessage" withPredicate:@"rcptmsgId = %@",
-						 [dict objectForKey:@"rcptmsgId"]] anyObject];
+		RCMessage *msg = [RCMessage MR_findFirstByAttribute:@"rcptmsgId" withValue:[dict objectForKey:@"rcptmsgId"]];
 		if (nil == msg) {
-			msg = [RCMessage insertInManagedObjectContext:moc];
+			msg = [RCMessage MR_createEntity];
 			[msg updateValuesFromDictionary:dict];
 		} else { //if ([msg.version integerValue] != [[dict objectForKey:@"version"] integerValue]) {
 			[msg updateValuesFromDictionary:dict];
@@ -20,8 +18,7 @@
 	}
 	//any messages in unTouched have been deleted
 	for (RCMessage *oldMsg in unTouched)
-		[moc deleteObject:oldMsg];
-	[moc save:nil];
+		[oldMsg MR_deleteEntity];
 }
 
 -(NSDate*)marksCheapAssDateParserCauseCocoaSux:(NSString*)str

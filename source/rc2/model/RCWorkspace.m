@@ -49,11 +49,9 @@
 -(RCWorkspaceCache*)cache
 {
 	if (nil == self.myCache) {
-		NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
-		RCWorkspaceCache *cache = [[moc fetchObjectsForEntityName:@"WorkspaceCache" 
-													withPredicate:@"wspaceId = %@", self.wspaceId] anyObject];
+		RCWorkspaceCache *cache = [RCWorkspaceCache MR_findFirstByAttribute:@"wspaceId" withValue:self.wspaceId];
 		if (nil == cache) {
-			cache = [RCWorkspaceCache insertInManagedObjectContext:moc];
+			cache = [RCWorkspaceCache MR_createEntity];
 			cache.wspaceId = self.wspaceId;
 		}
 		self.myCache = cache;

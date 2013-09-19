@@ -82,14 +82,14 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	};
 	[self setupNavBarButtons];
 	
+	[MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"Rc2.sqlite"];
+	[MagicalRecord setShouldDeleteStoreOnModelMismatch:YES];
+	
 	ProjectViewController *pvc = [[ProjectViewController alloc] init];
 	UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:pvc];
 	self.window.rootViewController = navc;
 	navc.delegate = self;
 	self.rootNavController = navc;
-//	self.rootController = [[RootViewController alloc] init];
-//	self.window.rootViewController = self.rootController;
-//	[self.window addSubview:self.rootController.view];
 	self.window.tintColor = [UIColor colorWithHexString:@"003366"];
 	[self.window makeKeyAndVisible];
 
@@ -194,11 +194,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-	/*
-	 Called when the application is about to terminate.
-	 Save data if appropriate.
-	 See also applicationDidEnterBackground:.
-	 */
+	[MagicalRecord cleanUp];
 }
 
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -544,13 +540,9 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 //this is called even when swithing to background or will terminate is about to happen.
 -(void)eventLoopComplete:(UIEvent*)event
 {
-	NSManagedObjectContext *moc = self.managedObjectContext;
+	NSManagedObjectContext *moc = [NSManagedObjectContext MR_defaultContext];
 	if (moc.hasChanges) {
-		//save any changes
-		NSError *err=nil;
-		if (![moc save:&err]) {
-			Rc2LogError(@"failed to save moc changes: %@", err);
-		}
+		[moc MR_saveToPersistentStoreAndWait];
 	}
 }
 
@@ -590,73 +582,6 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	return [NSURL fileURLWithPath:path];
 }
 
-
--(NSManagedObjectContext *)managedObjectContext
-{
-	NSManagedObjectContext *moc = [[[NSThread currentThread] threadDictionary] objectForKey:@"appMoc"];
-	if (moc)
-		return moc;
-	//now we need to create a moc. this will require differences based on what thread we are on
-	moc = [[NSManagedObjectContext alloc] init];
-	[moc setPersistentStoreCoordinator: self.persistentStoreCoordinator];
-	[[[NSThread	currentThread] threadDictionary] setObject:moc forKey:@"appMoc"];
-	return moc;
-}
-
--(NSManagedObjectModel *)managedObjectModel
-{
-	if (__mom)
-		return __mom;
-	NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Rc2" withExtension:@"momd"];
-	__mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
-	return __mom;
-}
-
--(NSPersistentStoreCoordinator *)persistentStoreCoordinator
-{
-	NSPersistentStoreCoordinator *psc = self.myPsc;
-	@synchronized(self) {
-		if (psc)
-			return psc;
-		
-		NSURL *storeURL = [[self applicationDocumentsDirectory] 
-						   URLByAppendingPathComponent:@"Rc2.sqlite"];
-		
-		NSDictionary *options = [NSDictionary dictionaryWithObject:@YES forKey:NSMigratePersistentStoresAutomaticallyOption];
-		NSError *error = nil;
-	LOADFILE:
-		psc = [[NSPersistentStoreCoordinator alloc] 
-										initWithManagedObjectModel:[self managedObjectModel]];
-		if (![psc addPersistentStoreWithType:NSSQLiteStoreType 
-														configuration:nil URL:storeURL options:options error:&error])
-		{
-			if (([error code] >= NSPersistentStoreIncompatibleVersionHashError) &&
-				([error code] <= NSEntityMigrationPolicyError))
-			{
-				//migration failed. we'll just nuke the store and try again
-				[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
-				goto LOADFILE;
-			}
-
-			/*
-			 Replace this implementation with code to handle the error appropriately.
-			 
-			 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-			 
-			 Typical reasons for an error here include:
-			 * The persistent store is not accessible;
-			 Check the error message to determine what the actual problem was.
-			 
-			 
-			 If the persistent store is not accessible, there is typically something wrong with the file path. Often, a file URL is pointing into the application's resources directory instead of a writeable directory.
-			 */
-			Rc2LogError(@"Unresolved error %@, %@", error, [error userInfo]);
-			abort();
-		}
-		self.myPsc = psc;
-	}
-	return psc;
-}
 
 @end
 

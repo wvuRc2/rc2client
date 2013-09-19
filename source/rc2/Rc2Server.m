@@ -20,6 +20,7 @@
 #endif
 #import "RCMessage.h"
 #import "RCProject.h"
+#import "RCSavedSession.h"
 #import "Rc2FileType.h"
 #import "AFJSONRequestOperation.h"
 
@@ -320,11 +321,8 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace
 {
-	NSManagedObjectContext *moc = [TheApp valueForKeyPath:@"delegate.managedObjectContext"];
-	NSArray *allSaved = [moc fetchObjectsArrayForEntityName:@"RCSavedSession" 
-											  withPredicate:@"wspaceId = %@ and login like %@",
-												 workspace.wspaceId, self.currentLogin];
-	return [allSaved firstObject];
+	return [RCSavedSession MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"wspaceId = %@ and login like %@",
+													  workspace.wspaceId, self.currentLogin]];
 }
 
 -(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId
@@ -417,7 +415,7 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
 		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
 			NSDictionary *fdata = [[rsp objectForKey:@"files"] firstObject];
-			RCFile *theFile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+			RCFile *theFile = [RCFile MR_createEntity];
 			[theFile updateWithDictionary:fdata];
 			[container addFile:theFile];
 			hblock(YES, theFile);
@@ -448,7 +446,7 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
 		NSArray *fileArray = [rsp objectForKey:@"files"];
 		for (NSDictionary *fdata in fileArray) {
-			RCFile *theFile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+			RCFile *theFile = [RCFile MR_createEntity];
 			[theFile updateWithDictionary:fdata];
 			[container addFile:theFile];
 			[outFiles addObject:theFile];
@@ -529,7 +527,7 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 				hblock(YES, file);
 			} else {
 				NSDictionary *fdata = [[rsp objectForKey:@"files"] firstObject];
-				RCFile *rcfile = [RCFile insertInManagedObjectContext:[TheApp valueForKeyPath:@"delegate.managedObjectContext"]];
+				RCFile *rcfile = [RCFile MR_createEntity];
 				[rcfile updateWithDictionary:fdata];
 				[rcfile setValue:container forKey:@"container"];
 				[container addFile:rcfile];

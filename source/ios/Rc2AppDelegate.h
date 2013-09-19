@@ -17,9 +17,6 @@
 @property (nonatomic, strong) IBOutlet UIWindow *window;
 @property (nonatomic, strong) SessionViewController *sessionController;
 @property (nonatomic, copy) BasicBlock dropboxCompletionBlock;
-@property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
-@property (nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 //these should only be accessed by top level controller classes like AbstractTopViewController
 @property (nonatomic, copy, readonly) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readonly) NSArray *standardRightNavBarItems;
