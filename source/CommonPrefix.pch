@@ -1,35 +1,48 @@
-//
-// Prefix header for all source files of the 'rc2-iPad' target in the 'rc2-iPad' project
-//
 
 #import <Availability.h>
+#import <TargetConditionals.h>
 
-#ifndef __IPHONE_3_0
-#warning "This project uses features only available in iPhone SDK 3.0 and later."
-#endif
-
+#define MR_ENABLE_ACTIVE_RECORD_LOGGING 0
 #ifdef __OBJC__
+
+#if TARGET_OS_IPHONE
 	#import <UIKit/UIKit.h>
 	#import <Foundation/Foundation.h>
 	#import <CoreData/CoreData.h>
 	#import <QuartzCore/QuartzCore.h>
 	#import <MessageUI/MessageUI.h>
-	#import <AudioToolbox/AudioToolbox.h>
-	#import <SystemConfiguration/SystemConfiguration.h>
 	#import <MobileCoreServices/MobileCoreServices.h>
-	#import "Vyana-ios/Vyana-ios.h"
-	#import "Vyana-ios/MAZeroingWeakRef.h"
 	#import <DropboxSDK/DropboxSDK.h>
 	#import <DropboxSDK/NSString+DBJSON.h>
 	#import <DropboxSDK/NSObject+DBJSON.h>
+	#import "Vyana-ios/Vyana-ios.h"
+	#import "Vyana-ios/MAZeroingWeakRef.h"
 	#import "Vyana-ios/VyanaLog.h"
-	#import "MAKVONotificationCenter.h"
-	#import "CoreData+MagicalRecord.h"
+#elif TARGET_OS_MAC
+	#import <Cocoa/Cocoa.h>
+	#import <Vyana/Vyana.h>
+	#import <Vyana/AMBlockUtils.h>
+	#import <Vyana/VyanaLog.h>
+	#import <WebKit/WebKit.h>
+	#import <CoreServices/CoreServices.h>
+	#import "JSON.h"
 #endif
 
-#define ColorClass UIColor
+//common includes
+#import <AudioToolbox/AudioToolbox.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+#import "MAKVONotificationCenter.h"
+#import "CoreData+MagicalRecord.h"
 
-#define TheApp [UIApplication sharedApplication]
+#endif
+
+#if TARGET_OS_IPHONE
+	#define ColorClass UIColor
+	#define TheApp [UIApplication sharedApplication]
+#elif TARGET_OS_MAC
+	#define ColorClass NSColor
+	#define TheApp NSApp
+#endif
 
 #define RC2_LOG_CONTEXT 0x32635200
 #define Rc2LogLevel [[VyanaLogger sharedInstance] logLevelForKey:@"rc2"]
@@ -40,7 +53,7 @@
 #define Rc2LogVerbose(frmt, ...)  ASYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_VERBOSE, RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)
 
 //MagicalRecord expects logging to be compiled in app, not vyana. this fixes that problem.
-#if MR_ENABLE_ACTIVE_RECORD_LOGGING != 0
+#ifdef DEBUG
 #undef MRLog
 #define MRLog(...)  Rc2LogVerbose(__VA_ARGS__)
 #endif

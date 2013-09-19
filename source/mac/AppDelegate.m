@@ -40,16 +40,12 @@
 @property (nonatomic, readwrite) BOOL isFullScreen;
 @property (nonatomic, retain) BBEditApplication *bbedit;
 -(void)handleSucessfulLogin;
--(NSManagedObjectContext*)managedObjectContext:(BOOL)create;
 -(void)autoSaveChanges;
 -(void)presentLoginPanel;
 -(void)windowWillClose:(NSNotification*)note;
 @end
 
 @implementation AppDelegate
-
-@synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
-@synthesize managedObjectModel = __managedObjectModel;
 
 -(void)showMainApplicationWindow
 {
@@ -74,6 +70,9 @@
 	[[BITHockeyManager sharedHockeyManager] startManager];
 #endif
 
+	[MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"Rc2.sqlite"];
+	[MagicalRecord setShouldDeleteStoreOnModelMismatch:YES];
+	
 	DBSession *session = [[DBSession alloc] initWithAppKey:@"663yb1illxbs5rl"
 												 appSecret:@"on576o50uxrjxhj"
 													  root:kDBRootDropbox];
@@ -132,6 +131,19 @@
 -(BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
 {
 	return NO;
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+	if (self.isFullScreen)
+		[defs setBool:YES forKey:kPref_StartInFullScreen];
+	else
+		[defs removeObjectForKey:kPref_StartInFullScreen];
+	[defs synchronize];
+	[self.mainWindowController close];
+	[MagicalRecord cleanUp];
+	return NSTerminateNow;
 }
 
 -(BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -260,12 +272,9 @@
 		Rc2LogError(@"autoSaveChanges called from background thread");
 		return;
 	}
-	NSManagedObjectContext *moc = [self managedObjectContext:NO];
+	NSManagedObjectContext *moc = [NSManagedObjectContext MR_defaultContext];
 	if (moc.hasChanges) {
-		NSError *err=nil;
-		if (![moc save:&err]) {
-			Rc2LogError(@"failed to save moc changes: %@", err);
-		}
+		[moc MR_saveToPersistentStoreAndWait];
 	}
 }
 
@@ -300,187 +309,9 @@
 	return [[NSUserDefaults standardUserDefaults] objectForKey:kPref_LastLoginString];
 }
 
-#pragma mark - core data
-
-/**
-	Returns the directory the application uses to store the Core Data store file. This code uses a directory named "Rc²" in the user's Library directory.
- */
-- (NSURL *)applicationFilesDirectory
-{
-	return [NSURL fileURLWithPath:[NSApp thisApplicationsSupportFolder]];
-}
-
--(NSManagedObjectModel *)managedObjectModel
-{
-	if (__managedObjectModel)
-		return __managedObjectModel;
-	
-	NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Rc2" withExtension:@"momd"];
-	__managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
-	return __managedObjectModel;
-}
-
-/**
-	Returns the persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. (The directory for the store is created, if necessary.)
- */
--(NSPersistentStoreCoordinator *)persistentStoreCoordinator
-{
-	if (__persistentStoreCoordinator)
-		return __persistentStoreCoordinator;
-
-	NSManagedObjectModel *mom = [self managedObjectModel];
-	if (!mom) {
-		Rc2LogError(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
-		return nil;
-	}
-
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSURL *applicationFilesDirectory = [self applicationFilesDirectory];
-	NSError *error = nil;
-	
-	NSDictionary *properties = [applicationFilesDirectory resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:&error];
-		
-	if (!properties) {
-		BOOL ok = NO;
-		if ([error code] == NSFileReadNoSuchFileError) {
-			ok = [fileManager createDirectoryAtPath:[applicationFilesDirectory path] withIntermediateDirectories:YES attributes:nil error:&error];
-		}
-		if (!ok) {
-			[[NSApplication sharedApplication] presentError:error];
-			return nil;
-		}
-	}
-	else {
-		if ([[properties objectForKey:NSURLIsDirectoryKey] boolValue] != YES) {
-			// Customize and localize this error.
-			NSString *failureDescription = [NSString stringWithFormat:@"Expected a folder to store application data, found a file (%@).", [applicationFilesDirectory path]]; 
-			
-			NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-			[dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-			error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:101 userInfo:dict];
-			
-			[[NSApplication sharedApplication] presentError:error];
-			return nil;
-		}
-	}
-	
-	NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"Rc².storedata"];
-	NSDictionary *options = [NSDictionary dictionaryWithObject:@YES
-														forKey:NSMigratePersistentStoresAutomaticallyOption];
-	NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-LOADFILE:
-	if (![coordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:options error:&error])
-	{
-		if (([error code] >= NSPersistentStoreIncompatibleVersionHashError) &&
-			([error code] <= NSEntityMigrationPolicyError))
-		{
-			//migration failed. we'll just nuke the store and try again
-			[[NSFileManager defaultManager] removeItemAtURL:url error:nil];
-			goto LOADFILE;
-		}
-		[[NSApplication sharedApplication] presentError:error];
-		return nil;
-	}
-	__persistentStoreCoordinator = coordinator;
-
-	return __persistentStoreCoordinator;
-}
-
-/**
-	Returns the managed object context for the application (which is already
-	bound to the persistent store coordinator for the application.) 
- */
--(NSManagedObjectContext *)managedObjectContext
-{
-	return [self managedObjectContext:YES];
-}
--(NSManagedObjectContext*)managedObjectContext:(BOOL)create
-{
-	NSManagedObjectContext *moc = [[[NSThread currentThread] threadDictionary] objectForKey:@"appMoc"];
-	if (moc || !create)
-		return moc;
-	//now we need to create a moc. this will require differences based on what thread we are on
-	moc = [[NSManagedObjectContext alloc] init];
-	[moc setPersistentStoreCoordinator: self.persistentStoreCoordinator];
-	[[[NSThread	currentThread] threadDictionary] setObject:moc forKey:@"appMoc"];
-	__haveMoc=YES;
-	return moc;
-}
-
-/**
-	Returns the NSUndoManager for the application. In this case, the manager returned is that of the managed object context for the application.
- */
 -(NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window
 {
-	return [[self managedObjectContext] undoManager];
-}
-
-/**
-	Performs the save action for the application, which is to send the save: message to the application's managed object context. Any encountered errors are presented to the user.
- */
-- (IBAction)saveAction:(id)sender {
-	NSError *error = nil;
-	
-	if (![[self managedObjectContext] commitEditing]) {
-		Rc2LogWarn(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
-	}
-
-	if (![[self managedObjectContext] save:&error]) {
-		[[NSApplication sharedApplication] presentError:error];
-	}
-}
-
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
-{
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	if (self.isFullScreen)
-		[defs setBool:YES forKey:kPref_StartInFullScreen];
-	else
-		[defs removeObjectForKey:kPref_StartInFullScreen];
-	[defs synchronize];
-	[self.mainWindowController close];
-	
-	// Save changes in the application's managed object context before the application terminates.
-	if (!__haveMoc) {
-		return NSTerminateNow;
-	}
-
-	if (![[self managedObjectContext] commitEditing]) {
-		Rc2LogWarn(@"%@:%@ unable to commit editing to terminate", [self class], NSStringFromSelector(_cmd));
-		return NSTerminateCancel;
-	}
-
-	if (![[self managedObjectContext] hasChanges]) {
-		return NSTerminateNow;
-	}
-
-	NSError *error = nil;
-	if (![[self managedObjectContext] save:&error]) {
-
-		// Customize this code block to include application-specific recovery steps.              
-		BOOL result = [sender presentError:error];
-		if (result) {
-			return NSTerminateCancel;
-		}
-
-		NSString *question = NSLocalizedString(@"Could not save changes while quitting. Quit anyway?", @"Quit without saves error question message");
-		NSString *info = NSLocalizedString(@"Quitting now will lose any changes you have made since the last successful save", @"Quit without saves error question info");
-		NSString *quitButton = NSLocalizedString(@"Quit anyway", @"Quit anyway button title");
-		NSString *cancelButton = NSLocalizedString(@"Cancel", @"Cancel button title");
-		NSAlert *alert = [[NSAlert alloc] init];
-		[alert setMessageText:question];
-		[alert setInformativeText:info];
-		[alert addButtonWithTitle:quitButton];
-		[alert addButtonWithTitle:cancelButton];
-
-		NSInteger answer = [alert runModal];
-		
-		if (answer == NSAlertAlternateReturn) {
-			return NSTerminateCancel;
-		}
-	}
-
-	return NSTerminateNow;
+	return [[NSManagedObjectContext MR_defaultContext] undoManager];
 }
 
 @end

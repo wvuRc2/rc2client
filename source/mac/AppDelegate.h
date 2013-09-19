@@ -16,9 +16,6 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) MCMainWindowController *mainWindowController;
 @property (nonatomic, readonly) BOOL loggedIn;
 @property (nonatomic, readonly) BOOL isFullScreen;
@@ -29,6 +26,5 @@
 
 -(IBAction)doLogOut:(id)sender;
 
-- (IBAction)saveAction:(id)sender;
 -(void)displayTextInExternalEditor:(NSString*)text;
 @end
