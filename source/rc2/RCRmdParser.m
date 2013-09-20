@@ -101,15 +101,6 @@
 	 {
 		 [self.textStorage addAttribute:NSBackgroundColorAttributeName value:color range:results.range];
 		 [self.codeHighlighter highlightText:self.textStorage range:[results rangeAtIndex:1]];
-/*		 NSMutableAttributedString *chunkBlock = [[astr attributedSubstringFromRange:results.range] mutableCopy];
-		 NSAttributedString *rcode = [astr attributedSubstringFromRange:[results rangeAtIndex:1]];
-		 rcode = [self syntaxHighlightRCode:rcode];
-		 NSInteger codeOffset = [results rangeAtIndex:1].location - results.range.location;
-		 NSRange codeRange = NSMakeRange(codeOffset, [results rangeAtIndex:1].length);
-		 [chunkBlock replaceCharactersInRange:codeRange withAttributedString:rcode];
-		 NSString *key = [NSString stringWithFormat:@"~`%d`~", nextChunkIndex++];
-		 [chunks setObject:chunkBlock forKey:key];
-		 [chunkRanges setObject:[NSValue valueWithRange:results.range] forKey:key]; */
 	 }];
 	
 	//display equation blocks
@@ -119,15 +110,6 @@
 	 {
 		 [self.textStorage addAttribute:NSBackgroundColorAttributeName value:color range:results.range];
 		 [self.latexHighlighter highlightText:self.textStorage range:[results rangeAtIndex:1]];
-/*		 NSMutableAttributedString *chunkBlock = [[astr attributedSubstringFromRange:results.range] mutableCopy];
-		 NSMutableAttributedString *tekCode = [[astr attributedSubstringFromRange:[results rangeAtIndex:1]] mutableCopy];
-		 [self highlightLatex:tekCode];
-		 NSInteger codeOffset = [results rangeAtIndex:1].location - results.range.location;
-		 NSRange codeRange = NSMakeRange(codeOffset, [results rangeAtIndex:1].length);
-		 [chunkBlock replaceCharactersInRange:codeRange withAttributedString:tekCode];
-		 NSString *key = [NSString stringWithFormat:@"~`%d`~", nextChunkIndex++];
-		 [chunks setObject:chunkBlock forKey:key];
-		 [chunkRanges setObject:[NSValue valueWithRange:results.range] forKey:key]; */
 	 }];
 	[self.jaxEquationRegex enumerateMatchesInString:str options:0 range:NSMakeRange(0, str.length)
 										 usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)

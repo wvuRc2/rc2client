@@ -17,9 +17,9 @@
 	<key>SyntaxColor_CodeBackground</key>
 	<string>eeeeee</string>
 	<key>SyntaxColor_InlineBackground</key>
-	<string>eeeeee</string>
+	<string>eef4cd</string>
 	<key>SyntaxColor_EquationBackground</key>
-	<string>eeeeee</string>
+	<string>f3e4bc</string>
 	<key>EditorFontColor</key>
 	<string>000000</string>
 	<key>EditorBGColor</key>
