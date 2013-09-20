@@ -103,7 +103,7 @@
 		0845941F15B5F22700297C9D /* baccord-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940D15B5F22700297C9D /* baccord-left.png */; };
 		0845942015B5F22700297C9D /* baccord-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940E15B5F22700297C9D /* baccord-right.png */; };
 		0845942115B5F22700297C9D /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940F15B5F22700297C9D /* clear.png */; };
-		0845942215B5F22700297C9D /* DefaultDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0845941015B5F22700297C9D /* DefaultDefaults.plist */; };
+		0845942215B5F22700297C9D /* MacDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0845941015B5F22700297C9D /* MacDefaults.plist */; };
 		0845942315B5F22700297C9D /* history.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941115B5F22700297C9D /* history.png */; };
 		0845942515B5F22700297C9D /* openother.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941315B5F22700297C9D /* openother.png */; };
 		0845942615B5F22700297C9D /* Rdoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0845941415B5F22700297C9D /* Rdoc.icns */; };
@@ -272,6 +272,8 @@
 		08BDDDBB17EA48AB00E669E3 /* MagicalRecord+ShorthandSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD8517EA48AB00E669E3 /* MagicalRecord+ShorthandSupport.m */; };
 		08BDDDBC17EA48AB00E669E3 /* MagicalRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD8717EA48AB00E669E3 /* MagicalRecord.m */; };
 		08BDDDBD17EA48AB00E669E3 /* MagicalRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD8717EA48AB00E669E3 /* MagicalRecord.m */; };
+		08BDDDBF17ECCD7A00E669E3 /* CommonDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08BDDDBE17ECCD7A00E669E3 /* CommonDefaults.plist */; };
+		08BDDDC017ECCD7A00E669E3 /* CommonDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08BDDDBE17ECCD7A00E669E3 /* CommonDefaults.plist */; };
 		08C3A27D1784A0210050BD28 /* KeyboardToolbar.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08C3A27C1784A0210050BD28 /* KeyboardToolbar.plist */; };
 		08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F38E15DEB59C00B0402F /* rc2app.icns */; };
 		08C5F39315DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
@@ -346,7 +348,7 @@
 		08D2442415B5D7B90064A9FA /* Rc2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08D2442115B5D7B90064A9FA /* Rc2.xcdatamodeld */; };
 		08D2442615B5D7DD0064A9FA /* notes.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 08D2442515B5D7DD0064A9FA /* notes.markdown */; };
 		08D2446C15B5D8DE0064A9FA /* themes in Resources */ = {isa = PBXBuildFile; fileRef = 08D2446A15B5D8DE0064A9FA /* themes */; };
-		08D244D915B5D9090064A9FA /* DefaultDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08D244D615B5D9090064A9FA /* DefaultDefaults.plist */; };
+		08D244D915B5D9090064A9FA /* iOSDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08D244D615B5D9090064A9FA /* iOSDefaults.plist */; };
 		08D244DA15B5D9090064A9FA /* Inconsolata.otf in Resources */ = {isa = PBXBuildFile; fileRef = 08D244D715B5D9090064A9FA /* Inconsolata.otf */; };
 		08D244DB15B5D9090064A9FA /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 08D244D815B5D9090064A9FA /* mailsent.caf */; };
 		08D244F015B5D9F60064A9FA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D244E515B5D9F50064A9FA /* AssetsLibrary.framework */; };
@@ -646,7 +648,7 @@
 		0845940D15B5F22700297C9D /* baccord-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "baccord-left.png"; path = "resources/mac/baccord-left.png"; sourceTree = SOURCE_ROOT; };
 		0845940E15B5F22700297C9D /* baccord-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "baccord-right.png"; path = "resources/mac/baccord-right.png"; sourceTree = SOURCE_ROOT; };
 		0845940F15B5F22700297C9D /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clear.png; path = resources/mac/clear.png; sourceTree = SOURCE_ROOT; };
-		0845941015B5F22700297C9D /* DefaultDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultDefaults.plist; path = resources/mac/DefaultDefaults.plist; sourceTree = SOURCE_ROOT; };
+		0845941015B5F22700297C9D /* MacDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = MacDefaults.plist; path = resources/mac/MacDefaults.plist; sourceTree = SOURCE_ROOT; };
 		0845941115B5F22700297C9D /* history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = history.png; path = resources/mac/history.png; sourceTree = SOURCE_ROOT; };
 		0845941215B5F22700297C9D /* MacClient-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "MacClient-Info.plist"; path = "resources/mac/MacClient-Info.plist"; sourceTree = SOURCE_ROOT; };
 		0845941315B5F22700297C9D /* openother.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = openother.png; path = resources/mac/openother.png; sourceTree = SOURCE_ROOT; };
@@ -865,6 +867,7 @@
 		08BDDD8717EA48AB00E669E3 /* MagicalRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MagicalRecord.m; sourceTree = "<group>"; };
 		08BDDD8817EA48AB00E669E3 /* MagicalRecordShorthand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MagicalRecordShorthand.h; sourceTree = "<group>"; };
 		08BDDD8917EA48AB00E669E3 /* CoreData+MagicalRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoreData+MagicalRecord.h"; sourceTree = "<group>"; };
+		08BDDDBE17ECCD7A00E669E3 /* CommonDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = CommonDefaults.plist; path = resources/CommonDefaults.plist; sourceTree = "<group>"; };
 		08C3A27C1784A0210050BD28 /* KeyboardToolbar.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KeyboardToolbar.plist; sourceTree = "<group>"; };
 		08C5F38E15DEB59C00B0402F /* rc2app.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = rc2app.icns; path = resources/mac/rc2app.icns; sourceTree = SOURCE_ROOT; };
 		08C5F39215DEC50A00B0402F /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console/console; sourceTree = "<group>"; };
@@ -879,7 +882,7 @@
 		08D2432715B5D04D0064A9FA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		08D2435115B5D23E0064A9FA /* ipad-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ipad-Info.plist"; sourceTree = "<group>"; };
 		08D2435315B5D2940064A9FA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		08D2435615B5D4130064A9FA /* AppConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConstants.h; sourceTree = "<group>"; };
+		08D2435615B5D4130064A9FA /* AppConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppConstants.h; path = source/ios/AppConstants.h; sourceTree = "<group>"; };
 		08D2435715B5D4130064A9FA /* Rc2AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rc2AppDelegate.h; sourceTree = "<group>"; };
 		08D2435815B5D4130064A9FA /* Rc2AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Rc2AppDelegate.m; sourceTree = "<group>"; };
 		08D2435B15B5D42E0064A9FA /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
@@ -977,7 +980,7 @@
 		08D2442315B5D7B90064A9FA /* v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = v2.xcdatamodel; sourceTree = "<group>"; };
 		08D2442515B5D7DD0064A9FA /* notes.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notes.markdown; sourceTree = "<group>"; };
 		08D2446A15B5D8DE0064A9FA /* themes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = themes; path = resources/themes; sourceTree = "<group>"; };
-		08D244D615B5D9090064A9FA /* DefaultDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultDefaults.plist; sourceTree = "<group>"; };
+		08D244D615B5D9090064A9FA /* iOSDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = iOSDefaults.plist; sourceTree = "<group>"; };
 		08D244D715B5D9090064A9FA /* Inconsolata.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Inconsolata.otf; sourceTree = "<group>"; };
 		08D244D815B5D9090064A9FA /* mailsent.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mailsent.caf; sourceTree = "<group>"; };
 		08D244E015B5D9500064A9FA /* CommonPrefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CommonPrefix.pch; path = source/CommonPrefix.pch; sourceTree = "<group>"; };
@@ -1341,7 +1344,7 @@
 		0845940715B5F20700297C9D /* mac resources */ = {
 			isa = PBXGroup;
 			children = (
-				0845941015B5F22700297C9D /* DefaultDefaults.plist */,
+				0845941015B5F22700297C9D /* MacDefaults.plist */,
 				0845941215B5F22700297C9D /* MacClient-Info.plist */,
 				0845940215B5F20100297C9D /* MainMenu.xib */,
 				0845940015B5F20100297C9D /* InfoPlist.strings */,
@@ -1669,6 +1672,7 @@
 				08137A2F17C8024C005EA804 /* SharedImages.xcassets */,
 				08D2442515B5D7DD0064A9FA /* notes.markdown */,
 				08D244E015B5D9500064A9FA /* CommonPrefix.pch */,
+				08D2435615B5D4130064A9FA /* AppConstants.h */,
 				08D2435515B5D3F00064A9FA /* ios */,
 				08D2462415B5EBC20064A9FA /* mac */,
 				08D244E415B5D98A0064A9FA /* shared */,
@@ -1728,7 +1732,6 @@
 			isa = PBXGroup;
 			children = (
 				08137A3217C804DA005EA804 /* iOSIcons.xcassets */,
-				08D2435615B5D4130064A9FA /* AppConstants.h */,
 				08D2435715B5D4130064A9FA /* Rc2AppDelegate.h */,
 				08D2435815B5D4130064A9FA /* Rc2AppDelegate.m */,
 				08B74C71163B2E7D00083F9A /* MainWindow.xib */,
@@ -1921,7 +1924,7 @@
 			children = (
 				087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */,
 				08B74C77163B31F000083F9A /* images */,
-				08D244D615B5D9090064A9FA /* DefaultDefaults.plist */,
+				08D244D615B5D9090064A9FA /* iOSDefaults.plist */,
 				08C3A27C1784A0210050BD28 /* KeyboardToolbar.plist */,
 				08D244D715B5D9090064A9FA /* Inconsolata.otf */,
 				08D244D815B5D9090064A9FA /* mailsent.caf */,
@@ -1936,6 +1939,7 @@
 			isa = PBXGroup;
 			children = (
 				08B74CF71648615800083F9A /* Localizable.strings */,
+				08BDDDBE17ECCD7A00E669E3 /* CommonDefaults.plist */,
 				08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */,
 				08D2446A15B5D8DE0064A9FA /* themes */,
 				08C5F39215DEC50A00B0402F /* console */,
@@ -2433,7 +2437,7 @@
 				08D2442015B5D78A0064A9FA /* blackArrow@2x.png in Resources */,
 				08D2442615B5D7DD0064A9FA /* notes.markdown in Resources */,
 				08D2446C15B5D8DE0064A9FA /* themes in Resources */,
-				08D244D915B5D9090064A9FA /* DefaultDefaults.plist in Resources */,
+				08D244D915B5D9090064A9FA /* iOSDefaults.plist in Resources */,
 				08D244DA15B5D9090064A9FA /* Inconsolata.otf in Resources */,
 				08D244DB15B5D9090064A9FA /* mailsent.caf in Resources */,
 				08137A3017C8024C005EA804 /* SharedImages.xcassets in Resources */,
@@ -2457,6 +2461,7 @@
 				08B74CD5163B31F000083F9A /* message-tbar.png in Resources */,
 				08B74CD6163B31F000083F9A /* messageCellBG.png in Resources */,
 				08B74CD7163B31F000083F9A /* messageCellBGBottom.png in Resources */,
+				08BDDDBF17ECCD7A00E669E3 /* CommonDefaults.plist in Resources */,
 				08B74CD8163B31F000083F9A /* messageCellBGTop.png in Resources */,
 				08B74CDB163B31F000083F9A /* RDoc.png in Resources */,
 				08B74CDD163B31F000083F9A /* RnWDoc.png in Resources */,
@@ -2501,10 +2506,11 @@
 				0845941C15B5F22700297C9D /* accord-right.png in Resources */,
 				0845941D15B5F22700297C9D /* accord-rightExpanded.png in Resources */,
 				0845941E15B5F22700297C9D /* baccord-center.png in Resources */,
+				08BDDDC017ECCD7A00E669E3 /* CommonDefaults.plist in Resources */,
 				0845941F15B5F22700297C9D /* baccord-left.png in Resources */,
 				0845942015B5F22700297C9D /* baccord-right.png in Resources */,
 				0845942115B5F22700297C9D /* clear.png in Resources */,
-				0845942215B5F22700297C9D /* DefaultDefaults.plist in Resources */,
+				0845942215B5F22700297C9D /* MacDefaults.plist in Resources */,
 				0845942315B5F22700297C9D /* history.png in Resources */,
 				0845942515B5F22700297C9D /* openother.png in Resources */,
 				0845942615B5F22700297C9D /* Rdoc.icns in Resources */,

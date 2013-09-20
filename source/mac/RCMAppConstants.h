@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "AppConstants.h"
 
 //tooolbar items
 extern NSString * const RCMToolbarItem_Files;
@@ -20,14 +21,9 @@ extern NSString * const RCMToolbarItem_Users;
 #define kPref_SupressClearWorkspaceWarning @"SupressClearWorkspaceWarning"
 #define kPref_CommandHistoryMaxLen @"CommandHistoryMaxLen"
 #define kPref_NumImagesVisible @"NumImagesVisible"
-#define kPref_SyntaxColor_Comment @"SyntaxColor_Comment"
-#define kPref_SyntaxColor_Function @"SyntaxColor_Function"
-#define kPref_SyntaxColor_Keyword @"SyntaxColor_Keyword"
 #define kPref_EditorFont @"EditorFont"
 #define kPref_EditorFontDisplayName @"EditorFontDisplayName"
 #define kPref_EditorFontSize @"EditorFontSize"
-#define kPref_EditorFontColor @"EditorFontColor"
-#define kPref_EditorBGColor @"EditorBGColor"
 #define kPref_EditorWordWrap @"EditorWordWrap"
 #define kPref_EditorShowInvisible @"ShowInvisibleChars"
 #define kPref_TreatNewlinesAsSemicolons @"TreatNewlinesAsSemicolons"

@@ -64,7 +64,15 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[[VyanaLogger sharedInstance] startLogging];
 	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-	[(iAMApplication*)application loadDefaultDefaults];
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSURL *url = [[NSBundle mainBundle] URLForResource:@"iOSDefaults" withExtension:@"plist"];
+	NSDictionary *defs = [NSDictionary dictionaryWithContentsOfURL:url];
+	ZAssert(defs, @"failed toload default defaults");
+	url = [[NSBundle mainBundle] URLForResource:@"CommonDefaults" withExtension:@"plist"];
+	NSMutableDictionary *allDefs = [NSMutableDictionary dictionaryWithContentsOfURL:url];
+	ZAssert(allDefs, @"failed to load common defaults");
+	[allDefs addEntriesFromDictionary:defs];
+	[defaults registerDefaults:allDefs];
 	 
 //#ifndef CONFIGURATION_Debug
 	[[BITHockeyManager sharedHockeyManager] configureWithBetaIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" liveIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" delegate:self];

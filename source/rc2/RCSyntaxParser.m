@@ -51,13 +51,15 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 +(NSDictionary*)syntaxColors
 {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSMutableDictionary *colors = [NSMutableDictionary dictionaryWithCapacity:6];
+	NSMutableDictionary *colors = [NSMutableDictionary dictionaryWithCapacity:8];
 	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Comment]] forKey:kPref_SyntaxColor_Comment];
 	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Function]] forKey:kPref_SyntaxColor_Function];
 	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Keyword]] forKey:kPref_SyntaxColor_Keyword];
 	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Quote]] forKey:kPref_SyntaxColor_Quote];
 	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_Symbol]] forKey:kPref_SyntaxColor_Symbol];
 	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_CodeBackground]] forKey:kPref_SyntaxColor_CodeBackground];
+	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_InlineBackground]] forKey:kPref_SyntaxColor_InlineBackground];
+	[colors setObject:[ColorClass colorWithHexString:[defs objectForKey:kPref_SyntaxColor_EquationBackground]] forKey:kPref_SyntaxColor_EquationBackground];
 	return colors;
 }
 

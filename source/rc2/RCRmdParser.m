@@ -10,12 +10,14 @@
 #import "RCChunk.h"
 #import "RCCodeHighlighterR.h"
 #import "RCCodeHighlighterLatex.h"
+#import "AppConstants.h"
 
 @interface RCRmdParser ()
 @property (nonatomic, strong) RCCodeHighlighterLatex *latexHighlighter;
 @property (nonatomic, strong) NSRegularExpression *rmdChunkRegex;
 @property (nonatomic, strong) NSRegularExpression *rmdInlineChunkRegex;
 @property (nonatomic, strong) NSRegularExpression *rmdEquationRegex;
+@property (nonatomic, strong) NSRegularExpression *jaxEquationRegex;
 @property (nonatomic, strong) NSRegularExpression *quoteRegex;
 
 @end
@@ -32,10 +34,15 @@
 			Rc2LogError(@"error compiling rmd chunk regex: %@", err);
 		self.rmdInlineChunkRegex = [NSRegularExpression regularExpressionWithPattern:@"`r\\s+([^`]*)`"
 																			 options:NSRegularExpressionDotMatchesLineSeparators error:&err];
+		if (err)//(?:(?:\$\$?)(?:latex)?(.*?)(\1))|((\\\()(.*?)$1)n      (?:(\$\$?)(?:latex)?(.*?)(\1))
+			Rc2LogError(@"error compiling rmd chunk regex: %@", err);
+		self.rmdEquationRegex = [NSRegularExpression regularExpressionWithPattern:@"(?:(\\$\\$?)(?:latex)?(.*?)(\\1))"
+																		  options:NSRegularExpressionDotMatchesLineSeparators error:&err];
 		if (err)
 			Rc2LogError(@"error compiling rmd chunk regex: %@", err);
-		self.rmdEquationRegex = [NSRegularExpression regularExpressionWithPattern:@"\\$\\$?(.*?)\\$\\$?"
+		self.jaxEquationRegex = [NSRegularExpression regularExpressionWithPattern:@"(?:\\\\\\{\\s+(.*?)\\\\\\})|(\\\\\\(\\s+(.*?)\\\\\\))"
 																		  options:NSRegularExpressionDotMatchesLineSeparators error:&err];
+
 		if (err)
 			Rc2LogError(@"error compiling rmd chunk regex: %@", err);
 		self.codeHighlighter = [[RCCodeHighlighterR alloc] init];
@@ -88,11 +95,11 @@
 	}
 	//	[self adjustParseRanges:chunks fullRange:range];
 	[self colorChunks:chunks];
-
+	ColorClass *color = [self.colorMap objectForKey:kPref_SyntaxColor_InlineBackground];
 	[self.rmdInlineChunkRegex enumerateMatchesInString:str options:0 range:NSMakeRange(0, str.length)
 											usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
 	 {
-		 [self.textStorage addAttribute:NSBackgroundColorAttributeName value:[ColorClass colorWithHexString:@"eef4cd"] range:results.range];
+		 [self.textStorage addAttribute:NSBackgroundColorAttributeName value:color range:results.range];
 		 [self.codeHighlighter highlightText:self.textStorage range:[results rangeAtIndex:1]];
 /*		 NSMutableAttributedString *chunkBlock = [[astr attributedSubstringFromRange:results.range] mutableCopy];
 		 NSAttributedString *rcode = [astr attributedSubstringFromRange:[results rangeAtIndex:1]];
@@ -106,10 +113,11 @@
 	 }];
 	
 	//display equation blocks
+	color = [[self.colorMap objectForKey:kPref_SyntaxColor_EquationBackground] colorWithAlphaComponent:0.4];
 	[self.rmdEquationRegex enumerateMatchesInString:str options:0 range:NSMakeRange(0, str.length)
 										 usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
 	 {
-		 [self.textStorage addAttribute:NSBackgroundColorAttributeName value:[[ColorClass colorWithHexString:@"f3e4bc"] colorWithAlphaComponent:0.4] range:results.range];
+		 [self.textStorage addAttribute:NSBackgroundColorAttributeName value:color range:results.range];
 		 [self.latexHighlighter highlightText:self.textStorage range:[results rangeAtIndex:1]];
 /*		 NSMutableAttributedString *chunkBlock = [[astr attributedSubstringFromRange:results.range] mutableCopy];
 		 NSMutableAttributedString *tekCode = [[astr attributedSubstringFromRange:[results rangeAtIndex:1]] mutableCopy];
@@ -120,6 +128,12 @@
 		 NSString *key = [NSString stringWithFormat:@"~`%d`~", nextChunkIndex++];
 		 [chunks setObject:chunkBlock forKey:key];
 		 [chunkRanges setObject:[NSValue valueWithRange:results.range] forKey:key]; */
+	 }];
+	[self.jaxEquationRegex enumerateMatchesInString:str options:0 range:NSMakeRange(0, str.length)
+										 usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
+	 {
+		 [self.textStorage addAttribute:NSBackgroundColorAttributeName value:color range:results.range];
+		 [self.latexHighlighter highlightText:self.textStorage range:results.range];
 	 }];
 	
 	

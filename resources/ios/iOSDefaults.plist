@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AutoLogin</key>
+	<false/>
+	<key>NumImagesVisible</key>
+	<integer>1</integer>
+	<key>CommandHistoryMaxLen</key>
+	<integer>10</integer>
+	<key>EditorFontSize</key>
+	<integer>13</integer>
+	<key>EditorFontDisplayName</key>
+	<string>Inconsolata</string>
+</dict>
+</plist>

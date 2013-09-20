@@ -6,32 +6,14 @@
 	<true/>
 	<key>AutoLogin</key>
 	<false/>
-	<key>WebKitDeveloperExtras</key>
-	<true/>
 	<key>NumImagesVisible</key>
 	<integer>1</integer>
 	<key>CommandHistoryMaxLen</key>
 	<integer>10</integer>
-	<key>SyntaxColor_Comment</key>
-	<string>1735FF</string>
-	<key>SyntaxColor_Keyword</key>
-	<string>C71267</string>
-	<key>SyntaxColor_Function</key>
-	<string>C78312</string>
-	<key>SyntaxColor_Quote</key>
-	<string>31aa2a</string>
-	<key>SyntaxColor_Symbol</key>
-	<string>c7c431</string>
-	<key>SyntaxColor_CodeBackground</key>
-	<string>eeeeee</string>
 	<key>EditorFont</key>
 	<string>Menlo</string>
 	<key>EditorFontSize</key>
 	<integer>13</integer>
-	<key>EditorFontColor</key>
-	<string>000000</string>
-	<key>EditorBGColor</key>
-	<string>FFFFFF</string>
 	<key>EditorFontDisplayName</key>
 	<string>Menlo</string>
 	<key>EditorWordWrap</key>

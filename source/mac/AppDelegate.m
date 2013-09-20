@@ -57,6 +57,15 @@
 	__firstLogin=YES;
 	[[VyanaLogger sharedInstance] startLogging];
 	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSURL *url = [[NSBundle mainBundle] URLForResource:@"MacDefaults" withExtension:@"plist"];
+	NSDictionary *defs = [NSDictionary dictionaryWithContentsOfURL:url];
+	ZAssert(defs, @"failed toload default defaults");
+	url = [[NSBundle mainBundle] URLForResource:@"CommonDefaults" withExtension:@"plist"];
+	NSMutableDictionary *allDefs = [NSMutableDictionary dictionaryWithContentsOfURL:url];
+	ZAssert(allDefs, @"failed to load common defaults");
+	[allDefs addEntriesFromDictionary:defs];
+	[defaults registerDefaults:allDefs];
 
 #if DEBUG
 	//if F-Script is available, install in menu bar

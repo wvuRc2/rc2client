@@ -2,14 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AutoLogin</key>
-	<false/>
 	<key>WebKitDeveloperExtras</key>
 	<true/>
-	<key>NumImagesVisible</key>
-	<integer>1</integer>
-	<key>CommandHistoryMaxLen</key>
-	<integer>10</integer>
 	<key>SyntaxColor_Comment</key>
 	<string>1735FF</string>
 	<key>SyntaxColor_Keyword</key>
@@ -22,13 +16,13 @@
 	<string>c7c431</string>
 	<key>SyntaxColor_CodeBackground</key>
 	<string>eeeeee</string>
-	<key>EditorFontSize</key>
-	<integer>13</integer>
+	<key>SyntaxColor_InlineBackground</key>
+	<string>eeeeee</string>
+	<key>SyntaxColor_EquationBackground</key>
+	<string>eeeeee</string>
 	<key>EditorFontColor</key>
 	<string>000000</string>
 	<key>EditorBGColor</key>
 	<string>FFFFFF</string>
-	<key>EditorFontDisplayName</key>
-	<string>Inconsolata</string>
 </dict>
 </plist>
