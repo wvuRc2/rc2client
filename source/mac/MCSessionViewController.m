@@ -25,7 +25,7 @@
 #import "MCNewFileController.h"
 #import "RCMAppConstants.h"
 #import "AppDelegate.h"
-#import "RCMSyntaxHighlighter.h"
+#import "RCSyntaxParser.h"
 #import "RCAudioChatEngine.h"
 #import "RCImageCache.h"
 #import "NoodleLineNumberView.h"
@@ -45,7 +45,7 @@
 @property (nonatomic, copy) NSArray *data;
 @end
 
-@interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate> {
+@interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate,NSTextStorageDelegate> {
 	NSPoint __curImgPoint;
 	BOOL __didInit;
 	BOOL __movingFileList;
@@ -65,6 +65,7 @@
 @property (nonatomic, weak) IBOutlet NSTableView *varsTable;
 @property (nonatomic, strong) IBOutlet NSView *importAccessoryView;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
+@property (nonatomic, strong) RCSyntaxParser *syntaxParser;
 @property (nonatomic, strong) VariableTableHelper *variableHelper;
 @property (nonatomic, strong) MCSessionFileController *fileHelper;
 @property (nonatomic, strong) NSMenu *addMenu;
@@ -83,9 +84,11 @@
 @property (nonatomic, strong) NSPopover *variablePopover;
 @property (nonatomic, strong) MCVariableDetailsController *varableDetailsController;
 @property (nonatomic, strong) RCDropboxSync *dbsync;
+@property (nonatomic, assign) NSTimeInterval lastParseTime;
 @property BOOL importToProject;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL shouldReconnect;
+@property (nonatomic, assign) BOOL isParsing;
 @end
 
 @implementation MCSessionViewController
@@ -156,6 +159,7 @@
 		[self.addMenu addItem:mi];
 		self.audioEngine = [[RCAudioChatEngine alloc] init];
 		self.audioEngine.session = self.session;
+		self.editView.textStorage.delegate = self;
 
 		//line numbers
 		NoodleLineNumberView *lnv = [[NoodleLineNumberView alloc] initWithScrollView:self.editView.enclosingScrollView];
@@ -852,6 +856,13 @@
 	NSMutableParagraphStyle *pstyle = [[NSMutableParagraphStyle alloc] init];
 	[pstyle setHeadIndent:24];
 	[astr addAttribute:NSParagraphStyleAttributeName value:pstyle range:NSMakeRange(0, [astr length])];
+
+	if (nil == self.syntaxParser)
+		self.syntaxParser = [RCSyntaxParser parserWithTextStorage:self.editView.textStorage fileType:self.editorFile.fileType];
+	if (![srcStr.string isEqualToString:self.editView.textStorage.string])
+		[self.editView.textStorage setAttributedString:srcStr];
+
+/*
 	astr = [[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:astr ofType:self.editorFile.name.pathExtension];
 	if (astr) {
 		[self.editView.textStorage setAttributedString:astr];
@@ -859,7 +870,7 @@
 		RunAfterDelay(0.4, ^{
 			[self.editView.enclosingScrollView.verticalRulerView setNeedsDisplay:YES];
 		});
-	}
+	} */
 	[self.editView setEditable: !self.restrictedMode && (self.editorFile.readOnlyValue) ? NO : YES];
 }
 
@@ -964,6 +975,7 @@
 
 -(void)fileSelectionChanged:(RCFile*)selectedFile oldSelection:(RCFile*)oldFile
 {
+	self.syntaxParser = nil;
 	if (oldFile) {
 		if (oldFile.readOnlyValue)
 			;
@@ -1325,8 +1337,29 @@
 {
 }
 
-#pragma mark - text view delegate
+#pragma mark - text storage delegate
 
+- (void)textStorageDidProcessEditing:(NSNotification *)notification
+{
+	if (self.isParsing)
+		return;
+	//only parse if last parse was longer than .5 seconds ago
+	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+	if (now - self.lastParseTime > .5) {
+		self.lastParseTime = now;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if (!self.isParsing) {
+				self.isParsing = YES;
+				[self.editView.textStorage addAttributes:self.editView.textAttributes range:NSMakeRange(0, self.editView.textStorage.length)];
+				[self.syntaxParser parse];
+				self.isParsing = NO;
+			}
+		});
+	}
+}
+
+#pragma mark - text view delegate
+/*
 -(void)textDidChange:(NSNotification*)note
 {
 	NSRange rng = self.editView.selectedRange;
@@ -1335,7 +1368,7 @@
 	if (rng.location <= self.editView.textStorage.length)
 		[self.editView setSelectedRange:rng];
 }
-
+*/
 -(BOOL)textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector
 {
 	if (commandSelector == @selector(insertNewline:)) {
