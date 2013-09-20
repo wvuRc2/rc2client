@@ -31,6 +31,7 @@ extern NSString * const RCMToolbarItem_Users;
 
 #define kMenuView 2
 #define kMenuView_Theme 2112
+#define kMenu_Chunks 24090
 
 @interface RCMAppConstants : NSObject
 //array of all preference keys that should be removed when users chooses to reset all warnings

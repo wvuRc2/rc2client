@@ -18,6 +18,7 @@ extern NSString *kChunkStartAttribute;
 @interface RCSyntaxParser : NSObject
 @property (nonatomic, strong) NSTextStorage *textStorage;
 @property (nonatomic, copy) NSDictionary *colorMap;
+@property (nonatomic, copy, readonly) NSArray *chunks;
 @property (nonatomic, strong) id<RCCodeHighlighter> docHighlighter;
 @property (nonatomic, strong) id<RCCodeHighlighter> codeHighlighter;
 

@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSRegularExpression *rmdEquationRegex;
 @property (nonatomic, strong) NSRegularExpression *jaxEquationRegex;
 @property (nonatomic, strong) NSRegularExpression *quoteRegex;
+@property (nonatomic, copy) NSArray *myChunks;
 
 @end
 
@@ -118,7 +119,11 @@
 		 [self.latexHighlighter highlightText:self.textStorage range:results.range];
 	 }];
 	
-	
+	self.myChunks = chunks;
 }
 
+-(NSArray*)chunks
+{
+	return self.myChunks;
+}
 @end

@@ -14,6 +14,7 @@
 
 @interface RCSweaveParser ()
 @property (nonatomic, strong) NSRegularExpression *startExpression;
+@property (nonatomic, copy) NSArray *myChunks;
 @end
 
 @implementation RCSweaveParser
@@ -76,7 +77,12 @@
 	 }];
 	[self adjustParseRanges:chunkArray fullRange:fullRange];
 	[self colorChunks:chunkArray];
+	self.myChunks = chunkArray;
 }
 
+-(NSArray*)chunks
+{
+	return _myChunks;
+}
 
 @end

@@ -37,6 +37,7 @@
 #import "MLReachability.h"
 #import "MCDropboxConfigWindow.h"
 #import "RCDropboxSync.h"
+#import "RCChunk.h"
 #import <DropboxOSX/DropboxOSX.h>
 
 #define logJson 0
@@ -45,7 +46,7 @@
 @property (nonatomic, copy) NSArray *data;
 @end
 
-@interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate,NSTextStorageDelegate> {
+@interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate,NSTextStorageDelegate,NSMenuDelegate> {
 	NSPoint __curImgPoint;
 	BOOL __didInit;
 	BOOL __movingFileList;
@@ -160,6 +161,9 @@
 		self.audioEngine = [[RCAudioChatEngine alloc] init];
 		self.audioEngine.session = self.session;
 		self.editView.textStorage.delegate = self;
+		NSMenuItem *chunksMenuItem = [[NSApp mainMenu] deepItemWithTag:kMenu_Chunks];
+		ZAssert(chunksMenuItem, @"failed to find chunks menu");
+		chunksMenuItem.submenu.delegate = self;
 
 		//line numbers
 		NoodleLineNumberView *lnv = [[NoodleLineNumberView alloc] initWithScrollView:self.editView.enclosingScrollView];
@@ -664,6 +668,7 @@
 	[self.audioEngine toggleMicrophone];
 }
 
+
 #pragma mark - meat & potatos
 
 -(void)saveSessionState
@@ -921,6 +926,14 @@
 		self.busy=YES;
 		self.statusMessage = @"Network unavailable";
 	}
+}
+
+-(void)chunkSelected:(NSMenuItem*)menuItem
+{
+	NSRange chunkRange = [[menuItem representedObject] parseRange];
+	chunkRange.length = 0;
+	self.editView.selectedRange = chunkRange;
+	[self.editView scrollRangeToVisible:chunkRange];
 }
 
 #pragma mark - dropbox sync
@@ -1432,6 +1445,35 @@
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self setEditViewTextWithHighlighting:self.editView.attributedString];
+	});
+}
+
+#pragma mark - menu delegate
+
+
+-(void)menuWillOpen:(NSMenu *)menu
+{
+	[menu removeAllItems];
+	menu.autoenablesItems = NO;
+	NSArray *chunks = self.syntaxParser.chunks;
+	if (chunks.count < 1)
+		return;
+	RCChunk *selChunk = [self.syntaxParser chunkForRange:self.editView.selectedRange];
+	for (RCChunk *aChunk in chunks) {
+		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:aChunk.description action:@selector(chunkSelected:) keyEquivalent:@""];
+		mi.target = self;
+		mi.representedObject = aChunk;
+		mi.state = selChunk == aChunk ? NSOnState : NSOffState;
+		[mi setEnabled:aChunk != selChunk];
+		[menu addItem:mi];
+	}
+	
+}
+
+-(void)menuDidClose:(NSMenu *)menu
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[menu removeAllItems];
 	});
 }
 
