@@ -463,6 +463,12 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 				[self.workspace updateFileId:[fd objectForKey:@"fileId"]];
 			}
 			js = [js stringByAppendingFormat:@"\niR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
+			//if a single html file returned, queue it up for display
+			if (fileInfo.count == 1 && [fileInfo[0][@"ext"] isEqualToString:@".html"]) {
+				RunAfterDelay(0.6, ^{
+					[self.delegate displayLinkedFile:[NSString stringWithFormat:@"/%@.html", fileInfo[0][@"fileId"]]];
+				});
+			}
 		}
 		if (self.variablesVisible && [dict objectForKey:@"variables"])
 			[self updateVariables:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];

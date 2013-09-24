@@ -16,6 +16,7 @@
 #import <Quartz/Quartz.h>
 #import "MAKVONotificationCenter.h"
 #import "ThemeEngine.h"
+#import "Rc2Server.h"
 
 @interface MCWebOutputController() {
 	NSInteger __cmdHistoryIdx;
@@ -90,6 +91,8 @@
 	if (action == @selector(loadPreviousCommand:) || action == @selector(loadNextCommand:)) {
 		return self.consoleField.fieldOrEditorIsFirstResponder && self.commandHistory.count > 0;
 	}
+	if (action == @selector(goBack:))
+		return !self.consoleVisible && !self.restrictedMode;
 	if (action == @selector(viewFullWindow:) && nil != self.currentPdf)
 		return YES;
 	return NO;
@@ -536,10 +539,25 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 {
 	NSMutableArray *items = [NSMutableArray arrayWithObject:self.clearMenuItem];
 	[items addObject:[self.viewSourceMenuItem copy]];
+	BOOL hasBack = NO;
+	NSMenuItem *inspectElemItem=nil;
 	for (NSMenuItem *mi in defaultMenuItems) {
-		if (mi.tag == WebMenuItemTagGoBack || mi.tag == WebMenuItemTagGoForward || [@"Inspect Element" isEqualToString:mi.title])
+		if (mi.tag == WebMenuItemTagGoBack || mi.tag == WebMenuItemTagGoForward)
 			[items addObject:mi];
+		if (mi.tag == WebMenuItemTagGoBack)
+			hasBack = YES;
+		if ([@"Inspect Element" isEqualToString:mi.title] && [Rc2Server sharedInstance].isAdmin) {
+			inspectElemItem = mi;
+		}
 	}
+	if (!hasBack && !self.consoleVisible && !self.restrictedMode) {
+		//add a back men item
+		NSMenuItem *backItem = [[NSMenuItem alloc] initWithTitle:@"Back" action:@selector(goBack:) keyEquivalent:@""];
+		[items addObject:backItem];
+	}
+	[items reverse];
+	if (inspectElemItem)
+		[items addObject:inspectElemItem];
 	//see if a pdf
 	NSString *filepath = [[[(WebDataSource*)[[element objectForKey:@"WebElementFrame"] dataSource] request] URL] path];
 	if (NSOrderedSame == [filepath.pathExtension caseInsensitiveCompare:@"pdf"]) {
