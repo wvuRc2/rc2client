@@ -72,6 +72,7 @@
 			 newChunk = [RCChunk codeChunkWithNumber:curChunkIndex++ name:cname];
 		 }
 		 newChunk.parseRange = result.range;
+		 newChunk.contentOffset = result.range.length + 1;
 //		 NSLog(@"chunk at %@", NSStringFromRange(result.range));
 		 [chunkArray addObject:newChunk];
 	 }];

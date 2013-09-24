@@ -26,6 +26,7 @@ typedef NS_ENUM(NSUInteger, RCChunkEquationType) {
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) RCChunkType chunkType;
 @property (nonatomic, assign) RCChunkEquationType equationType;
+@property (nonatomic, assign) NSUInteger contentOffset;
 //a private api used only by the parser/highlighter
 @property (nonatomic) NSRange parseRange;
 

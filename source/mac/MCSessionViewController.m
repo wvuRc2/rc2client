@@ -930,7 +930,9 @@
 
 -(void)chunkSelected:(NSMenuItem*)menuItem
 {
-	NSRange chunkRange = [[menuItem representedObject] parseRange];
+	RCChunk *chunk = [menuItem representedObject];
+	NSRange chunkRange = chunk.parseRange;
+	chunkRange.location += chunk.contentOffset;
 	chunkRange.length = 0;
 	self.editView.selectedRange = chunkRange;
 	[self.editView scrollRangeToVisible:chunkRange];
