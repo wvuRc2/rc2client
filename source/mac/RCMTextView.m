@@ -171,11 +171,13 @@
 
 -(void)selectionDidChange:(NSNotification*)note
 {
+#if 0
 	if (_lastLineRange.length)
 		[self.layoutManager removeTemporaryAttribute:NSBackgroundColorAttributeName forCharacterRange:_lastLineRange];
 	_lastLineRange = [self.textStorage.string paragraphRangeForRange:self.selectedRange];
 	if (_lastLineRange.length)
 		[self.layoutManager addTemporaryAttribute:NSBackgroundColorAttributeName value:self.selColor forCharacterRange:_lastLineRange];
+#endif
 }
 
 

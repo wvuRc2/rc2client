@@ -321,6 +321,18 @@
 		return YES;
 	} else if (action == @selector(restartR:)) {
 		return YES;
+	} else if (action == @selector(nextChunk:)) {
+		NSArray *chunks = self.syntaxParser.chunks;
+		if (chunks.count < 2)
+			return NO;
+		RCChunk *selChunk = [self.syntaxParser chunkForRange:self.editView.selectedRange];
+		return chunks.lastObject != selChunk;
+	} else if (action == @selector(previousChunk:)) {
+		NSArray *chunks = self.syntaxParser.chunks;
+		if (chunks.count < 2)
+			return NO;
+		RCChunk *selChunk = [self.syntaxParser chunkForRange:self.editView.selectedRange];
+		return chunks.firstObject != selChunk;
 	}
 	return NO;
 }
@@ -668,6 +680,34 @@
 	[self.audioEngine toggleMicrophone];
 }
 
+//sender is either a chunk for an object whose representedObject is a chunk
+-(void)chunkSelected:(id)sender
+{
+	RCChunk *chunk = [sender isKindOfClass:[RCChunk class]] ? sender : [sender representedObject];
+	NSRange chunkRange = chunk.parseRange;
+	chunkRange.location += chunk.contentOffset;
+	chunkRange.length = 0;
+	self.editView.selectedRange = chunkRange;
+	[self.editView scrollRangeToVisible:chunkRange];
+}
+
+-(IBAction)previousChunk:(id)sender
+{
+	NSArray *chunks = self.syntaxParser.chunks;
+	RCChunk *curChunk = [self.syntaxParser chunkForRange:self.editView.selectedRange];
+	NSUInteger curIdx = [chunks indexOfObject:curChunk];
+	if (curIdx > 0)
+		[self chunkSelected:chunks[curIdx-1]];
+}
+
+-(IBAction)nextChunk:(id)sender
+{
+	NSArray *chunks = self.syntaxParser.chunks;
+	RCChunk *curChunk = [self.syntaxParser chunkForRange:self.editView.selectedRange];
+	NSUInteger curIdx = [chunks indexOfObject:curChunk];
+	if (curIdx+1 < chunks.count)
+		[self chunkSelected:chunks[curIdx+1]];
+}
 
 #pragma mark - meat & potatos
 
@@ -926,16 +966,6 @@
 		self.busy=YES;
 		self.statusMessage = @"Network unavailable";
 	}
-}
-
--(void)chunkSelected:(NSMenuItem*)menuItem
-{
-	RCChunk *chunk = [menuItem representedObject];
-	NSRange chunkRange = chunk.parseRange;
-	chunkRange.location += chunk.contentOffset;
-	chunkRange.length = 0;
-	self.editView.selectedRange = chunkRange;
-	[self.editView scrollRangeToVisible:chunkRange];
 }
 
 #pragma mark - dropbox sync

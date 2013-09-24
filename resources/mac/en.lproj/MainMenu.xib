@@ -499,6 +499,16 @@ DQ
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Previous Chunk" keyEquivalent="[" id="jbZ-OA-DpP">
+                                <connections>
+                                    <action selector="previousChunk:" target="-1" id="wAQ-Pg-r8L"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Next Chunk" keyEquivalent="]" id="1mc-Ju-h0U">
+                                <connections>
+                                    <action selector="nextChunk:" target="-1" id="52s-IB-mQs"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="692"/>
                             <menuItem title="Show Files" keyEquivalent="1" id="657">
                                 <connections>
