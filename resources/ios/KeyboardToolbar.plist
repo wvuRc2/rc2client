@@ -6,6 +6,65 @@
 	<array>
 		<dict>
 			<key>Name</key>
+			<string>Cursor</string>
+			<key>Buttons</key>
+			<array>
+				<dict>
+					<key>Title</key>
+					<string>Execute</string>
+					<key>Double</key>
+					<true/>
+					<key>Selector</key>
+					<string>execute</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>Source</string>
+					<key>Double</key>
+					<true/>
+					<key>Selector</key>
+					<string>executeSource</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>Execute Line</string>
+					<key>Double</key>
+					<true/>
+					<key>Selector</key>
+					<string>executeLine</string>
+				</dict>
+				<dict>
+					<key>Empty</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>←</string>
+					<key>Selector</key>
+					<string>leftArrow</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>→</string>
+					<key>Selector</key>
+					<string>rightArrow</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>↑</string>
+					<key>Selector</key>
+					<string>upArrow</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>↓</string>
+					<key>Selector</key>
+					<string>downArrow</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Name</key>
 			<string>R</string>
 			<key>Buttons</key>
 			<array>
@@ -185,65 +244,6 @@
 				<dict>
 					<key>Title</key>
 					<string>`</string>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>Name</key>
-			<string>Cursor</string>
-			<key>Buttons</key>
-			<array>
-				<dict>
-					<key>Title</key>
-					<string>Execute</string>
-					<key>Double</key>
-					<true/>
-					<key>Selector</key>
-					<string>execute</string>
-				</dict>
-				<dict>
-					<key>Title</key>
-					<string>Source</string>
-					<key>Double</key>
-					<true/>
-					<key>Selector</key>
-					<string>executeSource</string>
-				</dict>
-				<dict>
-					<key>Title</key>
-					<string>Execute Line</string>
-					<key>Double</key>
-					<true/>
-					<key>Selector</key>
-					<string>executeLine</string>
-				</dict>
-				<dict>
-					<key>Empty</key>
-					<true/>
-				</dict>
-				<dict>
-					<key>Title</key>
-					<string>←</string>
-					<key>Selector</key>
-					<string>leftArrow</string>
-				</dict>
-				<dict>
-					<key>Title</key>
-					<string>→</string>
-					<key>Selector</key>
-					<string>rightArrow</string>
-				</dict>
-				<dict>
-					<key>Title</key>
-					<string>↑</string>
-					<key>Selector</key>
-					<string>upArrow</string>
-				</dict>
-				<dict>
-					<key>Title</key>
-					<string>↓</string>
-					<key>Selector</key>
-					<string>downArrow</string>
 				</dict>
 			</array>
 		</dict>
