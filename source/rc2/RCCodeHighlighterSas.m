@@ -75,7 +75,8 @@
 		[self.sasCommentRegex enumerateMatchesInString:content.string options:0 range:NSMakeRange(0, content.length)
 											usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop)
 		{
-			[content addAttribute:NSForegroundColorAttributeName value:color range:[results rangeAtIndex:1]];
+			if (results.numberOfRanges > 1)
+				[content addAttribute:NSForegroundColorAttributeName value:color range:[results rangeAtIndex:1]];
 		}];
 	}
 	//replace back the strings
