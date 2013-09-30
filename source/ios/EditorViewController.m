@@ -160,7 +160,7 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(keyboardHiding:)
 												 name:UIKeyboardWillHideNotification object:nil];
-		self.lineNumberView.text = @"1\n2\n\n3";
+		self.lineNumberView.text = @"";
 		self.richEditor.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
 		self.docTitleLabel.text = @"Untitled Document";
 		UIFontDescriptor *sysFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
@@ -304,14 +304,15 @@
 	return self.richEditor.text;
 }
 
+-(BOOL)isFileLoaded
+{
+	return self.currentFile && !self.currentFile.readOnlyValue;
+}
+
 -(void)updateDocumentState
 {
 	self.executeButton.enabled = self.richEditor.attributedText.length > 0;
-	if (self.currentFile && _currentFile.readOnlyValue) {
-		[self.richEditor setEditable:NO];
-	} else {
-		[self.richEditor setEditable:YES];
-	}
+	self.richEditor.editable = self.isFileLoaded;
 	self.actionButtonItem.enabled = self.currentFile != nil && !self.session.restrictedMode;
 }
 
@@ -479,7 +480,7 @@
 	self.actionButtonItem.enabled = !limited && nil != self.currentFile;
 	self.executeButton.enabled = !limited;
 	self.openFileButtonItem.enabled = !limited;
-	self.richEditor.editable = !limited;
+	self.richEditor.editable = !limited && self.isFileLoaded;
 }
 
 -(void)executeBlockAfterSave:(BasicBlock)block

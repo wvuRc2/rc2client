@@ -123,7 +123,4 @@
 	return [super becomeFirstResponder];
 }
 
-
-@synthesize helpBlock;
-@synthesize executeBlock;
 @end
