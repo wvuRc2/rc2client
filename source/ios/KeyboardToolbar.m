@@ -44,7 +44,7 @@
 		UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 53)];
 		self.view = v;
 		v.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		v.backgroundColor = [UIColor colorWithHexString:@"9c9ca6"];
+//		v.backgroundColor = [UIColor colorWithHexString:@"9c9ca6"];
 		[self cacheGradients];
 		UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024-10, 53)];
 		buttonView.autoresizingMask = 0;
@@ -174,8 +174,8 @@
 		sNextTag = 10000;
 	});
 	ButtonPanel *pview = [[ButtonPanel alloc] initWithFrame:self.view.bounds];
-	CGRect pRect = CGRectMake(6, 5, 56, 40);
-	CGRect lRect = CGRectMake(6, 5, 80, 40);
+	CGRect pRect = CGRectMake(6, 8, 56, 40);
+	CGRect lRect = CGRectMake(6, 8, 80, 40);
 	for (NSDictionary *btnDict in [dict objectForKey:@"Buttons"]) {
 		CGRect pframe = pRect;
 		CGRect lframe = lRect;
@@ -248,18 +248,20 @@
 -(KeyboardButton*)buttonWithFrame:(CGRect)frame
 {
 	KeyboardButton *button = [[KeyboardButton alloc] initWithFrame:frame];
-	button.normalGradientLocations = ARRAY([NSNumber numberWithFloat:0], [NSNumber numberWithFloat:1.0]);
-	button.highlightGradientLocations = button.normalGradientLocations;
-	button.normalGradientColors = self.buttonColors;
-	button.highlightGradientColors = self.buttonColorsHighlighted;
+//	button.normalGradientLocations = ARRAY([NSNumber numberWithFloat:0], [NSNumber numberWithFloat:1.0]);
+//	button.highlightGradientLocations = button.normalGradientLocations;
+//	button.normalGradientColors = self.buttonColors;
+//	button.highlightGradientColors = self.buttonColorsHighlighted;
 	[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 	[button setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-	button.cornerRadius = 6;
+	button.cornerRadius = 12;
 	button.layer.masksToBounds = NO;
 	button.layer.shadowColor = [UIColor blackColor].CGColor;
-	button.layer.shadowOffset = CGSizeMake(1, 1);
-	button.layer.shadowOpacity = 0.8;
+	button.layer.shadowOffset = CGSizeMake(0, .5);
+	button.layer.shadowOpacity = 0.5;
 	button.layer.shadowRadius = 1;
+	button.layer.cornerRadius = 6;
+	button.layer.backgroundColor = [UIColor whiteColor].CGColor;
 	[button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
 	[button addTarget:self action:@selector(buttonNotPressed:) forControlEvents:UIControlEventTouchUpOutside];
 	return button;

@@ -113,7 +113,9 @@
 	self.consoleController.session = self.session;
 	[self.consoleController view]; //force loading
 	self.consoleKeyboardToolbar = [[KeyboardToolbar alloc] init];
-	self.consoleController.textField.inputAccessoryView = self.consoleKeyboardToolbar.view;
+	UIInputView *iview = [[UIInputView alloc] initWithFrame:self.consoleKeyboardToolbar.view.frame inputViewStyle:UIInputViewStyleDefault];
+	[iview addSubview:self.consoleKeyboardToolbar.view];
+	self.consoleController.textField.inputAccessoryView = iview;
 	self.consoleKeyboardToolbar.delegate = self;
 	self.editorController.session = self.session;
 	[self.editorController view];

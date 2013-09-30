@@ -207,7 +207,9 @@
 		self.handButton.hidden = YES;
 		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
 		self.keyboardToolbar.delegate = self;
-		self.richEditor.inputAccessoryView = self.keyboardToolbar.view;
+		UIInputView *iview = [[UIInputView alloc] initWithFrame:self.keyboardToolbar.view.frame inputViewStyle:UIInputViewStyleDefault];
+		[iview addSubview:self.keyboardToolbar.view];
+		self.richEditor.inputAccessoryView = iview;
 		_viewLoaded=YES;
 	}
 }
