@@ -28,6 +28,7 @@
 #import "DoodleViewController.h"
 #import "MAKVONotificationCenter.h"
 #import "RCDropboxSync.h"
+#import "kTController.h"
 
 @interface SessionViewController() <KeyboardToolbarDelegate,AMResizableSplitViewControllerDelegate,RCDropboxSyncDelegate>
 @property (nonatomic, strong) IBOutlet AMResizableSplitViewController *splitController;
@@ -40,7 +41,7 @@
 @property (nonatomic, strong) UIPopoverController *controlPopover;
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) DoodleViewController *doodle;
-@property (nonatomic, strong) KeyboardToolbar *consoleKeyboardToolbar;
+@property (nonatomic, strong) kTController *consoleKeyboardToolbar;
 @property (nonatomic, copy) NSString *webTmpFileDirectory;
 @property (weak, nonatomic, readwrite) RCSession *session;
 @property (nonatomic, assign) BOOL reconnecting;
@@ -112,11 +113,9 @@
 	RCSavedSession *savedState = self.session.savedSessionState;
 	self.consoleController.session = self.session;
 	[self.consoleController view]; //force loading
-	self.consoleKeyboardToolbar = [[KeyboardToolbar alloc] init];
-	UIInputView *iview = [[UIInputView alloc] initWithFrame:self.consoleKeyboardToolbar.view.frame inputViewStyle:UIInputViewStyleDefault];
-	[iview addSubview:self.consoleKeyboardToolbar.view];
-	self.consoleController.textField.inputAccessoryView = iview;
-	self.consoleKeyboardToolbar.delegate = self;
+	self.consoleKeyboardToolbar = [[kTController alloc] init];
+	self.consoleController.textField.inputAccessoryView = self.consoleKeyboardToolbar.inputView;
+//	self.consoleKeyboardToolbar.delegate = self;
 	self.editorController.session = self.session;
 	[self.editorController view];
 	[self.editorController restoreSessionState:savedState];
