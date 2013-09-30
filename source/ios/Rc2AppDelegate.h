@@ -17,6 +17,7 @@
 @property (nonatomic, strong) IBOutlet UIWindow *window;
 @property (nonatomic, strong) SessionViewController *sessionController;
 @property (nonatomic, copy) BasicBlock dropboxCompletionBlock;
+@property (nonatomic, strong) UIPopoverController *isettingsPopover;
 //these should only be accessed by top level controller classes like AbstractTopViewController
 @property (nonatomic, copy, readonly) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readonly) NSArray *standardRightNavBarItems;

@@ -30,3 +30,4 @@
 
 //notifications
 #define kDropboxSyncRequestedNotification @"kDropboxSyncRequestedNotification"
+#define kWillDisplayGearMenu @"kWillDisplayGearMenu"

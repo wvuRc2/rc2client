@@ -11,6 +11,7 @@
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
 #import "RCMessage.h"
+#import "Rc2AppDelegate.h"
 
 @interface AbstractTopViewController ()
 @property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
@@ -76,6 +77,18 @@
 		[view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[view]-0-|" options:0 metrics:nil views:vd]];
 	}
 */}
+
+-(BOOL)isSettingsPopoverVisible
+{
+	Rc2AppDelegate *del = TheApp.delegate;
+	return del.isettingsPopover.isPopoverVisible;
+}
+
+-(void)closeSettingsPopoverAnimated:(BOOL)animate
+{
+	Rc2AppDelegate *del = TheApp.delegate;
+	[del.isettingsPopover dismissPopoverAnimated:animate];
+}
 
 -(IBAction)showProjects:(id)sender
 {

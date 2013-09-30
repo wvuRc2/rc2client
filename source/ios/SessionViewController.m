@@ -86,7 +86,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.navigationItem.title = self.session.workspace.name;
+	self.navigationItem.title = [NSString stringWithFormat:@"Workspace: %@", self.session.workspace.name];
 	CGFloat splitPos = [[_session settingForKey:@"splitPosition"] floatValue];
 	if (splitPos < 300 || splitPos > 1024)
 		splitPos = 512;
@@ -144,6 +144,11 @@
 		self.doodleButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"doodle"] style:UIBarButtonItemStylePlain target:self action:@selector(showDoodleView:)];
 		[ritems addObject:self.doodleButton];
 	}
+	__weak SessionViewController *bself = self;
+	[[NSNotificationCenter defaultCenter] addObserverForName:kWillDisplayGearMenu object:nil queue:nil usingBlock:^(NSNotification *note) {
+		if (bself.controlPopover.isPopoverVisible)
+			[bself.controlPopover dismissPopoverAnimated:YES];
+	}];
 	self.controlButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"controller"] style:UIBarButtonItemStylePlain target:self action:@selector(showControls:)];
 	[ritems addObject:self.controlButton];
 	self.navigationItem.rightBarButtonItems = ritems;
@@ -172,6 +177,8 @@
 
 -(IBAction)showControls:(id)sender
 {
+	if (self.isSettingsPopoverVisible)
+		[self closeSettingsPopoverAnimated:YES];
 	if (nil == self.controlController) {
 		self.controlController = [[ControlViewController alloc] init];
 		self.controlController.contentSizeForViewInPopover = self.controlController.view.frame.size;

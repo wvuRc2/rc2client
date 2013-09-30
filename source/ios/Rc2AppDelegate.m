@@ -49,7 +49,6 @@
 @property (nonatomic, strong) NSURL *fileToImport;
 @property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readwrite) NSArray *standardRightNavBarItems;
-@property (nonatomic, strong) UIPopoverController *isettingsPopover;
 @property (nonatomic, strong) iSettingsController *isettingsController;
 @end
 
@@ -293,6 +292,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 		self.isettingsPopover=nil;
 		return;
 	}
+	[[NSNotificationCenter defaultCenter] postNotificationName:kWillDisplayGearMenu object:self.isettingsPopover];
 	if (nil == self.isettingsController) {
 		self.isettingsController = [[iSettingsController alloc] init];
 		self.isettingsController.contentSizeForViewInPopover = CGSizeMake(350, 430);

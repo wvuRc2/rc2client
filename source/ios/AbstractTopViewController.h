@@ -18,7 +18,9 @@
 @property (nonatomic, copy, readonly) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readonly) NSArray *standardRightNavBarItems;
 
+@property (nonatomic, readonly) BOOL isSettingsPopoverVisible;
 
+-(void)closeSettingsPopoverAnimated:(BOOL)animate;
 
 
 

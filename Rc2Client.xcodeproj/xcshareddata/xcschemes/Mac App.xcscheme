@@ -47,7 +47,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "08D248B9176A498900D71F02"
-               BuildableName = "CoreUnitTests.octest"
+               BuildableName = "CoreUnitTests.xctest"
                BlueprintName = "CoreUnitTests"
                ReferencedContainer = "container:Rc2Client.xcodeproj">
             </BuildableReference>
