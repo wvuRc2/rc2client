@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 West Virginia University. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "RCProject.h"
 
-@interface ProjectWorkspaceTests : SenTestCase
+@interface ProjectWorkspaceTests : XCTestCase
 @property (nonatomic, strong) NSData *testJson;
 @end
 
@@ -19,17 +19,17 @@
 {
 	NSURL *json = [[NSBundle bundleForClass:[self class]] URLForResource:@"projwspaceJson" withExtension:@"txt"];
 	self.testJson = [NSData dataWithContentsOfURL:json];
-	STAssertNotNil(self.testJson, @"failed to load json to test with");
+	XCTAssertNotNil(self.testJson, @"failed to load json to test with");
 }
 
 -(void)testProjects
 {
 	NSError *err=nil;
 	NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:self.testJson options:0 error:&err];
-	STAssertNotNil(jsonDict, @"failed to parse test json:%@", err);
+	XCTAssertNotNil(jsonDict, @"failed to parse test json:%@", err);
 	NSArray *projects = [RCProject projectsForJsonArray:[jsonDict objectForKey:@"projects"] includeAdmin:NO];
-	STAssertTrue(projects.count == 1, @"inaccruate number of projects:%d", projects.count);
-	STAssertEqualObjects(@"Cornocopia", [projects[0] name], @"incorrect project name");
+	XCTAssertTrue(projects.count == 1, @"inaccruate number of projects:%d", projects.count);
+	XCTAssertEqualObjects(@"Cornocopia", [projects[0] name], @"incorrect project name");
 }
 
 @end

@@ -467,7 +467,6 @@
 		08D2467F15B5EF630064A9FA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2467815B5EF5B0064A9FA /* SystemConfiguration.framework */; };
 		08D2468015B5EF630064A9FA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2467915B5EF5F0064A9FA /* WebKit.framework */; };
 		08D2468315B5EFDD0064A9FA /* Vyana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
-		08D248BC176A498900D71F02 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D248BB176A498900D71F02 /* SenTestingKit.framework */; };
 		08D248BE176A498900D71F02 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D248BD176A498900D71F02 /* Cocoa.framework */; };
 		08D248C8176A498A00D71F02 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08D248C6176A498A00D71F02 /* InfoPlist.strings */; };
 		08D248D3176A4A5600D71F02 /* ProjectWorkspaceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D248D2176A4A5600D71F02 /* ProjectWorkspaceTests.m */; };
@@ -1107,8 +1106,7 @@
 		08D2467815B5EF5B0064A9FA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		08D2467915B5EF5F0064A9FA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		08D2468215B5EFCE0064A9FA /* Vyana.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Vyana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		08D248BA176A498900D71F02 /* CoreUnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreUnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		08D248BB176A498900D71F02 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		08D248BA176A498900D71F02 /* CoreUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08D248BD176A498900D71F02 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		08D248C0176A498900D71F02 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		08D248C1176A498900D71F02 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -1229,7 +1227,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08D248BC176A498900D71F02 /* SenTestingKit.framework in Frameworks */,
 				08D248BE176A498900D71F02 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1690,7 +1687,7 @@
 			children = (
 				08D2431F15B5D04D0064A9FA /* Rc².app */,
 				08D2461C15B5EBC20064A9FA /* Rc2.app */,
-				08D248BA176A498900D71F02 /* CoreUnitTests.octest */,
+				08D248BA176A498900D71F02 /* CoreUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1723,7 +1720,6 @@
 				08D244ED15B5D9F60064A9FA /* QuartzCore.framework */,
 				08D244EE15B5D9F60064A9FA /* Security.framework */,
 				08D244EF15B5D9F60064A9FA /* SystemConfiguration.framework */,
-				08D248BB176A498900D71F02 /* SenTestingKit.framework */,
 				08D248BD176A498900D71F02 /* Cocoa.framework */,
 				08D248BF176A498900D71F02 /* Other Frameworks */,
 			);
@@ -2377,8 +2373,8 @@
 			);
 			name = CoreUnitTests;
 			productName = CoreUnitTests;
-			productReference = 08D248BA176A498900D71F02 /* CoreUnitTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 08D248BA176A498900D71F02 /* CoreUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -3414,7 +3410,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "${BUNDLE_LOADER}";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -3440,7 +3435,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "${BUNDLE_LOADER}";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
@@ -3466,7 +3460,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "${BUNDLE_LOADER}";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Archive;
 		};

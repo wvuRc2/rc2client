@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 West Virginia University. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "RCSyntaxParser.h"
 #import "RCCodeHighlighterR.h"
 #import "Rc2FileType.h"
 
-@interface SyntaxParserTests : SenTestCase
+@interface SyntaxParserTests : XCTestCase
 
 @end
 
@@ -32,9 +32,9 @@
 - (void)testRHighlighter
 {
 	RCCodeHighlighterR *rhigh = [[RCCodeHighlighterR alloc] init];
-	STAssertNoThrow([rhigh highlightText:nil range:NSMakeRange(0, 24)], @"failed with nil text");
+	XCTAssertNoThrow([rhigh highlightText:nil range:NSMakeRange(0, 24)], @"failed with nil text");
 	NSMutableAttributedString *mstr = [NSMutableAttributedString attributedStringWithString:@"" attributes:nil];
-	STAssertNoThrow([rhigh highlightText:mstr range:NSMakeRange(0, mstr.length)], @"failed empty string");
+	XCTAssertNoThrow([rhigh highlightText:mstr range:NSMakeRange(0, mstr.length)], @"failed empty string");
 }
 
 @end
