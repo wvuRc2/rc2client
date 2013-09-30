@@ -180,6 +180,7 @@
 		087DB8C417B57A8200724811 /* libHockeySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 087DB8C317B57A8200724811 /* libHockeySDK.a */; };
 		087DB8C617B57AB400724811 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087DB8C517B57AB400724811 /* CrashReporter.framework */; };
 		087DB8C817B57AFF00724811 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */; };
+		08A82B8C17F7127400F49071 /* SyntaxParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A82B8B17F7127400F49071 /* SyntaxParserTests.m */; };
 		08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
 		08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
 		08ADBE2717A06C9F0004A89C /* RC2LoopQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */; };
@@ -596,7 +597,7 @@
 		082D1EBD17E2429E00723EB3 /* RCCodeHighlighter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCCodeHighlighter.h; sourceTree = "<group>"; };
 		082D1EBE17E2442E00723EB3 /* RCCodeHighlighterR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCodeHighlighterR.h; sourceTree = "<group>"; };
 		082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCodeHighlighterR.m; sourceTree = "<group>"; };
-		082D1EC217E2460A00723EB3 /* libParseKitMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libParseKitMobile.a; path = "../../../../../../../../working/rc2proj/Client/Dependencies/ParseKit/build/Debug-iphoneos/libParseKitMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		082D1EC217E2460A00723EB3 /* libParseKitMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libParseKitMobile.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		082D1EC417E2475200723EB3 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		082D1EC617E38B6900723EB3 /* RKeywords.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RKeywords.txt; path = resources/RKeywords.txt; sourceTree = SOURCE_ROOT; };
 		082D1EC917E38E7B00723EB3 /* RCCodeHighlighterLatex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCodeHighlighterLatex.h; sourceTree = "<group>"; };
@@ -765,6 +766,7 @@
 		087DB8C317B57A8200724811 /* libHockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHockeySDK.a; path = "Dependencies/HockeySDK-iOS/Support/build/Debug-iphoneos/libHockeySDK.a"; sourceTree = "<group>"; };
 		087DB8C517B57AB400724811 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = "Dependencies/HockeySDK-iOS/Vendor/CrashReporter.framework"; sourceTree = "<group>"; };
 		087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HockeySDKResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		08A82B8B17F7127400F49071 /* SyntaxParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyntaxParserTests.m; sourceTree = "<group>"; };
 		08ADBE2117A054B40004A89C /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = source/DropBlocks.h; sourceTree = "<group>"; };
 		08ADBE2217A054B40004A89C /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = source/DropBlocks.m; sourceTree = "<group>"; };
 		08ADBE2517A06C9F0004A89C /* RC2LoopQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RC2LoopQueue.h; sourceTree = "<group>"; };
@@ -2175,6 +2177,7 @@
 			children = (
 				08D248C4176A498A00D71F02 /* Supporting Files */,
 				08D248D2176A4A5600D71F02 /* ProjectWorkspaceTests.m */,
+				08A82B8B17F7127400F49071 /* SyntaxParserTests.m */,
 			);
 			path = CoreUnitTests;
 			sourceTree = "<group>";
@@ -3009,6 +3012,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08D248D3176A4A5600D71F02 /* ProjectWorkspaceTests.m in Sources */,
+				08A82B8C17F7127400F49071 /* SyntaxParserTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
