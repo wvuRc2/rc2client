@@ -20,14 +20,21 @@
 - (id)init
 {
 	if ((self = [super init])) {
+		self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 3, 1024, 53)];
+
 		NSMutableArray *panels = [NSMutableArray array];
 		for (NSString *aNib in @[@"KTExecutePanel", @"KTLatexPanel"]) {
 			KTPanel *panel = [[KTPanel alloc] initWithNibName:aNib controller:self];
 			[panels addObject:panel];
+			[self.view addSubview:panel.view];
+			NSLayoutConstraint *xcon = [NSLayoutConstraint constraintWithItem:panel.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:-1024];
+			[self.view addConstraint:xcon];
+			panel.xConstraint = xcon;
+			[self.view addConstraint:[NSLayoutConstraint constraintWithItem:panel.view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+			[self.view addConstraint:[NSLayoutConstraint constraintWithItem:panel.view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
 		}
 		self.panels = panels;
 
-		self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 53)];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 
 		UIInputView *iview = [[UIInputView alloc] initWithFrame:self.view.frame inputViewStyle:UIInputViewStyleDefault];
@@ -35,8 +42,7 @@
 		self.inputView = iview;
 
 		KTPanel *first = [panels objectAtIndex:0];
-		[self.view addSubview:first.view];
-		
+		first.xConstraint.constant = 0;
 		[self orientationDidChange:nil]; //force initial sizing
 }
 	return self;
@@ -50,48 +56,48 @@
 	KTPanel *oldPanel = self.panels[self.currentPanelIndex];
 	KTPanel *panel = self.panels[idx];
 	self.currentPanelIndex = idx;
-	CGRect frame = self.view.bounds;
 
-	//move newPanel offscreen w/o animation
-	CGRect r = frame;
-	r.origin.x += r.size.width;
-	panel.view.frame = r;
-	[self.view addSubview:panel.view];
-
-	[UIView animateWithDuration:0.5 animations:^{
-		CGRect oldRect = oldPanel.view.frame;
-		oldRect.origin.x -= oldRect.size.width + 100;
-		oldPanel.view.frame = oldRect;
-		panel.view.frame = frame;
-	} completion:^(BOOL finished) {
-		[oldPanel.view removeFromSuperview];
+	
+	[UIView performWithoutAnimation:^{
+		panel.xConstraint.constant = - self.view.frame.size.width;
+		[self.view setNeedsUpdateConstraints];
+		[self.view layoutIfNeeded];
+		panel.view.hidden = NO;
 	}];
 	
+	[UIView animateWithDuration:0.5 animations:^{
+		panel.xConstraint.constant = 0;
+		oldPanel.xConstraint.constant = self.view.frame.size.width;
+		[self.view setNeedsUpdateConstraints];
+		[self.view layoutIfNeeded];
+	} completion:^(BOOL finished) {
+		oldPanel.view.hidden = YES;
+	}];
 }
 
 -(void)previousPanel:(id)sender
 {
 	NSInteger idx = self.currentPanelIndex - 1;
 	if (idx < 0)
-		idx = 0;
+		idx = self.panels.count - 1;
 	KTPanel *oldPanel = self.panels[self.currentPanelIndex];
 	KTPanel *panel = self.panels[idx];
 	self.currentPanelIndex = idx;
-	CGRect frame = self.view.bounds;
 
-	//move newPanel offscreen w/o animation
-	CGRect r = frame;
-	r.origin.x -= r.size.width;
-	panel.view.frame = r;
-	[self.view addSubview:panel.view];
-
+	[UIView performWithoutAnimation:^{
+		panel.view.hidden = NO;
+		panel.xConstraint.constant = self.view.frame.size.width;
+		[self.view setNeedsUpdateConstraints];
+		[self.view layoutIfNeeded];
+	}];
+	
 	[UIView animateWithDuration:0.5 animations:^{
-		CGRect oldRect = oldPanel.view.frame;
-		oldRect.origin.x += oldRect.size.width + 100;
-		oldPanel.view.frame = oldRect;
-		panel.view.frame = frame;
+		panel.xConstraint.constant = 0;
+		oldPanel.xConstraint.constant = - self.view.frame.size.width;
+		[self.view setNeedsUpdateConstraints];
+		[self.view layoutIfNeeded];
 	} completion:^(BOOL finished) {
-		[oldPanel.view removeFromSuperview];
+		oldPanel.view.hidden = YES;
 	}];
 }
 
@@ -105,8 +111,5 @@
 		r.size.width = 768;
 	}
 	self.view.frame = r;
-	[self.view setNeedsUpdateConstraints];
-	for (UIView *v in self.view.subviews)
-		[v setNeedsUpdateConstraints];
 }
 @end

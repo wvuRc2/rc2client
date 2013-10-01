@@ -14,6 +14,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *nextButton;
 @property (nonatomic, weak) IBOutlet UIButton *backButton;
 @property (nonatomic, strong) IBOutlet UIView *view;
+@property (nonatomic, strong) NSLayoutConstraint *xConstraint;
 
 -(id)initWithNibName:(NSString*)nibName controller:(kTController*)controller;
 @end

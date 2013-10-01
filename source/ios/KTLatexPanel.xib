@@ -32,41 +32,75 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="db4-6t-StN">
-                    <rect key="frame" x="60" y="5" width="72" height="44"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="db4-6t-StN">
+                    <rect key="frame" x="60" y="5" width="44" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="44" id="dKt-wH-sCj"/>
+                        <constraint firstAttribute="height" constant="44" id="ysI-aD-EC0"/>
+                    </constraints>
                     <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                    <state key="normal" title="Execute">
+                    <state key="normal" title="\">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IH8-6D-s0U">
-                    <rect key="frame" x="214" y="5" width="105" height="44"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qhc-AN-urI">
+                    <rect key="frame" x="112" y="5" width="44" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="fDF-8u-CLo"/>
+                        <constraint firstAttribute="width" constant="44" id="sm4-PQ-pgQ"/>
+                    </constraints>
                     <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                    <state key="normal" title="Execute Line">
+                    <state key="normal" title="{">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Czb-aj-YGm">
-                    <rect key="frame" x="140" y="5" width="66" height="44"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Hh-oe-Y6B">
+                    <rect key="frame" x="164" y="5" width="44" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="44" id="Ezo-hO-NCv"/>
+                        <constraint firstAttribute="height" constant="44" id="SNU-PS-YQr"/>
+                    </constraints>
                     <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                    <state key="normal" title="Source">
+                    <state key="normal" title="}">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jdL-TT-pS3">
+                    <rect key="frame" x="216" y="5" width="44" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="AMu-oY-Zpc"/>
+                        <constraint firstAttribute="width" constant="44" id="nnr-yd-hWU"/>
+                    </constraints>
+                    <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
+                    <state key="normal" title="|">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
             </subviews>
             <constraints>
+                <constraint firstAttribute="centerY" secondItem="4Hh-oe-Y6B" secondAttribute="centerY" id="3RB-Fk-yLt"/>
+                <constraint firstItem="db4-6t-StN" firstAttribute="leading" secondItem="0Y0-8A-px9" secondAttribute="trailing" constant="8" id="Hzs-BK-js1"/>
                 <constraint firstItem="i3r-eB-J3e" firstAttribute="top" secondItem="1" secondAttribute="top" constant="5" id="Ia0-os-xaj"/>
+                <constraint firstItem="Qhc-AN-urI" firstAttribute="width" secondItem="db4-6t-StN" secondAttribute="width" id="Jkj-NB-P1A"/>
+                <constraint firstAttribute="centerY" secondItem="Qhc-AN-urI" secondAttribute="centerY" id="L5h-Nn-kOk"/>
                 <constraint firstAttribute="bottom" secondItem="i3r-eB-J3e" secondAttribute="bottom" constant="4" id="NBO-HT-K6t"/>
                 <constraint firstAttribute="trailing" secondItem="i3r-eB-J3e" secondAttribute="trailing" constant="8" id="NfY-XR-VLh"/>
+                <constraint firstItem="Qhc-AN-urI" firstAttribute="leading" secondItem="db4-6t-StN" secondAttribute="trailing" constant="8" id="OZl-fb-v3B"/>
+                <constraint firstAttribute="centerY" secondItem="db4-6t-StN" secondAttribute="centerY" id="Qgo-wy-GH6"/>
                 <constraint firstItem="0Y0-8A-px9" firstAttribute="top" secondItem="1" secondAttribute="top" constant="5" id="UdO-H2-ood"/>
+                <constraint firstAttribute="centerY" secondItem="jdL-TT-pS3" secondAttribute="centerY" id="b3V-ZA-ghs"/>
+                <constraint firstItem="4Hh-oe-Y6B" firstAttribute="leading" secondItem="Qhc-AN-urI" secondAttribute="trailing" constant="8" id="uE3-RV-ZJB"/>
                 <constraint firstAttribute="bottom" secondItem="0Y0-8A-px9" secondAttribute="bottom" constant="4" id="vnB-G8-hFs"/>
                 <constraint firstItem="0Y0-8A-px9" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="8" id="w0c-Kx-FKh"/>
+                <constraint firstItem="jdL-TT-pS3" firstAttribute="leading" secondItem="4Hh-oe-Y6B" secondAttribute="trailing" constant="8" id="xpp-vL-Uze"/>
             </constraints>
         </view>
     </objects>

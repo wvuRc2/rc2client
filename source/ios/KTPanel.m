@@ -11,6 +11,7 @@
 
 @interface KTPanel ()
 @property (nonatomic, weak) kTController *controller;
+@property (nonatomic, copy) NSString *panelName;
 @end
 
 @interface KTPanelView : UIView
@@ -27,8 +28,14 @@
 		[nib instantiateWithOwner:self options:nil];
 		[self.nextButton addTarget:controller action:@selector(nextPanel:) forControlEvents:UIControlEventTouchUpInside];
 		[self.backButton addTarget:controller action:@selector(previousPanel:) forControlEvents:UIControlEventTouchUpInside];
+		self.panelName = nibName;
 	}
 	return self;
+}
+
+-(NSString*)description
+{
+	return [NSString stringWithFormat:@"%@ %@", super.description, self.panelName];
 }
 
 @end
@@ -43,7 +50,8 @@
 -(void)updateConstraints
 {
 	if (!self.installedConstraints) {
-		[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[self]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self)]];
+		[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[self]|" options:0 metrics:Nil views:NSDictionaryOfVariableBindings(self)]];
+//		[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[self]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self)]];
 		self.installedConstraints = YES;
 	}
 	[super updateConstraints];
