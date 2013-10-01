@@ -13,7 +13,7 @@
 @property (nonatomic, strong, readonly) UIView *view;
 @property (nonatomic, strong) UIInputView *inputView;
 
--(void)nextPanel:(id)sender;
--(void)previousPanel:(id)sender;
+-(IBAction)nextPanel:(id)sender;
+-(IBAction)previousPanel:(id)sender;
 
 @end

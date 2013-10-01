@@ -7,53 +7,48 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="KTPanel">
             <connections>
-                <outlet property="backButton" destination="0Y0-8A-px9" id="4J3-8P-hQm"/>
-                <outlet property="nextButton" destination="i3r-eB-J3e" id="2w0-3R-Pym"/>
                 <outlet property="view" destination="1" id="VtR-Qk-B0m"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view opaque="NO" contentMode="scaleToFill" id="1" customClass="KTPanelView">
-            <rect key="frame" x="0.0" y="0.0" width="1024" height="53"/>
+            <rect key="frame" x="0.0" y="0.0" width="904" height="44"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Y0-8A-px9">
-                    <rect key="frame" x="8" y="5" width="44" height="44"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="leftChevron">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3r-eB-J3e">
-                    <rect key="frame" x="972" y="5" width="44" height="44"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" image="rightChevronTemplate">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="db4-6t-StN">
-                    <rect key="frame" x="60" y="5" width="72" height="44"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="db4-6t-StN">
+                    <rect key="frame" x="0.0" y="0.0" width="72" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="STA-XN-DHZ"/>
+                    </constraints>
                     <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
                     <state key="normal" title="Execute">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IH8-6D-s0U">
-                    <rect key="frame" x="214" y="5" width="105" height="44"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IH8-6D-s0U">
+                    <rect key="frame" x="153" y="0.0" width="105" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="VFD-yW-lZT"/>
+                    </constraints>
                     <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
                     <state key="normal" title="Execute Line">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="insertString:" destination="-1" eventType="touchUpInside" id="kJq-E2-8Jh"/>
+                    </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Czb-aj-YGm">
-                    <rect key="frame" x="140" y="5" width="66" height="44"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Czb-aj-YGm">
+                    <rect key="frame" x="80" y="0.0" width="65" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="PUg-Xr-U0e"/>
+                    </constraints>
                     <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
                     <state key="normal" title="Source">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -61,17 +56,15 @@
                 </button>
             </subviews>
             <constraints>
-                <constraint firstItem="i3r-eB-J3e" firstAttribute="top" secondItem="1" secondAttribute="top" constant="5" id="Ia0-os-xaj"/>
-                <constraint firstAttribute="bottom" secondItem="i3r-eB-J3e" secondAttribute="bottom" constant="4" id="NBO-HT-K6t"/>
-                <constraint firstAttribute="trailing" secondItem="i3r-eB-J3e" secondAttribute="trailing" constant="8" id="NfY-XR-VLh"/>
-                <constraint firstItem="0Y0-8A-px9" firstAttribute="top" secondItem="1" secondAttribute="top" constant="5" id="UdO-H2-ood"/>
-                <constraint firstAttribute="bottom" secondItem="0Y0-8A-px9" secondAttribute="bottom" constant="4" id="vnB-G8-hFs"/>
-                <constraint firstItem="0Y0-8A-px9" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="8" id="w0c-Kx-FKh"/>
+                <constraint firstItem="IH8-6D-s0U" firstAttribute="leading" secondItem="Czb-aj-YGm" secondAttribute="trailing" constant="8" id="Jio-Zt-SXg"/>
+                <constraint firstAttribute="centerY" secondItem="db4-6t-StN" secondAttribute="centerY" id="KSE-mY-Hx2"/>
+                <constraint firstItem="IH8-6D-s0U" firstAttribute="leading" secondItem="Czb-aj-YGm" secondAttribute="trailing" constant="8" id="bTA-nW-IQX"/>
+                <constraint firstAttribute="centerY" secondItem="IH8-6D-s0U" secondAttribute="centerY" id="eBO-gx-JaM"/>
+                <constraint firstAttribute="centerY" secondItem="Czb-aj-YGm" secondAttribute="centerY" id="iTK-Hn-3vE"/>
+                <constraint firstItem="Czb-aj-YGm" firstAttribute="leading" secondItem="db4-6t-StN" secondAttribute="trailing" constant="8" id="ixT-PY-Ggu"/>
+                <constraint firstItem="Czb-aj-YGm" firstAttribute="leading" secondItem="db4-6t-StN" secondAttribute="trailing" constant="8" id="oYA-T9-OVX"/>
+                <constraint firstItem="db4-6t-StN" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="wSZ-5a-8iF"/>
             </constraints>
         </view>
     </objects>
-    <resources>
-        <image name="leftChevron" width="44" height="44"/>
-        <image name="rightChevronTemplate" width="44" height="44"/>
-    </resources>
 </document>

@@ -174,6 +174,7 @@
 		0868D4B617FA0C72002AD679 /* KTPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0868D4B517FA0C72002AD679 /* KTPanel.m */; };
 		0868D4B917FA0D72002AD679 /* kTController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0868D4B817FA0D72002AD679 /* kTController.m */; };
 		0868D4BB17FA1C04002AD679 /* KTLatexPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4BA17FA1C04002AD679 /* KTLatexPanel.xib */; };
+		0868D4BE17FB4C9A002AD679 /* KTController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4BD17FB4C9A002AD679 /* KTController.xib */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
@@ -759,6 +760,7 @@
 		0868D4B717FA0D72002AD679 /* kTController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kTController.h; sourceTree = "<group>"; };
 		0868D4B817FA0D72002AD679 /* kTController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kTController.m; sourceTree = "<group>"; };
 		0868D4BA17FA1C04002AD679 /* KTLatexPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KTLatexPanel.xib; sourceTree = "<group>"; };
+		0868D4BD17FB4C9A002AD679 /* KTController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KTController.xib; sourceTree = "<group>"; };
 		086CC4B5167122C7004356F6 /* RCFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFileContainer.h; sourceTree = "<group>"; };
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
@@ -1522,6 +1524,7 @@
 			children = (
 				0868D4B717FA0D72002AD679 /* kTController.h */,
 				0868D4B817FA0D72002AD679 /* kTController.m */,
+				0868D4BD17FB4C9A002AD679 /* KTController.xib */,
 				0868D4B417FA0C72002AD679 /* KTPanel.h */,
 				0868D4B517FA0C72002AD679 /* KTPanel.m */,
 				0868D4B217F9FD91002AD679 /* KTExecutePanel.xib */,
@@ -2463,6 +2466,7 @@
 				08D244D915B5D9090064A9FA /* iOSDefaults.plist in Resources */,
 				08D244DA15B5D9090064A9FA /* Inconsolata.otf in Resources */,
 				08D244DB15B5D9090064A9FA /* mailsent.caf in Resources */,
+				0868D4BE17FB4C9A002AD679 /* KTController.xib in Resources */,
 				08137A3017C8024C005EA804 /* SharedImages.xcassets in Resources */,
 				08D2458315B5DB270064A9FA /* LICENSE in Resources */,
 				08D2461615B5E0780064A9FA /* DropboxImportController.xib in Resources */,

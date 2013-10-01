@@ -7,33 +7,16 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="KTPanel">
             <connections>
-                <outlet property="backButton" destination="0Y0-8A-px9" id="4J3-8P-hQm"/>
-                <outlet property="nextButton" destination="i3r-eB-J3e" id="2w0-3R-Pym"/>
                 <outlet property="view" destination="1" id="VtR-Qk-B0m"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view opaque="NO" contentMode="scaleToFill" id="1" customClass="KTPanelView">
-            <rect key="frame" x="0.0" y="0.0" width="1024" height="53"/>
+            <rect key="frame" x="0.0" y="0.0" width="904" height="44"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Y0-8A-px9">
-                    <rect key="frame" x="8" y="5" width="44" height="44"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="leftChevron">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3r-eB-J3e">
-                    <rect key="frame" x="972" y="5" width="44" height="44"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" image="rightChevronTemplate">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="db4-6t-StN">
-                    <rect key="frame" x="60" y="5" width="44" height="44"/>
+                    <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -46,7 +29,7 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qhc-AN-urI">
-                    <rect key="frame" x="112" y="5" width="44" height="44"/>
+                    <rect key="frame" x="52" y="0.0" width="44" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -59,7 +42,7 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Hh-oe-Y6B">
-                    <rect key="frame" x="164" y="5" width="44" height="44"/>
+                    <rect key="frame" x="104" y="0.0" width="44" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -72,7 +55,7 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jdL-TT-pS3">
-                    <rect key="frame" x="216" y="5" width="44" height="44"/>
+                    <rect key="frame" x="156" y="0.0" width="44" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -86,26 +69,15 @@
                 </button>
             </subviews>
             <constraints>
-                <constraint firstAttribute="centerY" secondItem="4Hh-oe-Y6B" secondAttribute="centerY" id="3RB-Fk-yLt"/>
-                <constraint firstItem="db4-6t-StN" firstAttribute="leading" secondItem="0Y0-8A-px9" secondAttribute="trailing" constant="8" id="Hzs-BK-js1"/>
-                <constraint firstItem="i3r-eB-J3e" firstAttribute="top" secondItem="1" secondAttribute="top" constant="5" id="Ia0-os-xaj"/>
-                <constraint firstItem="Qhc-AN-urI" firstAttribute="width" secondItem="db4-6t-StN" secondAttribute="width" id="Jkj-NB-P1A"/>
-                <constraint firstAttribute="centerY" secondItem="Qhc-AN-urI" secondAttribute="centerY" id="L5h-Nn-kOk"/>
-                <constraint firstAttribute="bottom" secondItem="i3r-eB-J3e" secondAttribute="bottom" constant="4" id="NBO-HT-K6t"/>
-                <constraint firstAttribute="trailing" secondItem="i3r-eB-J3e" secondAttribute="trailing" constant="8" id="NfY-XR-VLh"/>
-                <constraint firstItem="Qhc-AN-urI" firstAttribute="leading" secondItem="db4-6t-StN" secondAttribute="trailing" constant="8" id="OZl-fb-v3B"/>
-                <constraint firstAttribute="centerY" secondItem="db4-6t-StN" secondAttribute="centerY" id="Qgo-wy-GH6"/>
-                <constraint firstItem="0Y0-8A-px9" firstAttribute="top" secondItem="1" secondAttribute="top" constant="5" id="UdO-H2-ood"/>
-                <constraint firstAttribute="centerY" secondItem="jdL-TT-pS3" secondAttribute="centerY" id="b3V-ZA-ghs"/>
-                <constraint firstItem="4Hh-oe-Y6B" firstAttribute="leading" secondItem="Qhc-AN-urI" secondAttribute="trailing" constant="8" id="uE3-RV-ZJB"/>
-                <constraint firstAttribute="bottom" secondItem="0Y0-8A-px9" secondAttribute="bottom" constant="4" id="vnB-G8-hFs"/>
-                <constraint firstItem="0Y0-8A-px9" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="8" id="w0c-Kx-FKh"/>
-                <constraint firstItem="jdL-TT-pS3" firstAttribute="leading" secondItem="4Hh-oe-Y6B" secondAttribute="trailing" constant="8" id="xpp-vL-Uze"/>
+                <constraint firstItem="4Hh-oe-Y6B" firstAttribute="leading" secondItem="Qhc-AN-urI" secondAttribute="trailing" constant="8" id="30e-Oc-DrB"/>
+                <constraint firstItem="jdL-TT-pS3" firstAttribute="leading" secondItem="4Hh-oe-Y6B" secondAttribute="trailing" constant="8" id="ADF-yw-SVo"/>
+                <constraint firstAttribute="centerY" secondItem="4Hh-oe-Y6B" secondAttribute="centerY" id="NhT-Lu-cPa"/>
+                <constraint firstItem="Qhc-AN-urI" firstAttribute="leading" secondItem="db4-6t-StN" secondAttribute="trailing" constant="8" id="UoG-mi-Zg1"/>
+                <constraint firstAttribute="centerY" secondItem="Qhc-AN-urI" secondAttribute="centerY" id="eBZ-eR-NCC"/>
+                <constraint firstAttribute="centerY" secondItem="jdL-TT-pS3" secondAttribute="centerY" id="ikH-uq-cs8"/>
+                <constraint firstItem="db4-6t-StN" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="m9q-W8-Tqh"/>
+                <constraint firstAttribute="centerY" secondItem="db4-6t-StN" secondAttribute="centerY" id="weE-Ql-6NC"/>
             </constraints>
         </view>
     </objects>
-    <resources>
-        <image name="leftChevron" width="44" height="44"/>
-        <image name="rightChevronTemplate" width="44" height="44"/>
-    </resources>
 </document>

@@ -11,8 +11,34 @@
 
 @interface kTController ()
 @property (nonatomic, copy, readwrite) NSArray *panels;
-@property (nonatomic, strong, readwrite) UIView *view;
+@property (nonatomic, strong, readwrite) IBOutlet UIView *view;
+@property (nonatomic, weak) IBOutlet UIView *panelView;
+@property (nonatomic, weak) IBOutlet UIButton *nextButton;
+@property (nonatomic, weak) IBOutlet UIButton *prevButton;
 @property (nonatomic, assign) NSUInteger currentPanelIndex;
+@end
+
+@interface KTButton : UIButton
+@end
+
+@implementation KTButton
+@end
+
+@interface kTControllerView : UIView
+@end
+
+@implementation kTControllerView
+
+//not sure why this has to be overridden. super's implemetation is wrong
+-(BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+{
+	for (UIView *view in self.subviews) {
+		if (CGRectContainsPoint(view.frame, point))
+			return YES;
+	}
+	return NO;
+}
+
 @end
 
 @implementation kTController
@@ -20,18 +46,22 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 3, 1024, 53)];
+		UINib *nib = [UINib nibWithNibName:@"KTController" bundle:nil];
+		[nib instantiateWithOwner:self options:nil];
+		self.view.frame = CGRectMake(0, 3, 1024, 51);
+		self.view.translatesAutoresizingMaskIntoConstraints = NO;
+		self.panelView.translatesAutoresizingMaskIntoConstraints = NO;
 
 		NSMutableArray *panels = [NSMutableArray array];
 		for (NSString *aNib in @[@"KTExecutePanel", @"KTLatexPanel"]) {
 			KTPanel *panel = [[KTPanel alloc] initWithNibName:aNib controller:self];
 			[panels addObject:panel];
-			[self.view addSubview:panel.view];
-			NSLayoutConstraint *xcon = [NSLayoutConstraint constraintWithItem:panel.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:-1024];
-			[self.view addConstraint:xcon];
+			[self.panelView addSubview:panel.view];
+			NSLayoutConstraint *xcon = [NSLayoutConstraint constraintWithItem:panel.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeLeft multiplier:1 constant:-1024];
+			[self.panelView addConstraint:xcon];
 			panel.xConstraint = xcon;
-			[self.view addConstraint:[NSLayoutConstraint constraintWithItem:panel.view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
-			[self.view addConstraint:[NSLayoutConstraint constraintWithItem:panel.view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+			[self.panelView addConstraint:[NSLayoutConstraint constraintWithItem:panel.view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+			[self.panelView addConstraint:[NSLayoutConstraint constraintWithItem:panel.view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
 		}
 		self.panels = panels;
 
@@ -39,16 +69,21 @@
 
 		UIInputView *iview = [[UIInputView alloc] initWithFrame:self.view.frame inputViewStyle:UIInputViewStyleDefault];
 		[iview addSubview:self.view];
+		[iview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_view]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_view)]];
+		[iview addConstraint: [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:iview attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
 		self.inputView = iview;
 
 		KTPanel *first = [panels objectAtIndex:0];
 		first.xConstraint.constant = 0;
 		[self orientationDidChange:nil]; //force initial sizing
+		
+		self.nextButton.userInteractionEnabled = YES;
+		NSLog(@"Nb=%@", self.nextButton);
 }
 	return self;
 }
 
--(void)nextPanel:(id)sender
+-(IBAction)nextPanel:(id)sender
 {
 	NSUInteger idx = self.currentPanelIndex + 1;
 	if (idx >= self.panels.count)
@@ -57,25 +92,25 @@
 	KTPanel *panel = self.panels[idx];
 	self.currentPanelIndex = idx;
 
-	
+	CGFloat width = self.panelView.frame.size.width;
 	[UIView performWithoutAnimation:^{
-		panel.xConstraint.constant = - self.view.frame.size.width;
-		[self.view setNeedsUpdateConstraints];
-		[self.view layoutIfNeeded];
+		panel.xConstraint.constant = - width;
+		[self.panelView setNeedsUpdateConstraints];
+		[self.panelView layoutIfNeeded];
 		panel.view.hidden = NO;
 	}];
 	
 	[UIView animateWithDuration:0.5 animations:^{
 		panel.xConstraint.constant = 0;
-		oldPanel.xConstraint.constant = self.view.frame.size.width;
-		[self.view setNeedsUpdateConstraints];
-		[self.view layoutIfNeeded];
+		oldPanel.xConstraint.constant = width;
+		[self.panelView setNeedsUpdateConstraints];
+		[self.panelView layoutIfNeeded];
 	} completion:^(BOOL finished) {
 		oldPanel.view.hidden = YES;
 	}];
 }
 
--(void)previousPanel:(id)sender
+-(IBAction)previousPanel:(id)sender
 {
 	NSInteger idx = self.currentPanelIndex - 1;
 	if (idx < 0)
@@ -84,18 +119,19 @@
 	KTPanel *panel = self.panels[idx];
 	self.currentPanelIndex = idx;
 
+	CGFloat width = self.panelView.frame.size.width;
 	[UIView performWithoutAnimation:^{
 		panel.view.hidden = NO;
-		panel.xConstraint.constant = self.view.frame.size.width;
-		[self.view setNeedsUpdateConstraints];
-		[self.view layoutIfNeeded];
+		panel.xConstraint.constant = width;
+		[self.panelView setNeedsUpdateConstraints];
+		[self.panelView layoutIfNeeded];
 	}];
 	
 	[UIView animateWithDuration:0.5 animations:^{
 		panel.xConstraint.constant = 0;
-		oldPanel.xConstraint.constant = - self.view.frame.size.width;
-		[self.view setNeedsUpdateConstraints];
-		[self.view layoutIfNeeded];
+		oldPanel.xConstraint.constant = - width;
+		[self.panelView setNeedsUpdateConstraints];
+		[self.panelView layoutIfNeeded];
 	} completion:^(BOOL finished) {
 		oldPanel.view.hidden = YES;
 	}];
@@ -104,6 +140,7 @@
 -(void)orientationDidChange:(NSNotification*)note
 {
 	CGRect r = self.view.frame;
+	r.origin = CGPointZero;
 	BOOL isLandscape = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
 	if (isLandscape) {
 		r.size.width =1024;

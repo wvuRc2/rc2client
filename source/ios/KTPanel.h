@@ -11,8 +11,6 @@
 @class kTController;
 
 @interface KTPanel : NSObject
-@property (nonatomic, weak) IBOutlet UIButton *nextButton;
-@property (nonatomic, weak) IBOutlet UIButton *backButton;
 @property (nonatomic, strong) IBOutlet UIView *view;
 @property (nonatomic, strong) NSLayoutConstraint *xConstraint;
 

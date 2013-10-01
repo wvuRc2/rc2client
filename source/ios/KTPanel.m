@@ -26,8 +26,6 @@
 		self.controller = controller;
 		UINib *nib = [UINib nibWithNibName:nibName bundle:nil];
 		[nib instantiateWithOwner:self options:nil];
-		[self.nextButton addTarget:controller action:@selector(nextPanel:) forControlEvents:UIControlEventTouchUpInside];
-		[self.backButton addTarget:controller action:@selector(previousPanel:) forControlEvents:UIControlEventTouchUpInside];
 		self.panelName = nibName;
 	}
 	return self;
@@ -36,6 +34,10 @@
 -(NSString*)description
 {
 	return [NSString stringWithFormat:@"%@ %@", super.description, self.panelName];
+}
+
+-(IBAction)insertString:(id)sender
+{
 }
 
 @end
