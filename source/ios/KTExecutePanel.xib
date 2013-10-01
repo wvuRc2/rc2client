@@ -12,7 +12,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view opaque="NO" contentMode="scaleToFill" id="1" customClass="KTPanelView">
-            <rect key="frame" x="0.0" y="0.0" width="904" height="44"/>
+            <rect key="frame" x="0.0" y="0.0" width="904" height="48"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="db4-6t-StN">
@@ -57,11 +57,11 @@
             </subviews>
             <constraints>
                 <constraint firstItem="IH8-6D-s0U" firstAttribute="leading" secondItem="Czb-aj-YGm" secondAttribute="trailing" constant="8" id="Jio-Zt-SXg"/>
-                <constraint firstAttribute="centerY" secondItem="db4-6t-StN" secondAttribute="centerY" id="KSE-mY-Hx2"/>
+                <constraint firstItem="Czb-aj-YGm" firstAttribute="top" secondItem="1" secondAttribute="top" id="QSy-9Y-JPi"/>
+                <constraint firstItem="db4-6t-StN" firstAttribute="top" secondItem="1" secondAttribute="top" id="XXx-5j-N4t"/>
                 <constraint firstItem="IH8-6D-s0U" firstAttribute="leading" secondItem="Czb-aj-YGm" secondAttribute="trailing" constant="8" id="bTA-nW-IQX"/>
-                <constraint firstAttribute="centerY" secondItem="IH8-6D-s0U" secondAttribute="centerY" id="eBO-gx-JaM"/>
-                <constraint firstAttribute="centerY" secondItem="Czb-aj-YGm" secondAttribute="centerY" id="iTK-Hn-3vE"/>
                 <constraint firstItem="Czb-aj-YGm" firstAttribute="leading" secondItem="db4-6t-StN" secondAttribute="trailing" constant="8" id="ixT-PY-Ggu"/>
+                <constraint firstItem="IH8-6D-s0U" firstAttribute="top" secondItem="1" secondAttribute="top" id="jXc-Px-xgz"/>
                 <constraint firstItem="Czb-aj-YGm" firstAttribute="leading" secondItem="db4-6t-StN" secondAttribute="trailing" constant="8" id="oYA-T9-OVX"/>
                 <constraint firstItem="db4-6t-StN" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="wSZ-5a-8iF"/>
             </constraints>

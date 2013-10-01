@@ -51,6 +51,7 @@
 		self.view.frame = CGRectMake(0, 3, 1024, 51);
 		self.view.translatesAutoresizingMaskIntoConstraints = NO;
 		self.panelView.translatesAutoresizingMaskIntoConstraints = NO;
+		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.nextButton attribute:NSLayoutAttributeTop multiplier:1 constant:2]];
 
 		NSMutableArray *panels = [NSMutableArray array];
 		for (NSString *aNib in @[@"KTExecutePanel", @"KTLatexPanel"]) {
@@ -78,7 +79,6 @@
 		[self orientationDidChange:nil]; //force initial sizing
 		
 		self.nextButton.userInteractionEnabled = YES;
-		NSLog(@"Nb=%@", self.nextButton);
 }
 	return self;
 }

@@ -12,7 +12,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view opaque="NO" contentMode="scaleToFill" id="1" customClass="KTPanelView">
-            <rect key="frame" x="0.0" y="0.0" width="904" height="44"/>
+            <rect key="frame" x="0.0" y="0.0" width="904" height="48"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="db4-6t-StN">
@@ -70,13 +70,13 @@
             </subviews>
             <constraints>
                 <constraint firstItem="4Hh-oe-Y6B" firstAttribute="leading" secondItem="Qhc-AN-urI" secondAttribute="trailing" constant="8" id="30e-Oc-DrB"/>
+                <constraint firstItem="db4-6t-StN" firstAttribute="top" secondItem="1" secondAttribute="top" id="6mE-w4-kXy"/>
                 <constraint firstItem="jdL-TT-pS3" firstAttribute="leading" secondItem="4Hh-oe-Y6B" secondAttribute="trailing" constant="8" id="ADF-yw-SVo"/>
-                <constraint firstAttribute="centerY" secondItem="4Hh-oe-Y6B" secondAttribute="centerY" id="NhT-Lu-cPa"/>
+                <constraint firstItem="Qhc-AN-urI" firstAttribute="top" secondItem="1" secondAttribute="top" id="Ext-md-FeQ"/>
+                <constraint firstItem="jdL-TT-pS3" firstAttribute="top" secondItem="1" secondAttribute="top" id="RNN-Xp-XW6"/>
                 <constraint firstItem="Qhc-AN-urI" firstAttribute="leading" secondItem="db4-6t-StN" secondAttribute="trailing" constant="8" id="UoG-mi-Zg1"/>
-                <constraint firstAttribute="centerY" secondItem="Qhc-AN-urI" secondAttribute="centerY" id="eBZ-eR-NCC"/>
-                <constraint firstAttribute="centerY" secondItem="jdL-TT-pS3" secondAttribute="centerY" id="ikH-uq-cs8"/>
                 <constraint firstItem="db4-6t-StN" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="m9q-W8-Tqh"/>
-                <constraint firstAttribute="centerY" secondItem="db4-6t-StN" secondAttribute="centerY" id="weE-Ql-6NC"/>
+                <constraint firstItem="4Hh-oe-Y6B" firstAttribute="top" secondItem="1" secondAttribute="top" id="zlH-OI-dsk"/>
             </constraints>
         </view>
     </objects>

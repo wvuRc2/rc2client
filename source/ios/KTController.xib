@@ -40,12 +40,11 @@
                     </connections>
                 </button>
                 <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wo7-zS-lRc">
-                    <rect key="frame" x="60" y="4" width="904" height="44"/>
+                    <rect key="frame" x="60" y="2" width="904" height="48"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="ihe-AT-dSu"/>
-                        <constraint firstAttribute="height" constant="44" id="tgf-vc-azZ"/>
+                        <constraint firstAttribute="height" constant="48" id="tgf-vc-azZ"/>
                     </constraints>
                 </view>
             </subviews>
@@ -53,7 +52,7 @@
                 <constraint firstAttribute="centerY" secondItem="i3r-eB-J3e" secondAttribute="centerY" id="1fQ-gt-x6g"/>
                 <constraint firstAttribute="trailing" secondItem="i3r-eB-J3e" secondAttribute="trailing" constant="8" id="NfY-XR-VLh"/>
                 <constraint firstAttribute="centerY" secondItem="0Y0-8A-px9" secondAttribute="centerY" id="Zqr-Q9-Iwl"/>
-                <constraint firstAttribute="centerY" secondItem="wo7-zS-lRc" secondAttribute="centerY" id="vUd-QJ-UUm"/>
+                <constraint firstItem="wo7-zS-lRc" firstAttribute="top" secondItem="1" secondAttribute="top" constant="2" id="aS7-d3-PwN"/>
                 <constraint firstItem="0Y0-8A-px9" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="8" id="w0c-Kx-FKh"/>
                 <constraint firstItem="wo7-zS-lRc" firstAttribute="leading" secondItem="0Y0-8A-px9" secondAttribute="trailing" constant="8" id="woK-fK-jlV"/>
                 <constraint firstItem="i3r-eB-J3e" firstAttribute="leading" secondItem="wo7-zS-lRc" secondAttribute="trailing" constant="8" id="z9O-Ms-jTw"/>

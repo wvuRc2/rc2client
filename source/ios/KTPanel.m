@@ -47,6 +47,18 @@
 -(void)awakeFromNib
 {
 	self.translatesAutoresizingMaskIntoConstraints = NO;
+	for (id view in self.subviews) {
+		if ([view isKindOfClass:[UIButton class]]) {
+			UIButton *button = view;
+			button.layer.masksToBounds = NO;
+			button.layer.shadowColor = [UIColor blackColor].CGColor;
+			button.layer.shadowOffset = CGSizeMake(0, 1);
+			button.layer.shadowOpacity = 0.5;
+			button.layer.shadowRadius = 1;
+			button.layer.cornerRadius = 6;
+			button.tintColor = [UIColor blackColor];
+		}
+	}
 }
 
 -(void)updateConstraints
