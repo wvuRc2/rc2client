@@ -14,7 +14,6 @@
 #import "AMResizableSplitterView.h"
 #import "EditorViewController.h"
 #import "ConsoleViewController.h"
-#import "KeyboardToolbar.h"
 #import "Rc2Server.h"
 #import "ImageDisplayController.h"
 #import "RCImage.h"
@@ -30,7 +29,7 @@
 #import "RCDropboxSync.h"
 #import "kTController.h"
 
-@interface SessionViewController() <KeyboardToolbarDelegate,AMResizableSplitViewControllerDelegate,RCDropboxSyncDelegate>
+@interface SessionViewController() <KTControllerDelegate,AMResizableSplitViewControllerDelegate,RCDropboxSyncDelegate>
 @property (nonatomic, strong) IBOutlet AMResizableSplitViewController *splitController;
 @property (nonatomic, strong) UIBarButtonItem *mikeButton;
 @property (nonatomic, strong) UIBarButtonItem *doodleButton;
@@ -113,9 +112,8 @@
 	RCSavedSession *savedState = self.session.savedSessionState;
 	self.consoleController.session = self.session;
 	[self.consoleController view]; //force loading
-	self.consoleKeyboardToolbar = [[kTController alloc] init];
+	self.consoleKeyboardToolbar = [[kTController alloc] initWithDelegate:self];
 	self.consoleController.textField.inputAccessoryView = self.consoleKeyboardToolbar.inputView;
-//	self.consoleKeyboardToolbar.delegate = self;
 	self.editorController.session = self.session;
 	[self.editorController view];
 	[self.editorController restoreSessionState:savedState];
@@ -218,13 +216,42 @@
 
 #pragma mark - console keyboard toolbar delegate
 
--(void)keyboardToolbar:(KeyboardToolbar*)tbar insertString:(NSString*)str
+-(BOOL)kt_enableButtonWithSelector:(SEL)sel
+{
+	return YES;
+}
+
+-(void)kt_insertString:(NSString *)string
 {
 	UITextField *tf = self.consoleController.textField;
 	UITextRange *trng = tf.selectedTextRange;
-	[tf replaceRange:trng withText:str];
+	[tf replaceRange:trng withText:string];
 }
 
+-(void)kt_execute:(id)sender
+{
+	NSLog(@"execute");
+}
+
+-(void)kt_leftArrow:(id)sender
+{
+	UITextField *tf = self.consoleController.textField;
+	UITextPosition *pos = tf.selectedTextRange.start;
+	pos = [tf positionFromPosition:pos inDirection:UITextLayoutDirectionLeft offset:1];
+	UITextRange *rng = [tf textRangeFromPosition:pos toPosition:pos];
+	tf.selectedTextRange = rng;
+}
+
+-(void)kt_rightArrow:(id)sender
+{
+	UITextField *tf = self.consoleController.textField;
+	UITextPosition *pos = tf.selectedTextRange.start;
+	pos = [tf positionFromPosition:pos inDirection:UITextLayoutDirectionRight offset:1];
+	UITextRange *rng = [tf textRangeFromPosition:pos toPosition:pos];
+	tf.selectedTextRange = rng;
+}
+
+/*
 -(void)keyboardToolbarExecute:(KeyboardToolbar*)tbar
 {
 	[self.consoleController.textField resignFirstResponder];
@@ -233,7 +260,7 @@
 		[self.consoleController doExecute:tbar];
 	});
 }
-
+*/
 
 #pragma mark - meat & potatoes
 

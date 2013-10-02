@@ -15,4 +15,5 @@
 @property (nonatomic, strong) NSLayoutConstraint *xConstraint;
 
 -(id)initWithNibName:(NSString*)nibName controller:(kTController*)controller;
+-(void)panelWillAppear;
 @end

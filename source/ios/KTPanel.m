@@ -36,8 +36,63 @@
 	return [NSString stringWithFormat:@"%@ %@", super.description, self.panelName];
 }
 
+-(void)panelWillAppear
+{
+	//for each button, grab the touch up selector. if delegate responds to kt_selname then enable the button
+	for (UIView *view in self.view.subviews) {
+		if ([view isKindOfClass:[UIButton class]]) {
+			UIButton *button = (UIButton*)view;
+			NSString *selstr = [[button actionsForTarget:self forControlEvent:UIControlEventTouchUpInside] firstObject];
+			button.enabled = NO;
+			if (selstr) {
+				NSString *delSel = [@"kt_" stringByAppendingString:selstr];
+				SEL sel = NSSelectorFromString(delSel);
+				button.enabled = sel != nil && [self.controller.delegate respondsToSelector:sel];
+				if (button.enabled)
+					button.enabled = [self.controller.delegate kt_enableButtonWithSelector:sel];
+			}
+		}
+	}
+}
+
+-(IBAction)executeLine:(id)sender
+{
+	[self.controller.delegate kt_executeLine:sender];
+}
+
+-(IBAction)execute:(id)sender
+{
+	[self.controller.delegate kt_execute:sender];
+}
+
+-(IBAction)source:(id)sender
+{
+	[self.controller.delegate kt_source:sender];
+}
+
 -(IBAction)insertString:(id)sender
 {
+	[self.controller.delegate kt_insertString:[[sender titleLabel] text]];
+}
+
+-(IBAction)leftArrow:(id)sender
+{
+	[self.controller.delegate kt_leftArrow:sender];
+}
+
+-(IBAction)rightArrow:(id)sender
+{
+	[self.controller.delegate kt_rightArrow:sender];
+}
+
+-(IBAction)upArrow:(id)sender
+{
+	[self.controller.delegate kt_upArrow:sender];
+}
+
+-(IBAction)downArrow:(id)sender
+{
+	[self.controller.delegate kt_downArrow:sender];
 }
 
 @end

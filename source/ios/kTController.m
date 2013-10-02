@@ -43,9 +43,10 @@
 
 @implementation kTController
 
-- (id)init
+-(id)initWithDelegate:(id<KTControllerDelegate>)del
 {
 	if ((self = [super init])) {
+		self.delegate = del;
 		UINib *nib = [UINib nibWithNibName:@"KTController" bundle:nil];
 		[nib instantiateWithOwner:self options:nil];
 		self.view.frame = CGRectMake(0, 3, 1024, 51);
@@ -77,6 +78,8 @@
 		KTPanel *first = [panels objectAtIndex:0];
 		first.xConstraint.constant = 0;
 		[self orientationDidChange:nil]; //force initial sizing
+
+		[first panelWillAppear];
 		
 		self.nextButton.userInteractionEnabled = YES;
 }
@@ -99,7 +102,7 @@
 		[self.panelView layoutIfNeeded];
 		panel.view.hidden = NO;
 	}];
-	
+	[panel panelWillAppear];
 	[UIView animateWithDuration:0.5 animations:^{
 		panel.xConstraint.constant = 0;
 		oldPanel.xConstraint.constant = width;
@@ -126,7 +129,7 @@
 		[self.panelView setNeedsUpdateConstraints];
 		[self.panelView layoutIfNeeded];
 	}];
-	
+	[panel panelWillAppear];
 	[UIView animateWithDuration:0.5 animations:^{
 		panel.xConstraint.constant = 0;
 		oldPanel.xConstraint.constant = - width;
