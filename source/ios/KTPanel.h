@@ -13,6 +13,7 @@
 @interface KTPanel : NSObject
 @property (nonatomic, strong) IBOutlet UIView *view;
 @property (nonatomic, strong) NSLayoutConstraint *xConstraint;
+@property (nonatomic, copy, readonly) NSString *panelName;
 
 -(id)initWithNibName:(NSString*)nibName controller:(kTController*)controller;
 -(void)panelWillAppear;

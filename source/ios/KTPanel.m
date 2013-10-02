@@ -11,7 +11,7 @@
 
 @interface KTPanel ()
 @property (nonatomic, weak) kTController *controller;
-@property (nonatomic, copy) NSString *panelName;
+@property (nonatomic, copy, readwrite) NSString *panelName;
 @end
 
 @interface KTPanelView : UIView
@@ -40,6 +40,8 @@
 {
 	//for each button, grab the touch up selector. if delegate responds to kt_selname then enable the button
 	for (UIView *view in self.view.subviews) {
+		if (view.tag > 10000)
+			continue;
 		if ([view isKindOfClass:[UIButton class]]) {
 			UIButton *button = (UIButton*)view;
 			NSString *selstr = [[button actionsForTarget:self forControlEvent:UIControlEventTouchUpInside] firstObject];
@@ -73,6 +75,17 @@
 -(IBAction)insertString:(id)sender
 {
 	[self.controller.delegate kt_insertString:[[sender titleLabel] text]];
+}
+
+-(IBAction)insertGetsOperator:(id)sender
+{
+	[self.controller.delegate kt_insertString:@"<-"];
+}
+
+
+-(IBAction)insertTab:(id)sender
+{
+	[self.controller.delegate kt_insertString:@"\t"];
 }
 
 -(IBAction)leftArrow:(id)sender

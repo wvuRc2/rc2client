@@ -23,14 +23,14 @@
 #import "DropboxImportController.h"
 #import "SessionEditView.h"
 //#import "RCMSyntaxHighlighter.h"
-#import "KeyboardToolbar.h"
+#import "kTController.h"
 #import "WHMailActivity.h"
 #import "MAKVONotificationCenter.h"
 #import "RCSyntaxParser.h"
 
 #define DEFAUT_UIFONT [UIFont fontWithName:@"Inconsolata" size:18.0]
 
-@interface EditorViewController() <KeyboardToolbarDelegate,NSTextStorageDelegate> {
+@interface EditorViewController() <KTControllerDelegate,NSTextStorageDelegate> {
 	BOOL _viewLoaded;
 	BOOL _handUp;
 }
@@ -43,7 +43,7 @@
 @property (nonatomic, weak) IBOutlet UITextView *lineNumberView;
 @property (nonatomic, strong) IBOutlet SessionEditView *richEditor;
 @property (nonatomic, strong) NSDictionary *defaultTextAttrs;
-@property (nonatomic, strong) KeyboardToolbar *keyboardToolbar;
+@property (nonatomic, strong) kTController *keyboardToolbar;
 @property (nonatomic, strong) SessionFilesController *fileController;
 @property (nonatomic, strong) UIPopoverController *filePopover;
 @property (nonatomic, strong) UIPopoverController *activityPopover;
@@ -124,7 +124,7 @@
 	NSDictionary *info = note.userInfo;
 	self.currentFile.localEdits = self.richEditor.text;
 	[self updateDocumentState];
-	self.richEditor.inputAccessoryView = self.keyboardToolbar.view;
+	self.richEditor.inputAccessoryView = self.keyboardToolbar.inputView;
 	if (self.currentFile.locallyModified && self.currentFile.localEdits.length < 4096)
 		[self saveFileData:nil];
 
@@ -205,11 +205,8 @@
 		self.richEditor.textStorage.delegate = self;
 		
 		self.handButton.hidden = YES;
-		self.keyboardToolbar = [[KeyboardToolbar alloc] init];
-		self.keyboardToolbar.delegate = self;
-		UIInputView *iview = [[UIInputView alloc] initWithFrame:self.keyboardToolbar.view.frame inputViewStyle:UIInputViewStyleDefault];
-		[iview addSubview:self.keyboardToolbar.view];
-		self.richEditor.inputAccessoryView = iview;
+		self.keyboardToolbar = [[kTController alloc] initWithDelegate:self];
+		self.richEditor.inputAccessoryView = self.keyboardToolbar.inputView;
 		_viewLoaded=YES;
 	}
 }
@@ -222,52 +219,40 @@
 
 #pragma mark - keybard toolbar delegate
 
--(void)keyboardToolbar:(KeyboardToolbar*)tbar insertString:(NSString*)str
+-(BOOL)kt_enableButtonWithSelector:(SEL)sel
 {
-	NSMutableAttributedString *astr = [self.richEditor.attributedText mutableCopy];
-	NSRange rng = self.richEditor.selectedRange;
-	[astr replaceCharactersInRange:rng withString:str];
-	self.richEditor.attributedText = astr;
-	self.richEditor.selectedRange = NSMakeRange(rng.location + str.length, 0);
+	return YES;
 }
 
--(void)keyboardToolbarExecute:(KeyboardToolbar*)tbar
+-(void)kt_insertString:(NSString *)string
+{
+	NSRange rng = self.richEditor.selectedRange;
+	[self.richEditor.textStorage replaceCharactersInRange:rng withString:string];
+}
+
+-(void)kt_execute:(id)sender
 {
 	[self.richEditor resignFirstResponder];
 	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC);
 	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-		[self doExecute:tbar];
+		[self internalExecute:RCSessionExecuteOptionNone];
+		if (!self.externalKeyboardVisible)
+			[self.richEditor resignFirstResponder];
 	});
 }
 
--(void)upArrow
+-(void)kt_source:(id)sender
 {
-	[self.richEditor upArrow];
+	[self.richEditor resignFirstResponder];
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC);
+	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+		[self internalExecute:RCSessionExecuteOptionSource];
+		if (!self.externalKeyboardVisible)
+			[self.richEditor resignFirstResponder];
+	});
 }
 
--(void)downArrow
-{
-	[self.richEditor downArrow];
-}
-
--(void)leftArrow
-{
-	[self.richEditor leftArrow];
-}
-
--(void)rightArrow
-{
-	[self.richEditor rightArrow];
-}
-
--(void)execute
-{
-	[self internalExecute:RCSessionExecuteOptionNone];
-	if (!self.externalKeyboardVisible)
-		[self.richEditor resignFirstResponder];
-}
-
--(void)executeLine
+-(void)kt_executeLine:(id)sender
 {
 	SessionEditView *editor = self.richEditor;
 	NSString *str = [[editor.text substringWithRange:[editor.text lineRangeForRange:editor.selectedRange]] stringByTrimmingWhitespace];
@@ -277,11 +262,24 @@
 		[editor resignFirstResponder];
 }
 
--(void)executeSource
+-(void)kt_upArrow:(id)sender
 {
-	[self internalExecute:RCSessionExecuteOptionSource];
-	if (!self.externalKeyboardVisible)
-		[self.richEditor resignFirstResponder];
+	[self.richEditor upArrow];
+}
+
+-(void)kt_downArrow:(id)sender
+{
+	[self.richEditor downArrow];
+}
+
+-(void)kt_leftArrow:(id)sender
+{
+	[self.richEditor leftArrow];
+}
+
+-(void)kt_rightArrow:(id)sender
+{
+	[self.richEditor rightArrow];
 }
 
 #pragma mark - meat & potatoes

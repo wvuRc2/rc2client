@@ -21,6 +21,8 @@
 -(IBAction)nextPanel:(id)sender;
 -(IBAction)previousPanel:(id)sender;
 
+-(void)switchToPanelForFileExtension:(NSString*)fileExtension;
+
 @end
 
 @protocol KTControllerDelegate <NSObject>

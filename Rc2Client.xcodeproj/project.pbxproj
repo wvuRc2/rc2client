@@ -175,6 +175,8 @@
 		0868D4B917FA0D72002AD679 /* kTController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0868D4B817FA0D72002AD679 /* kTController.m */; };
 		0868D4BB17FA1C04002AD679 /* KTLatexPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4BA17FA1C04002AD679 /* KTLatexPanel.xib */; };
 		0868D4BE17FB4C9A002AD679 /* KTController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4BD17FB4C9A002AD679 /* KTController.xib */; };
+		0868D4C017FCA0B5002AD679 /* KTRPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4BF17FCA0B5002AD679 /* KTRPanel.xib */; };
+		0868D4C217FCA290002AD679 /* KTOperatorPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4C117FCA290002AD679 /* KTOperatorPanel.xib */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
@@ -761,6 +763,8 @@
 		0868D4B817FA0D72002AD679 /* kTController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kTController.m; sourceTree = "<group>"; };
 		0868D4BA17FA1C04002AD679 /* KTLatexPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KTLatexPanel.xib; sourceTree = "<group>"; };
 		0868D4BD17FB4C9A002AD679 /* KTController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KTController.xib; sourceTree = "<group>"; };
+		0868D4BF17FCA0B5002AD679 /* KTRPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KTRPanel.xib; sourceTree = "<group>"; };
+		0868D4C117FCA290002AD679 /* KTOperatorPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KTOperatorPanel.xib; sourceTree = "<group>"; };
 		086CC4B5167122C7004356F6 /* RCFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFileContainer.h; sourceTree = "<group>"; };
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
@@ -1528,7 +1532,9 @@
 				0868D4B417FA0C72002AD679 /* KTPanel.h */,
 				0868D4B517FA0C72002AD679 /* KTPanel.m */,
 				0868D4B217F9FD91002AD679 /* KTExecutePanel.xib */,
+				0868D4BF17FCA0B5002AD679 /* KTRPanel.xib */,
 				0868D4BA17FA1C04002AD679 /* KTLatexPanel.xib */,
+				0868D4C117FCA290002AD679 /* KTOperatorPanel.xib */,
 			);
 			name = "keyboard toolbar";
 			sourceTree = "<group>";
@@ -2456,6 +2462,7 @@
 				082D1EC717E38B6900723EB3 /* RKeywords.txt in Resources */,
 				08D2441415B5D78A0064A9FA /* README.mdown in Resources */,
 				08D2441515B5D78A0064A9FA /* tokenHighlighted.png in Resources */,
+				0868D4C017FCA0B5002AD679 /* KTRPanel.xib in Resources */,
 				08D2441615B5D78A0064A9FA /* tokenHighlighted@2x.png in Resources */,
 				08D2441715B5D78A0064A9FA /* tokenNormal.png in Resources */,
 				08D2441815B5D78A0064A9FA /* tokenNormal@2x.png in Resources */,
@@ -2514,6 +2521,7 @@
 				08FF3D4B16F10E1900F3E09E /* CrosshairSelector.png in Resources */,
 				08FF3D4C16F10E1900F3E09E /* CrosshairSelector@2x.png in Resources */,
 				08FF3D4E16F10E1900F3E09E /* HorizontalSelector.png in Resources */,
+				0868D4C217FCA290002AD679 /* KTOperatorPanel.xib in Resources */,
 				08FF3D4F16F10E1900F3E09E /* HorizontalSelector@2x.png in Resources */,
 				08FF3D5016F10E1900F3E09E /* HueSaturationGradient.png in Resources */,
 				087DB8C817B57AFF00724811 /* HockeySDKResources.bundle in Resources */,

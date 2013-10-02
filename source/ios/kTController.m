@@ -55,7 +55,7 @@
 		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.nextButton attribute:NSLayoutAttributeTop multiplier:1 constant:2]];
 
 		NSMutableArray *panels = [NSMutableArray array];
-		for (NSString *aNib in @[@"KTExecutePanel", @"KTLatexPanel"]) {
+		for (NSString *aNib in @[@"KTExecutePanel", @"KTRPanel", @"KTOperatorPanel", @"KTLatexPanel"]) {
 			KTPanel *panel = [[KTPanel alloc] initWithNibName:aNib controller:self];
 			[panels addObject:panel];
 			[self.panelView addSubview:panel.view];
@@ -138,6 +138,32 @@
 	} completion:^(BOOL finished) {
 		oldPanel.view.hidden = YES;
 	}];
+}
+
+-(void)switchToPanelForFileExtension:(NSString*)fileExtension
+{
+	/*
+	NSString *panelName = nil;
+	if (NSOrderedSame == [fileExtension caseInsensitiveCompare:@"Rnw"])
+		panelName = @"RTLatexPanel";
+	else if (NSOrderedSame == [fileExtension caseInsensitiveCompare:@"R"])
+		panelName = @"RTRPanel";
+	if (panelName) {
+		NSUInteger idx = [self.panels indexOfFirstObjectWithValue:panelName forKey:@"panelName"];
+		if (idx != NSNotFound && idx != self.currentPanelIndex) {
+			KTPanel *oldPanel = self.panels[self.currentPanelIndex];
+			KTPanel *newPanel = self.panels[idx];
+			CGFloat width = self.panelView.frame.size.width;
+			[UIView performWithoutAnimation:^{
+				newPanel.view.hidden = NO;
+				oldPanel.view.hidden = YES;
+				oldPanel.xConstraint.constant = - width;
+				newPanel.xConstraint.constant = 0;
+				[self.panelView setNeedsUpdateConstraints];
+				[self.panelView layoutIfNeeded];
+			}];
+		}
+	} */
 }
 
 -(void)orientationDidChange:(NSNotification*)note
