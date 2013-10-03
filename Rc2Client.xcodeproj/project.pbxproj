@@ -89,12 +89,7 @@
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
 		084593E715B5F16F00297C9D /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593E615B5F16F00297C9D /* RCMAppConstants.m */; };
 		084593FA15B5F1D700297C9D /* RCMEditUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F515B5F1D700297C9D /* RCMEditUserController.m */; };
-		084593FB15B5F1D700297C9D /* RCMEditUserController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 084593F615B5F1D700297C9D /* RCMEditUserController.xib */; };
 		084593FC15B5F1D700297C9D /* RCMUserAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F815B5F1D700297C9D /* RCMUserAdminController.m */; };
-		084593FD15B5F1D700297C9D /* RCMUserAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 084593F915B5F1D700297C9D /* RCMUserAdminController.xib */; };
-		0845940415B5F20100297C9D /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 084593FE15B5F20100297C9D /* Credits.rtf */; };
-		0845940515B5F20100297C9D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0845940015B5F20100297C9D /* InfoPlist.strings */; };
-		0845940615B5F20100297C9D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845940215B5F20100297C9D /* MainMenu.xib */; };
 		0845941A15B5F22700297C9D /* accord-center.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940815B5F22700297C9D /* accord-center.png */; };
 		0845941B15B5F22700297C9D /* accord-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940915B5F22700297C9D /* accord-left.png */; };
 		0845941C15B5F22700297C9D /* accord-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940A15B5F22700297C9D /* accord-right.png */; };
@@ -177,6 +172,10 @@
 		0868D4BE17FB4C9A002AD679 /* KTController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4BD17FB4C9A002AD679 /* KTController.xib */; };
 		0868D4C017FCA0B5002AD679 /* KTRPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4BF17FCA0B5002AD679 /* KTRPanel.xib */; };
 		0868D4C217FCA290002AD679 /* KTOperatorPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4C117FCA290002AD679 /* KTOperatorPanel.xib */; };
+		0868D4C517FCBDD6002AD679 /* ImageCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0868D4C417FCBDD6002AD679 /* ImageCollectionController.m */; };
+		0868D4C817FCC655002AD679 /* ImageCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0868D4C717FCC655002AD679 /* ImageCollectionCell.m */; };
+		0868D4CC17FDE6E1002AD679 /* ImageCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4C917FCC67F002AD679 /* ImageCollectionCell.xib */; };
+		0868D4CF17FDECC0002AD679 /* ImageCollectionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0868D4CE17FDECC0002AD679 /* ImageCollectionLayout.m */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
@@ -765,6 +764,13 @@
 		0868D4BD17FB4C9A002AD679 /* KTController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KTController.xib; sourceTree = "<group>"; };
 		0868D4BF17FCA0B5002AD679 /* KTRPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KTRPanel.xib; sourceTree = "<group>"; };
 		0868D4C117FCA290002AD679 /* KTOperatorPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KTOperatorPanel.xib; sourceTree = "<group>"; };
+		0868D4C317FCBDD6002AD679 /* ImageCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCollectionController.h; sourceTree = "<group>"; };
+		0868D4C417FCBDD6002AD679 /* ImageCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionController.m; sourceTree = "<group>"; };
+		0868D4C617FCC655002AD679 /* ImageCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCollectionCell.h; sourceTree = "<group>"; };
+		0868D4C717FCC655002AD679 /* ImageCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionCell.m; sourceTree = "<group>"; };
+		0868D4C917FCC67F002AD679 /* ImageCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionCell.xib; sourceTree = "<group>"; };
+		0868D4CD17FDECC0002AD679 /* ImageCollectionLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCollectionLayout.h; sourceTree = "<group>"; };
+		0868D4CE17FDECC0002AD679 /* ImageCollectionLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionLayout.m; sourceTree = "<group>"; };
 		086CC4B5167122C7004356F6 /* RCFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFileContainer.h; sourceTree = "<group>"; };
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
@@ -1817,6 +1823,13 @@
 				08D2439415B5D5E20064A9FA /* ImageDisplayController.h */,
 				08D2439515B5D5E20064A9FA /* ImageDisplayController.m */,
 				08D2439615B5D5E20064A9FA /* ImageDisplayController.xib */,
+				0868D4C317FCBDD6002AD679 /* ImageCollectionController.h */,
+				0868D4C417FCBDD6002AD679 /* ImageCollectionController.m */,
+				0868D4CD17FDECC0002AD679 /* ImageCollectionLayout.h */,
+				0868D4CE17FDECC0002AD679 /* ImageCollectionLayout.m */,
+				0868D4C617FCC655002AD679 /* ImageCollectionCell.h */,
+				0868D4C717FCC655002AD679 /* ImageCollectionCell.m */,
+				0868D4C917FCC67F002AD679 /* ImageCollectionCell.xib */,
 				08D2439715B5D5E20064A9FA /* ImagePickerController.h */,
 				08D2439815B5D5E20064A9FA /* ImagePickerController.m */,
 				08D243CD15B5D7590064A9FA /* ImageHolderView.h */,
@@ -2455,6 +2468,7 @@
 				08D243BE15B5D6560064A9FA /* SendMessageViewController.xib in Resources */,
 				08D243E015B5D7590064A9FA /* ControllerUserCell.xib in Resources */,
 				08D243E215B5D7590064A9FA /* DropboxImportCell.xib in Resources */,
+				0868D4CC17FDE6E1002AD679 /* ImageCollectionCell.xib in Resources */,
 				08D243E415B5D7590064A9FA /* FileDetailsCell.xib in Resources */,
 				08D243E815B5D7590064A9FA /* MessageListCell.xib in Resources */,
 				08D243EA15B5D7590064A9FA /* NotificationCell.xib in Resources */,
@@ -2533,11 +2547,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				084593FB15B5F1D700297C9D /* RCMEditUserController.xib in Resources */,
-				084593FD15B5F1D700297C9D /* RCMUserAdminController.xib in Resources */,
-				0845940415B5F20100297C9D /* Credits.rtf in Resources */,
-				0845940515B5F20100297C9D /* InfoPlist.strings in Resources */,
-				0845940615B5F20100297C9D /* MainMenu.xib in Resources */,
 				0845941A15B5F22700297C9D /* accord-center.png in Resources */,
 				0845941B15B5F22700297C9D /* accord-left.png in Resources */,
 				0845941C15B5F22700297C9D /* accord-right.png in Resources */,
@@ -2803,6 +2812,7 @@
 				08D2459515B5DB270064A9FA /* WebSocketMessage.m in Sources */,
 				08D245CE15B5DBB70064A9FA /* _RCFile.m in Sources */,
 				08D245CF15B5DBB70064A9FA /* _RCMessage.m in Sources */,
+				0868D4C817FCC655002AD679 /* ImageCollectionCell.m in Sources */,
 				08D245D015B5DBB70064A9FA /* _RCSavedSession.m in Sources */,
 				08D245D115B5DBB70064A9FA /* _RCWorkspaceCache.m in Sources */,
 				08D245D215B5DBB70064A9FA /* RCAssignment.m in Sources */,
@@ -2817,6 +2827,7 @@
 				0868D4B917FA0D72002AD679 /* kTController.m in Sources */,
 				08D245D815B5DBB70064A9FA /* RCSavedSession.m in Sources */,
 				08D245D915B5DBB70064A9FA /* RCSession.m in Sources */,
+				0868D4C517FCBDD6002AD679 /* ImageCollectionController.m in Sources */,
 				08D245DA15B5DBB70064A9FA /* RCSessionUser.m in Sources */,
 				08D245DB15B5DBB70064A9FA /* RCStudentAssignment.m in Sources */,
 				08D245DC15B5DBB70064A9FA /* RCUser.m in Sources */,
@@ -2871,6 +2882,7 @@
 				08BDDD9217EA48AB00E669E3 /* NSObject+MagicalDataImport.m in Sources */,
 				08D8C336169E1637000DDA04 /* FileImportViewController.m in Sources */,
 				08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */,
+				0868D4CF17FDECC0002AD679 /* ImageCollectionLayout.m in Sources */,
 				08FF3D2716F0C71F00F3E09E /* WHMailActivity.m in Sources */,
 				08FF3D2816F0C71F00F3E09E /* WHMailActivityItem.m in Sources */,
 				08FF3D2D16F0C71F00F3E09E /* WHTextActivity.m in Sources */,

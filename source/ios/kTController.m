@@ -82,8 +82,13 @@
 		[first panelWillAppear];
 		
 		self.nextButton.userInteractionEnabled = YES;
-}
+	}
 	return self;
+}
+
+-(void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(IBAction)nextPanel:(id)sender

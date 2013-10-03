@@ -16,6 +16,7 @@
 #import "ConsoleViewController.h"
 #import "Rc2Server.h"
 #import "ImageDisplayController.h"
+#import "ImageCollectionController.h"
 #import "RCImage.h"
 #import "RCImageCache.h"
 #import "RCFile.h"
@@ -36,6 +37,7 @@
 @property (nonatomic, strong) UIBarButtonItem *controlButton;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) ImageDisplayController *imgController;
+@property (nonatomic, strong) ImageCollectionController *icolController;
 @property (nonatomic, strong) ControlViewController *controlController;
 @property (nonatomic, strong) UIPopoverController *controlPopover;
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
@@ -483,6 +485,25 @@
 		imgGroup = [[RCImageCache sharedInstance] groupImagesForLinkPath:fileOrPath];
 	}
 	
+	if (nil == self.icolController) {
+		self.icolController = [[ImageCollectionController alloc] init];
+		self.icolController.navigationItem.title = [NSString stringWithFormat:@"%@ Images", self.session.workspace.name];
+		[self.icolController view]; //force loading
+	}
+	if (imgGroup.count > 0) {
+			self.icolController.images = imgGroup;
+	} else {
+		self.icolController.images = [[[RCImageCache sharedInstance] allImages] sortedArrayUsingComparator:^(RCImage *obj1, RCImage *obj2) {
+			if (obj1.timestamp > obj2.timestamp)
+				return (NSComparisonResult)NSOrderedAscending;
+			if (obj2.timestamp > obj1.timestamp)
+				return (NSComparisonResult)NSOrderedDescending;
+			return [obj1.name caseInsensitiveCompare:obj2.name];
+		}];
+	}
+	[self.navigationController pushViewController:self.icolController animated:YES];
+	
+	/*
 	if (nil == self.imgController) {
 		self.imgController = [[ImageDisplayController alloc] init];
 		self.imgController.navigationItem.title = [NSString stringWithFormat:@"%@ Images", self.session.workspace.name];
@@ -502,7 +523,7 @@
 	[self.imgController loadImages];
 	if (imgGroup)
 		[self.imgController setImageDisplayCount:imgGroup.count];
-	[self.navigationController pushViewController:self.imgController animated:YES];
+	[self.navigationController pushViewController:self.imgController animated:YES]; */
 }
 
 -(void)displayLinkedFile:(NSString*)urlPath
