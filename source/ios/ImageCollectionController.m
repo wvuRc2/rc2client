@@ -38,13 +38,7 @@
 {
 	[super viewDidLoad];
 
-//	CGRect frame = self.qtyControl.frame;
-//	frame.size.height = 36;
-//	frame.origin.y = 4;
-//	self.qtyControl.frame = frame;
-	
 	self.qtyControl = [[UISegmentedControl alloc] initWithItems:@[@"1",@"2",@"4"]];
-//	self.qtyControl.tintColor = [UIColor mauveTaupe];
 	self.qtyControl.selectedSegmentIndex = 1;
 	self.qtyControl.segmentedControlStyle = UISegmentedControlStyleBar;
 	[self.qtyControl setWidth:40 forSegmentAtIndex:0];
