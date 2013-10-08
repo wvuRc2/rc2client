@@ -133,6 +133,8 @@
 			<string>HTML source file (.html)</string>
 			<key>MimeType</key>
 			<string>text/html</string>
+			<key>IconName</key>
+			<string>htmldoc</string>
 			<key>IsTextFile</key>
 			<true/>
 			<key>Importable</key>
@@ -147,6 +149,8 @@
 			<string>PDF</string>
 			<key>MimeType</key>
 			<string>application/pdf</string>
+			<key>IconName</key>
+			<string>pdfdoc</string>
 			<key>IsTextFile</key>
 			<false/>
 			<key>Importable</key>

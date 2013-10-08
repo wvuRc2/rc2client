@@ -32,6 +32,8 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	NSMutableDictionary *_settings;
 	WebSocket *_ws;
 }
+@property (nonatomic, copy) NSDictionary *outputColors;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, copy, readwrite) NSArray *variables;
 @property (nonatomic, copy, readwrite) NSArray *users;
 @property (nonatomic, strong, readwrite) RCSessionUser *currentUser;
@@ -43,6 +45,13 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 @property (nonatomic, strong) NSDate *timeOfLastTraffic;
 -(void)keepAliveTimerFired:(NSTimer*)timer;
 @end
+
+#define kOColor_Input @"OutputColor_Input"
+#define kOColor_Help @"OutputColor_Help"
+#define kOColor_Status @"OutputColor_Status"
+#define kOColor_Error @"OutputColor_Error"
+#define kOColor_Log @"OutputColor_Log"
+#define kOColor_Note @"OutputColor_Note"
 
 @implementation RCSession
 
@@ -58,6 +67,18 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		if (rsp)
 			[self updateWithServerResponse:rsp];
 		self.keepAliveTimer = [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(keepAliveTimerFired:) userInfo:nil repeats:YES];
+		//load output colors
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		NSMutableDictionary *oc = [NSMutableDictionary dictionary];
+		for (NSString *akey in @[kOColor_Error, kOColor_Help, kOColor_Input, kOColor_Log, kOColor_Status, kOColor_Note]) {
+			ColorClass *color = [ColorClass colorWithHexString:[defaults objectForKey:akey]];
+			if (color)
+				[oc setObject:@{NSBackgroundColorAttributeName:color} forKey:akey];
+		}
+		self.outputColors = oc;
+		self.dateFormatter = [[NSDateFormatter alloc] init];
+		self.dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+		self.dateFormatter.dateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
     }
     return self;
 }
@@ -355,40 +376,26 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		self.userid = [dict objectForKey:@"userid"];
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
 		[self setMode:[dict valueForKeyPath:@"session.mode"]];
-		js = [NSString stringWithFormat:@"iR.setUserid(%@)", [dict objectForKey:@"userid"]];
 	} else if ([cmd isEqualToString:@"note"]) {
-		NSString *note = [self escapeForJS:[dict objectForKey:@"note"]];
-		js = [NSString stringWithFormat:@"iR.displayNote('%@')", note];
+		NSString *noteStr = [dict[@"note"] stringByAppendingString:@"\n"];
+		[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:noteStr attributes:self.outputColors[kOColor_Note]]];
 	} else if ([cmd isEqualToString:@"echo"]) {
-		js = [NSString stringWithFormat:@"iR.echoInput('%@', '%@', %@)", 
-			  [self escapeForJS:[dict objectForKey:@"script"]],
-			  [self escapeForJS:[dict objectForKey:@"username"]],
-			  [self escapeForJS:[dict objectForKey:@"user"]]];
+		[self echoInput:dict[@"script"] username:dict[@"username"] user:dict[@"user"]];
 	} else if ([cmd isEqualToString:@"error"]) {
-		NSString *errmsg = [[dict objectForKey:@"error"] stringByTrimmingWhitespace];
-		errmsg = [self escapeForJS:errmsg];
-		if ([errmsg indexOf:@"\n"] > 0) {
-			errmsg = [errmsg stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
-			js = [NSString stringWithFormat:@"iR.displayFormattedError('%@')", errmsg];
-		} else {
-			js = [NSString stringWithFormat:@"iR.displayError('%@')", errmsg];
-		}
+		[self appendError:dict[@"error"]];
 	} else if ([cmd isEqualToString:@"join"]) {
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
-		js = [NSString stringWithFormat:@"iR.userJoinedSession('%@', '%@')", 
-			  [self escapeForJS:[dict objectForKey:@"user"]],
-			  [self escapeForJS:[dict objectForKey:@"userid"]]];
+		NSString *joinstr = [NSString stringWithFormat:@"[%@] %@ joined the session\n", [self.dateFormatter stringFromDate:[NSDate date]], dict[@"user"]];
+		[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:joinstr attributes:self.outputColors[kOColor_Status]]];
 	} else if ([cmd isEqualToString:@"left"]) {
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
-		js = [NSString stringWithFormat:@"iR.userLeftSession('%@', '%@')", 
-			  [self escapeForJS:[dict objectForKey:@"user"]],
-			  [self escapeForJS:[dict objectForKey:@"userid"]]];
+		NSString *lefstr = [NSString stringWithFormat:@"[%@] %@ left the session\n", [self.dateFormatter stringFromDate:[NSDate date]], dict[@"user"]];
+		[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:lefstr attributes:self.outputColors[kOColor_Status]]];
 	} else if ([cmd isEqualToString:@"userlist"]) {
 		[self updateUsers:[dict valueForKeyPath:@"data.users"]];
 		[self setMode:[dict valueForKeyPath:@"data.mode"]];
 	} else if ([cmd isEqualToString:@"modechange"]) {
 		[self handleModeMessage:dict];
-//		[self setMode:[dict objectForKey:@"mode"]];
 	} else if ([cmd isEqualToString:@"handraised"]) {
 		[self willChangeValueForKey:@"users"];
 		[self userWithSid:[dict objectForKey:@"sid"]].handRaised = YES;
@@ -434,31 +441,41 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		[self updateVariables:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
+			NSString *helpstr = [NSString stringWithFormat:@"HELP: %@", dict[@"helpTopic"]];
+			[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:helpstr attributes:self.outputColors[kOColor_Help]]];
 			NSString *helpPath = [dict objectForKey:@"helpPath"];
 			NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.stat.wvu.edu/rc2/%@.html", helpPath]];
 			[self.delegate loadHelpURL:helpUrl];
-			js = [NSString stringWithFormat:@"iR.appendHelpCommand('%@', '%@')", 
-				  [self escapeForJS:[dict objectForKey:@"helpTopic"]],
-				  [self escapeForJS:helpUrl.absoluteString]];
 		} else if ([dict objectForKey:@"complexResults"]) {
-			if (self.showResultDetails)
-				js = [NSString stringWithFormat:@"iR.appendComplexResults(%@)", [self escapeForJS:[dict objectForKey:@"json"]]];
+			NSLog(@"complexResults!");
+//			if (self.showResultDetails)
+//				js = [NSString stringWithFormat:@"iR.appendComplexResults(%@)", [self escapeForJS:[dict objectForKey:@"json"]]];
 		} else if ([dict objectForKey:@"json"]) {
+			NSLog(@"json results!");
 			if (self.showResultDetails)
 				js = [NSString stringWithFormat:@"iR.appendResults(%@)", [self escapeForJS:[dict objectForKey:@"json"]]];
 		} else if ([dict objectForKey:@"stdout"]) {
-			NSString *sostr = [self escapeForJS:[dict objectForKey:@"string"]];
-			//FIXME: this seems buggy. seems like all \ escapes need to be re-escaped or we need to send json or something encoded
-			sostr = [sostr stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
-			js = [NSString stringWithFormat:@"iR.echoStdout('%@')", sostr];
+			[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:dict[@"string"] attributes:nil]];
 		}
 		if ([[dict objectForKey:@"imageUrls"] count] > 0) {
-			NSArray *adjustedImages = [[RCImageCache sharedInstance] adjustImageArray:[dict objectForKey:@"imageUrls"]];
-			js = [NSString stringWithFormat:@"iR.appendImages(%@)",
-				  [adjustedImages JSONRepresentation]];
+			//this call caches the images, so we call even though we don't need the returned array
+			[[RCImageCache sharedInstance] adjustImageArray:[dict objectForKey:@"imageUrls"]];
+			NSMutableAttributedString *mstr = [[NSMutableAttributedString alloc] init];
+			for (NSDictionary *imgDict in dict[@"imageUrls"]) {
+				RCImageAttachment *tattach = [[RCImageAttachment alloc] initWithData:nil ofType:@"rc2.image"];
+				tattach.image = [ImageClass imageNamed:@"graph"];
+				tattach.imageId = imgDict[@"id"];
+				tattach.imageUrl = imgDict[@"url"];
+				NSAttributedString *graphStr = [NSAttributedString attributedStringWithAttachment:tattach];
+				[mstr appendAttributedString:graphStr];
+			}
+			[mstr appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n"]];
+			[self.delegate appendAttributedString:mstr];
 		}
 		if ([[dict objectForKey:@"files"] count] > 0) {
-			NSArray *fileInfo = [dict objectForKey:@"files"];
+			[self appendFiles:dict[@"files"]];
+
+			/*NSArray *fileInfo = [dict objectForKey:@"files"];
 			for (NSDictionary *fd in fileInfo) {
 				[self.workspace updateFileId:[fd objectForKey:@"fileId"]];
 			}
@@ -469,29 +486,89 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 					[self.delegate displayLinkedFile:[NSString stringWithFormat:@"/%@.html", fileInfo[0][@"fileId"]]];
 				});
 			}
+			 */
 		}
 		if (self.variablesVisible && [dict objectForKey:@"variables"])
 			[self updateVariables:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {
-		NSNumber *fileid = [dict objectForKey:@"fileId"];
-		js = [NSString stringWithFormat:@"iR.appendPdf('%@', %@, '%@')", [self escapeForJS:[dict objectForKey:@"pdfurl"]], fileid,
-			  [self escapeForJS:[dict objectForKey:@"filename"]]];
-		[self.workspace updateFileId:fileid];
+		[self appendFiles:@[dict]];
+		[self.workspace updateFileId:dict[@"fileId"]];
 	} else if ([cmd isEqualToString:@"sasoutput"]) {
-		NSArray *fileInfo = [dict objectForKey:@"files"];
-		for (NSDictionary *fd in fileInfo) {
-			[self.workspace updateFileId:[fd objectForKey:@"fileId"]];
-		}
-		js = [NSString stringWithFormat:@"iR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
-		if ([dict objectForKey:@"error"]) {
-			js = [NSString stringWithFormat:@"iR.displayError('%@'); %@", [self escapeForJS:dict[@"error"]], js];
-		}
+		[self appendFiles:dict[@"files"]];
+		if (dict[@"error"])
+			[self appendError:dict[@"error"]];
+//		NSArray *fileInfo = [dict objectForKey:@"files"];
+//		for (NSDictionary *fd in fileInfo) {
+//			[self.workspace updateFileId:[fd objectForKey:@"fileId"]];
+//		}
+//		js = [NSString stringWithFormat:@"iR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
+//		if ([dict objectForKey:@"error"]) {
+//			js = [NSString stringWithFormat:@"iR.displayError('%@'); %@", [self escapeForJS:dict[@"error"]], js];
+//		}
 	} else {
 		Rc2LogWarn(@"unknown message received:%@", dict);
 	}
-	if ([js length] > 0)
-		[self.delegate executeJavascript:js];
 }
+
+#pragma mark - data formatting
+
+-(void)appendFiles:(NSArray*)fileInfo
+{
+	NSMutableAttributedString *mstr = [[NSMutableAttributedString alloc] init];
+	[mstr replaceCharactersInRange:NSMakeRange(0, 0) withString:@"\n"];
+	for (NSDictionary *fileDict in fileInfo) {
+		Rc2FileType *ftype = [Rc2FileType fileTypeWithExtension:fileDict[@"ext"]];
+		NSString *iconname = ftype.iconName;
+		ImageClass *fimg = [ImageClass imageNamed:iconname];
+		if (nil == fimg)
+			fimg = [ImageClass imageNamed:@"gendoc"];
+		RCFileAttachment *tattach = [[RCFileAttachment alloc] initWithData:nil ofType:@"rc2.file"];
+		tattach.image = fimg;
+		tattach.fileId = fileDict[@"fileId"];
+		tattach.fileName = fileDict[@"name"];
+		NSAttributedString *graphStr = [NSAttributedString attributedStringWithAttachment:tattach];
+		[mstr appendAttributedString:graphStr];
+		[mstr appendAttributedString:[[NSAttributedString alloc] initWithString:[fileDict[@"name"] stringByAppendingString:@" "]]];
+	}
+	[mstr appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n"]];
+	[self.delegate appendAttributedString:mstr];
+}
+
+-(void)appendError:(NSString*)error
+{
+	NSString *errstr = [error stringByAppendingString:@"\n"];
+	[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:errstr attributes:self.outputColors[kOColor_Error]]];
+}
+
+-(void)echoInput:(NSString*)script username:(NSString*)username user:(NSString*)user
+{
+	NSMutableString *str = [[NSMutableString alloc] init];
+	if (username)
+		[str appendFormat:@"%@:", username];
+	[str appendString:script];
+	[str appendString:@"\n"];
+	[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:self.outputColors[kOColor_Input]]];
+/*
+	NSMutableAttributedString *mstr = [[NSMutableAttributedString alloc] init];
+	[mstr replaceCharactersInRange:NSMakeRange(0, 0) withString:@"\nboo:\n"];
+	NSTextAttachment *tattach = [[NSTextAttachment alloc] initWithData:[@"111" dataUsingEncoding:NSUTF8StringEncoding] ofType:@"rc2.image"];
+	tattach.image = [ImageClass imageNamed:@"graph"];
+	NSAttributedString *graphStr = [NSAttributedString attributedStringWithAttachment:tattach];
+	[mstr appendAttributedString:graphStr];
+	[mstr appendAttributedString:graphStr];
+	[mstr replaceCharactersInRange:NSMakeRange(mstr.length, 0) withString:@"\n\n"];
+	[self.delegate appendAttributedString:mstr];
+	NSError *err;
+	NSData *d = [mstr dataFromRange:NSMakeRange(0, mstr.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType} error:&err];
+	if (err)
+		NSLog(@"error:%@", err);
+	else {
+		NSDictionary *attrs;
+		NSAttributedString *astr = [[NSAttributedString alloc] initWithData:d options:Nil documentAttributes:&attrs error:&err];
+		[self.delegate appendAttributedString:astr];
+	} */
+}
+
 
 #pragma mark - websocket delegate
 
@@ -565,3 +642,45 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 }
 
 @end
+
+
+@implementation RCFileAttachment
+
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+	if ((self = [super initWithCoder:aDecoder])) {
+		self.fileId = [aDecoder decodeObjectForKey:@"RCFILEID"];
+		self.fileName = [aDecoder decodeObjectForKey:@"RCFILENAME"];
+	}
+	return self;
+}
+
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+	[super encodeWithCoder:aCoder];
+	[aCoder encodeObject:self.fileId forKey:@"RCFILEID"];
+	[aCoder encodeObject:self.fileName forKey:@"RCFILENAME"];
+}
+
+@end
+
+@implementation RCImageAttachment
+
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+	if ((self = [super initWithCoder:aDecoder])) {
+		self.imageId = [aDecoder decodeObjectForKey:@"RCIMGID"];
+		self.imageUrl = [aDecoder decodeObjectForKey:@"RCIMGURL"];
+	}
+	return self;
+}
+
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+	[super encodeWithCoder:aCoder];
+	[aCoder encodeObject:self.imageId forKey:@"RCIMGID"];
+	[aCoder encodeObject:self.imageUrl forKey:@"RCIMGURL"];
+}
+
+@end
+

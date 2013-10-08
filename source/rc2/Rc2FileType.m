@@ -32,6 +32,8 @@
 
 +(Rc2FileType*)fileTypeWithExtension:(NSString*)fileExt
 {
+	if ([fileExt hasPrefix:@"."])
+		fileExt = [fileExt substringFromIndex:1];
 	for (Rc2FileType *ft in [Rc2FileType allFileTypes]) {
 		if (NSOrderedSame == [ft.extension caseInsensitiveCompare:fileExt])
 			return ft;

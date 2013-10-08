@@ -195,7 +195,7 @@
 	NSString *grpName = [NSString stringWithFormat:@"ig%d", (int)[NSDate timeIntervalSinceReferenceDate]];
 	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
 	for (NSDictionary *imgDict in inArray) {
-		[outArray addObject:[NSString stringWithFormat:@"rc2img:///%@.png?%@", [imgDict objectForKey:@"id"], grpName]];
+		[outArray addObject:[NSString stringWithFormat:@"%@.png?%@", [imgDict objectForKey:@"id"], grpName]];
 	}
 	[[self.metaData objectForKey:@"groups"] setObject:[inArray valueForKeyPath:@"id"] forKey:grpName];
 	[self cacheImages:inArray];

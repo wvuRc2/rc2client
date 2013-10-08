@@ -15,10 +15,11 @@
 #import "MAKVONotificationCenter.h"
 #import "VariableListViewController.h"
 
-@interface ConsoleViewController() {
+@interface ConsoleViewController()<UITextViewDelegate> {
 	BOOL _didSetGraphUrl;
 }
 @property (nonatomic, strong) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) IBOutlet UITextView *outputView;
 @property (nonatomic, strong) VariableListViewController *variableController;
 @property (nonatomic, strong) UIPopoverController *varablePopover;
 @property (nonatomic, strong) NSString *lastPageContent;
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) NSMutableArray *jsQueue;
 @property (nonatomic, strong) id sessionKvoToken;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
+@property (nonatomic, strong) UIFont *baseFont;
 @property BOOL haveExternalKeyboard;
 -(void)sessionModeChanged;
 @end
@@ -44,6 +46,15 @@
 	self.backButton.enabled = NO;
 	[self insertSavedContent:@""];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+	
+	UIFontDescriptor *sysFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
+	UIFont *myFont = [UIFont fontWithName:@"Inconsolata" size:sysFont.pointSize];
+	self.outputView.font = myFont;
+	self.baseFont = myFont;
+	//part of a hack to get text attachment tapping to work. see textTapped: for details
+	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textTapped:)];
+	tap.numberOfTapsRequired = 1;
+	[self.outputView addGestureRecognizer:tap];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -162,6 +173,14 @@
 	}
 }
 
+-(void)appendAttributedString:(NSAttributedString*)aString
+{
+	NSUInteger curEnd = self.outputView.textStorage.length;
+	[self.outputView.textStorage appendAttributedString:aString];
+	[self.outputView.textStorage addAttribute:NSFontAttributeName value:self.baseFont range:NSMakeRange(curEnd, aString.length)];
+	[self.outputView scrollRangeToVisible:NSMakeRange(self.outputView.textStorage.length-1, 1)];
+}
+
 -(void)variablesUpdated
 {
 	[self.variableController variablesUpdated];
@@ -253,6 +272,36 @@
 			"</style>\").appendTo('head')",
 			[theme hexStringForKey: @"ResultsEvenRow"], [theme hexStringForKey: @"ResultsOddRow"],
 			[theme hexStringForKey: @"ResultsHeader"]];
+}
+
+#pragma mark - UITextView bug workaround
+
+//textView:shouldInteractWithTextAttachment:inRange: is not called when an attachment is on the last row of
+// the text view. Or maybe it isn't called for the last couple, no matter what. Either way, if the builtin
+// gesture recognizer fails to fire, our secondary one does and we can figure out if it was a tap on a text
+// attachment, and if so, call the textvview delegate method manually
+
+-(void)textTapped:(UITapGestureRecognizer*)gesture
+{
+	NSUInteger gidx = [self.outputView.layoutManager glyphIndexForPoint:[gesture locationInView:self.outputView] inTextContainer:self.outputView.textContainer fractionOfDistanceThroughGlyph:NULL];
+	NSUInteger cidx = [self.outputView.layoutManager characterIndexForGlyphAtIndex:gidx];
+	NSRange rng = NSMakeRange(cidx, 1);
+	id obj = [self.outputView.textStorage attribute:NSAttachmentAttributeName atIndex:cidx effectiveRange:NULL];
+	if ([obj isKindOfClass:[NSTextAttachment class]])
+		[self textView:self.outputView shouldInteractWithTextAttachment:obj inRange:rng];
+}
+
+
+#pragma mark - textview delegate
+//called when an attachment is touched
+-(BOOL)textView:(UITextView *)textView shouldInteractWithTextAttachment:(NSTextAttachment *)textAttachment inRange:(NSRange)characterRange
+{
+	if ([textAttachment isKindOfClass:[RCImageAttachment class]])
+		NSLog(@"got image: %@", [(RCImageAttachment*)textAttachment imageId]);
+	else if ([textAttachment isKindOfClass:[RCFileAttachment class]])
+		NSLog(@"got file: %@", [(RCFileAttachment*)textAttachment fileName]);
+	NSLog(@"touched %@", textAttachment);
+	return NO;
 }
 
 #pragma mark - textfield delegate

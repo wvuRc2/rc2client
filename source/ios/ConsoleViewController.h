@@ -29,6 +29,8 @@
 -(void)loadHelpURL:(NSURL*)url;
 -(void)loadLocalFileURL:(NSURL*)url;
 -(void)variablesUpdated;
+
+-(void)appendAttributedString:(NSAttributedString*)aString;
 @end
 
 @interface ConsoleView : UIView

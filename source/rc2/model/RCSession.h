@@ -93,6 +93,7 @@ typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
 -(void)connectionOpened;
 -(void)connectionClosed;
 -(void)handleWebSocketError:(NSError*)error;
+-(void)appendAttributedString:(NSAttributedString*)aString;
 -(void)processWebSocketMessage:(NSDictionary*)msg json:(NSString*)jsonString;
 -(void)processBinaryMessage:(NSData*)data;
 -(void)performConsoleAction:(NSString*)action;
@@ -103,4 +104,14 @@ typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
 -(NSString*)executeJavascript:(NSString*)js;
 -(void)loadHelpURL:(NSURL*)url;
 -(void)variablesUpdated;
+@end
+
+@interface RCFileAttachment : NSTextAttachment
+@property (nonatomic, strong) NSNumber *fileId;
+@property (nonatomic, copy) NSString *fileName;
+@end
+
+@interface RCImageAttachment : NSTextAttachment
+@property (nonatomic, strong) NSNumber *imageId;
+@property (nonatomic, copy) NSString *imageUrl;
 @end

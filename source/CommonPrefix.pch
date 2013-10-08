@@ -38,9 +38,11 @@
 
 #if TARGET_OS_IPHONE
 	#define ColorClass UIColor
+	#define ImageClass UIImage
 	#define TheApp [UIApplication sharedApplication]
 #elif TARGET_OS_MAC
 	#define ColorClass NSColor
+	#define ImageClass NSImage
 	#define TheApp NSApp
 #endif
 

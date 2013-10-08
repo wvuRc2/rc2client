@@ -462,6 +462,11 @@
 	[self.consoleController evaluateJavaScript:cmd];
 }
 
+-(void)appendAttributedString:(NSAttributedString*)aString
+{
+	[self.consoleController appendAttributedString:aString];
+}
+
 -(void)displayImage:(NSString *)imgPath
 {
 	[self displayImageWithPathOrFile:imgPath];
