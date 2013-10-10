@@ -155,11 +155,10 @@
 	self.navigationItem.rightBarButtonItems = ritems;
 }
 
-#pragma mark - orientations & rotation
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
+-(void)viewDidAppear:(BOOL)animated
 {
-	return YES;
+	CGFloat sp = self.splitController.splitterPosition;
+	[self.splitController setSplitterPosition:sp+1 animated:NO];
 }
 
 #pragma mark - actions
