@@ -157,8 +157,15 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+	[super viewDidAppear:animated];
 	CGFloat sp = self.splitController.splitterPosition;
 	[self.splitController setSplitterPosition:sp+1 animated:NO];
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+	CGFloat sp = self.splitController.splitterPosition;
+	[self.splitController setSplitterPosition:sp-1 animated:NO];
 }
 
 #pragma mark - actions
