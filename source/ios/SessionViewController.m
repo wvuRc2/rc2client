@@ -419,7 +419,7 @@
 -(void)saveSessionState
 {
 	RCSavedSession *savedState = _session.savedSessionState;
-	savedState.consoleHtml = [self.consoleController evaluateJavaScript:@"$('#consoleOutputGenerated').html()"];
+	[self.consoleController saveSessionState:savedState];
 	savedState.currentFile = self.editorController.currentFile;
 	if (nil == savedState.currentFile)
 		savedState.inputText = [self.editorController editorContents];

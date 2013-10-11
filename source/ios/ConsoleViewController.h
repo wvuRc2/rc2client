@@ -19,6 +19,7 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *actionButton;
 @property (nonatomic, strong) RCSession *session;
 
+-(void)saveSessionState:(RCSavedSession*)savedState;
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 -(IBAction)doClear:(id)sender;
 -(IBAction)doActionSheet:(id)sender;

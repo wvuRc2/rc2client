@@ -517,6 +517,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	NSMutableAttributedString *mstr = [[NSMutableAttributedString alloc] init];
 	[mstr replaceCharactersInRange:NSMakeRange(0, 0) withString:@"\n"];
 	for (NSDictionary *fileDict in fileInfo) {
+		[self.workspace updateFileId:fileDict[@"fileId"]]; //triggers refresh from server
 		Rc2FileType *ftype = [Rc2FileType fileTypeWithExtension:fileDict[@"ext"]];
 		NSString *iconname = ftype.iconName;
 		ImageClass *fimg = [ImageClass imageNamed:iconname];

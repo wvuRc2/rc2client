@@ -176,6 +176,9 @@
 		0868D4C817FCC655002AD679 /* ImageCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0868D4C717FCC655002AD679 /* ImageCollectionCell.m */; };
 		0868D4CC17FDE6E1002AD679 /* ImageCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4C917FCC67F002AD679 /* ImageCollectionCell.xib */; };
 		0868D4CF17FDECC0002AD679 /* ImageCollectionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0868D4CE17FDECC0002AD679 /* ImageCollectionLayout.m */; };
+		0868D4D21805CE6A002AD679 /* ImagePreviewTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0868D4D11805CE6A002AD679 /* ImagePreviewTransition.m */; };
+		0868D4D61805CF43002AD679 /* ImagePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0868D4D41805CF43002AD679 /* ImagePreviewViewController.m */; };
+		0868D4D71805CF43002AD679 /* ImagePreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0868D4D51805CF43002AD679 /* ImagePreviewViewController.xib */; };
 		086D6EBC15DD4EFA00EF28F1 /* Rmd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */; };
 		086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBB15DD4EFA00EF28F1 /* sas.icns */; };
 		086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 086D6EBE15DD500D00EF28F1 /* Rnw.icns */; };
@@ -771,6 +774,11 @@
 		0868D4C917FCC67F002AD679 /* ImageCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionCell.xib; sourceTree = "<group>"; };
 		0868D4CD17FDECC0002AD679 /* ImageCollectionLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCollectionLayout.h; sourceTree = "<group>"; };
 		0868D4CE17FDECC0002AD679 /* ImageCollectionLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionLayout.m; sourceTree = "<group>"; };
+		0868D4D01805CE6A002AD679 /* ImagePreviewTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePreviewTransition.h; sourceTree = "<group>"; };
+		0868D4D11805CE6A002AD679 /* ImagePreviewTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePreviewTransition.m; sourceTree = "<group>"; };
+		0868D4D31805CF43002AD679 /* ImagePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePreviewViewController.h; sourceTree = "<group>"; };
+		0868D4D41805CF43002AD679 /* ImagePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePreviewViewController.m; sourceTree = "<group>"; };
+		0868D4D51805CF43002AD679 /* ImagePreviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImagePreviewViewController.xib; sourceTree = "<group>"; };
 		086CC4B5167122C7004356F6 /* RCFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFileContainer.h; sourceTree = "<group>"; };
 		086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rmd.icns; path = resources/mac/Rmd.icns; sourceTree = SOURCE_ROOT; };
 		086D6EBB15DD4EFA00EF28F1 /* sas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sas.icns; path = resources/mac/sas.icns; sourceTree = SOURCE_ROOT; };
@@ -1820,6 +1828,11 @@
 				08D2438F15B5D5B90064A9FA /* ConsoleViewController.h */,
 				08D2439015B5D5B90064A9FA /* ConsoleViewController.m */,
 				08D2439115B5D5B90064A9FA /* ConsoleViewController.xib */,
+				0868D4D01805CE6A002AD679 /* ImagePreviewTransition.h */,
+				0868D4D11805CE6A002AD679 /* ImagePreviewTransition.m */,
+				0868D4D31805CF43002AD679 /* ImagePreviewViewController.h */,
+				0868D4D41805CF43002AD679 /* ImagePreviewViewController.m */,
+				0868D4D51805CF43002AD679 /* ImagePreviewViewController.xib */,
 				08D2439415B5D5E20064A9FA /* ImageDisplayController.h */,
 				08D2439515B5D5E20064A9FA /* ImageDisplayController.m */,
 				08D2439615B5D5E20064A9FA /* ImageDisplayController.xib */,
@@ -2506,6 +2519,7 @@
 				08B74CD2163B31F000083F9A /* message-tbar-badged-down.png in Resources */,
 				08B74CD3163B31F000083F9A /* message-tbar-badged.png in Resources */,
 				08B74CD4163B31F000083F9A /* message-tbar-down.png in Resources */,
+				0868D4D71805CF43002AD679 /* ImagePreviewViewController.xib in Resources */,
 				08B74CD5163B31F000083F9A /* message-tbar.png in Resources */,
 				08B74CD6163B31F000083F9A /* messageCellBG.png in Resources */,
 				08B74CD7163B31F000083F9A /* messageCellBGBottom.png in Resources */,
@@ -2782,6 +2796,7 @@
 				08D2441315B5D78A0064A9FA /* JSTokenField.m in Sources */,
 				082D1ECF17E3B5C800723EB3 /* RCSyntaxParser.m in Sources */,
 				08D2441915B5D78A0064A9FA /* MBProgressHUD.m in Sources */,
+				0868D4D61805CF43002AD679 /* ImagePreviewViewController.m in Sources */,
 				08D2441D15B5D78A0064A9FA /* PHRefreshGestureRecognizer.m in Sources */,
 				087342CC17BD6A73000EC1E0 /* WorkspaceViewController.m in Sources */,
 				08D2441E15B5D78A0064A9FA /* PHRefreshTriggerView.m in Sources */,
@@ -2862,6 +2877,7 @@
 				08B74C3D1635CF4B00083F9A /* SpreadsheetScroller.m in Sources */,
 				08B74C411635D14800083F9A /* SpreadsheetCell.m in Sources */,
 				08B74C571639D3AA00083F9A /* RCProject.m in Sources */,
+				0868D4D21805CE6A002AD679 /* ImagePreviewTransition.m in Sources */,
 				08B74CED163B330500083F9A /* ProjectViewController.m in Sources */,
 				08B74CF1163B357600083F9A /* ProjectCell.m in Sources */,
 				08B74CF61643045F00083F9A /* ProjectViewLayout.m in Sources */,

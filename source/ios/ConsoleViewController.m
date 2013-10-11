@@ -9,22 +9,31 @@
 #import "ConsoleViewController.h"
 #import "RCSession.h"
 #import "RCSavedSession.h"
+#import "RCWorkspace.h"
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
 #import "RCImageCache.h"
+#import "RCImage.h"
+#import "RCFile.h"
 #import "MAKVONotificationCenter.h"
 #import "VariableListViewController.h"
+#import "ImagePreviewTransition.h"
+#import "ImagePreviewViewController.h"
+#import <objc/runtime.h>
 
-@interface ConsoleViewController()<UITextViewDelegate> {
+#define kAnimDuration 1
+
+@interface ConsoleViewController()<UITextViewDelegate,UIViewControllerTransitioningDelegate> {
 	BOOL _didSetGraphUrl;
 }
 @property (nonatomic, strong) IBOutlet UIWebView *webView;
 @property (nonatomic, strong) IBOutlet UITextView *outputView;
+@property (nonatomic, weak) IBOutlet UIView *containerView;
+@property (nonatomic, weak) UIView *visibleOutputView;
+@property (nonatomic, strong) NSLayoutConstraint *outputLeftConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *webLeftConstraint;
 @property (nonatomic, strong) VariableListViewController *variableController;
 @property (nonatomic, strong) UIPopoverController *varablePopover;
-@property (nonatomic, strong) NSString *lastPageContent;
-@property (nonatomic, strong) NSLock *queueLock;
-@property (nonatomic, strong) NSMutableArray *jsQueue;
 @property (nonatomic, strong) id sessionKvoToken;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
 @property (nonatomic, strong) UIFont *baseFont;
@@ -40,12 +49,16 @@
 {
 	[super viewDidLoad];
 	_didSetGraphUrl=NO;
-	self.webView.delegate = self;
-	self.queueLock = [[NSLock alloc] init];
-	self.jsQueue = [[NSMutableArray alloc] init];
 	self.backButton.enabled = NO;
-	[self insertSavedContent:@""];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+	
+	self.outputView = [[UITextView alloc] initWithFrame:self.containerView.bounds];
+	self.outputView.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.containerView addSubview:self.outputView];
+	self.outputLeftConstraint = [self setupContentSubviewConstraints:self.outputView];
+	self.visibleOutputView = self.outputView;
+	
+	[self setupWebView];
 	
 	UIFontDescriptor *sysFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
 	UIFont *myFont = [UIFont fontWithName:@"Inconsolata" size:sysFont.pointSize];
@@ -57,15 +70,14 @@
 	[self.outputView addGestureRecognizer:tap];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+-(void)setupWebView
 {
-	// Return YES for supported orientations
-	return YES;
-}
-
--(void)didReceiveMemoryWarning
-{
-	Rc2LogWarn(@"%@: memory warning", THIS_FILE);
+	self.webView = [[UIWebView alloc] initWithFrame:self.containerView.bounds];
+	self.webView.delegate = self;
+	self.webView.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.containerView addSubview:self.webView];
+	self.webLeftConstraint = [self setupContentSubviewConstraints:self.webView];
+	self.webLeftConstraint.constant = 1000; //offscreen initially
 }
 
 -(void)keyboardWillShow:(NSNotification*)note
@@ -77,34 +89,67 @@
 		self.haveExternalKeyboard = self.textField.inputAccessoryView.frame.size.height == 768 - endFrame.origin.x;
 }
 
+-(NSLayoutConstraint*)setupContentSubviewConstraints:(UIView*)subview
+{
+	UIView *parent = self.containerView;
+	[parent addConstraint:[NSLayoutConstraint constraintWithItem:subview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+	[parent addConstraint:[NSLayoutConstraint constraintWithItem:subview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+	[parent addConstraint:[NSLayoutConstraint constraintWithItem:subview attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+	NSLayoutConstraint *x = [NSLayoutConstraint constraintWithItem:subview attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeft multiplier:1 constant:0];
+	[parent addConstraint:x];
+	return x;
+}
+
 #pragma mark - meat & potatos
 
--(void)insertSavedContent:(NSString*)contentHtml
+-(void)animateToWebview
 {
-	NSURL *url = [[NSBundle mainBundle] URLForResource:@"console" withExtension:@"html" subdirectory:@"console"];
-	if ([contentHtml length] > 0) {
-		NSString *content = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-		content = [content stringByReplacingOccurrencesOfString:@"<!--content-->" withString:contentHtml];
-		[self.webView loadHTMLString:content baseURL:[url URLByDeletingLastPathComponent]];
-	} else {
-		[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+	[UIView performWithoutAnimation:^{
+		self.webLeftConstraint.constant = self.containerView.bounds.size.width;
+	}];
+	[UIView animateWithDuration:kAnimDuration animations:^{
+		self.webLeftConstraint.constant = 0;
+		self.outputLeftConstraint.constant = - self.outputView.bounds.size.width;
+	} completion:^(BOOL finished) {
+		self.visibleOutputView = self.webView;
+	}];
+}
+
+-(void)animateBackToMainView
+{
+	[UIView performWithoutAnimation:^{
+		self.outputLeftConstraint.constant = - self.containerView.bounds.size.width;
+	}];
+	[UIView animateWithDuration:kAnimDuration animations:^{
+		self.outputLeftConstraint.constant = 0;
+		self.webLeftConstraint.constant = 900;
+	} completion:^(BOOL finished) {
+		self.visibleOutputView = self.outputView;
+		self.backButton.enabled = NO;
+		[self.webView removeFromSuperview];
+		[self setupWebView];
+	}];
+}
+
+-(void)saveSessionState:(RCSavedSession*)savedState
+{
+	NSError *err;
+	NSTextStorage *text = self.outputView.textStorage;
+	if (text.length > 0) {
+		NSData *data = [text dataFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType} error:&err];
+		if (data)
+			[savedState setProperty:data forKey:@"ConsoleRTF"];
+		else
+			Rc2LogError(@"error saving document data:%@", err);
 	}
-}
-
--(void)saveCurrentContent
-{
-	self.lastPageContent = [self.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];	
-}
-
--(BOOL)currentPageIsConsole
-{
-	NSString *path = self.webView.request.URL.path.lastPathComponent;
-	return [path isEqualToString:@"console"] || [path isEqualToString:@"console.html"];
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
-	[self insertSavedContent:savedState.consoleHtml];
+	NSData *rtfdata = [savedState propertyForKey:@"ConsoleRTF"];
+	NSError *err;
+	if (rtfdata && ![self.outputView.textStorage readFromData:rtfdata options:nil documentAttributes:nil error:nil])
+		Rc2LogError(@"error reading consolertf:%@", err);
 }
 
 -(void)sessionModeChanged
@@ -114,22 +159,7 @@
 
 -(NSString*)evaluateJavaScript:(NSString*)script
 {
-	if (![self currentPageIsConsole]) {
-		if (self.lastPageContent) {
-			[self insertSavedContent:self.lastPageContent];
-			self.lastPageContent=nil;
-			//loading will be true so script will get queued
-		}
-	}
-	[self.queueLock lock];
-	if (self.webView.loading || self.jsQueue.count > 0) {
-		[self.jsQueue addObject:script];
-		[self.queueLock unlock];
-		return @"";
-	}
-	NSString *res = [self.webView stringByEvaluatingJavaScriptFromString:script];
-	[self.queueLock unlock];
-	return res;
+	return @"";
 }
 
 -(void)loadHelpURL:(NSURL*)url
@@ -139,24 +169,7 @@
 
 -(void)loadLocalFileURL:(NSURL*)url
 {
-	[self saveCurrentContent];
 	[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-}
-
--(void)executeQueuedJavaScript
-{
-	[self.queueLock lock];
-	if (self.jsQueue.count > 0) {
-		NSString *js = self.jsQueue.firstObject;
-		[self.jsQueue removeObjectAtIndex:0];
-		[self.webView stringByEvaluatingJavaScriptFromString:js];
-		if (self.jsQueue.count > 0) {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[self executeQueuedJavaScript];
-			});
-		}
-	}
-	[self.queueLock unlock];
 }
 
 -(void)adjustInterface
@@ -168,8 +181,8 @@
 	if (restricted)
 		self.backButton.enabled = NO;
 	else {
-		NSString *scheme = self.webView.request.URL.scheme;
-		self.backButton.enabled = [scheme hasPrefix:@"http"] || ([scheme hasPrefix:@"file"] && ![self currentPageIsConsole]);	
+		if (self.visibleOutputView != self.outputView)
+			self.backButton.enabled = YES;
 	}
 }
 
@@ -247,31 +260,89 @@
 
 -(IBAction)doClear:(id)sender
 {
-	[self.webView stringByEvaluatingJavaScriptFromString:@"iR.clearConsole()"];
+	NSTextStorage *text = self.outputView.textStorage;
+	[text deleteCharactersInRange:NSMakeRange(0, text.length)];
 	[[RCImageCache sharedInstance] clearCache];
-	self.lastPageContent=@"";
 }
 
 -(IBAction)doBack:(id)sender
 {
-	if (self.webView.canGoBack)
+	ZAssert(self.visibleOutputView != self.outputView, @"can't back from output view");
+	if (self.visibleOutputView == self.webView && self.webView.canGoBack) {
 		[self.webView goBack];
-	else if (self.lastPageContent) {
-		[self insertSavedContent:self.lastPageContent];
-		self.lastPageContent=nil;
-	} else {
-		[self insertSavedContent:@""];
+		return;
 	}
+	[self animateBackToMainView];
 }
 
--(NSString*)themedStyleSheet
+-(void)previewImage:(RCImageAttachment*)imgAttachment inRange:(NSRange)charRange
 {
-	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
-	return [NSString stringWithFormat:@"$(\"<style type='text/css'>#consoleOutputGenerated > table > tbody > tr:nth-child(even) {	background-color: #%@; } "
-			"#consoleOutputGenerated > table > tbody > tr:nth-child(odd) {background-color: #%@; } table.ir-mx th {background-color: #%@} "
-			"</style>\").appendTo('head')",
-			[theme hexStringForKey: @"ResultsEvenRow"], [theme hexStringForKey: @"ResultsOddRow"],
-			[theme hexStringForKey: @"ResultsHeader"]];
+	ZAssert(charRange.length == 1, @"bad assumption");
+	//find the line with the clicked attachment
+	NSUInteger lineStart=0, lineEnd=0;
+	[self.outputView.textStorage.string getLineStart:&lineStart end:NULL contentsEnd:&lineEnd forRange:charRange];
+	NSRange attaachRange = NSMakeRange(lineStart, lineEnd - lineStart);
+	//iterate all attachments in that range, adding to imgArray if they are an image
+	NSMutableArray *imgArray = [NSMutableArray array];
+	__block RCImage *selImage=nil;
+	[self.outputView.textStorage enumerateAttribute:NSAttachmentAttributeName inRange:attaachRange options:0 usingBlock:^(id value, NSRange range, BOOL *stop)
+	{
+		if ([value isKindOfClass:[RCImageAttachment class]]) {
+			RCImage *img = [[RCImageCache sharedInstance] imageWithId:[[value imageId] description]];
+			if (img) {
+				[imgArray addObject:img];
+				if ([img.imageId isEqualToNumber:imgAttachment.imageId])
+					selImage = img;
+			}
+		}
+	}];
+	//compute the rectangle the user tapped on
+	NSRange grange = NSMakeRange([self.outputView.layoutManager glyphIndexForCharacterAtIndex:charRange.location], 1);
+	CGRect startRect = [self.outputView.layoutManager boundingRectForGlyphRange:grange inTextContainer:self.outputView.textContainer];
+	startRect = [self.view convertRect:startRect fromView:self.outputView];
+	//create the preview controller and present it
+	ImagePreviewViewController *pvc = [[ImagePreviewViewController alloc] init];
+	pvc.images = imgArray;
+	pvc.currentIndex = [imgArray indexOfObject:selImage];
+	pvc.modalPresentationStyle = UIModalPresentationCustom;
+	pvc.transitioningDelegate = self;
+	objc_setAssociatedObject(pvc, @selector(previewImage:inRange:), [NSValue valueWithCGRect:startRect], OBJC_ASSOCIATION_RETAIN);
+	[self setDefinesPresentationContext:YES];
+	[self presentViewController:pvc animated:YES completion:nil];
+}
+
+-(void)previewFile:(RCFileAttachment*)fileAttachment inRange:(NSRange)charRange
+{
+	RCFile *file = [self.session.workspace fileWithId:fileAttachment.fileId];
+	NSURL *furl = [NSURL fileURLWithPath:file.fileContentsPath];
+	if (self.visibleOutputView != self.webView)
+		[self animateToWebview];
+	[self.webView loadRequest:[NSURLRequest requestWithURL:furl]];
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+	if ([presented isKindOfClass:[ImagePreviewViewController class]]) {
+		ImagePreviewTransition *trans = [[ImagePreviewTransition alloc] init];
+		NSValue *val = objc_getAssociatedObject(presented, @selector(previewImage:inRange:));
+		trans.srcRect = [val CGRectValue];
+		trans.presenting = self;
+		trans.presented = presented;
+		return trans;
+	}
+	return nil;
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+	if ([dismissed isKindOfClass:[ImagePreviewViewController class]]) {
+		ImagePreviewTransition *trans = [[ImagePreviewTransition alloc] init];
+		NSValue *val = objc_getAssociatedObject(dismissed, @selector(previewImage:inRange:));
+		trans.srcRect = [val CGRectValue];
+		trans.isDismissal = YES;
+		return trans;
+	}
+	return nil;
 }
 
 #pragma mark - UITextView bug workaround
@@ -297,10 +368,9 @@
 -(BOOL)textView:(UITextView *)textView shouldInteractWithTextAttachment:(NSTextAttachment *)textAttachment inRange:(NSRange)characterRange
 {
 	if ([textAttachment isKindOfClass:[RCImageAttachment class]])
-		NSLog(@"got image: %@", [(RCImageAttachment*)textAttachment imageId]);
+		[self previewImage:(RCImageAttachment*)textAttachment inRange:characterRange];
 	else if ([textAttachment isKindOfClass:[RCFileAttachment class]])
-		NSLog(@"got file: %@", [(RCFileAttachment*)textAttachment fileName]);
-	NSLog(@"touched %@", textAttachment);
+		[self previewFile:(RCFileAttachment*)textAttachment inRange:characterRange];
 	return NO;
 }
 
@@ -325,35 +395,6 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-	if (!_didSetGraphUrl) {
-		NSURL *theUrl = [[NSBundle mainBundle] URLForResource:@"graph" withExtension:@"png" subdirectory:@"console"];
-		NSString *url = [theUrl absoluteString];
-		url = [url stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-		_didSetGraphUrl=YES;
-		CGRect f = self.webView.frame;
-		if (f.origin.x < 10)
-			f.origin.x = 10;
-		if (f.size.width > self.view.frame.size.width)
-			f.size.width = self.view.frame.size.width - 20;
-		self.webView.frame = f;
-		//change the background
-		NSString *bgColor = [[ThemeEngine sharedInstance].currentTheme hexStringForKey:@"ResultsBackground"];
-		if ([bgColor length] > 2) {
-			NSString *cmd = [NSString stringWithFormat:@"$('body').css('background-color', '#%@')", bgColor];
-			[self.webView stringByEvaluatingJavaScriptFromString:cmd];
-		}
-		NSString *ss = [self themedStyleSheet];
-		[self.webView stringByEvaluatingJavaScriptFromString:ss];
-	}
-	[self.queueLock lock];
-	if ([self.jsQueue count] > 0) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self executeQueuedJavaScript];
-		});
-	}
-	[self.queueLock unlock];
-	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"$('#themecss').attr('href','%@')",
-														  [[ThemeEngine sharedInstance] currentTheme].cssfile]];
 	self.webView.scalesPageToFit = NSOrderedSame == [self.webView.request.URL.pathExtension caseInsensitiveCompare:@"pdf"];
 	[self adjustInterface];
 }
@@ -373,16 +414,13 @@
 			path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
 		} else if (![urlStr.pathExtension isEqualToString:@"png"]) {
 			path = urlStr.lastPathComponent;
-			self.lastPageContent = [self.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];
 		}
 		[self.session.delegate displayImage:path];
 	} else if ([[[request URL] scheme] isEqualToString:@"rc2file"]) {
 		[self.session.delegate displayLinkedFile:request.URL.path];
 	} else if ([[[request URL] absoluteString] hasPrefix:@"http://rc2.stat.wvu.edu/"]) { //used to have help, no reason to not allow
-		[self saveCurrentContent];
 		return YES;
 	} else if ([[[request URL] absoluteString] hasPrefix:@"http://www.stat.wvu.edu/"]) { //for help pages
-		[self saveCurrentContent];
 		return YES;
 	}
 	return NO;

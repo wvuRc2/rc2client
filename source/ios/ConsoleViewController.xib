@@ -9,8 +9,8 @@
             <connections>
                 <outlet property="actionButton" destination="8" id="23"/>
                 <outlet property="backButton" destination="19" id="21"/>
+                <outlet property="containerView" destination="stx-dL-bWR" id="SFk-qU-lrR"/>
                 <outlet property="executeButton" destination="13" id="17"/>
-                <outlet property="outputView" destination="8lv-6W-uQm" id="DKN-9g-MjK"/>
                 <outlet property="textField" destination="14" id="16"/>
                 <outlet property="toolbar" destination="7" id="12"/>
                 <outlet property="view" destination="2" id="3"/>
@@ -69,30 +69,25 @@
                         <outlet property="delegate" destination="-1" id="18"/>
                     </connections>
                 </textField>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8lv-6W-uQm">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="stx-dL-bWR">
                     <rect key="frame" x="8" y="51" width="484" height="599"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                    <connections>
-                        <outlet property="delegate" destination="-1" id="DNq-hc-dM0"/>
-                    </connections>
-                </textView>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="7" secondAttribute="trailing" id="0NA-Mv-cOt"/>
                 <constraint firstItem="13" firstAttribute="top" secondItem="2" secondAttribute="top" constant="8" id="4cz-A9-3Ya"/>
-                <constraint firstItem="8lv-6W-uQm" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="8" id="635-LK-KSP"/>
                 <constraint firstAttribute="trailing" secondItem="13" secondAttribute="trailing" constant="8" id="7c2-d2-wUI"/>
                 <constraint firstAttribute="bottom" secondItem="7" secondAttribute="bottom" id="BSS-jx-xuJ"/>
                 <constraint firstItem="14" firstAttribute="top" secondItem="2" secondAttribute="top" constant="10" id="FrR-NI-TBH"/>
+                <constraint firstItem="stx-dL-bWR" firstAttribute="top" secondItem="13" secondAttribute="bottom" constant="8" id="HHW-C4-ElT"/>
                 <constraint firstItem="7" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="IuS-Qx-TSh"/>
                 <constraint firstItem="14" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="8" id="Q4m-xs-BtA"/>
-                <constraint firstItem="8lv-6W-uQm" firstAttribute="top" secondItem="13" secondAttribute="bottom" constant="8" id="SFF-yG-LAQ"/>
-                <constraint firstAttribute="trailing" secondItem="8lv-6W-uQm" secondAttribute="trailing" constant="8" id="k4C-oL-dC2"/>
-                <constraint firstItem="7" firstAttribute="top" secondItem="8lv-6W-uQm" secondAttribute="bottom" constant="10" id="sDl-KY-5zk"/>
+                <constraint firstItem="7" firstAttribute="top" secondItem="stx-dL-bWR" secondAttribute="bottom" constant="10" id="hVQ-yx-xli"/>
+                <constraint firstItem="stx-dL-bWR" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="8" id="hxX-Pl-pI9"/>
+                <constraint firstAttribute="trailing" secondItem="stx-dL-bWR" secondAttribute="trailing" constant="8" id="nu2-mf-b2K"/>
                 <constraint firstItem="13" firstAttribute="leading" secondItem="14" secondAttribute="trailing" constant="8" id="uW4-JL-YiF"/>
             </constraints>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
