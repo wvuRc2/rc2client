@@ -157,11 +157,6 @@
 	[self adjustInterface];
 }
 
--(NSString*)evaluateJavaScript:(NSString*)script
-{
-	return @"";
-}
-
 -(void)loadHelpURL:(NSURL*)url
 {
 	[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
@@ -404,9 +399,7 @@
 {
 	if ([request.URL isFileURL])
 		return YES;
-	if ([[request.URL scheme] isEqualToString:@"rc2"])
-		[self.session.delegate performConsoleAction:[[request.URL absoluteString] substringFromIndex:6]];
-	else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
+	if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
 		NSString *urlStr = request.URL.absoluteString;
 		NSString *path = [request.URL path];
 		if ([urlStr hasSuffix:@".pdf"]) {

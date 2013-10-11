@@ -13,7 +13,7 @@
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
 	UIView *container = [transitionContext containerView];
-	UIViewController *fromController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+//	UIViewController *fromController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
 	UIViewController *toController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
 	if (self.isDismissal) {
 //		CGRect imgRect = inController.view.bounds;

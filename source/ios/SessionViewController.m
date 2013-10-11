@@ -461,13 +461,6 @@
 	}
 }
 
--(void)performConsoleAction:(NSString*)action
-{
-	action = [action stringbyRemovingPercentEscapes];
-	NSString *cmd = [NSString stringWithFormat:@"iR.appendConsoleText('%@')", action];
-	[self.consoleController evaluateJavaScript:cmd];
-}
-
 -(void)appendAttributedString:(NSAttributedString*)aString
 {
 	[self.consoleController appendAttributedString:aString];
@@ -597,12 +590,6 @@
 -(void)variablesUpdated
 {
 	[self.consoleController variablesUpdated];
-}
-
--(NSString*)executeJavascript:(NSString*)js
-{
-	[self.consoleController evaluateJavaScript:js];
-	return [self.consoleController evaluateJavaScript:@"scroll(0,document.body.scrollHeight)"];
 }
 
 -(void)loadHelpURL:(NSURL*)url

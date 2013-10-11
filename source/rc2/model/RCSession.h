@@ -96,12 +96,10 @@ typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
 -(void)appendAttributedString:(NSAttributedString*)aString;
 -(void)processWebSocketMessage:(NSDictionary*)msg json:(NSString*)jsonString;
 -(void)processBinaryMessage:(NSData*)data;
--(void)performConsoleAction:(NSString*)action;
 -(void)displayImage:(NSString*)imgPath;
 -(void)displayEditorFile:(RCFile*)file;
 -(void)displayLinkedFile:(NSString*)path;
 -(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted;
--(NSString*)executeJavascript:(NSString*)js;
 -(void)loadHelpURL:(NSURL*)url;
 -(void)variablesUpdated;
 @end

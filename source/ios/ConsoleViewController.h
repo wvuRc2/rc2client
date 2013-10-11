@@ -26,7 +26,6 @@
 -(IBAction)doExecute:(id)sender;
 -(IBAction)doBack:(id)sender;
 
--(NSString*)evaluateJavaScript:(NSString*)script;
 -(void)loadHelpURL:(NSURL*)url;
 -(void)loadLocalFileURL:(NSURL*)url;
 -(void)variablesUpdated;
