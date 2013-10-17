@@ -21,7 +21,7 @@
 #import "ImagePreviewViewController.h"
 #import <objc/runtime.h>
 
-#define kAnimDuration 1
+#define kAnimDuration 0.5
 
 @interface ConsoleViewController()<UITextViewDelegate,UIViewControllerTransitioningDelegate> {
 	BOOL _didSetGraphUrl;
@@ -110,8 +110,11 @@
 	[UIView animateWithDuration:kAnimDuration animations:^{
 		self.webLeftConstraint.constant = 0;
 		self.outputLeftConstraint.constant = - self.outputView.bounds.size.width;
+		[self.containerView setNeedsUpdateConstraints];
+		[self.containerView layoutIfNeeded];
 	} completion:^(BOOL finished) {
 		self.visibleOutputView = self.webView;
+		self.backButton.enabled = YES;
 	}];
 }
 
@@ -123,6 +126,8 @@
 	[UIView animateWithDuration:kAnimDuration animations:^{
 		self.outputLeftConstraint.constant = 0;
 		self.webLeftConstraint.constant = 900;
+		[self.containerView setNeedsUpdateConstraints];
+		[self.containerView layoutIfNeeded];
 	} completion:^(BOOL finished) {
 		self.visibleOutputView = self.outputView;
 		self.backButton.enabled = NO;
@@ -366,6 +371,8 @@
 		[self previewImage:(RCImageAttachment*)textAttachment inRange:characterRange];
 	else if ([textAttachment isKindOfClass:[RCFileAttachment class]])
 		[self previewFile:(RCFileAttachment*)textAttachment inRange:characterRange];
+	else
+		Rc2LogWarn(@"unsupported text attachment class:%@", [textAttachment class]);
 	return NO;
 }
 
