@@ -22,6 +22,10 @@
 	NSInteger __cmdHistoryIdx;
 	BOOL __didInit;
 }
+@property (nonatomic, weak) IBOutlet NSView *containerView;
+@property (nonatomic, strong) IBOutlet NSTextView *textView;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *textLeftConstraint;
+@property (nonatomic, strong) WebView *webView;
 @property (nonatomic, strong) NSMenuItem *clearMenuItem;
 @property (nonatomic, strong) NSMenuItem *saveAsMenuItem;
 @property (nonatomic, strong) NSMenuItem *openFullMenuItem;
@@ -31,7 +35,6 @@
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) NSMenuItem *viewSourceMenuItem;
 @property (nonatomic, strong) NSMutableArray *commandHistory;
-@property (nonatomic, strong) NSMutableArray *outputQueue;
 @property BOOL completedInitialLoad;
 @property (nonatomic, strong) RCFile *localFileToLoadAfterInitialLoad;
 @property (nonatomic, copy) NSString *webTmpFileDirectory;
@@ -41,12 +44,10 @@
 @implementation MCWebOutputController
 @synthesize inputText=__inputText;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if ((self = [super initWithNibName:@"MCWebOutputController" bundle:nil])) {
 		self.commandHistory = [[NSMutableArray alloc] init];
-		self.outputQueue = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
@@ -100,6 +101,15 @@
 
 #pragma mark - meat & potatos
 
+-(void)appendAttributedString:(NSAttributedString *)aString
+{
+	NSTextStorage *ts = self.textView.textStorage;
+	NSUInteger curEnd = ts.length;
+	[ts appendAttributedString:aString];
+//	[ts addAttribute:NSFontAttributeName value:self.baseFont range:NSMakeRange(curEnd, aString.length)];
+	[self.textView scrollToEndOfDocument:nil];
+}
+
 -(NSString*)themedStyleSheet
 {
 	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
@@ -131,38 +141,32 @@
 	}
 }
 
--(void)insertSavedContent:(NSString*)contentHtml
-{
-	NSURL *url = [[NSBundle mainBundle] URLForResource:@"console" withExtension:@"html" subdirectory:@"console"];
-	if ([contentHtml length] > 0) {
-		NSString *content = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-		content = [content stringByReplacingOccurrencesOfString:@"<!--content-->" withString:contentHtml];
-		[[self.webView mainFrame] loadHTMLString:content baseURL:[url URLByDeletingLastPathComponent]];
-	} else {
-		[[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:url]];
-	}
-}
-
 -(void)saveSessionState:(RCSavedSession*)savedState
 {
-	savedState.consoleHtml = [self.webView stringByEvaluatingJavaScriptFromString:@"$('#consoleOutputGenerated').html()"];
+	NSError *err;
+	NSTextStorage *text = self.textView.textStorage;
+	if (text.length > 0) {
+		NSData *data = [text dataFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType} error:&err];
+		if (data)
+			[savedState setProperty:data forKey:@"ConsoleRTF"];
+		else
+			Rc2LogError(@"error saving document data:%@", err);
+	}
 	savedState.commandHistory = self.commandHistory;
-	NSData *wprefs = [NSKeyedArchiver archivedDataWithRootObject:self.webView.preferences];
-	[savedState setProperty:wprefs forKey:@"webPreferences"];
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
-	[self insertSavedContent:savedState.consoleHtml];
+	NSData *rtfdata = [savedState propertyForKey:@"ConsoleRTF"];
+	NSError *err;
+	if (rtfdata && ![self.textView.textStorage readFromData:rtfdata options:nil documentAttributes:nil error:nil])
+		Rc2LogError(@"error reading consolertf:%@", err);
 	[self.commandHistory removeAllObjects];
 	[self.commandHistory addObjectsFromArray:savedState.commandHistory];
 	self.historyHasItems = self.commandHistory.count > 0;
-	NSData *wpdata = [savedState propertyForKey:@"webPreferences"];
-	if (wpdata)
-		self.webView.preferences = [NSKeyedUnarchiver unarchiveObjectWithData:wpdata];
 }
 
--(NSString*)executeJavaScript:(NSString*)js
+/*-(NSString*)executeJavaScript:(NSString*)js
 {
 	//if they are viewing a help page or pdf then js execution will fail. So we queue the command to run
 	// after we reload the content
@@ -180,7 +184,7 @@
 	}
 	return @"";
 }
-/*
+
 -(void)previewImage:(DOMElement*)imgGroupElem images:(WebScriptObject*)images
 {
 	unsigned int idx=0;
@@ -266,6 +270,11 @@
 		[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:filePath]]];
 	} else
 		[self loadFileFromWebTmp:file];
+}
+
+-(void)loadHelpURL:(NSURL*)helpUrl
+{
+	[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:helpUrl]];
 }
 
 #pragma mark - actions
@@ -460,11 +469,6 @@
 		if (doc.innerText.length < 1) {
 			doc.innerHTML = self.lastContent;
 			self.lastContent=nil;
-		}
-		if (self.outputQueue.count > 0) {
-			for (NSString *js in self.outputQueue)
-				[self.webView stringByEvaluatingJavaScriptFromString:js];
-			[self.outputQueue removeAllObjects];
 		}
 	}
 	if (isOurContent) {

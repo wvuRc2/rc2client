@@ -2443,6 +2443,11 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "West Virginia University";
+				TargetAttributes = {
+					08D2461B15B5EBC20064A9FA = {
+						DevelopmentTeam = LRMKU6353E;
+					};
+				};
 			};
 			buildConfigurationList = 08D2431915B5D04D0064A9FA /* Build configuration list for PBXProject "Rc2Client" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -3362,6 +3367,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = rc2sign;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = rc2sign;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3395,6 +3401,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = rc2sign;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = rc2sign;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3428,6 +3435,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = rc2sign;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = rc2sign;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (

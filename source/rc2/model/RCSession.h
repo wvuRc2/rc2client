@@ -104,12 +104,20 @@ typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
 -(void)variablesUpdated;
 @end
 
-@interface RCFileAttachment : NSTextAttachment
+@interface RCTextAttachment : NSTextAttachment
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1070)
+-(id)initWithData:(NSData*)data ofType:(NSString*)aType;
+-(NSImage*)image;
+-(void)setImage:(NSImage*)image;
+#endif
+@end
+
+@interface RCFileAttachment : RCTextAttachment
 @property (nonatomic, strong) NSNumber *fileId;
 @property (nonatomic, copy) NSString *fileName;
 @end
 
-@interface RCImageAttachment : NSTextAttachment
+@interface RCImageAttachment : RCTextAttachment
 @property (nonatomic, strong) NSNumber *imageId;
 @property (nonatomic, copy) NSString *imageUrl;
 @end

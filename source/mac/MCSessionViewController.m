@@ -1104,16 +1104,15 @@
 	}
 }
 
--(NSString*)executeJavascript:(NSString*)js
+-(void)appendAttributedString:(NSAttributedString*)aString
 {
-	[self.outputController executeJavaScript:js];
-	return [self.outputController executeJavaScript:@"scroll(0,document.body.scrollHeight)"];
+	[self.outputController appendAttributedString:aString];
 }
 
 -(void)loadHelpURL:(NSURL*)url
 {
 	Rc2LogInfo(@"loading help url:%@", url);
-	[self.outputController.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:url]];
+	[self.outputController loadHelpURL:url];
 }
 
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString
@@ -1136,13 +1135,6 @@
 			[self variablesUpdated];
 		}
 	}
-}
-
--(void)performConsoleAction:(NSString*)action
-{
-	action = [action stringbyRemovingPercentEscapes];
-	NSString *cmd = [NSString stringWithFormat:@"iR.appendConsoleText('%@')", action];
-	[self.outputController executeJavaScript:cmd];	
 }
 
 -(void)setupImageDisplay:(NSArray*)imgArray
@@ -1339,7 +1331,7 @@
 		NSString *path = [url.absoluteString stringByDeletingPathExtension];
 		path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
 		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[path integerValue]]];
-		[self.outputController.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:file.fileContentsPath]]];
+		[self.outputController loadLocalFile:file];
 	} else if ([urlStr hasSuffix:@".png"]) {
 		//for now. we may want to handle multiple images at once
 		[self displayImage:[url path]];
@@ -1351,10 +1343,7 @@
 			RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:fid]];
 			if (file) {
 				NSString *tmpPath = [self webTmpFilePath:file];
-				[self.outputController.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:tmpPath]]];
-				dispatch_async(dispatch_get_main_queue(), ^{
-					[self.outputController.view.layer setNeedsDisplay];
-				});
+				[self.outputController loadLocalFile:file];
 			}
 		}
 	}

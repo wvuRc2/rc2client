@@ -21,7 +21,6 @@
 @end
 
 @interface MCWebOutputController : AMViewController<NSTextFieldDelegate>
-@property (nonatomic, strong) IBOutlet WebView *webView;
 @property (nonatomic, strong) IBOutlet NSPopUpButton *historyPopUp;
 @property (nonatomic, weak) IBOutlet id<MCWebOutputDelegate> delegate;
 @property (nonatomic, strong) IBOutlet RCMConsoleTextField *consoleField;
@@ -44,7 +43,9 @@
 -(void)saveSessionState:(RCSavedSession*)savedState;
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 
--(NSString*)executeJavaScript:(NSString*)js;
 -(void)loadLocalFile:(RCFile*)file;
+-(void)loadHelpURL:(NSURL*)helpUrl;
+
+-(void)appendAttributedString:(NSAttributedString*)aString;
 
 @end

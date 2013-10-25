@@ -123,8 +123,10 @@ const CGFloat kFrameWidth = 214;
 	newView.frame = self.outputView.bounds;
 	[self.outputView addSubview:newView];
 	NSDictionary *dict = NSDictionaryOfVariableBindings(newView);
-	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[newView]-0-|" options:0 metrics:nil views:dict]];
-	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[newView]-0-|" options:0 metrics:nil views:dict]];
+//	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[newView]-0-|" options:0 metrics:nil views:dict]];
+//	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[newView]-0-|" options:0 metrics:nil views:dict]];
+	[self addConstraint:[NSLayoutConstraint constraintWithItem:newView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.outputView attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+	[self addConstraint:[NSLayoutConstraint constraintWithItem:newView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.outputView attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
 }
 
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
