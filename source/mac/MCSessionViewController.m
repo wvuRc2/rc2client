@@ -16,6 +16,7 @@
 #import "RCWorkspace.h"
 #import "RCProject.h"
 #import "RCFile.h"
+#import "Rc2FileType.h"
 #import "RCImage.h"
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
@@ -93,6 +94,7 @@
 @end
 
 @implementation MCSessionViewController
+@synthesize session = _session; //part of delegate protocol, requires explicit synthesize
 
 -(id)initWithSession:(RCSession*)aSession
 {
@@ -954,7 +956,7 @@
 -(void)reachabilityChanged:(NSNotification*)note
 {
 	if (self.serverReach.isReachable) {
-		if (!_session.socketOpen && !self.reconnecting && self.shouldReconnect) {
+		if (!self.session.socketOpen && !self.reconnecting && self.shouldReconnect) {
 			self.reconnecting=YES;
 			self.busy=YES;
 			self.statusMessage = @"Reconnecting…";
@@ -1107,6 +1109,28 @@
 -(void)appendAttributedString:(NSAttributedString*)aString
 {
 	[self.outputController appendAttributedString:aString];
+}
+
+-(NSTextAttachment*)textAttachmentForImageId:(NSNumber*)imgId imageUrl:(NSString*)imgUrl
+{
+	NSData *metaData = [NSKeyedArchiver archivedDataWithRootObject:@{@"id":imgId, @"url":imgUrl}];
+	NSFileWrapper *fw = [[NSFileWrapper alloc] initRegularFileWithContents:metaData];
+	fw.filename = [NSString stringWithFormat:@"image%@", imgId];
+	fw.preferredFilename = fw.filename;
+	NSTextAttachment *tattach = [[NSTextAttachment alloc] initWithFileWrapper:fw];
+	NSTextAttachmentCell *cell = [[NSTextAttachmentCell alloc] initImageCell:[NSImage imageNamed:@"graph"]];
+	tattach.attachmentCell = cell;
+	return tattach;
+}
+
+-(NSTextAttachment*)textAttachmentForFileId:(NSNumber *)fileId name:(NSString *)fileName fileType:(Rc2FileType *)fileType
+{
+	NSData *metaData = [NSKeyedArchiver archivedDataWithRootObject:@{@"id":fileId, @"name":fileName, @"ext":fileType.extension}];
+	NSFileWrapper *fw = [[NSFileWrapper alloc] initRegularFileWithContents:metaData];
+	fw.filename = [NSString stringWithFormat:@"file%@", fileId];
+	fw.preferredFilename = fw.filename;
+	NSTextAttachment *tattach = [[NSTextAttachment alloc] initWithFileWrapper:fw];
+	return tattach;
 }
 
 -(void)loadHelpURL:(NSURL*)url
@@ -1535,15 +1559,15 @@
 
 #pragma mark - accessors
 
--(void)setSession:(RCSession *)session
+-(void)setSession:(RCSession *)aSession
 {
-	if (_session == session)
+	if (_session == aSession)
 		return;
 	if (_session) {
 		[_session closeWebSocket];
 		_session.delegate=nil;
 	}
-	_session = session;
+	_session = aSession;
 }
 
 -(void)setMode:(NSString*)mode

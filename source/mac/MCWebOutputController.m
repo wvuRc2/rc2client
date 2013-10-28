@@ -6,6 +6,7 @@
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
+#import <Quartz/Quartz.h>
 #import "MCWebOutputController.h"
 #import "RCSavedSession.h"
 #import "RCMConsoleTextField.h"
@@ -13,12 +14,13 @@
 #import "RCMAppConstants.h"
 #import "RCImageCache.h"
 #import "RCFile.h"
-#import <Quartz/Quartz.h>
+#import "RCSession.h"
+#import "RCWorkspace.h"
 #import "MAKVONotificationCenter.h"
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
 
-@interface MCWebOutputController() {
+@interface MCWebOutputController() <NSTextViewDelegate> {
 	NSInteger __cmdHistoryIdx;
 	BOOL __didInit;
 }
@@ -146,11 +148,12 @@
 	NSError *err;
 	NSTextStorage *text = self.textView.textStorage;
 	if (text.length > 0) {
-		NSData *data = [text dataFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType} error:&err];
+		NSData *data = [text RTFDFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType}];
 		if (data)
 			[savedState setProperty:data forKey:@"ConsoleRTF"];
 		else
 			Rc2LogError(@"error saving document data:%@", err);
+		[[text RTFDFileWrapperFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType}] writeToFile:@"/Users/mlilback/Desktop/state.rtfd" atomically:YES updateFilenames:YES];
 	}
 	savedState.commandHistory = self.commandHistory;
 }
@@ -164,6 +167,10 @@
 	[self.commandHistory removeAllObjects];
 	[self.commandHistory addObjectsFromArray:savedState.commandHistory];
 	self.historyHasItems = self.commandHistory.count > 0;
+	[self.textView.textStorage enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0,self.textView.textStorage.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop)
+	{
+		NSLog(@"got attr:%@", value); //TODO: setup attachment cells
+	}];
 }
 
 /*-(NSString*)executeJavaScript:(NSString*)js
@@ -277,6 +284,52 @@
 	[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:helpUrl]];
 }
 
+-(void)previewImage:(NSTextAttachment*)imgAttachment atIndex:(NSInteger)charIndex
+{
+	NSLog(@"preview: %@", imgAttachment);
+	//find the line with the clicked attachment
+/*	NSUInteger lineStart=0, lineEnd=0;
+	[self.outputView.textStorage.string getLineStart:&lineStart end:NULL contentsEnd:&lineEnd forRange:charRange];
+	NSRange attaachRange = NSMakeRange(lineStart, lineEnd - lineStart);
+	//iterate all attachments in that range, adding to imgArray if they are an image
+	NSMutableArray *imgArray = [NSMutableArray array];
+	__block RCImage *selImage=nil;
+	[self.outputView.textStorage enumerateAttribute:NSAttachmentAttributeName inRange:attaachRange options:0 usingBlock:^(id value, NSRange range, BOOL *stop)
+	 {
+		 if ([value isKindOfClass:[RCImageAttachment class]]) {
+			 RCImage *img = [[RCImageCache sharedInstance] imageWithId:[[value imageId] description]];
+			 if (img) {
+				 [imgArray addObject:img];
+				 if ([img.imageId isEqualToNumber:imgAttachment.imageId])
+					 selImage = img;
+			 }
+		 }
+	 }];
+	//compute the rectangle the user tapped on
+	NSRange grange = NSMakeRange([self.outputView.layoutManager glyphIndexForCharacterAtIndex:charRange.location], 1);
+	CGRect startRect = [self.outputView.layoutManager boundingRectForGlyphRange:grange inTextContainer:self.outputView.textContainer];
+	startRect = [self.view convertRect:startRect fromView:self.outputView];
+	//create the preview controller and present it
+	ImagePreviewViewController *pvc = [[ImagePreviewViewController alloc] init];
+	pvc.images = imgArray;
+	pvc.currentIndex = [imgArray indexOfObject:selImage];
+	pvc.modalPresentationStyle = UIModalPresentationCustom;
+	pvc.transitioningDelegate = self;
+	objc_setAssociatedObject(pvc, @selector(previewImage:inRange:), [NSValue valueWithCGRect:startRect], OBJC_ASSOCIATION_RETAIN);
+	[self setDefinesPresentationContext:YES];
+	[self presentViewController:pvc animated:YES completion:nil]; */
+}
+
+-(void)previewFile:(NSTextAttachment*)fileAttachment atIndex:(NSInteger)charIndex
+{
+//	RCFile *file = [self.delegate.session.workspace fileWithId:fileAttachment.fileId];
+//	NSURL *furl = [NSURL fileURLWithPath:file.fileContentsPath];
+//	NSLog(@"preview:%@", furl);
+//	if (self.visibleOutputView != self.webView)
+//		[self animateToWebview];
+//	[self.webView loadRequest:[NSURLRequest requestWithURL:furl]];
+}
+
 #pragma mark - actions
 
 -(IBAction)doExecuteQuery:(id)sender
@@ -299,7 +352,7 @@
 
 -(IBAction)doClear:(id)sender
 {
-	[self.webView stringByEvaluatingJavaScriptFromString:@"iR.clearConsole()"];
+	[self.textView.textStorage deleteCharactersInRange:NSMakeRange(0, self.textView.textStorage.length)];
 	[[RCImageCache sharedInstance] clearCache];
 }
 
@@ -366,6 +419,20 @@
 		[(AppDelegate*)[NSApp delegate] displayPdfFile:self.currentPdf];
 	}
 //	NSURL *pdfUrl = self.webView.mainFrame.dataSource.request.URL;
+}
+
+#pragma mark - text view
+
+-(void)textView:(NSTextView *)textView clickedOnCell:(id<NSTextAttachmentCell>)cell inRect:(NSRect)cellFrame atIndex:(NSUInteger)charIndex
+{
+	NSTextAttachment *textAttachment = (NSTextAttachment*)[cell attachment];
+	NSFileWrapper *fw = textAttachment.fileWrapper;
+	if ([fw.filename hasPrefix:@"image"])
+		[self previewImage:textAttachment atIndex:charIndex];
+	else if ([fw.filename hasPrefix:@"file"])
+		[self previewFile:textAttachment atIndex:charIndex];
+	else
+		Rc2LogWarn(@"unsupported text attachment:%@", fw.filename);
 }
 
 #pragma mark - text field

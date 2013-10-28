@@ -462,10 +462,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 			[[RCImageCache sharedInstance] adjustImageArray:[dict objectForKey:@"imageUrls"]];
 			NSMutableAttributedString *mstr = [[NSMutableAttributedString alloc] init];
 			for (NSDictionary *imgDict in dict[@"imageUrls"]) {
-				RCImageAttachment *tattach = [[RCImageAttachment alloc] initWithData:nil ofType:@"rc2.image"];
-				tattach.image = [ImageClass imageNamed:@"graph"];
-				tattach.imageId = imgDict[@"id"];
-				tattach.imageUrl = imgDict[@"url"];
+				NSTextAttachment *tattach = [self.delegate textAttachmentForImageId:imgDict[@"id"] imageUrl:imgDict[@"url"]];
 				NSAttributedString *graphStr = [NSAttributedString attributedStringWithAttachment:tattach];
 				[mstr appendAttributedString:graphStr];
 			}
@@ -519,14 +516,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	for (NSDictionary *fileDict in fileInfo) {
 		[self.workspace updateFileId:fileDict[@"fileId"]]; //triggers refresh from server
 		Rc2FileType *ftype = [Rc2FileType fileTypeWithExtension:fileDict[@"ext"]];
-		NSString *iconname = ftype.iconName;
-		ImageClass *fimg = [ImageClass imageNamed:iconname];
-		if (nil == fimg)
-			fimg = [ImageClass imageNamed:@"gendoc"];
-		RCFileAttachment *tattach = [[RCFileAttachment alloc] initWithData:nil ofType:@"rc2.file"];
-		tattach.image = fimg;
-		tattach.fileId = fileDict[@"fileId"];
-		tattach.fileName = fileDict[@"name"];
+		NSTextAttachment *tattach = [self.delegate textAttachmentForFileId:fileDict[@"fileId"] name:fileDict[@"name"] fileType:ftype];
 		NSAttributedString *graphStr = [NSAttributedString attributedStringWithAttachment:tattach];
 		[mstr appendAttributedString:graphStr];
 		[mstr appendAttributedString:[[NSAttributedString alloc] initWithString:[fileDict[@"name"] stringByAppendingString:@" "]]];
@@ -640,70 +630,6 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 -(BOOL)isClassroomMode
 {
 	return [self.mode isEqualToString:kMode_Classroom];
-}
-
-@end
-
-#pragma mark -
-
-@implementation RCTextAttachment : NSTextAttachment
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1070)
--(id)initWithData:(NSData*)data ofType:(NSString*)aType
-{
-	return [self initWithFileWrapper:nil];
-}
--(NSImage*)image
-{
-	NSTextAttachmentCell *cell = (NSTextAttachmentCell*)self.attachmentCell;
-	return cell.image;
-}
--(void)setImage:(NSImage*)image
-{
-	NSTextAttachmentCell *cell = (NSTextAttachmentCell*)self.attachmentCell;
-	if (nil == self.attachmentCell)
-		self.attachmentCell = [[NSTextAttachmentCell alloc] initImageCell:image];
-	else
-		cell.image = image;
-}
-#endif
-@end
-
-@implementation RCFileAttachment
-
--(id)initWithCoder:(NSCoder *)aDecoder
-{
-	if ((self = [super initWithCoder:aDecoder])) {
-		self.fileId = [aDecoder decodeObjectForKey:@"RCFILEID"];
-		self.fileName = [aDecoder decodeObjectForKey:@"RCFILENAME"];
-	}
-	return self;
-}
-
--(void)encodeWithCoder:(NSCoder *)aCoder
-{
-	[super encodeWithCoder:aCoder];
-	[aCoder encodeObject:self.fileId forKey:@"RCFILEID"];
-	[aCoder encodeObject:self.fileName forKey:@"RCFILENAME"];
-}
-
-@end
-
-@implementation RCImageAttachment
-
--(id)initWithCoder:(NSCoder *)aDecoder
-{
-	if ((self = [super initWithCoder:aDecoder])) {
-		self.imageId = [aDecoder decodeObjectForKey:@"RCIMGID"];
-		self.imageUrl = [aDecoder decodeObjectForKey:@"RCIMGURL"];
-	}
-	return self;
-}
-
--(void)encodeWithCoder:(NSCoder *)aCoder
-{
-	[super encodeWithCoder:aCoder];
-	[aCoder encodeObject:self.imageId forKey:@"RCIMGID"];
-	[aCoder encodeObject:self.imageUrl forKey:@"RCIMGURL"];
 }
 
 @end

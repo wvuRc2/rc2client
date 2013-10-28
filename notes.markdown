@@ -1,3 +1,16 @@
+# nstextstorage-based output
+
+NSTextAttachment(Cell) is very different between platforms. On iOS, we use a subclass. On the mac, we have to use the base class with a file wrapper.  
+
+For images, this file wrapper contains a serialized dictionary with "id" and "url" keys and a filename of "image{id}".
+
+For files, this file wrapper contains a serialized dictionary with "id", "name". and "ext" keys and a filename of "file{id}".
+
+
+
+
+
+
 root controller has 4 child controllers -- welcome, messages, workspaces, grading. 
 It has API to switch between them. The child controllers will call that api to switch
 between different views (from toolbar buttons).

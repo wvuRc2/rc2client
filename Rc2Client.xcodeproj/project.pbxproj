@@ -39,6 +39,8 @@
 		08137A3117C8024C005EA804 /* SharedImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08137A2F17C8024C005EA804 /* SharedImages.xcassets */; };
 		08137A3317C804DA005EA804 /* iOSIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08137A3217C804DA005EA804 /* iOSIcons.xcassets */; };
 		08137A3517CBC57F005EA804 /* ImageHolderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08137A3417CBC57F005EA804 /* ImageHolderView.xib */; };
+		0817C694181EF00700C70CA8 /* RCTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C693181EF00700C70CA8 /* RCTextAttachment.m */; };
+		0817C695181EF00700C70CA8 /* RCTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C693181EF00700C70CA8 /* RCTextAttachment.m */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
@@ -587,6 +589,8 @@
 		08137A2F17C8024C005EA804 /* SharedImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = SharedImages.xcassets; path = resources/SharedImages.xcassets; sourceTree = "<group>"; };
 		08137A3217C804DA005EA804 /* iOSIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = iOSIcons.xcassets; path = resources/ios/iOSIcons.xcassets; sourceTree = SOURCE_ROOT; };
 		08137A3417CBC57F005EA804 /* ImageHolderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageHolderView.xib; sourceTree = "<group>"; };
+		0817C692181EF00700C70CA8 /* RCTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTextAttachment.h; sourceTree = "<group>"; };
+		0817C693181EF00700C70CA8 /* RCTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTextAttachment.m; sourceTree = "<group>"; };
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
@@ -1858,6 +1862,8 @@
 				0847FDB21762682300D950EA /* SessionEditorProtocol.h */,
 				08D243D715B5D7590064A9FA /* SessionEditView.h */,
 				08D243D815B5D7590064A9FA /* SessionEditView.m */,
+				0817C692181EF00700C70CA8 /* RCTextAttachment.h */,
+				0817C693181EF00700C70CA8 /* RCTextAttachment.m */,
 				0868D4BC17FA1C0B002AD679 /* keyboard toolbar */,
 				08137A3917CBF4F7005EA804 /* Variables */,
 			);
@@ -2808,6 +2814,7 @@
 				08D2442415B5D7B90064A9FA /* Rc2.xcdatamodeld in Sources */,
 				082D1ECB17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */,
 				08D2458415B5DB270064A9FA /* NSObject+SBJSON.m in Sources */,
+				0817C694181EF00700C70CA8 /* RCTextAttachment.m in Sources */,
 				08BDDDB017EA48AB00E669E3 /* MagicalRecord+Actions.m in Sources */,
 				08D2458515B5DB270064A9FA /* NSString+SBJSON.m in Sources */,
 				08D2458615B5DB270064A9FA /* SBJsonBase.m in Sources */,
@@ -3053,6 +3060,7 @@
 				080E5089166FDFB800E95531 /* AFJSONRequestOperation.m in Sources */,
 				08BDDD9517EA48AB00E669E3 /* NSRelationshipDescription+MagicalDataImport.m in Sources */,
 				080E508B166FDFB800E95531 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				0817C695181EF00700C70CA8 /* RCTextAttachment.m in Sources */,
 				08BDDD8F17EA48AB00E669E3 /* NSEntityDescription+MagicalDataImport.m in Sources */,
 				080E508D166FDFB800E95531 /* AFPropertyListRequestOperation.m in Sources */,
 				080E508F166FDFB800E95531 /* AFURLConnectionOperation.m in Sources */,

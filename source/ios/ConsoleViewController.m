@@ -15,6 +15,7 @@
 #import "RCImageCache.h"
 #import "RCImage.h"
 #import "RCFile.h"
+#import "RCTextAttachment.h"
 #import "MAKVONotificationCenter.h"
 #import "VariableListViewController.h"
 #import "ImagePreviewTransition.h"

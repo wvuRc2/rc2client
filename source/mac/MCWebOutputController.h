@@ -11,6 +11,7 @@
 @class RCSavedSession;
 @class RCMConsoleTextField;
 @class RCFile;
+@class RCSession;
 
 @protocol MCWebOutputDelegate <NSObject>
 -(BOOL)restricted;
@@ -18,6 +19,7 @@
 -(void)previewImages:(NSArray*)imageUrls atPoint:(NSPoint)pt;
 -(void)executeConsoleCommand:(NSString*)command;
 -(void)displayLinkedFile:(NSString*)filePath atPoint:(NSPoint)pt;
+-(RCSession*)session;
 @end
 
 @interface MCWebOutputController : AMViewController<NSTextFieldDelegate>

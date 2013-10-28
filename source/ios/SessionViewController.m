@@ -20,9 +20,11 @@
 #import "RCImage.h"
 #import "RCImageCache.h"
 #import "RCFile.h"
+#import "Rc2FileType.h"
 #import "MBProgressHUD.h"
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
+#import "RCTextAttachment.h"
 #import "ControlViewController.h"
 #import "RCAudioChatEngine.h"
 #import "DoodleViewController.h"
@@ -464,6 +466,28 @@
 -(void)appendAttributedString:(NSAttributedString*)aString
 {
 	[self.consoleController appendAttributedString:aString];
+}
+
+-(NSTextAttachment*)textAttachmentForImageId:(NSNumber*)imgId imageUrl:(NSString*)imgUrl
+{
+	RCImageAttachment *tattach = [[RCImageAttachment alloc] initWithData:nil ofType:@"rc2.image"];
+	tattach.image = [ImageClass imageNamed:@"graph"];
+	tattach.imageId = imgId;
+	tattach.imageUrl = imgUrl;
+	return tattach;
+}
+
+-(NSTextAttachment*)textAttachmentForFileId:(NSNumber*)fileId name:(NSString*)fileName fileType:(Rc2FileType *)ftype
+{
+	NSString *iconname = ftype.iconName;
+	ImageClass *fimg = [ImageClass imageNamed:iconname];
+	if (nil == fimg)
+		fimg = [ImageClass imageNamed:@"gendoc"];
+	RCFileAttachment *tattach = [[RCFileAttachment alloc] initWithData:nil ofType:@"rc2.file"];
+	tattach.image = fimg;
+	tattach.fileId = fileId;
+	tattach.fileName = fileName;
+	return tattach;
 }
 
 -(void)displayImage:(NSString *)imgPath
