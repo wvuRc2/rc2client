@@ -338,6 +338,7 @@
 
 -(void)previewFile:(NSTextAttachment*)fileAttachment atIndex:(NSInteger)charIndex
 {
+	NSLog(@"file: %@", fileAttachment.fileWrapper.filename);
 //	RCFile *file = [self.delegate.session.workspace fileWithId:fileAttachment.fileId];
 //	NSURL *furl = [NSURL fileURLWithPath:file.fileContentsPath];
 //	NSLog(@"preview:%@", furl);
