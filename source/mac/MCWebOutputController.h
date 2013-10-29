@@ -22,7 +22,7 @@
 -(RCSession*)session;
 @end
 
-@interface MCWebOutputController : AMViewController<NSTextFieldDelegate>
+@interface MCWebOutputController : AMViewController<NSTextFieldDelegate, NSUserInterfaceValidations>
 @property (nonatomic, strong) IBOutlet NSPopUpButton *historyPopUp;
 @property (nonatomic, weak) IBOutlet id<MCWebOutputDelegate> delegate;
 @property (nonatomic, strong) IBOutlet RCMConsoleTextField *consoleField;

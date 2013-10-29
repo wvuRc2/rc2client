@@ -28,7 +28,8 @@
 @property (nonatomic, weak) IBOutlet NSView *containerView;
 @property (nonatomic, strong) IBOutlet NSTextView *textView;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *textLeftConstraint;
-@property (nonatomic, strong) WebView *webView;
+@property (nonatomic, strong) IBOutlet WebView *webView;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *webLeftConstraint;
 @property (nonatomic, strong) NSMenuItem *clearMenuItem;
 @property (nonatomic, strong) NSMenuItem *saveAsMenuItem;
 @property (nonatomic, strong) NSMenuItem *openFullMenuItem;
@@ -87,6 +88,7 @@
 			[self.webView stringByEvaluatingJavaScriptFromString:[self themedStyleSheet]];
 		}];
 	}
+	[self.webView.mainFrame loadHTMLString:@"<html><body bgcolor=\"#aa0000\">webview</body></html>" baseURL:nil];
 }
 
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
@@ -95,8 +97,11 @@
 	if (action == @selector(loadPreviousCommand:) || action == @selector(loadNextCommand:)) {
 		return self.consoleField.fieldOrEditorIsFirstResponder && self.commandHistory.count > 0;
 	}
-	if (action == @selector(goBack:))
-		return !self.consoleVisible && !self.restrictedMode;
+	if (action == @selector(goBack:)) {
+		if (self.restrictedMode) return NO;
+		if (self.textLeftConstraint.constant >= 0) return NO;
+		return YES;
+	}
 	if (action == @selector(viewFullWindow:) && nil != self.currentPdf)
 		return YES;
 	return NO;
@@ -277,10 +282,6 @@
 
 -(void)loadLocalFile:(RCFile*)file
 {
-	if (!self.completedInitialLoad) {
-		self.localFileToLoadAfterInitialLoad = file;
-		return;
-	}
 	if (self.webView.isLoading) {
 		RunAfterDelay(0.3, ^{
 			[self loadLocalFile:file];
@@ -298,6 +299,7 @@
 -(void)loadHelpURL:(NSURL*)helpUrl
 {
 	[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:helpUrl]];
+	[self animateToWebView];
 }
 
 -(void)previewImage:(NSTextAttachment*)imgAttachment atIndex:(NSInteger)charIndex
@@ -338,13 +340,52 @@
 
 -(void)previewFile:(NSTextAttachment*)fileAttachment atIndex:(NSInteger)charIndex
 {
-	NSLog(@"file: %@", fileAttachment.fileWrapper.filename);
-//	RCFile *file = [self.delegate.session.workspace fileWithId:fileAttachment.fileId];
-//	NSURL *furl = [NSURL fileURLWithPath:file.fileContentsPath];
-//	NSLog(@"preview:%@", furl);
-//	if (self.visibleOutputView != self.webView)
-//		[self animateToWebview];
-//	[self.webView loadRequest:[NSURLRequest requestWithURL:furl]];
+	NSDictionary *fdict = [NSKeyedUnarchiver unarchiveObjectWithData:fileAttachment.fileWrapper.regularFileContents];
+	RCFile *file = [self.delegate.session.workspace fileWithId:fdict[@"id"]];
+	if (file) {
+		[self loadLocalFile:file];
+		[self animateToWebView];
+	} else {
+		Rc2LogWarn(@"failed to find file for %@", fdict);
+	}
+}
+
+-(void)animateToWebView
+{
+	if (!self.webView.isHidden)
+		return;
+	self.webLeftConstraint.constant = NSMaxX(self.textView.frame)+1;
+	[self.webView setHidden:NO];
+	[NSAnimationContext currentContext].completionHandler = ^{
+		[self.textView setHidden:YES];
+	};
+	[self.webView setMaintainsBackForwardList:YES];
+	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+		context.duration = 1.0;
+		self.textLeftConstraint.constant = - self.containerView.frame.size.width;
+		self.webLeftConstraint.constant = 0;
+	} completionHandler:^{
+		[self.textView setHidden:YES];
+		self.consoleVisible = NO;
+	}];
+}
+
+-(void)animateToTextView
+{
+	if (!self.textView.isHidden)
+		return;
+	self.webLeftConstraint.constant = - NSMaxX(self.textView.frame);
+	[self.textView setHidden:NO];
+	[self.webView setMaintainsBackForwardList:NO];
+	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+		context.duration = 1.0;
+		self.textLeftConstraint.constant = 0;
+		self.webLeftConstraint.constant = NSMaxX(self.textView.frame)+1;
+	} completionHandler:^{
+		[self.webView setHidden:YES];
+		[self.webView.mainFrame loadHTMLString:@"" baseURL:nil];
+		self.consoleVisible = YES;
+	}];
 }
 
 #pragma mark - actions
@@ -386,14 +427,12 @@
 
 -(IBAction)goBack:(id)sender
 {
-	if (!self.webView.canGoBack) {
-		//somehow our content got lost. we need to reload it
-		[self.webView setMaintainsBackForwardList:NO];
-		[self loadContent];
-		return;
+	ZAssert(self.textLeftConstraint.constant < 0, @"bad situation");
+	if (self.webView.canGoBack) {
+		[self.webView goBack:sender];
+	} else {
+		[self animateToTextView];
 	}
-	[self.webView goBack:sender];
-	self.currentPdf = nil;
 }
 
 -(IBAction)loadPreviousCommand:(id)sender
@@ -546,21 +585,6 @@
 			self.localFileToLoadAfterInitialLoad = nil;
 		}
 	}
-	BOOL isOurContent = [[[[frame DOMDocument] documentElement] getAttribute:@"rc2"] isEqualToString:@"rc2"];
-	self.consoleVisible = isOurContent;
-	if (self.lastContent && isOurContent) {
-		DOMHTMLElement *doc = (DOMHTMLElement*)[[frame DOMDocument] documentElement];
-		if (doc.innerText.length < 1) {
-			doc.innerHTML = self.lastContent;
-			self.lastContent=nil;
-		}
-	}
-	if (isOurContent) {
-		NSString *ss = [self themedStyleSheet];
-		[sender stringByEvaluatingJavaScriptFromString:ss];
-	}
-	if (nil == self.webView.backForwardList)
-		[self.webView setMaintainsBackForwardList:YES];
 	if ([self.webView.mainFrameURL hasSuffix:@".pdf"]) {
 		[self.webView enumerateSubviewsOfClass:[PDFView class] block:^(id aView, BOOL *stop) {
 			[aView setDisplayMode:kPDFDisplaySinglePage];
@@ -605,7 +629,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 		{
 			[listener use];
 			return;
-		} else if ([urlStr hasPrefix: @"http://rc2.stat.wvu.edu/"]) {
+		} else if ([urlStr hasPrefix: @"http://rc2.stat.wvu.edu/"] || [urlStr hasPrefix: @"http://www.stat.wvu.edu/"]) {
 			[listener use];
 			return;
 		} else if ([[[request URL] scheme] isEqualToString:@"rc2file"]) {

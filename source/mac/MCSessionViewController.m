@@ -1136,7 +1136,6 @@
 
 -(void)loadHelpURL:(NSURL*)url
 {
-	Rc2LogInfo(@"loading help url:%@", url);
 	[self.outputController loadHelpURL:url];
 }
 

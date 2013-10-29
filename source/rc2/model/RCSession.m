@@ -185,7 +185,8 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		[dict setObject:script forKey:@"script"];
 	if (fname)
 		[dict setObject:fname forKey:@"fname"];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TreatNewlinesAsSemicolons"])
+	//the second condtion below is a hack. the server needs to support help output when running with nlAsSemi
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TreatNewlinesAsSemicolons"] && ![fname hasPrefix:@"help("])
 		[dict setObject:@YES forKey:@"nlAsSemi"];
 	if (options & RCSessionExecuteOptionSource)
 		[dict setObject:@YES forKey:@"source"];
