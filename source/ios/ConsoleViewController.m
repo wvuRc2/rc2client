@@ -165,11 +165,15 @@
 
 -(void)loadHelpURL:(NSURL*)url
 {
+	if (self.visibleOutputView != self.webView)
+		[self animateToWebview];
 	[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
 -(void)loadLocalFileURL:(NSURL*)url
 {
+	if (self.visibleOutputView != self.webView)
+		[self animateToWebview];
 	[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
