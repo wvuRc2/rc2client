@@ -1130,6 +1130,7 @@
 	fw.filename = [NSString stringWithFormat:@"file%@", fileId];
 	fw.preferredFilename = fw.filename;
 	NSTextAttachment *tattach = [[NSTextAttachment alloc] initWithFileWrapper:fw];
+	tattach.attachmentCell = [self.outputController attachmentCellForAttachment:tattach];
 	return tattach;
 }
 

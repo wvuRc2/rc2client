@@ -14,6 +14,7 @@
 #import "RCMAppConstants.h"
 #import "RCImageCache.h"
 #import "RCFile.h"
+#import "Rc2FileType.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
 #import "MAKVONotificationCenter.h"
@@ -153,7 +154,6 @@
 			[savedState setProperty:data forKey:@"ConsoleRTF"];
 		else
 			Rc2LogError(@"error saving document data:%@", err);
-		[[text RTFDFileWrapperFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType}] writeToFile:@"/Users/mlilback/Desktop/state.rtfd" atomically:YES updateFilenames:YES];
 	}
 	savedState.commandHistory = self.commandHistory;
 }
@@ -169,8 +169,24 @@
 	self.historyHasItems = self.commandHistory.count > 0;
 	[self.textView.textStorage enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0,self.textView.textStorage.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop)
 	{
-		NSLog(@"got attr:%@", value); //TODO: setup attachment cells
+		NSFileWrapper *fw = [value fileWrapper];
+		if ([fw.filename hasPrefix:@"image"]) {
+			NSTextAttachmentCell *cell = [[NSTextAttachmentCell alloc] initImageCell:[NSImage imageNamed:@"graph"]];
+			[value setAttachmentCell:cell];
+		} else if ([fw.filename hasPrefix:@"file"]) {
+			[value setAttachmentCell:[self attachmentCellForAttachment:value]];
+		}
 	}];
+}
+
+-(NSTextAttachmentCell*)attachmentCellForAttachment:(NSTextAttachment*)tattach
+{
+	NSDictionary *fdict = [NSKeyedUnarchiver unarchiveObjectWithData:tattach.fileWrapper.regularFileContents];
+	Rc2FileType *ftype = [Rc2FileType fileTypeWithExtension:fdict[@"ext"]];
+	NSString *imgName = ftype.iconName;
+	if (nil == imgName)
+		imgName = @"gendoc";
+	return [[NSTextAttachmentCell alloc] initImageCell:[NSImage imageNamed:imgName]];
 }
 
 /*-(NSString*)executeJavaScript:(NSString*)js

@@ -50,4 +50,6 @@
 
 -(void)appendAttributedString:(NSAttributedString*)aString;
 
+-(NSTextAttachmentCell*)attachmentCellForAttachment:(NSTextAttachment*)tattach;
+
 @end
