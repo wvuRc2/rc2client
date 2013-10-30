@@ -1,24 +1,15 @@
 //
 //  RCImage.h
-//  iPadClient
 //
 //  Created by Mark Lilback on 8/25/11.
-//  Copyright (c) 2011 West Virginia University. All rights reserved.
+//  Copyright (c) 2013 West Virginia University. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "_RCImage.h"
 
-@interface RCImage : NSObject
-@property (nonatomic, strong) NSNumber *imageId;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *path;
-@property (nonatomic, assign) NSTimeInterval timestamp;
-#ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
-@property (nonatomic, retain) NSImage *image;
-#else
-@property (nonatomic, strong) UIImage *image;
-#endif
+extern NSString *RCImageLoadingNeededNotification;
+
+@interface RCImage : _RCImage
+@property (nonatomic, strong) ImageClass *image;
 @property (nonatomic, readonly) NSURL *fileUrl;
-
--(id)initWithPath:(NSString*)aPath;
 @end

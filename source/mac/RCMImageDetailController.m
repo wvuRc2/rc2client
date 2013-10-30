@@ -72,6 +72,13 @@
 	self.selectedImage = [sender representedObject];
 }
 
+-(IBAction)shareImages:(id)sender
+{
+	NSSharingServicePicker *picker = [[NSSharingServicePicker alloc] initWithItems:self.availableImages];
+	[picker showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMinYEdge];
+}
+
+
 -(void)setAvailableImages:(NSArray *)availableImages
 {
 	_availableImages = [availableImages copy];
@@ -98,7 +105,7 @@
 		[menu addItem:mi];
 		[(RCMPreviewImageView*)mi.view setImage:img];
 		//see if the image is is dark after switching to monotone and getting average color
-		CIImage *cimg = [CIImage imageWithContentsOfURL:[NSURL fileURLWithPath:img.path]];
+		CIImage *cimg = [CIImage imageWithContentsOfURL:img.fileUrl];
 		CGRect inputExtent = [cimg extent];
 		CIVector *extent = [CIVector vectorWithX:inputExtent.origin.x
 											   Y:inputExtent.origin.y

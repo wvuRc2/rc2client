@@ -12,7 +12,7 @@
 
 const struct RCSavedSessionAttributes RCSavedSessionAttributes = {
 	.cmdHistoryData = @"cmdHistoryData",
-	.consoleHtml = @"consoleHtml",
+	.consoleRtf = @"consoleRtf",
 	.inputText = @"inputText",
 	.localAttributes = @"localAttributes",
 	.login = @"login",
@@ -70,7 +70,7 @@ const struct RCSavedSessionFetchedProperties RCSavedSessionFetchedProperties = {
 
 
 
-@dynamic consoleHtml;
+@dynamic consoleRtf;
 
 
 

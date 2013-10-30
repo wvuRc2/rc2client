@@ -42,13 +42,10 @@
 							   [self.imageArrayController.arrangedObjects count]];
 }
 
--(void)displayImage:(NSNumber*)imageId
+-(void)displayImage:(RCImage*)image
 {
-	NSInteger idx = [self.imageArray indexOfFirstObjectWithValue:imageId forKey:@"imageId"];
-	if (idx < 0 || idx > self.imageArray.count)
-		idx = 0;
 	ZAssert(self.imageArray.count > 0, @"empty image array");
-	[self.imageArrayController setSelectionIndex:idx];
+	[self.imageArrayController setSelectionIndex:[self.imageArray indexOfObject:image]];
 	[self imageChanged];
 }
 
@@ -85,13 +82,7 @@
 
 -(IBAction)shareImages:(id)sender
 {
-	//get images to share
-	NSMutableArray *images = [NSMutableArray arrayWithCapacity:[self.imageArrayController.arrangedObjects count]];
-	for (RCImage *img in self.imageArrayController.arrangedObjects) {
-		[images addObject:img.fileUrl];
-	}
-	
-	NSSharingServicePicker *picker = [[NSSharingServicePicker alloc] initWithItems:images];
+	NSSharingServicePicker *picker = [[NSSharingServicePicker alloc] initWithItems:@[self.imageView.image]];
 	[picker showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMinYEdge];
 }
 

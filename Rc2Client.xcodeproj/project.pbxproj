@@ -41,6 +41,8 @@
 		08137A3517CBC57F005EA804 /* ImageHolderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08137A3417CBC57F005EA804 /* ImageHolderView.xib */; };
 		0817C694181EF00700C70CA8 /* RCTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C693181EF00700C70CA8 /* RCTextAttachment.m */; };
 		0817C695181EF00700C70CA8 /* RCTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C693181EF00700C70CA8 /* RCTextAttachment.m */; };
+		0817C6981821A3EC00C70CA8 /* _RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C6971821A3EC00C70CA8 /* _RCImage.m */; };
+		0817C6991821A3EC00C70CA8 /* _RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C6971821A3EC00C70CA8 /* _RCImage.m */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
@@ -591,6 +593,8 @@
 		08137A3417CBC57F005EA804 /* ImageHolderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageHolderView.xib; sourceTree = "<group>"; };
 		0817C692181EF00700C70CA8 /* RCTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTextAttachment.h; sourceTree = "<group>"; };
 		0817C693181EF00700C70CA8 /* RCTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTextAttachment.m; sourceTree = "<group>"; };
+		0817C6961821A3EC00C70CA8 /* _RCImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCImage.h; sourceTree = "<group>"; };
+		0817C6971821A3EC00C70CA8 /* _RCImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCImage.m; sourceTree = "<group>"; };
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
@@ -2154,6 +2158,8 @@
 			children = (
 				08D2459A15B5DBB70064A9FA /* _RCFile.h */,
 				08D2459B15B5DBB70064A9FA /* _RCFile.m */,
+				0817C6961821A3EC00C70CA8 /* _RCImage.h */,
+				0817C6971821A3EC00C70CA8 /* _RCImage.m */,
 				08D2459C15B5DBB70064A9FA /* _RCMessage.h */,
 				08D2459D15B5DBB70064A9FA /* _RCMessage.m */,
 				08D2459E15B5DBB70064A9FA /* _RCSavedSession.h */,
@@ -2832,6 +2838,7 @@
 				08D2459015B5DB270064A9FA /* WebSocket07.m in Sources */,
 				08D2459115B5DB270064A9FA /* WebSocket08.m in Sources */,
 				08D2459215B5DB270064A9FA /* WebSocket10.m in Sources */,
+				0817C6981821A3EC00C70CA8 /* _RCImage.m in Sources */,
 				0873431817C53911000EC1E0 /* AddFullConstraintsView.m in Sources */,
 				08D2459315B5DB270064A9FA /* WebSocketConnectConfig.m in Sources */,
 				08BDDDA617EA48AB00E669E3 /* NSManagedObjectContext+MagicalSaves.m in Sources */,
@@ -3030,6 +3037,7 @@
 				0845949315B5F31100297C9D /* RCMPDFViewController.m in Sources */,
 				0845949715B5F31100297C9D /* RCMSessionFileCellView.m in Sources */,
 				08BDDD9F17EA48AB00E669E3 /* NSManagedObject+MagicalRecord.m in Sources */,
+				0817C6991821A3EC00C70CA8 /* _RCImage.m in Sources */,
 				0845949815B5F31100297C9D /* RCMTextPrintView.m in Sources */,
 				0845949915B5F31100297C9D /* RCMTextView.m in Sources */,
 				0845949A15B5F31100297C9D /* RCMToolbarView.m in Sources */,

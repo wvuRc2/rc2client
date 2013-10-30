@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class RCWorkspace;
+@class RCImage;
 
 @interface RCMImageViewer : AMViewController
 @property (nonatomic, strong) IBOutlet NSImageView *imageView;
@@ -17,8 +18,8 @@
 @property (nonatomic, strong) IBOutlet NSArrayController *imageArrayController;
 @property (nonatomic, copy) NSString *displayedImageName;
 @property (nonatomic, copy) BasicBlock detailsBlock;
-//-(void)displayImage:(NSString*)path;
--(void)displayImage:(NSNumber*)imageId;
+
+-(void)displayImage:(RCImage*)image;
 
 -(IBAction)saveImageAs:(id)sender;
 -(IBAction)showImageDetails:(id)sender;

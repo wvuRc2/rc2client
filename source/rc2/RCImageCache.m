@@ -16,10 +16,8 @@
 #import "Rc2Server.h"
 
 @interface RCImageCache()
-@property (nonatomic, strong) NSString *imgCachePath;
-@property (nonatomic, strong) NSMutableDictionary *metaData;
-@property (nonatomic, strong) NSMutableDictionary *imgCache; //key is string of image id (or path if from an RCFile)
-@property (nonatomic, strong) NSOperationQueue *dloadQueue;
+@property (nonatomic, strong, readwrite) NSString *imgCachePath;
+@property (nonatomic, strong) NSFetchRequest *allImageFetchRequest;
 @end
 
 #define kPref_ImageMetaData @"ImageMetaData"
@@ -52,177 +50,70 @@
 			ZAssert(result, @"failed to create img cache directory: %@", [err localizedDescription]);
 		}
 		self.imgCachePath = [cacheUrl path];
-		self.imgCache = [NSMutableDictionary dictionary];
-		self.dloadQueue = [[NSOperationQueue alloc] init];
-		[self resetMetadata];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadImageFromFile:) name:RCImageLoadingNeededNotification object:nil];
+		NSFetchRequest *freq = [[NSFetchRequest alloc]initWithEntityName:[RCImage entityName]];
+		freq.fetchLimit = 20;
+		freq.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:RCImageAttributes.timestamp ascending:YES]];
+		self.allImageFetchRequest = freq;
 	}
 	return self;
 }
 
--(void)resetMetadata
+-(void)loadImageFromNetwork:(RCImage*)image
 {
-	if (nil == self.metaData) {
-		self.metaData = [[[NSUserDefaults standardUserDefaults] objectForKey:kPref_ImageMetaData] mutableCopy];
-		if (nil == self.metaData)
-			self.metaData = [NSMutableDictionary dictionary];
-	}
-	[self.metaData removeAllObjects];
-	[self.metaData setObject:[NSMutableDictionary dictionary] forKey:@"groups"];
+	NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", image.imageId]];
+	NSString *urlStr = [NSString stringWithFormat:@"/simg/%@.png", image.imageId];
+	__weak RCImage *weakImage = image;
+	[[Rc2Server sharedInstance] downloadAppPath:urlStr toFilePath:imgPath completionHandler:^(BOOL success, id rsp) {
+		weakImage.image = [[ImageClass alloc] initWithContentsOfFile:imgPath];
+	}];
 }
 
--(void)saveFileName:(NSString*)fname forId:(NSString*)imageIdStr
+-(void)loadImageFromFile:(NSNotification*)note
 {
-	[self.metaData setObject:fname forKey:imageIdStr];
-	[[NSUserDefaults standardUserDefaults] setObject:self.metaData forKey:kPref_ImageMetaData];
-}
-
--(void)clearCache
-{
-	[self resetMetadata];
-	[[NSUserDefaults standardUserDefaults] setObject:self.metaData forKey:kPref_ImageMetaData];
-	NSFileManager *fm = [[NSFileManager alloc] init];
-	NSError *err=nil;
-	for (NSString *fname in [fm contentsOfDirectoryAtPath:self.imgCachePath error:nil]) {
-		NSString *path = [self.imgCachePath stringByAppendingPathComponent:fname];
-		if ([path hasSuffix:@"png"] || [path hasSuffix:@"pdf"])
-			if (![fm removeItemAtPath:path error:&err])
-				Rc2LogError(@"error removing %@ from cache", path);
+	RCImage *image = note.object;
+	NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", image.imageId]];
+	if ([[NSFileManager defaultManager] fileExistsAtPath:imgPath]) {
+		image.image = [[ImageClass alloc] initWithContentsOfFile:imgPath];
+	} else {
+		[self loadImageFromNetwork:image];
 	}
 }
 
 -(NSArray*)allImages
 {
-	return [self.imgCache allValues];
+	NSError *err;
+	NSArray *images = [[NSManagedObjectContext MR_defaultContext] executeFetchRequest:self.allImageFetchRequest error:&err];
+	if (nil == images)
+		Rc2LogError(@"failed fetch request for images:%@", err);
+	return images;
 }
 
--(RCImage*)loadImageIntoCache:(NSString*)imageIdStr
+//note: not chcking for duplicates because server will never send duplicates in an array
+-(NSArray*)cacheImagesWithServerDicts:(NSArray*)imgDicts
 {
-	NSString *imgPath = imageIdStr;
-	NSRange queryRng = [imgPath rangeOfString:@"?ig"];
-	if (queryRng.location != NSNotFound) {
-		//need to strip query string off end
-		imgPath = [imgPath substringToIndex:queryRng.location];
-	} else if (![imgPath hasSuffix:@".png"]) {
-		imgPath = [imgPath stringByAppendingPathExtension:@"png"];
-	}
-	NSString *fpath = [self.imgCachePath stringByAppendingPathComponent:imgPath];
-	if (![[NSFileManager defaultManager] fileExistsAtPath:fpath])
-		return nil;
-	RCImage *img = [[RCImage alloc] initWithPath:fpath];
-	NSString *cachedName = [self.metaData objectForKey:img.imageId.description];
-	if (cachedName)
-		img.name = cachedName;
-	[self.imgCache setObject:img forKey:[imgPath stringByDeletingPathExtension]];
-	return img;
-}
-
--(RCImage*)loadImageFileIntoCache:(RCFile*)file
-{
-	RCImage *img = [[RCImage alloc] initWithPath:file.fileContentsPath];
-	img.name = file.name;
-	[self.imgCache setObject:img forKey:img.imageId.description];
-	return img;
-}
-
--(void)cacheImagesReferencedInHTML:(NSString*)html
-{
-	if (nil == html)
-		return;
-	NSError *err=nil; //(\\?ig([0-9]+)(&pos=\\d+,\\d+))?
-	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///([0-9]+).png(\\?(ig\\d+))?" options:0 error:&err];
-	ZAssert(nil == err, @"error compiling regex: %@", [err localizedDescription]);
-	NSMutableDictionary *groups = [_metaData objectForKey:@"groups"];
-	[regex enumerateMatchesInString:html options:0 range:NSMakeRange(0, [html length]) 
-						 usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) 
-	{
-		NSString *fname = [html substringWithRange:[match rangeAtIndex:1]];
-		if ([match rangeAtIndex:3].length > 0) {
-			NSString *grpName = [html substringWithRange:[match rangeAtIndex:3]];
-			NSArray *images = [groups objectForKey:grpName];
-			if (nil == images)
-				images = @[fname];
-			else if (![images containsObject:fname]) //only add if not already there
-				images = [images arrayByAddingObject:fname];
-			[groups setObject:images forKey:grpName];
-		}
-		if (nil == [[RCImageCache sharedInstance] loadImageIntoCache:fname]) {
-			NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",
-																				   fname]];
-			NSString *urlStr = [NSString stringWithFormat:@"/simg/%@.png", fname];
-			[[Rc2Server sharedInstance] downloadAppPath:urlStr toFilePath:imgPath completionHandler:^(BOOL success, id results) {
-				if (success) {
-					if ([[results MIMEType] isEqualToString:@"image/png"]) {
-							[self loadImageIntoCache:fname];
-					} else {
-						Rc2LogInfo(@"failed to fetch image %@ from server: wrong mime type", fname);
-						[[NSFileManager defaultManager] removeItemAtPath:imgPath error:nil]; //delete invalid file
-					}
-				} else {
-					Rc2LogWarn(@"Failed to fetch image %@", fname);
-				}
-			}];
-		}
-	}];
-}
-
-
--(void)cacheImages:(NSArray*)imgDicts
-{
+	NSMutableArray *outImages = [NSMutableArray arrayWithCapacity:imgDicts.count];
 	for (NSDictionary *imgDict in imgDicts) {
-		NSString *fname = [imgDict objectForKey:@"name"];
-		NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", 
-																			   [imgDict objectForKey:@"id"]]];
 		NSString *urlStr = [imgDict objectForKey:@"url"];
+		NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",
+																			   imgDict[@"id"]]];
 		if ([urlStr characterAtIndex:0] == '/')
 			urlStr = [urlStr substringFromIndex:1];
 		urlStr = [urlStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
-		[[Rc2Server sharedInstance] downloadAppPath:urlStr toFilePath:imgPath completionHandler:^(BOOL success, id rsp) {
-			if (success) {
-				RCImage *img = [[RCImage alloc] initWithPath:imgPath];
-				img.name = fname;
-				img.imageId = [imgDict objectForKey:@"id"];
-				if ([img.name indexOf:@"#"] != NSNotFound)
-					img.name = [img.name substringFromIndex:[img.name indexOf:@"#"]+1];
-				[[[RCImageCache sharedInstance] imgCache] setObject:img forKey:img.imageId.description];
-				[[RCImageCache sharedInstance] saveFileName:img.name forId:img.imageId.description];
-			}
-		}];
+		RCImage *anImage = [RCImage MR_createEntity];
+		//TODO: handle custom file names "with #realname"
+		anImage.name = imgDict[@"name"];
+		anImage.imageId = imgDict[@"id"];
 	}
+	return outImages;
 }
 
--(NSArray*)adjustImageArray:(NSArray*)inArray
+-(RCImage*)imageWithId:(NSInteger)imageId
 {
-	NSString *grpName = [NSString stringWithFormat:@"ig%d", (int)[NSDate timeIntervalSinceReferenceDate]];
-	NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[inArray count]];
-	for (NSDictionary *imgDict in inArray) {
-		[outArray addObject:[NSString stringWithFormat:@"%@.png?%@", [imgDict objectForKey:@"id"], grpName]];
-	}
-	[[self.metaData objectForKey:@"groups"] setObject:[inArray valueForKeyPath:@"id"] forKey:grpName];
-	[self cacheImages:inArray];
-	return outArray;
-}
-
--(NSArray*)groupImagesForLinkPath:(NSString*)group
-{
-	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"rc2img:///([0-9]+).png(\\?(ig\\d+))?" options:0 error:nil];
-	NSTextCheckingResult *match = [regex firstMatchInString:group options:0 range:NSMakeRange(0, group.length)];
-	group = [group substringWithRange:[match rangeAtIndex:3]];
-	NSArray *imageIds = [[self.metaData objectForKey:@"groups"] objectForKey:group];
-	if (imageIds.count < 1)
-		return nil;
-	NSMutableArray *outImages = [NSMutableArray arrayWithCapacity:imageIds.count];
-	for (id anId in imageIds) {
-		RCImage *img = [self imageWithId:[anId description]];
-		if (img)
-			[outImages addObject:img];
-		else
-			Rc2LogWarn(@"failed to find image %@ in cache", anId);
-	}
-	return [outImages copy];
-}
-
--(RCImage*)imageWithId:(NSString*)imgId
-{
-	return [self.imgCache objectForKey:imgId];
+	RCImage *img = [RCImage MR_findFirstByAttribute:@"imageId" withValue:@(imageId)];
+	//TODO: if not found (is that possible?) should fetch from server
+	if (nil == img)
+		Rc2LogWarn(@"failed to find image:%ld", (long)imageId);
+	return img;
 }
 @end

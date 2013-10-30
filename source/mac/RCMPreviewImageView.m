@@ -68,7 +68,7 @@
 	if (nil == _rawImage && _image) {
 		if (_sharpen) {
 			CIFilter *filter = [CIFilter filterWithName:@"CISharpenLuminance"];
-			[filter setValue:[CIImage imageWithContentsOfURL:[NSURL fileURLWithPath:_image.path]] forKey:@"inputImage"];
+			[filter setValue:[CIImage imageWithContentsOfURL:self.image.fileUrl] forKey:@"inputImage"];
 			[filter setValue:@0.7 forKey:@"inputSharpness"];
 			CIImage *cimg = [filter valueForKey:@"outputImage"];
 

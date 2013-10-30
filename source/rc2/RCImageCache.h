@@ -14,14 +14,10 @@
 @interface RCImageCache : NSObject
 +(id)sharedInstance;
 
--(RCImage*)loadImageIntoCache:(NSString*)imageId;
--(RCImage*)loadImageFileIntoCache:(RCFile*)file;
+@property (nonatomic, strong, readonly) NSString *imgCachePath;
+@property (nonatomic, readonly) NSArray *allImages;
 
--(void)cacheImagesReferencedInHTML:(NSString*)html;
--(void)cacheImages:(NSArray*)imgDicts; //json dicts from server
--(NSArray*)allImages;
--(NSArray*)adjustImageArray:(NSArray*)inArray;
--(RCImage*)imageWithId:(NSString*)imgId; //should be the number as a string
--(NSArray*)groupImagesForLinkPath:(NSString*)group;
--(void)clearCache;
+-(NSArray*)cacheImagesWithServerDicts:(NSArray*)imgDicts; //json dicts from server
+
+-(RCImage*)imageWithId:(NSInteger)imgId;
 @end

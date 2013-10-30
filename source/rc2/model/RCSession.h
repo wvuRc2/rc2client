@@ -13,6 +13,7 @@
 @class RCSavedSession;
 @class RCFile;
 @class Rc2FileType;
+@class RCImage;
 @class RCSessionUser;
 
 extern NSString * const RC2WebSocketErrorDomain;
@@ -97,7 +98,7 @@ typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
 -(void)appendAttributedString:(NSAttributedString*)aString;
 -(void)processWebSocketMessage:(NSDictionary*)msg json:(NSString*)jsonString;
 -(void)processBinaryMessage:(NSData*)data;
--(void)displayImage:(NSString*)imgPath;
+-(void)displayImage:(RCImage*)image fromGroup:(NSArray*)imgGroup;
 -(void)displayEditorFile:(RCFile*)file;
 -(void)displayLinkedFile:(NSString*)path;
 -(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted;
@@ -105,4 +106,5 @@ typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
 -(void)variablesUpdated;
 -(NSTextAttachment*)textAttachmentForImageId:(NSNumber*)imgId imageUrl:(NSString*)imgUrl;
 -(NSTextAttachment*)textAttachmentForFileId:(NSNumber*)fileId name:(NSString*)fileName fileType:(Rc2FileType*)fileType;
+-(BOOL)textAttachmentIsImage:(NSTextAttachment*)tattach;
 @end

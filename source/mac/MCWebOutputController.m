@@ -84,9 +84,6 @@
 		[self observeTarget:self keyPath:@"restrictedMode" selector:@selector(updateTextFieldStatus) userInfo:nil options:0];
 		__didInit=YES;
 		__weak MCWebOutputController *bself = self;
-		[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *theme) {
-			[self.webView stringByEvaluatingJavaScriptFromString:[self themedStyleSheet]];
-		}];
 	}
 	[self.webView.mainFrame loadHTMLString:@"<html><body bgcolor=\"#aa0000\">webview</body></html>" baseURL:nil];
 }
@@ -118,18 +115,6 @@
 	[self.textView scrollToEndOfDocument:nil];
 }
 
--(NSString*)themedStyleSheet
-{
-	Theme *theme = [ThemeEngine sharedInstance].currentTheme;
-	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"$('#themecss').attr('href','%@?%1f'); forceStyleRefresh();", theme.cssfile, [NSDate timeIntervalSinceReferenceDate]]];
-
-	return [NSString stringWithFormat:@"$(\"<style type='text/css'>#consoleOutputGenerated > table > tbody > tr:nth-child(even) {	background-color: #%@; } "
-			"#consoleOutputGenerated > table > tbody > tr:nth-child(odd) {background-color: #%@; } table.ir-mx th {background-color: #%@} "
-			"</style>\").appendTo('head')",
-			[theme hexStringForKey: @"ResultsEvenRow"], [theme hexStringForKey: @"ResultsOddRow"],
-			[theme hexStringForKey: @"ResultsHeader"]];
-}
-
 -(void)updateTextFieldStatus
 {
 	self.enabledTextField = !(self.restrictedMode || self.delegate.restricted);
@@ -156,16 +141,18 @@
 	if (text.length > 0) {
 		NSData *data = [text RTFDFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType}];
 		if (data)
-			[savedState setProperty:data forKey:@"ConsoleRTF"];
+			savedState.consoleRtf = data;
 		else
 			Rc2LogError(@"error saving document data:%@", err);
+		NSFileWrapper *fw = [text fileWrapperFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType} error:&err];
+		[fw writeToFile:@"/Users/mlilback/Desktop/lastsession.rtfd" atomically:NO updateFilenames:YES];
 	}
 	savedState.commandHistory = self.commandHistory;
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
-	NSData *rtfdata = [savedState propertyForKey:@"ConsoleRTF"];
+	NSData *rtfdata = savedState.consoleRtf;
 	NSError *err;
 	if (rtfdata && ![self.textView.textStorage readFromData:rtfdata options:nil documentAttributes:nil error:nil])
 		Rc2LogError(@"error reading consolertf:%@", err);
@@ -182,6 +169,11 @@
 			[value setAttachmentCell:[self attachmentCellForAttachment:value]];
 		}
 	}];
+	NSTextStorage *text = self.textView.textStorage;
+	NSFileWrapper *fw = [text fileWrapperFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType} error:&err];
+	[fw writeToFile:@"/Users/mlilback/Desktop/opensession.rtfd" atomically:NO updateFilenames:YES];
+	[rtfdata writeToFile:@"/Users/mlilback/Desktop/rawdata.txt" atomically:NO];
+
 }
 
 -(NSTextAttachmentCell*)attachmentCellForAttachment:(NSTextAttachment*)tattach
@@ -192,50 +184,6 @@
 	if (nil == imgName)
 		imgName = @"gendoc";
 	return [[NSTextAttachmentCell alloc] initImageCell:[NSImage imageNamed:imgName]];
-}
-
-/*-(NSString*)executeJavaScript:(NSString*)js
-{
-	//if they are viewing a help page or pdf then js execution will fail. So we queue the command to run
-	// after we reload the content
-	NSString *res = [self.webView stringByEvaluatingJavaScriptFromString:@"iR.graphFileUrl"];
-	if (res.length < 4) {
-		//queue the action
-		if (0 == self.outputQueue.count) {
-			//reload our content
-			[self loadContent];
-		}
-		[self.outputQueue addObject:js];
-	} else {
-		//ok to do it
-		return [self.webView stringByEvaluatingJavaScriptFromString:js];
-	}
-	return @"";
-}
-
--(void)previewImage:(DOMElement*)imgGroupElem images:(WebScriptObject*)images
-{
-	unsigned int idx=0;
-	NSMutableArray *imgArray = [NSMutableArray array];
-	NSPoint pt = NSZeroPoint;
-	do {
-		DOMHTMLAnchorElement *img = [images webScriptValueAtIndex:idx++];
-		if (idx == 1)
-			pt = NSMakePoint(img.offsetLeft, img.offsetTop);
-		if (![img isKindOfClass:[DOMHTMLAnchorElement class]])
-			break;
-		NSString *path = [img href];
-		NSInteger loc = [path indexOf:@"///"];
-		if (loc != NSNotFound)
-			path = [[path substringFromIndex:loc+2] lastPathComponent];
-		[imgArray addObject:path];
-	} while (YES);
-	[self.delegate previewImages:imgArray atPoint:pt];
-}
-*/
--(void)closePreview:(DOMElement*)anchorElem
-{
-	[self.delegate previewImages:nil atPoint:NSZeroPoint];
 }
 
 -(void)loadFileUrl:(NSURL*)url
@@ -302,40 +250,30 @@
 	[self animateToWebView];
 }
 
+-(NSArray*)imageGroupAtCharIndex:(NSInteger)charIndex
+{
+	NSString *str = self.textView.textStorage.string;
+	NSRange lineRange = [str lineRangeForRange:NSMakeRange(charIndex, 1)];
+	NSMutableArray *outArray = [NSMutableArray array];
+	for (NSUInteger i=lineRange.location; i < NSMaxRange(lineRange); i++) {
+		if ([str characterAtIndex:i] == NSAttachmentCharacter) {
+			NSTextAttachment *tattach = [self.textView.textStorage attribute:NSAttachmentAttributeName atIndex:i effectiveRange:nil];
+			if ([self.delegate.session.delegate textAttachmentIsImage:tattach])
+				[outArray addObject:[self.delegate imageForTextAttachment:tattach]];
+		}
+	}
+	return outArray;
+}
+
 -(void)previewImage:(NSTextAttachment*)imgAttachment atIndex:(NSInteger)charIndex
 {
 	NSLog(@"preview: %@", imgAttachment);
-	//find the line with the clicked attachment
-/*	NSUInteger lineStart=0, lineEnd=0;
-	[self.outputView.textStorage.string getLineStart:&lineStart end:NULL contentsEnd:&lineEnd forRange:charRange];
-	NSRange attaachRange = NSMakeRange(lineStart, lineEnd - lineStart);
-	//iterate all attachments in that range, adding to imgArray if they are an image
-	NSMutableArray *imgArray = [NSMutableArray array];
-	__block RCImage *selImage=nil;
-	[self.outputView.textStorage enumerateAttribute:NSAttachmentAttributeName inRange:attaachRange options:0 usingBlock:^(id value, NSRange range, BOOL *stop)
-	 {
-		 if ([value isKindOfClass:[RCImageAttachment class]]) {
-			 RCImage *img = [[RCImageCache sharedInstance] imageWithId:[[value imageId] description]];
-			 if (img) {
-				 [imgArray addObject:img];
-				 if ([img.imageId isEqualToNumber:imgAttachment.imageId])
-					 selImage = img;
-			 }
-		 }
-	 }];
-	//compute the rectangle the user tapped on
-	NSRange grange = NSMakeRange([self.outputView.layoutManager glyphIndexForCharacterAtIndex:charRange.location], 1);
-	CGRect startRect = [self.outputView.layoutManager boundingRectForGlyphRange:grange inTextContainer:self.outputView.textContainer];
-	startRect = [self.view convertRect:startRect fromView:self.outputView];
-	//create the preview controller and present it
-	ImagePreviewViewController *pvc = [[ImagePreviewViewController alloc] init];
-	pvc.images = imgArray;
-	pvc.currentIndex = [imgArray indexOfObject:selImage];
-	pvc.modalPresentationStyle = UIModalPresentationCustom;
-	pvc.transitioningDelegate = self;
-	objc_setAssociatedObject(pvc, @selector(previewImage:inRange:), [NSValue valueWithCGRect:startRect], OBJC_ASSOCIATION_RETAIN);
-	[self setDefinesPresentationContext:YES];
-	[self presentViewController:pvc animated:YES completion:nil]; */
+	RCImage *image = [self.delegate imageForTextAttachment:imgAttachment];
+	if (image) {
+		[self.delegate.session.delegate displayImage:image fromGroup:[self imageGroupAtCharIndex:charIndex]];
+	} else {
+		Rc2LogWarn(@"failed to load image attachment %@ from preview", imgAttachment);
+	}
 }
 
 -(void)previewFile:(NSTextAttachment*)fileAttachment atIndex:(NSInteger)charIndex
@@ -411,7 +349,6 @@
 -(IBAction)doClear:(id)sender
 {
 	[self.textView.textStorage deleteCharactersInRange:NSMakeRange(0, self.textView.textStorage.length)];
-	[[RCImageCache sharedInstance] clearCache];
 }
 
 -(IBAction)saveSelectedPDF:(id)sender
@@ -549,26 +486,6 @@
 	self.historyHasItems = self.commandHistory.count > 0;
 }
 
-#pragma mark - webscripting support
-
-+(NSString*)webScriptNameForSelector:(SEL)sel
-{
-//	if (sel == @selector(previewImage:images:))
-//		return @"preview";
-	if (sel == @selector(closePreview:))
-		return @"closePreview";
-	return nil;
-}
-
-+(BOOL)isSelectorExcludedFromWebScript:(SEL)sel
-{
-//	if (sel == @selector(previewImage:images:))
-//		return NO;
-	if (sel == @selector(closePreview:))
-		return NO;
-	return YES;
-}
-
 #pragma mark - webview delegate
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
@@ -635,9 +552,6 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 		} else if ([[[request URL] scheme] isEqualToString:@"rc2file"]) {
 			NSRect imgRect = [[[actionInformation objectForKey:WebActionElementKey] objectForKey:@"WebElementImageRect"] rectValue];
 			[self.delegate displayLinkedFile:request.URL.path atPoint:imgRect.origin];
-		} else if ([[[request URL] scheme] isEqualToString:@"rc2img"]) {
-			//displaying a pdf
-			[self.delegate handleImageRequest:[request URL]];
 		}
 		//otherwise, fire off to external browser
 		[[NSWorkspace sharedWorkspace] openURL:

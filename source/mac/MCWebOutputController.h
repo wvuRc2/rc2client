@@ -12,13 +12,13 @@
 @class RCMConsoleTextField;
 @class RCFile;
 @class RCSession;
+@class RCImage;
 
 @protocol MCWebOutputDelegate <NSObject>
 -(BOOL)restricted;
--(void)handleImageRequest:(NSURL*)url;
--(void)previewImages:(NSArray*)imageUrls atPoint:(NSPoint)pt;
 -(void)executeConsoleCommand:(NSString*)command;
 -(void)displayLinkedFile:(NSString*)filePath atPoint:(NSPoint)pt;
+-(RCImage*)imageForTextAttachment:(NSTextAttachment*)tattach;
 -(RCSession*)session;
 @end
 

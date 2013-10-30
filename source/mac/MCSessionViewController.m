@@ -48,7 +48,6 @@
 @end
 
 @interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate,NSTextStorageDelegate,NSMenuDelegate> {
-	NSPoint __curImgPoint;
 	BOOL __didInit;
 	BOOL __movingFileList;
 	BOOL __fileListInitiallyVisible;
@@ -75,7 +74,6 @@
 @property (nonatomic, strong) RCFile *editorFile;
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) RCMImageViewer *imageController;
-@property (nonatomic, strong) NSArray *currentImageGroup;
 @property (nonatomic, strong) NSArray *users;
 @property (nonatomic, strong) NSNumber *fileIdJustImported;
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
@@ -587,20 +585,20 @@
 		[self setEditViewTextWithHighlighting:[NSAttributedString attributedStringWithString:selFile.currentContents attributes:nil]];
 }
 
--(IBAction)showImageDetails:(id)sender
+-(IBAction)showImageDetails:(NSArray*)imgArray
 {
 	[self.imagePopover close];
 	__weak MCSessionViewController *bself = self;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		RCMMultiImageController	*ivc = [[RCMMultiImageController alloc] init];
 		[ivc view];
-		if (_currentImageGroup.count > 0)
-			ivc.availableImages = _currentImageGroup;
+		if (imgArray.count > 0)
+			ivc.availableImages = imgArray;
 		else
 			ivc.availableImages = [[RCImageCache sharedInstance] allImages];
 		AppDelegate *del = [TheApp delegate];
 		[del showViewController:ivc];
-		[ivc setDisplayedImages: self.currentImageGroup];
+		[ivc setDisplayedImages: imgArray];
 		self.multiImageController = ivc;
 		ivc.didLeaveWindowBlock = ^{
 			bself.multiImageController = nil;
@@ -742,7 +740,6 @@
 	self.session.showResultDetails = [savedState boolPropertyForKey:@"showDetailResults"];
 	self.selectedLeftViewIndex = [[savedState propertyForKey:@"selLeftViewIdx"] intValue];
 	[self adjustLeftViewButtonsToMatchState:YES];
-	[[RCImageCache sharedInstance] cacheImagesReferencedInHTML:savedState.consoleHtml];
 }
 
 -(void)adjustLeftViewButtonsToMatchState:(BOOL)forTheFirstTime
@@ -1111,6 +1108,11 @@
 	[self.outputController appendAttributedString:aString];
 }
 
+-(BOOL)textAttachmentIsImage:(NSTextAttachment*)tattach
+{
+	return [tattach.fileWrapper.filename hasPrefix:@"image"];
+}
+
 -(NSTextAttachment*)textAttachmentForImageId:(NSNumber*)imgId imageUrl:(NSString*)imgUrl
 {
 	NSData *metaData = [NSKeyedArchiver archivedDataWithRootObject:@{@"id":imgId, @"url":imgUrl}];
@@ -1175,7 +1177,7 @@
 	self.imageController.imageArray = imgArray;
 	self.imageController.workspace = self.session.workspace;
 	self.imageController.detailsBlock = ^{
-		[blockSelf showImageDetails:nil];	
+		[blockSelf showImageDetails:imgArray];
 	};
 	NSRect r = NSZeroRect;
 	r.size = NSMakeSize(1, 1);
@@ -1186,28 +1188,12 @@
 }
 
 
--(void)displayImage:(NSString*)imgPath
+-(void)displayImage:(RCImage*)image fromGroup:(NSArray*)imgGroup
 {
-	if ([imgPath hasPrefix:@"/"])
-		imgPath = [imgPath substringFromIndex:1];
-	NSString *idStr = [imgPath.lastPathComponent stringByDeletingPathExtension];
-	NSArray *imgArray = self.currentImageGroup;
-	if (imgArray.count < 1) {
-		RCImage *img = [[RCImageCache sharedInstance] imageWithId:idStr];
-		if (nil == img)
-			img = [[RCImageCache sharedInstance] loadImageIntoCache:idStr];
-		Rc2LogWarn(@"failed to originally load image %@ into cache", idStr);
-		imgArray = [NSArray arrayWithObject:img];
-	}
-	[self setupImageDisplay:imgArray];
-	[self.imageController displayImage:[NSNumber numberWithInt:[idStr intValue]]];
-}
-
--(void)displayLinkedFile:(NSString*)urlPath atPoint:(NSPoint)pt
-{
-	__curImgPoint = pt;
-	[self displayLinkedFile:urlPath];
-	__curImgPoint = NSZeroPoint;
+	if (imgGroup.count < 1)
+		imgGroup = [[RCImageCache sharedInstance] allImages];
+	[self setupImageDisplay:imgGroup];
+	[self.imageController displayImage:image];
 }
 
 -(void)displayLinkedFile:(NSString*)urlPath
@@ -1236,6 +1222,7 @@
 		if (file) {
 			[self.outputController loadLocalFile:file];
 		}
+	/* TODO: this no longer works because of RCImage cache changes.
 	} else if ([[Rc2Server acceptableImageFileSuffixes] containsObject:fileExt]) {
 		//show as an image
 		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
@@ -1245,7 +1232,7 @@
 			RCImage *img = [[RCImageCache sharedInstance] loadImageFileIntoCache:file];
 			[self setupImageDisplay:ARRAY(img)];
 			[self.imageController displayImage:img.imageId];
-		}
+		} */
 	}
 }
 
@@ -1308,69 +1295,16 @@
 
 #pragma mark - web output delegate
 
+-(RCImage*)imageForTextAttachment:(NSTextAttachment*)tattach
+{
+	NSDictionary *imgDict = [NSKeyedUnarchiver unarchiveObjectWithData:tattach.fileWrapper.regularFileContents];
+	RCImage *image = [[RCImageCache sharedInstance] imageWithId:[imgDict[@"id"] integerValue]];
+	return image;
+}
+
 -(void)executeConsoleCommand:(NSString*)command
 {
 	[self.session executeScript:command scriptName:nil];
-}
-
--(void)previewImages:(NSArray*)imageUrls atPoint:(NSPoint)pt
-{
-	if (nil == imageUrls) {
-		//they are no longer over an image preview
-		self.currentImageGroup = nil;
-		__curImgPoint=NSZeroPoint;
-		return;
-	}
-	NSMutableArray *imgArray = [NSMutableArray arrayWithCapacity:imageUrls.count];
-	for (NSString *path in imageUrls) {
-		NSString *imgId = [[path lastPathComponent] stringByDeletingPathExtension];
-		RCImage *img = [[RCImageCache sharedInstance] imageWithId:imgId];
-		if (img)
-			[imgArray addObject:img];
-	}
-	self.currentImageGroup = imgArray;
-	//pt is relative to output view. we need to make relative to our view
-	__curImgPoint = [self.view convertPoint:pt fromView:self.outputController.view];
-}
-
--(void)handleImageRequest:(NSURL*)url
-{
-	NSString *urlStr = url.absoluteString;
-	if ([urlStr rangeOfString:@"?"].length > 0) {
-		NSRange posRng = [urlStr rangeOfString:@"&pos="];
-		if (posRng.length > 0) {
-			NSArray *coords = [[urlStr substringFromIndex:posRng.location+5] componentsSeparatedByString:@","];
-			__curImgPoint.x = [[coords objectAtIndex:0] integerValue];
-			__curImgPoint.y = [[coords objectAtIndex:1] integerValue];
-			__curImgPoint = [self.view convertPoint:__curImgPoint fromView:self.outputController.view];
-			NSString *imgPath = [urlStr substringToIndex:posRng.location];
-			_currentImageGroup = [[RCImageCache sharedInstance] groupImagesForLinkPath:imgPath];
-		} else {
-			_currentImageGroup = [[RCImageCache sharedInstance] groupImagesForLinkPath:urlStr];
-		}
-		urlStr = [urlStr substringToIndex:[urlStr rangeOfString:@"?"].location];
-	}
-	if ([urlStr hasSuffix:@".pdf"]) {
-		//we want to show the pdf
-		NSString *path = [url.absoluteString stringByDeletingPathExtension];
-		path = [path substringFromIndex:[path lastIndexOf:@"/"]+1];
-		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[path integerValue]]];
-		[self.outputController loadLocalFile:file];
-	} else if ([urlStr hasSuffix:@".png"]) {
-		//for now. we may want to handle multiple images at once
-		[self displayImage:[url path]];
-	} else {
-		NSString *filename = url.absoluteString.lastPathComponent;
-		//what to do? see if it is an acceptable text file suffix. If so, have webview display it
-		if ([[Rc2Server acceptableTextFileSuffixes] containsObject:filename.pathExtension]) {
-			NSInteger fid = [[filename stringByDeletingPathExtension] integerValue];
-			RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:fid]];
-			if (file) {
-				NSString *tmpPath = [self webTmpFilePath:file];
-				[self.outputController loadLocalFile:file];
-			}
-		}
-	}
 }
 
 -(IBAction)contextualHelp:(id)sender

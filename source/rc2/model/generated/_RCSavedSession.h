@@ -13,7 +13,7 @@
 
 extern const struct RCSavedSessionAttributes {
 	__unsafe_unretained NSString *cmdHistoryData;
-	__unsafe_unretained NSString *consoleHtml;
+	__unsafe_unretained NSString *consoleRtf;
 	__unsafe_unretained NSString *inputText;
 	__unsafe_unretained NSString *localAttributes;
 	__unsafe_unretained NSString *login;
@@ -53,10 +53,10 @@ extern const struct RCSavedSessionFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString *consoleHtml;
+@property (nonatomic, strong) NSData *consoleRtf;
 
 
-//- (BOOL)validateConsoleHtml:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateConsoleRtf:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -121,8 +121,8 @@ extern const struct RCSavedSessionFetchedProperties {
 
 
 
-- (NSString*)primitiveConsoleHtml;
-- (void)setPrimitiveConsoleHtml:(NSString*)value;
+- (NSData*)primitiveConsoleRtf;
+- (void)setPrimitiveConsoleRtf:(NSData*)value;
 
 
 

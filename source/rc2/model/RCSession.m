@@ -460,7 +460,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		}
 		if ([[dict objectForKey:@"imageUrls"] count] > 0) {
 			//this call caches the images, so we call even though we don't need the returned array
-			[[RCImageCache sharedInstance] adjustImageArray:[dict objectForKey:@"imageUrls"]];
+			[[RCImageCache sharedInstance] cacheImagesWithServerDicts:[dict objectForKey:@"imageUrls"]];
 			NSMutableAttributedString *mstr = [[NSMutableAttributedString alloc] init];
 			for (NSDictionary *imgDict in dict[@"imageUrls"]) {
 				NSTextAttachment *tattach = [self.delegate textAttachmentForImageId:imgDict[@"id"] imageUrl:imgDict[@"url"]];

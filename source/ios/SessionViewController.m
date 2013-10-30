@@ -468,6 +468,11 @@
 	[self.consoleController appendAttributedString:aString];
 }
 
+-(BOOL)textAttachmentIsImage:(NSTextAttachment*)tattach
+{
+	return [tattach isKindOfClass:[RCImageAttachment class]];
+}
+
 -(NSTextAttachment*)textAttachmentForImageId:(NSNumber*)imgId imageUrl:(NSString*)imgUrl
 {
 	RCImageAttachment *tattach = [[RCImageAttachment alloc] initWithData:nil ofType:@"rc2.image"];
@@ -504,8 +509,8 @@
 	} else {
 		if ([fileOrPath hasPrefix:@"/"])
 			fileOrPath = [fileOrPath substringFromIndex:1];
-		
-		img = [[RCImageCache sharedInstance] loadImageIntoCache:fileOrPath];
+		NSInteger idVal = [[fileOrPath lastPathComponent] stringByDeletingPathExtension];
+		img = [[RCImageCache sharedInstance] loadImageIntoCache:idVal];
 		if (nil == img) {
 			Rc2LogWarn(@"image does not exist: %@", fileOrPath);
 			return;
