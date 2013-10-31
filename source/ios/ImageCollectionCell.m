@@ -62,7 +62,7 @@
 		NSAttributedString *astr = [[NSAttributedString alloc] initWithString:[_image.name stringByDeletingPathExtension]];
 		[self.nameLabel setAttributedTitle:astr forState:UIControlStateNormal];
 		self.dateLabelWidthConstraint.constant = 100;
-		self.dateLabel.text = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:_image.timestamp]];
+		self.dateLabel.text = [dateFormatter stringFromDate:self.image.timestamp];
 	}
 	[self.nameLabel setTitle:_image.name forState:UIControlStateNormal];
 	self.imageView.image = self.image.image;

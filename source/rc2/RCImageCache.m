@@ -95,8 +95,6 @@
 	NSMutableArray *outImages = [NSMutableArray arrayWithCapacity:imgDicts.count];
 	for (NSDictionary *imgDict in imgDicts) {
 		NSString *urlStr = [imgDict objectForKey:@"url"];
-		NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",
-																			   imgDict[@"id"]]];
 		if ([urlStr characterAtIndex:0] == '/')
 			urlStr = [urlStr substringFromIndex:1];
 		urlStr = [urlStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];

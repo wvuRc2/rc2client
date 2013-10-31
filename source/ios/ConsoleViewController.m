@@ -267,7 +267,6 @@
 {
 	NSTextStorage *text = self.outputView.textStorage;
 	[text deleteCharactersInRange:NSMakeRange(0, text.length)];
-	[[RCImageCache sharedInstance] clearCache];
 }
 
 -(IBAction)doBack:(id)sender
@@ -293,7 +292,7 @@
 	[self.outputView.textStorage enumerateAttribute:NSAttachmentAttributeName inRange:attaachRange options:0 usingBlock:^(id value, NSRange range, BOOL *stop)
 	{
 		if ([value isKindOfClass:[RCImageAttachment class]]) {
-			RCImage *img = [[RCImageCache sharedInstance] imageWithId:[[value imageId] description]];
+			RCImage *img = [[RCImageCache sharedInstance] imageWithId:[[value imageId] integerValue]];
 			if (img) {
 				[imgArray addObject:img];
 				if ([img.imageId isEqualToNumber:imgAttachment.imageId])

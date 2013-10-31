@@ -167,7 +167,7 @@ static const CGFloat kKeyboardHeight = 354;
 		NSAttributedString *astr = [[NSAttributedString alloc] initWithString:[img.name stringByDeletingPathExtension]];
 		[self.nameLabel setAttributedTitle:astr forState:UIControlStateNormal];
 		self.dateLabelWidthConstraint.constant = 100;
-		self.dateLabel.text = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:img.timestamp]];
+		self.dateLabel.text = [dateFormatter stringFromDate:img.timestamp];
 	}
 	[self adjustImageDetails];
 	RunAfterDelay(0.3, ^{

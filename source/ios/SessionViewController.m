@@ -125,7 +125,6 @@
 		[self.editorController loadFile:self.session.initialFileSelection showProgress:NO];
 	}
 	[self.consoleController restoreSessionState:savedState];
-	[[RCImageCache sharedInstance] cacheImagesReferencedInHTML:savedState.consoleHtml];
 	[self.session.workspace refreshFiles];
 	if (!self.session.socketOpen) {
 		RunAfterDelay(0.2, ^{
@@ -495,11 +494,12 @@
 	return tattach;
 }
 
--(void)displayImage:(NSString *)imgPath
+-(void)displayImage:(RCImage*)image fromGroup:(NSArray*)imgGroup
 {
-	[self displayImageWithPathOrFile:imgPath];
+	ZAssert(0, @"method not implemented");
 }
 
+/*
 -(void)displayImageWithPathOrFile:(id)fileOrPath
 {
 	RCImage *img=nil;
@@ -536,7 +536,6 @@
 	}
 	[self.navigationController pushViewController:self.icolController animated:YES];
 	
-	/*
 	if (nil == self.imgController) {
 		self.imgController = [[ImageDisplayController alloc] init];
 		self.imgController.navigationItem.title = [NSString stringWithFormat:@"%@ Images", self.session.workspace.name];
@@ -556,8 +555,8 @@
 	[self.imgController loadImages];
 	if (imgGroup)
 		[self.imgController setImageDisplayCount:imgGroup.count];
-	[self.navigationController pushViewController:self.imgController animated:YES]; */
-}
+	[self.navigationController pushViewController:self.imgController animated:YES];
+} */
 
 -(void)displayLinkedFile:(NSString*)urlPath
 {
@@ -583,13 +582,14 @@
 			[self.consoleController loadLocalFileURL:[NSURL fileURLWithPath:tmpPath]];
 		}
 	} else if ([[Rc2Server acceptableImageFileSuffixes] containsObject:fileExt]) {
-		//show as an image
+		//TODO: fix display of non graph images
+/*		//show as an image
 		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
 		if (file) {
 			if (!file.contentsLoaded)
 				[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:file];
 			[self displayImageWithPathOrFile:file];
-		}
+		} */
 	}
 }
 
