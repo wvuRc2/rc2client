@@ -144,8 +144,6 @@
 			savedState.consoleRtf = data;
 		else
 			Rc2LogError(@"error saving document data:%@", err);
-		NSFileWrapper *fw = [text fileWrapperFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType} error:&err];
-		[fw writeToFile:@"/Users/mlilback/Desktop/lastsession.rtfd" atomically:NO updateFilenames:YES];
 	}
 	savedState.commandHistory = self.commandHistory;
 }
@@ -169,11 +167,6 @@
 			[value setAttachmentCell:[self attachmentCellForAttachment:value]];
 		}
 	}];
-	NSTextStorage *text = self.textView.textStorage;
-	NSFileWrapper *fw = [text fileWrapperFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType} error:&err];
-	[fw writeToFile:@"/Users/mlilback/Desktop/opensession.rtfd" atomically:NO updateFilenames:YES];
-	[rtfdata writeToFile:@"/Users/mlilback/Desktop/rawdata.txt" atomically:NO];
-
 }
 
 -(NSTextAttachmentCell*)attachmentCellForAttachment:(NSTextAttachment*)tattach
