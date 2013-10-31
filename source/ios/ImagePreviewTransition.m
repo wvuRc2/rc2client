@@ -7,9 +7,44 @@
 //
 
 #import "ImagePreviewTransition.h"
+#import "ImagePreviewViewController.h"
 
 @implementation ImagePreviewTransition
 
+-(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+	UIView *container = [transitionContext containerView];
+	UIViewController *fromController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+	ImagePreviewViewController *toController = (ImagePreviewViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+
+	if (self.isDismissal) {
+		CGRect endFrame = [self.presenting.view convertRect:self.srcRect toView:container];
+		[container addSubview:fromController.view];
+		[container addSubview:toController.view];
+		[UIView animateWithDuration:.4 animations:^{
+			fromController.view.frame = endFrame;
+		} completion:^(BOOL finished) {
+			[transitionContext completeTransition:YES];
+		}];
+	} else {
+		container.autoresizesSubviews = NO;
+		CGRect endFrame = [toController targetFrame];
+		[container addSubview:fromController.view];
+		[container addSubview:toController.view];
+		CGRect startFrame = [self.presenting.view convertRect:self.srcRect toView:container];
+		
+		toController.view.frame = startFrame;
+		
+		[UIView animateWithDuration:.4 animations:^{
+			toController.view.frame = endFrame;
+		} completion:^(BOOL finished) {
+			[transitionContext completeTransition:YES];
+			[toController presentationComplete];
+		}];
+	}
+}
+
+/*
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
 	UIView *container = [transitionContext containerView];
@@ -57,6 +92,7 @@
 				csz = CGSizeMake(1024, 768);
 			endFrame.origin.x = csz.width - endFrame.size.width - 20;
 			endFrame.origin.y = csz.height/2;
+//			endFrame = [self.presenting.view convertRect:endFrame toView:container];
 			[UIView animateWithDuration:0.5 animations:^{
 				dview.frame = endFrame;
 //				dview.bounds = endFrame;
@@ -66,7 +102,7 @@
 			}];
 		}
 
-		/*self.presented.view.frame = self.srcRect;
+		self.presented.view.frame = self.srcRect;
 		[self.presenting.view addSubview:self.presented.view];
 //		[self.presenting addChildViewController:self.presented];
 //		childController.view.frame = self.srcRect;
@@ -79,13 +115,13 @@
 //			childController.view.center = inController.view.center;
 		} completion:^(BOOL finished) {
 			[transitionContext completeTransition:YES];
-		}]; */
+		}];
 	}
 }
-
+*/
 -(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
 {
-	return 0.5;
+	return 0.4;
 }
 
 @end

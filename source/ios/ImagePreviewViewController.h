@@ -13,4 +13,6 @@
 @interface ImagePreviewViewController : UIViewController
 @property (nonatomic, copy) NSArray *images;
 @property (nonatomic, assign) NSUInteger currentIndex;
+-(void)presentationComplete;
+-(CGRect)targetFrame;
 @end
