@@ -17,14 +17,17 @@
 #define kViewWidth 400
 #define kViewHeight 480
 #define kPortraitBottomMargin 20
+#define kLandscapeRightMargin 20
 
 @interface ImagePreviewViewController ()
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UIButton *closeButton;
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) UIToolbar *blurToolbar;
 @end
 
 @interface ImagePreviewView : UIView
+@property (nonatomic, weak) UIToolbar *blurToolbar;
 @property BOOL displayed;
 -(CGRect)rectForOrientation;
 @end
@@ -50,7 +53,11 @@
 	gesture.direction = UISwipeGestureRecognizerDirectionRight;
 	[self.view addGestureRecognizer:gesture];
 	self.view.translatesAutoresizingMaskIntoConstraints = NO;
-	self.view.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
+	self.imageView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
+	self.blurToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kViewWidth, kViewHeight)];
+	[(ImagePreviewView*)self.view setBlurToolbar:self.blurToolbar];
+	self.view.clipsToBounds = YES;
+	[self.view.layer insertSublayer:self.blurToolbar.layer atIndex:0];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -125,18 +132,24 @@
 {
 	UIDeviceOrientation curOrientation = [UIDevice currentDevice].orientation;
 	CGRect frame = CGRectZero;
+	frame.size.width = kViewWidth;
+	frame.size.height = kViewHeight;
+	if (UIInterfaceOrientationIsLandscape(curOrientation)) {
+		frame.size.width = kViewHeight;
+		frame.size.height = kViewWidth;
+	}
 	CGSize sz = [[UIScreen mainScreen] bounds].size;
-	frame.origin.x = floorf((sz.width - kViewWidth)/2);
+	frame.origin.x = floorf((sz.width - frame.size.width)/2);
 	if (UIInterfaceOrientationIsPortrait(curOrientation)) {
-		CGFloat py = floorf(sz.height - (kViewHeight + kPortraitBottomMargin));
+		CGFloat py = floorf(sz.height - (frame.size.height + kPortraitBottomMargin));
 		if (curOrientation == UIInterfaceOrientationPortraitUpsideDown)
 			py = kPortraitBottomMargin;
 		frame.origin.y = py;
 	} else {
-		frame.origin.y = floorf((sz.height - kViewHeight)/2);
+		frame.origin.y = UIInterfaceOrientationLandscapeLeft == curOrientation ?
+			kLandscapeRightMargin : floorf(sz.height - frame.size.height - kLandscapeRightMargin);
+		frame.origin.x = 184;
 	}
-	frame.size.width = kViewWidth;
-	frame.size.height = kViewHeight;
 	return frame;
 }
 
@@ -144,11 +157,8 @@
 {
 	if (self.displayed)
 		frame = [self rectForOrientation];
-	if (frame.size.width == kViewHeight)
-		frame.size.width = kViewWidth;
-	if (frame.size.height == kViewWidth)
-		frame.size.height = kViewHeight;
 	[super setFrame:frame];
+	self.blurToolbar.frame = self.bounds;
 }
 
 @end
