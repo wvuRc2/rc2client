@@ -17,6 +17,7 @@
 #define kViewWidth 400
 #define kViewHeight 480
 #define kPortraitBottomMargin 20
+#define kLandscapeRightMargin 8
 
 @interface ImagePreviewViewController ()
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
@@ -125,6 +126,8 @@
 {
 	UIDeviceOrientation curOrientation = [UIDevice currentDevice].orientation;
 	CGRect frame = CGRectZero;
+	frame.size.width = kViewWidth;
+	frame.size.height = kViewHeight;
 	CGSize sz = [[UIScreen mainScreen] bounds].size;
 	frame.origin.x = floorf((sz.width - kViewWidth)/2);
 	if (UIInterfaceOrientationIsPortrait(curOrientation)) {
@@ -133,10 +136,9 @@
 			py = kPortraitBottomMargin;
 		frame.origin.y = py;
 	} else {
-		frame.origin.y = floorf((sz.height - kViewHeight)/2);
+		frame.origin.y = kLandscapeRightMargin;
+		frame.origin.x = 184;
 	}
-	frame.size.width = kViewWidth;
-	frame.size.height = kViewHeight;
 	return frame;
 }
 
