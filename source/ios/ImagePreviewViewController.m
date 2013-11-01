@@ -24,6 +24,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *closeButton;
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
 @property (nonatomic, strong) UIToolbar *blurToolbar;
+@property (nonatomic, strong) UIImageView *animationImage;
 @end
 
 @interface ImagePreviewView : UIView
@@ -55,10 +56,12 @@
 	self.view.translatesAutoresizingMaskIntoConstraints = NO;
 	self.blurToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kViewWidth, kViewHeight)];
 	[(ImagePreviewView*)self.view setBlurToolbar:self.blurToolbar];
-	[self.blurToolbar setBarTintColor:[[UIColor colorWithHexString:@"#A8A8A8"] colorWithAlphaComponent:0.3]];
 	self.view.clipsToBounds = YES;
 	[self.view.layer insertSublayer:self.blurToolbar.layer atIndex:0];
 
+	self.animationImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kViewWidth, kViewHeight)];
+	
+//	[self.blurToolbar setBarTintColor:[[UIColor colorWithHexString:@"#A8A8A8"] colorWithAlphaComponent:0.3]];
 	self.nameLabel.backgroundColor = [UIColor greenColor];
 	self.imageView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
 }
@@ -67,6 +70,17 @@
 {
 	[super viewWillAppear:animated];
 	[self loadCurrentImage];
+	UIGraphicsBeginImageContext(self.view.bounds.size);
+	[self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+	UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+	self.animationImage.image = img;
+	[self.view addSubview:self.animationImage];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	[self.animationImage removeFromSuperview];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
