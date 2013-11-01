@@ -9,22 +9,6 @@
 #import "RCTextAttachment.h"
 
 @implementation RCTextAttachment : NSTextAttachment
-#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1070)
--(id)initWithData:(NSData*)data ofType:(NSString*)aType
-{
-	return [self initWithFileWrapper:nil];
-}
--(NSImage*)image
-{
-	NSTextAttachmentCell *cell = (NSTextAttachmentCell*)self.attachmentCell;
-	return cell.image;
-}
--(void)setImage:(NSImage*)image
-{
-	NSTextAttachmentCell *cell = (NSTextAttachmentCell*)self.attachmentCell;
-	cell.image = image;
-}
-#endif
 @end
 
 @implementation RCFileAttachment

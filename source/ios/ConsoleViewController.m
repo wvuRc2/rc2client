@@ -139,23 +139,25 @@
 
 -(void)saveSessionState:(RCSavedSession*)savedState
 {
-	NSError *err;
-	NSTextStorage *text = self.outputView.textStorage;
-	if (text.length > 0) {
-		NSData *data = [text dataFromRange:NSMakeRange(0, text.length) documentAttributes:@{NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType} error:&err];
-		if (data)
-			[savedState setProperty:data forKey:@"ConsoleRTF"];
-		else
-			Rc2LogError(@"error saving document data:%@", err);
-	}
+	NSTextStorage *text = [self.outputView.textStorage mutableCopy];
+	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:text];
+	if (data)
+		savedState.consoleRtf = data;
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
-	NSData *rtfdata = [savedState propertyForKey:@"ConsoleRTF"];
-	NSError *err;
-	if (rtfdata && ![self.outputView.textStorage readFromData:rtfdata options:nil documentAttributes:nil error:nil])
-		Rc2LogError(@"error reading consolertf:%@", err);
+	NSData *rtfdata = savedState.consoleRtf;
+	NSTextStorage *text = self.outputView.textStorage;
+	NSTextStorage *archText;
+	@try {
+		archText = [NSKeyedUnarchiver unarchiveObjectWithData:rtfdata];
+		[text replaceCharactersInRange:NSMakeRange(0, text.length) withAttributedString:archText];
+	}
+	@catch (NSException *exception) {
+		Rc2LogWarn(@"exception in restoreSessionState");
+		NSLog(@"excep:%@", exception);
+	}
 }
 
 -(void)sessionModeChanged
