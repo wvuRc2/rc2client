@@ -38,6 +38,7 @@
 @property (nonatomic, strong) id sessionKvoToken;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
 @property (nonatomic, strong) UIFont *baseFont;
+@property (nonatomic, strong) ImagePreviewViewController *imagePreviewController;
 @property BOOL haveExternalKeyboard;
 -(void)sessionModeChanged;
 @end
@@ -69,6 +70,14 @@
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textTapped:)];
 	tap.numberOfTapsRequired = 1;
 	[self.outputView addGestureRecognizer:tap];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	if (self.imagePreviewController) {
+		[self.imagePreviewController dismissViewControllerAnimated:YES completion:nil];
+	}
 }
 
 -(void)setupWebView
@@ -315,6 +324,10 @@
 	objc_setAssociatedObject(pvc, @selector(previewImage:inRange:), [NSValue valueWithCGRect:startRect], OBJC_ASSOCIATION_RETAIN);
 	[self setDefinesPresentationContext:YES];
 	[self presentViewController:pvc animated:YES completion:nil];
+	self.imagePreviewController = pvc;
+	pvc.dismissalBlock = ^(ImagePreviewViewController *controller) {
+		self.imagePreviewController = nil;
+	};
 }
 
 -(void)previewFile:(RCFileAttachment*)fileAttachment inRange:(NSRange)charRange

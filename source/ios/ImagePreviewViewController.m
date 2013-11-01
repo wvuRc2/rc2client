@@ -14,8 +14,8 @@
 #import "ImagePreviewViewController.h"
 #import "RCImage.h"
 
-#define kViewWidth 400
-#define kViewHeight 480
+#define kViewWidth 416
+#define kViewHeight 458
 #define kPortraitBottomMargin 20
 #define kLandscapeRightMargin 20
 
@@ -53,17 +53,29 @@
 	gesture.direction = UISwipeGestureRecognizerDirectionRight;
 	[self.view addGestureRecognizer:gesture];
 	self.view.translatesAutoresizingMaskIntoConstraints = NO;
-	self.imageView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
 	self.blurToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kViewWidth, kViewHeight)];
 	[(ImagePreviewView*)self.view setBlurToolbar:self.blurToolbar];
+	[self.blurToolbar setBarTintColor:[[UIColor colorWithHexString:@"#A8A8A8"] colorWithAlphaComponent:0.3]];
 	self.view.clipsToBounds = YES;
 	[self.view.layer insertSublayer:self.blurToolbar.layer atIndex:0];
+
+	self.nameLabel.backgroundColor = [UIColor greenColor];
+	self.imageView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
 	[self loadCurrentImage];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	if (self.dismissalBlock) {
+		self.dismissalBlock(self);
+		self.dismissalBlock=nil;
+	}
 }
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
