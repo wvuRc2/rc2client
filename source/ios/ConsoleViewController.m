@@ -31,6 +31,7 @@
 @property (nonatomic, strong) IBOutlet UITextView *outputView;
 @property (nonatomic, weak) IBOutlet UIView *containerView;
 @property (nonatomic, weak) UIView *visibleOutputView;
+@property (nonatomic, strong) UIView *modalDimmingView;
 @property (nonatomic, strong) NSLayoutConstraint *outputLeftConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *webLeftConstraint;
 @property (nonatomic, strong) VariableListViewController *variableController;
@@ -70,6 +71,16 @@
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textTapped:)];
 	tap.numberOfTapsRequired = 1;
 	[self.outputView addGestureRecognizer:tap];
+	
+	self.modalDimmingView = [[UIView alloc] initWithFrame:self.view.bounds];
+	self.modalDimmingView.translatesAutoresizingMaskIntoConstraints = NO;
+	self.modalDimmingView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.05];
+	self.modalDimmingView.opaque = NO;
+	self.modalDimmingView.alpha = 0;
+	[self.view addSubview:self.modalDimmingView];
+	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[_modalDimmingView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_modalDimmingView)]];
+	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[_modalDimmingView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_modalDimmingView)]];
+	self.modalDimmingView.hidden = YES;
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -324,10 +335,16 @@
 	pvc.transitioningDelegate = self;
 	objc_setAssociatedObject(pvc, @selector(previewImage:inRange:), [NSValue valueWithCGRect:startRect], OBJC_ASSOCIATION_RETAIN);
 	[self setDefinesPresentationContext:YES];
+	self.modalDimmingView.alpha = 1;
+	self.modalDimmingView.hidden = NO;
 	[self presentViewController:pvc animated:YES completion:nil];
 	self.imagePreviewController = pvc;
 	pvc.dismissalBlock = ^(ImagePreviewViewController *controller) {
 		self.imagePreviewController = nil;
+		self.modalDimmingView.alpha = 0;
+		[UIView animateWithDuration:0.2 animations:^{
+			self.modalDimmingView.hidden = YES;
+		}];
 	};
 }
 

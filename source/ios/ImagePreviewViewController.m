@@ -23,11 +23,13 @@
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UIButton *closeButton;
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
+@property (nonatomic, weak) IBOutlet UILabel *countLabel;
 @property (nonatomic, strong) UIToolbar *blurToolbar;
 @property (nonatomic, strong) UIImageView *animationImage;
 @end
 
 @interface ImagePreviewView : UIView
+@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) UIToolbar *blurToolbar;
 @property BOOL displayed;
 -(CGRect)rectForOrientation;
@@ -61,8 +63,8 @@
 
 	self.animationImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kViewWidth, kViewHeight)];
 	
-	[self.blurToolbar setBarTintColor:[[UIColor colorWithHexString:@"#A8A8A8"] colorWithAlphaComponent:0.3]];
-	self.nameLabel.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.3];
+//	[self.blurToolbar setBarTintColor:[[UIColor colorWithHexString:@"#A8A8A8"] colorWithAlphaComponent:0.3]];
+//	self.nameLabel.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.3];
 //	self.imageView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
 }
 
@@ -104,20 +106,24 @@
 	RCImage *img = self.images[self.currentIndex];
 	self.imageView.image = img.image;
 	self.nameLabel.text = img.name;
+	if (self.images.count < 2)
+		self.countLabel.text = @"";
+	else
+		self.countLabel.text = [NSString stringWithFormat:@"%d of %d", self.currentIndex+1, self.images.count];
 }
 
 -(void)swipeLeft:(UISwipeGestureRecognizer*)gesture
 {
-	if (self.currentIndex > 0) {
-		self.currentIndex = self.currentIndex - 1;
+	if (self.currentIndex + 1 < self.images.count) {
+		self.currentIndex = self.currentIndex + 1;
 		[self loadCurrentImage];
 	}
 }
 
 -(void)swipeRight:(UISwipeGestureRecognizer*)gesture
 {
-	if (self.currentIndex + 1 < self.images.count) {
-		self.currentIndex = self.currentIndex + 1;
+	if (self.currentIndex > 0) {
+		self.currentIndex = self.currentIndex - 1;
 		[self loadCurrentImage];
 	}
 }
@@ -144,6 +150,15 @@
 @end
 
 @implementation ImagePreviewView
+
+-(void)layoutSubviews
+{
+	[super layoutSubviews];
+	CGRect r = self.nameLabel.frame;
+	CGRect vr = self.bounds;
+	r.origin.x = floorf((vr.size.width - r.size.width)/2);
+	self.nameLabel.frame = r;
+}
 
 -(void)setBounds:(CGRect)bounds
 {
