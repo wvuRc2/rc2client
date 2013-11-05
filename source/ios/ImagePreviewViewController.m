@@ -46,24 +46,24 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	// Do any additional setup after loading the view from its nib.
-	UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeft:)];
-	gesture.direction = UISwipeGestureRecognizerDirectionLeft;
-	[self.view addGestureRecognizer:gesture];
-	gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
-	gesture.direction = UISwipeGestureRecognizerDirectionRight;
-	[self.view addGestureRecognizer:gesture];
 	self.view.translatesAutoresizingMaskIntoConstraints = NO;
 	self.blurToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kViewWidth, kViewHeight)];
 	[(ImagePreviewView*)self.view setBlurToolbar:self.blurToolbar];
 	self.view.clipsToBounds = YES;
 	[self.view.layer insertSublayer:self.blurToolbar.layer atIndex:0];
 
+	UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeft:)];
+	gesture.direction = UISwipeGestureRecognizerDirectionLeft;
+	[self.view addGestureRecognizer:gesture];
+	gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
+	gesture.direction = UISwipeGestureRecognizerDirectionRight;
+	[self.view addGestureRecognizer:gesture];
+
 	self.animationImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kViewWidth, kViewHeight)];
 	
-//	[self.blurToolbar setBarTintColor:[[UIColor colorWithHexString:@"#A8A8A8"] colorWithAlphaComponent:0.3]];
-	self.nameLabel.backgroundColor = [UIColor greenColor];
-	self.imageView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
+	[self.blurToolbar setBarTintColor:[[UIColor colorWithHexString:@"#A8A8A8"] colorWithAlphaComponent:0.3]];
+	self.nameLabel.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.3];
+//	self.imageView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
 }
 
 -(void)viewWillAppear:(BOOL)animated
