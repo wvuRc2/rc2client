@@ -156,12 +156,13 @@
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
-	NSData *rtfdata = savedState.consoleRtf;
 	NSTextStorage *text = self.outputView.textStorage;
 	NSTextStorage *archText;
 	@try {
-		archText = [NSKeyedUnarchiver unarchiveObjectWithData:rtfdata];
-		[text replaceCharactersInRange:NSMakeRange(0, text.length) withAttributedString:archText];
+		if (savedState.consoleRtf) {
+			archText = [NSKeyedUnarchiver unarchiveObjectWithData:savedState.consoleRtf];
+			[text replaceCharactersInRange:NSMakeRange(0, text.length) withAttributedString:archText];
+		}
 	}
 	@catch (NSException *exception) {
 		Rc2LogWarn(@"exception in restoreSessionState");
