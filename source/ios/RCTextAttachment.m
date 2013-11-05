@@ -49,4 +49,9 @@
 	[aCoder encodeObject:self.imageUrl forKey:@"RCIMGURL"];
 }
 
+-(CGRect)bounds
+{
+	return CGRectMake(0, 0, 64, 64);
+}
+
 @end
