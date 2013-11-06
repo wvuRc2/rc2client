@@ -27,8 +27,6 @@
 	self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768) collectionViewLayout:layout];
 	self.view = _collectionView;
 	_collectionView.dataSource = self;
-	if (nil == self.images)
-		self.images = @[@"one", @"two", @"three", @"four"];
 	UINib *cellNib = [UINib nibWithNibName:@"ImageCollectionCell" bundle:nil];
 	[_collectionView registerNib:cellNib forCellWithReuseIdentifier:kImageCell];
 	_collectionView.backgroundColor = [UIColor whiteColor];
@@ -56,6 +54,7 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+	[super viewDidAppear:animated];
 	UIView *sv = self.view.superview;
 	UIView *cv = _collectionView;
 	[sv addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[cv]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(cv)]];

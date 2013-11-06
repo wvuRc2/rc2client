@@ -234,7 +234,6 @@
 	if (nil == self.imageDetailsController) {
 		self.imageDetailsController = [[ImageCollectionController alloc] init];
 		self.imageDetailsController.navigationItem.title = [NSString stringWithFormat:@"%@ Images", self.session.workspace.name];
-		[self.imageDetailsController view]; //force loading
 	}
 	self.imageDetailsController.images = images;
 	self.imageDetailsController.initialImageIndex = index;

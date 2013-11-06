@@ -38,10 +38,17 @@
 	if (self.frozen)
 		return;
 	CGSize viewSize = self.collectionView.frame.size;
-	if (viewSize.height > viewSize.width)
-		[self layoutPortrait2Up];
-	else
-		[self layoutLandscape2Up];
+	if (viewSize.height > viewSize.width) {
+		if (self.visibleCellCount == 1)
+			[self layoutPortrait1Up];
+		else
+			[self layoutPortrait2Up];
+	} else {
+		if (self.visibleCellCount == 1)
+			[self layoutLandscape1Up];
+		else
+			[self layoutLandscape2Up];
+	}
 }
 
 -(void)addHiddenLayoutAttributes:(NSInteger)row array:(NSMutableArray*)info
@@ -49,6 +56,41 @@
 	UICollectionViewLayoutAttributes *attrs1 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
 	attrs1.hidden = YES;
 	[info addObject:attrs1];
+}
+
+-(void)layoutPortrait1Up
+{
+	NSMutableArray *info = [NSMutableArray arrayWithCapacity:4];
+	CGSize viewSize = self.collectionView.frame.size;
+	CGFloat width = viewSize.width - 40;
+	CGFloat height = width + 38;
+	CGFloat x = 20;
+	CGFloat y = floorf(viewSize.height-height)/2 - 20;
+	UICollectionViewLayoutAttributes *attrs1 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+	attrs1.frame = CGRectMake(x, y, width, height);
+	[info addObject:attrs1];
+	[self addHiddenLayoutAttributes:1 array:info];
+	[self addHiddenLayoutAttributes:2 array:info];
+	[self addHiddenLayoutAttributes:3 array:info];
+	self.layoutInfo = info;
+}
+
+-(void)layoutLandscape1Up
+{
+	NSMutableArray *info = [NSMutableArray arrayWithCapacity:4];
+	CGSize viewSize = self.collectionView.frame.size;
+	viewSize.height -= 100;
+	CGFloat height = floorf(viewSize.height - 60);
+	CGFloat width = height - 38;
+	CGFloat x = floorf((viewSize.width - width)/2);
+	CGFloat y = viewSize.height-height;
+	UICollectionViewLayoutAttributes *attrs1 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+	attrs1.frame = CGRectMake(x, y, width, height);
+	[info addObject:attrs1];
+	[self addHiddenLayoutAttributes:1 array:info];
+	[self addHiddenLayoutAttributes:2 array:info];
+	[self addHiddenLayoutAttributes:3 array:info];
+	self.layoutInfo = info;
 }
 
 -(void)layoutPortrait2Up
