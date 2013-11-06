@@ -13,6 +13,8 @@
 @property (nonatomic) BOOL frozen;
 @end
 
+#define kHeaderHeight 38
+
 @implementation ImageCollectionLayout
 
 -(id)init
@@ -41,11 +43,15 @@
 	if (viewSize.height > viewSize.width) {
 		if (self.visibleCellCount == 1)
 			[self layoutPortrait1Up];
+		else if (self.visibleCellCount == 4)
+			[self layoutPortrait4Up];
 		else
 			[self layoutPortrait2Up];
 	} else {
 		if (self.visibleCellCount == 1)
 			[self layoutLandscape1Up];
+		else if (self.visibleCellCount == 4)
+			[self layoutLandscape4Up];
 		else
 			[self layoutLandscape2Up];
 	}
@@ -63,7 +69,7 @@
 	NSMutableArray *info = [NSMutableArray arrayWithCapacity:4];
 	CGSize viewSize = self.collectionView.frame.size;
 	CGFloat width = viewSize.width - 40;
-	CGFloat height = width + 38;
+	CGFloat height = width + kHeaderHeight;
 	CGFloat x = 20;
 	CGFloat y = floorf(viewSize.height-height)/2 - 20;
 	UICollectionViewLayoutAttributes *attrs1 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -81,7 +87,7 @@
 	CGSize viewSize = self.collectionView.frame.size;
 	viewSize.height -= 100;
 	CGFloat height = floorf(viewSize.height - 60);
-	CGFloat width = height - 38;
+	CGFloat width = height - kHeaderHeight;
 	CGFloat x = floorf((viewSize.width - width)/2);
 	CGFloat y = viewSize.height-height;
 	UICollectionViewLayoutAttributes *attrs1 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -98,8 +104,8 @@
 	NSMutableArray *info = [NSMutableArray arrayWithCapacity:4];
 	CGSize viewSize = self.collectionView.frame.size;
 	viewSize.height -= 100;
-	CGFloat height = floorf(MIN(viewSize.width-40, (viewSize.height/2)-60) + 38);
-	CGFloat width = height - 38;
+	CGFloat height = floorf(MIN(viewSize.width-40, (viewSize.height/2)-60) + kHeaderHeight);
+	CGFloat width = height - kHeaderHeight;
 	CGFloat x = floorf((viewSize.width-width)/2);
 	CGFloat y = 20;
 	UICollectionViewLayoutAttributes *attrs1 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -119,7 +125,7 @@
 	NSMutableArray *info = [NSMutableArray arrayWithCapacity:4];
 	CGSize viewSize = self.collectionView.frame.size;
 	CGFloat width = floorf((viewSize.width - 60)/2);
-	CGFloat height = width + 38;
+	CGFloat height = width + kHeaderHeight;
 	CGFloat y = floorf((viewSize.height-height)/2);
 	UICollectionViewLayoutAttributes *attrs1 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 	attrs1.frame = CGRectMake(20, y, width, height);
@@ -129,6 +135,63 @@
 	[info addObject:attrs2];
 	[self addHiddenLayoutAttributes:2 array:info];
 	[self addHiddenLayoutAttributes:3 array:info];
+	self.layoutInfo = info;
+}
+
+
+-(void)layoutPortrait4Up
+{
+	const CGFloat innerHorizSpace = 20;
+	const CGFloat innerVertSpace = 60;
+	NSMutableArray *info = [NSMutableArray arrayWithCapacity:4];
+	CGRect viewBounds = self.collectionView.bounds;
+	if (viewBounds.origin.y < 0)
+		viewBounds.size.height += viewBounds.origin.y;
+	CGFloat width = floorf((viewBounds.size.width - (innerHorizSpace*3))/2);
+	CGFloat height = width + kHeaderHeight;
+	CGFloat x = floorf((viewBounds.size.width - (width + width + innerHorizSpace))/2);
+	CGFloat y = + innerVertSpace;
+	UICollectionViewLayoutAttributes *attrs3 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+	attrs3.frame = CGRectMake(x, y, width, height);
+	[info addObject:attrs3];
+	UICollectionViewLayoutAttributes *attrs4 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
+	attrs4.frame = CGRectMake(x + width + innerHorizSpace, y, width, height);
+	[info addObject:attrs4];
+	y += height + innerVertSpace;
+	UICollectionViewLayoutAttributes *attrs1 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+	attrs1.frame = CGRectMake(x, y, width, height);
+	[info addObject:attrs1];
+	UICollectionViewLayoutAttributes *attrs2 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+	attrs2.frame = CGRectMake(x + width + innerHorizSpace, y, width, height);
+	[info addObject:attrs2];
+	self.layoutInfo = info;
+}
+
+-(void)layoutLandscape4Up
+{
+	const CGFloat innerHorizSpace = 60;
+	const CGFloat verticalMargin = 20;
+	NSMutableArray *info = [NSMutableArray arrayWithCapacity:4];
+	CGRect viewBounds = self.collectionView.bounds;
+	if (viewBounds.origin.y < 0)
+		viewBounds.size.height += viewBounds.origin.y;
+	CGFloat height = floorf((viewBounds.size.height - innerHorizSpace)/2);
+	CGFloat width = height - kHeaderHeight;
+	CGFloat x = floorf((viewBounds.size.width - (width + width + innerHorizSpace))/2);
+	CGFloat y = + verticalMargin;
+	UICollectionViewLayoutAttributes *attrs3 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+	attrs3.frame = CGRectMake(x, y, width, height);
+	[info addObject:attrs3];
+	UICollectionViewLayoutAttributes *attrs4 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
+	attrs4.frame = CGRectMake(x + width + innerHorizSpace, y, width, height);
+	[info addObject:attrs4];
+	y += height + verticalMargin;
+	UICollectionViewLayoutAttributes *attrs1 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+	attrs1.frame = CGRectMake(x, y, width, height);
+	[info addObject:attrs1];
+	UICollectionViewLayoutAttributes *attrs2 = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+	attrs2.frame = CGRectMake(x + width + innerHorizSpace, y, width, height);
+	[info addObject:attrs2];
 	self.layoutInfo = info;
 }
 

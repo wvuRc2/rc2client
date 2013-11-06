@@ -25,6 +25,7 @@
 {
 	ImageCollectionLayout *layout = [[ImageCollectionLayout alloc] init];
 	self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768) collectionViewLayout:layout];
+	self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
 	self.view = _collectionView;
 	_collectionView.dataSource = self;
 	UINib *cellNib = [UINib nibWithNibName:@"ImageCollectionCell" bundle:nil];
@@ -57,8 +58,10 @@
 	[super viewDidAppear:animated];
 	UIView *sv = self.view.superview;
 	UIView *cv = _collectionView;
-	[sv addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[cv]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(cv)]];
-	[sv addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[cv]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(cv)]];
+	NSDictionary *views = NSDictionaryOfVariableBindings(cv);
+	[sv addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[cv]|" options:0 metrics:nil views:views]];
+	[sv addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[cv]|" options:0 metrics:nil views:views]];
+	[self.view layoutSubviews];
 }
 
 -(void)rotation:(NSNotification*)note
