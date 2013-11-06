@@ -68,6 +68,14 @@
 	self.imageView.image = self.image.image;
 }
 
+-(IBAction)showActivities:(id)sender
+{
+	//convert rect from barview to cell
+	CGRect r = self.actionButton.frame;
+	r = [self convertRect:r fromView:self.actionButton.superview];
+	[self.imageDelegate imageCollectionCell:self showActionsFromRect:r];
+}
+
 -(void)setImage:(RCImage *)image
 {
 	_image = image;

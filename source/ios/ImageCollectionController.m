@@ -9,10 +9,14 @@
 #import "ImageCollectionController.h"
 #import "ImageCollectionCell.h"
 #import "ImageCollectionLayout.h"
+#import "WHMailActivity.h"
+#import "WHMailActivityItem.h"
+#import "RCImage.h"
 
-@interface ImageCollectionController () <UICollectionViewDataSource>
+@interface ImageCollectionController () <UICollectionViewDataSource,ImageCollectionCellDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *qtyControl;
+@property (nonatomic, strong) UIPopoverController *cellPopoverController;
 @end
 
 #define kImageCell @"ImageCollectionCell"
@@ -44,7 +48,11 @@
 	[self.qtyControl setWidth:40 forSegmentAtIndex:1];
 	[self.qtyControl setWidth:40 forSegmentAtIndex:2];
 	[self.qtyControl addTarget:self action:@selector(qtyChange:) forControlEvents:UIControlEventValueChanged];
-	self.navigationItem.rightBarButtonItems = [self.standardRightNavBarItems arrayByAddingObject:[[UIBarButtonItem alloc] initWithCustomView:self.qtyControl]];
+	UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareImages:)];
+	NSMutableArray *ritems = [self.standardRightNavBarItems mutableCopy];
+	[ritems addObject:[[UIBarButtonItem alloc] initWithCustomView:self.qtyControl]];
+	[ritems addObject:shareItem];
+	self.navigationItem.rightBarButtonItems = ritems;
 	if (nil == self.navigationItem.title)
 		self.navigationItem.title = @"Image";
 	self.navigationItem.leftBarButtonItems = self.standardLeftNavBarItems;
@@ -62,6 +70,49 @@
 	[sv addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[cv]|" options:0 metrics:nil views:views]];
 	[sv addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[cv]|" options:0 metrics:nil views:views]];
 	[self.view layoutSubviews];
+}
+
+-(void)prepareShareImagePopoverForImages:(NSArray*)images
+{
+	if (self.cellPopoverController.isPopoverVisible) {
+		[self.cellPopoverController dismissPopoverAnimated:YES];
+		self.cellPopoverController = nil;
+		return;
+	}
+	NSArray *excluded = @[UIActivityTypeMail,UIActivityTypeAssignToContact,UIActivityTypeMessage,UIActivityTypePostToFacebook,UIActivityTypePostToWeibo];
+	NSMutableArray *items = [NSMutableArray arrayWithCapacity:5];
+	NSMutableArray *activs = [NSMutableArray arrayWithCapacity:5];
+	[items addObject:[WHMailActivityItem mailActivityItemWithSelectionHandler:^(MFMailComposeViewController *messageC) {
+		[messageC setSubject:@"images from Rc²"];
+		for (RCImage *image in images) {
+			[messageC addAttachmentData:[NSData dataWithContentsOfURL:image.fileUrl] mimeType:@"image/png" fileName:image.fileUrl.lastPathComponent];
+		}
+	}]];
+	for (RCImage *image in images)
+		[items addObject:image.image];
+	[activs addObject:[[WHMailActivity alloc] init]];
+	UIActivityViewController *avc = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:activs];
+	__weak UIActivityViewController *weakAvc = avc;
+	avc.excludedActivityTypes = excluded;
+	UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:avc];
+	avc.completionHandler = ^(NSString *actType, BOOL completed) {
+		weakAvc.completionHandler=nil;
+		[self.cellPopoverController dismissPopoverAnimated:YES];
+		self.cellPopoverController=nil;
+	};
+	self.cellPopoverController = pop;
+}
+
+-(void)imageCollectionCell:(ImageCollectionCell*)cell showActionsFromRect:(CGRect)touchRect
+{
+	[self prepareShareImagePopoverForImages:@[cell.image]];
+	[self.cellPopoverController presentPopoverFromRect:touchRect inView:cell permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+-(IBAction)shareImages:(id)sender
+{
+	[self prepareShareImagePopoverForImages:self.images];
+	[self.cellPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 -(void)rotation:(NSNotification*)note
@@ -93,6 +144,7 @@
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
 	ImageCollectionCell *cell = (ImageCollectionCell*)[collectionView dequeueReusableCellWithReuseIdentifier:kImageCell forIndexPath:indexPath];
+	cell.imageDelegate = self;
 	cell.image = self.images[indexPath.row];
 	return cell;
 }
