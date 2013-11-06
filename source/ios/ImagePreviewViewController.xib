@@ -8,9 +8,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ImagePreviewViewController">
             <connections>
                 <outlet property="closeButton" destination="bFh-6I-LGq" id="Vc6-tl-sN5"/>
-                <outlet property="countLabel" destination="ClK-E7-rY8" id="gFy-Dc-fKh"/>
                 <outlet property="imageView" destination="iSK-iR-f6p" id="XFG-W8-9so"/>
                 <outlet property="nameLabel" destination="qim-DC-RZN" id="AUL-Sf-ocm"/>
+                <outlet property="pageControl" destination="UmC-qM-63X" id="91U-7C-q00"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -20,7 +20,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="iSK-iR-f6p">
-                    <rect key="frame" x="8" y="50" width="400" height="400"/>
+                    <rect key="frame" x="8" y="40" width="400" height="400"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qim-DC-RZN">
@@ -40,13 +40,25 @@
                         <action selector="dismissSelf:" destination="-1" eventType="touchUpInside" id="z40-G8-kGd"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 of 4" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ClK-E7-rY8">
-                    <rect key="frame" x="8" y="7" width="64" height="21"/>
+                <pageControl contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" currentPage="1" id="UmC-qM-63X">
+                    <rect key="frame" x="8" y="433" width="400" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                    <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="currentPageIndicatorTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="pageControlTapped:" destination="-1" eventType="valueChanged" id="wXq-X9-SqY"/>
+                    </connections>
+                </pageControl>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Kaa-Am-nEb">
+                    <rect key="frame" x="8" y="-4" width="47" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Details">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="showDetails:" destination="-1" eventType="touchUpInside" id="E4n-Al-lB0"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>

@@ -23,7 +23,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UIButton *closeButton;
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
-@property (nonatomic, weak) IBOutlet UILabel *countLabel;
+@property (nonatomic, weak) IBOutlet UIPageControl *pageControl;
 @property (nonatomic, strong) UIToolbar *blurToolbar;
 @property (nonatomic, strong) UIImageView *animationImage;
 @end
@@ -106,10 +106,8 @@
 	RCImage *img = self.images[self.currentIndex];
 	self.imageView.image = img.image;
 	self.nameLabel.text = img.name;
-	if (self.images.count < 2)
-		self.countLabel.text = @"";
-	else
-		self.countLabel.text = [NSString stringWithFormat:@"%d of %d", self.currentIndex+1, self.images.count];
+	self.pageControl.numberOfPages = self.images.count;
+	self.pageControl.currentPage = self.currentIndex;
 }
 
 -(void)swipeLeft:(UISwipeGestureRecognizer*)gesture
@@ -133,6 +131,19 @@
 	ImagePreviewView *view = (ImagePreviewView*)self.view;
 	[view setDisplayed:YES];
 	[view setFrame:[view rectForOrientation]];
+}
+
+-(IBAction)showDetails:(id)sender
+{
+	if (self.detailsBlock)
+		self.detailsBlock(self);
+}
+
+-(IBAction)pageControlTapped:(id)sender
+{
+	if (self.currentIndex + 1 == self.images.count)
+		self.currentIndex = -1; //swipeLeft will increment
+	[self swipeLeft:nil];
 }
 
 -(IBAction)dismissSelf:(id)sender

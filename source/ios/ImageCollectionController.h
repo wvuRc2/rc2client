@@ -10,5 +10,6 @@
 
 @interface ImageCollectionController : AbstractTopViewController
 @property (nonatomic, copy) NSArray *images;
+@property (nonatomic) NSUInteger initialImageIndex;
 
 @end

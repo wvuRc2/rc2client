@@ -20,6 +20,7 @@
 #import "VariableListViewController.h"
 #import "ImagePreviewTransition.h"
 #import "ImagePreviewViewController.h"
+#import "ImageCollectionController.h"
 #import <objc/runtime.h>
 
 #define kAnimDuration 0.5
@@ -40,6 +41,7 @@
 @property (nonatomic, strong) UIActionSheet *actionSheet;
 @property (nonatomic, strong) UIFont *baseFont;
 @property (nonatomic, strong) ImagePreviewViewController *imagePreviewController;
+@property (nonatomic, strong) ImageCollectionController *imageDetailsController;
 @property BOOL haveExternalKeyboard;
 -(void)sessionModeChanged;
 @end
@@ -227,6 +229,18 @@
 	[self.variableController variablesUpdated];
 }
 
+-(void)showImageDetailsForIndex:(NSUInteger)index images:(NSArray*)images
+{
+	if (nil == self.imageDetailsController) {
+		self.imageDetailsController = [[ImageCollectionController alloc] init];
+		self.imageDetailsController.navigationItem.title = [NSString stringWithFormat:@"%@ Images", self.session.workspace.name];
+		[self.imageDetailsController view]; //force loading
+	}
+	self.imageDetailsController.images = images;
+	self.imageDetailsController.initialImageIndex = index;
+	[self.navigationController pushViewController:self.imageDetailsController animated:YES];
+}
+
 #pragma mark - actions
 
 -(IBAction)doShowVariables:(id)sender
@@ -335,6 +349,11 @@
 	pvc.transitioningDelegate = self;
 	objc_setAssociatedObject(pvc, @selector(previewImage:inRange:), [NSValue valueWithCGRect:startRect], OBJC_ASSOCIATION_RETAIN);
 	[self setDefinesPresentationContext:YES];
+	pvc.detailsBlock = ^(ImagePreviewViewController *previewController) {
+		[self dismissViewControllerAnimated:YES completion:^{
+			[self showImageDetailsForIndex:previewController.currentIndex images:previewController.images];
+		}];
+	};
 	self.modalDimmingView.alpha = 1;
 	self.modalDimmingView.hidden = NO;
 	[self presentViewController:pvc animated:YES completion:nil];
