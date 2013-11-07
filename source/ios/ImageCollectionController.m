@@ -9,6 +9,7 @@
 #import "ImageCollectionController.h"
 #import "ImageCollectionCell.h"
 #import "ImageCollectionLayout.h"
+#import "ImagePickerController.h"
 #import "WHMailActivity.h"
 #import "WHMailActivityItem.h"
 #import "RCImage.h"
@@ -17,6 +18,7 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *qtyControl;
 @property (nonatomic, strong) UIPopoverController *cellPopoverController;
+@property (nonatomic, strong) ImagePickerController *imagePicker;
 @end
 
 #define kImageCell @"ImageCollectionCell"
@@ -107,6 +109,27 @@
 {
 	[self prepareShareImagePopoverForImages:@[cell.image]];
 	[self.cellPopoverController presentPopoverFromRect:touchRect inView:cell permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+-(void)imageCollectionCell:(ImageCollectionCell*)cell selectImageFrom:(CGRect)rect
+{
+	if (self.cellPopoverController.isPopoverVisible) {
+		[self.cellPopoverController dismissPopoverAnimated:YES];
+		self.cellPopoverController = nil;
+		return;
+	}
+	__weak ImageCollectionController *bself = self;
+	if (nil == self.imagePicker)
+		self.imagePicker = [[ImagePickerController alloc] init];
+	self.imagePicker.images = self.images;
+	self.imagePicker.selectedImage = cell.image;
+	self.imagePicker.selectionHandler = ^{
+		cell.image = bself.imagePicker.selectedImage;
+		[bself.cellPopoverController dismissPopoverAnimated:YES];
+		bself.cellPopoverController = nil;
+	};
+	self.cellPopoverController = [[UIPopoverController alloc] initWithContentViewController:self.imagePicker];
+	[self.cellPopoverController presentPopoverFromRect:rect inView:cell permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 -(IBAction)shareImages:(id)sender

@@ -19,4 +19,5 @@
 
 @protocol ImageCollectionCellDelegate <NSObject>
 -(void)imageCollectionCell:(ImageCollectionCell*)cell showActionsFromRect:(CGRect)touchRect;
+-(void)imageCollectionCell:(ImageCollectionCell*)cell selectImageFrom:(CGRect)rect;
 @end

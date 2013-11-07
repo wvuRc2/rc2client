@@ -2394,6 +2394,7 @@
 				08D2461215B5DF820064A9FA /* generate model files */,
 				08D2461315B5DFE50064A9FA /* increment build number */,
 				08D2431B15B5D04D0064A9FA /* Sources */,
+				08B70533182C1E6800868E38 /* Link hockeysdk.bundle for archive build */,
 				08D2431C15B5D04D0064A9FA /* Frameworks */,
 				08D2431D15B5D04D0064A9FA /* Resources */,
 				08D2461015B5DF120064A9FA /* compile scss */,
@@ -2706,6 +2707,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if test \"${SRCROOT}/source/rc2/model/generated\" -ot \"${SRCROOT}/Rc2.xcdatamodeld\"\nthen\nFNAME=`/usr/libexec/PlistBuddy -c \"Print _XCCurrentVersionName\" ${SRCROOT}/Rc2.xcdatamodeld/.xccurrentversion`\n/usr/bin/mogenerator -m \"${SRCROOT}/Rc2.xcdatamodeld/$FNAME\" --template-path \"${SRCROOT}/modeltemplates\" -M \"${SRCROOT}/source/rc2/model/generated\" -H \"${SRCROOT}/source/rc2/model\" --use-pbx-vars --template-var arc=true\nfi";
+		};
+		08B70533182C1E6800868E38 /* Link hockeysdk.bundle for archive build */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Link hockeysdk.bundle for archive build";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${BUILT_PRODUCTS_DIR}\"\nln -s ../../IntermediateBuildFilesPath/UninstalledProducts/HockeySDKResources.bundle HockeySDKResources.bundle\n";
 		};
 		08D2461015B5DF120064A9FA /* compile scss */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3369,6 +3384,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
+					"\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"",
+					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";

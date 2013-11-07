@@ -68,6 +68,11 @@
 	self.imageView.image = self.image.image;
 }
 
+-(IBAction)selectImage:(id)sender
+{
+	[self.imageDelegate imageCollectionCell:self selectImageFrom:[self convertRect:[sender frame] fromView:sender]];
+}
+
 -(IBAction)showActivities:(id)sender
 {
 	//convert rect from barview to cell
