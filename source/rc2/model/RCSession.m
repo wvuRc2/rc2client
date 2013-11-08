@@ -456,6 +456,9 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 			if (self.showResultDetails)
 				js = [NSString stringWithFormat:@"iR.appendResults(%@)", [self escapeForJS:[dict objectForKey:@"json"]]];
 		} else if ([dict objectForKey:@"stdout"]) {
+			if ([dict objectForKey:@"command"]) {
+				[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:dict[@"command"] attributes:self.outputColors[kOColor_Input]]];
+			}
 			[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:dict[@"string"] attributes:nil]];
 		}
 		if ([[dict objectForKey:@"imageUrls"] count] > 0) {
