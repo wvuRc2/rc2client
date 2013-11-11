@@ -8,12 +8,14 @@
 
 #import "MCVariableDetailsController.h"
 #import "RCVariable.h"
+#import "RCList.h"
 #import "RCMSyntaxHighlighter.h"
 
 @interface MCVariableDetailsController () <NSTableViewDataSource, NSTableViewDelegate>
 @property (nonatomic, weak) IBOutlet NSTabView *tabView;
 @property (nonatomic, weak) IBOutlet NSTableView *simpleTableView;
 @property (nonatomic, weak) IBOutlet NSTableView *ssTableView;
+@property (nonatomic, weak) IBOutlet NSTableView *listTableView;
 @property (nonatomic, weak) IBOutlet NSTextField *nameLabel;
 @property (nonatomic, weak) IBOutlet NSTextField *typeLabel;
 @property (nonatomic, strong) IBOutlet NSTextView *functionTextView;
@@ -75,11 +77,19 @@
 	_isSS = NO;
 	switch (self.variable.type) {
 		case eVarType_Primitive:
-		case eVarType_List:
 		case eVarType_Factor:
 			[self.tabView selectTabViewItemWithIdentifier:@"basic"];
 			[self.simpleTableView reloadData];
 			_contentWidth = 200;
+			break;
+		case eVarType_List:
+			[self.tabView selectTabViewItemWithIdentifier:@"list"];
+			[self.listTableView reloadData];
+			if ([(RCList*)self.variable hasNames])
+				[(NSTableColumn*)[self.listTableView tableColumnWithIdentifier:@"listhead"] setWidth:90];
+			else
+			[(NSTableColumn*)[self.listTableView tableColumnWithIdentifier:@"listhead"] setWidth:30];
+			_contentWidth = 300;
 			break;
 		case eVarType_DataFrame:
 		case eVarType_Matrix:
@@ -134,6 +144,8 @@
 {
 	if (tableView == self.simpleTableView)
 		return self.variable.count;
+	if (tableView == self.listTableView)
+		return self.variable.count;
 	return [self.ssData rowCount];
 }
 
@@ -144,6 +156,18 @@
 		RCVariable *ivar = [self.variable valueAtIndex:row];
 		cell.textField.stringValue = ivar.description ? ivar.description : @"<Unknown>";
 		return cell;
+	}
+	if (tableView == self.listTableView) {
+		RCList *list = (RCList*)self.variable;
+		if ([tableColumn.identifier isEqualToString:@"listhead"]) {
+			NSTableCellView *hcell = [tableView makeViewWithIdentifier:@"listhead" owner:self];
+			hcell.textField.stringValue = [NSString stringWithFormat:@"%ld. %@", row+1, [list nameAtIndex:row]];
+			return hcell;
+		} else {
+			NSTableCellView *hcell = [tableView makeViewWithIdentifier:@"listitem" owner:self];
+			hcell.textField.stringValue = [[list valueAtIndex:row] description];
+			return hcell;
+		}
 	}
 	BOOL isRowHead = [tableColumn.identifier isEqualToString:@"0"];
 	NSInteger colNum = tableColumn.identifier.integerValue;

@@ -43,9 +43,12 @@
 
 #define logJson 0
 
+@interface VariableTable : NSTableView
+@property (nonatomic, copy) BasicBlock1IntArg varRowClickedBlock;
+@end
+
 @interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, copy) NSArray *data;
-@property (nonatomic, copy) BasicBlock varSelChangedBlock;
 @end
 
 @interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate,NSTextStorageDelegate,NSMenuDelegate> {
@@ -59,6 +62,7 @@
 	NSFileHandle *_jsonLog;
 #endif
 }
+@property (nonatomic, strong) IBOutlet VariableTable *varTableView;
 @property (nonatomic, strong) IBOutlet NSButton *backButton;
 @property (nonatomic, weak) IBOutlet NSButton *tbFilesButton;
 @property (nonatomic, weak) IBOutlet NSButton *tbVarsButton;
@@ -146,7 +150,7 @@
 		self.varTableView.dataSource = self.variableHelper;
 		self.varTableView.delegate = self.variableHelper;
 		self.varTableView.doubleAction = @selector(showVariableDetails:);
-		self.variableHelper.varSelChangedBlock = ^{
+		self.varTableView.varRowClickedBlock = ^(NSInteger clickedRow){
 			[blockSelf showVariableDetails:nil];
 		};
 		self.fileHelper = [[MCSessionFileController alloc] initWithSession:self.session tableView:self.fileTableView delegate:self];
@@ -1572,6 +1576,19 @@
 
 @end
 
+@implementation VariableTable
+
+-(void)mouseDown:(NSEvent *)theEvent
+{
+	NSPoint loc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	NSInteger clickedRow = [self rowAtPoint:loc];
+	[super mouseDown:theEvent];
+	if (clickedRow != -1)
+	self.varRowClickedBlock(clickedRow);
+}
+
+@end
+
 @implementation VariableTableHelper
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -1603,11 +1620,6 @@
 	return view;
 }
 
--(void)tableViewSelectionDidChange:(NSNotification *)notification
-{
-	self.varSelChangedBlock();
-}
-	
 -(NSIndexSet*)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes
 {
 	if (proposedSelectionIndexes.firstIndex >= self.data.count)

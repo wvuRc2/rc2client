@@ -18,7 +18,6 @@
 @property (nonatomic, readonly) MCSessionView *sessionView;
 @property (nonatomic, strong) IBOutlet AMTableView *fileTableView;
 @property (nonatomic, strong) IBOutlet NSTableView *userTableView;
-@property (nonatomic, strong) IBOutlet NSTableView *varTableView;
 @property (nonatomic, strong) IBOutlet NSView *fileContainerView;
 @property (nonatomic, strong) IBOutlet NSPopUpButton *modePopUp;
 @property (nonatomic, strong) IBOutlet NSTextField *modeLabel;

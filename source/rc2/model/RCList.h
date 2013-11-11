@@ -9,5 +9,6 @@
 #import "RCVariable.h"
 
 @interface RCList : RCVariable
-
+-(NSString*)nameAtIndex:(NSUInteger)index;
+-(BOOL)hasNames;
 @end

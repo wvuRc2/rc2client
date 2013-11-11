@@ -15,7 +15,6 @@
 @interface RCVariable ()
 @property (nonatomic, copy, readwrite) NSString *name;
 @property (nonatomic, copy, readwrite) NSString *className; //from R
-@property (nonatomic, copy) NSArray *values;
 @property (readwrite) RCVariableType type;
 @property (readwrite) RCPrimitiveType primitiveType; //=Unknown if type != eVarType_Vector
 @property BOOL notAVector;
@@ -172,6 +171,8 @@
 	} else if ([cname isEqualToString:@"function"]) {
 		self.type = eVarType_Function;
 		self.values = [NSArray arrayWithObject:[dict objectForKey:@"body"]];
+	} else if ([cname isEqualToString:@"list"]) {
+		self.type = eVarType_List;
 	}
 }
 
@@ -232,6 +233,7 @@
 		case eVarType_Array:
 		case eVarType_DataFrame:
 		case eVarType_Matrix:
+		case eVarType_List:
 			return true;
 		default:
 			return false;

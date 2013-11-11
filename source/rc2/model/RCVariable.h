@@ -65,6 +65,8 @@ typedef enum {
 -(id)initWithDictionary:(NSDictionary*)dict;
 -(void)decodeSupportedObjects:(NSDictionary*)dict;
 @property BOOL summaryIsDescription;
+//for subclass use only
+@property (nonatomic, copy) NSArray *values;
 @end
 
 @protocol RCSpreadsheetData <NSObject>
