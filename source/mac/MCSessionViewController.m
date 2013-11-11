@@ -45,6 +45,7 @@
 
 @interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, copy) NSArray *data;
+@property (nonatomic, copy) BasicBlock varSelChangedBlock;
 @end
 
 @interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate,NSTextStorageDelegate,NSMenuDelegate> {
@@ -63,7 +64,6 @@
 @property (nonatomic, weak) IBOutlet NSButton *tbVarsButton;
 @property (nonatomic, weak) IBOutlet NSButton *tbUsersButton;
 @property (nonatomic, weak) IBOutlet NSPopUpButton *fileActionPopUp;
-@property (nonatomic, weak) IBOutlet NSTableView *varsTable;
 @property (nonatomic, strong) IBOutlet NSView *importAccessoryView;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
 @property (nonatomic, strong) RCSyntaxParser *syntaxParser;
@@ -139,12 +139,16 @@
 {
 	[super awakeFromNib];
 	if (!__didInit) {
+		__unsafe_unretained MCSessionViewController *blockSelf = self;
 		self.outputController = [[MCWebOutputController alloc] init];
 		[self.sessionView embedOutputView:self.outputController.view];
 		self.outputController.delegate = (id)self;
 		self.varTableView.dataSource = self.variableHelper;
 		self.varTableView.delegate = self.variableHelper;
 		self.varTableView.doubleAction = @selector(showVariableDetails:);
+		self.variableHelper.varSelChangedBlock = ^{
+			[blockSelf showVariableDetails:nil];
+		};
 		self.fileHelper = [[MCSessionFileController alloc] initWithSession:self.session tableView:self.fileTableView delegate:self];
 		self.fileActionPopUp.menu.delegate = self.fileHelper;
 		self.fileTableView.menu = self.fileActionPopUp.menu;
@@ -175,7 +179,6 @@
 			[self.editView.layoutManager setShowsInvisibleCharacters:YES];
 		
 		//caches
-		__unsafe_unretained MCSessionViewController *blockSelf = self;
 		[self observeTarget:self.sessionView keyPath:@"leftViewVisible" options:0 block:^(MAKVONotification *notification) {
 			blockSelf.session.variablesVisible = blockSelf.sessionView.leftViewVisible &&
 			blockSelf.selectedLeftViewIndex == 1;
@@ -1600,6 +1603,11 @@
 	return view;
 }
 
+-(void)tableViewSelectionDidChange:(NSNotification *)notification
+{
+	self.varSelChangedBlock();
+}
+	
 -(NSIndexSet*)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes
 {
 	if (proposedSelectionIndexes.firstIndex >= self.data.count)

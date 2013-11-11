@@ -8,6 +8,7 @@
 
 #import "MCVariableDetailsController.h"
 #import "RCVariable.h"
+#import "RCMSyntaxHighlighter.h"
 
 @interface MCVariableDetailsController () <NSTableViewDataSource, NSTableViewDelegate>
 @property (nonatomic, weak) IBOutlet NSTabView *tabView;
@@ -70,6 +71,7 @@
 {
 	@synchronized(self) {
 	self.nameLabel.stringValue = self.variable.name;
+	self.typeLabel.stringValue = self.variable.description;
 	_isSS = NO;
 	switch (self.variable.type) {
 		case eVarType_Primitive:
@@ -88,7 +90,8 @@
 			break;
 		case eVarType_Function:
 			[self.tabView selectTabViewItemWithIdentifier:@"function"];
-			self.functionTextView.string = self.variable.functionBody;
+			self.functionTextView.string = @"";
+			[self.functionTextView.textStorage appendAttributedString:[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:[NSAttributedString attributedStringWithString:self.variable.functionBody attributes:nil] ofType:@"R"]];
 			_contentWidth = 500;
 			break;
 		case eVarType_Array:

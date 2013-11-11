@@ -40,7 +40,6 @@
 		08137A3317C804DA005EA804 /* iOSIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08137A3217C804DA005EA804 /* iOSIcons.xcassets */; };
 		08137A3517CBC57F005EA804 /* ImageHolderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08137A3417CBC57F005EA804 /* ImageHolderView.xib */; };
 		0817C694181EF00700C70CA8 /* RCTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C693181EF00700C70CA8 /* RCTextAttachment.m */; };
-		0817C695181EF00700C70CA8 /* RCTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C693181EF00700C70CA8 /* RCTextAttachment.m */; };
 		0817C6981821A3EC00C70CA8 /* _RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C6971821A3EC00C70CA8 /* _RCImage.m */; };
 		0817C6991821A3EC00C70CA8 /* _RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C6971821A3EC00C70CA8 /* _RCImage.m */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -200,6 +199,9 @@
 		08ADBE2817A06C9F0004A89C /* RC2LoopQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */; };
 		08B3477E175D2C4000B86FD2 /* no.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B3477C175D2C4000B86FD2 /* no.png */; };
 		08B3477F175D2C4000B86FD2 /* no@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B3477D175D2C4000B86FD2 /* no@2x.png */; };
+		08B70534183160E200868E38 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845940215B5F20100297C9D /* MainMenu.xib */; };
+		08B705381831648500868E38 /* RCList.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B705371831648500868E38 /* RCList.m */; };
+		08B705391831648500868E38 /* RCList.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B705371831648500868E38 /* RCList.m */; };
 		08B74C2B1635C08800083F9A /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2A1635C08800083F9A /* RCMatrix.m */; };
 		08B74C2C1635C08800083F9A /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2A1635C08800083F9A /* RCMatrix.m */; };
 		08B74C311635CA8700083F9A /* VariableSpreadsheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2F1635CA8700083F9A /* VariableSpreadsheetController.m */; };
@@ -810,6 +812,8 @@
 		08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RC2LoopQueue.m; sourceTree = "<group>"; };
 		08B3477C175D2C4000B86FD2 /* no.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = no.png; path = resources/mac/no.png; sourceTree = SOURCE_ROOT; };
 		08B3477D175D2C4000B86FD2 /* no@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no@2x.png"; path = "resources/mac/no@2x.png"; sourceTree = SOURCE_ROOT; };
+		08B705361831648500868E38 /* RCList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCList.h; sourceTree = "<group>"; };
+		08B705371831648500868E38 /* RCList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCList.m; sourceTree = "<group>"; };
 		08B74C291635C08800083F9A /* RCMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMatrix.h; sourceTree = "<group>"; };
 		08B74C2A1635C08800083F9A /* RCMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMatrix.m; sourceTree = "<group>"; };
 		08B74C2E1635CA8700083F9A /* VariableSpreadsheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableSpreadsheetController.h; sourceTree = "<group>"; };
@@ -1561,6 +1565,22 @@
 			name = "keyboard toolbar";
 			sourceTree = "<group>";
 		};
+		08B705351831643E00868E38 /* variables */ = {
+			isa = PBXGroup;
+			children = (
+				082CEEBE161F685900E01F48 /* RCVariable.h */,
+				082CEEBF161F685900E01F48 /* RCVariable.m */,
+				08B74C291635C08800083F9A /* RCMatrix.h */,
+				08B74C2A1635C08800083F9A /* RCMatrix.m */,
+				084D39B51627300F00B8A06B /* RCDataFrame.h */,
+				084D39B61627300F00B8A06B /* RCDataFrame.m */,
+				08B705361831648500868E38 /* RCList.h */,
+				08B705371831648500868E38 /* RCList.m */,
+			);
+			name = variables;
+			path = model;
+			sourceTree = "<group>";
+		};
 		08B74C5C163AE6E300083F9A /* project view */ = {
 			isa = PBXGroup;
 			children = (
@@ -2100,6 +2120,7 @@
 				08C99AC115EE9CDF002D430D /* Rc2FileType.h */,
 				08C99AC215EE9CDF002D430D /* Rc2FileType.m */,
 				08C99AC615EE9D35002D430D /* RC2FileTypes.plist */,
+				08B705351831643E00868E38 /* variables */,
 				08D2459815B5DBB70064A9FA /* model */,
 				08E63B451774E409005BB3BB /* RCDropboxSync.h */,
 				08E63B461774E409005BB3BB /* RCDropboxSync.m */,
@@ -2130,12 +2151,6 @@
 				08D245AF15B5DBB70064A9FA /* RCSavedSession.m */,
 				08D245B015B5DBB70064A9FA /* RCSession.h */,
 				08D245B115B5DBB70064A9FA /* RCSession.m */,
-				082CEEBE161F685900E01F48 /* RCVariable.h */,
-				082CEEBF161F685900E01F48 /* RCVariable.m */,
-				08B74C291635C08800083F9A /* RCMatrix.h */,
-				08B74C2A1635C08800083F9A /* RCMatrix.m */,
-				084D39B51627300F00B8A06B /* RCDataFrame.h */,
-				084D39B61627300F00B8A06B /* RCDataFrame.m */,
 				08D245B215B5DBB70064A9FA /* RCSessionUser.h */,
 				08D245B315B5DBB70064A9FA /* RCSessionUser.m */,
 				08D245B415B5DBB70064A9FA /* RCStudentAssignment.h */,
@@ -2616,6 +2631,7 @@
 				086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */,
 				08137A3117C8024C005EA804 /* SharedImages.xcassets in Resources */,
 				08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */,
+				08B70534183160E200868E38 /* MainMenu.xib in Resources */,
 				08C5F39415DEC50A00B0402F /* console in Resources */,
 				08C5F3A215DEC74800B0402F /* microphone.png in Resources */,
 				08C5F3A315DEC74800B0402F /* microphoneOff.png in Resources */,
@@ -2898,6 +2914,7 @@
 				08BDDDAC17EA48AB00E669E3 /* NSPersistentStore+MagicalRecord.m in Sources */,
 				082D1ED717E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */,
 				08BDDD9C17EA48AB00E669E3 /* NSManagedObject+MagicalFinders.m in Sources */,
+				08B705381831648500868E38 /* RCList.m in Sources */,
 				082CEEC0161F685900E01F48 /* RCVariable.m in Sources */,
 				084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */,
 				083AAEE8162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */,
@@ -3012,6 +3029,7 @@
 				082D1EC117E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */,
 				08BDDDB917EA48AB00E669E3 /* MagicalRecord+Setup.m in Sources */,
 				08D2466E15B5EE670064A9FA /* WebSocket08.m in Sources */,
+				08B705391831648500868E38 /* RCList.m in Sources */,
 				08D2466F15B5EE670064A9FA /* WebSocketMessage.m in Sources */,
 				08D2467015B5EE950064A9FA /* WebSocket10.m in Sources */,
 				08D2467115B5EE950064A9FA /* WebSocketConnectConfig.m in Sources */,
@@ -3083,7 +3101,6 @@
 				080E5089166FDFB800E95531 /* AFJSONRequestOperation.m in Sources */,
 				08BDDD9517EA48AB00E669E3 /* NSRelationshipDescription+MagicalDataImport.m in Sources */,
 				080E508B166FDFB800E95531 /* AFNetworkActivityIndicatorManager.m in Sources */,
-				0817C695181EF00700C70CA8 /* RCTextAttachment.m in Sources */,
 				08BDDD8F17EA48AB00E669E3 /* NSEntityDescription+MagicalDataImport.m in Sources */,
 				080E508D166FDFB800E95531 /* AFPropertyListRequestOperation.m in Sources */,
 				080E508F166FDFB800E95531 /* AFURLConnectionOperation.m in Sources */,

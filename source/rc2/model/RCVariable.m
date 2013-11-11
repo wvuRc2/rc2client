@@ -10,6 +10,7 @@
 #import <xlocale.h>
 #import "RCDataFrame.h"
 #import "RCMatrix.h"
+#import "RCList.h"
 
 @interface RCVariable ()
 @property (nonatomic, copy, readwrite) NSString *name;
@@ -40,6 +41,8 @@
 		return [[RCDataFrame alloc] initWithDictionary:dict];
 	if ([[dict objectForKey:@"class"] isEqualToString:@"matrix"])
 		return [[RCMatrix alloc] initWithDictionary:dict];
+	if ([[dict objectForKey:@"class"] isEqualToString:@"list"])
+		return [[RCList alloc] initWithDictionary:dict];
 	return [[RCVariable alloc] initWithDictionary:dict];
 }
 
