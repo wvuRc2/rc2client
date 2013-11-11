@@ -49,6 +49,8 @@
 {
 	if ((self = [super init])) {
 		self.name = [dict objectForKey:@"name"];
+		if ([self.name isKindOfClass:[NSNull class]])
+			self.name = nil;
 		self.className = [dict objectForKey:@"class"];
 		BOOL primitive = [[dict objectForKey:@"primitive"] boolValue];
 		self.notAVector = [[dict objectForKey:@"notAVector"] boolValue];

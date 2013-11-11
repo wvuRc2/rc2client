@@ -18,9 +18,19 @@
 {
 	if ((self = [super initWithDictionary:dict])) {
 		NSMutableArray *listVals = [NSMutableArray arrayWithCapacity:[dict[@"length"] integerValue]];
-		for (NSDictionary *anItem in dict[@"value"]) {
-			[listVals addObject:[RCVariable variableWithDictionary:anItem]];
-		}
+		[dict[@"value"] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			NSDictionary *aDict = obj;
+			if (nil == [aDict objectForKey:@"name"]) {
+				NSMutableDictionary *mdict = [aDict mutableCopy];
+				if (self.hasNames)
+					[mdict setObject:[self nameAtIndex:idx] forKey:@"name"];
+				else
+					[mdict setObject:[NSString stringWithFormat:@"%@[%lu]", self.name, (unsigned long)idx+1] forKey:@"name"];
+				aDict = mdict;
+			}
+			RCVariable *aVar = [RCVariable variableWithDictionary:aDict];
+			[listVals addObject:aVar];
+		}];
 		self.names = dict[@"names"];
 		if (self.names.count == 1 && self.names[0] == [NSNull null])
 			self.names = nil;

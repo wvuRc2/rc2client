@@ -11,6 +11,7 @@
 @interface BasicVariableCell : UITableViewCell
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
 @property (nonatomic, strong) IBOutlet UILabel *valueLabel;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *titleWidthConstraint;
 
 -(void)updateFonts;
 @end

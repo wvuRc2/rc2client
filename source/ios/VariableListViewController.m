@@ -12,6 +12,7 @@
 #import "RCVariable.h"
 #import "VariableDetailViewController.h"
 #import "VariableSpreadsheetController.h"
+#import "VariableListController.h"
 
 @interface VariableListViewController ()
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -162,15 +163,7 @@
 {
 	NSDictionary *section = [self.tableData objectAtIndex:indexPath.section];
 	RCVariable *var = [[section objectForKey:@"data"] objectAtIndex:indexPath.row];
-	if (var.type == eVarType_Matrix || var.type == eVarType_DataFrame) {
-		VariableSpreadsheetController *ssheet = [[VariableSpreadsheetController alloc] init];
-		ssheet.variable = (id)var;
-		[self.navigationController pushViewController:ssheet animated:YES];
-	} else {
-		VariableDetailViewController *detail = [[VariableDetailViewController alloc] init];
-		detail.variable = var;
-		[self.navigationController pushViewController:detail animated:YES];
-	}
+	[self showVariableDetails:var];
 }
 
 @end

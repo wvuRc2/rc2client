@@ -202,6 +202,8 @@
 		08B70534183160E200868E38 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845940215B5F20100297C9D /* MainMenu.xib */; };
 		08B705381831648500868E38 /* RCList.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B705371831648500868E38 /* RCList.m */; };
 		08B705391831648500868E38 /* RCList.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B705371831648500868E38 /* RCList.m */; };
+		08B7053C183181C200868E38 /* VariableListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B7053B183181C200868E38 /* VariableListController.m */; };
+		08B7053F183187C700868E38 /* BaseVariableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B7053E183187C700868E38 /* BaseVariableViewController.m */; };
 		08B74C2B1635C08800083F9A /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2A1635C08800083F9A /* RCMatrix.m */; };
 		08B74C2C1635C08800083F9A /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2A1635C08800083F9A /* RCMatrix.m */; };
 		08B74C311635CA8700083F9A /* VariableSpreadsheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74C2F1635CA8700083F9A /* VariableSpreadsheetController.m */; };
@@ -814,6 +816,10 @@
 		08B3477D175D2C4000B86FD2 /* no@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no@2x.png"; path = "resources/mac/no@2x.png"; sourceTree = SOURCE_ROOT; };
 		08B705361831648500868E38 /* RCList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCList.h; sourceTree = "<group>"; };
 		08B705371831648500868E38 /* RCList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCList.m; sourceTree = "<group>"; };
+		08B7053A183181C200868E38 /* VariableListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableListController.h; sourceTree = "<group>"; };
+		08B7053B183181C200868E38 /* VariableListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VariableListController.m; sourceTree = "<group>"; };
+		08B7053D183187C700868E38 /* BaseVariableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseVariableViewController.h; sourceTree = "<group>"; };
+		08B7053E183187C700868E38 /* BaseVariableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseVariableViewController.m; sourceTree = "<group>"; };
 		08B74C291635C08800083F9A /* RCMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMatrix.h; sourceTree = "<group>"; };
 		08B74C2A1635C08800083F9A /* RCMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMatrix.m; sourceTree = "<group>"; };
 		08B74C2E1635CA8700083F9A /* VariableSpreadsheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableSpreadsheetController.h; sourceTree = "<group>"; };
@@ -1306,9 +1312,13 @@
 		08137A3917CBF4F7005EA804 /* Variables */ = {
 			isa = PBXGroup;
 			children = (
+				08B7053D183187C700868E38 /* BaseVariableViewController.h */,
+				08B7053E183187C700868E38 /* BaseVariableViewController.m */,
 				083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */,
 				083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */,
 				083AAEF1162DDECF0037AAB3 /* VariableListViewController.xib */,
+				08B7053A183181C200868E38 /* VariableListController.h */,
+				08B7053B183181C200868E38 /* VariableListController.m */,
 				083AAEF9162EFFBE0037AAB3 /* VariableDetailViewController.h */,
 				083AAEFA162EFFBF0037AAB3 /* VariableDetailViewController.m */,
 				08B74C2E1635CA8700083F9A /* VariableSpreadsheetController.h */,
@@ -2834,6 +2844,7 @@
 				08D243E515B5D7590064A9FA /* ImageHolderView.m in Sources */,
 				08D243E715B5D7590064A9FA /* MessageListCell.m in Sources */,
 				08D243E915B5D7590064A9FA /* NotificationCell.m in Sources */,
+				08B7053F183187C700868E38 /* BaseVariableViewController.m in Sources */,
 				082D1EDB17E8D2DC00723EB3 /* RCRmdParser.m in Sources */,
 				08D243EB15B5D7590064A9FA /* SessionEditView.m in Sources */,
 				08D243EC15B5D7590064A9FA /* StudentAssignmentCell.m in Sources */,
@@ -2913,6 +2924,7 @@
 				08C99AC315EE9CDF002D430D /* Rc2FileType.m in Sources */,
 				08BDDDAC17EA48AB00E669E3 /* NSPersistentStore+MagicalRecord.m in Sources */,
 				082D1ED717E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */,
+				08B7053C183181C200868E38 /* VariableListController.m in Sources */,
 				08BDDD9C17EA48AB00E669E3 /* NSManagedObject+MagicalFinders.m in Sources */,
 				08B705381831648500868E38 /* RCList.m in Sources */,
 				082CEEC0161F685900E01F48 /* RCVariable.m in Sources */,

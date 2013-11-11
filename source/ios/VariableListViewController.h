@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 West Virginia University. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseVariableViewController.h"
 
 @class RCSession;
 
-@interface VariableListViewController : UITableViewController<UITableViewDataSource,UITableViewDelegate,UIPopoverControllerDelegate>
+@interface VariableListViewController : BaseVariableViewController<UITableViewDataSource,UITableViewDelegate,UIPopoverControllerDelegate>
 @property (nonatomic, strong) RCSession *session;
 -(void)variablesUpdated;
 @end
