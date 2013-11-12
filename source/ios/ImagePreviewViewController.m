@@ -107,7 +107,9 @@
 {
 	[self.curImageToken remove];
 	RCImage *img = self.images[self.currentIndex];
-	self.imageView.image = img.image;
+	[UIView transitionWithView:self.imageView duration:0.25 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+		self.imageView.image = img.image;
+	} completion:nil];
 	self.nameLabel.text = img.name;
 	self.pageControl.numberOfPages = self.images.count;
 	self.pageControl.currentPage = self.currentIndex;
