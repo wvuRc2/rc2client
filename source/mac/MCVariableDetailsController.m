@@ -7,6 +7,7 @@
 //
 
 #import "MCVariableDetailsController.h"
+#import "RCMAppConstants.h"
 #import "RCVariable.h"
 #import "RCList.h"
 #import "RCMSyntaxHighlighter.h"
@@ -19,6 +20,7 @@
 @property (nonatomic, weak) IBOutlet NSTextField *nameLabel;
 @property (nonatomic, weak) IBOutlet NSTextField *typeLabel;
 @property (nonatomic, strong) IBOutlet NSTextView *functionTextView;
+@property (nonatomic, weak) IBOutlet NSPathControl *listPathControl;
 @property BOOL isSS;
 @end
 
@@ -69,49 +71,71 @@
 	return NO;
 }
 
+-(void)animateToCorrectNameControl:(BOOL)isList
+{
+	self.nameLabel.alphaValue = isList ? 0 : 1;
+	self.listPathControl.alphaValue = isList ? 1 : 0;
+/*	if (!_didInit)
+		return;
+	if (isList && self.listPathControl.alphaValue > 0)
+		return;
+	if (!isList && self.nameLabel.alphaValue > 0)
+		return;
+	NSMutableArray *animations = [NSMutableArray arrayWithCapacity:2];
+	NSView *outView = isList ? self.nameLabel : self.listPathControl;
+	NSView *inView = isList ? self.listPathControl : self.nameLabel;
+	[animations addObject:@{NSViewAnimationTargetKey: outView, NSViewAnimationEffectKey:NSViewAnimationFadeOutEffect}];
+	[animations addObject:@{NSViewAnimationTargetKey: inView, NSViewAnimationEffectKey:NSViewAnimationFadeInEffect}];
+	NSViewAnimation *anim = [[NSViewAnimation alloc] initWithViewAnimations:animations];
+	anim.duration = 0.3;
+	[anim startAnimation]; */
+}
+
 -(void)adjustForVariable
 {
 	@synchronized(self) {
-	self.nameLabel.stringValue = self.variable.name;
-	self.typeLabel.stringValue = self.variable.description;
-	_isSS = NO;
-	switch (self.variable.type) {
-		case eVarType_Primitive:
-		case eVarType_Factor:
-			[self.tabView selectTabViewItemWithIdentifier:@"basic"];
-			[self.simpleTableView reloadData];
-			_contentWidth = 200;
-			break;
-		case eVarType_List:
-			[self.tabView selectTabViewItemWithIdentifier:@"list"];
-			[self.listTableView reloadData];
-			if ([(RCList*)self.variable hasNames])
-				[(NSTableColumn*)[self.listTableView tableColumnWithIdentifier:@"listhead"] setWidth:90];
-			else
-			[(NSTableColumn*)[self.listTableView tableColumnWithIdentifier:@"listhead"] setWidth:30];
-			_contentWidth = 300;
-			break;
-		case eVarType_DataFrame:
-		case eVarType_Matrix:
-			_isSS = YES;
-			[self.tabView selectTabViewItemWithIdentifier:@"dataFrame"];
-			[self adjustForDataFrame];
-			[self.ssTableView reloadData];
-			break;
-		case eVarType_Function:
-			[self.tabView selectTabViewItemWithIdentifier:@"function"];
-			self.functionTextView.string = @"";
-			[self.functionTextView.textStorage appendAttributedString:[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:[NSAttributedString attributedStringWithString:self.variable.functionBody attributes:nil] ofType:@"R"]];
-			_contentWidth = 500;
-			break;
-		case eVarType_Array:
-		case eVarType_Environment:
-		case eVarType_S3Object:
-		case eVarType_S4Object:
-		case eVarType_Unknown:
-		case eVarType_Vector:
-			break;
-	}
+		self.nameLabel.stringValue = self.variable.name;
+		self.typeLabel.stringValue = self.variable.description;
+		_isSS = NO;
+		switch (self.variable.type) {
+			case eVarType_Primitive:
+			case eVarType_Factor:
+				[self.tabView selectTabViewItemWithIdentifier:@"basic"];
+				[self.simpleTableView reloadData];
+				_contentWidth = 200;
+				break;
+			case eVarType_List:
+				[self.tabView selectTabViewItemWithIdentifier:@"list"];
+				[self.listTableView reloadData];
+				if ([(RCList*)self.variable hasNames])
+					[(NSTableColumn*)[self.listTableView tableColumnWithIdentifier:@"listhead"] setWidth:90];
+				else
+				[(NSTableColumn*)[self.listTableView tableColumnWithIdentifier:@"listhead"] setWidth:30];
+				_contentWidth = 300;
+				self.listPathControl.pathComponentCells = @[[NSPathComponentCell pathCellWithTitle:self.variable.name]];
+				break;
+			case eVarType_DataFrame:
+			case eVarType_Matrix:
+				_isSS = YES;
+				[self.tabView selectTabViewItemWithIdentifier:@"dataFrame"];
+				[self adjustForDataFrame];
+				[self.ssTableView reloadData];
+				break;
+			case eVarType_Function:
+				[self.tabView selectTabViewItemWithIdentifier:@"function"];
+				self.functionTextView.string = @"";
+				[self.functionTextView.textStorage appendAttributedString:[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:[NSAttributedString attributedStringWithString:self.variable.functionBody attributes:nil] ofType:@"R"]];
+				_contentWidth = 500;
+				break;
+			case eVarType_Array:
+			case eVarType_Environment:
+			case eVarType_S3Object:
+			case eVarType_S4Object:
+			case eVarType_Unknown:
+			case eVarType_Vector:
+				break;
+		}
+		[self animateToCorrectNameControl:self.variable.type == eVarType_List];
 	}
 }
 
@@ -186,7 +210,7 @@
 -(void)setVariable:(RCVariable *)variable
 {
 	_variable = variable;
-	[self adjustForVariable];
+//	[self adjustForVariable];
 }
 
 @end

@@ -26,3 +26,14 @@ NSString * const RCMToolbarItem_Users = @"RCMToolbarItem_Users";
 	return supressKeys;
 }
 @end
+
+@implementation NSPathComponentCell (RC2Helpers)
+
++(instancetype)pathCellWithTitle:(NSString*)title
+{
+	NSPathComponentCell *cell = [[NSPathComponentCell alloc] init];
+	cell.title = [NSString stringWithFormat:@" %@ ", title];
+	return cell;
+}
+
+@end

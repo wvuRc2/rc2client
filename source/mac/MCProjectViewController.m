@@ -14,6 +14,7 @@
 #import "MCMainWindowController.h"
 #import "MCProjectCollectionItem.h"
 #import "ThemeEngine.h"
+#import "RCMAppConstants.h"
 
 @interface MCProjectView : AMControlledView
 
@@ -39,7 +40,7 @@
 -(void)awakeFromNib
 {
 	self.pathCells = [NSMutableArray arrayWithCapacity:4];
-	[self.pathCells addObject:[self pathCellWithTitle:@"Projects"]];
+	[self.pathCells addObject:[NSPathComponentCell pathCellWithTitle:@"Projects"]];
 	[self.pathControl setPathComponentCells:self.pathCells];
 	self.arrayController.content = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	__weak __typeof(self) blockSelf = self;
@@ -72,13 +73,6 @@
 		return selObj != nil;
 	}
 	return NO;
-}
-
--(NSPathComponentCell*)pathCellWithTitle:(NSString*)title
-{
-	NSPathComponentCell *cell = [[NSPathComponentCell alloc] init];
-	cell.title = title;
-	return cell;
 }
 
 -(BOOL)showingProjects
@@ -136,7 +130,7 @@
 -(void)displayTopLevel
 {
 	[self.pathCells removeAllObjects];
-	[self.pathCells addObject:[self pathCellWithTitle:@"Project"]];
+	[self.pathCells addObject:[NSPathComponentCell pathCellWithTitle:@"Project"]];
 	[self.pathControl setPathComponentCells:self.pathCells];
 	self.arrayController.content = [[[Rc2Server sharedInstance] projects] mutableCopy];
 	dispatch_async(dispatch_get_main_queue(), ^{
@@ -263,7 +257,7 @@
 
 -(void)replaceItemsWithChildrenOf:(RCProject*)project
 {
-	[self.pathCells addObject:[self pathCellWithTitle:project.name]];
+	[self.pathCells addObject:[NSPathComponentCell pathCellWithTitle:project.name]];
 	[self.pathControl setPathComponentCells:self.pathCells];
 	[self.arrayController removeObjects:self.arrayController.arrangedObjects];
 	if (project.workspaces.count > 0)

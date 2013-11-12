@@ -615,11 +615,19 @@
 
 -(void)showVariableDetails:(id)sender
 {
-	if (self.variablePopover.isShown) {
-		[self.variablePopover close];
-		return;
-	}
 	RCVariable *variable = [self.variableHelper.data objectAtIndex:self.varTableView.selectedRow];
+	NSSize previousContentSize = NSZeroSize;
+	if (self.variablePopover.isShown) {
+		previousContentSize = self.variablePopover.contentSize;
+		//see if it is a click on the same variable
+		BOOL isSame = self.varableDetailsController.variable == variable;
+		[self.variablePopover close];
+		self.varableDetailsController=nil;
+		self.variablePopover=nil;
+		if (isSame)
+			return;
+	}
+
 	if (nil == variable || ![variable isKindOfClass:[RCVariable class]])
 		return; //skip section rows
 	if (variable.count == 1 && variable.primitiveType != ePrimType_Unknown)
@@ -635,6 +643,8 @@
 	self.variablePopover.contentViewController = self.varableDetailsController;
 	self.varableDetailsController.variable = variable;
 	NSRect r = [self.varTableView rectOfRow:self.varTableView.selectedRow];
+	if (previousContentSize.width > 0)
+		self.variablePopover.contentSize = previousContentSize;
 	[self.variablePopover showRelativeToRect:r ofView:self.varTableView preferredEdge:NSMaxXEdge];
 	self.variablePopover.contentSize = [self.varableDetailsController calculateContentSize:self.variablePopover.contentSize];
 }

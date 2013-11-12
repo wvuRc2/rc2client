@@ -37,3 +37,7 @@ extern NSString * const RCMToolbarItem_Users;
 //array of all preference keys that should be removed when users chooses to reset all warnings
 +(NSArray*)alertSupressionKeys;
 @end
+
+@interface NSPathComponentCell (RC2Helpers)
++(instancetype)pathCellWithTitle:(NSString*)title;
+@end
