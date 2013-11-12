@@ -19,10 +19,10 @@
             <rect key="frame" x="0.0" y="0.0" width="740" height="596"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4">
                     <rect key="frame" x="20" y="49" width="700" height="501"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <clipView key="contentView" id="5aD-g9-7Nx">
+                    <clipView key="contentView" misplaced="YES" id="5aD-g9-7Nx">
                         <rect key="frame" x="1" y="1" width="698" height="499"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -79,13 +79,13 @@
                         <binding destination="14" name="enabled" keyPath="canAdd" id="77"/>
                     </connections>
                 </button>
-                <pathControl focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22">
-                    <rect key="frame" x="19" y="557" width="598" height="20"/>
+                <pathControl focusRingType="none" verticalHuggingPriority="750" misplaced="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22">
+                    <rect key="frame" x="20" y="558" width="596" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="596" id="39"/>
                     </constraints>
-                    <pathCell key="cell" controlSize="small" selectable="YES" focusRingType="none" alignment="left" pathStyle="navigationBar" id="23">
+                    <pathCell key="cell" controlSize="small" selectable="YES" focusRingType="none" alignment="left" id="23">
                         <font key="font" metaFont="smallSystem"/>
                         <url key="url" string="Top/Project/Workspace">
                             <url key="baseURL" string="file://localhost/"/>

@@ -32,7 +32,7 @@ NSString * const RCMToolbarItem_Users = @"RCMToolbarItem_Users";
 +(instancetype)pathCellWithTitle:(NSString*)title
 {
 	NSPathComponentCell *cell = [[NSPathComponentCell alloc] init];
-	cell.title = [NSString stringWithFormat:@" %@ ", title];
+	cell.title = title;
 	return cell;
 }
 

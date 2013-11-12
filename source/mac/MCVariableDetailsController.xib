@@ -373,7 +373,7 @@
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" id="47">
-                    <rect key="frame" x="17" y="338" width="166" height="17"/>
+                    <rect key="frame" x="20" y="338" width="166" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" placeholderString="data type" id="48">
                         <font key="font" metaFont="system"/>
@@ -382,10 +382,10 @@
                     </textFieldCell>
                 </textField>
                 <pathControl verticalHuggingPriority="750" allowsExpansionToolTips="YES" id="d8c-cz-ih9">
-                    <rect key="frame" x="19" y="362" width="362" height="20"/>
+                    <rect key="frame" x="16" y="365" width="362" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <pathCell key="cell" controlSize="small" selectable="YES" alignment="left" placeholderString="/var/var/var" pathStyle="navigationBar" id="otA-Ce-xdu">
-                        <font key="font" metaFont="smallSystem"/>
+                    <pathCell key="cell" controlSize="small" lineBreakMode="truncatingMiddle" selectable="YES" alignment="left" placeholderString="/var/var/var" id="otA-Ce-xdu">
+                        <font key="font" size="13" name="LucidaGrande-Bold"/>
                     </pathCell>
                 </pathControl>
             </subviews>

@@ -113,6 +113,9 @@
 				[(NSTableColumn*)[self.listTableView tableColumnWithIdentifier:@"listhead"] setWidth:30];
 				_contentWidth = 300;
 				self.listPathControl.pathComponentCells = @[[NSPathComponentCell pathCellWithTitle:self.variable.name]];
+				[self.listPathControl.pathComponentCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+					[obj setFont:[NSFont boldSystemFontOfSize:13]];
+				}];
 				break;
 			case eVarType_DataFrame:
 			case eVarType_Matrix:
@@ -210,7 +213,7 @@
 -(void)setVariable:(RCVariable *)variable
 {
 	_variable = variable;
-//	[self adjustForVariable];
+	[self adjustForVariable];
 }
 
 @end
