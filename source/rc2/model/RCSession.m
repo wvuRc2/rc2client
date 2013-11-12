@@ -15,7 +15,7 @@
 #endif
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
-#import "RCVariable.h"
+#import "RCList.h"
 #import "RCProject.h"
 #import "RCFile.h"
 #import "Rc2FileType.h"
@@ -43,6 +43,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 @property (nonatomic, assign, readwrite) BOOL hasWritePerm;
 @property (nonatomic, strong) NSTimer *keepAliveTimer;
 @property (nonatomic, strong) NSDate *timeOfLastTraffic;
+@property (nonatomic, strong) NSMutableDictionary *listVariableCallbacks;
 -(void)keepAliveTimerFired:(NSTimer*)timer;
 @end
 
@@ -149,10 +150,21 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	_ws=nil;
 }
 
+#pragma mark - remote calls
+
+-(void)requestListVariableData:(RCList*)list block:(RCSessionListUpdateBlock)block
+{
+	if (nil == self.listVariableCallbacks)
+		self.listVariableCallbacks = [NSMutableDictionary dictionary];
+	NSString *uuid = [NSString stringWithUUID];
+	[self.listVariableCallbacks setObject:@{@"block":[block copy],@"list":list} forKey:uuid];
+	[_ws sendText:[@{@"cmd":@"getVariable", @"variable":list.fullyQualifiedName, @"uuid":uuid} JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
+}
+
 -(void)requestModeChange:(NSString*)newMode
 {
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"setmode", @"cmd", newMode, @"mode", nil];
-	[_ws sendText:[dict JSONRepresentation]];
+	[_ws sendText:[@{@"cmd":@"setmode", @"mode":newMode} JSONRepresentation]];
 	self.timeOfLastTraffic = [NSDate date];
 }
 
@@ -261,6 +273,8 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	[_ws sendText:[dict JSONRepresentation]];
 }
 
+#pragma mark - meat & potatos
+
 -(void)setDelegate:(id<RCSessionDelegate>)del
 {
 	ZAssert(nil == del || [del conformsToProtocol:@protocol(RCSessionDelegate)], @"delegate not valid");
@@ -359,6 +373,18 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	[self.delegate variablesUpdated];
 }
 
+-(void)handleVariableValue:(NSDictionary*)dict
+{
+	NSDictionary *cbackDict = [self.listVariableCallbacks objectForKey:dict[@"uuid"]];
+	if (cbackDict) {
+		RCSessionListUpdateBlock block = cbackDict[@"block"];
+		RCList *list = cbackDict[@"list"];
+		[list assignListData:dict[@"value"]];
+		block(list);
+		[self.listVariableCallbacks removeObjectForKey:dict[@"uuid"]];
+	}
+}
+
 -(NSString*)escapeForJS:(NSString*)str
 {
 	if ([str isKindOfClass:[NSString class]]) {
@@ -440,6 +466,8 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 			[self.workspace refreshFiles];
 	} else if ([cmd isEqualToString:@"variableupdate"]) {
 		[self updateVariables:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
+	} else if ([cmd isEqualToString:@"variablevalue"]) {
+		[self handleVariableValue:dict];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpstr = [NSString stringWithFormat:@"HELP: %@", dict[@"helpTopic"]];
@@ -448,9 +476,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 			NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.stat.wvu.edu/rc2/%@.html", helpPath]];
 			[self.delegate loadHelpURL:helpUrl];
 		} else if ([dict objectForKey:@"complexResults"]) {
-			NSLog(@"complexResults!");
-//			if (self.showResultDetails)
-//				js = [NSString stringWithFormat:@"iR.appendComplexResults(%@)", [self escapeForJS:[dict objectForKey:@"json"]]];
+NSLog(@"complexResults!");
 		} else if ([dict objectForKey:@"json"]) {
 			NSLog(@"json results!");
 			if (self.showResultDetails)

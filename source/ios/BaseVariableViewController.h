@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @class RCVariable;
+@class RCSession;
 
 @interface BaseVariableViewController : UITableViewController
+@property (nonatomic, strong) RCSession *session;
 -(void)showVariableDetails:(RCVariable*)var;
 @end

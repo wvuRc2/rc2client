@@ -63,4 +63,9 @@
 	return [self.variable valueAtRow:row column:col];
 }
 
+-(void)setVariable:(id<RCSpreadsheetData>)variable
+{
+	_variable = variable;
+	[self.dataView setNeedsLayout];
+}
 @end

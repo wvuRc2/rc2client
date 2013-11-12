@@ -99,4 +99,9 @@
 	return 44;
 }
 
+-(void)setVariable:(RCVariable *)variable
+{
+	_variable = variable;
+	[self.tableView reloadData];
+}
 @end

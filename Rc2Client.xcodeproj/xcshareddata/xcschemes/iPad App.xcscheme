@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3FDC5820FFC4BFC00F1F797"
-               BuildableName = "liblibParseKitMobile.a"
+               BuildableName = "libParseKitMobile.a"
                BlueprintName = "libParseKitMobile"
                ReferencedContainer = "container:Dependencies/ParseKit/ParseKit.xcodeproj">
             </BuildableReference>

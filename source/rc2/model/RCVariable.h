@@ -35,6 +35,8 @@ typedef enum {
 	eVarType_S4Object
 } RCVariableType;
 
+@class RCList;
+
 @interface RCVariable : NSObject
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, copy, readonly) NSString *className; //from R
@@ -49,6 +51,8 @@ typedef enum {
 @property (nonatomic, readonly) BOOL isDateTime;
 @property (nonatomic) BOOL justUpdated; //for client to manage, not used internally
 
+@property (nonatomic, weak) RCList *parentList;
+	
 @property (nonatomic, readonly) NSInteger length; //how many items on server
 @property (nonatomic, readonly) NSInteger count; //how many are accessible via valueAtIndex:
 

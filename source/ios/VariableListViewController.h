@@ -11,6 +11,5 @@
 @class RCSession;
 
 @interface VariableListViewController : BaseVariableViewController<UITableViewDataSource,UITableViewDelegate,UIPopoverControllerDelegate>
-@property (nonatomic, strong) RCSession *session;
 -(void)variablesUpdated;
 @end

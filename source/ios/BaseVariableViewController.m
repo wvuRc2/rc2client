@@ -10,6 +10,8 @@
 #import "VariableSpreadsheetController.h"
 #import "VariableListController.h"
 #import "VariableDetailViewController.h"
+#import "RCSession.h"
+#import "RCList.h"
 
 @interface BaseVariableViewController ()
 
@@ -24,14 +26,20 @@
 		ssheet.variable = (id)var;
 		[self.navigationController pushViewController:ssheet animated:YES];
 	} else if (var.type == eVarType_List) {
+		RCList *list = (RCList*)var;
 		VariableListController *vlc = [[VariableListController alloc] init];
-		vlc.listVariable = (RCList*)var;
+		vlc.listVariable = list;
+		vlc.session = self.session;
 		[self.navigationController pushViewController:vlc animated:YES];
+		if (!list.hasValues) {
+			[self.session requestListVariableData:list block:^(RCList *aList) {
+				vlc.listVariable = aList;
+			}];
+		}
 	} else {
 		VariableDetailViewController *detail = [[VariableDetailViewController alloc] init];
 		detail.variable = var;
 		[self.navigationController pushViewController:detail animated:YES];
 	}
-
 }
 @end

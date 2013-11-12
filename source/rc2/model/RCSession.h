@@ -15,6 +15,7 @@
 @class Rc2FileType;
 @class RCImage;
 @class RCSessionUser;
+@class RCList;
 
 extern NSString * const RC2WebSocketErrorDomain;
 
@@ -31,6 +32,8 @@ typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
 	RCSessionExecuteOptionNone,
 	RCSessionExecuteOptionSource
 };
+
+typedef void(^RCSessionListUpdateBlock)(RCList*);
 
 @interface RCSession : NSObject
 @property (nonatomic, strong, readonly) RCWorkspace *workspace;
@@ -62,6 +65,7 @@ typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
 
 -(RCSessionUser*)userWithSid:(NSNumber*)sid;
 
+-(void)requestListVariableData:(RCList*)list block:(RCSessionListUpdateBlock)block;
 -(void)requestModeChange:(NSString*)newMode;
 -(void)executeScript:(NSString*)script scriptName:(NSString*)sname options:(RCSessionExecuteOptions)options;
 -(void)executeScript:(NSString*)script scriptName:(NSString*)sname;

@@ -27,6 +27,8 @@
 	UINib *nib = [UINib nibWithNibName:@"BasicVariableCell" bundle:nil];
 	[self.tableView registerNib:nib forCellReuseIdentifier:@"basicValueCell"];
 	self.navigationItem.title = self.listVariable.name;
+	if (self.navigationItem.title.length < 1)
+		self.navigationItem.title = self.listVariable.fullyQualifiedName;
 	__weak VariableListController *bself = self;
 	[[NSNotificationCenter defaultCenter] addObserverForName:UIContentSizeCategoryDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note)
 	 {
@@ -65,4 +67,9 @@
 	[self showVariableDetails:var];
 }
 
+-(void)setListVariable:(RCList *)listVariable
+{
+	_listVariable = listVariable;
+	[self.tableView reloadData];
+}
 @end

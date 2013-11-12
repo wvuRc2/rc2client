@@ -17,10 +17,19 @@
 -(id)initWithDictionary:(NSDictionary*)dict
 {
 	if ((self = [super initWithDictionary:dict])) {
-		NSMutableArray *listVals = [NSMutableArray arrayWithCapacity:[dict[@"length"] integerValue]];
-		[dict[@"value"] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		[self assignListData:dict];
+	}
+	return self;
+}
+
+-(void)assignListData:(NSDictionary*)dict
+{
+	NSMutableArray *listVals = [NSMutableArray arrayWithCapacity:[dict[@"length"] integerValue]];
+	NSArray *dictValues = dict[@"value"];
+	if (dictValues) {
+		[dictValues enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 			NSDictionary *aDict = obj;
-			if (nil == [aDict objectForKey:@"name"]) {
+			if ([[aDict objectForKey:@"name"] isKindOfClass:[NSNull class]]) {
 				NSMutableDictionary *mdict = [aDict mutableCopy];
 				if (self.hasNames)
 					[mdict setObject:[self nameAtIndex:idx] forKey:@"name"];
@@ -29,16 +38,28 @@
 				aDict = mdict;
 			}
 			RCVariable *aVar = [RCVariable variableWithDictionary:aDict];
+			aVar.parentList = self;
 			[listVals addObject:aVar];
 		}];
-		self.names = dict[@"names"];
-		if (self.names.count == 1 && self.names[0] == [NSNull null])
-			self.names = nil;
 		self.values = listVals;
 	}
-	return self;
+	self.names = dict[@"names"];
+	if (self.names.count == 1 && self.names[0] == [NSNull null])
+		self.names = nil;
 }
 
+-(NSInteger)indexOfVariable:(RCVariable*)var
+{
+	return [self.values indexOfObject:var];
+}
+
+-(NSString*)fullyQualifiedName
+{
+	if (nil == self.parentList)
+		return self.name;
+	return [NSString stringWithFormat:@"%@[%ld]", self.parentList.fullyQualifiedName, (unsigned long)[self.parentList indexOfVariable:self]+1];
+}
+	
 -(NSString*)nameAtIndex:(NSUInteger)index
 {
 	if (nil == self.names || self.names.count <= index)
@@ -51,4 +72,8 @@
 	return nil != self.names && self.names.count > 0;
 }
 
+-(BOOL)hasValues
+{
+	return self.values != nil;
+}
 @end
