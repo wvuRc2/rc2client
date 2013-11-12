@@ -333,6 +333,7 @@
 				[imgArray addObject:img];
 				if ([img.imageId isEqualToNumber:imgAttachment.imageId])
 					selImage = img;
+				[img image]; //start async loading
 			}
 		}
 	}];

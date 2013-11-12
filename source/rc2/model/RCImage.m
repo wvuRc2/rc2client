@@ -10,6 +10,7 @@
 
 @interface RCImage ()
 @property (nonatomic, strong) NSCache *imgCache; //so the image object can be purged if memory is low
+@property (atomic) BOOL isLoadingImage;
 @end
 
 #define kImageKey @"image"
@@ -38,8 +39,9 @@ NSString *RCImageLoadingNeededNotification = @"RCImageLoadingNeededNotification"
 -(ImageClass*)image
 {
 	ImageClass *img = [self.imgCache objectForKey:kImageKey];
-	if (nil == img) {
+	if (nil == img && !self.isLoadingImage) {
 		///need to load from filesystem
+		self.isLoadingImage = YES;
 		[[NSNotificationCenter defaultCenter] postNotificationName:RCImageLoadingNeededNotification object:self];
 		img = [self.imgCache objectForKey:kImageKey];
 	}
@@ -54,6 +56,7 @@ NSString *RCImageLoadingNeededNotification = @"RCImageLoadingNeededNotification"
 		[self.imgCache removeObjectForKey:kImageKey];
 	else
 		[self.imgCache setObject:anImage forKey:kImageKey];
+	self.isLoadingImage = NO;
 }
 
 -(NSString*)fullPath
@@ -73,4 +76,5 @@ NSString *RCImageLoadingNeededNotification = @"RCImageLoadingNeededNotification"
 }
 
 @synthesize imgCache;
+@synthesize isLoadingImage;
 @end

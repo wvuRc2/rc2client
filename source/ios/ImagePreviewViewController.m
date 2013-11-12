@@ -13,6 +13,7 @@
  */
 #import "ImagePreviewViewController.h"
 #import "RCImage.h"
+#import "MAKVONotificationCenter.h"
 
 #define kViewWidth 416
 #define kViewHeight 458
@@ -26,6 +27,7 @@
 @property (nonatomic, weak) IBOutlet UIPageControl *pageControl;
 @property (nonatomic, strong) UIToolbar *blurToolbar;
 @property (nonatomic, strong) UIImageView *animationImage;
+@property (nonatomic, strong) id<MAKVOObservation> curImageToken;
 @end
 
 @interface ImagePreviewView : UIView
@@ -103,11 +105,15 @@
 
 -(void)loadCurrentImage
 {
+	[self.curImageToken remove];
 	RCImage *img = self.images[self.currentIndex];
 	self.imageView.image = img.image;
 	self.nameLabel.text = img.name;
 	self.pageControl.numberOfPages = self.images.count;
 	self.pageControl.currentPage = self.currentIndex;
+	self.curImageToken = [self observeTarget:img keyPath:@"image" options:0 block:^(MAKVONotification *notification) {
+		[self loadCurrentImage];
+	}];
 }
 
 -(void)swipeLeft:(UISwipeGestureRecognizer*)gesture
