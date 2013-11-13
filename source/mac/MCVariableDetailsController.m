@@ -29,15 +29,12 @@
 	}
 	return self;
 }
-/*
--(void)awakeFromNib
+
+-(void)dealloc
 {
-	if (self.variable) {
-		self.typeLabel.stringValue = self.variable.description;
-		[self adjustForVariable];
-	}
+	[self.view removeFromSuperview];
 }
-*/
+
 -(void)adjustForVariable
 {
 	@synchronized(self) {
@@ -160,7 +157,7 @@
 	RCVariable *subvariable = [self.variable valueAtIndex:idx];
 	if (subvariable.count == 1 && subvariable.primitiveType != ePrimType_Unknown)
 		return; //skip primitives with a single value
-	
+	[self.variableDelegate showVariableDetails:subvariable];
 }
 
 -(id<RCSpreadsheetData>)ssData { return (id)_variable; }
@@ -169,6 +166,11 @@
 {
 	_variable = variable;
 	[self adjustForVariable];
+}
+
+-(NSString*)debugDescription
+{
+	return [[super debugDescription] stringByAppendingFormat:@"var=%@", self.variable];
 }
 
 @end

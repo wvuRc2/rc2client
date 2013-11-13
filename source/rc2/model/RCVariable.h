@@ -39,6 +39,7 @@ typedef enum {
 
 @interface RCVariable : NSObject
 @property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, copy, readonly) NSString *fullyQualifiedName; //foo[0][2][3] etc.
 @property (nonatomic, copy, readonly) NSString *className; //from R
 @property (nonatomic, readonly) NSString *description; //want different value for debugger
 @property (nonatomic, readonly) NSString *summary;

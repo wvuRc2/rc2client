@@ -89,6 +89,7 @@
 @property (nonatomic, strong) MCVariableDisplayController *varableDetailsController;
 @property (nonatomic, strong) RCDropboxSync *dbsync;
 @property (nonatomic, assign) NSTimeInterval lastParseTime;
+@property (nonatomic, copy) NSString *workspaceTitle;
 @property BOOL importToProject;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL shouldReconnect;
@@ -157,6 +158,9 @@
 		self.fileActionPopUp.menu.delegate = self.fileHelper;
 		self.fileTableView.menu = self.fileActionPopUp.menu;
 		self.fileTableView.amSelectOnMenuEvent = YES;
+		//the project is weak refererenced by workspace, so it could cause kvo errors. since it won't change, we statically
+		// set it once
+		self.workspaceTitle = [NSString stringWithFormat:@"%@:%@", self.session.workspace.project.name, self.session.workspace.name];
 		self.addMenu = [[NSMenu alloc] initWithTitle:@"Add a File"];
 		[self.addMenu setAutoenablesItems:NO];
 		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"New File…" action:@selector(createNewFile:) keyEquivalent:@""];
@@ -632,8 +636,10 @@
 		return; //skip section rows
 	if (variable.count == 1 && variable.primitiveType != ePrimType_Unknown)
 		return; //skip primitives with a single value
-	if (nil == self.varableDetailsController)
+	if (nil == self.varableDetailsController) {
 		self.varableDetailsController = [[MCVariableDisplayController alloc] init];
+		self.varableDetailsController.session = self.session;
+	}
 	if (![self.varableDetailsController variableSupported:variable])
 		return;
 	if (nil == self.variablePopover) {
@@ -642,6 +648,7 @@
 	}
 	self.variablePopover.contentViewController = self.varableDetailsController;
 	self.varableDetailsController.variable = variable;
+	self.varableDetailsController.popover = self.variablePopover;
 	NSRect r = [self.varTableView rectOfRow:self.varTableView.selectedRow];
 	if (previousContentSize.width > 0)
 		self.variablePopover.contentSize = previousContentSize;

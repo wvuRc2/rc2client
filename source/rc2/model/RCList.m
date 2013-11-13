@@ -53,13 +53,6 @@
 	return [self.values indexOfObject:var];
 }
 
--(NSString*)fullyQualifiedName
-{
-	if (nil == self.parentList)
-		return self.name;
-	return [NSString stringWithFormat:@"%@[%ld]", self.parentList.fullyQualifiedName, (unsigned long)[self.parentList indexOfVariable:self]+1];
-}
-	
 -(NSString*)nameAtIndex:(NSUInteger)index
 {
 	if (nil == self.names || self.names.count <= index)

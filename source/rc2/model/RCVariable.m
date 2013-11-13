@@ -204,6 +204,14 @@
 
 #pragma mark - accessors
 
+-(NSString*)fullyQualifiedName
+{
+	if (nil == self.parentList)
+		return self.name;
+	return [NSString stringWithFormat:@"%@[%ld]", self.parentList.fullyQualifiedName, (unsigned long)[self.parentList indexOfVariable:self]+1];
+}
+
+
 -(NSInteger)count
 {
 	return self.values.count;

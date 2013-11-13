@@ -13,7 +13,7 @@
 -(BOOL)hasNames;
 -(BOOL)hasValues;
 
--(NSString*)fullyQualifiedName; //foo[0][2][3] etc.
+-(NSInteger)indexOfVariable:(RCVariable*)var;
 
 //basicallly initializes the list again. Used for nested lists when their data is fetched
 -(void)assignListData:(NSDictionary*)dict;

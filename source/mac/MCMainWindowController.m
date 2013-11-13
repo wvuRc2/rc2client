@@ -52,6 +52,13 @@
 	self.navController.delegate = (id)self;
 	RCMacToolbarItem *addItem = [self.window.toolbar.items firstObjectWithValue:RCMToolbarItem_Add forKey:@"itemIdentifier"];
 	addItem.actionMenu = self.addToolbarMenu;
+	//if the list of projects is refreshed, the current session will be referencing a dealloced project since the workspace
+	// keeps a weak reference
+	__weak MCMainWindowController *bself = self;
+	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
+		if (bself.currentSessionController && nil == bself.currentSessionController.view.window)
+			bself.currentSessionController = nil;
+	}];
 }
 
 -(void)windowWillClose:(NSNotification *)note
