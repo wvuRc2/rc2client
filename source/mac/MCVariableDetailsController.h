@@ -13,4 +13,5 @@
 @interface MCVariableDetailsController : NSViewController
 @property (nonatomic, strong) RCVariable *variable;
 @property (nonatomic, readonly) CGFloat contentWidth;
+-(NSSize)calculateContentSize:(NSSize)curSize;
 @end
