@@ -31,7 +31,7 @@
 #import "RCImageCache.h"
 #import "NoodleLineNumberView.h"
 #import "MCSessionView.h"
-#import "MCVariableDetailsController.h"
+#import "MCVariableDisplayController.h"
 #import "MCSessionFileController.h"
 #import "MAKVONotificationCenter.h"
 #import "MCTableRowView.h"
@@ -86,7 +86,7 @@
 @property (nonatomic, strong) MLReachability *serverReach;
 @property (nonatomic, strong) RCMMultiImageController *multiImageController;
 @property (nonatomic, strong) NSPopover *variablePopover;
-@property (nonatomic, strong) MCVariableDetailsController *varableDetailsController;
+@property (nonatomic, strong) MCVariableDisplayController *varableDetailsController;
 @property (nonatomic, strong) RCDropboxSync *dbsync;
 @property (nonatomic, assign) NSTimeInterval lastParseTime;
 @property BOOL importToProject;
@@ -633,7 +633,7 @@
 	if (variable.count == 1 && variable.primitiveType != ePrimType_Unknown)
 		return; //skip primitives with a single value
 	if (nil == self.varableDetailsController)
-		self.varableDetailsController = [[MCVariableDetailsController alloc] init];
+		self.varableDetailsController = [[MCVariableDisplayController alloc] init];
 	if (![self.varableDetailsController variableSupported:variable])
 		return;
 	if (nil == self.variablePopover) {

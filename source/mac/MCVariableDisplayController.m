@@ -1,54 +1,108 @@
 //
-//  MCVariableDetailsController.m
+//  MCVariableDisplayController.m
 //  Rc2Client
 //
-//  Created by Mark Lilback on 11/13/13.
+//  Created by Mark Lilback on 5/8/13.
 //  Copyright (c) 2013 West Virginia University. All rights reserved.
 //
 
-#import "MCVariableDetailsController.h"
+#import "MCVariableDisplayController.h"
+#import "RCMAppConstants.h"
+#import "RCVariable.h"
 #import "RCList.h"
 #import "RCMSyntaxHighlighter.h"
 
-@interface MCVariableDetailsController() <NSTableViewDataSource,NSTableViewDelegate>
-@property (nonatomic, weak) IBOutlet NSTextField *typeLabel;
+@interface MCVariableDisplayController () <NSTableViewDataSource, NSTableViewDelegate>
 @property (nonatomic, weak) IBOutlet NSTabView *tabView;
 @property (nonatomic, weak) IBOutlet NSTableView *simpleTableView;
 @property (nonatomic, weak) IBOutlet NSTableView *ssTableView;
 @property (nonatomic, weak) IBOutlet NSTableView *listTableView;
+@property (nonatomic, weak) IBOutlet NSTextField *nameLabel;
+@property (nonatomic, weak) IBOutlet NSTextField *typeLabel;
 @property (nonatomic, strong) IBOutlet NSTextView *functionTextView;
-@property (nonatomic, readwrite) CGFloat contentWidth;
+@property (nonatomic, weak) IBOutlet NSPathControl *listPathControl;
 @property BOOL isSS;
 @end
 
-@implementation MCVariableDetailsController
+@implementation MCVariableDisplayController {
+	NSInteger _contentWidth;
+	BOOL _didInit;
+}
 
 -(id)init
 {
 	if ((self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil])) {
+		_contentWidth = 200;
 	}
 	return self;
 }
-/*
+
 -(void)awakeFromNib
 {
-	if (self.variable) {
-		self.typeLabel.stringValue = self.variable.description;
-		[self adjustForVariable];
+	if (!_didInit) {
+		if (self.variable) {
+			self.nameLabel.stringValue = self.variable.name;
+			self.typeLabel.stringValue = self.variable.description;
+			[self adjustForVariable];
+		}
+		_didInit=YES;
 	}
 }
-*/
+
+-(BOOL)variableSupported:(RCVariable*)var
+{
+	switch (var.type) {
+		case eVarType_Primitive:
+		case eVarType_DataFrame:
+		case eVarType_Function:
+		case eVarType_Factor:
+		case eVarType_List:
+		case eVarType_Matrix:
+			return YES;
+
+		case eVarType_Array:
+		case eVarType_Environment:
+		case eVarType_S3Object:
+		case eVarType_S4Object:
+		case eVarType_Unknown:
+		case eVarType_Vector:
+			break;
+	}
+	return NO;
+}
+
+-(void)animateToCorrectNameControl:(BOOL)isList
+{
+	self.nameLabel.alphaValue = isList ? 0 : 1;
+	self.listPathControl.alphaValue = isList ? 1 : 0;
+/*	if (!_didInit)
+		return;
+	if (isList && self.listPathControl.alphaValue > 0)
+		return;
+	if (!isList && self.nameLabel.alphaValue > 0)
+		return;
+	NSMutableArray *animations = [NSMutableArray arrayWithCapacity:2];
+	NSView *outView = isList ? self.nameLabel : self.listPathControl;
+	NSView *inView = isList ? self.listPathControl : self.nameLabel;
+	[animations addObject:@{NSViewAnimationTargetKey: outView, NSViewAnimationEffectKey:NSViewAnimationFadeOutEffect}];
+	[animations addObject:@{NSViewAnimationTargetKey: inView, NSViewAnimationEffectKey:NSViewAnimationFadeInEffect}];
+	NSViewAnimation *anim = [[NSViewAnimation alloc] initWithViewAnimations:animations];
+	anim.duration = 0.3;
+	[anim startAnimation]; */
+}
+
 -(void)adjustForVariable
 {
 	@synchronized(self) {
+		self.nameLabel.stringValue = self.variable.name;
 		self.typeLabel.stringValue = self.variable.description;
-		self.isSS = NO;
+		_isSS = NO;
 		switch (self.variable.type) {
 			case eVarType_Primitive:
 			case eVarType_Factor:
 				[self.tabView selectTabViewItemWithIdentifier:@"basic"];
 				[self.simpleTableView reloadData];
-				self.contentWidth = 200;
+				_contentWidth = 200;
 				break;
 			case eVarType_List:
 				[self.tabView selectTabViewItemWithIdentifier:@"list"];
@@ -56,12 +110,16 @@
 				if ([(RCList*)self.variable hasNames])
 					[(NSTableColumn*)[self.listTableView tableColumnWithIdentifier:@"listhead"] setWidth:90];
 				else
-					[(NSTableColumn*)[self.listTableView tableColumnWithIdentifier:@"listhead"] setWidth:30];
-				self.contentWidth = 300;
+				[(NSTableColumn*)[self.listTableView tableColumnWithIdentifier:@"listhead"] setWidth:30];
+				_contentWidth = 300;
+				self.listPathControl.pathComponentCells = @[[NSPathComponentCell pathCellWithTitle:self.variable.name]];
+				[self.listPathControl.pathComponentCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+					[obj setFont:[NSFont boldSystemFontOfSize:13]];
+				}];
 				break;
 			case eVarType_DataFrame:
 			case eVarType_Matrix:
-				self.isSS = YES;
+				_isSS = YES;
 				[self.tabView selectTabViewItemWithIdentifier:@"dataFrame"];
 				[self adjustForDataFrame];
 				[self.ssTableView reloadData];
@@ -70,7 +128,7 @@
 				[self.tabView selectTabViewItemWithIdentifier:@"function"];
 				self.functionTextView.string = @"";
 				[self.functionTextView.textStorage appendAttributedString:[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:[NSAttributedString attributedStringWithString:self.variable.functionBody attributes:nil] ofType:@"R"]];
-				self.contentWidth = 500;
+				_contentWidth = 500;
 				break;
 			case eVarType_Array:
 			case eVarType_Environment:
@@ -80,6 +138,7 @@
 			case eVarType_Vector:
 				break;
 		}
+		[self animateToCorrectNameControl:self.variable.type == eVarType_List];
 	}
 }
 
@@ -103,7 +162,7 @@
 		NSSize sz = curSize;
 		curSize.width = (self.ssTableView.tableColumns.count * 64) + 40; //colwidth, 20 margin on each side
 	} else {
-		curSize.width = self.contentWidth;
+		curSize.width = _contentWidth;
 	}
 	return curSize;
 }
@@ -151,7 +210,7 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-	if (![self.variable isKindOfClass:[RCList class]])
+	if (self.listPathControl.alphaValue < 1)
 		return; //do nothing on selection
 	//are in list mode. find the variable they want details on
 	NSInteger idx = self.listTableView.selectedRow;
@@ -160,7 +219,7 @@
 	RCVariable *subvariable = [self.variable valueAtIndex:idx];
 	if (subvariable.count == 1 && subvariable.primitiveType != ePrimType_Unknown)
 		return; //skip primitives with a single value
-	
+
 }
 
 -(id<RCSpreadsheetData>)ssData { return (id)_variable; }
