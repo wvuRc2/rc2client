@@ -8,6 +8,7 @@
 
 #import "MCVariableDetailsController.h"
 #import "RCList.h"
+#import "RCMTableView.h"
 #import "RCMSyntaxHighlighter.h"
 
 @interface MCVariableDetailsController() <NSTableViewDataSource,NSTableViewDelegate>
@@ -15,7 +16,7 @@
 @property (nonatomic, weak) IBOutlet NSTabView *tabView;
 @property (nonatomic, weak) IBOutlet NSTableView *simpleTableView;
 @property (nonatomic, weak) IBOutlet NSTableView *ssTableView;
-@property (nonatomic, weak) IBOutlet NSTableView *listTableView;
+@property (nonatomic, weak) IBOutlet RCMTableView *listTableView;
 @property (nonatomic, strong) IBOutlet NSTextView *functionTextView;
 @property (nonatomic, readwrite) CGFloat contentWidth;
 @property BOOL isSS;
@@ -33,6 +34,15 @@
 -(void)dealloc
 {
 	[self.view removeFromSuperview];
+}
+
+-(void)awakeFromNib
+{
+	[super awakeFromNib];
+	__weak MCVariableDetailsController *bself = self;
+	self.listTableView.varRowClickedBlock = ^(NSInteger idx) {
+		[bself listViewClicked:idx];
+	};
 }
 
 -(void)adjustForVariable
@@ -146,12 +156,8 @@
 	return cell;
 }
 
--(void)tableViewSelectionDidChange:(NSNotification *)notification
+-(void)listViewClicked:(NSInteger)idx
 {
-	if (![self.variable isKindOfClass:[RCList class]])
-		return; //do nothing on selection
-	//are in list mode. find the variable they want details on
-	NSInteger idx = self.listTableView.selectedRow;
 	if (idx < 0)
 		return; //deselected something
 	RCVariable *subvariable = [self.variable valueAtIndex:idx];

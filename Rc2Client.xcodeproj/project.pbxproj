@@ -497,6 +497,7 @@
 		08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B461774E409005BB3BB /* RCDropboxSync.m */; };
 		08F3FE0A18340C3B000112F3 /* MCVariableDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE0818340C3B000112F3 /* MCVariableDetailsController.m */; };
 		08F3FE0B18340C3B000112F3 /* MCVariableDetailsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08F3FE0918340C3B000112F3 /* MCVariableDetailsController.xib */; };
+		08F3FE0E18342D8D000112F3 /* RCMTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE0D18342D8D000112F3 /* RCMTableView.m */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
@@ -1182,6 +1183,8 @@
 		08F3FE0718340C3B000112F3 /* MCVariableDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVariableDetailsController.h; sourceTree = "<group>"; };
 		08F3FE0818340C3B000112F3 /* MCVariableDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCVariableDetailsController.m; sourceTree = "<group>"; };
 		08F3FE0918340C3B000112F3 /* MCVariableDetailsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCVariableDetailsController.xib; sourceTree = "<group>"; };
+		08F3FE0C18342D8D000112F3 /* RCMTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMTableView.h; sourceTree = "<group>"; };
+		08F3FE0D18342D8D000112F3 /* RCMTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMTableView.m; sourceTree = "<group>"; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
 		08FF3D0316E9250900F3E09E /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/theme/ThemeEngine.h; sourceTree = "<group>"; };
 		08FF3D0416E9250900F3E09E /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/theme/ThemeEngine.m; sourceTree = "<group>"; };
@@ -1517,6 +1520,8 @@
 				0845947E15B5F31100297C9D /* RCMToolbarView.m */,
 				0845947F15B5F31100297C9D /* RCMUserListCell.h */,
 				0845948015B5F31100297C9D /* RCMUserListCell.m */,
+				08F3FE0C18342D8D000112F3 /* RCMTableView.h */,
+				08F3FE0D18342D8D000112F3 /* RCMTableView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -3050,6 +3055,7 @@
 				082D1EC117E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */,
 				08BDDDB917EA48AB00E669E3 /* MagicalRecord+Setup.m in Sources */,
 				08D2466E15B5EE670064A9FA /* WebSocket08.m in Sources */,
+				08F3FE0E18342D8D000112F3 /* RCMTableView.m in Sources */,
 				08B705391831648500868E38 /* RCList.m in Sources */,
 				08D2466F15B5EE670064A9FA /* WebSocketMessage.m in Sources */,
 				08D2467015B5EE950064A9FA /* WebSocket10.m in Sources */,

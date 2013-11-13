@@ -29,6 +29,7 @@
 #import "RCSyntaxParser.h"
 #import "RCAudioChatEngine.h"
 #import "RCImageCache.h"
+#import "RCMTableView.h"
 #import "NoodleLineNumberView.h"
 #import "MCSessionView.h"
 #import "MCVariableDisplayController.h"
@@ -42,10 +43,6 @@
 #import <DropboxOSX/DropboxOSX.h>
 
 #define logJson 0
-
-@interface VariableTable : NSTableView
-@property (nonatomic, copy) BasicBlock1IntArg varRowClickedBlock;
-@end
 
 @interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, copy) NSArray *data;
@@ -62,7 +59,7 @@
 	NSFileHandle *_jsonLog;
 #endif
 }
-@property (nonatomic, strong) IBOutlet VariableTable *varTableView;
+@property (nonatomic, strong) IBOutlet RCMTableView *varTableView;
 @property (nonatomic, strong) IBOutlet NSButton *backButton;
 @property (nonatomic, weak) IBOutlet NSButton *tbFilesButton;
 @property (nonatomic, weak) IBOutlet NSButton *tbVarsButton;
@@ -1589,19 +1586,6 @@
 -(MCSessionView*)sessionView
 {
 	return (MCSessionView*)self.view;
-}
-
-@end
-
-@implementation VariableTable
-
--(void)mouseDown:(NSEvent *)theEvent
-{
-	NSPoint loc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	NSInteger clickedRow = [self rowAtPoint:loc];
-	[super mouseDown:theEvent];
-	if (clickedRow != -1)
-	self.varRowClickedBlock(clickedRow);
 }
 
 @end
