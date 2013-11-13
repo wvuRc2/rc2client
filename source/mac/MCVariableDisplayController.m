@@ -110,6 +110,9 @@
 		oldFrame.origin.x += self.view.bounds.size.width;
 		[NSAnimationContext beginGrouping];
 		[[NSAnimationContext currentContext] setDuration:0.3];
+//		[[NSAnimationContext currentContext] setCompletionHandler:^{
+//			self.popover.contentSize = [newTop calculateContentSize:self.popover.contentSize];
+//		}];
 		[[oldTop.view animator] setFrame:oldFrame];
 		[[newTop.view animator] setFrame:newTop.view.bounds];
 		[NSAnimationContext endGrouping];
@@ -132,15 +135,26 @@
 	NSRect r = self.detailsContainerView.bounds;
 	r.origin.x = r.size.width;
 	dc.view.frame = r;
-	dc.view.autoresizingMask = NSViewWidthSizable|NSViewHeightSizable;
 	dc.variable = variable;
 	[self.detailsContainerView addSubview:dc.view];
+	
+	dc.view.autoresizingMask = NSViewWidthSizable|NSViewHeightSizable;
+#ifdef ANIM_DEBUG
+	dc.view.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.view addConstraint:[NSLayoutConstraint constraintWithItem:dc.view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.detailsContainerView attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+	[self.view addConstraint:[NSLayoutConstraint constraintWithItem:dc.view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.detailsContainerView attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+#endif
 	[NSAnimationContext beginGrouping];
 	[[NSAnimationContext currentContext] setDuration:0.3];
 	NSRect oldDestRect = oldDc.view.frame;
 	oldDestRect.origin.x -= oldDestRect.size.width;
 	[[oldDc.view animator] setFrame:oldDestRect];
 	[[dc.view animator] setFrame:self.detailsContainerView.bounds];
+#ifdef ANIM_DEBUG
+	[[NSAnimationContext currentContext] setCompletionHandler:^{
+		self.popover.contentSize = [dc calculateContentSize:self.popover.contentSize];
+	}];
+#endif
 	[NSAnimationContext endGrouping];
 
 	if (variable.type == eVarType_List) {
