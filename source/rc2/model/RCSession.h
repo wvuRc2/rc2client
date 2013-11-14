@@ -104,7 +104,7 @@ typedef void(^RCSessionListUpdateBlock)(RCList*);
 -(void)processBinaryMessage:(NSData*)data;
 -(void)displayImage:(RCImage*)image fromGroup:(NSArray*)imgGroup;
 -(void)displayEditorFile:(RCFile*)file;
--(void)displayLinkedFile:(NSString*)path;
+-(void)displayOutputFile:(RCFile*)file;
 -(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted;
 -(void)loadHelpURL:(NSURL*)url;
 -(void)variablesUpdated;

@@ -42,6 +42,7 @@
 @property (nonatomic, strong) UIFont *baseFont;
 @property (nonatomic, strong) ImagePreviewViewController *imagePreviewController;
 @property (nonatomic, strong) ImageCollectionController *imageDetailsController;
+@property (nonatomic, weak) RCFile *currentFile;
 @property BOOL haveExternalKeyboard;
 -(void)sessionModeChanged;
 @end
@@ -56,6 +57,7 @@
 	_didSetGraphUrl=NO;
 	self.backButton.enabled = NO;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFileDeletion:) name:FileDeletedNotification object:nil];
 	
 	self.outputView = [[UITextView alloc] initWithFrame:self.containerView.bounds];
 	self.outputView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -195,11 +197,28 @@
 	[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
--(void)loadLocalFileURL:(NSURL*)url
+-(void)loadLocalFile:(RCFile*)file
 {
+	if (![[NSFileManager defaultManager] fileExistsAtPath:file.fileContentsPath]) {
+		[file updateContentsFromServer:^(NSInteger success) {
+			if (success)
+				[self loadLocalFile:file];
+		}];
+		return;
+	}
 	if (self.visibleOutputView != self.webView)
 		[self animateToWebview];
-	[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+	self.currentFile = file;
+	[self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:file.fileContentsPath]]];
+}
+
+-(void)handleFileDeletion:(NSNotification*)note
+{
+	RCFile *file = note.object;
+	if ([self.currentFile.fileId isEqualToNumber:file.fileId]) {
+		self.currentFile=nil;
+		[self animateBackToMainView];
+	}
 }
 
 -(void)adjustInterface
@@ -370,10 +389,11 @@
 -(void)previewFile:(RCFileAttachment*)fileAttachment inRange:(NSRange)charRange
 {
 	RCFile *file = [self.session.workspace fileWithId:fileAttachment.fileId];
-	NSURL *furl = [NSURL fileURLWithPath:file.fileContentsPath];
+	if (nil == file)
+		return; //if it was deleted
 	if (self.visibleOutputView != self.webView)
 		[self animateToWebview];
-	[self.webView loadRequest:[NSURLRequest requestWithURL:furl]];
+	[self loadLocalFile:file];
 }
 
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source

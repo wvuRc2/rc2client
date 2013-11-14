@@ -298,13 +298,7 @@
 
 -(void)displayPdfFile:(RCFile*)file
 {
-	//display in document controller
-//	UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:
-//											[NSURL fileURLWithPath:[file fileContentsPath]]];
-//	dic.delegate = (id)self;
-//	[dic presentPreviewAnimated:YES];
-	NSURL *url = [NSURL fileURLWithPath:file.fileContentsPath];
-	[self.consoleController loadLocalFileURL:url];
+	[self.consoleController loadLocalFile:file];
 }
 
 -(void)loadAndDisplayPdfFile:(RCFile*)file
@@ -558,46 +552,16 @@
 	[self.navigationController pushViewController:self.imgController animated:YES];
 } */
 
--(void)displayLinkedFile:(NSString*)urlPath
+-(void)displayOutputFile:(RCFile *)file
 {
-	NSString *fileIdStr = urlPath.lastPathComponent.stringByDeletingPathExtension;
-	if ([urlPath hasSuffix:@".pdf"]) {
-		//we want to show the pdf
-		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
-		if (file.contentsLoaded)
-			[self displayPdfFile:file];
-		else
-			[self loadAndDisplayPdfFile:file];
-		return;
-	}
-	//a sas file most likely
-	NSString *filename = urlPath.lastPathComponent;
-	NSString *fileExt = filename.pathExtension;
-	//what to do? see if it is an acceptable text file suffix. If so, have webview display it
-	if ([[Rc2Server acceptableTextFileSuffixes] containsObject:fileExt]) {
-		NSInteger fid = [[filename stringByDeletingPathExtension] integerValue];
-		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:fid]];
-		if (file) {
-			NSString *tmpPath = [self webTmpFilePath:file];
-			[self.consoleController loadLocalFileURL:[NSURL fileURLWithPath:tmpPath]];
-		}
-	} else if ([[Rc2Server acceptableImageFileSuffixes] containsObject:fileExt]) {
-		//TODO: fix display of non graph images
-/*		//show as an image
-		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
-		if (file) {
-			if (!file.contentsLoaded)
-				[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:file];
-			[self displayImageWithPathOrFile:file];
-		} */
-	}
+	[self.consoleController loadLocalFile:file];
 }
 
 -(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted
 {
 	//ignore updates while syncing files, as we are making the changes
 	if (nil == self.dbsync) {
-		if (deleted) {
+		if (deleted && file.isTextFile) {
 			[self.editorController reloadFileData];
 			[self.editorController loadFile:self.session.workspace.files.firstObject];
 		} else if (file.fileId.intValue == self.editorController.currentFile.fileId.intValue) {

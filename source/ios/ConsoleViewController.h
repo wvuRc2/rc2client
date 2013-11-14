@@ -10,6 +10,7 @@
 
 @class RCSession;
 @class RCSavedSession;
+@class RCFile;
 
 @interface ConsoleViewController : UIViewController<UIWebViewDelegate>
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
@@ -27,7 +28,7 @@
 -(IBAction)doBack:(id)sender;
 
 -(void)loadHelpURL:(NSURL*)url;
--(void)loadLocalFileURL:(NSURL*)url;
+-(void)loadLocalFile:(RCFile*)file;
 -(void)variablesUpdated;
 
 -(void)appendAttributedString:(NSAttributedString*)aString;

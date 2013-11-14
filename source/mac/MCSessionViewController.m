@@ -1217,44 +1217,9 @@
 	[self.imageController displayImage:image];
 }
 
--(void)displayLinkedFile:(NSString*)urlPath
+-(void)displayOutputFile:(RCFile *)file
 {
-	NSString *fileIdStr = urlPath.lastPathComponent.stringByDeletingPathExtension;
-	if ([urlPath hasSuffix:@".pdf"]) {
-		//we want to show the pdf
-		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
-		if (file.contentsLoaded) {
-			[self.outputController loadLocalFile:file];
-		} else {
-			[file updateContentsFromServer:^(NSInteger success) {
-				if (success)
-					[self.outputController loadLocalFile:file];
-			}];
-		}
-		return;
-	}
-	//a sas file most likely
-	NSString *filename = urlPath.lastPathComponent;
-	NSString *fileExt = filename.pathExtension;
-	//what to do? see if it is an acceptable text file suffix. If so, have webview display it
-	if ([[Rc2Server acceptableTextFileSuffixes] containsObject:fileExt]) {
-		NSInteger fid = [[filename stringByDeletingPathExtension] integerValue];
-		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:fid]];
-		if (file) {
-			[self.outputController loadLocalFile:file];
-		}
-	/* TODO: this no longer works because of RCImage cache changes.
-	} else if ([[Rc2Server acceptableImageFileSuffixes] containsObject:fileExt]) {
-		//show as an image
-		RCFile *file = [self.session.workspace fileWithId:[NSNumber numberWithInteger:[fileIdStr integerValue]]];
-		if (file) {
-			if (!file.contentsLoaded)
-				[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:file];
-			RCImage *img = [[RCImageCache sharedInstance] loadImageFileIntoCache:file];
-			[self setupImageDisplay:ARRAY(img)];
-			[self.imageController displayImage:img.imageId];
-		} */
-	}
+	[self.outputController loadLocalFile:file];
 }
 
 -(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted

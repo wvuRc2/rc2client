@@ -543,8 +543,9 @@ NSLog(@"complexResults!");
 {
 	NSMutableAttributedString *mstr = [[NSMutableAttributedString alloc] init];
 	[mstr replaceCharactersInRange:NSMakeRange(0, 0) withString:@"\n"];
+	RCFile *lastFile;
 	for (NSDictionary *fileDict in fileInfo) {
-		[self.workspace updateFileId:fileDict[@"fileId"]]; //triggers refresh from server
+		lastFile = [self.workspace updateFileId:fileDict[@"fileId"]]; //triggers refresh from server
 		Rc2FileType *ftype = [Rc2FileType fileTypeWithExtension:fileDict[@"ext"]];
 		NSTextAttachment *tattach = [self.delegate textAttachmentForFileId:fileDict[@"fileId"] name:fileDict[@"name"] fileType:ftype];
 		NSAttributedString *graphStr = [NSAttributedString attributedStringWithAttachment:tattach];
@@ -553,6 +554,9 @@ NSLog(@"complexResults!");
 	}
 	[mstr appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n"]];
 	[self.delegate appendAttributedString:mstr];
+	if (fileInfo.count == 1) {
+		[self.delegate displayOutputFile:lastFile];
+	}
 }
 
 -(void)appendError:(NSString*)error

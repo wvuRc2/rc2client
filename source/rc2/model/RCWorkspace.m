@@ -73,7 +73,7 @@
 	}];
 }
 
--(void)updateFileId:(NSNumber*)fileId
+-(RCFile*)updateFileId:(NSNumber*)fileId
 {
 	RCFile *file = [self fileWithId:fileId];
 	if (file) {
@@ -83,6 +83,7 @@
 		//FIXME: for now, we're just refreshing them all
 		[self refreshFiles];
 	}
+	return file;
 }
 
 -(NSComparisonResult)compareWithItem:(RCWorkspace*)anItem

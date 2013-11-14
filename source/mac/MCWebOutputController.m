@@ -97,7 +97,7 @@
 	if (action == @selector(loadPreviousCommand:) || action == @selector(loadNextCommand:)) {
 		return self.consoleField.fieldOrEditorIsFirstResponder && self.commandHistory.count > 0;
 	}
-	if (action == @selector(goBack:)) {
+	if (action == @selector(rcGoBack:)) {
 		if (self.restrictedMode) return NO;
 		if (self.textLeftConstraint.constant >= 0) return NO;
 		return YES;
@@ -366,7 +366,7 @@
 	[[NSWorkspace sharedWorkspace] openURL:url];
 }
 
--(IBAction)goBack:(id)sender
+-(IBAction)rcGoBack:(id)sender
 {
 	ZAssert(self.textLeftConstraint.constant < 0, @"bad situation");
 	if (self.webView.canGoBack) {
@@ -582,7 +582,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	}
 	if (!hasBack && !self.consoleVisible && !self.restrictedMode) {
 		//add a back men item
-		NSMenuItem *backItem = [[NSMenuItem alloc] initWithTitle:@"Back" action:@selector(goBack:) keyEquivalent:@""];
+		NSMenuItem *backItem = [[NSMenuItem alloc] initWithTitle:@"Back" action:@selector(rcGoBack:) keyEquivalent:@""];
 		[items addObject:backItem];
 	}
 	[items reverse];
