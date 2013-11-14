@@ -93,7 +93,7 @@
 				NSFileManager *fm = [[NSFileManager alloc] init];
 				[fm setAttributes:@{NSFileCreationDate:self.lastModified, NSFileModificationDate:self.lastModified} ofItemAtPath:self.fileContentsPath error:&err];
 				if (err)
-					NSLog(@"got error setting file attrs:%@", err);
+					Rc2LogWarn(@"got error setting file attrs:%@", err);
 				hblock(YES);
 			} else {
 				Rc2LogError(@"error fetching content for file %@", self.fileId);

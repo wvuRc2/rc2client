@@ -369,7 +369,6 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	if (nil == fpath)
 		Rc2LogError(@"not file with no path:%@", file);
 	op.outputStream = [NSOutputStream outputStreamToFileAtPath:file.fileContentsPath append:NO];
-	NSLog(@"fetching contents:%@", file.name);
 	[_httpClient enqueueHTTPRequestOperation:op];
 }
 
@@ -522,7 +521,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 				if (![oldContents writeToFile:file.fileContentsPath atomically:YES encoding:NSUTF8StringEncoding error:&err]) {
 					Rc2LogWarn(@"failed to write file after save to server:%@", err);
 					if (![[NSFileManager defaultManager] fileExistsAtPath:[file.fileContentsPath stringByDeletingLastPathComponent]])
-						NSLog(@"ws file dir does not exist");
+						Rc2LogWarn(@"ws file dir does not exist");
 				}
 				hblock(YES, file);
 			} else {

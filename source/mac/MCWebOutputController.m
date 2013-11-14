@@ -266,7 +266,6 @@
 
 -(void)previewImage:(NSTextAttachment*)imgAttachment atIndex:(NSInteger)charIndex
 {
-	NSLog(@"preview: %@", imgAttachment);
 	RCImage *image = [self.delegate imageForTextAttachment:imgAttachment];
 	if (image) {
 		[self.delegate.session.delegate displayImage:image fromGroup:[self imageGroupAtCharIndex:charIndex]];
