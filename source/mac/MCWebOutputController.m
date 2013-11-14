@@ -33,7 +33,7 @@
 @property (nonatomic, strong) NSMenuItem *clearMenuItem;
 @property (nonatomic, strong) NSMenuItem *saveAsMenuItem;
 @property (nonatomic, strong) NSMenuItem *openFullMenuItem;
-@property (nonatomic, weak) RCFile *currentPdf;
+@property (nonatomic, weak) RCFile *currentFile;
 @property (nonatomic, copy) NSString *lastContent;
 @property (nonatomic) BOOL ignoreExecuteMessage;
 @property (nonatomic, strong) NSPopover *imagePopover;
@@ -68,9 +68,9 @@
 -(void)awakeFromNib
 {
 	if (!__didInit) {
+		__weak MCWebOutputController *bself = self;
 		[[WebPreferences standardPreferences] setUsesPageCache:YES];
 		self.view.translatesAutoresizingMaskIntoConstraints = NO;
-		[self loadContent];
 		self.clearMenuItem = [[NSMenuItem alloc] initWithTitle:@"Clear Output" action:@selector(doClear:) keyEquivalent:@""];
 		self.saveAsMenuItem = [[NSMenuItem alloc] initWithTitle:@"Save As…" action:@selector(saveSelectedPDF:) keyEquivalent:@""];
 		self.viewSourceMenuItem = [[NSMenuItem alloc] initWithTitle:@"View Source" action:@selector(viewSource:) keyEquivalent:@""];
@@ -82,10 +82,13 @@
 													 name:NSPopUpButtonWillPopUpNotification 
 												   object:self.historyPopUp];
 		[self observeTarget:self keyPath:@"restrictedMode" selector:@selector(updateTextFieldStatus) userInfo:nil options:0];
+		[[NSNotificationCenter defaultCenter] addObserverForName:FileDeletedNotification object:nil
+														   queue:nil usingBlock:^(NSNotification *note)
+		{
+			[bself handleFileDeletion:note.object];
+		}];
 		__didInit=YES;
-		__weak MCWebOutputController *bself = self;
 	}
-	[self.webView.mainFrame loadHTMLString:@"<html><body bgcolor=\"#aa0000\">webview</body></html>" baseURL:nil];
 }
 
 -(BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
@@ -99,7 +102,7 @@
 		if (self.textLeftConstraint.constant >= 0) return NO;
 		return YES;
 	}
-	if (action == @selector(viewFullWindow:) && nil != self.currentPdf)
+	if (action == @selector(viewFullWindow:) && [self.currentFile.name hasSuffix:@".pdf"])
 		return YES;
 	return NO;
 }
@@ -113,6 +116,7 @@
 	[ts appendAttributedString:aString];
 //	[ts addAttribute:NSFontAttributeName value:self.baseFont range:NSMakeRange(curEnd, aString.length)];
 	[self.textView scrollToEndOfDocument:nil];
+	[self animateToTextView]; //ony does if not visible
 }
 
 -(void)updateTextFieldStatus
@@ -124,14 +128,6 @@
 {
 	AppDelegate *del = (AppDelegate*)[NSApp delegate];
 	[del displayTextInExternalEditor:self.webView.mainFrameDocument.body.innerHTML];
-}
-
--(void)loadContent
-{
-	NSURL *pageUrl = [[NSBundle mainBundle] URLForResource:@"console" withExtension:@"html" subdirectory:@"console"];
-	if (pageUrl) {
-		[[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:pageUrl]];
-	}
 }
 
 -(void)saveSessionState:(RCSavedSession*)savedState
@@ -179,9 +175,19 @@
 	return [[NSTextAttachmentCell alloc] initImageCell:[NSImage imageNamed:imgName]];
 }
 
--(void)loadFileUrl:(NSURL*)url
+-(void)loadFileUrl:(NSURL*)url file:(RCFile*)file
 {
+	if (![[NSFileManager defaultManager] fileExistsAtPath:file.fileContentsPath]) {
+		//need to load the data
+		[file updateContentsFromServer:^(NSInteger success) {
+			if (success)
+				[self loadFileUrl:url file:file];
+		}];
+		return;
+	}
+	self.currentFile = file;
 	[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:url]];
+	[self animateToWebView];
 }
 
 // adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
@@ -205,12 +211,12 @@
 		} else if (![fm copyItemAtPath:file.fileContentsPath toPath:newPath error:&err]) {
 			Rc2LogError(@"error copying file:%@", err);
 		}
-		[self loadFileUrl:[NSURL fileURLWithPath:newPath]];
+		[self loadFileUrl:[NSURL fileURLWithPath:newPath] file:file];
 	} else {
 		[file updateContentsFromServer:^(NSInteger success){
 			if (success) {
 				if ([file.currentContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
-					[self loadFileUrl:[NSURL fileURLWithPath:newPath]];
+					[self loadFileUrl:[NSURL fileURLWithPath:newPath] file:file];
 				else
 					Rc2LogError(@"failed to write web tmp file:%@", err);
 				
@@ -231,14 +237,14 @@
 	}
 	NSString *filePath = file.fileContentsPath;
 	if ([file.name hasSuffix:@".pdf"]) {
-		self.currentPdf = file;
-		[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:filePath]]];
+		[self loadFileUrl:[NSURL fileURLWithPath:filePath] file:file];
 	} else
 		[self loadFileFromWebTmp:file];
 }
 
 -(void)loadHelpURL:(NSURL*)helpUrl
 {
+	self.currentFile = nil;
 	[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:helpUrl]];
 	[self animateToWebView];
 }
@@ -281,6 +287,11 @@
 	}
 }
 
+-(void)handleFileDeletion:(RCFile*)file
+{
+	[self animateToTextView];
+}
+
 -(void)animateToWebView
 {
 	if (!self.webView.isHidden)
@@ -317,6 +328,7 @@
 		[self.webView.mainFrame loadHTMLString:@"" baseURL:nil];
 		self.consoleVisible = YES;
 	}];
+	self.currentFile=nil;
 }
 
 #pragma mark - actions
@@ -401,8 +413,8 @@
 
 -(IBAction)viewFullWindow:(id)sender
 {
-	if (self.currentPdf) {
-		[(AppDelegate*)[NSApp delegate] displayPdfFile:self.currentPdf];
+	if ([self.currentFile.name hasSuffix:@".pdf"]) {
+		[(AppDelegate*)[NSApp delegate] displayPdfFile:self.currentFile];
 	}
 //	NSURL *pdfUrl = self.webView.mainFrame.dataSource.request.URL;
 }

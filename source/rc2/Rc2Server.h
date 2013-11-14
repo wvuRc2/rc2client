@@ -36,6 +36,8 @@ extern NSString * const NotificationsReceivedNotification;
 extern NSString * const MessagesUpdatedNotification;
 //posted after files are added to a FileContainer. object is the workspace/project
 extern NSString * const FilesChagedNotification;
+//posted when a file has been deleted on the server (via this or any other client). object is the file.
+extern NSString * const FileDeletedNotification;
 
 @interface Rc2Server : NSObject
 #pragma mark - class methods

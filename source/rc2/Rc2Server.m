@@ -29,7 +29,7 @@
 NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNotification";
 NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
 NSString * const FilesChagedNotification = @"FilesChagedNotification";
-
+NSString * const FileDeletedNotification = @"FileDeletedNotification";
 #pragma mark -
 
 @interface Rc2Server()
@@ -587,6 +587,7 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	}
 }
 
+//called to delete a file
 -(void)deleteFile:(RCFile*)file container:(id<RCFileContainer>)container completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSMutableString *path = [self containerPath:container];
@@ -594,12 +595,15 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	[_httpClient deletePath:path parameters:nil success:^(id req, id rsp) {
 		BOOL success = [[rsp objectForKey:@"status"] intValue] == 0;
 		if (success) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:FileDeletedNotification object:file];
 			[container removeFile:file];
 			if ([rsp objectForKey:@"alsoDeleted"]) {
 				for (NSNumber *anId in [rsp objectForKey:@"alsoDeleted"]) {
 					RCFile *otherFile = [[container files] firstObjectWithValue:anId forKey:@"fileId"];
-					if (otherFile)
+					if (otherFile) {
+						[[NSNotificationCenter defaultCenter] postNotificationName:FileDeletedNotification object:otherFile];
 						[container removeFile:otherFile];
+					}
 				}
 			}
 		}
@@ -609,6 +613,7 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 	}];
 }
 
+//called when a file was remotely deleted
 -(void)removeFileReferences:(RCFile*)file
 {
 	id<RCFileContainer> container;
@@ -625,6 +630,7 @@ NSString * const FilesChagedNotification = @"FilesChagedNotification";
 		}
 	}
 	if (container) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:FileDeletedNotification object:file];
 		[container removeFile:file];
 	}
 }
