@@ -19,15 +19,15 @@
             <rect key="frame" x="0.0" y="0.0" width="740" height="596"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4">
-                    <rect key="frame" x="20" y="49" width="700" height="501"/>
+                <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                    <rect key="frame" x="20" y="49" width="700" height="499"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <clipView key="contentView" misplaced="YES" id="5aD-g9-7Nx">
-                        <rect key="frame" x="1" y="1" width="698" height="499"/>
+                    <clipView key="contentView" id="5aD-g9-7Nx">
+                        <rect key="frame" x="1" y="1" width="698" height="497"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView selectable="YES" id="5" customClass="MCProjectCollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="698" height="499"/>
+                                <rect key="frame" x="0.0" y="0.0" width="698" height="497"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
@@ -79,8 +79,8 @@
                         <binding destination="14" name="enabled" keyPath="canAdd" id="77"/>
                     </connections>
                 </button>
-                <pathControl focusRingType="none" verticalHuggingPriority="750" misplaced="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22">
-                    <rect key="frame" x="20" y="558" width="596" height="18"/>
+                <pathControl focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22">
+                    <rect key="frame" x="20" y="556" width="596" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="596" id="39"/>

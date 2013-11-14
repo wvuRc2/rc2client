@@ -38,7 +38,6 @@
 -(IBAction)openInWebBrowser:(id)sender;
 -(IBAction)executeQueryViaButton:(id)sender;
 -(IBAction)saveSelectedPDF:(id)sender;
--(IBAction)goBack:(id)sender;
 -(IBAction)loadPreviousCommand:(id)sender;
 -(IBAction)loadNextCommand:(id)sender;
 

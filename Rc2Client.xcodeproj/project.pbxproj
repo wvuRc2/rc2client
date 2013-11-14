@@ -498,6 +498,8 @@
 		08F3FE0A18340C3B000112F3 /* MCVariableDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE0818340C3B000112F3 /* MCVariableDetailsController.m */; };
 		08F3FE0B18340C3B000112F3 /* MCVariableDetailsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08F3FE0918340C3B000112F3 /* MCVariableDetailsController.xib */; };
 		08F3FE0E18342D8D000112F3 /* RCMTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE0D18342D8D000112F3 /* RCMTableView.m */; };
+		08F3FE1218356660000112F3 /* MCVariableWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE1018356660000112F3 /* MCVariableWindowController.m */; };
+		08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08F3FE1118356660000112F3 /* MCVariableWindowController.xib */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
@@ -1185,6 +1187,9 @@
 		08F3FE0918340C3B000112F3 /* MCVariableDetailsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCVariableDetailsController.xib; sourceTree = "<group>"; };
 		08F3FE0C18342D8D000112F3 /* RCMTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMTableView.h; sourceTree = "<group>"; };
 		08F3FE0D18342D8D000112F3 /* RCMTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMTableView.m; sourceTree = "<group>"; };
+		08F3FE0F18356660000112F3 /* MCVariableWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVariableWindowController.h; sourceTree = "<group>"; };
+		08F3FE1018356660000112F3 /* MCVariableWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCVariableWindowController.m; sourceTree = "<group>"; };
+		08F3FE1118356660000112F3 /* MCVariableWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCVariableWindowController.xib; sourceTree = "<group>"; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
 		08FF3D0316E9250900F3E09E /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/theme/ThemeEngine.h; sourceTree = "<group>"; };
 		08FF3D0416E9250900F3E09E /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/theme/ThemeEngine.m; sourceTree = "<group>"; };
@@ -2330,6 +2335,9 @@
 				08F3FE0718340C3B000112F3 /* MCVariableDetailsController.h */,
 				08F3FE0818340C3B000112F3 /* MCVariableDetailsController.m */,
 				08F3FE0918340C3B000112F3 /* MCVariableDetailsController.xib */,
+				08F3FE0F18356660000112F3 /* MCVariableWindowController.h */,
+				08F3FE1018356660000112F3 /* MCVariableWindowController.m */,
+				08F3FE1118356660000112F3 /* MCVariableWindowController.xib */,
 				085E3C4917AAEADB005C523F /* MCDropboxConfigWindow.h */,
 				085E3C4A17AAEADB005C523F /* MCDropboxConfigWindow.m */,
 				085E3C4B17AAEADB005C523F /* MCDropboxConfigWindow.xib */,
@@ -2622,6 +2630,7 @@
 				0845941C15B5F22700297C9D /* accord-right.png in Resources */,
 				0845941D15B5F22700297C9D /* accord-rightExpanded.png in Resources */,
 				0845941E15B5F22700297C9D /* baccord-center.png in Resources */,
+				08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */,
 				08BDDDC017ECCD7A00E669E3 /* CommonDefaults.plist in Resources */,
 				0845941F15B5F22700297C9D /* baccord-left.png in Resources */,
 				0845942015B5F22700297C9D /* baccord-right.png in Resources */,
@@ -3108,6 +3117,7 @@
 				084594BC15B5F53900297C9D /* EMKeychainItem.m in Sources */,
 				084594BD15B5F53900297C9D /* NoodleLineNumberMarker.m in Sources */,
 				082D1EBC17E2406000723EB3 /* RCSweaveParser.m in Sources */,
+				08F3FE1218356660000112F3 /* MCVariableWindowController.m in Sources */,
 				084594BE15B5F53900297C9D /* NoodleLineNumberView.m in Sources */,
 				08BDDDBB17EA48AB00E669E3 /* MagicalRecord+ShorthandSupport.m in Sources */,
 				084594BF15B5F53900297C9D /* PXSourceList.m in Sources */,

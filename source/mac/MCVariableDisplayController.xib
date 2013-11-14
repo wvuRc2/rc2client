@@ -17,10 +17,10 @@
         <customObject id="-3" userLabel="Application"/>
         <customView id="1">
             <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField verticalHuggingPriority="750" id="37">
-                    <rect key="frame" x="20" y="363" width="166" height="17"/>
+                    <rect key="frame" x="20" y="380" width="166" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="name" id="38">
                         <font key="font" metaFont="systemBold"/>
@@ -29,7 +29,7 @@
                     </textFieldCell>
                 </textField>
                 <pathControl focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" id="d8c-cz-ih9">
-                    <rect key="frame" x="16" y="365" width="362" height="17"/>
+                    <rect key="frame" x="16" y="382" width="362" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <pathCell key="cell" controlSize="small" lineBreakMode="truncatingMiddle" selectable="YES" focusRingType="none" alignment="left" placeholderString="/var/var/var" id="otA-Ce-xdu">
                         <font key="font" size="13" name="LucidaGrande-Bold"/>
@@ -39,7 +39,7 @@
                     </connections>
                 </pathControl>
                 <customView id="RKV-Lq-vvZ">
-                    <rect key="frame" x="0.0" y="0.0" width="400" height="355"/>
+                    <rect key="frame" x="0.0" y="0.0" width="400" height="371"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </customView>
             </subviews>

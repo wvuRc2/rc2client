@@ -18,4 +18,6 @@
 
 -(BOOL)variableSupported:(RCVariable*)var;
 -(NSSize)calculateContentSize:(NSSize)curSize;
+
+-(MCVariableDisplayController*)dulicateController;
 @end

@@ -33,6 +33,7 @@
 #import "NoodleLineNumberView.h"
 #import "MCSessionView.h"
 #import "MCVariableDisplayController.h"
+#import "MCVariableWindowController.h"
 #import "MCSessionFileController.h"
 #import "MAKVONotificationCenter.h"
 #import "MCTableRowView.h"
@@ -87,6 +88,7 @@
 @property (nonatomic, strong) RCDropboxSync *dbsync;
 @property (nonatomic, assign) NSTimeInterval lastParseTime;
 @property (nonatomic, copy) NSString *workspaceTitle;
+@property (nonatomic, strong) NSMutableSet *variableWindows;
 @property BOOL importToProject;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL shouldReconnect;
@@ -105,6 +107,7 @@
 		self.session.delegate = self;
 		self.variableHelper = [[VariableTableHelper alloc] init];
 		self.users = [NSArray array];
+		self.variableWindows = [NSMutableSet set];
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
 		[self observeTarget:aSession keyPath:@"mode" selector:@selector(modeChanged) userInfo:nil options:0];
@@ -135,6 +138,9 @@
 	self.outputController=nil; //we were getting binding errors because the text field was bound to us and we were being dealloc'd first.
 	[self unregisterAllNotificationTokens];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	for (MCVariableWindowController *wc in self.variableWindows)
+		[wc close];
+	[self.variableWindows removeAllObjects];
 }
 
 -(void)awakeFromNib
@@ -252,6 +258,11 @@
 			[self.sessionView toggleLeftView:nil];
 		}
 */		__didFirstWindow=YES;
+	}
+	if (nil == newWindow) {
+		for (MCVariableWindowController *wc in [self.variableWindows copy])
+			[wc close];
+		[self.variableWindows removeAllObjects];
 	}
 }
 
@@ -642,6 +653,7 @@
 	if (nil == self.variablePopover) {
 		self.variablePopover = [[NSPopover alloc] init];
 		self.variablePopover.behavior = NSPopoverBehaviorTransient;
+		self.variablePopover.delegate = self;
 	}
 	self.variablePopover.contentViewController = self.varableDetailsController;
 	self.varableDetailsController.variable = variable;
@@ -742,6 +754,12 @@
 	[savedState setBoolProperty:self.sessionView.leftViewVisible forKey:@"fileListVisible"];
 	[savedState setBoolProperty:self.session.showResultDetails forKey:@"showDetailResults"];
 	[savedState setProperty:@(self.selectedLeftViewIndex) forKey:@"selLeftViewIdx"];
+	if (self.variableWindows.count > 0) {
+		NSMutableDictionary *windict = [NSMutableDictionary dictionary];
+		for (MCVariableWindowController *vwc in self.variableWindows)
+			[windict setObject:NSStringFromRect(vwc.window.frame) forKey:vwc.saveIdentifier];
+		[savedState setProperty:windict forKey:@"variableWindows"];
+	}
 	[self.sessionView saveSessionState:savedState];
 	[savedState.managedObjectContext MR_saveToPersistentStoreAndWait];
 }
@@ -1300,7 +1318,7 @@
 		[self executeConsoleCommand:[NSString stringWithFormat:@"help(%@)", txt]];
 }
 
-#pragma mark - image popover delegate
+#pragma mark - popover delegate
 
 -(void)popoverDidShow:(NSNotification*)note
 {
@@ -1308,11 +1326,38 @@
 
 -(void)popoverDidClose:(NSNotification*)note
 {
-	self.imagePopover = nil;
+	if (note.object == self.imagePopover)
+		self.imagePopover = nil;
 }
 
 - (void)popoverWillShow:(NSNotification *)notification
 {
+}
+
+-(NSWindow*)detachableWindowForPopover:(NSPopover *)popover
+{
+	if (popover == self.variablePopover) {
+		MCVariableWindowController *winc = [[MCVariableWindowController alloc] init];
+		[self.variableWindows addObject:winc];
+		__weak MCSessionViewController *bself = self;
+		[[NSNotificationCenter defaultCenter] addObserverForName:NSWindowWillCloseNotification object:winc.window queue:nil usingBlock:^(NSNotification *note)
+		{
+			[bself.variableWindows removeObject:note.object];
+		}];
+		MCVariableDisplayController *dispc = [self.varableDetailsController dulicateController];
+		winc.displayController = dispc;
+
+		NSRect contentRect = dispc.view.bounds;
+		NSRect frame = [NSWindow frameRectForContentRect:contentRect styleMask:winc.window.styleMask];
+		[winc.window setFrame:frame display:NO];
+		[winc.window.contentView addSubview:dispc.view];
+		[winc.window.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view":dispc.view}]];
+		[winc.window.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view":dispc.view}]];
+		winc.window.title = dispc.variable.name;
+
+		return winc.window;
+	}
+	return nil;
 }
 
 #pragma mark - text storage delegate

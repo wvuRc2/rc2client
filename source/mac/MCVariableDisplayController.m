@@ -46,9 +46,18 @@
 			dc.view.autoresizingMask = NSViewWidthSizable|NSViewHeightSizable;
 			dc.variable = self.variable;
 			[self adjustForVariable];
+			self.nameLabel.backgroundColor = [NSColor clearColor];
 		}
 		_didInit=YES;
 	}
+}
+
+-(MCVariableDisplayController*)dulicateController
+{
+	MCVariableDisplayController *dup = [[MCVariableDisplayController alloc] init];
+	dup.session = self.session;
+	dup.variable = self.variable;
+	return dup;
 }
 
 -(MCVariableDetailsController*)currentDetailsController
