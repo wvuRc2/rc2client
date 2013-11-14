@@ -281,6 +281,14 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	_delegate = del;
 }
 
+-(void)requestVariables
+{
+	if (self.socketOpen) {
+		NSDictionary *dict = @{@"cmd":@"watchvariables", @"watch": [NSNumber numberWithBool:_variablesVisible]};
+		[_ws sendText:[dict JSONRepresentation]];
+	}
+}
+
 -(BOOL)fileCanBePromotedToAssignment:(RCFile*)file
 {
 	if (!self.workspace.project.isClass)
@@ -600,6 +608,8 @@ NSLog(@"complexResults!");
 -(void)didOpen
 {
 	self.socketOpen = YES;
+	if (self.variablesVisible)
+		[self requestVariables];
 	[self.delegate connectionOpened];
 }
 
@@ -656,8 +666,7 @@ NSLog(@"complexResults!");
 {
 	if (_variablesVisible != visible) {
 		_variablesVisible = visible;
-		NSDictionary *dict = @{@"cmd":@"watchvariables", @"watch": [NSNumber numberWithBool:_variablesVisible]};
-		[_ws sendText:[dict JSONRepresentation]];
+		[self requestVariables];
 	}
 }
 
