@@ -210,6 +210,8 @@
 {
 	if (nil == self.parentList)
 		return self.name;
+	if (self.parentList.type == eVarType_Environment)
+		return [NSString stringWithFormat:@"get(\"%@\", envir=%@)", self.name, self.parentList.name];
 	return [NSString stringWithFormat:@"%@[%ld]", self.parentList.fullyQualifiedName, (unsigned long)[self.parentList indexOfVariable:self]+1];
 }
 

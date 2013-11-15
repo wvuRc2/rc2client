@@ -90,7 +90,7 @@
 			aVar.parentList = self;
 			[self.keyValues setObject:aVar forKey:aVar.name];
 		}];
-		self.names = [self.keyValues.allKeys sortedArrayUsingKey:@"name" ascending:YES];
+		self.names = [self.keyValues.allKeys sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 	}
 }
 
