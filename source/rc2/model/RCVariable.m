@@ -42,6 +42,8 @@
 		return [[RCMatrix alloc] initWithDictionary:dict];
 	if ([[dict objectForKey:@"class"] isEqualToString:@"list"])
 		return [[RCList alloc] initWithDictionary:dict];
+	if ([[dict objectForKey:@"class"] isEqualToString:@"environment"])
+		return [[RCEnvironment alloc] initWithDictionary:dict];
 	return [[RCVariable alloc] initWithDictionary:dict];
 }
 
@@ -244,6 +246,7 @@
 		case eVarType_DataFrame:
 		case eVarType_Matrix:
 		case eVarType_List:
+		case eVarType_Environment:
 			return true;
 		default:
 			return false;

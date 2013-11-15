@@ -19,3 +19,7 @@
 -(void)assignListData:(NSDictionary*)dict;
 	
 @end
+
+@interface RCEnvironment : RCList
+
+@end

@@ -25,7 +25,7 @@
 		VariableSpreadsheetController *ssheet = [[VariableSpreadsheetController alloc] init];
 		ssheet.variable = (id)var;
 		[self.navigationController pushViewController:ssheet animated:YES];
-	} else if (var.type == eVarType_List) {
+	} else if ([var isKindOfClass:[RCList class]]) {
 		RCList *list = (RCList*)var;
 		VariableListController *vlc = [[VariableListController alloc] init];
 		vlc.listVariable = list;

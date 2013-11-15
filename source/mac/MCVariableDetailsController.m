@@ -58,6 +58,7 @@
 				self.contentWidth = 200;
 				break;
 			case eVarType_List:
+			case eVarType_Environment:
 				[self.tabView selectTabViewItemWithIdentifier:@"list"];
 				[self.listTableView reloadData];
 				if ([(RCList*)self.variable hasNames])
@@ -80,7 +81,6 @@
 				self.contentWidth = 500;
 				break;
 			case eVarType_Array:
-			case eVarType_Environment:
 			case eVarType_S3Object:
 			case eVarType_S4Object:
 			case eVarType_Unknown:
@@ -136,7 +136,10 @@
 		RCList *list = (RCList*)self.variable;
 		if ([tableColumn.identifier isEqualToString:@"listhead"]) {
 			NSTableCellView *hcell = [tableView makeViewWithIdentifier:@"listhead" owner:self];
-			hcell.textField.stringValue = [NSString stringWithFormat:@"%ld. %@", row+1, [list nameAtIndex:row]];
+			if ([list isKindOfClass:[RCEnvironment class]])
+				hcell.textField.stringValue = [list nameAtIndex:row];
+			else
+				hcell.textField.stringValue = [NSString stringWithFormat:@"%ld. %@", row+1, [list nameAtIndex:row]];
 			return hcell;
 		} else {
 			NSTableCellView *hcell = [tableView makeViewWithIdentifier:@"listitem" owner:self];

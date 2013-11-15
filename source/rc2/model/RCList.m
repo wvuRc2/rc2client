@@ -70,3 +70,53 @@
 	return self.values != nil;
 }
 @end
+
+#pragma mark - environment
+
+@interface RCEnvironment ()
+@property (nonatomic, strong) NSMutableDictionary *keyValues;
+@end
+
+@implementation RCEnvironment
+
+-(void)assignListData:(NSDictionary*)dict
+{
+	NSArray *dictValues = dict[@"value"];
+	if (dictValues) {
+		self.keyValues = [[NSMutableDictionary alloc] init];
+		[dictValues enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			NSDictionary *aDict = obj;
+			RCVariable *aVar = [RCVariable variableWithDictionary:aDict];
+			aVar.parentList = self;
+			[self.keyValues setObject:aVar forKey:aVar.name];
+		}];
+		self.names = [self.keyValues.allKeys sortedArrayUsingKey:@"name" ascending:YES];
+	}
+}
+
+-(RCVariable*)valueAtIndex:(NSUInteger)idx
+{
+	NSString *key = self.names[idx];
+	return self.keyValues[key];
+}
+
+-(NSInteger)count
+{
+	return self.keyValues.count;
+}
+
+-(BOOL)hasNames
+{
+	return YES;
+}
+
+-(BOOL)hasValues
+{
+	return self.keyValues != nil;
+}
+
+-(NSString*)description
+{
+	return @"environment";
+}
+@end

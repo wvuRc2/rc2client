@@ -73,11 +73,11 @@
 		case eVarType_Function:
 		case eVarType_Factor:
 		case eVarType_List:
+		case eVarType_Environment:
 		case eVarType_Matrix:
 			return YES;
 
 		case eVarType_Array:
-		case eVarType_Environment:
 		case eVarType_S3Object:
 		case eVarType_S4Object:
 		case eVarType_Unknown:
@@ -92,7 +92,7 @@
 	RCVariable *var = [[self currentDetailsController] variable];
 	@synchronized(self) {
 		self.nameLabel.stringValue = var.name;
-		if (var.type == eVarType_List) {
+		if ([var isKindOfClass:[RCList class]]) {
 			self.listPathControl.pathComponentCells = @[[NSPathComponentCell pathCellWithTitle:var.name]];
 			[self.listPathControl.pathComponentCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 				[obj setFont:[NSFont boldSystemFontOfSize:13]];
@@ -100,6 +100,15 @@
 			self.nameLabel.hidden = YES;
 		} else {
 			self.listPathControl.hidden = YES;
+		}
+		if ([var isKindOfClass:[RCEnvironment class]]) {
+			RCEnvironment *env = (RCEnvironment*)var;
+			if (!env.hasValues) {
+				[self.session requestListVariableData:env block:^(RCList *aList) {
+					self.variable = aList;
+					[[self currentDetailsController] setVariable:aList];
+				}];
+			}
 		}
 	}
 }
@@ -166,7 +175,7 @@
 #endif
 	[NSAnimationContext endGrouping];
 
-	if (variable.type == eVarType_List) {
+	if ([variable isKindOfClass:[RCList class]]) {
 		RCList *newList = (RCList*)variable;
 		if (!newList.hasValues) {
 			[self.session requestListVariableData:newList block:^(RCList *aList) {
