@@ -79,7 +79,6 @@
 @property (nonatomic, strong) NSArray *users;
 @property (nonatomic, strong) NSNumber *fileIdJustImported;
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
-@property (nonatomic, strong) NSString *webTmpFileDirectory;
 @property (nonatomic, strong) NSWindow *blockingWindow;
 @property (nonatomic, strong) MLReachability *serverReach;
 @property (nonatomic, strong) RCMMultiImageController *multiImageController;
@@ -235,10 +234,6 @@
 		[self saveSessionState];
 		[self.audioEngine tearDownAudio];
 		[ti popActionMenu:self.addMenu];
-		if (self.webTmpFileDirectory) {
-			[[NSFileManager defaultManager] removeItemAtPath:self.webTmpFileDirectory error:nil];
-			self.webTmpFileDirectory=nil;
-		}
 	}
 	if (newSuperview != nil) {
 		if (self.session.initialFileSelection) {
@@ -955,32 +950,6 @@
 		});
 	} */
 	[self.editView setEditable: !self.restrictedMode && (self.editorFile.readOnlyValue) ? NO : YES];
-}
-
-// adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
--(NSString*)webTmpFilePath:(RCFile*)file
-{
-	NSFileManager *fm = [[NSFileManager alloc] init];
-	NSError *err=nil;
-	if (nil == self.webTmpFileDirectory) {
-		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
-		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-	}
-	NSString *ext = @"txt";
-	if ([file.name hasSuffix:@".html"])
-		ext = @"html";
-	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:ext];
-	if ([fm fileExistsAtPath:newPath])
-		[fm removeItemAtPath:newPath error:nil];
-	if (![fm fileExistsAtPath:file.fileContentsPath]) {
-		NSString *fileContents = [[Rc2Server sharedInstance] fetchFileContentsSynchronously:file];
-		if (![fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
-			Rc2LogError(@"failed to write web tmp file:%@", err);
-	} else if (![fm copyItemAtPath:file.fileContentsPath toPath:newPath error:&err]) {
-		Rc2LogError(@"error copying file:%@", err);
-	}
-	[fm copyItemAtPath:file.fileContentsPath toPath:newPath error:nil];
-	return newPath;
 }
 
 -(void)adjustExecuteButton

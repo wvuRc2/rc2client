@@ -364,6 +364,12 @@
 	[[NSWorkspace sharedWorkspace] openURL:url];
 }
 
+//for some lame reason, a binding is using goBack which I can't find.
+-(void)goBack:(id)sender
+{
+	[self rcGoBack:sender];
+}
+
 -(IBAction)rcGoBack:(id)sender
 {
 	ZAssert(self.textLeftConstraint.constant < 0, @"bad situation");

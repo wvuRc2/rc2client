@@ -84,6 +84,8 @@ typedef void(^RCSessionListUpdateBlock)(RCList*);
 -(void)clearVariables;
 -(void)forceVariableRefresh;
 
+-(NSString*)pathForCopyForWebKitDisplay:(RCFile*)file;
+
 -(void)sendAudioInput:(NSData*)data;
 
 -(BOOL)fileCanBePromotedToAssignment:(RCFile*)file;

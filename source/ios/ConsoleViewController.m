@@ -209,7 +209,10 @@
 	if (self.visibleOutputView != self.webView)
 		[self animateToWebview];
 	self.currentFile = file;
-	[self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:file.fileContentsPath]]];
+	NSString *path = file.fileContentsPath;
+	if ([file.name.pathExtension isEqualToString:@"lst"])
+		path = [self.session pathForCopyForWebKitDisplay:file];
+	[self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
 }
 
 -(void)handleFileDeletion:(NSNotification*)note

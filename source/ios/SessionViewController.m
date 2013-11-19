@@ -45,7 +45,6 @@
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
 @property (nonatomic, strong) DoodleViewController *doodle;
 @property (nonatomic, strong) kTController *consoleKeyboardToolbar;
-@property (nonatomic, copy) NSString *webTmpFileDirectory;
 @property (weak, nonatomic, readwrite) RCSession *session;
 @property (nonatomic, assign) BOOL reconnecting;
 @property (nonatomic, assign) BOOL showingProgress;
@@ -348,35 +347,6 @@
 	self.autoReconnect=NO;
 	[_session closeWebSocket];
 	[self saveSessionState];
-	if (self.webTmpFileDirectory) {
-		[[NSFileManager defaultManager] removeItemAtPath:self.webTmpFileDirectory error:nil];
-		self.webTmpFileDirectory=nil;
-	}
-}
-
-// adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
--(NSString*)webTmpFilePath:(RCFile*)file
-{
-	NSFileManager *fm = [[NSFileManager alloc] init];
-	if (nil == self.webTmpFileDirectory) {
-		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
-		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-	}
-	NSString *ext = @"txt";
-	if (NSOrderedSame == [file.name.pathExtension caseInsensitiveCompare:@"html"])
-		ext = @"html";
-	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:ext];
-	NSError *err=nil;
-	if ([fm fileExistsAtPath:newPath])
-		[fm removeItemAtPath:newPath error:nil];
-	if (![fm fileExistsAtPath:file.fileContentsPath]) {
-		NSString *fileContents = [[Rc2Server sharedInstance] fetchFileContentsSynchronously:file];
-		if (![fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
-			Rc2LogError(@"failed to write web tmp file:%@", err);
-	} else if (![fm copyItemAtPath:file.fileContentsPath toPath:newPath error:&err]) {
-		Rc2LogError(@"error copying file:%@", err);
-	}
-	return newPath;
 }
 
 ///called when settings are to be displayed to get workspace to show settings for

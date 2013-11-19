@@ -38,6 +38,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 @property (nonatomic, copy, readwrite) NSArray *users;
 @property (nonatomic, strong, readwrite) RCSessionUser *currentUser;
 @property (nonatomic, strong, readwrite) NSString *mode;
+@property (nonatomic, copy) NSString *webTmpFileDirectory;
 @property (nonatomic, assign, readwrite) BOOL socketOpen;
 @property (nonatomic, assign, readwrite) BOOL hasReadPerm;
 @property (nonatomic, assign, readwrite) BOOL hasWritePerm;
@@ -86,6 +87,10 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 
 -(void)dealloc
 {
+	if (self.webTmpFileDirectory) {
+		[[NSFileManager defaultManager] removeItemAtPath:self.webTmpFileDirectory error:nil];
+		self.webTmpFileDirectory=nil;
+	}
 	_delegate=nil; //assert in setDelegate: would cause crash
 	[self.keepAliveTimer invalidate];
 	[self closeWebSocket];
@@ -272,6 +277,33 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	NSDictionary *dict = @{@"cmd":@"clcommand", @"subcmd": @"openfile", @"fid":file.fileId};
 	[_ws sendText:[dict JSONRepresentation]];
 }
+
+#pragma mark - services for higher layers
+
+-(NSString*)pathForCopyForWebKitDisplay:(RCFile*)file
+{
+	NSFileManager *fm = [[NSFileManager alloc] init];
+	if (nil == self.webTmpFileDirectory) {
+		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
+		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	NSString *ext = @"txt";
+	if (NSOrderedSame == [file.name.pathExtension caseInsensitiveCompare:@"html"])
+		ext = @"html";
+	NSString *newPath = [[self.webTmpFileDirectory stringByAppendingPathComponent:file.name] stringByAppendingPathExtension:ext];
+	NSError *err=nil;
+	if ([fm fileExistsAtPath:newPath])
+		[fm removeItemAtPath:newPath error:nil];
+	if (![fm fileExistsAtPath:file.fileContentsPath]) {
+		NSString *fileContents = [[Rc2Server sharedInstance] fetchFileContentsSynchronously:file];
+		if (![fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
+			Rc2LogError(@"failed to write web tmp file:%@", err);
+	} else if (![fm copyItemAtPath:file.fileContentsPath toPath:newPath error:&err]) {
+		Rc2LogError(@"error copying file:%@", err);
+	}
+	return newPath;
+}
+
 
 #pragma mark - meat & potatos
 
