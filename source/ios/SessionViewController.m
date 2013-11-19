@@ -150,7 +150,7 @@
 		if (bself.controlPopover.isPopoverVisible)
 			[bself.controlPopover dismissPopoverAnimated:YES];
 	}];
-	self.controlButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"controller"] style:UIBarButtonItemStylePlain target:self action:@selector(showControls:)];
+	self.controlButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"users"] style:UIBarButtonItemStylePlain target:self action:@selector(showControls:)];
 	[ritems addObject:self.controlButton];
 	self.navigationItem.rightBarButtonItems = ritems;
 }
