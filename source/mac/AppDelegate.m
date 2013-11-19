@@ -74,9 +74,9 @@
 		[[NSApp mainMenu] addItem:[[fscriptClz alloc] init]];
 	[self showMainApplicationWindow];
 #else
-	[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f4225a0ff7ed8fe53eb30f4a29a21689" companyName:@"WVU Statistics Dept" crashReportManagerDelegate:self];
-	[[BITHockeyManager sharedHockeyManager] setExceptionInterceptionEnabled:!YES];
-	[[BITHockeyManager sharedHockeyManager] startManager];
+//	[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f4225a0ff7ed8fe53eb30f4a29a21689" companyName:@"WVU Statistics Dept" crashReportManagerDelegate:self];
+//	[[BITHockeyManager sharedHockeyManager] setExceptionInterceptionEnabled:!YES];
+//	[[BITHockeyManager sharedHockeyManager] startManager];
 #endif
 
 	[MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"Rc2.sqlite"];
