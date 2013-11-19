@@ -406,7 +406,6 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 -(void)internallyProcessMessage:(NSDictionary*)dict json:(NSString*)json
 {
 	NSString *cmd = [dict objectForKey:@"msg"];
-	NSString *js=@"";
 	if ([cmd isEqualToString:@"userid"]) {
 		self.userid = [dict objectForKey:@"userid"];
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
