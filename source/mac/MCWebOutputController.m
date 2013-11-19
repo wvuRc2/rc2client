@@ -112,9 +112,7 @@
 -(void)appendAttributedString:(NSAttributedString *)aString
 {
 	NSTextStorage *ts = self.textView.textStorage;
-	NSUInteger curEnd = ts.length;
 	[ts appendAttributedString:aString];
-//	[ts addAttribute:NSFontAttributeName value:self.baseFont range:NSMakeRange(curEnd, aString.length)];
 	[self.textView scrollToEndOfDocument:nil];
 	[self animateToTextView]; //ony does if not visible
 }

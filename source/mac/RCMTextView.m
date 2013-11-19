@@ -100,12 +100,6 @@
 	if (![string isKindOfClass:[NSString class]]) {
 		Rc2LogWarn(@"RCMTextView setString caled with object that is not a string");
 	}
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSString *fntName = [defs objectForKey:kPref_EditorFont];
-	CGFloat fntSize = [defs doubleForKey:kPref_EditorFontSize];
-	NSFont *fnt = [NSFont fontWithName:fntName size:fntSize];
-	if (nil == fnt)
-		fnt = [NSFont userFixedPitchFontOfSize:12.0];
 	//always have a newline at the end
 	if (![string hasSuffix:@"\n"])
 		string = [string stringByAppendingString:@"\n"];
@@ -113,7 +107,6 @@
 	RunAfterDelay(0.5,  ^{
 		[self.enclosingScrollView.verticalRulerView setNeedsDisplay:YES];
 	});
-//	[self.textStorage addAttribute:NSFontAttributeName value:fnt range:NSMakeRange(0, string.length)];
 }
 
 - (NSUInteger)validModesForFontPanel:(NSFontPanel *)fontPanel

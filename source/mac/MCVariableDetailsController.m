@@ -107,7 +107,6 @@
 -(NSSize)calculateContentSize:(NSSize)curSize
 {
 	if (_isSS) {
-		NSSize sz = curSize;
 		curSize.width = (self.ssTableView.tableColumns.count * 64) + 40; //colwidth, 20 margin on each side
 	} else {
 		curSize.width = self.contentWidth;
