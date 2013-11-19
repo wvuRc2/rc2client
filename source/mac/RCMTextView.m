@@ -83,6 +83,11 @@
 	return [super validateMenuItem:menuItem];
 }
 
+-(NSDragOperation)draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context
+{
+	return NSDragOperationCopy;
+}
+
 -(void)print:(id)sender
 {
 	id del = self.delegate;

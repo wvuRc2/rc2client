@@ -15,6 +15,7 @@
 #import "RCImageCache.h"
 #import "RCFile.h"
 #import "Rc2FileType.h"
+#import "RCImage.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
 #import "MAKVONotificationCenter.h"
@@ -423,6 +424,36 @@
 }
 
 #pragma mark - text view
+
+-(NSURL*)textView:(NSTextView *)textView URLForContentsOfTextAttachment:(NSTextAttachment *)textAttachment atIndex:(NSUInteger)charIndex
+{
+	NSFileWrapper *fw = textAttachment.fileWrapper;
+	if ([fw.filename hasPrefix:@"file"]) {
+		NSDictionary *fdict = [NSKeyedUnarchiver unarchiveObjectWithData:textAttachment.fileWrapper.regularFileContents];
+		RCFile *file = [self.delegate.session.workspace fileWithId:fdict[@"id"]];
+		return [NSURL fileURLWithPath:file.fileContentsPath];
+	} else if ([fw.filename hasPrefix:@"image"]) {
+		RCImage *image = [self.delegate imageForTextAttachment:textAttachment];
+		return image.fileUrl;
+	}
+	return nil;
+}
+
+-(void)textView:(NSTextView *)view draggedCell:(id<NSTextAttachmentCell>)cell inRect:(NSRect)rect event:(NSEvent *)event atIndex:(NSUInteger)charIndex
+{
+	NSTextAttachment *textAttachment = (NSTextAttachment*)[cell attachment];
+	NSFileWrapper *fw = textAttachment.fileWrapper;
+	if ([fw.filename hasPrefix:@"file"]) {
+		NSDictionary *fdict = [NSKeyedUnarchiver unarchiveObjectWithData:textAttachment.fileWrapper.regularFileContents];
+		RCFile *file = [self.delegate.session.workspace fileWithId:fdict[@"id"]];
+		if (file) {
+			[view dragFile:file.fileContentsPath fromRect:rect slideBack:YES event:event];
+		}
+	} else if ([fw.filename hasPrefix:@"image"]) {
+		RCImage *image = [self.delegate imageForTextAttachment:textAttachment];
+		[view dragFile:image.fileUrl.path fromRect:rect slideBack:YES event:event];
+	}
+}
 
 -(void)textView:(NSTextView *)textView clickedOnCell:(id<NSTextAttachmentCell>)cell inRect:(NSRect)cellFrame atIndex:(NSUInteger)charIndex
 {

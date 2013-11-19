@@ -99,9 +99,11 @@
 			urlStr = [urlStr substringFromIndex:1];
 		urlStr = [urlStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
 		RCImage *anImage = [RCImage MR_createEntity];
-		//TODO: handle custom file names "with #realname"
 		anImage.name = imgDict[@"name"];
 		anImage.imageId = imgDict[@"id"];
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1070)
+		[anImage image]; //force network loading
+#endif
 	}
 	return outImages;
 }

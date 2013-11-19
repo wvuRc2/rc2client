@@ -349,7 +349,6 @@
 		08D243EB15B5D7590064A9FA /* SessionEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243D815B5D7590064A9FA /* SessionEditView.m */; };
 		08D243EC15B5D7590064A9FA /* StudentAssignmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243DA15B5D7590064A9FA /* StudentAssignmentCell.m */; };
 		08D243ED15B5D7590064A9FA /* StudentAssignmentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D243DB15B5D7590064A9FA /* StudentAssignmentCell.xib */; };
-		08D2441015B5D78A0064A9FA /* CoolButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243F215B5D78A0064A9FA /* CoolButton.m */; };
 		08D2441115B5D78A0064A9FA /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243F415B5D78A0064A9FA /* GradientButton.m */; };
 		08D2441215B5D78A0064A9FA /* JSTokenButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243F715B5D78A0064A9FA /* JSTokenButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2441315B5D78A0064A9FA /* JSTokenField.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243F915B5D78A0064A9FA /* JSTokenField.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1009,8 +1008,6 @@
 		08D243D915B5D7590064A9FA /* StudentAssignmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentAssignmentCell.h; sourceTree = "<group>"; };
 		08D243DA15B5D7590064A9FA /* StudentAssignmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentAssignmentCell.m; sourceTree = "<group>"; };
 		08D243DB15B5D7590064A9FA /* StudentAssignmentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StudentAssignmentCell.xib; sourceTree = "<group>"; };
-		08D243F115B5D78A0064A9FA /* CoolButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoolButton.h; sourceTree = "<group>"; };
-		08D243F215B5D78A0064A9FA /* CoolButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoolButton.m; sourceTree = "<group>"; };
 		08D243F315B5D78A0064A9FA /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientButton.h; sourceTree = "<group>"; };
 		08D243F415B5D78A0064A9FA /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientButton.m; sourceTree = "<group>"; };
 		08D243F615B5D78A0064A9FA /* JSTokenButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTokenButton.h; sourceTree = "<group>"; };
@@ -1980,8 +1977,6 @@
 			children = (
 				08DF3D5315BDBC80000A339D /* AMResizableSplitterViewController */,
 				08FF3D4016F10E1900F3E09E /* ColorPicker-for-iOS */,
-				08D243F115B5D78A0064A9FA /* CoolButton.h */,
-				08D243F215B5D78A0064A9FA /* CoolButton.m */,
 				08D243F315B5D78A0064A9FA /* GradientButton.h */,
 				08D243F415B5D78A0064A9FA /* GradientButton.m */,
 				08D243F515B5D78A0064A9FA /* JSTokenField */,
@@ -2886,7 +2881,6 @@
 				082D1EDB17E8D2DC00723EB3 /* RCRmdParser.m in Sources */,
 				08D243EB15B5D7590064A9FA /* SessionEditView.m in Sources */,
 				08D243EC15B5D7590064A9FA /* StudentAssignmentCell.m in Sources */,
-				08D2441015B5D78A0064A9FA /* CoolButton.m in Sources */,
 				08D2441115B5D78A0064A9FA /* GradientButton.m in Sources */,
 				08BDDDA417EA48AB00E669E3 /* NSManagedObjectContext+MagicalRecord.m in Sources */,
 				08D2441215B5D78A0064A9FA /* JSTokenButton.m in Sources */,

@@ -531,26 +531,15 @@ NSLog(@"complexResults!");
 			for (NSDictionary *imgDict in dict[@"imageUrls"]) {
 				NSTextAttachment *tattach = [self.delegate textAttachmentForImageId:imgDict[@"id"] imageUrl:imgDict[@"url"]];
 				NSAttributedString *graphStr = [NSAttributedString attributedStringWithAttachment:tattach];
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+				NSMutableAttributedString *mgstr = [graphStr mutableCopy];
+				[mgstr addAttribute:NSToolTipAttributeName value:imgDict[@"name"] range:NSMakeRange(0, 1)];
+				graphStr = mgstr;
+#endif
 				[mstr appendAttributedString:graphStr];
 			}
 			[mstr appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n"]];
 			[self.delegate appendAttributedString:mstr];
-		}
-		if ([[dict objectForKey:@"files"] count] > 0) {
-			[self appendFiles:dict[@"files"]];
-
-			/*NSArray *fileInfo = [dict objectForKey:@"files"];
-			for (NSDictionary *fd in fileInfo) {
-				[self.workspace updateFileId:[fd objectForKey:@"fileId"]];
-			}
-			js = [js stringByAppendingFormat:@"\niR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
-			//if a single html file returned, queue it up for display
-			if (fileInfo.count == 1 && [fileInfo[0][@"ext"] isEqualToString:@".html"]) {
-				RunAfterDelay(0.6, ^{
-					[self.delegate displayLinkedFile:[NSString stringWithFormat:@"/%@.html", fileInfo[0][@"fileId"]]];
-				});
-			}
-			 */
 		}
 		if (self.variablesVisible && [dict objectForKey:@"variables"])
 			[self updateVariables:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
@@ -561,14 +550,6 @@ NSLog(@"complexResults!");
 		[self appendFiles:dict[@"files"]];
 		if (dict[@"error"])
 			[self appendError:dict[@"error"]];
-//		NSArray *fileInfo = [dict objectForKey:@"files"];
-//		for (NSDictionary *fd in fileInfo) {
-//			[self.workspace updateFileId:[fd objectForKey:@"fileId"]];
-//		}
-//		js = [NSString stringWithFormat:@"iR.appendFiles(JSON.parse('%@'))", [self escapeForJS:[fileInfo JSONRepresentation]]];
-//		if ([dict objectForKey:@"error"]) {
-//			js = [NSString stringWithFormat:@"iR.displayError('%@'); %@", [self escapeForJS:dict[@"error"]], js];
-//		}
 	} else {
 		Rc2LogWarn(@"unknown message received:%@", dict);
 	}
