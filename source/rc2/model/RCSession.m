@@ -511,7 +511,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpstr = [NSString stringWithFormat:@"HELP: %@", dict[@"helpTopic"]];
 			[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:helpstr attributes:self.outputColors[kOColor_Help]]];
-			NSString *helpPath = [dict objectForKey:@"helpPath"];
+			NSString *helpPath = [[dict objectForKey:@"helpPath"] firstObject];
 			NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.stat.wvu.edu/rc2/%@.html", helpPath]];
 			[self.delegate loadHelpURL:helpUrl];
 		} else if ([dict objectForKey:@"complexResults"]) {

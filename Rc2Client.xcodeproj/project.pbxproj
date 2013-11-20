@@ -2459,7 +2459,6 @@
 				08D2461915B5EBC20064A9FA /* Frameworks */,
 				08D2461A15B5EBC20064A9FA /* Resources */,
 				084594E615B5F7C700297C9D /* compile css */,
-				08F3FE14183BC876000112F3 /* link from debug to archive build directory for archive build */,
 				084593D615B5F09F00297C9D /* Copy Frameworks */,
 			);
 			buildRules = (
@@ -2822,20 +2821,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-		08F3FE14183BC876000112F3 /* link from debug to archive build directory for archive build */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "link from debug to archive build directory for archive build";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "#cd \"${BUILT_PRODUCTS_DIR}\"\n#ln -s \"../../IntermediateBuildFilesPath/UninstalledProducts/DropboxOSX.framework\" DropboxOSX.framework\n#ln -s \"../../IntermediateBuildFilesPath/UninstalledProducts/ParseKit.framework\" ParseKit.framework";
 		};
 /* End PBXShellScriptBuildPhase section */
 
