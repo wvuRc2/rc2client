@@ -36,7 +36,8 @@
 	[self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"dbpath"];
 	if (nil == self.thePath) {
 		self.thePath = @"/";
-		self.navigationItem.title = NSLocalizedString(@"Dropbox", @"");
+		if (nil == self.navigationItem.title)
+			self.navigationItem.title = NSLocalizedString(@"Dropbox", @"");
 	} else {
 		self.navigationItem.title = self.thePath.lastPathComponent;
 	}
@@ -52,7 +53,8 @@
 
 -(void)userDone:(id)sender
 {
-	[self.navigationController popToRootViewControllerAnimated:YES];
+	if (self.modalInPopover)
+		[self.navigationController popToRootViewControllerAnimated:YES];
 	if (self.doneHandler)
 		self.doneHandler(self.thePath);
 }
@@ -98,9 +100,17 @@
 	//need to push next item on the stack
 	DropboxFolderSelectController *dfc = [[DropboxFolderSelectController alloc] init];
 	dfc.workspace = self.workspace;
+	dfc.doneHandler = self.doneHandler;
+	dfc.doneButtonTitle = self.doneButtonTitle;
+	dfc.navigationItem.rightBarButtonItems = [self.navigationItem.rightBarButtonItems copy];
 	dfc.thePath = [[item objectForKey:@"metadata"] path];
 	dfc.dropboxCache = self.dropboxCache;
 	[self.navigationController pushViewController:dfc animated:YES];
+}
+
+-(NSString*)description
+{
+	return [[super description] stringByAppendingFormat:@" %@", self.thePath];
 }
 
 @end

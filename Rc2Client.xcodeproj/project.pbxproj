@@ -499,6 +499,7 @@
 		08F3FE0E18342D8D000112F3 /* RCMTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE0D18342D8D000112F3 /* RCMTableView.m */; };
 		08F3FE1218356660000112F3 /* MCVariableWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE1018356660000112F3 /* MCVariableWindowController.m */; };
 		08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08F3FE1118356660000112F3 /* MCVariableWindowController.xib */; };
+		08F3FE17183D676D000112F3 /* DrropboxUploadActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE16183D676D000112F3 /* DrropboxUploadActivity.m */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
@@ -1187,6 +1188,8 @@
 		08F3FE0F18356660000112F3 /* MCVariableWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVariableWindowController.h; sourceTree = "<group>"; };
 		08F3FE1018356660000112F3 /* MCVariableWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCVariableWindowController.m; sourceTree = "<group>"; };
 		08F3FE1118356660000112F3 /* MCVariableWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCVariableWindowController.xib; sourceTree = "<group>"; };
+		08F3FE15183D676D000112F3 /* DrropboxUploadActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrropboxUploadActivity.h; sourceTree = "<group>"; };
+		08F3FE16183D676D000112F3 /* DrropboxUploadActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrropboxUploadActivity.m; sourceTree = "<group>"; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
 		08FF3D0316E9250900F3E09E /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/theme/ThemeEngine.h; sourceTree = "<group>"; };
 		08FF3D0416E9250900F3E09E /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/theme/ThemeEngine.m; sourceTree = "<group>"; };
@@ -1943,6 +1946,8 @@
 				08D243BC15B5D6560064A9FA /* SendMessageViewController.xib */,
 				08D243BF15B5D6670064A9FA /* KeyboardToolbar.h */,
 				08D243C015B5D6670064A9FA /* KeyboardToolbar.m */,
+				08F3FE15183D676D000112F3 /* DrropboxUploadActivity.h */,
+				08F3FE16183D676D000112F3 /* DrropboxUploadActivity.m */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -2970,6 +2975,7 @@
 				080E508A166FDFB800E95531 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				0873431517C3DF41000EC1E0 /* ProjectViewTransition.m in Sources */,
 				08BDDDA217EA48AB00E669E3 /* NSManagedObjectContext+MagicalObserving.m in Sources */,
+				08F3FE17183D676D000112F3 /* DrropboxUploadActivity.m in Sources */,
 				08BDDDA817EA48AB00E669E3 /* NSManagedObjectContext+MagicalThreading.m in Sources */,
 				080E508C166FDFB800E95531 /* AFPropertyListRequestOperation.m in Sources */,
 				080E508E166FDFB800E95531 /* AFURLConnectionOperation.m in Sources */,

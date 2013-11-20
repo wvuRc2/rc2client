@@ -27,6 +27,8 @@
 #import "WHMailActivity.h"
 #import "MAKVONotificationCenter.h"
 #import "RCSyntaxParser.h"
+#import "DrropboxUploadActivity.h"
+#import "DropboxFolderSelectController.h"
 
 #define DEFAUT_UIFONT [UIFont fontWithName:@"Inconsolata" size:18.0]
 
@@ -605,6 +607,23 @@
 	[self adjustLineNumbers];
 }
 
+-(void)presentFileExport:(RCFile*)file
+{
+	DropboxFolderSelectController *dbc = [[DropboxFolderSelectController alloc] init];
+	UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:dbc];
+	__weak UIViewController *blockVC = nc;
+	dbc.doneButtonTitle = @"Select";
+	dbc.dropboxCache = [[NSMutableDictionary alloc] init];
+	dbc.navigationItem.title = @"Select Destination:";
+	dbc.doneHandler = ^(NSString *thePath) {
+		[blockVC.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+	};
+	nc.modalPresentationStyle = UIModalPresentationFormSheet;
+	[nc setValue:[NSValue valueWithCGSize:CGSizeMake(400, 450)] forKey:@"formSheetSize"];
+	[self presentViewController:nc animated:YES completion:nil];
+}
+
+
 #pragma mark - actions
 
 -(IBAction)doExecute:(id)sender
@@ -695,6 +714,12 @@
 		});
 	};
 	[activs addObject:renameActivity];
+	DrropboxUploadActivity *dbactivity = [[DrropboxUploadActivity alloc] init];
+	dbactivity.filesToUpload = @[file];
+	dbactivity.performBlock = ^{
+		[self presentFileExport:file];
+	};
+	[activs addObject:dbactivity];
 	[items addObject:[WHMailActivityItem mailActivityItemWithSelectionHandler:^(MFMailComposeViewController *messageC) {
 		[messageC setSubject:[NSString stringWithFormat:@"%@ from Rc²", file.name]];
 		[messageC addAttachmentData:[NSData dataWithContentsOfFile:file.fileContentsPath]
