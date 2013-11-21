@@ -610,6 +610,15 @@
 
 -(void)presentFileExport:(RCFile*)file
 {
+	if (![[DBSession sharedSession] isLinked]) {
+		Rc2AppDelegate *del = (Rc2AppDelegate*)TheApp.delegate;
+		__weak EditorViewController *bself = self;
+		del.dropboxCompletionBlock = ^{
+			[bself presentFileExport:file];
+		};
+		[[DBSession sharedSession] linkFromController:self.view.window.rootViewController];
+		return;
+	}
 	DropboxFolderSelectController *dbc = [[DropboxFolderSelectController alloc] init];
 	UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:dbc];
 	__weak UIViewController *blockVC = nc;
