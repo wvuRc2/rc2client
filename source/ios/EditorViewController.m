@@ -663,11 +663,6 @@
 		Rc2LogWarn(@"loadFile called while save in progress");
 		return;
 	}
-	if (self.activityPopover.isPopoverVisible) {
-		[self.activityPopover dismissPopoverAnimated:YES];
-		self.activityPopover = nil;
-		return;
-	}
 
 	UIView *rootView = self.view.superview;
 	MBProgressHUD *hud = nil;
@@ -852,6 +847,10 @@
 	if (self.filePopover.popoverVisible) {
 		[self.filePopover dismissPopoverAnimated: YES];
 		return;
+	}
+	if (self.activityPopover.isPopoverVisible) {
+		[self.activityPopover dismissPopoverAnimated:YES];
+		self.activityPopover = nil;
 	}
 	if (!self.session.hasReadPerm) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Permission Denied"
