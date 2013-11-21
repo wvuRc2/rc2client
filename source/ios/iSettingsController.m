@@ -249,6 +249,15 @@ enum { eTree_Theme, eTree_Keyboard };
 		}
 		[self.navigationController pushViewController:self.treeController animated:YES];
 	} else if (cell == self.dbpathCell) {
+		[self presentDropboxImport:indexPath];
+	}
+}
+
+-(void)presentDropboxImport:(NSIndexPath*)ipath
+{
+	Rc2AppDelegate *del = (Rc2AppDelegate*)[TheApp delegate];
+	if ([[DBSession sharedSession] isLinked]) {
+		del.dropboxCompletionBlock = nil;
 		//push a dropbox browser on navigation stack
 		DropboxFolderSelectController *dbc = [[DropboxFolderSelectController alloc] init];
 		dbc.workspace = self.currentWorkspace;
@@ -262,9 +271,20 @@ enum { eTree_Theme, eTree_Keyboard };
 				if (!success)
 					Rc2LogError(@"Failed to save db sync info:%@", results);
 			}];
+			[self.navigationController popToRootViewControllerAnimated:YES];
 		};
 		[self.navigationController pushViewController:dbc animated:YES];
+	} else {
+		//we need to prompt the user to link to us. we need to let the app delegate know
+		//to call this object/action on a successful link
+		__weak iSettingsController *blockSelf = self;
+		del.dropboxCompletionBlock = ^{
+			if (blockSelf.view.window)
+				[blockSelf tableView:self.settingsTable didSelectRowAtIndexPath:ipath];
+		};
+		[[DBSession sharedSession] linkFromController:self.view.window.rootViewController];
 	}
+	
 }
 
 -(void)navTree:(AMNavigationTreeController*)navTree leafItemTouched:(id)item
