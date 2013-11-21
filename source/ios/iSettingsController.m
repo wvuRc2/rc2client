@@ -273,7 +273,29 @@ enum { eTree_Theme, eTree_Keyboard };
 			}];
 			[self.navigationController popToRootViewControllerAnimated:YES];
 		};
-		[self.navigationController pushViewController:dbc animated:YES];
+		//if there is a pre-existing path. we need to build up the nav controller's stack history
+		NSMutableArray *controllers = [NSMutableArray array];
+		[controllers addObject:dbc];
+		DropboxFolderSelectController *top = dbc;
+		NSString *curPath = @"/";
+		NSArray *pathParts = [dbc.workspace.dropboxPath componentsSeparatedByString:@"/"];
+		for (NSString *aPathPart in pathParts) {
+			if (aPathPart.length < 1)
+				continue;
+			//push each path part on
+			curPath = [curPath stringByAppendingPathComponent:aPathPart];
+			top = [top prepareChildControllerForPath:curPath];
+			[top view]; //force loading
+			[controllers addObject:top];
+		}
+		top = controllers.lastObject;
+		[controllers removeLastObject];
+		//now show all except last one w/o animation
+		for (DropboxFolderSelectController *aController in controllers) {
+			[self.navigationController pushViewController:aController animated:NO];
+		}
+		//animate the top one
+		[self.navigationController pushViewController:top animated:YES];
 	} else {
 		//we need to prompt the user to link to us. we need to let the app delegate know
 		//to call this object/action on a successful link

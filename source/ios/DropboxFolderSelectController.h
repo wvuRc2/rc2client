@@ -19,4 +19,9 @@
 
 //to see if existing file is already there and to possibly replace
 -(NSString*)revisiionIdForFile:(NSString*)fileName;
+
+//so prexisiting path can be restored
+-(DropboxFolderSelectController*)prepareChildControllerForPath:(NSString*)path;
+
+-(void)loadEntries:(BOOL)force;
 @end

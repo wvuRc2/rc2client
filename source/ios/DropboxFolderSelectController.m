@@ -42,14 +42,7 @@
 	} else {
 		self.navigationItem.title = self.thePath.lastPathComponent;
 	}
-	self.entries = [self.dropboxCache objectForKey:self.thePath];
-	if (nil == self.entries) {
-		self.restClient = [[DBRestClient alloc] initWithSession:(id)[DBSession sharedSession]];
-		self.restClient.delegate = (id)self;
-		[self.restClient loadMetadata:self.thePath];
-	} else {
-		[self.tableView reloadData];
-	}
+	[self loadEntries:NO];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -57,6 +50,20 @@
 	[super viewDidAppear:animated];
 	if (self.navigationController.viewControllers.firstObject == self) {
 		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(userCanceled:)];
+	}
+}
+
+-(void)loadEntries:(BOOL)force
+{
+	self.entries = [self.dropboxCache objectForKey:self.thePath];
+	if (force)
+		self.entries = nil;
+	if (nil == self.entries) {
+		self.restClient = [[DBRestClient alloc] initWithSession:(id)[DBSession sharedSession]];
+		self.restClient.delegate = (id)self;
+		[self.restClient loadMetadata:self.thePath];
+	} else {
+		[self.tableView reloadData];
 	}
 }
 
@@ -123,15 +130,21 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSMutableDictionary *item = [self.entries objectAtIndex:indexPath.row];
+	[self.navigationController pushViewController:[self prepareChildControllerForPath:[[item objectForKey:@"metadata"] path]] animated:YES];
+}
+
+-(DropboxFolderSelectController*)prepareChildControllerForPath:(NSString*)path
+{
 	//need to push next item on the stack
 	DropboxFolderSelectController *dfc = [[DropboxFolderSelectController alloc] init];
 	dfc.workspace = self.workspace;
 	dfc.doneHandler = self.doneHandler;
 	dfc.doneButtonTitle = self.doneButtonTitle;
+	dfc.contentSizeForViewInPopover = self.contentSizeForViewInPopover;
 	dfc.navigationItem.rightBarButtonItems = [self.navigationItem.rightBarButtonItems copy];
-	dfc.thePath = [[item objectForKey:@"metadata"] path];
+	dfc.thePath = path;
 	dfc.dropboxCache = self.dropboxCache;
-	[self.navigationController pushViewController:dfc animated:YES];
+	return dfc;
 }
 
 -(NSString*)description
