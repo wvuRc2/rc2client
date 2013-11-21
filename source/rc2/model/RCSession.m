@@ -541,6 +541,8 @@ NSLog(@"complexResults!");
 			[mstr appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n"]];
 			[self.delegate appendAttributedString:mstr];
 		}
+		if ([dict objectForKey:@"files"])
+			[self appendFiles:dict[@"files"]];
 		if (self.variablesVisible && [dict objectForKey:@"variables"])
 			[self updateVariables:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {

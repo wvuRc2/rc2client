@@ -240,6 +240,8 @@
 
 -(void)appendAttributedString:(NSAttributedString*)aString
 {
+	if (self.visibleOutputView != self.outputView)
+		[self animateBackToMainView];
 	NSUInteger curEnd = self.outputView.textStorage.length;
 	[self.outputView.textStorage appendAttributedString:aString];
 	[self.outputView.textStorage addAttribute:NSFontAttributeName value:self.baseFont range:NSMakeRange(curEnd, aString.length)];
