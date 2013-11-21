@@ -13,6 +13,7 @@
 @interface DropboxFolderSelectController ()
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, copy) NSArray *entries;
+@property (nonatomic, copy) NSArray *fileEntries;
 @end
 
 @implementation DropboxFolderSelectController
@@ -51,24 +52,49 @@
 	}
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	if (self.navigationController.viewControllers.firstObject == self) {
+		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(userCanceled:)];
+	}
+}
+
+-(void)userCanceled:(id)sender
+{
+	if (self.modalInPopover)
+		[self.navigationController popToRootViewControllerAnimated:YES];
+	if (self.doneHandler)
+		self.doneHandler(self, nil);
+}
+
 -(void)userDone:(id)sender
 {
 	if (self.modalInPopover)
 		[self.navigationController popToRootViewControllerAnimated:YES];
 	if (self.doneHandler)
-		self.doneHandler(self.thePath);
+		self.doneHandler(self, self.thePath);
+}
+
+-(NSString*)revisiionIdForFile:(NSString*)fileName
+{
+	return [[self.fileEntries firstObjectWithValue:fileName forKey:@"filename"] rev];
 }
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata
 {
 	NSMutableArray *a = [NSMutableArray array];
+	NSMutableArray *fe = [NSMutableArray array];
 	for (DBMetadata *item in metadata.contents) {
 		if (item.isDirectory) {
 			[a addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:[item.path lastPathComponent], @"name",
 						   @YES, @"isdir", item, @"metadata", nil]];
+		} else {
+			[fe addObject:item];
 		}
 	}
 	self.entries = a;
+	self.fileEntries = fe;
 	[self.dropboxCache setObject:a forKey:self.thePath];
 	[self.tableView reloadData];
 }

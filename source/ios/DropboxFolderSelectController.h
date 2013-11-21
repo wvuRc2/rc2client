@@ -15,5 +15,8 @@
 @property (nonatomic, copy) NSString *thePath;
 @property (nonatomic, copy) NSString *doneButtonTitle;
 @property (nonatomic, strong) NSMutableDictionary *dropboxCache;
-@property (nonatomic, copy) void (^doneHandler)(NSString *path);
+@property (nonatomic, copy) void (^doneHandler)(DropboxFolderSelectController *controller, NSString *path);
+
+//to see if existing file is already there and to possibly replace
+-(NSString*)revisiionIdForFile:(NSString*)fileName;
 @end

@@ -29,6 +29,7 @@
 #import "RCSyntaxParser.h"
 #import "DrropboxUploadActivity.h"
 #import "DropboxFolderSelectController.h"
+#import "DropBlocks.h"
 
 #define DEFAUT_UIFONT [UIFont fontWithName:@"Inconsolata" size:18.0]
 
@@ -615,14 +616,33 @@
 	dbc.doneButtonTitle = @"Select";
 	dbc.dropboxCache = [[NSMutableDictionary alloc] init];
 	dbc.navigationItem.title = @"Select Destination:";
-	dbc.doneHandler = ^(NSString *thePath) {
+	dbc.doneHandler = ^(DropboxFolderSelectController *controller, NSString *thePath) {
 		[blockVC.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+		[self uploadFile:file toPath:thePath existingRevision:[controller revisiionIdForFile:file.name]];
 	};
 	nc.modalPresentationStyle = UIModalPresentationFormSheet;
 	[nc setValue:[NSValue valueWithCGSize:CGSizeMake(400, 450)] forKey:@"formSheetSize"];
 	[self presentViewController:nc animated:YES completion:nil];
 }
 
+-(void)uploadFile:(RCFile*)file toPath:(NSString*)dbPath existingRevision:(NSString*)revisionId
+{
+	if (Nil == file || nil == dbPath)
+		return;
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window.rootViewController.view animated:YES];
+	if (file.fileSize.integerValue > 1024 * 10)
+		hud.mode = MBProgressHUDModeDeterminate;
+	else
+		hud.mode = MBProgressHUDModeIndeterminate;
+	hud.labelText = [NSString stringWithFormat:@"uploading %@ to Dropbox", file.name];
+	[DropBlocks uploadFile:file.name toPath:dbPath withParentRev:revisionId fromPath:file.fileContentsPath completionBlock:^(NSString *unknownString, DBMetadata *metadata, NSError *error)
+	{
+		[hud hide:YES];
+	} progressBlock:^(CGFloat progress) {
+		hud.progress = progress;
+	}];
+	[hud show:YES];
+}
 
 #pragma mark - actions
 
@@ -643,6 +663,12 @@
 		Rc2LogWarn(@"loadFile called while save in progress");
 		return;
 	}
+	if (self.activityPopover.isPopoverVisible) {
+		[self.activityPopover dismissPopoverAnimated:YES];
+		self.activityPopover = nil;
+		return;
+	}
+
 	UIView *rootView = self.view.superview;
 	MBProgressHUD *hud = nil;
 
@@ -693,6 +719,9 @@
 
 -(IBAction)doActivityPopover:(id)sender
 {
+	if (self.filePopover.isPopoverVisible) {
+		[self.filePopover dismissPopoverAnimated:YES];
+	}
 	if (self.activityPopover.isPopoverVisible) {
 		[self.activityPopover dismissPopoverAnimated:YES];
 		self.activityPopover = nil;

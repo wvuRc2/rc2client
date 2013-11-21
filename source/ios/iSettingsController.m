@@ -255,7 +255,7 @@ enum { eTree_Theme, eTree_Keyboard };
 		dbc.doneButtonTitle = @"Select";
 		dbc.dropboxCache = [[NSMutableDictionary alloc] init];
 		dbc.contentSizeForViewInPopover = self.containingPopover.popoverContentSize;
-		dbc.doneHandler = ^(NSString *thePath) {
+		dbc.doneHandler = ^(DropboxFolderSelectController *controller, NSString *thePath) {
 			self.currentWorkspace.dropboxPath = thePath;
 			self.currentWorkspace.dropboxUser = [[[DBSession sharedSession] userIds] firstObject];
 			[[Rc2Server sharedInstance] updateWorkspace:self.currentWorkspace completionBlock:^(BOOL success, id results) {
