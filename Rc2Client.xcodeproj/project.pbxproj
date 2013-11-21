@@ -42,6 +42,8 @@
 		0817C694181EF00700C70CA8 /* RCTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C693181EF00700C70CA8 /* RCTextAttachment.m */; };
 		0817C6981821A3EC00C70CA8 /* _RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C6971821A3EC00C70CA8 /* _RCImage.m */; };
 		0817C6991821A3EC00C70CA8 /* _RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C6971821A3EC00C70CA8 /* _RCImage.m */; };
+		08285FFD183EBA25002BA8D2 /* SessionEditorCotnainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08285FFC183EBA25002BA8D2 /* SessionEditorCotnainerView.m */; };
+		08286002183EBB84002BA8D2 /* SessionEditorLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08286001183EBB84002BA8D2 /* SessionEditorLayoutManager.m */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
@@ -600,6 +602,10 @@
 		0817C693181EF00700C70CA8 /* RCTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTextAttachment.m; sourceTree = "<group>"; };
 		0817C6961821A3EC00C70CA8 /* _RCImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCImage.h; sourceTree = "<group>"; };
 		0817C6971821A3EC00C70CA8 /* _RCImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCImage.m; sourceTree = "<group>"; };
+		08285FFB183EBA25002BA8D2 /* SessionEditorCotnainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionEditorCotnainerView.h; sourceTree = "<group>"; };
+		08285FFC183EBA25002BA8D2 /* SessionEditorCotnainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionEditorCotnainerView.m; sourceTree = "<group>"; };
+		08286000183EBB84002BA8D2 /* SessionEditorLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionEditorLayoutManager.h; sourceTree = "<group>"; };
+		08286001183EBB84002BA8D2 /* SessionEditorLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionEditorLayoutManager.m; sourceTree = "<group>"; };
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
@@ -1343,6 +1349,49 @@
 			name = Variables;
 			sourceTree = "<group>";
 		};
+		08285FFE183EBB2C002BA8D2 /* text editing */ = {
+			isa = PBXGroup;
+			children = (
+				0847FDB21762682300D950EA /* SessionEditorProtocol.h */,
+				08285FFB183EBA25002BA8D2 /* SessionEditorCotnainerView.h */,
+				08285FFC183EBA25002BA8D2 /* SessionEditorCotnainerView.m */,
+				08D243D715B5D7590064A9FA /* SessionEditView.h */,
+				08D243D815B5D7590064A9FA /* SessionEditView.m */,
+				08286000183EBB84002BA8D2 /* SessionEditorLayoutManager.h */,
+				08286001183EBB84002BA8D2 /* SessionEditorLayoutManager.m */,
+				0817C692181EF00700C70CA8 /* RCTextAttachment.h */,
+				0817C693181EF00700C70CA8 /* RCTextAttachment.m */,
+			);
+			name = "text editing";
+			sourceTree = "<group>";
+		};
+		08285FFF183EBB47002BA8D2 /* image display */ = {
+			isa = PBXGroup;
+			children = (
+				0868D4D01805CE6A002AD679 /* ImagePreviewTransition.h */,
+				0868D4D11805CE6A002AD679 /* ImagePreviewTransition.m */,
+				0868D4D31805CF43002AD679 /* ImagePreviewViewController.h */,
+				0868D4D41805CF43002AD679 /* ImagePreviewViewController.m */,
+				0868D4D51805CF43002AD679 /* ImagePreviewViewController.xib */,
+				08D2439415B5D5E20064A9FA /* ImageDisplayController.h */,
+				08D2439515B5D5E20064A9FA /* ImageDisplayController.m */,
+				08D2439615B5D5E20064A9FA /* ImageDisplayController.xib */,
+				0868D4C317FCBDD6002AD679 /* ImageCollectionController.h */,
+				0868D4C417FCBDD6002AD679 /* ImageCollectionController.m */,
+				0868D4CD17FDECC0002AD679 /* ImageCollectionLayout.h */,
+				0868D4CE17FDECC0002AD679 /* ImageCollectionLayout.m */,
+				0868D4C617FCC655002AD679 /* ImageCollectionCell.h */,
+				0868D4C717FCC655002AD679 /* ImageCollectionCell.m */,
+				0868D4C917FCC67F002AD679 /* ImageCollectionCell.xib */,
+				08D2439715B5D5E20064A9FA /* ImagePickerController.h */,
+				08D2439815B5D5E20064A9FA /* ImagePickerController.m */,
+				08D243CD15B5D7590064A9FA /* ImageHolderView.h */,
+				08D243CE15B5D7590064A9FA /* ImageHolderView.m */,
+				08137A3417CBC57F005EA804 /* ImageHolderView.xib */,
+			);
+			name = "image display";
+			sourceTree = "<group>";
+		};
 		082D1EB817E2402400723EB3 /* syntax highlighting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1873,26 +1922,6 @@
 				08D2438F15B5D5B90064A9FA /* ConsoleViewController.h */,
 				08D2439015B5D5B90064A9FA /* ConsoleViewController.m */,
 				08D2439115B5D5B90064A9FA /* ConsoleViewController.xib */,
-				0868D4D01805CE6A002AD679 /* ImagePreviewTransition.h */,
-				0868D4D11805CE6A002AD679 /* ImagePreviewTransition.m */,
-				0868D4D31805CF43002AD679 /* ImagePreviewViewController.h */,
-				0868D4D41805CF43002AD679 /* ImagePreviewViewController.m */,
-				0868D4D51805CF43002AD679 /* ImagePreviewViewController.xib */,
-				08D2439415B5D5E20064A9FA /* ImageDisplayController.h */,
-				08D2439515B5D5E20064A9FA /* ImageDisplayController.m */,
-				08D2439615B5D5E20064A9FA /* ImageDisplayController.xib */,
-				0868D4C317FCBDD6002AD679 /* ImageCollectionController.h */,
-				0868D4C417FCBDD6002AD679 /* ImageCollectionController.m */,
-				0868D4CD17FDECC0002AD679 /* ImageCollectionLayout.h */,
-				0868D4CE17FDECC0002AD679 /* ImageCollectionLayout.m */,
-				0868D4C617FCC655002AD679 /* ImageCollectionCell.h */,
-				0868D4C717FCC655002AD679 /* ImageCollectionCell.m */,
-				0868D4C917FCC67F002AD679 /* ImageCollectionCell.xib */,
-				08D2439715B5D5E20064A9FA /* ImagePickerController.h */,
-				08D2439815B5D5E20064A9FA /* ImagePickerController.m */,
-				08D243CD15B5D7590064A9FA /* ImageHolderView.h */,
-				08D243CE15B5D7590064A9FA /* ImageHolderView.m */,
-				08137A3417CBC57F005EA804 /* ImageHolderView.xib */,
 				08D2439915B5D5E20064A9FA /* SessionFilesController.h */,
 				08D2439A15B5D5E20064A9FA /* SessionFilesController.m */,
 				08D2439B15B5D5E20064A9FA /* SessionFilesController.xib */,
@@ -1900,11 +1929,8 @@
 				08D243A515B5D5FA0064A9FA /* DoodleView.m */,
 				08D243A615B5D5FA0064A9FA /* DoodleViewController.h */,
 				08D243A715B5D5FA0064A9FA /* DoodleViewController.m */,
-				0847FDB21762682300D950EA /* SessionEditorProtocol.h */,
-				08D243D715B5D7590064A9FA /* SessionEditView.h */,
-				08D243D815B5D7590064A9FA /* SessionEditView.m */,
-				0817C692181EF00700C70CA8 /* RCTextAttachment.h */,
-				0817C693181EF00700C70CA8 /* RCTextAttachment.m */,
+				08285FFE183EBB2C002BA8D2 /* text editing */,
+				08285FFF183EBB47002BA8D2 /* image display */,
 				0868D4BC17FA1C0B002AD679 /* keyboard toolbar */,
 				08137A3917CBF4F7005EA804 /* Variables */,
 			);
@@ -2918,6 +2944,7 @@
 				08D2461515B5E0750064A9FA /* DropboxImportController.m in Sources */,
 				08DF3D5115BDBC79000A339D /* AMResizableSplitterView.m in Sources */,
 				08BDDD8C17EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.m in Sources */,
+				08285FFD183EBA25002BA8D2 /* SessionEditorCotnainerView.m in Sources */,
 				08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */,
 				08C99AC315EE9CDF002D430D /* Rc2FileType.m in Sources */,
 				08BDDDAC17EA48AB00E669E3 /* NSPersistentStore+MagicalRecord.m in Sources */,
@@ -2941,6 +2968,7 @@
 				0868D4D21805CE6A002AD679 /* ImagePreviewTransition.m in Sources */,
 				08B74CED163B330500083F9A /* ProjectViewController.m in Sources */,
 				08B74CF1163B357600083F9A /* ProjectCell.m in Sources */,
+				08286002183EBB84002BA8D2 /* SessionEditorLayoutManager.m in Sources */,
 				08B74CF61643045F00083F9A /* ProjectViewLayout.m in Sources */,
 				080E5082166FDFB800E95531 /* AFHTTPClient.m in Sources */,
 				08BDDDB617EA48AB00E669E3 /* MagicalRecord+Options.m in Sources */,

@@ -30,6 +30,7 @@
 #import "DrropboxUploadActivity.h"
 #import "DropboxFolderSelectController.h"
 #import "DropBlocks.h"
+#import "SessionEditorCotnainerView.h"
 
 #define DEFAUT_UIFONT [UIFont fontWithName:@"Inconsolata" size:18.0]
 
@@ -43,7 +44,8 @@
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *openFileButtonItem;
 @property (nonatomic, weak) IBOutlet UILabel *docTitleLabel;
 @property (nonatomic, weak) IBOutlet UIButton *handButton;
-@property (nonatomic, weak) IBOutlet UITextView *lineNumberView;
+//@property (nonatomic, weak) IBOutlet UITextView *lineNumberView;
+@property (nonatomic, weak) IBOutlet SessionEditorCotnainerView *editorContainer;
 @property (nonatomic, strong) IBOutlet SessionEditView *richEditor;
 @property (nonatomic, strong) NSDictionary *defaultTextAttrs;
 @property (nonatomic, strong) kTController *keyboardToolbar;
@@ -115,8 +117,8 @@
                      animations:^{
                          self.richEditor.contentInset = contentInset;
                          self.richEditor.scrollIndicatorInsets = scrollInset;
-						 self.lineNumberView.contentInset = contentInset;
-						 self.lineNumberView.scrollIndicatorInsets = scrollInset;
+//						 self.lineNumberView.contentInset = contentInset;
+//						 self.lineNumberView.scrollIndicatorInsets = scrollInset;
                      }
                      completion:^(BOOL s){ [self scrollSelectionVisible:YES];}];
 }
@@ -145,8 +147,8 @@
                      animations:^{
                          self.richEditor.contentInset = contentInset;
                          self.richEditor.scrollIndicatorInsets = scrollInset;
-						 self.lineNumberView.contentInset = contentInset;
-						 self.lineNumberView.scrollIndicatorInsets = scrollInset;
+//						 self.lineNumberView.contentInset = contentInset;
+//						 self.lineNumberView.scrollIndicatorInsets = scrollInset;
                      }
                      completion:nil]; 
 }
@@ -157,19 +159,20 @@
 {
     [super viewDidLoad];
 	if (!_viewLoaded) {
+		self.richEditor = self.editorContainer.textView;
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(keyboardWillShow:)
 													 name:UIKeyboardWillShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(keyboardHiding:)
 												 name:UIKeyboardWillHideNotification object:nil];
-		self.lineNumberView.text = @"";
-		self.richEditor.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
+//		self.lineNumberView.text = @"";
+//		self.richEditor.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
 		self.docTitleLabel.text = @"Untitled Document";
 		UIFontDescriptor *sysFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
 		UIFont *myFont = [UIFont fontWithName:@"Inconsolata" size:sysFont.pointSize];
 		self.richEditor.font = myFont;
-		self.lineNumberView.font = myFont;
+//		self.lineNumberView.font = myFont;
 		self.defaultTextAttrs = @{NSFontAttributeName:DEFAUT_UIFONT};
 		self.docTitleLabel.font = DEFAUT_UIFONT;
 		
@@ -202,7 +205,7 @@
 			UIFontDescriptor *stdFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
 			UIFont *myFont = [UIFont fontWithName:@"Inconsolata" size:stdFont.pointSize];
 			weakSelf.richEditor.font = myFont;
-			weakSelf.lineNumberView.font = myFont;
+//			weakSelf.lineNumberView.font = myFont;
 		}];
 		
 		self.richEditor.textStorage.delegate = self;
@@ -543,7 +546,7 @@
 
 -(void)adjustLineNumbers
 {
-	if (nil == self.view.window)
+/*	if (nil == self.view.window)
 		return;
 	NSString *str = self.richEditor.textStorage.string;
 	if (str.length < 1)
@@ -593,7 +596,7 @@
 	style.alignment = NSTextAlignmentRight;
 	NSMutableAttributedString *astr = [[NSMutableAttributedString alloc] initWithString:lnstr attributes:@{NSParagraphStyleAttributeName:style, NSFontAttributeName:DEFAUT_UIFONT}];
 	[self.lineNumberView.textStorage replaceCharactersInRange:NSMakeRange(0, self.lineNumberView.textStorage.length) withAttributedString:astr];
-}
+*/}
 
 -(void)userWillAdjustWidth
 {
@@ -913,7 +916,7 @@
 	if (![srcStr.string isEqualToString:self.richEditor.attributedText.string])
 		[self.richEditor.textStorage setAttributedString:srcStr];
 	[self.richEditor.textStorage addAttributes:self.defaultTextAttrs range:NSMakeRange(0, srcStr.length)];
-	[self.lineNumberView.textStorage addAttributes:self.defaultTextAttrs range:NSMakeRange(0, self.lineNumberView.textStorage.length)];
+//	[self.lineNumberView.textStorage addAttributes:self.defaultTextAttrs range:NSMakeRange(0, self.lineNumberView.textStorage.length)];
 //	[self.syntaxParser parse];
 /*
 	NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
@@ -949,7 +952,7 @@
 	if (self.isScrolling)
 		return;
 	self.isScrolling = YES;
-	if (scrollView == self.richEditor) {
+/*	if (scrollView == self.richEditor) {
 		CGPoint offset = self.lineNumberView.contentOffset;
 		offset.y = self.richEditor.contentOffset.y;
 		[self.lineNumberView setContentOffset:offset animated:NO];
@@ -962,7 +965,7 @@
 			[self.richEditor setContentOffset:offset animated:NO];
 		}
 	}
-	self.isScrolling = NO;
+*/	self.isScrolling = NO;
 }
 
 #pragma mark - text storage delegate

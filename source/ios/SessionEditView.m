@@ -9,6 +9,9 @@
 #import "SessionEditView.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import "SessionEditorLayoutManager.h"
+
+#define kLineNumberGutterWidth 40
 
 @implementation SessionEditView
 
@@ -30,11 +33,40 @@
 	self.scrollIndicatorInsets = UIEdgeInsetsZero;
 }
 
+-(id)initWithFrame:(CGRect)frame
+{
+	NSTextStorage *ts = [[NSTextStorage alloc] init];
+	SessionEditorLayoutManager *lm = [[SessionEditorLayoutManager alloc] init];
+	NSTextContainer *tc = [[NSTextContainer alloc] initWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
+	
+	tc.widthTracksTextView = YES;
+	tc.exclusionPaths = @[[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, kLineNumberGutterWidth+8, CGFLOAT_MAX)]];
+	[lm addTextContainer:tc];
+	[ts addLayoutManager:lm];
+	
+	if ((self = [super initWithFrame:frame textContainer:tc])) {
+		self.contentMode = UIViewContentModeRedraw;
+		UIMenuController *mc = [UIMenuController sharedMenuController];
+		mc.menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Execute" action:@selector(executeSelection:)],
+							  [[UIMenuItem alloc] initWithTitle:@"Help" action:@selector(showHelp:)]];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(keyboardVisible:)
+												 name:UIKeyboardDidShowNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(keyboardHiding:)
+												 name:UIKeyboardWillHideNotification object:nil];
+		self.autocapitalizationType = UITextAutocapitalizationTypeNone;
+		self.autocorrectionType = UITextAutocorrectionTypeNo;
+		self.layer.masksToBounds=YES;
+	}
+	return self;
+}
+
 -(void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
+/*
 -(void)awakeFromNib
 {
 	[super awakeFromNib];
@@ -51,7 +83,7 @@
 	self.autocorrectionType = UITextAutocorrectionTypeNo;
 	self.layer.masksToBounds=YES;
 }
-
+*/
 -(UIView*)view
 {
 	return self;
@@ -121,6 +153,22 @@
 		self.inputAccessoryView = nil;
 
 	return [super becomeFirstResponder];
+}
+
+-(void)drawRect:(CGRect)rect
+{
+	//  Drag the line number gutter background.  The line numbers them selves are drawn by LineNumberLayoutManager.
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGRect bounds = self.bounds;
+	
+	CGContextSetFillColorWithColor(context, [UIColor grayColor].CGColor);
+	CGContextFillRect(context, CGRectMake(bounds.origin.x, bounds.origin.y, kLineNumberGutterWidth, bounds.size.height));
+	
+	CGContextSetStrokeColorWithColor(context, [UIColor darkGrayColor].CGColor);
+	CGContextSetLineWidth(context, 0.5);
+	CGContextStrokeRect(context, CGRectMake(bounds.origin.x + 39.5, bounds.origin.y, 0.5, CGRectGetHeight(bounds)));
+	
+	[super drawRect:rect];
 }
 
 @end
