@@ -505,10 +505,6 @@
 		08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
 		08FF3D0616E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
 		08FF3D0716E92ABD00F3E09E /* themes in Resources */ = {isa = PBXBuildFile; fileRef = 08D2446A15B5D8DE0064A9FA /* themes */; };
-		08FF3D2316F0C71F00F3E09E /* mailActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1116F0C71F00F3E09E /* mailActivity.png */; };
-		08FF3D2416F0C71F00F3E09E /* mailActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1216F0C71F00F3E09E /* mailActivity@2x.png */; };
-		08FF3D2516F0C71F00F3E09E /* mailActivity@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1316F0C71F00F3E09E /* mailActivity@2x~ipad.png */; };
-		08FF3D2616F0C71F00F3E09E /* mailActivity~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1416F0C71F00F3E09E /* mailActivity~ipad.png */; };
 		08FF3D2716F0C71F00F3E09E /* WHMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D1616F0C71F00F3E09E /* WHMailActivity.m */; };
 		08FF3D2816F0C71F00F3E09E /* WHMailActivityItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D1816F0C71F00F3E09E /* WHMailActivityItem.m */; };
 		08FF3D2916F0C71F00F3E09E /* textActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3D1B16F0C71F00F3E09E /* textActivity.png */; };
@@ -1193,10 +1189,6 @@
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
 		08FF3D0316E9250900F3E09E /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/theme/ThemeEngine.h; sourceTree = "<group>"; };
 		08FF3D0416E9250900F3E09E /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/theme/ThemeEngine.m; sourceTree = "<group>"; };
-		08FF3D1116F0C71F00F3E09E /* mailActivity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mailActivity.png; sourceTree = "<group>"; };
-		08FF3D1216F0C71F00F3E09E /* mailActivity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mailActivity@2x.png"; sourceTree = "<group>"; };
-		08FF3D1316F0C71F00F3E09E /* mailActivity@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mailActivity@2x~ipad.png"; sourceTree = "<group>"; };
-		08FF3D1416F0C71F00F3E09E /* mailActivity~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mailActivity~ipad.png"; sourceTree = "<group>"; };
 		08FF3D1516F0C71F00F3E09E /* WHMailActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHMailActivity.h; sourceTree = "<group>"; };
 		08FF3D1616F0C71F00F3E09E /* WHMailActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHMailActivity.m; sourceTree = "<group>"; };
 		08FF3D1716F0C71F00F3E09E /* WHMailActivityItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHMailActivityItem.h; sourceTree = "<group>"; };
@@ -2358,24 +2350,12 @@
 		08FF3D0F16F0C71F00F3E09E /* WHMailActivity */ = {
 			isa = PBXGroup;
 			children = (
-				08FF3D1016F0C71F00F3E09E /* Images */,
 				08FF3D1516F0C71F00F3E09E /* WHMailActivity.h */,
 				08FF3D1616F0C71F00F3E09E /* WHMailActivity.m */,
 				08FF3D1716F0C71F00F3E09E /* WHMailActivityItem.h */,
 				08FF3D1816F0C71F00F3E09E /* WHMailActivityItem.m */,
 			);
 			path = WHMailActivity;
-			sourceTree = "<group>";
-		};
-		08FF3D1016F0C71F00F3E09E /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				08FF3D1116F0C71F00F3E09E /* mailActivity.png */,
-				08FF3D1216F0C71F00F3E09E /* mailActivity@2x.png */,
-				08FF3D1316F0C71F00F3E09E /* mailActivity@2x~ipad.png */,
-				08FF3D1416F0C71F00F3E09E /* mailActivity~ipad.png */,
-			);
-			path = Images;
 			sourceTree = "<group>";
 		};
 		08FF3D1916F0C71F00F3E09E /* WHTextActivity */ = {
@@ -2596,11 +2576,7 @@
 				08D8C338169E1977000DDA04 /* FileImportViewController.xib in Resources */,
 				0868D4BB17FA1C04002AD679 /* KTLatexPanel.xib in Resources */,
 				08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */,
-				08FF3D2316F0C71F00F3E09E /* mailActivity.png in Resources */,
 				08137A3317C804DA005EA804 /* iOSIcons.xcassets in Resources */,
-				08FF3D2416F0C71F00F3E09E /* mailActivity@2x.png in Resources */,
-				08FF3D2516F0C71F00F3E09E /* mailActivity@2x~ipad.png in Resources */,
-				08FF3D2616F0C71F00F3E09E /* mailActivity~ipad.png in Resources */,
 				08FF3D2916F0C71F00F3E09E /* textActivity.png in Resources */,
 				08137A3517CBC57F005EA804 /* ImageHolderView.xib in Resources */,
 				08FF3D2A16F0C71F00F3E09E /* textActivity@2x.png in Resources */,

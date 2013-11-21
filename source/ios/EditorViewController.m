@@ -728,6 +728,12 @@
 	NSMutableArray *activs = [NSMutableArray arrayWithCapacity:5];
 	if (self.currentFile.isTextFile)
 		[items addObject:self.richEditor.text];
+	DrropboxUploadActivity *dbactivity = [[DrropboxUploadActivity alloc] init];
+	dbactivity.filesToUpload = @[file];
+	dbactivity.performBlock = ^{
+		[self presentFileExport:file];
+	};
+	[activs addObject:dbactivity];
 	AMActivity *renameActivity = [[AMActivity alloc] initWithActivityType:@"edu.wvu.stat.rc2.renameActivity" title:@"Rename" image:@"renameActivity"];
 	renameActivity.canPerformBlock = ^(NSArray *items) {
 		return YES;
@@ -738,12 +744,6 @@
 		});
 	};
 	[activs addObject:renameActivity];
-	DrropboxUploadActivity *dbactivity = [[DrropboxUploadActivity alloc] init];
-	dbactivity.filesToUpload = @[file];
-	dbactivity.performBlock = ^{
-		[self presentFileExport:file];
-	};
-	[activs addObject:dbactivity];
 	[items addObject:[WHMailActivityItem mailActivityItemWithSelectionHandler:^(MFMailComposeViewController *messageC) {
 		[messageC setSubject:[NSString stringWithFormat:@"%@ from Rc²", file.name]];
 		[messageC addAttachmentData:[NSData dataWithContentsOfFile:file.fileContentsPath]
