@@ -21,14 +21,14 @@
 #import "BBEdit.h"
 #import "RCMGeneralPrefs.h"
 #import "RCMFontPrefs.h"
-//#import <HockeySDK/HockeySDK.h>
+#import <HockeySDK/HockeySDK.h>
 #import "MASPreferencesWindowController.h"
 #import <DropboxOSX/DropboxOSX.h>
 
 #define kPref_LastLoginString @"LastLoginString"
 #define kPref_StartInFullScreen @"StartInFullScreen"
 
-@interface AppDelegate() /*<BITCrashReportManagerDelegate> */ {
+@interface AppDelegate() <BITCrashManagerDelegate> {
 	BOOL __haveMoc;
 	BOOL __firstLogin;
 }
@@ -74,10 +74,9 @@
 		[[NSApp mainMenu] addItem:[[fscriptClz alloc] init]];
 	[self showMainApplicationWindow];
 #else
-//	[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f4225a0ff7ed8fe53eb30f4a29a21689" companyName:@"WVU Statistics Dept" crashReportManagerDelegate:self];
-//	[[BITHockeyManager sharedHockeyManager] setExceptionInterceptionEnabled:!YES];
-//	[[BITHockeyManager sharedHockeyManager] startManager];
-	[self showMainApplicationWindow];
+	[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f4225a0ff7ed8fe53eb30f4a29a21689" companyName:@"WVU Statistics Dept" crashReportManagerDelegate:self];
+	[[BITHockeyManager sharedHockeyManager] startManager];
+//	[self showMainApplicationWindow];
 #endif
 
 	[MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"Rc2.sqlite"];
@@ -317,6 +316,11 @@
 -(NSString*)crashReportUserID
 {
 	return [[NSUserDefaults standardUserDefaults] objectForKey:kPref_LastLoginString];
+}
+
+-(void)showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager
+{
+	[self showMainApplicationWindow];
 }
 
 -(NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window
