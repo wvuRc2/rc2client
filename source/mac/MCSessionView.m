@@ -142,10 +142,7 @@ const CGFloat kFrameWidth = 214;
 {
 	CGFloat newX = NSMinX(self.leftView.frame) >= 0 ? -kFrameWidth : 0;
 	[[self.leftXConstraint animator] setConstant:newX];
-	CGFloat editAdj = kFrameWidth / 2;
-	if (NSMinX(self.leftView.frame) < 0)
-		editAdj *= -1;
-	[[self.editorWidthConstraint animator] setConstant:self.editorWidthConstraint.constant + editAdj];
+	//If we wanted to split the space, we could use the edit width constraint to reduce editor width
 }
 
 -(BOOL)leftViewVisible
