@@ -22,7 +22,6 @@
 #import "MBProgressHUD.h"
 #import "DropboxImportController.h"
 #import "SessionEditView.h"
-//#import "RCMSyntaxHighlighter.h"
 #import "kTController.h"
 #import "WHMailActivity.h"
 #import "MAKVONotificationCenter.h"
@@ -35,6 +34,7 @@
 #define DEFAUT_UIFONT [UIFont fontWithName:@"Inconsolata" size:18.0]
 
 @interface EditorViewController() <KTControllerDelegate,NSTextStorageDelegate> {
+	CGRect _oldRect;
 	BOOL _viewLoaded;
 	BOOL _handUp;
 }
@@ -58,7 +58,6 @@
 @property (nonatomic, strong) UIAlertView *currentAlert;
 @property (nonatomic, strong) NSTimer *widthAdjustTimer;
 @property (nonatomic, strong) RCSyntaxParser *syntaxParser;
-@property (atomic) BOOL isScrolling;
 @property (atomic) BOOL isParsing;
 @property int32_t syncInProgress;
 @property (nonatomic) NSTimeInterval lastParseTime;
@@ -96,6 +95,7 @@
 		return;
 	NSDictionary *info = note.userInfo;
 	CGRect keyframe = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+	keyframe = [self.view.window.rootViewController.view convertRect:keyframe fromView:nil];
 	BOOL isLand = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
 	self.externalKeyboardVisible = NO;
 	if (isLand) {
@@ -110,8 +110,8 @@
     
     UIEdgeInsets contentInset = self.richEditor.contentInset;
     UIEdgeInsets scrollInset = self.richEditor.scrollIndicatorInsets;
-    contentInset.bottom = keyframe.size.height;
-    scrollInset.bottom = keyframe.size.height;
+    contentInset.bottom += keyframe.size.height;
+    scrollInset.bottom += keyframe.size.height;
     
     [UIView animateWithDuration:duration
                           delay:0.0
@@ -119,12 +119,9 @@
                      animations:^{
                          self.richEditor.contentInset = contentInset;
                          self.richEditor.scrollIndicatorInsets = scrollInset;
-//						 self.lineNumberView.contentInset = contentInset;
-//						 self.lineNumberView.scrollIndicatorInsets = scrollInset;
                      }
-                     completion:^(BOOL s){ [self scrollSelectionVisible:YES];}];
+                     completion:^(BOOL s){ /*[self scrollSelectionVisible:YES];*/}];
 }
-
 
 -(void)keyboardHiding:(NSNotification*)note
 {
@@ -137,11 +134,13 @@
 
     double duration = [(NSNumber *)[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     unsigned int curve = [(NSNumber *)[info objectForKey:UIKeyboardAnimationCurveUserInfoKey] unsignedIntValue];
-    
+	CGRect keyframe = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+	keyframe = [self.view.window.rootViewController.view convertRect:keyframe fromView:nil];
+    CGFloat keyHeight = keyframe.size.height;
     UIEdgeInsets contentInset = self.richEditor.contentInset;
     UIEdgeInsets scrollInset = self.richEditor.scrollIndicatorInsets;
-    contentInset.bottom = 0;
-    scrollInset.bottom = 0;
+    contentInset.bottom -= keyHeight;
+    scrollInset.bottom -= keyHeight;
     
     [UIView animateWithDuration:duration
                           delay:0.0
@@ -162,19 +161,17 @@
     [super viewDidLoad];
 	if (!_viewLoaded) {
 		self.richEditor = self.editorContainer.textView;
+		self.richEditor.delegate = self;
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(keyboardWillShow:)
 													 name:UIKeyboardWillShowNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self 
+		[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(keyboardHiding:)
 												 name:UIKeyboardWillHideNotification object:nil];
-//		self.lineNumberView.text = @"";
-//		self.richEditor.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
 		self.docTitleLabel.text = @"Untitled Document";
 		UIFontDescriptor *sysFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
 		UIFont *myFont = [UIFont fontWithName:@"Inconsolata" size:sysFont.pointSize];
 		self.richEditor.font = myFont;
-//		self.lineNumberView.font = myFont;
 		self.defaultTextAttrs = @{NSFontAttributeName:DEFAUT_UIFONT};
 		self.docTitleLabel.font = DEFAUT_UIFONT;
 		
@@ -207,7 +204,6 @@
 			UIFontDescriptor *stdFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
 			UIFont *myFont = [UIFont fontWithName:@"Inconsolata" size:stdFont.pointSize];
 			weakSelf.richEditor.font = myFont;
-//			weakSelf.lineNumberView.font = myFont;
 		}];
 		
 		self.richEditor.textStorage.delegate = self;
@@ -217,12 +213,6 @@
 		self.richEditor.inputAccessoryView = self.keyboardToolbar.inputView;
 		_viewLoaded=YES;
 	}
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-	[super viewDidAppear:animated];
-	[self adjustLineNumbers];
 }
 
 #pragma mark - keybard toolbar delegate
@@ -544,60 +534,6 @@
 	}
 }
 
--(void)adjustLineNumbers
-{
-/*	if (nil == self.view.window)
-		return;
-	NSString *str = self.richEditor.textStorage.string;
-	if (str.length < 1)
-		return;
-	if (![str hasSuffix:@"\n"])
-		str = [str stringByAppendingString:@"\n"];
-	NSLayoutManager *layout = self.richEditor.layoutManager;
-	NSTextContainer *tcon = layout.textContainers.firstObject;
-	NSInteger lineNum = 0;
-	NSUInteger strlen = str.length;
-	CGFloat lineHeight = self.richEditor.font.lineHeight;
-	NSMutableString *lnstr = [NSMutableString string];
-	NSInteger lineStart=0;
-	CGRect lastRect = CGRectZero;
-	for (NSUInteger idx=0; idx < strlen; idx++) {
-		if ([str characterAtIndex:idx] == '\n') {
-			if ((lineNum * lineHeight) > self.richEditor.contentSize.height) {
-				NSLog(@"oops, early end");
-				break;
-			}
-			NSUInteger gidx = [layout glyphIndexForCharacterAtIndex:lineStart];
-			if (gidx == NSNotFound)
-				break;
-			CGRect charRect = CGRectZero;
-			NSRange rng = NSMakeRange(gidx, idx - lineStart);
-			if (rng.length > 0) rng.length--; //subtract for newine, unless on first line
-			if (rng.length == 0) {
-				//for empty strings, we'll fake a rect
-				charRect = CGRectMake(0, lastRect.origin.y + lastRect.size.height, 100, lineHeight);
-			} else {
-				charRect = [layout boundingRectForGlyphRange:rng inTextContainer:tcon];
-			}
-//			NSLog(@"str='%@', r=%@", [str substringWithRange:rng], NSStringFromCGRect(charRect));
-			lineNum++;
-			[lnstr appendFormat:@"%d\n", lineNum];
-			CGFloat blockHeight = charRect.size.height;
-			CGFloat compare = blockHeight - lineHeight;
-			while (compare > 6) {
-				[lnstr appendString:@"\n"];
-				compare -= lineHeight;
-			}
-			lineStart = idx+1;
-			lastRect = charRect;
-		}
-	}
-	NSMutableParagraphStyle *style = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
-	style.alignment = NSTextAlignmentRight;
-	NSMutableAttributedString *astr = [[NSMutableAttributedString alloc] initWithString:lnstr attributes:@{NSParagraphStyleAttributeName:style, NSFontAttributeName:DEFAUT_UIFONT}];
-	[self.lineNumberView.textStorage replaceCharactersInRange:NSMakeRange(0, self.lineNumberView.textStorage.length) withAttributedString:astr];
-*/}
-
 -(void)userWillAdjustWidth
 {
 	self.widthAdjustTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 repeats:YES usingBlock:^(NSTimer *timer) {
@@ -909,33 +845,34 @@
 
 -(void)updateTextContents:(NSAttributedString*)srcStr
 {
-//	if (nil == srcStr)
-//		srcStr = self.richEditor.attributedText;
 	if (nil == self.syntaxParser)
 		self.syntaxParser = [RCSyntaxParser parserWithTextStorage:self.richEditor.textStorage fileType:self.currentFile.fileType];
 	if (![srcStr.string isEqualToString:self.richEditor.attributedText.string])
 		[self.richEditor.textStorage setAttributedString:srcStr];
 	[self.richEditor.textStorage addAttributes:self.defaultTextAttrs range:NSMakeRange(0, srcStr.length)];
-//	[self.lineNumberView.textStorage addAttributes:self.defaultTextAttrs range:NSMakeRange(0, self.lineNumberView.textStorage.length)];
-//	[self.syntaxParser parse];
-/*
-	NSMutableAttributedString *astr = [[[RCMSyntaxHighlighter sharedInstance] syntaxHighlightCode:srcStr ofType:self.currentFile.name.pathExtension] mutableCopy];
-	[astr addAttributes:self.defaultTextAttrs range:NSMakeRange(0, astr.length)];
-	srcStr = astr;
-	self.richEditor.attributedText = srcStr; */
 	[self.keyboardToolbar switchToPanelForFileExtension:self.currentFile.name.pathExtension];
 }
 
 -(void)scrollSelectionVisible:(BOOL)animate
 {
     CGRect caretRect = [self.richEditor caretRectForPosition:self.richEditor.selectedTextRange.end];
-	if (!self.isScrolling) {
-		self.isScrolling = YES;
-		[self.richEditor scrollRectToVisible:caretRect animated:animate];
-		self.isScrolling = NO;
-	}
+	CGRect visibleRect = self.richEditor.frame;
+	visibleRect.size.height -= self.richEditor.contentInset.bottom;
+	visibleRect.origin.y = self.richEditor.contentOffset.y;
+
+	CGPoint offset = self.richEditor.contentOffset;
+	CGFloat croppedHeight = CGRectGetHeight(self.richEditor.bounds) - self.richEditor.contentInset.bottom;
+	offset.y = caretRect.origin.y - croppedHeight;
+	if (offset.y < 0) offset.y = 0;
+	if (!CGRectContainsRect(visibleRect, caretRect))
+		[self.richEditor setContentOffset:offset animated:YES];
 }
 
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+	[self scrollSelectionVisible:YES];
+	return YES;
+}
 - (void)textViewDidChange:(UITextView *)tview
 {
 	[self updateDocumentState];
@@ -944,6 +881,7 @@
 
 - (void)textViewDidChangeSelection:(UITextView *)tview
 {
+	NSLog(@"sel changed");
 	[self scrollSelectionVisible:NO];
 }
 
@@ -966,7 +904,6 @@
 			if (!self.isParsing) {
 				self.isParsing = YES;
 				[self.syntaxParser parse];
-				[self adjustLineNumbers];
 				self.isParsing = NO;
 			}
 		});
