@@ -28,7 +28,7 @@
 #define kPref_LastLoginString @"LastLoginString"
 #define kPref_StartInFullScreen @"StartInFullScreen"
 
-@interface AppDelegate() <BITCrashManagerDelegate> {
+@interface AppDelegate() <BITHockeyManagerDelegate> {
 	BOOL __haveMoc;
 	BOOL __firstLogin;
 }
@@ -74,9 +74,8 @@
 		[[NSApp mainMenu] addItem:[[fscriptClz alloc] init]];
 	[self showMainApplicationWindow];
 #else
-	[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f4225a0ff7ed8fe53eb30f4a29a21689" companyName:@"WVU Statistics Dept" crashReportManagerDelegate:self];
+	[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f4225a0ff7ed8fe53eb30f4a29a21689" companyName:@"WVU Stat Dept" delegate:self];
 	[[BITHockeyManager sharedHockeyManager] startManager];
-//	[self showMainApplicationWindow];
 #endif
 
 	[MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"Rc2.sqlite"];

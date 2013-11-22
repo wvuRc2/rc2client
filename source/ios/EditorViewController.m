@@ -881,7 +881,6 @@
 
 - (void)textViewDidChangeSelection:(UITextView *)tview
 {
-	NSLog(@"sel changed");
 	[self scrollSelectionVisible:NO];
 }
 
