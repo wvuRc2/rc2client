@@ -61,12 +61,14 @@
 
 -(void)refreshFiles
 {
+	self.fetchingFiles = YES;
 	[[Rc2Server sharedInstance] refereshWorkspace:self completionHandler:^(BOOL success, id results) {
 		if (success && [[results objectForKey:@"status"] integerValue] == 0) {
 			NSDictionary *d = [results objectForKey:@"wspace"];
 			self.name = [d objectForKey:@"name"];
 			dispatch_async(dispatch_get_main_queue(), ^{
 				self.files = [RCFile filesFromJsonArray:[d objectForKey:@"files"] container:self];
+				self.fetchingFiles = NO;
 				[[NSNotificationCenter defaultCenter] postNotificationName:RCFileContainerChangedNotification object:nil];
 			});
 		}

@@ -57,23 +57,21 @@
 
 -(void)workspaceFilesChanged:(NSNotification*)note
 {
-	//TODO: why was this being done?
-	//	[self.fileTableView amSelectRow:[self.fileTableView clickedRow] byExtendingSelection:NO];
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[self updateFileArray];
-		if (self.fileToInitiallySelect) {
-			[self setSelectedFile:self.fileToInitiallySelect];
-			self.fileToInitiallySelect = nil;
+	[self updateFileArray];
+	if (self.fileToInitiallySelect) {
+		if (![self.fileArray containsObject:self.fileToInitiallySelect])
+			NSLog(@"file not here");
+		[self setSelectedFile:self.fileToInitiallySelect];
+		self.fileToInitiallySelect = nil;
+	}
+	if (self.fileIdJustImported) {
+		NSUInteger idx = [self.fileArray indexOfObjectWithValue:self.fileIdJustImported usingSelector:@selector(fileId)];
+		if (NSNotFound != idx) {
+			[self.fileTableView amSelectRow:idx byExtendingSelection:NO];
 		}
-		if (self.fileIdJustImported) {
-			NSUInteger idx = [self.fileArray indexOfObjectWithValue:self.fileIdJustImported usingSelector:@selector(fileId)];
-			if (NSNotFound != idx) {
-				[self.fileTableView amSelectRow:idx byExtendingSelection:NO];
-			}
-			self.fileIdJustImported=nil;
-			[self tableViewSelectionDidChange:nil];
-		}
-	});
+		self.fileIdJustImported=nil;
+		[self tableViewSelectionDidChange:nil];
+	}
 }
 
 -(void)menuNeedsUpdate:(NSMenu *)menu

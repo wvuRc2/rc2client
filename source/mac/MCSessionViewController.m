@@ -838,6 +838,7 @@
 			[self.session.workspace refreshFiles];
 			[self.fileTableView reloadData];
 			self.statusMessage = [NSString stringWithFormat:@"File created on server"];
+			self.fileHelper.selectedFile = newFile;
 		} else {
 			Rc2LogWarn(@"failed to create file on server: %@", newFile);
 			self.statusMessage = [NSString stringWithFormat:@"Unknown error creating file on server"];
