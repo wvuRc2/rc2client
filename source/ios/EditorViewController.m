@@ -92,6 +92,8 @@
 
 -(void)keyboardWillShow:(NSNotification*)note
 {
+	if (!self.richEditor.isBecomingFirstResponder)
+		return;
 	NSDictionary *info = note.userInfo;
 	CGRect keyframe = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 	BOOL isLand = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
@@ -297,7 +299,7 @@
 
 -(BOOL)isEditorFirstResponder
 {
-	return self.richEditor.isEditorFirstResponder;
+	return self.richEditor.isFirstResponder;
 }
 
 -(void)editorResignFirstResponder
@@ -533,8 +535,6 @@
 
 -(void)internalExecute:(RCSessionExecuteOptions)options
 {
-	if ([self.richEditor isEditorFirstResponder])
-		[self.richEditor resignFirstResponder];
 	if ([self.currentFile.name hasSuffix:@".sas"]) {
 		[self executeBlockAfterSave:^{ [self.session executeSas:self.currentFile]; }];
 	} else {
@@ -945,27 +945,6 @@
 - (void)textViewDidChangeSelection:(UITextView *)tview
 {
 	[self scrollSelectionVisible:NO];
-}
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-	if (self.isScrolling)
-		return;
-	self.isScrolling = YES;
-/*	if (scrollView == self.richEditor) {
-		CGPoint offset = self.lineNumberView.contentOffset;
-		offset.y = self.richEditor.contentOffset.y;
-		[self.lineNumberView setContentOffset:offset animated:NO];
-	} else if (scrollView == self.lineNumberView) {
-		CGPoint offset = self.richEditor.contentOffset;
-		NSInteger lnOffset = self.lineNumberView.contentOffset.y;
-		double diff = lnOffset - offset.y;
-		if (fabs(diff) > 1) {
-			offset.y = self.lineNumberView.contentOffset.y;
-			[self.richEditor setContentOffset:offset animated:NO];
-		}
-	}
-*/	self.isScrolling = NO;
 }
 
 #pragma mark - text storage delegate

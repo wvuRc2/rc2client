@@ -761,7 +761,6 @@
 		084594BB15B5F53900297C9D /* PXSourceListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceListDelegate.h; sourceTree = "<group>"; };
 		0847FDAA175D30AF00D950EA /* MCTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTableRowView.h; sourceTree = "<group>"; };
 		0847FDAB175D30AF00D950EA /* MCTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTableRowView.m; sourceTree = "<group>"; };
-		0847FDB21762682300D950EA /* SessionEditorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionEditorProtocol.h; sourceTree = "<group>"; };
 		0847FDC217679F6E00D950EA /* MASPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASPreferencesViewController.h; path = Dependencies/MASPreferences/MASPreferencesViewController.h; sourceTree = SOURCE_ROOT; };
 		0847FDC317679F6F00D950EA /* MASPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MASPreferencesWindow.xib; path = Dependencies/MASPreferences/MASPreferencesWindow.xib; sourceTree = SOURCE_ROOT; };
 		0847FDC417679F6F00D950EA /* MASPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASPreferencesWindowController.h; path = Dependencies/MASPreferences/MASPreferencesWindowController.h; sourceTree = SOURCE_ROOT; };
@@ -1352,7 +1351,6 @@
 		08285FFE183EBB2C002BA8D2 /* text editing */ = {
 			isa = PBXGroup;
 			children = (
-				0847FDB21762682300D950EA /* SessionEditorProtocol.h */,
 				08285FFB183EBA25002BA8D2 /* SessionEditorCotnainerView.h */,
 				08285FFC183EBA25002BA8D2 /* SessionEditorCotnainerView.m */,
 				08D243D715B5D7590064A9FA /* SessionEditView.h */,

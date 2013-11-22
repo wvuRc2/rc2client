@@ -13,6 +13,10 @@
 
 #define kLineNumberGutterWidth 40
 
+@interface SessionEditView ()
+@property (readwrite) BOOL isBecomingFirstResponder;
+@end
+
 @implementation SessionEditView
 
 -(void)keyboardVisible:(NSNotification*)note
@@ -144,6 +148,7 @@
 
 -(BOOL)becomeFirstResponder
 {
+	self.isBecomingFirstResponder = YES;
 	//this is a skanky hack using private API. There appears to be no other way to hide the accessory
 	// view once keyboard notifications are received.
 	Class cz = NSClassFromString(@"UIKeyboardImpl");
@@ -152,7 +157,9 @@
 	if ([val boolValue])
 		self.inputAccessoryView = nil;
 
-	return [super becomeFirstResponder];
+	BOOL result = [super becomeFirstResponder];
+	self.isBecomingFirstResponder = NO;
+	return result;
 }
 
 -(void)drawRect:(CGRect)rect

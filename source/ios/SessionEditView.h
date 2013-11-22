@@ -14,7 +14,9 @@
 @property (nonatomic, copy) void (^helpBlock)(SessionEditView *editView);
 @property (nonatomic, copy) void (^executeBlock)(SessionEditView *editView);
 @property (nonatomic, assign) NSRange selectedRange;
-@property (readonly) BOOL isEditorFirstResponder;
+//this is required because the UIKeyboardWillShowNotification is posted in the middle of becomeFirstResponder,
+// leaving no way for someone listening to that notification to know if this view will be the first responder.
+@property (readonly) BOOL isBecomingFirstResponder;
 
 @property (readonly) UIView *view;
 
