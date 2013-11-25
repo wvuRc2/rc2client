@@ -75,9 +75,12 @@
 	NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", image.imageId]];
 	if ([[NSFileManager defaultManager] fileExistsAtPath:imgPath]) {
 		image.image = [[ImageClass alloc] initWithContentsOfFile:imgPath];
-	} else {
-		[self loadImageFromNetwork:image];
+		if (image.image)
+			return;
+		//delete that file since isn't a valid image
+		[[NSFileManager defaultManager] removeItemAtPath:imgPath error:nil];
 	}
+	[self loadImageFromNetwork:image];
 }
 
 -(NSArray*)allImages
