@@ -174,6 +174,7 @@
 		self.richEditor.font = myFont;
 		self.defaultTextAttrs = @{NSFontAttributeName:DEFAUT_UIFONT};
 		self.docTitleLabel.font = DEFAUT_UIFONT;
+		self.richEditor.layoutManager.allowsNonContiguousLayout = NO; //solves bug with inability to calculate how many lines to show proper scroll indicator position
 		
 		__weak EditorViewController *weakSelf = self;
 		self.richEditor.helpBlock = ^(SessionEditView *editView) {
