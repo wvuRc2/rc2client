@@ -537,15 +537,15 @@
 
 -(void)userWillAdjustWidth
 {
-	self.widthAdjustTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 repeats:YES usingBlock:^(NSTimer *timer) {
-		[self adjustLineNumbers];
-	}];
+//	self.widthAdjustTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 repeats:YES usingBlock:^(NSTimer *timer) {
+//		[self adjustLineNumbers];
+//	}];
 }
 
 -(void)userDidAdjustWidth
 {
-	[self.widthAdjustTimer invalidate];
-	[self adjustLineNumbers];
+//	[self.widthAdjustTimer invalidate];
+//	[self adjustLineNumbers];
 }
 
 -(void)presentFileExport:(RCFile*)file

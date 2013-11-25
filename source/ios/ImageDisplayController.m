@@ -69,7 +69,6 @@
 {
 	[super viewDidLoad];
 	self.whatUp.tintColor = [UIColor mauveTaupe];
-	self.whatUp.segmentedControlStyle = UISegmentedControlStyleBar;
 	CGRect frame = self.whatUp.frame;
 	frame.size.height = 36;
 	frame.origin.y = 4;
@@ -280,7 +279,7 @@
 	if (nil == self.imagePicker) {
 		self.imagePicker = [[ImagePickerController alloc] init];
 		self.imagePopover = [[UIPopoverController alloc] initWithContentViewController:self.imagePicker];
-		self.imagePicker.contentSizeForViewInPopover = CGSizeMake(300, 360);
+		self.imagePicker.preferredContentSize = CGSizeMake(300, 360);
 	}
 	if (self.imagePopover.isPopoverVisible) {
 		[self.imagePopover dismissPopoverAnimated:YES];

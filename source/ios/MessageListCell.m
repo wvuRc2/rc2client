@@ -126,12 +126,12 @@
 	UIFont *theFont = [UIFont systemFontOfSize:14];
 	CGRect textRect = self.bodyView.frame;
 	textRect.size.height = 100;
-	CGSize sz = [body sizeWithFont:theFont constrainedToSize:textRect.size lineBreakMode:NSLineBreakByWordWrapping];
-	textRect.size.height = sz.height;
+	CGRect brect = [body boundingRectWithSize:textRect.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:theFont} context:nil];
+	textRect.size.height = brect.size.height;
 	self.bodyView.frame = textRect;
 	self.bodyView.bodyText = self.theMessage.body;
 	[self.bodyView setNeedsDisplay];
-	return self.defaultCellHeight + sz.height + 20; //some margin
+	return self.defaultCellHeight + brect.size.height + 20; //some margin
 }
 @end
 
@@ -141,7 +141,9 @@
 -(void)drawRect:(CGRect)rect
 {
 	UIFont *theFont = [UIFont systemFontOfSize:14];
-	[self.bodyText drawInRect:rect withFont:theFont lineBreakMode:NSLineBreakByWordWrapping];
+	NSMutableParagraphStyle *pstyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+	pstyle.lineBreakMode = NSLineBreakByWordWrapping;
+	[self.bodyText drawInRect:rect withAttributes:@{NSFontAttributeName:theFont, NSParagraphStyleAttributeName:pstyle}];
 }
 
 @synthesize bodyText;

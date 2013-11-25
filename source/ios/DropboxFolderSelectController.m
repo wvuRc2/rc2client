@@ -140,7 +140,7 @@
 	dfc.workspace = self.workspace;
 	dfc.doneHandler = self.doneHandler;
 	dfc.doneButtonTitle = self.doneButtonTitle;
-	dfc.contentSizeForViewInPopover = self.contentSizeForViewInPopover;
+	dfc.preferredContentSize = self.preferredContentSize;
 	dfc.navigationItem.rightBarButtonItems = [self.navigationItem.rightBarButtonItems copy];
 	dfc.thePath = path;
 	dfc.dropboxCache = self.dropboxCache;

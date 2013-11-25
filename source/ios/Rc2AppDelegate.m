@@ -6,6 +6,7 @@
 //  Copyright 2011 West Virginia University. All rights reserved.
 //
 
+#import <AVFoundation/AVFoundation.h>
 #import "Rc2AppDelegate.h"
 #import "include/HockeySDK/HockeySDK.h"
 #import "LoginController.h"
@@ -52,8 +53,6 @@
 @property (nonatomic, strong) iSettingsController *isettingsController;
 @end
 
-static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionState);
-
 @implementation Rc2AppDelegate
 
 #pragma mark - app delegate
@@ -73,12 +72,12 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[allDefs addEntriesFromDictionary:defs];
 	[defaults registerDefaults:allDefs];
 	 
-//#ifndef CONFIGURATION_Debug
+#if !TARGET_IPHONE_SIMULATOR
 	[[BITHockeyManager sharedHockeyManager] configureWithBetaIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" liveIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" delegate:self];
 	[[BITHockeyManager sharedHockeyManager] startManager];
 	[BITHockeyManager sharedHockeyManager].debugLogEnabled = YES;
 	[BITHockeyManager sharedHockeyManager].authenticator.authenticationSecret = @"3feb3562d8cc26b457d228d04aee497d";
-//#endif
+#endif
 	
 	self.reachability = [MLReachability reachabilityForInternetConnection];
 	self.reachability.reachableBlock = ^(MLReachability *reach){
@@ -121,12 +120,13 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 		[[NSFileManager defaultManager] createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil];
 	
 	//setup audio
-	AudioSessionInitialize(NULL, NULL, MyAudioInterruptionCallback, (__bridge void*)self);
-	SInt32 category = kAudioSessionCategory_PlayAndRecord;
-	AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(category), &category);
-	UInt32 mixProp = true;
-	AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryMixWithOthers, sizeof(mixProp), &mixProp);
-	AudioSessionSetActive(true);
+	AVAudioSession *asession = [AVAudioSession sharedInstance];
+	NSError *aErr;
+	if (![asession setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&aErr])
+		Rc2LogWarn(@"failed to set audio session category:%@", aErr);
+	
+	if (![asession setActive:YES error:&aErr])
+		Rc2LogWarn(@"error activating audio session:%@", aErr);
 
 	//in case were launched with a file to open
 	self.fileToImport = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
@@ -139,9 +139,10 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 		});
 	} else {
 		[self observeTarget:rc2 keyPath:@"loggedIn" options:0 block:^(MAKVONotification *note) {
-			//#ifndef CONFIGURATION_Debug
+#if !TARGET_IPHONE_SIMULATOR
 			[BITHockeyManager sharedHockeyManager].authenticator.identificationType = BITAuthenticatorIdentificationTypeHockeyAppEmail;
 			[[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+#endif
 			//#endif
 			if (self.fileToImport)
 				[self completeFileImport];
@@ -301,7 +302,7 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 	[[NSNotificationCenter defaultCenter] postNotificationName:kWillDisplayGearMenu object:self.isettingsPopover];
 	if (nil == self.isettingsController) {
 		self.isettingsController = [[iSettingsController alloc] init];
-		self.isettingsController.contentSizeForViewInPopover = CGSizeMake(350, 430);
+		self.isettingsController.preferredContentSize = CGSizeMake(350, 430);
 	}
 	id frontController = self.rootNavController.topViewController;
 	if ([frontController respondsToSelector:@selector(workspaceForSettings)])
@@ -599,8 +600,3 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 
 @end
 
-
-static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionState)
-{
-	
-}

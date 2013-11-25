@@ -129,6 +129,8 @@
 
 -(UIImage*)editMessageImage:(UIImage*)origImage messageCount:(NSInteger)count
 {
+/* this code uses deprecated APIs
+ 
 	UIGraphicsBeginImageContext(origImage.size);
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	[origImage drawAtPoint:CGPointZero];
@@ -148,7 +150,8 @@
 	CGContextShowTextAtPoint(ctx, pt.x, pt.y, str, strlen(str));
 	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
-	return newImage;
+	return newImage; */
+	return nil;
 }
 
 -(void)messagesUpdated:(NSNotification*)note

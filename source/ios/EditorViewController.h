@@ -31,7 +31,6 @@
 -(void)editorResignFirstResponder;
 -(NSString*)editorContents;
 -(void)reloadFileData;
--(void)adjustLineNumbers;
 
 -(void)userWillAdjustWidth;
 -(void)userDidAdjustWidth;

@@ -47,7 +47,7 @@
 	self.dateFormatter = [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-	self.contentSizeForViewInPopover = CGSizeMake(320, 520);
+	self.preferredContentSize = CGSizeMake(320, 520);
 	self.tableView.rowHeight = 52;
 	[self.tableView registerNib:[UINib nibWithNibName:@"FileDetailsCell" bundle:nil] forCellReuseIdentifier:@"file"];
 	__weak SessionFilesController *blockSelf = self;

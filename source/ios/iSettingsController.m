@@ -239,7 +239,7 @@ enum { eTree_Theme, eTree_Keyboard };
 			self.treeController = [[AMNavigationTreeController alloc] init];
 			self.treeController.tracksSelectedItem=YES;
 			self.treeController.delegate = (id)self;
-			self.treeController.contentSizeForViewInPopover = self.contentSizeForViewInPopover;
+			self.treeController.preferredContentSize = self.preferredContentSize;
 			self.treeController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
 		if (cell == self.themeCell) {
 			_treeType = eTree_Theme;
@@ -263,7 +263,7 @@ enum { eTree_Theme, eTree_Keyboard };
 		dbc.workspace = self.currentWorkspace;
 		dbc.doneButtonTitle = @"Select";
 		dbc.dropboxCache = [[NSMutableDictionary alloc] init];
-		dbc.contentSizeForViewInPopover = self.containingPopover.popoverContentSize;
+		dbc.preferredContentSize = self.containingPopover.popoverContentSize;
 		dbc.doneHandler = ^(DropboxFolderSelectController *controller, NSString *thePath) {
 			self.currentWorkspace.dropboxPath = thePath;
 			self.currentWorkspace.dropboxUser = [[[DBSession sharedSession] userIds] firstObject];

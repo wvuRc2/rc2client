@@ -78,7 +78,7 @@
 		tc.contentItems = rcpts;
 		tc.keyForCellText = @"name";
 		tc.delegate = (id)self;
-		tc.contentSizeForViewInPopover = CGSizeMake(300, 250);
+		tc.preferredContentSize = CGSizeMake(300, 250);
 	}
 }
 
@@ -127,7 +127,7 @@
 		tc.keyForCellText = @"name";
 		tc.keyForCellImage = @"img";
 		tc.delegate = (id)self;
-		tc.contentSizeForViewInPopover = CGSizeMake(160, 140);
+		tc.preferredContentSize = CGSizeMake(160, 140);
 	}
 	self.currentPopover = [[UIPopoverController alloc] initWithContentViewController:self.priorityController];
 	self.currentPopover.delegate = self;

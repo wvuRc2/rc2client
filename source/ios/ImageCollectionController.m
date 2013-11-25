@@ -45,7 +45,6 @@
 
 	self.qtyControl = [[UISegmentedControl alloc] initWithItems:@[@"1",@"2",@"4"]];
 	self.qtyControl.selectedSegmentIndex = 1;
-	self.qtyControl.segmentedControlStyle = UISegmentedControlStyleBar;
 	[self.qtyControl setWidth:40 forSegmentAtIndex:0];
 	[self.qtyControl setWidth:40 forSegmentAtIndex:1];
 	[self.qtyControl setWidth:40 forSegmentAtIndex:2];

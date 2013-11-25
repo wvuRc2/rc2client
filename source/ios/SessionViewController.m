@@ -188,7 +188,7 @@
 		[self closeSettingsPopoverAnimated:YES];
 	if (nil == self.controlController) {
 		self.controlController = [[ControlViewController alloc] init];
-		self.controlController.contentSizeForViewInPopover = self.controlController.view.frame.size;
+		self.controlController.preferredContentSize = self.controlController.view.frame.size;
 		self.controlController.session = self.session;
 		self.controlPopover = [[UIPopoverController alloc] initWithContentViewController:self.controlController];
 	}
