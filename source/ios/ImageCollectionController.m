@@ -45,6 +45,11 @@
 
 	self.qtyControl = [[UISegmentedControl alloc] initWithItems:@[@"1",@"2",@"4"]];
 	self.qtyControl.selectedSegmentIndex = 1;
+	if (self.images.count < 2) {
+		self.qtyControl.selectedSegmentIndex = 0;
+		[self imageLayout].visibleCellCount = 1;
+		[self.collectionView reloadData];
+	}
 	[self.qtyControl setWidth:40 forSegmentAtIndex:0];
 	[self.qtyControl setWidth:40 forSegmentAtIndex:1];
 	[self.qtyControl setWidth:40 forSegmentAtIndex:2];
@@ -57,7 +62,6 @@
 	if (nil == self.navigationItem.title)
 		self.navigationItem.title = @"Image";
 	self.navigationItem.leftBarButtonItems = self.standardLeftNavBarItems;
-
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rotation:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
@@ -160,14 +164,15 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-	return self.images.count;
+	return MAX(self.images.count, 4);
 }
 
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
 	ImageCollectionCell *cell = (ImageCollectionCell*)[collectionView dequeueReusableCellWithReuseIdentifier:kImageCell forIndexPath:indexPath];
 	cell.imageDelegate = self;
-	cell.image = self.images[indexPath.row];
+	if (indexPath.row < self.images.count)
+		cell.image = self.images[indexPath.row];
 	return cell;
 }
 

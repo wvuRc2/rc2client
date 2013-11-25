@@ -202,7 +202,7 @@
 		if (CGRectIntersectsRect(attr.frame, rect))
 			[a addObject:attr];
 	}
-	return a;
+	return [a copy];
 }
 
 -(UICollectionViewLayoutAttributes*)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
