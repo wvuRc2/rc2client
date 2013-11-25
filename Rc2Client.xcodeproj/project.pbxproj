@@ -3332,6 +3332,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)/include",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
@@ -3372,6 +3373,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)/include",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
@@ -3442,6 +3444,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)/include",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",

@@ -76,6 +76,8 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 //#ifndef CONFIGURATION_Debug
 	[[BITHockeyManager sharedHockeyManager] configureWithBetaIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" liveIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" delegate:self];
 	[[BITHockeyManager sharedHockeyManager] startManager];
+	[BITHockeyManager sharedHockeyManager].debugLogEnabled = YES;
+	[BITHockeyManager sharedHockeyManager].authenticator.authenticationSecret = @"3feb3562d8cc26b457d228d04aee497d";
 //#endif
 	
 	self.reachability = [MLReachability reachabilityForInternetConnection];
@@ -137,6 +139,10 @@ static void MyAudioInterruptionCallback(void *inUserData, UInt32 interruptionSta
 		});
 	} else {
 		[self observeTarget:rc2 keyPath:@"loggedIn" options:0 block:^(MAKVONotification *note) {
+			//#ifndef CONFIGURATION_Debug
+			[BITHockeyManager sharedHockeyManager].authenticator.identificationType = BITAuthenticatorIdentificationTypeHockeyAppEmail;
+			[[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+			//#endif
 			if (self.fileToImport)
 				[self completeFileImport];
 		}];
