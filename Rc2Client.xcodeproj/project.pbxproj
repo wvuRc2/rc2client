@@ -44,6 +44,7 @@
 		0817C6991821A3EC00C70CA8 /* _RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C6971821A3EC00C70CA8 /* _RCImage.m */; };
 		08285FFD183EBA25002BA8D2 /* SessionEditorCotnainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08285FFC183EBA25002BA8D2 /* SessionEditorCotnainerView.m */; };
 		08286002183EBB84002BA8D2 /* SessionEditorLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08286001183EBB84002BA8D2 /* SessionEditorLayoutManager.m */; };
+		082860041843D2AB002BA8D2 /* ImagePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082860031843D2AB002BA8D2 /* ImagePickerCell.xib */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
@@ -606,6 +607,7 @@
 		08285FFC183EBA25002BA8D2 /* SessionEditorCotnainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionEditorCotnainerView.m; sourceTree = "<group>"; };
 		08286000183EBB84002BA8D2 /* SessionEditorLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionEditorLayoutManager.h; sourceTree = "<group>"; };
 		08286001183EBB84002BA8D2 /* SessionEditorLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionEditorLayoutManager.m; sourceTree = "<group>"; };
+		082860031843D2AB002BA8D2 /* ImagePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImagePickerCell.xib; sourceTree = "<group>"; };
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
@@ -1383,6 +1385,7 @@
 				0868D4C917FCC67F002AD679 /* ImageCollectionCell.xib */,
 				08D2439715B5D5E20064A9FA /* ImagePickerController.h */,
 				08D2439815B5D5E20064A9FA /* ImagePickerController.m */,
+				082860031843D2AB002BA8D2 /* ImagePickerCell.xib */,
 				08D243CD15B5D7590064A9FA /* ImageHolderView.h */,
 				08D243CE15B5D7590064A9FA /* ImageHolderView.m */,
 				08137A3417CBC57F005EA804 /* ImageHolderView.xib */,
@@ -2556,6 +2559,7 @@
 				08D243ED15B5D7590064A9FA /* StudentAssignmentCell.xib in Resources */,
 				082D1EC717E38B6900723EB3 /* RKeywords.txt in Resources */,
 				08D2441415B5D78A0064A9FA /* README.mdown in Resources */,
+				082860041843D2AB002BA8D2 /* ImagePickerCell.xib in Resources */,
 				08D2441515B5D78A0064A9FA /* tokenHighlighted.png in Resources */,
 				0868D4C017FCA0B5002AD679 /* KTRPanel.xib in Resources */,
 				08D2441615B5D78A0064A9FA /* tokenHighlighted@2x.png in Resources */,

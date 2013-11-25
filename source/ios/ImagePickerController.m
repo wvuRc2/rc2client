@@ -12,6 +12,12 @@
 @interface ImagePickerController ()
 @end
 
+@interface ImagePickerCell : UITableViewCell
+@property (nonatomic, weak) IBOutlet UIImageView *imageView;
+@property (nonatomic, weak) IBOutlet UILabel *label;
+@property (nonatomic, weak) NSLayoutConstraint *hwConstraint;
+@end
+
 @implementation ImagePickerController
 
 - (id)init
@@ -26,6 +32,8 @@
 {
 	[super viewDidLoad];
 	//self.clearsSelectionOnViewWillAppear = NO;
+	[self.tableView registerNib:[UINib nibWithNibName:@"ImagePickerCell" bundle:nil] forCellReuseIdentifier:@"image"];
+	self.tableView.rowHeight = 120;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -42,13 +50,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *CellIdentifier = @"Cell";
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	if (nil == cell) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-	}
+//	static NSString *CellIdentifier = @"Cell";
+	ImagePickerCell *cell = (ImagePickerCell*)[tableView dequeueReusableCellWithIdentifier:@"image"];
 	RCImage *img = [self.images objectAtIndex:indexPath.row];
-	cell.textLabel.text = img.name;
+	cell.label.text = img.name;
+	cell.imageView.image = img.image;
 	if (img == self.selectedImage) {
 		//select it
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -67,4 +73,21 @@
 		self.selectionHandler();
 }
 
+@end
+
+@implementation ImagePickerCell
+-(void)prepareForReuse
+{
+	[self setNeedsUpdateConstraints];
+	[super prepareForReuse];
+}
+-(void)updateConstraints
+{
+	if (nil == self.hwConstraint) {
+		NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeHeight multiplier:1 constant:0];
+		self.hwConstraint = c;
+		[self.contentView addConstraint:c];
+	}
+	[super updateConstraints];
+}
 @end

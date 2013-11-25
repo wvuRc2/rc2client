@@ -280,7 +280,7 @@
 	if (nil == self.imagePicker) {
 		self.imagePicker = [[ImagePickerController alloc] init];
 		self.imagePopover = [[UIPopoverController alloc] initWithContentViewController:self.imagePicker];
-		self.imagePicker.contentSizeForViewInPopover = CGSizeMake(240, 360);
+		self.imagePicker.contentSizeForViewInPopover = CGSizeMake(300, 360);
 	}
 	if (self.imagePopover.isPopoverVisible) {
 		[self.imagePopover dismissPopoverAnimated:YES];
