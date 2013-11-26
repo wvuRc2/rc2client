@@ -8,7 +8,7 @@
 
 #import "RCMMultiUpView.h"
 
-#define kBoxHeightDiff 42
+const CGFloat kBoxHeightDiff = 42;
 
 @implementation RCMMultiUpView {
 	BOOL _noLayoutAnimation;

@@ -23,7 +23,7 @@
 #import "ImageCollectionController.h"
 #import <objc/runtime.h>
 
-#define kAnimDuration 0.5
+const CGFloat kAnimDuration = 0.5;
 
 @interface ConsoleViewController()<UITextViewDelegate,UIViewControllerTransitioningDelegate> {
 	BOOL _didSetGraphUrl;

@@ -7,7 +7,7 @@
 
 #import "_RCImage.h"
 
-extern NSString *RCImageLoadingNeededNotification;
+extern NSString *const RCImageLoadingNeededNotification;
 
 @interface RCImage : _RCImage
 @property (nonatomic, strong) ImageClass *image;

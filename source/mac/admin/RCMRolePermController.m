@@ -9,7 +9,7 @@
 #import "RCMRolePermController.h"
 #import "Rc2Server.h"
 
-#define kPermPboardType @"edu.wvu.stat.rc2.mac.perm"
+NSString *const kPermPboardType = @"edu.wvu.stat.rc2.mac.perm";
 
 @interface RCMRolePermController()
 @property (nonatomic, copy) NSArray *perms;

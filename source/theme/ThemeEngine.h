@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define kPrefCustomThemeURL @"CustomThemeURL"
+extern NSString *const kPrefCustomThemeURL;
 
 @interface Theme : NSObject
 -(CGColorRef)cgColorForKey:(NSString*)key;

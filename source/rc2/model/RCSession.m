@@ -26,6 +26,10 @@
 
 #define kWebSocketTimeOutSeconds 6
 
+NSString *const kMode_Share = @"share";
+NSString *const kMode_Control = @"control";
+NSString *const kMode_Classroom = @"classroom";
+
 NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 
 @interface RCSession() <WebSocketDelegate> {

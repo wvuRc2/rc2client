@@ -19,8 +19,10 @@
 #define COLOR_W_WHITE colorWithCalibratedWhite
 #endif
 
-#define kPref_CurrentTheme @"CurrentThemeEngineTheme"
-#define kPref_CustomThemeData @"CustomThemeData"
+NSString *const kPref_CurrentTheme = @"CurrentThemeEngineTheme";
+NSString *const kPref_CustomThemeData = @"CustomThemeData";
+
+NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 
 @interface Theme() {
 	@protected

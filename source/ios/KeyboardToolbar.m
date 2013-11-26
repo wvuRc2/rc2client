@@ -11,7 +11,7 @@
 #import "GradientButton.h"
 #import <objc/runtime.h>
 
-#define kTagExecute 1001
+const NSInteger kTagExecute = 1001;
 
 @interface ButtonPanel : UIView
 @property (nonatomic, copy) NSString *panelName;

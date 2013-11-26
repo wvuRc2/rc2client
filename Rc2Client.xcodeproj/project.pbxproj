@@ -820,8 +820,8 @@
 		087DB8C517B57AB400724811 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = "Dependencies/HockeySDK-iOS/Vendor/CrashReporter.framework"; sourceTree = "<group>"; };
 		087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HockeySDKResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		08A82B8B17F7127400F49071 /* SyntaxParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyntaxParserTests.m; sourceTree = "<group>"; };
-		08ADBE2117A054B40004A89C /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = source/DropBlocks.h; sourceTree = "<group>"; };
-		08ADBE2217A054B40004A89C /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = source/DropBlocks.m; sourceTree = "<group>"; };
+		08ADBE2117A054B40004A89C /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = Vendor/DropBlocks.h; sourceTree = "<group>"; };
+		08ADBE2217A054B40004A89C /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = Vendor/DropBlocks.m; sourceTree = "<group>"; };
 		08ADBE2517A06C9F0004A89C /* RC2LoopQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RC2LoopQueue.h; sourceTree = "<group>"; };
 		08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RC2LoopQueue.m; sourceTree = "<group>"; };
 		08B3477C175D2C4000B86FD2 /* no.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = no.png; path = resources/mac/no.png; sourceTree = SOURCE_ROOT; };
@@ -1015,8 +1015,8 @@
 		08D243D915B5D7590064A9FA /* StudentAssignmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentAssignmentCell.h; sourceTree = "<group>"; };
 		08D243DA15B5D7590064A9FA /* StudentAssignmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentAssignmentCell.m; sourceTree = "<group>"; };
 		08D243DB15B5D7590064A9FA /* StudentAssignmentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StudentAssignmentCell.xib; sourceTree = "<group>"; };
-		08D243F315B5D78A0064A9FA /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientButton.h; sourceTree = "<group>"; };
-		08D243F415B5D78A0064A9FA /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientButton.m; sourceTree = "<group>"; };
+		08D243F315B5D78A0064A9FA /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GradientButton.h; path = ../../../Vendor/ios/GradientButton.h; sourceTree = "<group>"; };
+		08D243F415B5D78A0064A9FA /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GradientButton.m; path = ../../../Vendor/ios/GradientButton.m; sourceTree = "<group>"; };
 		08D243F615B5D78A0064A9FA /* JSTokenButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTokenButton.h; sourceTree = "<group>"; };
 		08D243F715B5D78A0064A9FA /* JSTokenButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTokenButton.m; sourceTree = "<group>"; };
 		08D243F815B5D78A0064A9FA /* JSTokenField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTokenField.h; sourceTree = "<group>"; };
@@ -1026,8 +1026,8 @@
 		08D243FC15B5D78A0064A9FA /* tokenHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tokenHighlighted@2x.png"; sourceTree = "<group>"; };
 		08D243FD15B5D78A0064A9FA /* tokenNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tokenNormal.png; sourceTree = "<group>"; };
 		08D243FE15B5D78A0064A9FA /* tokenNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tokenNormal@2x.png"; sourceTree = "<group>"; };
-		08D243FF15B5D78A0064A9FA /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		08D2440015B5D78A0064A9FA /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		08D243FF15B5D78A0064A9FA /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = ../../../Vendor/ios/MBProgressHUD.h; sourceTree = "<group>"; };
+		08D2440015B5D78A0064A9FA /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = ../../../Vendor/ios/MBProgressHUD.m; sourceTree = "<group>"; };
 		08D2440915B5D78A0064A9FA /* PHRefreshGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRefreshGestureRecognizer.h; sourceTree = "<group>"; };
 		08D2440A15B5D78A0064A9FA /* PHRefreshGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRefreshGestureRecognizer.m; sourceTree = "<group>"; };
 		08D2440B15B5D78A0064A9FA /* PHRefreshTriggerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRefreshTriggerView.h; sourceTree = "<group>"; };
@@ -1605,7 +1605,7 @@
 				084594B715B5F53900297C9D /* PXSourceList */,
 			);
 			name = "mac 3rdParty";
-			path = source/mac/3rdParty;
+			path = Vendor/mac;
 			sourceTree = SOURCE_ROOT;
 		};
 		084594B715B5F53900297C9D /* PXSourceList */ = {
@@ -2030,7 +2030,8 @@
 				08D243FD15B5D78A0064A9FA /* tokenNormal.png */,
 				08D243FE15B5D78A0064A9FA /* tokenNormal@2x.png */,
 			);
-			path = JSTokenField;
+			name = JSTokenField;
+			path = ../../../Vendor/ios/JSTokenField;
 			sourceTree = "<group>";
 		};
 		08D2440815B5D78A0064A9FA /* PHRefreshGestureRecognizer */ = {
@@ -2042,7 +2043,8 @@
 				08D2440C15B5D78A0064A9FA /* PHRefreshTriggerView.m */,
 				08D2440D15B5D78A0064A9FA /* resources */,
 			);
-			path = PHRefreshGestureRecognizer;
+			name = PHRefreshGestureRecognizer;
+			path = ../../../Vendor/ios/PHRefreshGestureRecognizer;
 			sourceTree = "<group>";
 		};
 		08D2440D15B5D78A0064A9FA /* resources */ = {
@@ -2116,7 +2118,7 @@
 				08D2455D15B5DB270064A9FA /* SBJsonWriter.m */,
 			);
 			name = json;
-			path = source/json;
+			path = Vendor/json;
 			sourceTree = "<group>";
 		};
 		08D2455E15B5DB270064A9FA /* WebSocketClient */ = {
@@ -2151,7 +2153,7 @@
 				08D2457915B5DB270064A9FA /* WebSocketMessage.m */,
 			);
 			name = WebSocketClient;
-			path = source/WebSocketClient;
+			path = Vendor/WebSocketClient;
 			sourceTree = "<group>";
 		};
 		08D2459715B5DBB70064A9FA /* rc2 */ = {
@@ -2438,7 +2440,8 @@
 				08FF3D4816F10E1900F3E09E /* HorizontalSelector@2x.png */,
 				08FF3D4916F10E1900F3E09E /* HueSaturationGradient.png */,
 			);
-			path = "ColorPicker-for-iOS";
+			name = "ColorPicker-for-iOS";
+			path = "../../../Vendor/ios/ColorPicker-for-iOS";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3333,9 +3336,10 @@
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "CONFIGURATION_$(CONFIGURATION)";
 				HEADER_SEARCH_PATHS = (
 					"\"$(BUILT_PRODUCTS_DIR)\"",
+					"\"$(SRCROOT)/Vendor/\"/**",
+					"\" \"$(BUILT_PRODUCTS_DIR)/include",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
-					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
-					"\"$(BUILT_PRODUCTS_DIR)/include",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3374,9 +3378,10 @@
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "CONFIGURATION_$(CONFIGURATION)";
 				HEADER_SEARCH_PATHS = (
 					"\"$(BUILT_PRODUCTS_DIR)\"",
+					"\"$(SRCROOT)/Vendor/\"/**",
+					"\" \"$(BUILT_PRODUCTS_DIR)/include",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
-					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
-					"\"$(BUILT_PRODUCTS_DIR)/include",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3445,9 +3450,10 @@
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "CONFIGURATION_$(CONFIGURATION)";
 				HEADER_SEARCH_PATHS = (
 					"\"$(BUILT_PRODUCTS_DIR)\"",
+					"\"$(SRCROOT)/Vendor/\"/**",
+					"\" \"$(BUILT_PRODUCTS_DIR)/include",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
-					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
-					"\"$(BUILT_PRODUCTS_DIR)/include",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

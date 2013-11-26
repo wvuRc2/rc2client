@@ -24,7 +24,7 @@
 #import "Rc2FileType.h"
 #import "AFJSONRequestOperation.h"
 
-#define kServerHostKey @"ServerHostKey"
+NSString *const kServerHostKey = @"ServerHostKey";
 
 NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNotification";
 NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";

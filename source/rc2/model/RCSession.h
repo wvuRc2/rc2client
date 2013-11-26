@@ -24,9 +24,9 @@ enum {
 	kRc2Err_ConnectionTimedOut=1
 };
 
-#define kMode_Share @"share"
-#define kMode_Control @"control"
-#define kMode_Classroom @"classroom"
+extern NSString *const kMode_Share;
+extern NSString *const kMode_Control;
+extern NSString *const kMode_Classroom;
 
 typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
 	RCSessionExecuteOptionNone,

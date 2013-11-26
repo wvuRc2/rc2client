@@ -32,7 +32,6 @@
 @property (nonatomic, copy) NSArray *availableRcpts;
 @end
 
-#define NSNUM(x) [NSNumber numberWithInteger:x]
 
 @implementation SendMessageViewController
 
@@ -120,9 +119,9 @@
 		self.priorityController = tc;
 		NSArray *imgs = self.priorityImages;
 		tc.contentItems = ARRAY(
-			[NSDictionary dictionaryWithObjectsAndKeys:@"High", @"name", [imgs objectAtIndex:3], @"img", NSNUM(3), @"val", nil],
-			[NSDictionary dictionaryWithObjectsAndKeys:@"Normal", @"name", [imgs objectAtIndex:2], @"img", NSNUM(2), @"val", nil],
-			[NSDictionary dictionaryWithObjectsAndKeys:@"Low", @"name", [imgs objectAtIndex:1], @"img", NSNUM(1), @"val", nil]
+			[NSDictionary dictionaryWithObjectsAndKeys:@"High", @"name", [imgs objectAtIndex:3], @"img", @3, @"val", nil],
+			[NSDictionary dictionaryWithObjectsAndKeys:@"Normal", @"name", [imgs objectAtIndex:2], @"img", @2, @"val", nil],
+			[NSDictionary dictionaryWithObjectsAndKeys:@"Low", @"name", [imgs objectAtIndex:1], @"img", @1, @"val", nil]
 		);
 		tc.keyForCellText = @"name";
 		tc.keyForCellImage = @"img";

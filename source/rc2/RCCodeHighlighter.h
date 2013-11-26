@@ -11,7 +11,7 @@
 
 
 @protocol RCCodeHighlighter <NSObject>
-/// a dictionary with the #define kPref_SyntaxColor_* values as keys and (NS/UI)Colors as the values
+/// a dictionary with the kPref_SyntaxColor_* constants as keys and (NS/UI)Colors as the values
 @property (nonatomic, copy) NSDictionary *colorMap;
 
 //highlights range of content with colors from colorMap

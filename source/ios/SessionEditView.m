@@ -11,7 +11,7 @@
 #import <objc/message.h>
 #import "SessionEditorLayoutManager.h"
 
-#define kLineNumberGutterWidth 40
+const CGFloat kLineNumberGutterWidth = 40;
 
 @interface SessionEditView ()
 @property (readwrite) BOOL isBecomingFirstResponder;

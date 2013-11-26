@@ -10,8 +10,8 @@
 #import "Rc2Server.h"
 #import "EMKeychainItem.h"
 
-#define kLastLoginKey @"LastLogin"
-#define kLastServerKey @"LastServer"
+NSString *const kLastLoginKey = @"LastLogin";
+NSString *const kLastServerKey = @"LastServer";
 
 
 @interface MCLoginController()

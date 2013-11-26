@@ -20,7 +20,7 @@
 @property (nonatomic, strong) NSFetchRequest *allImageFetchRequest;
 @end
 
-#define kPref_ImageMetaData @"ImageMetaData"
+NSString *const kPref_ImageMetaData = @"ImageMetaData";
 
 @implementation RCImageCache
 

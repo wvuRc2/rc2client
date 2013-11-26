@@ -13,8 +13,8 @@
 @property (atomic) BOOL isLoadingImage;
 @end
 
-#define kImageKey @"image"
-NSString *RCImageLoadingNeededNotification = @"RCImageLoadingNeededNotification";
+NSString *const kImageKey = @"image";
+NSString *const RCImageLoadingNeededNotification = @"RCImageLoadingNeededNotification";
 
 @implementation RCImage
 

@@ -17,7 +17,7 @@
 @property (weak) id<UICollectionViewDataSource> weakDataSource;
 @end
 
-#define MARGIN 20
+const CGFloat MARGIN = 20;
 
 @implementation ProjectViewLayout
 { BOOL _madeWeakRef; }

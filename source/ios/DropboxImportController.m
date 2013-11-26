@@ -14,6 +14,8 @@
 #import "RCWorkspace.h"
 #import "RCSession.h"
 
+NSString *const kLastDropBoxPathPref = @"LastDropBoxPath";
+
 @interface DropboxImportController()
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, strong) DBMetadata *metaData;

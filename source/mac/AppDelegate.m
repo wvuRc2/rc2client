@@ -25,8 +25,8 @@
 #import "MASPreferencesWindowController.h"
 #import <DropboxOSX/DropboxOSX.h>
 
-#define kPref_LastLoginString @"LastLoginString"
-#define kPref_StartInFullScreen @"StartInFullScreen"
+NSString *const kPref_LastLoginString = @"LastLoginString";
+NSString *const kPref_StartInFullScreen = @"StartInFullScreen";
 
 @interface AppDelegate() <BITHockeyManagerDelegate> {
 	BOOL __haveMoc;

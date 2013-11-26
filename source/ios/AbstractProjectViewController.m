@@ -26,7 +26,7 @@
 @property (strong) id myChild; //setting cv delegate in dealloc reloads ourself which is a big crash. this ref saves us from that.
 @end
 
-#define CV_ANIM_DELAY 0.2
+const CGFloat CV_ANIM_DELAY = 0.2;
 
 @implementation AbstractProjectViewController
 -(id)init

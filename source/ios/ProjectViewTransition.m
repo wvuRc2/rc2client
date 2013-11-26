@@ -15,7 +15,7 @@
 @property (nonatomic, weak) AbstractProjectViewController *destVC;
 @end
 
-#define ANIM_DURATION 0.4
+const CGFloat ANIM_DURATION = 0.4;
 
 @implementation ProjectViewTransition
 -(id)initWithFromController:(AbstractProjectViewController*)fromVC toController:(AbstractProjectViewController*)toVC

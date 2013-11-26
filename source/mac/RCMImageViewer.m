@@ -11,6 +11,8 @@
 #import "RCImage.h"
 #import "RCWorkspace.h"
 
+const CGFloat kSwipeMinimumLength = 0.3;
+
 @interface RCMImageViewer()
 @property (strong) NSMutableDictionary *twoFingersTouches;
 @property (weak) IBOutlet NSButton *shareButton;
@@ -85,8 +87,6 @@
 	NSSharingServicePicker *picker = [[NSSharingServicePicker alloc] initWithItems:@[self.imageView.image]];
 	[picker showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMinYEdge];
 }
-
-#define kSwipeMinimumLength 0.3
 
 @synthesize twoFingersTouches;
 

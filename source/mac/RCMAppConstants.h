@@ -17,21 +17,21 @@ extern NSString * const RCMToolbarItem_Remove;
 extern NSString * const RCMToolbarItem_Add;
 extern NSString * const RCMToolbarItem_Users;
 
-#define kPref_SupressDeleteFileWarning @"SupressDeleteFileWarning"
-#define kPref_SupressClearWorkspaceWarning @"SupressClearWorkspaceWarning"
-#define kPref_CommandHistoryMaxLen @"CommandHistoryMaxLen"
-#define kPref_NumImagesVisible @"NumImagesVisible"
-#define kPref_EditorFont @"EditorFont"
-#define kPref_EditorFontDisplayName @"EditorFontDisplayName"
-#define kPref_EditorFontSize @"EditorFontSize"
-#define kPref_EditorWordWrap @"EditorWordWrap"
-#define kPref_EditorShowInvisible @"ShowInvisibleChars"
-#define kPref_TreatNewlinesAsSemicolons @"TreatNewlinesAsSemicolons"
-#define kPref_ExecuteByDefault @"ExecuteInsteadOfSource"
+extern NSString *const kPref_SupressDeleteFileWarning;
+extern NSString *const kPref_SupressClearWorkspaceWarning;
+extern NSString *const kPref_CommandHistoryMaxLen;
+extern NSString *const kPref_NumImagesVisible;
+extern NSString *const kPref_EditorFont;
+extern NSString *const kPref_EditorFontDisplayName;
+extern NSString *const kPref_EditorFontSize;
+extern NSString *const kPref_EditorWordWrap;
+extern NSString *const kPref_EditorShowInvisible;
+extern NSString *const kPref_TreatNewlinesAsSemicolons;
+extern NSString *const kPref_ExecuteByDefault;
 
-#define kMenuView 2
-#define kMenuView_Theme 2112
-#define kMenu_Chunks 24090
+extern const NSInteger kMenuView;
+extern const NSInteger kMenuView_Theme;
+extern const NSInteger kMenu_Chunks;
 
 @interface RCMAppConstants : NSObject
 //array of all preference keys that should be removed when users chooses to reset all warnings
