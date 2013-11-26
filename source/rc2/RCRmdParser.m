@@ -10,7 +10,7 @@
 #import "RCChunk.h"
 #import "RCCodeHighlighterR.h"
 #import "RCCodeHighlighterLatex.h"
-#import "AppConstants.h"
+#import "Rc2AppConstants.h"
 
 @interface RCRmdParser ()
 @property (nonatomic, strong) RCCodeHighlighterLatex *latexHighlighter;

@@ -7,7 +7,7 @@
 //
 
 #import "SessionViewController.h"
-#import "AppConstants.h"
+#import "Rc2AppConstants.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
 #import "AMResizableSplitViewController.h"

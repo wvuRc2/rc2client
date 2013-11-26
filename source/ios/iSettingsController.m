@@ -7,7 +7,7 @@
 //
 
 #import "iSettingsController.h"
-#import "AppConstants.h"
+#import "Rc2AppConstants.h"
 #import "ThemeEngine.h"
 #import "Rc2AppDelegate.h"
 #import "Vyana-ios/AMNavigationTreeController.h"

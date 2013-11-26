@@ -45,6 +45,8 @@
 		08285FFD183EBA25002BA8D2 /* SessionEditorCotnainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08285FFC183EBA25002BA8D2 /* SessionEditorCotnainerView.m */; };
 		08286002183EBB84002BA8D2 /* SessionEditorLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08286001183EBB84002BA8D2 /* SessionEditorLayoutManager.m */; };
 		082860041843D2AB002BA8D2 /* ImagePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082860031843D2AB002BA8D2 /* ImagePickerCell.xib */; };
+		0828600718451B7C002BA8D2 /* Rc2AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828600618451B7C002BA8D2 /* Rc2AppConstants.m */; };
+		0828600818451B7C002BA8D2 /* Rc2AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828600618451B7C002BA8D2 /* Rc2AppConstants.m */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
@@ -608,6 +610,8 @@
 		08286000183EBB84002BA8D2 /* SessionEditorLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionEditorLayoutManager.h; sourceTree = "<group>"; };
 		08286001183EBB84002BA8D2 /* SessionEditorLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionEditorLayoutManager.m; sourceTree = "<group>"; };
 		082860031843D2AB002BA8D2 /* ImagePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImagePickerCell.xib; sourceTree = "<group>"; };
+		0828600518451B7C002BA8D2 /* Rc2AppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rc2AppConstants.h; path = source/Rc2AppConstants.h; sourceTree = "<group>"; };
+		0828600618451B7C002BA8D2 /* Rc2AppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rc2AppConstants.m; path = source/Rc2AppConstants.m; sourceTree = "<group>"; };
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
@@ -939,7 +943,6 @@
 		08D2432715B5D04D0064A9FA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		08D2435115B5D23E0064A9FA /* ipad-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ipad-Info.plist"; sourceTree = "<group>"; };
 		08D2435315B5D2940064A9FA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		08D2435615B5D4130064A9FA /* AppConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppConstants.h; path = source/ios/AppConstants.h; sourceTree = "<group>"; };
 		08D2435715B5D4130064A9FA /* Rc2AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rc2AppDelegate.h; sourceTree = "<group>"; };
 		08D2435815B5D4130064A9FA /* Rc2AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Rc2AppDelegate.m; sourceTree = "<group>"; };
 		08D2435B15B5D42E0064A9FA /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
@@ -1812,7 +1815,8 @@
 				08137A2F17C8024C005EA804 /* SharedImages.xcassets */,
 				08D2442515B5D7DD0064A9FA /* notes.markdown */,
 				08D244E015B5D9500064A9FA /* CommonPrefix.pch */,
-				08D2435615B5D4130064A9FA /* AppConstants.h */,
+				0828600518451B7C002BA8D2 /* Rc2AppConstants.h */,
+				0828600618451B7C002BA8D2 /* Rc2AppConstants.m */,
 				08D2435515B5D3F00064A9FA /* ios */,
 				08D2462415B5EBC20064A9FA /* mac */,
 				08D244E415B5D98A0064A9FA /* shared */,
@@ -2885,6 +2889,7 @@
 				08D2441D15B5D78A0064A9FA /* PHRefreshGestureRecognizer.m in Sources */,
 				087342CC17BD6A73000EC1E0 /* WorkspaceViewController.m in Sources */,
 				08D2441E15B5D78A0064A9FA /* PHRefreshTriggerView.m in Sources */,
+				0828600718451B7C002BA8D2 /* Rc2AppConstants.m in Sources */,
 				08D2442415B5D7B90064A9FA /* Rc2.xcdatamodeld in Sources */,
 				082D1ECB17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */,
 				08D2458415B5DB270064A9FA /* NSObject+SBJSON.m in Sources */,
@@ -3075,6 +3080,7 @@
 				08D2466F15B5EE670064A9FA /* WebSocketMessage.m in Sources */,
 				08D2467015B5EE950064A9FA /* WebSocket10.m in Sources */,
 				08D2467115B5EE950064A9FA /* WebSocketConnectConfig.m in Sources */,
+				0828600818451B7C002BA8D2 /* Rc2AppConstants.m in Sources */,
 				08D2467215B5EE950064A9FA /* WebSocketFragment.m in Sources */,
 				084593E715B5F16F00297C9D /* RCMAppConstants.m in Sources */,
 				08BDDDAD17EA48AB00E669E3 /* NSPersistentStore+MagicalRecord.m in Sources */,

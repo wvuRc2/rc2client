@@ -9,7 +9,7 @@
 #import "LoginController.h"
 #import "Rc2Server.h"
 #import <Vyana-ios/UIAlertView+AMExtensions.h>
-#import "AppConstants.h"
+#import "Rc2AppConstants.h"
 
 
 @interface LoginController()

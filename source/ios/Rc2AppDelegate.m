@@ -18,7 +18,7 @@
 #import "RCSavedSession.h"
 #import "RCFile.h"
 #import "MBProgressHUD.h"
-#import "AppConstants.h"
+#import "Rc2AppConstants.h"
 #import "MLReachability.h"
 #import <objc/runtime.h>
 #import "MAKVONotificationCenter.h"

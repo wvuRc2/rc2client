@@ -1,5 +1,5 @@
 //
-//  RCMAppConstants.h
+//  RCMRc2AppConstants
 //  MacClient
 //
 //  Created by Mark Lilback on 10/16/11.
@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "AppConstants.h"
+#import "Rc2AppConstants.h"
 
 //tooolbar items
 extern NSString * const RCMToolbarItem_Files;

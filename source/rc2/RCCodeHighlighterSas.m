@@ -7,7 +7,7 @@
 //
 
 #import "RCCodeHighlighterSas.h"
-#import "AppConstants.h"
+#import "Rc2AppConstants.h"
 #import <ParseKit/ParseKit.h>
 
 @interface RCCodeHighlighterSas()

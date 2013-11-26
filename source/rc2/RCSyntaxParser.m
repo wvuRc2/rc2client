@@ -7,7 +7,7 @@
 //
 
 #import "RCSyntaxParser.h"
-#import "AppConstants.h"
+#import "Rc2AppConstants.h"
 #import "RCChunk.h"
 #import "Rc2FileType.h"
 #import "RCSweaveParser.h"

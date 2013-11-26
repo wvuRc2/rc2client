@@ -15,7 +15,7 @@
 #import "RCFile.h"
 #import "Rc2FileType.h"
 #import "FileDetailsCell.h"
-#import "AppConstants.h"
+#import "Rc2AppConstants.h"
 
 @interface SessionFilesController()
 @property (nonatomic, weak) RCSession *session;
