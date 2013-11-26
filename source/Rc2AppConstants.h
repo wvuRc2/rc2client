@@ -6,6 +6,8 @@
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
+extern NSString *const RC2IdleTimerFiredNotification;
+
 //iOS ones, many which need to be removed/deprecated
 extern NSString *const kPrefLastLogin;
 extern NSString *const kPrefCustomKey1URL;

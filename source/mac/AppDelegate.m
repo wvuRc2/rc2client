@@ -28,6 +28,9 @@
 NSString *const kPref_LastLoginString = @"LastLoginString";
 NSString *const kPref_StartInFullScreen = @"StartInFullScreen";
 
+const CGFloat kIdleTimerFrequency = 5;
+const CGFloat kMinIdleTimeBeforeAction = 20;
+
 @interface AppDelegate() <BITHockeyManagerDelegate> {
 	BOOL __haveMoc;
 	BOOL __firstLogin;
@@ -35,10 +38,13 @@ NSString *const kPref_StartInFullScreen = @"StartInFullScreen";
 @property (strong) MCLoginController *loginController;
 @property (readwrite, strong, nonatomic) MCMainWindowController *mainWindowController;
 @property (nonatomic, strong) MASPreferencesWindowController *prefsController;
-@property (nonatomic, strong) NSTimer *autosaveTimer;
+@property (nonatomic, strong) NSTimer *idleTimer;
 @property (nonatomic, readwrite) BOOL loggedIn;
 @property (nonatomic, readwrite) BOOL isFullScreen;
 @property (nonatomic, retain) BBEditApplication *bbedit;
+@property NSTimeInterval lastEventTime;
+@property NSTimeInterval lastSaveTime;
+
 -(void)handleSucessfulLogin;
 -(void)autoSaveChanges;
 -(void)presentLoginPanel;
@@ -108,6 +114,7 @@ NSString *const kPref_StartInFullScreen = @"StartInFullScreen";
 	}]];
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
 	[self setupThemeMenu];
+	self.lastEventTime = [NSDate timeIntervalSinceReferenceDate];
 }
 
 -(BOOL)application:(NSApplication *)app openFile:(NSString *)filename
@@ -125,14 +132,17 @@ NSString *const kPref_StartInFullScreen = @"StartInFullScreen";
 //a timer runs while active that will autosave coredata changes periodically
 -(void)applicationWillBecomeActive:(NSNotification *)note
 {
-	self.autosaveTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(autoSaveChanges) userInfo:nil repeats:YES];
+	if (self.idleTimer)
+		[self.idleTimer invalidate];
+	self.idleTimer = [NSTimer scheduledTimerWithTimeInterval:kIdleTimerFrequency target:self selector:@selector(idleTimerFired:) userInfo:nil repeats:YES];
+	self.lastEventTime = [NSDate timeIntervalSinceReferenceDate];
 }
 
 //invalidate autosave timer and do an autosave
 -(void)applicationWillResignActive:(NSNotification *)note
 {
-	[self.autosaveTimer invalidate];
-	self.autosaveTimer=nil;
+	[self.idleTimer invalidate];
+	self.idleTimer=nil;
 	[self autoSaveChanges];
 }
 
@@ -218,6 +228,25 @@ NSString *const kPref_StartInFullScreen = @"StartInFullScreen";
 
 #pragma mark - meat & potatoes
 
+//this is called even when swithing to background or will terminate is about to happen.
+-(void)eventLoopComplete:(NSEvent*)event
+{
+	[self autoSaveChanges];
+	self.lastEventTime = [NSDate timeIntervalSinceReferenceDate];
+}
+
+-(void)idleTimerFired:(NSTimer*)timer
+{
+	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+	NSTimeInterval elapsed = now - self.lastEventTime;
+	if (elapsed > kMinIdleTimeBeforeAction) {
+		Rc2LogInfo(@"idle timer triggered");
+		[[NSNotificationCenter defaultCenter] postNotificationName:RC2IdleTimerFiredNotification object:self];
+		[self autoSaveChanges];
+		self.lastEventTime = now;
+	}
+}
+
 -(void)displayPdfFile:(RCFile*)file
 {
 	RCMPDFViewController *pvc = [[RCMPDFViewController alloc] init];
@@ -280,9 +309,16 @@ NSString *const kPref_StartInFullScreen = @"StartInFullScreen";
 		Rc2LogError(@"autoSaveChanges called from background thread");
 		return;
 	}
-	NSManagedObjectContext *moc = [NSManagedObjectContext MR_defaultContext];
-	if (moc.hasChanges) {
-		[moc MR_saveToPersistentStoreAndWait];
+	//simple 5 second governer
+	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+	NSTimeInterval elapsed = now - self.lastSaveTime;
+	if (elapsed > 5) {
+		NSManagedObjectContext *moc = [NSManagedObjectContext MR_defaultContext];
+		if (moc.hasChanges) {
+			[moc MR_saveToPersistentStoreAndWait];
+			Rc2LogInfo(@"saved persistent store");
+		}
+		self.lastSaveTime = now;
 	}
 }
 

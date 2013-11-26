@@ -120,6 +120,7 @@
 			[notification.observer adjustExecuteButton];
 		}];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustExecuteButton) name:NSApplicationDidBecomeActiveNotification object:[NSApplication sharedApplication]];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(idleTimeEvent:) name:RC2IdleTimerFiredNotification object:nil];
 #if logJson
 		_jsonLog = [NSFileHandle fileHandleForWritingAtPath:@"/tmp/jsonLog.txt"];
 		NSLog(@"opened log %@", _jsonLog);
@@ -231,7 +232,7 @@
 		}
 		__didFirstLoad=YES;
 	} else if (newSuperview == nil) {
-		[self saveSessionState];
+		[self saveSessionState:YES];
 		[self.audioEngine tearDownAudio];
 		[ti popActionMenu:self.addMenu];
 	}
@@ -739,7 +740,7 @@
 
 #pragma mark - meat & potatos
 
--(void)saveSessionState
+-(void)saveSessionState:(BOOL)saveToStore
 {
 	RCSavedSession *savedState = self.session.savedSessionState;
 	[self.outputController saveSessionState:savedState];
@@ -756,7 +757,9 @@
 		[savedState setProperty:windict forKey:@"variableWindows"];
 	}
 	[self.sessionView saveSessionState:savedState];
-	[savedState.managedObjectContext MR_saveToPersistentStoreAndWait];
+	Rc2LogInfo(@"saved session state");
+	if (saveToStore)
+		[savedState.managedObjectContext MR_saveToPersistentStoreAndWait];
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
@@ -874,7 +877,7 @@
 
 -(void)saveChanges
 {
-	[self saveSessionState];
+	[self saveSessionState:YES];
 //	self.fileHelper.selectedFile=nil;
 }
 
@@ -975,6 +978,12 @@
 		self.statusMessage = @"Network unavailable";
 	}
 }
+
+-(void)idleTimeEvent:(NSNotification*)note
+{
+	[self saveSessionState:NO];
+}
+
 
 #pragma mark - dropbox sync
 

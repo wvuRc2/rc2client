@@ -30,10 +30,8 @@
 #import "ProjectViewTransition.h"
 #import "iSettingsController.h"
 
-@interface UIDevice (BringBackDeprecatedMethods)
--(id)uniqueIdentifier;
-@end
-
+const CGFloat kIdleTimerFrequency = 5;
+const CGFloat kMinIdleTimeBeforeAction = 20;
 
 @interface Rc2AppDelegate() <BITHockeyManagerDelegate,BITUpdateManagerDelegate,UINavigationControllerDelegate> {
 	NSManagedObjectModel *__mom;
@@ -51,6 +49,8 @@
 @property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readwrite) NSArray *standardRightNavBarItems;
 @property (nonatomic, strong) iSettingsController *isettingsController;
+@property NSTimeInterval lastEventTime;
+@property (nonatomic, strong) NSTimer *idleTimer;
 @end
 
 @implementation Rc2AppDelegate
@@ -177,6 +177,8 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+	[self.idleTimer invalidate];
+	self.idleTimer = nil;
 	/*
 	 Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
 	 Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -198,8 +200,20 @@
 	 */
 }
 
+
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+	if (self.idleTimer)
+		[self.idleTimer invalidate];
+	self.idleTimer = [NSTimer scheduledTimerWithTimeInterval:kIdleTimerFrequency repeats:YES usingBlock:^(NSTimer *timer) {
+		NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+		if ((now - self.lastEventTime) > kMinIdleTimeBeforeAction) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:RC2IdleTimerFiredNotification object:self];
+			[self saveChangesIfNeeded];
+			self.lastEventTime = now;
+		}
+	}];
+	self.lastEventTime = [NSDate timeIntervalSinceReferenceDate];
 	/*
 	 Restart any tasks that were paused (or not yet started) while the application was inactive. 
 	 If the application was previously in the background, optionally refresh the user interface.
@@ -388,14 +402,6 @@
 	self.fileToImport = nil;
 }
 
--(void)resetKeyboardPaths
-{
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSBundle *mb = [NSBundle mainBundle];
-	[defaults setObject:[mb pathForResource:@"rightAlpha" ofType:@"txt"] forKey:kPrefCustomKey1URL];
-	[defaults setObject:[mb pathForResource:@"rightSym" ofType:@"txt"] forKey:kPrefCustomKey2URL];		
-}
-
 -(void)completeSessionStartup:(id)results selectedFile:(RCFile*)selFile workspace:(RCWorkspace*)wspace
 {
 	RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:results];
@@ -545,20 +551,20 @@
 }
 
 
--(NSString *)customDeviceIdentifierForUpdateManager:(BITUpdateManager *)updateManager
+-(void)saveChangesIfNeeded
 {
-	if ([[UIDevice currentDevice] respondsToSelector:@selector(uniqueIdentifier)])
-		return [[UIDevice currentDevice] performSelector:@selector(uniqueIdentifier)];
-	return nil;
+	NSManagedObjectContext *moc = [NSManagedObjectContext MR_defaultContext];
+	if (moc.hasChanges) {
+		[moc MR_saveToPersistentStoreAndWait];
+		Rc2LogInfo(@"saved persistent store");
+	}
 }
 
 //this is called even when swithing to background or will terminate is about to happen.
 -(void)eventLoopComplete:(UIEvent*)event
 {
-	NSManagedObjectContext *moc = [NSManagedObjectContext MR_defaultContext];
-	if (moc.hasChanges) {
-		[moc MR_saveToPersistentStoreAndWait];
-	}
+	[self saveChangesIfNeeded];
+	self.lastEventTime = [NSDate timeIntervalSinceReferenceDate];
 }
 
 #pragma mark - pdf display

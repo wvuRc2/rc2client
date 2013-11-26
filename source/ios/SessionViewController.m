@@ -73,6 +73,7 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnteringBackground:) 
 													 name: UIApplicationDidEnterBackgroundNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDropboxSync:) name:kDropboxSyncRequestedNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(idleTimeEvent:) name:RC2IdleTimerFiredNotification object:nil];
 		[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(loginStatusChanged:) userInfo:nil options:0];
 	}
 	return self;
@@ -272,6 +273,11 @@
 
 #pragma mark - meat & potatoes
 
+-(void)idleTimeEvent:(NSNotification*)note
+{
+	[self saveSessionState];
+}
+
 -(void)handleKeyCode:(unichar)code
 {
 	if ([self.consoleController.textField isFirstResponder]) {
@@ -388,6 +394,7 @@
 	savedState.currentFile = self.editorController.currentFile;
 	if (nil == savedState.currentFile)
 		savedState.inputText = [self.editorController editorContents];
+	Rc2LogInfo(@"saving session state");
 }
 
 -(void)appRestored:(NSNotification*)note

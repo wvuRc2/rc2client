@@ -6,6 +6,8 @@
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
+NSString *const RC2IdleTimerFiredNotification = @"RC2IdleTimerFiredNotification";
+
 //iOS ones, many which need to be removed/deprecated
 NSString *const kPrefLastLogin = @"LastLogin";
 NSString *const kPrefCustomKey1URL = @"PrefCustomKey1URL";
