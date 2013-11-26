@@ -85,6 +85,8 @@
 
 -(RCVariable*)valueAtIndex:(NSUInteger)idx
 {
+	if (idx >= self.values.count)
+		return nil;
 	return [self.values objectAtIndex:idx];
 }
 

@@ -40,7 +40,6 @@
 
 -(void)saveChanges;
 
--(void)saveSessionState;
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 
 @end

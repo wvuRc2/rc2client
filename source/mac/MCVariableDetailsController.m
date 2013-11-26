@@ -149,10 +149,8 @@
 	BOOL isRowHead = [tableColumn.identifier isEqualToString:@"0"];
 	NSInteger colNum = tableColumn.identifier.integerValue;
 	NSTableCellView *cell = [tableView makeViewWithIdentifier:isRowHead ? @"ssHead" : @"ssValue" owner:self];
-	if (isRowHead)
-		cell.textField.stringValue = [[self.ssData rowNames] objectAtIndex:row];
-	else
-		cell.textField.stringValue = [self.ssData valueAtRow:row column:colNum-1];
+	NSString *strval = isRowHead ? [self.ssData rowNames][row] : [self.ssData valueAtRow:(int)row column:(int)colNum-1];
+	cell.textField.stringValue = strval ? strval : @"";
 	if (isRowHead)
 		cell.backgroundStyle = NSBackgroundStyleRaised | NSBackgroundStyleDark;
 	return cell;
