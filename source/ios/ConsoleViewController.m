@@ -103,6 +103,7 @@ const CGFloat kAnimDuration = 0.5;
 	[self.containerView addSubview:self.webView];
 	self.webLeftConstraint = [self setupContentSubviewConstraints:self.webView];
 	self.webLeftConstraint.constant = 1000; //offscreen initially
+	self.webView.dataDetectorTypes = UIDataDetectorTypeLink;
 }
 
 -(void)keyboardWillShow:(NSNotification*)note
