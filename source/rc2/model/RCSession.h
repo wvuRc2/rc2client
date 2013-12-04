@@ -28,6 +28,13 @@ extern NSString *const kMode_Share;
 extern NSString *const kMode_Control;
 extern NSString *const kMode_Classroom;
 
+extern NSString *const kOutputColorKey_Input;
+extern NSString *const kOutputColorKey_Help;
+extern NSString *const kOutputColorKey_Status;
+extern NSString *const kOutputColorKey_Error;
+extern NSString *const kOutputColorKey_Log;
+extern NSString *const kOutputColorKey_Note;
+
 typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
 	RCSessionExecuteOptionNone,
 	RCSessionExecuteOptionSource
@@ -76,7 +83,9 @@ typedef void(^RCSessionListUpdateBlock)(RCList*);
 -(void)requestUserList;
 -(void)restartR;
 
--(NSString*)escapeForJS:(NSString*)str;
+-(NSDictionary*)outputAttributesForKey:(NSString*)key;
+
+//-(NSString*)escapeForJS:(NSString*)str;
 
 -(void)raiseHand;
 -(void)lowerHand;

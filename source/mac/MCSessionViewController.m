@@ -865,8 +865,12 @@
 
 -(void)deleteSelectedFile
 {
+	self.busy = YES;
+	self.statusMessage = [NSString stringWithFormat:@"Deleting \"%@\"", self.fileHelper.selectedFile.name];
 	[[Rc2Server sharedInstance] deleteFile:self.fileHelper.selectedFile container:self.session.workspace completionHandler:^(BOOL success, id results)
 	{
+		self.busy = NO;
+		self.statusMessage = @"File deleted";
 		if (success) {
 			self.fileHelper.selectedFile = nil;
 			[self.fileHelper updateFileArray];
@@ -1156,7 +1160,10 @@
 
 -(void)loadHelpURL:(NSURL*)url
 {
-	[self.outputController loadHelpURL:url];
+	if (url)
+		[self.outputController loadHelpURL:url];
+	else //error message displayed, beep to alert user
+		NSBeep();
 }
 
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString
@@ -1293,6 +1300,7 @@
 -(IBAction)contextualHelp:(id)sender
 {
 	NSString *txt = [self.editView.string substringWithRange:[self.editView selectedRange]];
+	txt = [txt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	if (txt.length > 0)
 		[self executeConsoleCommand:[NSString stringWithFormat:@"help(%@)", txt]];
 }
@@ -1386,32 +1394,26 @@
 -(NSMenu*)textView:(NSTextView *)view menu:(NSMenu *)menu forEvent:(NSEvent *)event atIndex:(NSUInteger)charIndex
 {
 	NSInteger idx = -1;
-	BOOL addedItems = NO;
 	for (NSMenuItem *anItem in menu.itemArray) {
 		if ([anItem action] == @selector(cut:))
 			idx = [menu indexOfItem:anItem];
 	}
 	if (idx >= 0) {
-		if (self.editView.selectedRange.length > 0) {
-			NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"Lookup in R Help" action:@selector(contextualHelp:) keyEquivalent:@""];
-			[mi setEnabled:YES];
-			[menu insertItem:mi atIndex:idx++];
-			addedItems = YES;
-		}
 		NSRange selRng = view.selectedRange;
 		NSRange rng = selRng;
 		if (rng.length == 0)
 			rng = [view.string lineRangeForRange:rng];
-		NSString *selText = [[view.string substringWithRange:rng] stringByTrimmingWhitespace];
+		NSString *selText = [[view.string substringWithRange:rng] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		if (selText.length > 0) {
-			NSString *title = selRng.length > 0 ? @"Run Selection" : @"Run Line";
-			NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:title action:@selector(executeCurrentLine:) keyEquivalent:@""];
+			NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"Lookup in R Help" action:@selector(contextualHelp:) keyEquivalent:@""];
 			[mi setEnabled:YES];
 			[menu insertItem:mi atIndex:idx++];
-			addedItems = YES;
-		}
-		if (addedItems)
+			NSString *title = selRng.length > 0 ? @"Run Selection" : @"Run Line";
+			mi = [[NSMenuItem alloc] initWithTitle:title action:@selector(executeCurrentLine:) keyEquivalent:@""];
+			[mi setEnabled:YES];
+			[menu insertItem:mi atIndex:idx++];
 			[menu insertItem:[NSMenuItem separatorItem] atIndex:idx];
+		}
 	}
 	return menu;
 }

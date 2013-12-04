@@ -52,12 +52,12 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 -(void)keepAliveTimerFired:(NSTimer*)timer;
 @end
 
-#define kOColor_Input @"OutputColor_Input"
-#define kOColor_Help @"OutputColor_Help"
-#define kOColor_Status @"OutputColor_Status"
-#define kOColor_Error @"OutputColor_Error"
-#define kOColor_Log @"OutputColor_Log"
-#define kOColor_Note @"OutputColor_Note"
+NSString *const kOutputColorKey_Input = @"OutputColor_Input";
+NSString *const kOutputColorKey_Help = @"OutputColor_Help";
+NSString *const kOutputColorKey_Status = @"OutputColor_Status";
+NSString *const kOutputColorKey_Error = @"OutputColor_Error";
+NSString *const kOutputColorKey_Log = @"OutputColor_Log";
+NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 
 @implementation RCSession
 
@@ -76,7 +76,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		//load output colors
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		NSMutableDictionary *oc = [NSMutableDictionary dictionary];
-		for (NSString *akey in @[kOColor_Error, kOColor_Help, kOColor_Input, kOColor_Log, kOColor_Status, kOColor_Note]) {
+		for (NSString *akey in @[kOutputColorKey_Error, kOutputColorKey_Help, kOutputColorKey_Input, kOutputColorKey_Log, kOutputColorKey_Status, kOutputColorKey_Note]) {
 			ColorClass *color = [ColorClass colorWithHexString:[defaults objectForKey:akey]];
 			if (color)
 				[oc setObject:@{NSBackgroundColorAttributeName:color} forKey:akey];
@@ -284,6 +284,11 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 
 #pragma mark - services for higher layers
 
+-(NSDictionary*)outputAttributesForKey:(NSString*)key
+{
+	return [self.outputColors objectForKey:key];
+}
+
 -(NSString*)pathForCopyForWebKitDisplay:(RCFile*)file
 {
 	NSFileManager *fm = [[NSFileManager alloc] init];
@@ -448,7 +453,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 		[self setMode:[dict valueForKeyPath:@"session.mode"]];
 	} else if ([cmd isEqualToString:@"note"]) {
 		NSString *noteStr = [dict[@"note"] stringByAppendingString:@"\n"];
-		[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:noteStr attributes:self.outputColors[kOColor_Note]]];
+		[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:noteStr attributes:self.outputColors[kOutputColorKey_Note]]];
 	} else if ([cmd isEqualToString:@"echo"]) {
 		[self echoInput:dict[@"script"] username:dict[@"username"] user:dict[@"user"]];
 	} else if ([cmd isEqualToString:@"error"]) {
@@ -456,11 +461,11 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	} else if ([cmd isEqualToString:@"join"]) {
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
 		NSString *joinstr = [NSString stringWithFormat:@"[%@] %@ joined the session\n", [self.dateFormatter stringFromDate:[NSDate date]], dict[@"user"]];
-		[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:joinstr attributes:self.outputColors[kOColor_Status]]];
+		[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:joinstr attributes:self.outputColors[kOutputColorKey_Status]]];
 	} else if ([cmd isEqualToString:@"left"]) {
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
 		NSString *lefstr = [NSString stringWithFormat:@"[%@] %@ left the session\n", [self.dateFormatter stringFromDate:[NSDate date]], dict[@"user"]];
-		[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:lefstr attributes:self.outputColors[kOColor_Status]]];
+		[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:lefstr attributes:self.outputColors[kOutputColorKey_Status]]];
 	} else if ([cmd isEqualToString:@"userlist"]) {
 		[self updateUsers:[dict valueForKeyPath:@"data.users"]];
 		[self setMode:[dict valueForKeyPath:@"data.mode"]];
@@ -514,17 +519,22 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpstr = [NSString stringWithFormat:@"HELP: %@", dict[@"helpTopic"]];
-			[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:helpstr attributes:self.outputColors[kOColor_Help]]];
-			NSString *helpPath = [[dict objectForKey:@"helpPath"] firstObject];
-			NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.stat.wvu.edu/rc2/%@.html", helpPath]];
-			[self.delegate loadHelpURL:helpUrl];
+			NSString *helpPath = [[[dict objectForKey:@"helpPath"] firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+			if (helpPath.length > 0) {
+				[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:helpstr attributes:self.outputColors[kOutputColorKey_Help]]];
+				NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.stat.wvu.edu/rc2/%@.html", helpPath]];
+				[self.delegate loadHelpURL:helpUrl];
+			} else {
+				[self.delegate appendAttributedString:[NSAttributedString attributedStringWithString:[NSString stringWithFormat:@"No help available for \"%@\"", helpstr] attributes:self.outputColors[kOutputColorKey_Help]]];
+				[self.delegate loadHelpURL:nil]; //lets it handle per platform (i.e. beep on mac)
+			}
 		} else if ([dict objectForKey:@"complexResults"]) {
 NSLog(@"complexResults!");
 		} else if ([dict objectForKey:@"json"]) {
 			NSLog(@"json results!");
 		} else if ([dict objectForKey:@"stdout"]) {
 			if ([dict objectForKey:@"command"]) {
-				[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:dict[@"command"] attributes:self.outputColors[kOColor_Input]]];
+				[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:dict[@"command"] attributes:self.outputColors[kOutputColorKey_Input]]];
 			}
 			[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:dict[@"string"] attributes:nil]];
 		}
@@ -586,7 +596,7 @@ NSLog(@"complexResults!");
 -(void)appendError:(NSString*)error
 {
 	NSString *errstr = [error stringByAppendingString:@"\n"];
-	[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:errstr attributes:self.outputColors[kOColor_Error]]];
+	[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:errstr attributes:self.outputColors[kOutputColorKey_Error]]];
 }
 
 -(void)echoInput:(NSString*)script username:(NSString*)username user:(NSString*)user
@@ -596,7 +606,7 @@ NSLog(@"complexResults!");
 		[str appendFormat:@"%@:", username];
 	[str appendString:script];
 	[str appendString:@"\n"];
-	[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:self.outputColors[kOColor_Input]]];
+	[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:self.outputColors[kOutputColorKey_Input]]];
 /*
 	NSMutableAttributedString *mstr = [[NSMutableAttributedString alloc] init];
 	[mstr replaceCharactersInRange:NSMakeRange(0, 0) withString:@"\nboo:\n"];

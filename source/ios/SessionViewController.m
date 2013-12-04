@@ -564,7 +564,8 @@
 
 -(void)loadHelpURL:(NSURL*)url
 {
-	[self.consoleController loadHelpURL:url];
+	if (url)
+		[self.consoleController loadHelpURL:url];
 }
 
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString
