@@ -525,7 +525,7 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 				NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.stat.wvu.edu/rc2/%@.html", helpPath]];
 				[self.delegate loadHelpURL:helpUrl];
 			} else {
-				[self.delegate appendAttributedString:[NSAttributedString attributedStringWithString:[NSString stringWithFormat:@"No help available for \"%@\"", helpstr] attributes:self.outputColors[kOutputColorKey_Help]]];
+				[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"No help available for \"%@\"", helpstr] attributes:self.outputColors[kOutputColorKey_Help]]];
 				[self.delegate loadHelpURL:nil]; //lets it handle per platform (i.e. beep on mac)
 			}
 		} else if ([dict objectForKey:@"complexResults"]) {

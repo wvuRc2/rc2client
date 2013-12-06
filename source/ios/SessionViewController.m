@@ -21,7 +21,6 @@
 #import "RCImageCache.h"
 #import "RCFile.h"
 #import "Rc2FileType.h"
-#import "MBProgressHUD.h"
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
 #import "RCTextAttachment.h"
@@ -31,6 +30,7 @@
 #import "MAKVONotificationCenter.h"
 #import "RCDropboxSync.h"
 #import "kTController.h"
+#import "AMHudView.h"
 
 @interface SessionViewController() <KTControllerDelegate,AMResizableSplitViewControllerDelegate,RCDropboxSyncDelegate>
 @property (nonatomic, strong) IBOutlet AMResizableSplitViewController *splitController;
@@ -46,8 +46,8 @@
 @property (nonatomic, strong) DoodleViewController *doodle;
 @property (nonatomic, strong) kTController *consoleKeyboardToolbar;
 @property (weak, nonatomic, readwrite) RCSession *session;
+@property (nonatomic, strong) AMHudView *currentHudView;
 @property (nonatomic, assign) BOOL reconnecting;
-@property (nonatomic, assign) BOOL showingProgress;
 @property (nonatomic, assign) BOOL autoReconnect;
 @property (nonatomic, strong) RCDropboxSync *dbsync;
 @end
@@ -90,6 +90,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	__weak SessionViewController *bself = self;
+
 	self.navigationItem.title = [NSString stringWithFormat:@"Workspace: %@", self.session.workspace.name];
 	CGFloat splitPos = [[_session settingForKey:@"splitPosition"] floatValue];
 	if (splitPos < 300 || splitPos > 1024)
@@ -126,16 +128,8 @@
 	}
 	[self.consoleController restoreSessionState:savedState];
 	[self.session.workspace refreshFiles];
-	if (!self.session.socketOpen) {
-		RunAfterDelay(0.2, ^{
-			MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-			hud.labelText = @"Connecting to server…";
-			self.showingProgress = YES;
-			RunAfterDelay(0.1, ^{
-				[self.session startWebSocket];
-			});
-		});
-	}
+	if (!self.session.socketOpen)
+		[self performSelector:@selector(openSessionWithProgress) withObject:nil afterDelay:0.2];
 	Rc2Server *server = [Rc2Server sharedInstance];
 	NSMutableArray *ritems = [self.standardRightNavBarItems mutableCopy];
 	if (nil == ritems)
@@ -146,7 +140,6 @@
 		self.doodleButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"doodle"] style:UIBarButtonItemStylePlain target:self action:@selector(showDoodleView:)];
 		[ritems addObject:self.doodleButton];
 	}
-	__weak SessionViewController *bself = self;
 	[[NSNotificationCenter defaultCenter] addObserverForName:kWillDisplayGearMenu object:nil queue:nil usingBlock:^(NSNotification *note) {
 		if (bself.controlPopover.isPopoverVisible)
 			[bself.controlPopover dismissPopoverAnimated:YES];
@@ -273,6 +266,17 @@
 
 #pragma mark - meat & potatoes
 
+-(void)openSessionWithProgress
+{
+	AMHudView *hud = [[AMHudView alloc] init];
+	self.currentHudView = hud;
+	hud.mainLabelText = @"Connecting to server…";
+	[hud showOverView:self.view];
+	RunAfterDelay(0.1, ^{
+		[self.session startWebSocket];
+	});
+}
+
 -(void)idleTimeEvent:(NSNotification*)note
 {
 	[self saveSessionState];
@@ -328,12 +332,10 @@
 		[fm removeItemAtURL:url error:nil];
 		return;
 	}
-	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	hud.labelText = [NSString stringWithFormat:@"Downloading %@…", file.name];
-	self.showingProgress = YES;
-	hud.mode = MBProgressHUDModeDeterminate;
+	self.currentHudView = [AMHudView hudWithLabelText:[NSString stringWithFormat:@"Downloading %@…", file.name]];
+	[self.currentHudView showOverView:self.view];
 	[file updateContentsFromServer:^(NSInteger success) {
-		[MBProgressHUD hideHUDForView:self.view animated:NO];
+		[_currentHudView hide];
 		if (success)
 			[self displayPdfFile:file];
 	}];
@@ -412,8 +414,9 @@
 
 -(void)connectionOpened
 {
-	if (self.showingProgress) {
-		[MBProgressHUD hideHUDForView:self.view animated:YES];
+	if (self.currentHudView) {
+		[self.currentHudView hide];
+		self.currentHudView=nil;
 	}
 	if (!self.reconnecting)
 		self.autoReconnect=YES;
@@ -423,10 +426,9 @@
 -(void)connectionClosed
 {
 	if (!_session.socketOpen && !self.reconnecting && self.autoReconnect) {
-		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-		hud.labelText = @"Reconnecting…";
-		self.reconnecting=YES;
-		self.showingProgress=YES;
+		AMHudView *hud = [AMHudView hudWithLabelText:@"Reconnecting…"];
+		self.currentHudView = hud;
+		[hud showOverView:self.view];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self.session startWebSocket];
 		});
@@ -577,8 +579,8 @@
 	if ([error.domain isEqualToString:NSPOSIXErrorDomain] && error.code == ENOTCONN)
 		return;
 	Rc2LogError(@"web socket error: %@", [error localizedDescription]);
-	if (self.showingProgress) {
-		[MBProgressHUD hideHUDForView:self.view animated:NO];
+	if (self.currentHudView) {
+		[self.currentHudView hide];
 		NSString *msg = @"Failed to connect to server";
 		if (self.reconnecting) {
 			msg = @"Failed to reconnect to server";
@@ -593,8 +595,8 @@
 				[(id)[UIApplication sharedApplication].delegate endSession];
 			}];
 		});
+		self.currentHudView=nil;
 	}
-	self.showingProgress=NO;
 }
 
 #pragma mark - misc

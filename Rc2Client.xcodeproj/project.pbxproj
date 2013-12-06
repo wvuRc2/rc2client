@@ -47,6 +47,7 @@
 		082860041843D2AB002BA8D2 /* ImagePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082860031843D2AB002BA8D2 /* ImagePickerCell.xib */; };
 		0828600718451B7C002BA8D2 /* Rc2AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828600618451B7C002BA8D2 /* Rc2AppConstants.m */; };
 		0828600818451B7C002BA8D2 /* Rc2AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828600618451B7C002BA8D2 /* Rc2AppConstants.m */; };
+		0828605218526300002BA8D2 /* AMHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828605118526300002BA8D2 /* AMHudView.m */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
@@ -612,6 +613,8 @@
 		082860031843D2AB002BA8D2 /* ImagePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImagePickerCell.xib; sourceTree = "<group>"; };
 		0828600518451B7C002BA8D2 /* Rc2AppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rc2AppConstants.h; path = source/Rc2AppConstants.h; sourceTree = "<group>"; };
 		0828600618451B7C002BA8D2 /* Rc2AppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rc2AppConstants.m; path = source/Rc2AppConstants.m; sourceTree = "<group>"; };
+		0828605018526300002BA8D2 /* AMHudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMHudView.h; path = Dependencies/AMHudView/AMHudView.h; sourceTree = SOURCE_ROOT; };
+		0828605118526300002BA8D2 /* AMHudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMHudView.m; path = Dependencies/AMHudView/AMHudView.m; sourceTree = SOURCE_ROOT; };
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
@@ -1396,6 +1399,15 @@
 			name = "image display";
 			sourceTree = "<group>";
 		};
+		082860531852630B002BA8D2 /* AMHudView */ = {
+			isa = PBXGroup;
+			children = (
+				0828605018526300002BA8D2 /* AMHudView.h */,
+				0828605118526300002BA8D2 /* AMHudView.m */,
+			);
+			name = AMHudView;
+			sourceTree = "<group>";
+		};
 		082D1EB817E2402400723EB3 /* syntax highlighting */ = {
 			isa = PBXGroup;
 			children = (
@@ -2003,6 +2015,7 @@
 		08D243F015B5D78A0064A9FA /* ios 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
+				082860531852630B002BA8D2 /* AMHudView */,
 				08DF3D5315BDBC80000A339D /* AMResizableSplitterViewController */,
 				08FF3D4016F10E1900F3E09E /* ColorPicker-for-iOS */,
 				08D243F315B5D78A0064A9FA /* GradientButton.h */,
@@ -2927,6 +2940,7 @@
 				08D245D115B5DBB70064A9FA /* _RCWorkspaceCache.m in Sources */,
 				08D245D215B5DBB70064A9FA /* RCAssignment.m in Sources */,
 				08D245D315B5DBB70064A9FA /* RCAssignmentFile.m in Sources */,
+				0828605218526300002BA8D2 /* AMHudView.m in Sources */,
 				08BDDD8E17EA48AB00E669E3 /* NSEntityDescription+MagicalDataImport.m in Sources */,
 				08D245D415B5DBB70064A9FA /* RCCourse.m in Sources */,
 				08D245D515B5DBB70064A9FA /* RCFile.m in Sources */,
