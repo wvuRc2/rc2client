@@ -17,7 +17,6 @@
 #import "RCWorkspace.h"
 #import "RCSavedSession.h"
 #import "RCFile.h"
-#import "MBProgressHUD.h"
 #import "Rc2AppConstants.h"
 #import "MLReachability.h"
 #import <objc/runtime.h>
@@ -29,6 +28,7 @@
 #import "ProjectViewController.h"
 #import "ProjectViewTransition.h"
 #import "iSettingsController.h"
+#import "AMHudView.h"
 
 const CGFloat kIdleTimerFrequency = 5;
 const CGFloat kMinIdleTimeBeforeAction = 20;
@@ -46,6 +46,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 @property (nonatomic, strong) UIView *currentMasterView;
 @property (nonatomic, strong) NSData *pushToken;
 @property (nonatomic, strong) NSURL *fileToImport;
+@property (nonatomic, strong) AMHudView *currentHud;
 @property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readwrite) NSArray *standardRightNavBarItems;
 @property (nonatomic, strong) iSettingsController *isettingsController;
@@ -409,27 +410,27 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	SessionViewController *svc = [[SessionViewController alloc] initWithSession:session];
 	self.sessionController = svc;
 	[svc view];
-	[MBProgressHUD hideHUDForView:self.rootNavController.view animated:YES];
-	RunAfterDelay(0.25, ^{
+	[self.currentHud hide];
+	self.currentHud=nil;
+//	RunAfterDelay(0.25, ^{
 		[self.rootNavController pushViewController:svc animated:YES];
-	});
+//	});
 }
 
 -(void)openSession:(RCWorkspace*)wspace
 {
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
 	BOOL restoring = nil != savedState;
-	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.rootNavController.view animated:YES];
-	hud.labelText = restoring ? @"Restoring session…" : @"Loading…";
+	self.currentHud = [AMHudView hudWithLabelText:restoring ? @"Restoring session…" : @"Loading…"];
+	[self.currentHud showOverView:self.rootNavController.view];
 	[[Rc2Server sharedInstance] prepareWorkspace:wspace completionHandler:^(BOOL success, id response) {
 		if (success) {
-			double delayInSeconds = 0.1;
-			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-			dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+			dispatch_async(dispatch_get_main_queue(), ^{
 				[self completeSessionStartup:response selectedFile:nil workspace:wspace];
 			});
 		} else {
-			[MBProgressHUD hideHUDForView:self.rootNavController.view animated:YES];
+			[self.currentHud hide];
+			self.currentHud = nil;
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Server Error"
 															message:response
 														   delegate:nil
@@ -449,17 +450,16 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	ZAssert(wspace, @"startSession called without a selected workspace");
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
 	BOOL restoring = nil != savedState;
-	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.rootNavController.view animated:YES];
-	hud.labelText = restoring ? @"Restoring session…" : @"Loading…";
+	self.currentHud = [AMHudView hudWithLabelText:restoring ? @"Restoring session…" : @"Loading…"];
+	[self.currentHud showOverView:self.rootNavController.view];
 	[[Rc2Server sharedInstance] prepareWorkspace: wspace completionHandler:^(BOOL success, id response) {
 		if (success) {
-			double delayInSeconds = 0.1;
-			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-			dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+			dispatch_async(dispatch_get_main_queue(), ^{
 				[self completeSessionStartup:response selectedFile:initialFile workspace:wspace];
 			});
 		} else {
-			[MBProgressHUD hideHUDForView:self.rootNavController.view animated:YES];
+			[self.currentHud hide];
+			self.currentHud=nil;
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Server Error"
 															message:response
 														   delegate:nil
@@ -556,7 +556,6 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	NSManagedObjectContext *moc = [NSManagedObjectContext MR_defaultContext];
 	if (moc.hasChanges) {
 		[moc MR_saveToPersistentStoreAndWait];
-		Rc2LogInfo(@"saved persistent store");
 	}
 }
 

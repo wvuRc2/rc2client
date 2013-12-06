@@ -129,7 +129,7 @@
 	[self.consoleController restoreSessionState:savedState];
 	[self.session.workspace refreshFiles];
 	if (!self.session.socketOpen)
-		[self performSelector:@selector(openSessionWithProgress) withObject:nil afterDelay:0.2];
+		[self performSelector:@selector(openSessionWithProgress:) withObject:@"Connecting to server…" afterDelay:0.2];
 	Rc2Server *server = [Rc2Server sharedInstance];
 	NSMutableArray *ritems = [self.standardRightNavBarItems mutableCopy];
 	if (nil == ritems)
@@ -266,11 +266,14 @@
 
 #pragma mark - meat & potatoes
 
--(void)openSessionWithProgress
+-(void)openSessionWithProgress:(NSString*)message
 {
 	AMHudView *hud = [[AMHudView alloc] init];
 	self.currentHudView = hud;
-	hud.mainLabelText = @"Connecting to server…";
+	hud.mainLabelText = message;
+	hud.cancelBlock = ^(AMHudView *hview) {
+		[self.navigationController popViewControllerAnimated:YES];
+	};
 	[hud showOverView:self.view];
 	RunAfterDelay(0.1, ^{
 		[self.session startWebSocket];
@@ -396,7 +399,6 @@
 	savedState.currentFile = self.editorController.currentFile;
 	if (nil == savedState.currentFile)
 		savedState.inputText = [self.editorController editorContents];
-	Rc2LogInfo(@"saving session state");
 }
 
 -(void)appRestored:(NSNotification*)note
@@ -426,12 +428,7 @@
 -(void)connectionClosed
 {
 	if (!_session.socketOpen && !self.reconnecting && self.autoReconnect) {
-		AMHudView *hud = [AMHudView hudWithLabelText:@"Reconnecting…"];
-		self.currentHudView = hud;
-		[hud showOverView:self.view];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self.session startWebSocket];
-		});
+		[self openSessionWithProgress:@"Reconnecting…"];
 	}
 }
 

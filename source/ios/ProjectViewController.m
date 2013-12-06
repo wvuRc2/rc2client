@@ -16,7 +16,6 @@
 #import "RCWorkspace.h"
 #import "Rc2AppDelegate.h"
 #import "MAKVONotificationCenter.h"
-#import "MBProgressHUD.h"
 #import "ImageDisplayController.h"
 #import "RCImage.h"
 

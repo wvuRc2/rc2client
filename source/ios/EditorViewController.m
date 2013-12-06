@@ -19,7 +19,7 @@
 #import "RCSession.h"
 #import "RCSessionUser.h"
 #import "SessionFilesController.h"
-#import "MBProgressHUD.h"
+#import "AMHudView.h"
 #import "DropboxImportController.h"
 #import "SessionEditView.h"
 #import "kTController.h"
@@ -58,6 +58,7 @@
 @property (nonatomic, strong) UIAlertView *currentAlert;
 @property (nonatomic, strong) NSTimer *widthAdjustTimer;
 @property (nonatomic, strong) RCSyntaxParser *syntaxParser;
+@property (nonatomic, strong) AMHudView *currentHud;
 @property (atomic) BOOL isParsing;
 @property int32_t syncInProgress;
 @property (nonatomic) NSTimeInterval lastParseTime;
@@ -365,14 +366,16 @@
 		return;
 	}
 	UIView *rootView = self.view.superview;
-	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
-	hud.labelText = @"Saving…";
+	AMHudView *hud = [AMHudView hudWithLabelText:@"Saving…"];
+	[hud showOverView:rootView];
+	self.currentHud = hud;
 	self.currentFile.localEdits = self.richEditor.text;
 	[[Rc2Server sharedInstance] saveFile:self.currentFile
 							 toContainer:_session.workspace
 					   completionHandler:^(BOOL success, id results)
 	 {
-		 [MBProgressHUD hideHUDForView:rootView animated:YES];
+		 [hud hide];
+		 self.currentHud=nil;
 		 if (!OSAtomicCompareAndSwap32(1, 0, &_syncInProgress))
 			 Rc2LogError(@"unlocking sync lock failed");
 		 if (success) {
@@ -578,19 +581,18 @@
 {
 	if (Nil == file || nil == dbPath)
 		return;
-	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window.rootViewController.view animated:YES];
-	if (file.fileSize.integerValue > 1024 * 10)
-		hud.mode = MBProgressHUDModeDeterminate;
-	else
-		hud.mode = MBProgressHUDModeIndeterminate;
-	hud.labelText = [NSString stringWithFormat:@"uploading %@ to Dropbox", file.name];
+	AMHudView *hud = [[AMHudView alloc] init];
+	self.currentHud = hud;
+	hud.progressDeterminate = file.fileSize.integerValue > 1024 * 10;
+	hud.mainLabelText = [NSString stringWithFormat:@"uploading %@ to Dropbox", file.name];
 	[DropBlocks uploadFile:file.name toPath:dbPath withParentRev:revisionId fromPath:file.fileContentsPath completionBlock:^(NSString *unknownString, DBMetadata *metadata, NSError *error)
 	{
-		[hud hide:YES];
+		[hud hide];
+		self.currentHud = nil;
 	} progressBlock:^(CGFloat progress) {
-		hud.progress = progress;
+		hud.progressValue = progress;
 	}];
-	[hud show:YES];
+	[hud showOverView:self.view.window.rootViewController.view];
 }
 
 #pragma mark - actions
@@ -614,7 +616,7 @@
 	}
 
 	UIView *rootView = self.view.superview;
-	MBProgressHUD *hud = nil;
+	AMHudView *hud = nil;
 
 	[self.filePopover dismissPopoverAnimated:YES];
 	if ([file.name hasSuffix:@".pdf"]) {
@@ -622,16 +624,18 @@
 			[(Rc2AppDelegate*)TheApp.delegate displayPdfFile:file];
 		} else {
 			if (showProgress)
-				hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
-			hud.labelText = [NSString stringWithFormat:@"Loading %@…", file.name];
+				hud = [[AMHudView alloc] init];
+			hud.mainLabelText = [NSString stringWithFormat:@"Loading %@…", file.name];
+			self.currentHud = hud;
 			[[Rc2Server sharedInstance] fetchFileContents:file completionHandler:^(BOOL success, id results) {
 				if (showProgress)
-					[MBProgressHUD hideHUDForView:rootView animated:YES];
+					[self.currentHud hide];
 				if (success)
 					[self loadFile:file showProgress:showProgress];
 				else
 					Rc2LogWarn(@"failed to fetch pdf '%@' from server:%@", file.name, results);
 			}];
+			[hud showOverView:rootView];
 		}
 		return;
 	} else if (!file.isTextFile) {
@@ -643,12 +647,13 @@
 	} else {
 		//need to load with a progress HUD
 		if (showProgress)
-			hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
-		hud.labelText = @"Loading…";
+			hud = [AMHudView hudWithLabelText:@"Loading…"];
+		self.currentHud = hud;
+		[hud showOverView:rootView];
 		[[Rc2Server sharedInstance] fetchFileContents:file completionHandler:^(BOOL success, id results) {
 			[self loadFileData:file];
-			if (showProgress)
-				[MBProgressHUD hideHUDForView:rootView animated:YES];
+			[self.currentHud hide];
+			self.currentHud=nil;
 		}];
 	}
 }
