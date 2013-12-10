@@ -21,6 +21,8 @@
 			<true/>
 			<key>IsSrc</key>
 			<true/>
+			<key>Executable</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>Extension</key>
@@ -40,6 +42,8 @@
 			<key>IsSrc</key>
 			<true/>
 			<key>IsSweave</key>
+			<true/>
+			<key>Executable</key>
 			<true/>
 		</dict>
 		<dict>
@@ -61,6 +65,8 @@
 			<true/>
 			<key>IsRMarkdown</key>
 			<true/>
+			<key>Executable</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>Extension</key>
@@ -78,6 +84,8 @@
 			<key>Creatable</key>
 			<true/>
 			<key>IsSrc</key>
+			<true/>
+			<key>Executable</key>
 			<true/>
 		</dict>
 		<dict>

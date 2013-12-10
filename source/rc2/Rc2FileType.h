@@ -18,6 +18,7 @@
 @property (readonly) BOOL isSourceFile;
 @property (readonly) BOOL isImportable;
 @property (readonly) BOOL isCreatable;
+@property (readonly) BOOL isExecutable;
 @property (readonly) BOOL isImage;
 @property (readonly) BOOL isSweave;
 @property (readonly) BOOL isRMarkdown;

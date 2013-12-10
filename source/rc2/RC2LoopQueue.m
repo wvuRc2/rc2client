@@ -30,7 +30,6 @@
 	dispatch_queue_t dqueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 	for (id obj in _objectArray) {
 		dispatch_group_async(_dgroup, dqueue, ^{
-			NSLog(@"executing task block %@", obj);
 			_taskBlock(obj);
 		});
 	}

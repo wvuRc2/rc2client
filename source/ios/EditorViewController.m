@@ -311,7 +311,7 @@
 
 -(void)updateDocumentState
 {
-	self.executeButton.enabled = self.richEditor.attributedText.length > 0;
+	self.executeButton.enabled = !self.session.restrictedMode && self.currentFile.fileType.isExecutable && self.richEditor.attributedText.length > 0;
 	self.richEditor.editable = self.isFileLoaded;
 	self.actionButtonItem.enabled = self.currentFile != nil && !self.session.restrictedMode;
 }
@@ -356,6 +356,7 @@
 			[self.session sendFileOpened:file fullscreen:NO];
 		}
 	}
+	[self updateDocumentState];
 }
 
 -(void)saveFileData:(BasicBlock1IntArg)completion
@@ -480,9 +481,9 @@
 {
 	bool limited = self.session.restrictedMode;
 	self.actionButtonItem.enabled = !limited && nil != self.currentFile;
-	self.executeButton.enabled = !limited;
 	self.openFileButtonItem.enabled = !limited;
 	self.richEditor.editable = !limited && self.isFileLoaded;
+	[self updateDocumentState]; //handles execute button
 }
 
 -(void)executeBlockAfterSave:(BasicBlock)block

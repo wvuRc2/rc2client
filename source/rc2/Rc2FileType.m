@@ -112,6 +112,7 @@
 -(BOOL)isSourceFile { return [[self.data objectForKey:@"IsSrc"] boolValue]; }
 -(BOOL)isSweave { return [[self.data objectForKey:@"IsSweave"] boolValue]; }
 -(BOOL)isRMarkdown { return [[self.data objectForKey:@"IsRMarkdown"] boolValue]; }
+-(BOOL)isExecutable { return [[self.data objectForKey:@"Executable"] boolValue]; }
 
 -(id)image
 {
