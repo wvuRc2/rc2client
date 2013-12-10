@@ -14,7 +14,6 @@
 #import "RCAssignment.h"
 #import "RCStudentAssignment.h"
 #import "StudentAssignmentCell.h"
-#import "MBProgressHUD.h"
 
 @interface GradingViewController ()
 @property (nonatomic, strong) IBOutlet AMPickerPopover *classPicker;
