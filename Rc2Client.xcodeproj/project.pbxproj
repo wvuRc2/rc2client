@@ -244,6 +244,10 @@
 		08B74CF61643045F00083F9A /* ProjectViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74CF51643045F00083F9A /* ProjectViewLayout.m */; };
 		08B74CF81648615800083F9A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CF71648615800083F9A /* Localizable.strings */; };
 		08B74CF91648615800083F9A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CF71648615800083F9A /* Localizable.strings */; };
+		08BD2F55185A5257002B256B /* libRcpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F54185A5257002B256B /* libRcpp.a */; };
+		08BD2F57185A5289002B256B /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F56185A5289002B256B /* R.framework */; };
+		08BD2F59185A52CA002B256B /* EnvList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F58185A52CA002B256B /* EnvList.cpp */; };
+		08BD2F5B185A52D4002B256B /* Rc2Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F5A185A52D4002B256B /* Rc2Timer.cpp */; };
 		08BDDD8A17EA48AB00E669E3 /* MagicalImportFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD5217EA48AB00E669E3 /* MagicalImportFunctions.m */; };
 		08BDDD8B17EA48AB00E669E3 /* MagicalImportFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD5217EA48AB00E669E3 /* MagicalImportFunctions.m */; };
 		08BDDD8C17EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD5417EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.m */; };
@@ -561,6 +565,15 @@
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		08BD2F47185A4ED4002B256B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -876,6 +889,13 @@
 		08B74CF41643045E00083F9A /* ProjectViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewLayout.h; sourceTree = "<group>"; };
 		08B74CF51643045F00083F9A /* ProjectViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewLayout.m; sourceTree = "<group>"; };
 		08B74CF71648615800083F9A /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = resources/Localizable.strings; sourceTree = "<group>"; };
+		08BD2F49185A4ED4002B256B /* rc2.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rc2.so; sourceTree = BUILT_PRODUCTS_DIR; };
+		08BD2F53185A5088002B256B /* rc2.R */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = rc2.R; path = ../../Rpackages/rc2/R/rc2.R; sourceTree = "<group>"; };
+		08BD2F54185A5257002B256B /* libRcpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRcpp.a; path = ../../../../../../Library/Frameworks/R.framework/Versions/3.0/Resources/library/Rcpp/lib/libRcpp.a; sourceTree = "<group>"; };
+		08BD2F56185A5289002B256B /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
+		08BD2F58185A52CA002B256B /* EnvList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EnvList.cpp; path = ../../Rpackages/rc2/src/EnvList.cpp; sourceTree = "<group>"; };
+		08BD2F5A185A52D4002B256B /* Rc2Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Rc2Timer.cpp; path = ../../Rpackages/rc2/src/Rc2Timer.cpp; sourceTree = "<group>"; };
+		08BD2F5C185A52F2002B256B /* json */ = {isa = PBXFileReference; lastKnownFileType = folder; name = json; path = ../../Rpackages/rc2/src/json; sourceTree = "<group>"; };
 		08BDDD5117EA48AB00E669E3 /* MagicalImportFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MagicalImportFunctions.h; sourceTree = "<group>"; };
 		08BDDD5217EA48AB00E669E3 /* MagicalImportFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MagicalImportFunctions.m; sourceTree = "<group>"; };
 		08BDDD5317EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributeDescription+MagicalDataImport.h"; sourceTree = "<group>"; };
@@ -1234,6 +1254,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		08BD2F46185A4ED4002B256B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08BD2F55185A5257002B256B /* libRcpp.a in Frameworks */,
+				08BD2F57185A5289002B256B /* R.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		08D2431C15B5D04D0064A9FA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1715,6 +1744,19 @@
 			name = "Project View";
 			sourceTree = "<group>";
 		};
+		08BD2F4A185A4ED4002B256B /* Rc2 Packageg */ = {
+			isa = PBXGroup;
+			children = (
+				08BD2F58185A52CA002B256B /* EnvList.cpp */,
+				08BD2F5A185A52D4002B256B /* Rc2Timer.cpp */,
+				08BD2F5C185A52F2002B256B /* json */,
+				08BD2F53185A5088002B256B /* rc2.R */,
+				08BD2F54185A5257002B256B /* libRcpp.a */,
+				08BD2F56185A5289002B256B /* R.framework */,
+			);
+			path = "Rc2 Packageg";
+			sourceTree = "<group>";
+		};
 		08BDDD4E17EA48AB00E669E3 /* MagicalRecord */ = {
 			isa = PBXGroup;
 			children = (
@@ -1830,6 +1872,7 @@
 				08D2462415B5EBC20064A9FA /* mac */,
 				08D244E415B5D98A0064A9FA /* shared */,
 				08D248C3176A498900D71F02 /* CoreUnitTests */,
+				08BD2F4A185A4ED4002B256B /* Rc2 Packageg */,
 				08D2432215B5D04D0064A9FA /* Frameworks */,
 				08D2468115B5EF770064A9FA /* Mac Frameworks */,
 				08D2432015B5D04D0064A9FA /* Products */,
@@ -1842,6 +1885,7 @@
 				08D2431F15B5D04D0064A9FA /* Rc².app */,
 				08D2461C15B5EBC20064A9FA /* Rc2.app */,
 				08D248BA176A498900D71F02 /* CoreUnitTests.xctest */,
+				08BD2F49185A4ED4002B256B /* rc2.so */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2455,6 +2499,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		08BD2F48185A4ED4002B256B /* Rc2 Package */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08BD2F4F185A4ED4002B256B /* Build configuration list for PBXNativeTarget "Rc2 Package" */;
+			buildPhases = (
+				08BD2F45185A4ED4002B256B /* Sources */,
+				08BD2F46185A4ED4002B256B /* Frameworks */,
+				08BD2F47185A4ED4002B256B /* CopyFiles */,
+				08BD2F5D185A5ACD002B256B /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Rc2 Package";
+			productName = "Rc2 Packageg";
+			productReference = 08BD2F49185A4ED4002B256B /* rc2.so */;
+			productType = "com.apple.product-type.tool";
+		};
 		08D2431E15B5D04D0064A9FA /* iPad App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 08D2433715B5D04D0064A9FA /* Build configuration list for PBXNativeTarget "iPad App" */;
@@ -2528,6 +2590,9 @@
 					08D2461B15B5EBC20064A9FA = {
 						DevelopmentTeam = LRMKU6353E;
 					};
+					08D248B9176A498900D71F02 = {
+						TestTargetID = 08D2431E15B5D04D0064A9FA;
+					};
 				};
 			};
 			buildConfigurationList = 08D2431915B5D04D0064A9FA /* Build configuration list for PBXProject "Rc2Client" */;
@@ -2545,6 +2610,7 @@
 				08D2431E15B5D04D0064A9FA /* iPad App */,
 				08D2461B15B5EBC20064A9FA /* Mac App */,
 				08D248B9176A498900D71F02 /* CoreUnitTests */,
+				08BD2F48185A4ED4002B256B /* Rc2 Package */,
 			);
 		};
 /* End PBXProject section */
@@ -2790,6 +2856,19 @@
 			shellPath = /bin/sh;
 			shellScript = "cd \"${BUILT_PRODUCTS_DIR}\"\nln -s ../../IntermediateBuildFilesPath/UninstalledProducts/HockeySDKResources.bundle HockeySDKResources.bundle\n";
 		};
+		08BD2F5D185A5ACD002B256B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "R CMD INSTALL --no-multiarch $SRCROOT/../Rpackages/rc2";
+		};
 		08D2461015B5DF120064A9FA /* compile scss */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2849,6 +2928,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		08BD2F45185A4ED4002B256B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08BD2F59185A52CA002B256B /* EnvList.cpp in Sources */,
+				08BD2F5B185A52D4002B256B /* Rc2Timer.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		08D2431B15B5D04D0064A9FA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3256,6 +3344,141 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		08BD2F50185A4ED4002B256B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Library/Frameworks/R.framework/Resources/include,
+					/Library/Frameworks/R.framework/Resources/library/Rcpp/include,
+				);
+				INSTALL_PATH = /Library/Frameworks/R.framework/Versions/3.0/Resources/library/rc2/libs;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Versions/3.0/Resources/library/Rcpp/lib",
+				);
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-headerpad_max_install_names",
+					"-undefined",
+					dynamic_lookup,
+					"-single_module",
+					"-multiply_defined",
+					suppress,
+					"-fPIC",
+				);
+				PRODUCT_NAME = rc2.so;
+				SDKROOT = macosx10.8;
+			};
+			name = Debug;
+		};
+		08BD2F51185A4ED4002B256B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Library/Frameworks/R.framework/Resources/include,
+					/Library/Frameworks/R.framework/Resources/library/Rcpp/include,
+				);
+				INSTALL_PATH = /Library/Frameworks/R.framework/Versions/3.0/Resources/library/rc2/libs;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Versions/3.0/Resources/library/Rcpp/lib",
+				);
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = (
+					"-headerpad_max_install_names",
+					"-undefined",
+					dynamic_lookup,
+					"-single_module",
+					"-multiply_defined",
+					suppress,
+					"-fPIC",
+				);
+				PRODUCT_NAME = rc2.so;
+				SDKROOT = macosx10.8;
+			};
+			name = Release;
+		};
+		08BD2F52185A4ED4002B256B /* Archive */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Library/Frameworks/R.framework/Resources/include,
+					/Library/Frameworks/R.framework/Resources/library/Rcpp/include,
+				);
+				INSTALL_PATH = /Library/Frameworks/R.framework/Versions/3.0/Resources/library/rc2/libs;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Versions/3.0/Resources/library/Rcpp/lib",
+				);
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = (
+					"-headerpad_max_install_names",
+					"-undefined",
+					dynamic_lookup,
+					"-single_module",
+					"-multiply_defined",
+					suppress,
+					"-fPIC",
+				);
+				PRODUCT_NAME = rc2.so;
+				SDKROOT = macosx10.8;
+			};
+			name = Archive;
+		};
 		08D2433515B5D04D0064A9FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3584,7 +3807,7 @@
 		08D248CD176A498A00D71F02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app/Contents/MacOS/Rc2";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3602,14 +3825,14 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				TEST_HOST = "${BUNDLE_LOADER}";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
 		};
 		08D248CE176A498A00D71F02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app/Contents/MacOS/Rc2";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3627,14 +3850,14 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				TEST_HOST = "${BUNDLE_LOADER}";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Release;
 		};
 		08D248CF176A498A00D71F02 /* Archive */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "${BUILT_PRODUCTS_DIR}/Rc2.app/Contents/MacOS/Rc2";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3652,13 +3875,22 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				TEST_HOST = "${BUNDLE_LOADER}";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Archive;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		08BD2F4F185A4ED4002B256B /* Build configuration list for PBXNativeTarget "Rc2 Package" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08BD2F50185A4ED4002B256B /* Debug */,
+				08BD2F51185A4ED4002B256B /* Release */,
+				08BD2F52185A4ED4002B256B /* Archive */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		08D2431915B5D04D0064A9FA /* Build configuration list for PBXProject "Rc2Client" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
