@@ -36,13 +36,15 @@
 
 +(id)variableWithDictionary:(NSDictionary*)dict
 {
-	if ([[dict objectForKey:@"class"] isEqualToString:@"data.frame"])
+	if ([dict[@"class"] isEqualToString:@"data.frame"])
 		return [[RCDataFrame alloc] initWithDictionary:dict];
-	if ([[dict objectForKey:@"class"] isEqualToString:@"matrix"])
+	if ([dict[@"class"] isEqualToString:@"matrix"])
 		return [[RCMatrix alloc] initWithDictionary:dict];
-	if ([[dict objectForKey:@"class"] isEqualToString:@"list"])
+	if ([dict[@"class"] isEqualToString:@"list"])
 		return [[RCList alloc] initWithDictionary:dict];
-	if ([[dict objectForKey:@"class"] isEqualToString:@"environment"])
+	if ([dict[@"generic"] boolValue])
+		return [[RCList alloc] initWithDictionary:dict];
+	if ([dict[@"class"] isEqualToString:@"environment"])
 		return [[RCEnvironment alloc] initWithDictionary:dict];
 	return [[RCVariable alloc] initWithDictionary:dict];
 }
@@ -179,7 +181,8 @@
 		self.values = [NSArray arrayWithObject:[dict objectForKey:@"body"]];
 	} else if ([cname isEqualToString:@"list"]) {
 		self.type = eVarType_List;
-	}
+	} else if ([dict[@"generic"] boolValue])
+		self.type = eVarType_S3Object;
 }
 
 -(RCPrimitiveType)primitiveTypeForString:(NSString*)str
