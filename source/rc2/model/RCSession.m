@@ -23,6 +23,8 @@
 #import "WebSocket.h"
 #import "WebSocketConnectConfig.h"
 #import "HandshakeHeader.h"
+#import "FMDatabase.h"
+#import "FMResultSet.h"
 
 #define kWebSocketTimeOutSeconds 6
 
@@ -42,6 +44,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 @property (nonatomic, copy, readwrite) NSArray *users;
 @property (nonatomic, strong, readwrite) RCSessionUser *currentUser;
 @property (nonatomic, strong, readwrite) NSString *mode;
+@property (nonatomic, strong) FMDatabase *searchEngine;
 @property (nonatomic, copy) NSString *webTmpFileDirectory;
 @property (nonatomic, assign, readwrite) BOOL socketOpen;
 @property (nonatomic, assign, readwrite) BOOL hasReadPerm;
@@ -311,6 +314,55 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 		Rc2LogError(@"error copying file:%@", err);
 	}
 	return newPath;
+}
+
+#pragma mark - file content search
+
+-(void)initializeSearchEngine
+{
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		NSString *sePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithUUID]];
+		sePath = [sePath stringByAppendingPathExtension:@"db"];
+		NSFileManager *fm = [[NSFileManager alloc] init];
+		if ([fm fileExistsAtPath:sePath])
+			[fm removeItemAtPath:sePath error:nil];
+		FMDatabase *db = [[FMDatabase alloc] initWithPath:sePath];
+		[db open];
+		if (![db executeUpdate:@"create virtual table filetext using fts4(fid, content)"]) {
+			//report error
+			Rc2LogError(@"failed to create table for search engine: %@", db.lastErrorMessage);
+			return;
+		}
+		db.shouldCacheStatements = YES;
+		NSTimeInterval startTime = CFAbsoluteTimeGetCurrent();
+		NSMutableArray *files = [self.workspace.project.files mutableCopy];
+		[files addObjectsFromArray:self.workspace.files];
+		for (RCFile *aFile in files) {
+			if (aFile.fileType.isTextFile) {
+				[db executeUpdate:@"insert into filetext (fid, content) values (?, ?)", aFile.fileId,
+				 aFile.currentContents];
+			}
+		}
+//		Rc2LogInfo(@"session search indexing took %d ms", (int)((CFAbsoluteTimeGetCurrent() - startTime) / 1000.0));
+		Rc2LogInfo(@"session search indexing took %1.6f sec", CFAbsoluteTimeGetCurrent() - startTime);
+		self.searchEngine = db;
+	});
+}
+
+-(void)searchFiles:(NSString*)searchString handler:(BasicBlock1Arg)searchHandler
+{
+	if (nil == self.searchEngine)
+		[self initializeSearchEngine];
+	FMResultSet *rs = [self.searchEngine executeQuery:@"select fid from filetext where content match ?",
+					   searchString];
+	NSMutableArray *results = [NSMutableArray array];
+	while ([rs next]) {
+		RCFile *file = [self.workspace fileWithId:[rs objectForColumnIndex:0]];
+		if (file)
+			[results addObject:file];
+	}
+	[rs close];
+	searchHandler(results);
 }
 
 
@@ -637,6 +689,7 @@ NSLog(@"complexResults!");
 	if (self.variablesVisible)
 		[self requestVariables];
 	[self.delegate connectionOpened];
+	[self initializeSearchEngine];
 }
 
 - (void) didClose:(NSUInteger) aStatusCode message:(NSString*) aMessage error:(NSError*) aError;

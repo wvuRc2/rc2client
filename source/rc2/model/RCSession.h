@@ -85,7 +85,8 @@ typedef void(^RCSessionListUpdateBlock)(RCList*);
 
 -(NSDictionary*)outputAttributesForKey:(NSString*)key;
 
-//-(NSString*)escapeForJS:(NSString*)str;
+//search file contents
+-(void)searchFiles:(NSString*)searchString handler:(BasicBlock1Arg)searchHandler;
 
 -(void)raiseHand;
 -(void)lowerHand;

@@ -97,6 +97,18 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 		self.files = [_files arrayByRemovingObjectAtIndex:idx];
 }
 
+-(RCFile*)fileWithId:(NSNumber*)fileId
+{
+	__block RCFile *theFile;
+	[self.files enumerateObjectsUsingBlock:^(RCFile *aFile, NSUInteger idx, BOOL *stop) {
+		if ([aFile.fileId isEqualToNumber:fileId]) {
+			theFile = aFile;
+			*stop = YES;
+		}
+	}];
+	return theFile;
+}
+
 -(void)removeWorkspace:(RCWorkspace*)wspace
 {
 	NSInteger idx = [_workspaces indexOfObject:wspace];

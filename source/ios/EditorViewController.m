@@ -10,6 +10,7 @@
 #import "EditorViewController.h"
 #import "Rc2Server.h"
 #import "Rc2AppDelegate.h"
+#import "Rc2AppConstants.h"
 #import "RCSession.h"
 #import "RCFile.h"
 #import "Rc2FileType.h"
@@ -44,6 +45,8 @@
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *openFileButtonItem;
 @property (nonatomic, weak) IBOutlet UILabel *docTitleLabel;
 @property (nonatomic, weak) IBOutlet UIButton *handButton;
+@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *searchBarTopCostraint;
 //@property (nonatomic, weak) IBOutlet UITextView *lineNumberView;
 @property (nonatomic, weak) IBOutlet SessionEditorCotnainerView *editorContainer;
 @property (nonatomic, strong) IBOutlet SessionEditView *richEditor;
@@ -210,6 +213,7 @@
 		
 		self.richEditor.textStorage.delegate = self;
 		
+		self.searchBarTopCostraint.constant = - CGRectGetHeight(self.searchBar.frame);
 		self.handButton.hidden = YES;
 		self.keyboardToolbar = [[kTController alloc] initWithDelegate:self];
 		self.richEditor.inputAccessoryView = self.keyboardToolbar.inputView;
@@ -349,6 +353,7 @@
 			[self.richEditor becomeFirstResponder]; //since it is an empty file, let them start filling it
 		});
 	}
+	self.searchBar.text = @"";
 	[self updateTextContents:[[NSAttributedString alloc] initWithString:file.currentContents]];
 	[self updateDocumentState];
 	if (![oldFile.fileId isEqualToNumber:file.fileId]) {
@@ -596,7 +601,47 @@
 	[hud showOverView:self.view.window.rootViewController.view];
 }
 
+-(BOOL)searchActive
+{
+	return self.searchBarTopCostraint.constant >= 0 && self.searchBar.text.length > 0;
+}
+
+-(void)updateSearchMatches
+{
+	NSString *searchString = self.searchBar.text;
+	NSMutableAttributedString *text = self.richEditor.textStorage;
+	[text removeAttribute:NSBackgroundColorAttributeName range:NSMakeRange(0, text.length)];
+	if (![self searchActive])
+		return;
+	NSString *rawtext = [text.string copy];
+	NSRange searchRange = NSMakeRange(0, rawtext.length);
+	NSRange foundRange;
+	UIColor *bgcolor = [UIColor colorWithHexString:kPref_SearchResultBGColor];
+	while (searchRange.location < rawtext.length) {
+		searchRange.length = rawtext.length - searchRange.location;
+		foundRange = [rawtext rangeOfString:searchString options:NSCaseInsensitiveSearch range:searchRange];
+		if (foundRange.location != NSNotFound) {
+			searchRange.location = foundRange.location + foundRange.length;
+			[text addAttribute:NSBackgroundColorAttributeName value:bgcolor range:foundRange];
+		} else {
+			break; //no more matches
+		}
+	}
+}
+
 #pragma mark - actions
+
+-(IBAction)toggleSearchBar:(id)sender
+{
+	if (self.searchBarTopCostraint.constant < 0)
+		self.searchBarTopCostraint.constant = 0;
+	else
+		self.searchBarTopCostraint.constant = - CGRectGetHeight(self.searchBar.frame);
+	[UIView animateWithDuration:0.3 animations:^{
+		[self.view layoutIfNeeded];
+	}];
+	[self updateSearchMatches];
+}
 
 -(IBAction)doExecute:(id)sender
 {
@@ -858,6 +903,8 @@
 		[self.richEditor.textStorage setAttributedString:srcStr];
 	[self.richEditor.textStorage addAttributes:self.defaultTextAttrs range:NSMakeRange(0, srcStr.length)];
 	[self.keyboardToolbar switchToPanelForFileExtension:self.currentFile.name.pathExtension];
+	if ([self searchActive])
+		[self updateSearchMatches];
 }
 
 -(void)scrollSelectionVisible:(BOOL)animate
@@ -889,6 +936,24 @@
 - (void)textViewDidChangeSelection:(UITextView *)tview
 {
 	[self scrollSelectionVisible:NO];
+}
+
+#pragma mark - search delegate
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+	if (searchText.length > 0)
+		[self updateSearchMatches];
+	else {
+		NSTextStorage *ts = self.richEditor.textStorage;
+		[ts removeAttribute:NSBackgroundColorAttributeName range:NSMakeRange(0, ts.length)];
+	}
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	[self.searchBar resignFirstResponder];
+	[self toggleSearchBar:self];
 }
 
 #pragma mark - text storage delegate

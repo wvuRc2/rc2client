@@ -29,7 +29,7 @@ NSString *const kPref_SyntaxColor_InlineBackground = @"SyntaxColor_InlineBackgro
 //editor
 NSString *const kPref_EditorFontColor = @"EditorFontColor";
 NSString *const kPref_EditorBGColor = @"EditorBGColor";
-
+NSString *const kPref_SearchResultBGColor = @"cccccc";
 //notifications
 NSString *const kDropboxSyncRequestedNotification = @"kDropboxSyncRequestedNotification";
 NSString *const kWillDisplayGearMenu = @"kWillDisplayGearMenu";

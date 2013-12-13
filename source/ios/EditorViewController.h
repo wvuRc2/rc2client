@@ -12,7 +12,7 @@
 @class RCSavedSession;
 @class RCSession;
 
-@interface EditorViewController : UIViewController<UIPopoverControllerDelegate,UITextViewDelegate>
+@interface EditorViewController : UIViewController<UIPopoverControllerDelegate,UITextViewDelegate,UISearchBarDelegate>
 @property (nonatomic, strong) RCFile *currentFile;
 @property (nonatomic, strong) RCSession *session;
 @property (nonatomic, assign) BOOL externalKeyboardVisible;

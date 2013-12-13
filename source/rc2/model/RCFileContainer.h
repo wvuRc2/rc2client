@@ -17,6 +17,8 @@ extern NSString * const RCFileContainerChangedNotification;
 
 -(NSString*)fileCachePath;
 
+-(RCFile*)fileWithId:(NSNumber*)fileId;
+
 -(NSArray*)files;
 
 //only to be called by Rc2Server when server notifies or after an import/create

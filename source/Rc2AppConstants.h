@@ -29,6 +29,7 @@ extern NSString *const kPref_SyntaxColor_InlineBackground;
 //editor
 extern NSString *const kPref_EditorFontColor;
 extern NSString *const kPref_EditorBGColor;
+extern NSString *const kPref_SearchResultBGColor;
 
 //notifications
 extern NSString *const kDropboxSyncRequestedNotification;

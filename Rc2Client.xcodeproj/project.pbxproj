@@ -248,6 +248,18 @@
 		08BD2F57185A5289002B256B /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F56185A5289002B256B /* R.framework */; };
 		08BD2F59185A52CA002B256B /* EnvList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F58185A52CA002B256B /* EnvList.cpp */; };
 		08BD2F5B185A52D4002B256B /* Rc2Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F5A185A52D4002B256B /* Rc2Timer.cpp */; };
+		08BD2F6A185BA6FD002B256B /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F60185BA6FD002B256B /* FMDatabase.m */; };
+		08BD2F6B185BA6FD002B256B /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F60185BA6FD002B256B /* FMDatabase.m */; };
+		08BD2F6C185BA6FD002B256B /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F62185BA6FD002B256B /* FMDatabaseAdditions.m */; };
+		08BD2F6D185BA6FD002B256B /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F62185BA6FD002B256B /* FMDatabaseAdditions.m */; };
+		08BD2F6E185BA6FD002B256B /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F64185BA6FD002B256B /* FMDatabasePool.m */; };
+		08BD2F6F185BA6FD002B256B /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F64185BA6FD002B256B /* FMDatabasePool.m */; };
+		08BD2F70185BA6FD002B256B /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F66185BA6FD002B256B /* FMDatabaseQueue.m */; };
+		08BD2F71185BA6FD002B256B /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F66185BA6FD002B256B /* FMDatabaseQueue.m */; };
+		08BD2F74185BA6FD002B256B /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F69185BA6FD002B256B /* FMResultSet.m */; };
+		08BD2F75185BA6FD002B256B /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F69185BA6FD002B256B /* FMResultSet.m */; };
+		08BD2F78185BACD8002B256B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F77185BACD8002B256B /* libsqlite3.dylib */; };
+		08BD2F7A185BACE8002B256B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F79185BACE8002B256B /* libsqlite3.dylib */; };
 		08BDDD8A17EA48AB00E669E3 /* MagicalImportFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD5217EA48AB00E669E3 /* MagicalImportFunctions.m */; };
 		08BDDD8B17EA48AB00E669E3 /* MagicalImportFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD5217EA48AB00E669E3 /* MagicalImportFunctions.m */; };
 		08BDDD8C17EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD5417EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.m */; };
@@ -896,6 +908,19 @@
 		08BD2F58185A52CA002B256B /* EnvList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EnvList.cpp; path = ../../Rpackages/rc2/src/EnvList.cpp; sourceTree = "<group>"; };
 		08BD2F5A185A52D4002B256B /* Rc2Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Rc2Timer.cpp; path = ../../Rpackages/rc2/src/Rc2Timer.cpp; sourceTree = "<group>"; };
 		08BD2F5C185A52F2002B256B /* json */ = {isa = PBXFileReference; lastKnownFileType = folder; name = json; path = ../../Rpackages/rc2/src/json; sourceTree = "<group>"; };
+		08BD2F5F185BA6FD002B256B /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		08BD2F60185BA6FD002B256B /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		08BD2F61185BA6FD002B256B /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		08BD2F62185BA6FD002B256B /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		08BD2F63185BA6FD002B256B /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		08BD2F64185BA6FD002B256B /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		08BD2F65185BA6FD002B256B /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		08BD2F66185BA6FD002B256B /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		08BD2F68185BA6FD002B256B /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		08BD2F69185BA6FD002B256B /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		08BD2F76185BAA48002B256B /* Rc2Timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Rc2Timer.h; path = ../../Rpackages/rc2/src/Rc2Timer.h; sourceTree = "<group>"; };
+		08BD2F77185BACD8002B256B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		08BD2F79185BACE8002B256B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
 		08BDDD5117EA48AB00E669E3 /* MagicalImportFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MagicalImportFunctions.h; sourceTree = "<group>"; };
 		08BDDD5217EA48AB00E669E3 /* MagicalImportFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MagicalImportFunctions.m; sourceTree = "<group>"; };
 		08BDDD5317EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributeDescription+MagicalDataImport.h"; sourceTree = "<group>"; };
@@ -1267,6 +1292,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08BD2F78185BACD8002B256B /* libsqlite3.dylib in Frameworks */,
 				082D1EC517E2475200723EB3 /* libicucore.dylib in Frameworks */,
 				082D1EC317E2460A00723EB3 /* libParseKitMobile.a in Frameworks */,
 				087DB8C417B57A8200724811 /* libHockeySDK.a in Frameworks */,
@@ -1299,6 +1325,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08BD2F7A185BACE8002B256B /* libsqlite3.dylib in Frameworks */,
 				082D1EDE17E900DF00723EB3 /* ParseKit.framework in Frameworks */,
 				08D2468315B5EFDD0064A9FA /* Vyana.framework in Frameworks */,
 				08D2467A15B5EF630064A9FA /* AudioToolbox.framework in Frameworks */,
@@ -1748,6 +1775,7 @@
 			isa = PBXGroup;
 			children = (
 				08BD2F58185A52CA002B256B /* EnvList.cpp */,
+				08BD2F76185BAA48002B256B /* Rc2Timer.h */,
 				08BD2F5A185A52D4002B256B /* Rc2Timer.cpp */,
 				08BD2F5C185A52F2002B256B /* json */,
 				08BD2F53185A5088002B256B /* rc2.R */,
@@ -1755,6 +1783,24 @@
 				08BD2F56185A5289002B256B /* R.framework */,
 			);
 			path = "Rc2 Packageg";
+			sourceTree = "<group>";
+		};
+		08BD2F5E185BA6FD002B256B /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				08BD2F5F185BA6FD002B256B /* FMDatabase.h */,
+				08BD2F60185BA6FD002B256B /* FMDatabase.m */,
+				08BD2F61185BA6FD002B256B /* FMDatabaseAdditions.h */,
+				08BD2F62185BA6FD002B256B /* FMDatabaseAdditions.m */,
+				08BD2F63185BA6FD002B256B /* FMDatabasePool.h */,
+				08BD2F64185BA6FD002B256B /* FMDatabasePool.m */,
+				08BD2F65185BA6FD002B256B /* FMDatabaseQueue.h */,
+				08BD2F66185BA6FD002B256B /* FMDatabaseQueue.m */,
+				08BD2F68185BA6FD002B256B /* FMResultSet.h */,
+				08BD2F69185BA6FD002B256B /* FMResultSet.m */,
+			);
+			name = fmdb;
+			path = Dependencies/fmdb/src;
 			sourceTree = "<group>";
 		};
 		08BDDD4E17EA48AB00E669E3 /* MagicalRecord */ = {
@@ -1893,6 +1939,8 @@
 		08D2432215B5D04D0064A9FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				08BD2F79185BACE8002B256B /* libsqlite3.dylib */,
+				08BD2F77185BACD8002B256B /* libsqlite3.dylib */,
 				082D1EC417E2475200723EB3 /* libicucore.dylib */,
 				082D1EC217E2460A00723EB3 /* libParseKitMobile.a */,
 				087DB8C317B57A8200724811 /* libHockeySDK.a */,
@@ -2145,6 +2193,7 @@
 				08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */,
 				082D1EB817E2402400723EB3 /* syntax highlighting */,
 				08D2459715B5DBB70064A9FA /* rc2 */,
+				08BD2F5E185BA6FD002B256B /* fmdb */,
 				08BDDD4E17EA48AB00E669E3 /* MagicalRecord */,
 				080E506E166FDFB800E95531 /* AFNetworking */,
 				08D2455115B5DB270064A9FA /* json */,
@@ -2236,36 +2285,36 @@
 		08D2459815B5DBB70064A9FA /* model */ = {
 			isa = PBXGroup;
 			children = (
-				08D2459915B5DBB70064A9FA /* generated */,
+				08D245B015B5DBB70064A9FA /* RCSession.h */,
+				08D245B115B5DBB70064A9FA /* RCSession.m */,
+				086CC4B5167122C7004356F6 /* RCFileContainer.h */,
+				08B74C551639D3A900083F9A /* RCProject.h */,
+				08B74C561639D3A900083F9A /* RCProject.m */,
+				08D245B815B5DBB70064A9FA /* RCWorkspace.h */,
+				08D245B915B5DBB70064A9FA /* RCWorkspace.m */,
+				08D245A815B5DBB70064A9FA /* RCFile.h */,
+				08D245A915B5DBB70064A9FA /* RCFile.m */,
+				08D245AA15B5DBB70064A9FA /* RCImage.h */,
+				08D245AB15B5DBB70064A9FA /* RCImage.m */,
 				08D245A215B5DBB70064A9FA /* RCAssignment.h */,
 				08D245A315B5DBB70064A9FA /* RCAssignment.m */,
 				08D245A415B5DBB70064A9FA /* RCAssignmentFile.h */,
 				08D245A515B5DBB70064A9FA /* RCAssignmentFile.m */,
 				08D245A615B5DBB70064A9FA /* RCCourse.h */,
 				08D245A715B5DBB70064A9FA /* RCCourse.m */,
-				08D245A815B5DBB70064A9FA /* RCFile.h */,
-				08D245A915B5DBB70064A9FA /* RCFile.m */,
-				08D245AA15B5DBB70064A9FA /* RCImage.h */,
-				08D245AB15B5DBB70064A9FA /* RCImage.m */,
 				08D245AC15B5DBB70064A9FA /* RCMessage.h */,
 				08D245AD15B5DBB70064A9FA /* RCMessage.m */,
 				08D245AE15B5DBB70064A9FA /* RCSavedSession.h */,
 				08D245AF15B5DBB70064A9FA /* RCSavedSession.m */,
-				08D245B015B5DBB70064A9FA /* RCSession.h */,
-				08D245B115B5DBB70064A9FA /* RCSession.m */,
 				08D245B215B5DBB70064A9FA /* RCSessionUser.h */,
 				08D245B315B5DBB70064A9FA /* RCSessionUser.m */,
 				08D245B415B5DBB70064A9FA /* RCStudentAssignment.h */,
 				08D245B515B5DBB70064A9FA /* RCStudentAssignment.m */,
 				08D245B615B5DBB70064A9FA /* RCUser.h */,
 				08D245B715B5DBB70064A9FA /* RCUser.m */,
-				08B74C551639D3A900083F9A /* RCProject.h */,
-				08B74C561639D3A900083F9A /* RCProject.m */,
-				08D245B815B5DBB70064A9FA /* RCWorkspace.h */,
-				08D245B915B5DBB70064A9FA /* RCWorkspace.m */,
 				08D245BA15B5DBB70064A9FA /* RCWorkspaceCache.h */,
 				08D245BB15B5DBB70064A9FA /* RCWorkspaceCache.m */,
-				086CC4B5167122C7004356F6 /* RCFileContainer.h */,
+				08D2459915B5DBB70064A9FA /* generated */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -2948,6 +2997,7 @@
 				08D2437115B5D4D30064A9FA /* AbstractTopViewController.m in Sources */,
 				08BDDD9617EA48AB00E669E3 /* NSString+MagicalDataImport.m in Sources */,
 				08D2437215B5D4D60064A9FA /* RootViewController.m in Sources */,
+				08BD2F6C185BA6FD002B256B /* FMDatabaseAdditions.m in Sources */,
 				08D2437415B5D4E10064A9FA /* Rc2AppDelegate.m in Sources */,
 				08D2437815B5D4F90064A9FA /* GradingViewController.m in Sources */,
 				08D2438815B5D59A0064A9FA /* SessionViewController.m in Sources */,
@@ -2979,6 +3029,7 @@
 				08D243EB15B5D7590064A9FA /* SessionEditView.m in Sources */,
 				08D243EC15B5D7590064A9FA /* StudentAssignmentCell.m in Sources */,
 				08D2441115B5D78A0064A9FA /* GradientButton.m in Sources */,
+				08BD2F6A185BA6FD002B256B /* FMDatabase.m in Sources */,
 				08BDDDA417EA48AB00E669E3 /* NSManagedObjectContext+MagicalRecord.m in Sources */,
 				08D2441215B5D78A0064A9FA /* JSTokenButton.m in Sources */,
 				08D2441315B5D78A0064A9FA /* JSTokenField.m in Sources */,
@@ -2994,6 +3045,7 @@
 				0817C694181EF00700C70CA8 /* RCTextAttachment.m in Sources */,
 				08BDDDB017EA48AB00E669E3 /* MagicalRecord+Actions.m in Sources */,
 				08D2458515B5DB270064A9FA /* NSString+SBJSON.m in Sources */,
+				08BD2F6E185BA6FD002B256B /* FMDatabasePool.m in Sources */,
 				08D2458615B5DB270064A9FA /* SBJsonBase.m in Sources */,
 				08D2458715B5DB270064A9FA /* SBJsonParser.m in Sources */,
 				08D2458815B5DB270064A9FA /* SBJsonWriter.m in Sources */,
@@ -3052,6 +3104,7 @@
 				08BDDD8C17EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.m in Sources */,
 				08285FFD183EBA25002BA8D2 /* SessionEditorCotnainerView.m in Sources */,
 				08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */,
+				08BD2F74185BA6FD002B256B /* FMResultSet.m in Sources */,
 				08C99AC315EE9CDF002D430D /* Rc2FileType.m in Sources */,
 				08BDDDAC17EA48AB00E669E3 /* NSPersistentStore+MagicalRecord.m in Sources */,
 				082D1ED717E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */,
@@ -3111,6 +3164,7 @@
 				08FF3D5416F278EE00F3E09E /* SendMailController.m in Sources */,
 				08BDDD9417EA48AB00E669E3 /* NSRelationshipDescription+MagicalDataImport.m in Sources */,
 				08E63B3D1773824D005BB3BB /* DropboxFolderSelectController.m in Sources */,
+				08BD2F70185BA6FD002B256B /* FMDatabaseQueue.m in Sources */,
 				08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */,
 				08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */,
 				08BDDDBC17EA48AB00E669E3 /* MagicalRecord.m in Sources */,
@@ -3125,11 +3179,13 @@
 				08D2463C15B5ED300064A9FA /* main.m in Sources */,
 				08D2463F15B5ED3C0064A9FA /* AppDelegate.m in Sources */,
 				08D2464015B5ED6D0064A9FA /* Rc2.xcdatamodeld in Sources */,
+				08BD2F6B185BA6FD002B256B /* FMDatabase.m in Sources */,
 				08D2464115B5ED800064A9FA /* RC2RemoteLogger.m in Sources */,
 				08BDDDAF17EA48AB00E669E3 /* NSPersistentStoreCoordinator+MagicalRecord.m in Sources */,
 				08D2464215B5ED800064A9FA /* Rc2Server.m in Sources */,
 				08D2464315B5ED800064A9FA /* RCAudioChatEngine.m in Sources */,
 				08BDDDB517EA48AB00E669E3 /* MagicalRecord+iCloud.m in Sources */,
+				08BD2F71185BA6FD002B256B /* FMDatabaseQueue.m in Sources */,
 				08D2464415B5ED800064A9FA /* RCImageCache.m in Sources */,
 				08D2464515B5ED800064A9FA /* RCMSyntaxHighlighter.m in Sources */,
 				08BDDD8B17EA48AB00E669E3 /* MagicalImportFunctions.m in Sources */,
@@ -3150,6 +3206,8 @@
 				082D1ED817E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */,
 				08BDDD9B17EA48AB00E669E3 /* NSManagedObject+MagicalDataImport.m in Sources */,
 				08D2465215B5ED9D0064A9FA /* RCWorkspaceCache.m in Sources */,
+				08BD2F75185BA6FD002B256B /* FMResultSet.m in Sources */,
+				08BD2F6D185BA6FD002B256B /* FMDatabaseAdditions.m in Sources */,
 				08D2465615B5EDA60064A9FA /* _RCFile.m in Sources */,
 				08D2465715B5EDA60064A9FA /* _RCMessage.m in Sources */,
 				08D2465815B5EDA60064A9FA /* _RCSavedSession.m in Sources */,
@@ -3236,6 +3294,7 @@
 				082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */,
 				082CEEC1161F685900E01F48 /* RCVariable.m in Sources */,
 				084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */,
+				08BD2F6F185BA6FD002B256B /* FMDatabasePool.m in Sources */,
 				08BDDDAB17EA48AB00E669E3 /* NSManagedObjectModel+MagicalRecord.m in Sources */,
 				083AAEE9162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */,
 				08B74C2C1635C08800083F9A /* RCMatrix.m in Sources */,

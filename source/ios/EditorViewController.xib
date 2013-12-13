@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1552" identifier="iOS"/>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
@@ -13,6 +13,8 @@
                 <outlet property="executeButton" destination="46" id="47"/>
                 <outlet property="handButton" destination="34" id="36"/>
                 <outlet property="openFileButtonItem" destination="7" id="33"/>
+                <outlet property="searchBar" destination="FCW-2G-PTb" id="EDf-M4-WeJ"/>
+                <outlet property="searchBarTopCostraint" destination="wIU-rx-erb" id="oNX-Ig-uKy"/>
                 <outlet property="toolbar" destination="6" id="41"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
@@ -39,6 +41,11 @@
                                 <action selector="doActivityPopover:" destination="-1" id="49"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem systemItem="search" id="4W5-v2-5Wd">
+                            <connections>
+                                <action selector="toggleSearchBar:" destination="-1" id="ubR-Pv-A8Z"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="13"/>
                         <barButtonItem title="Execute" id="46">
                             <connections>
@@ -48,14 +55,14 @@
                     </items>
                 </toolbar>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" text="Untitled Document" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="14">
-                    <rect key="frame" x="8" y="8" width="400" height="21"/>
+                    <rect key="frame" x="8" y="57" width="400" height="21"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34">
-                    <rect key="frame" x="472" y="3" width="32" height="32"/>
+                    <rect key="frame" x="472" y="52" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" image="bighand-blue.png">
@@ -71,25 +78,36 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="37" customClass="SessionEditorCotnainerView">
-                    <rect key="frame" x="8" y="37" width="496" height="515"/>
+                    <rect key="frame" x="8" y="86" width="496" height="466"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
+                <searchBar contentMode="redraw" placeholder="Search…" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FCW-2G-PTb">
+                    <rect key="frame" x="0.0" y="0.0" width="512" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="Bgv-SV-CdK"/>
+                    </connections>
+                </searchBar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="37" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="8" id="22F-uS-a23"/>
                 <constraint firstItem="14" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="8" id="3UV-YT-KqN"/>
+                <constraint firstItem="14" firstAttribute="top" secondItem="FCW-2G-PTb" secondAttribute="bottom" constant="13" id="5ix-6g-ndA"/>
+                <constraint firstAttribute="trailing" secondItem="FCW-2G-PTb" secondAttribute="trailing" id="6rb-FQ-UCC"/>
                 <constraint firstAttribute="trailing" secondItem="34" secondAttribute="trailing" constant="8" id="B7P-a2-OOW"/>
                 <constraint firstItem="34" firstAttribute="leading" secondItem="14" secondAttribute="trailing" constant="64" id="IUD-Ui-hbL"/>
-                <constraint firstItem="14" firstAttribute="top" secondItem="2" secondAttribute="top" constant="8" id="PrO-vk-VKd"/>
+                <constraint firstItem="FCW-2G-PTb" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="Xcs-qg-Lec"/>
                 <constraint firstAttribute="trailing" secondItem="6" secondAttribute="trailing" id="ejq-ao-uOw"/>
                 <constraint firstItem="6" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="gsq-mQ-zQz"/>
-                <constraint firstItem="34" firstAttribute="top" secondItem="2" secondAttribute="top" constant="3" id="kHh-Kc-wwy"/>
                 <constraint firstItem="6" firstAttribute="top" secondItem="37" secondAttribute="bottom" constant="8" id="lus-B8-4r9"/>
                 <constraint firstItem="37" firstAttribute="top" secondItem="14" secondAttribute="bottom" constant="8" symbolic="YES" id="n2t-c5-NQe"/>
+                <constraint firstItem="34" firstAttribute="top" secondItem="FCW-2G-PTb" secondAttribute="bottom" constant="8" id="nEk-zO-tpD"/>
                 <constraint firstAttribute="trailing" secondItem="37" secondAttribute="trailing" constant="8" id="ntf-lB-rHr"/>
                 <constraint firstItem="37" firstAttribute="top" secondItem="34" secondAttribute="bottom" constant="2" id="rbK-jb-hKg"/>
+                <constraint firstItem="FCW-2G-PTb" firstAttribute="top" secondItem="2" secondAttribute="top" id="wIU-rx-erb"/>
                 <constraint firstAttribute="bottom" secondItem="6" secondAttribute="bottom" id="wzo-Pz-xNw"/>
             </constraints>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
