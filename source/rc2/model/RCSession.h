@@ -85,7 +85,7 @@ typedef void(^RCSessionListUpdateBlock)(RCList*);
 
 -(NSDictionary*)outputAttributesForKey:(NSString*)key;
 
-//search file contents
+//search file contents. handler passed array of dicts, keys are file and snippet
 -(void)searchFiles:(NSString*)searchString handler:(BasicBlock1Arg)searchHandler;
 
 -(void)raiseHand;

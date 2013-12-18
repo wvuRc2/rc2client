@@ -52,6 +52,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 @property (nonatomic, strong) NSTimer *keepAliveTimer;
 @property (nonatomic, strong) NSDate *timeOfLastTraffic;
 @property (nonatomic, strong) NSMutableDictionary *listVariableCallbacks;
+@property (nonatomic, strong) dispatch_queue_t searchQueue;
 -(void)keepAliveTimerFired:(NSTimer*)timer;
 @end
 
@@ -321,6 +322,7 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 -(void)initializeSearchEngine
 {
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		self.searchQueue = dispatch_queue_create("rc2.search", NULL);
 		NSString *sePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithUUID]];
 		sePath = [sePath stringByAppendingPathExtension:@"db"];
 		NSFileManager *fm = [[NSFileManager alloc] init];
@@ -328,7 +330,7 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 			[fm removeItemAtPath:sePath error:nil];
 		FMDatabase *db = [[FMDatabase alloc] initWithPath:sePath];
 		[db open];
-		if (![db executeUpdate:@"create virtual table filetext using fts4(fid, content)"]) {
+		if (![db executeUpdate:@"create virtual table filetext using fts4(fid, title, content, tokenize=porter)"]) {
 			//report error
 			Rc2LogError(@"failed to create table for search engine: %@", db.lastErrorMessage);
 			return;
@@ -339,11 +341,10 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 		[files addObjectsFromArray:self.workspace.files];
 		for (RCFile *aFile in files) {
 			if (aFile.fileType.isTextFile) {
-				[db executeUpdate:@"insert into filetext (fid, content) values (?, ?)", aFile.fileId,
-				 aFile.currentContents];
+				[db executeUpdate:@"insert into filetext (fid, title, content) values (?, ?, ?)", aFile.fileId,
+				 aFile.name, aFile.currentContents];
 			}
 		}
-//		Rc2LogInfo(@"session search indexing took %d ms", (int)((CFAbsoluteTimeGetCurrent() - startTime) / 1000.0));
 		Rc2LogInfo(@"session search indexing took %1.6f sec", CFAbsoluteTimeGetCurrent() - startTime);
 		self.searchEngine = db;
 	});
@@ -353,16 +354,22 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 {
 	if (nil == self.searchEngine)
 		[self initializeSearchEngine];
-	FMResultSet *rs = [self.searchEngine executeQuery:@"select fid from filetext where content match ?",
-					   searchString];
-	NSMutableArray *results = [NSMutableArray array];
-	while ([rs next]) {
-		RCFile *file = [self.workspace fileWithId:[rs objectForColumnIndex:0]];
-		if (file)
-			[results addObject:file];
-	}
-	[rs close];
-	searchHandler(results);
+	dispatch_async(self.searchQueue, ^{
+		NSLog(@"searching:%@", searchString);
+		FMResultSet *rs = [self.searchEngine executeQuery:@"select fid, snippet(filetext) from filetext where filetext match ?",
+						   searchString];
+		NSMutableArray *results = [NSMutableArray array];
+		while ([rs next]) {
+			RCFile *file = [self.workspace fileWithId:[rs objectForColumnIndex:0]];
+			if (file) {
+				[results addObject:@{@"file":file,@"snippet":[rs objectForColumnIndex:1]}];
+			}
+		}
+		[rs close];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			searchHandler(results);
+		});
+	});
 }
 
 

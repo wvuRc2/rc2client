@@ -17,11 +17,14 @@
 #import "FileDetailsCell.h"
 #import "Rc2AppConstants.h"
 
-@interface SessionFilesController()
+@interface SessionFilesController() <UISearchBarDelegate>
 @property (nonatomic, weak) RCSession *session;
 @property (nonatomic, copy) NSArray *fileSections;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *syncButton;
+@property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, copy) NSArray *searchResults;
+@property (nonatomic) BOOL inSearchMode;
 -(void)handleDoubleTap;
 @end
 
@@ -80,6 +83,35 @@
 }
 
 #pragma mark - actions
+
+-(IBAction)toggleSearch:(id)sender
+{
+	CGRect closedFrame = CGRectMake(0, 0, self.view.frame.size.width, 0);
+	CGRect openFrame = CGRectMake(0, 0, self.view.frame.size.width, 44);
+	if (nil == self.searchBar) {
+		self.searchBar = [[UISearchBar alloc] initWithFrame:closedFrame];
+		self.searchBar.delegate = self;
+		self.tableView.tableHeaderView = self.searchBar;
+	}
+	BOOL visible = self.searchBar.frame.size.height > 0;
+	CGRect newFrame = visible ? closedFrame : openFrame;
+	@synchronized(self) {
+		[UIView beginAnimations:nil context:nil];
+		[UIView setAnimationDuration:0.3f];
+		[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+		if (visible)
+			[self.searchBar resignFirstResponder];
+		[self.tableView beginUpdates];
+
+		self.searchBar.frame = newFrame;
+		self.tableView.tableHeaderView = self.searchBar;
+
+		[self.tableView endUpdates];
+		[UIView commitAnimations];
+		self.inSearchMode = !visible; //we changed the value of visible
+		[self.tableView reloadData];
+	}
+}
 
 -(IBAction)doDBSync:(id)sender
 {
@@ -146,22 +178,40 @@
 	return [[sectDict objectForKey:@"files"] objectAtIndex:indexPath.row];
 }
 
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+	if (searchText.length < 1) {
+		self.searchResults = nil;
+		return;
+	}
+	[self.session searchFiles:searchText handler:^(NSArray *matches) {
+		@synchronized(self) {
+			self.searchResults = matches;
+			[self.tableView reloadData];
+		}
+	}];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+	if (self.inSearchMode)
+		return 1;
 	return self.fileSections.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+	if (self.inSearchMode)
+		return self.searchResults.count;
 	NSDictionary *sectDict = [self.fileSections objectAtIndex:section];
 	return [[sectDict objectForKey:@"files"] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	RCFile *file = [self fileAtIndexPath:indexPath];
+	RCFile *file = self.inSearchMode ? [[self.searchResults objectAtIndex:indexPath.row] objectForKey:@"file"] : [self fileAtIndexPath:indexPath];
 	FileDetailsCell *cell = [tv dequeueReusableCellWithIdentifier:@"file"];
 	cell.dateFormatter = self.dateFormatter;
 	[cell showValuesForFile:file];
@@ -171,6 +221,8 @@
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	if (self.inSearchMode)
+		return NO;
 	return self.session.hasWritePerm;
 }
 
@@ -184,12 +236,14 @@
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+	if (self.inSearchMode)
+		return @"Search Results";
 	return [[self.fileSections objectAtIndex:section] objectForKey:@"name"];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
-	if (section > 1)
+	if (section > 1 || self.inSearchMode)
 		return;
 	UITableViewHeaderFooterView *hfview = (id)view;
 	CGRect frame = hfview.contentView.frame;
