@@ -15,7 +15,8 @@
 @property (nonatomic, weak) IBOutlet UILabel *sizeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *lastModLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *imgView;
-@property (nonatomic, weak) IBOutlet UIImageView *permissionView;;
+@property (nonatomic, weak) IBOutlet UIImageView *permissionView;
+@property (nonatomic, weak) IBOutlet UILabel *snippetLabel;
 @end
 
 @implementation FileDetailsCell
@@ -28,6 +29,13 @@
 
 	self.imgView.image = file.fileType.image;
 	self.permissionView.image = file.permissionImage;
+}
+
+-(void)showValuesForFile:(RCFile*)file snippet:(NSAttributedString*)snippet
+{
+	self.nameLabel.text = file.name;
+	self.imgView.image = file.fileType.image;
+	self.snippetLabel.attributedText = snippet;
 }
 
 @end

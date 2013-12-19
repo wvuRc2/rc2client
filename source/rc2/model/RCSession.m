@@ -6,6 +6,7 @@
 //  Copyright 2011 West Virginia University. All rights reserved.
 //
 
+#import "Rc2AppConstants.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
 #import "Rc2Server.h"
@@ -356,13 +357,29 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 		[self initializeSearchEngine];
 	dispatch_async(self.searchQueue, ^{
 		NSLog(@"searching:%@", searchString);
-		FMResultSet *rs = [self.searchEngine executeQuery:@"select fid, snippet(filetext) from filetext where filetext match ?",
+		FMResultSet *rs = [self.searchEngine executeQuery:@"select fid, snippet(filetext,'<b>','</b>','…') from filetext where filetext match ?",
 						   searchString];
 		NSMutableArray *results = [NSMutableArray array];
+		NSError *err;
+		NSDictionary *attrs = @{NSBackgroundColorAttributeName:[ColorClass colorWithHexString:kPref_SearchResultBGColor]};
+		NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"<b>(.*?)</b>" options:NSRegularExpressionCaseInsensitive error:&err];
+		ZAssert(regex, @"bad regex:%@", err);
 		while ([rs next]) {
 			RCFile *file = [self.workspace fileWithId:[rs objectForColumnIndex:0]];
 			if (file) {
-				[results addObject:@{@"file":file,@"snippet":[rs objectForColumnIndex:1]}];
+				NSString *rawString = [rs objectForColumnIndex:1];
+				rawString = [rawString replaceString:@"\n" withString:@" "];
+				NSMutableAttributedString *snip = [[NSMutableAttributedString alloc] initWithString:rawString];
+				NSArray *matches = [regex matchesInString:rawString options:0 range:NSMakeRange(0, rawString.length)];
+				for (NSTextCheckingResult *result in [matches reverseObjectEnumerator]) {
+					NSString *matchStr = [rawString substringWithRange:[result rangeAtIndex:1]];
+					[snip replaceCharactersInRange:result.range withAttributedString:[[NSAttributedString alloc] initWithString:matchStr attributes:attrs]];
+				}
+				[regex enumerateMatchesInString:snip.string options:0 range:NSMakeRange(0, snip.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop)
+				{
+					[snip addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleThick) range:[result rangeAtIndex:1]];
+				}];
+				[results addObject:@{@"file":file,@"snippet":snip}];
 			}
 		}
 		[rs close];

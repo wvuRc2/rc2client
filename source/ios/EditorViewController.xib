@@ -36,11 +36,13 @@
                                 <action selector="doShowFiles:" destination="-1" id="10"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem width="8" style="plain" systemItem="fixedSpace" id="wQK-Wo-lzU"/>
                         <barButtonItem systemItem="action" id="11">
                             <connections>
                                 <action selector="doActivityPopover:" destination="-1" id="49"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem width="8" style="plain" systemItem="fixedSpace" id="0k4-K8-6ub"/>
                         <barButtonItem systemItem="search" id="4W5-v2-5Wd">
                             <connections>
                                 <action selector="toggleSearchBar:" destination="-1" id="ubR-Pv-A8Z"/>

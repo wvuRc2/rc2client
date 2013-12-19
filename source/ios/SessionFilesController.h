@@ -24,7 +24,7 @@
 @end
 
 @protocol SessionFilesDelegate <NSObject>
--(void)loadFile:(RCFile*)file;
+-(void)loadFile:(RCFile*)file fromSearch:(NSString*)searchString;
 -(IBAction)doNewFile:(id)sender;
 -(IBAction)doNewSharedFile:(id)sender;
 -(void)doDeleteFile:(id)sender;

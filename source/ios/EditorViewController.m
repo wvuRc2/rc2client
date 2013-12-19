@@ -62,6 +62,7 @@
 @property (nonatomic, strong) NSTimer *widthAdjustTimer;
 @property (nonatomic, strong) RCSyntaxParser *syntaxParser;
 @property (nonatomic, strong) AMHudView *currentHud;
+@property (nonatomic, copy) NSString *pendingSearchTerm;
 @property (atomic) BOOL isParsing;
 @property int32_t syncInProgress;
 @property (nonatomic) NSTimeInterval lastParseTime;
@@ -353,7 +354,9 @@
 			[self.richEditor becomeFirstResponder]; //since it is an empty file, let them start filling it
 		});
 	}
-	self.searchBar.text = @"";
+	self.searchBar.text = self.pendingSearchTerm ? self.pendingSearchTerm : @"";
+	if (self.pendingSearchTerm && ![self searchBarVisible])
+		[self toggleSearchBar:nil];
 	[self updateTextContents:[[NSAttributedString alloc] initWithString:file.currentContents]];
 	[self updateDocumentState];
 	if (![oldFile.fileId isEqualToNumber:file.fileId]) {
@@ -629,6 +632,11 @@
 	}
 }
 
+-(BOOL)searchBarVisible
+{
+	return self.searchBarTopCostraint.constant >= 0;
+}
+
 #pragma mark - actions
 
 -(IBAction)toggleSearchBar:(id)sender
@@ -651,6 +659,12 @@
 -(void)loadFile:(RCFile*)file
 {
 	[self loadFile:file showProgress:YES];	
+}
+
+-(void)loadFile:(RCFile *)file fromSearch:(NSString *)searchString
+{
+	self.pendingSearchTerm = searchString;
+	[self loadFile:file showProgress:YES];
 }
 
 -(void)loadFile:(RCFile*)file showProgress:(BOOL)showProgress

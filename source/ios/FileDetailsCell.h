@@ -14,4 +14,5 @@
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 -(void)showValuesForFile:(RCFile*)file;
+-(void)showValuesForFile:(RCFile*)file snippet:(NSAttributedString*)snippet;
 @end

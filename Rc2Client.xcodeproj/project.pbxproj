@@ -260,6 +260,7 @@
 		08BD2F75185BA6FD002B256B /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F69185BA6FD002B256B /* FMResultSet.m */; };
 		08BD2F78185BACD8002B256B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F77185BACD8002B256B /* libsqlite3.dylib */; };
 		08BD2F7A185BACE8002B256B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F79185BACE8002B256B /* libsqlite3.dylib */; };
+		08BD2F7C18636CC2002B256B /* FileSearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08BD2F7B18636CC2002B256B /* FileSearchResultCell.xib */; };
 		08BDDD8A17EA48AB00E669E3 /* MagicalImportFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD5217EA48AB00E669E3 /* MagicalImportFunctions.m */; };
 		08BDDD8B17EA48AB00E669E3 /* MagicalImportFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD5217EA48AB00E669E3 /* MagicalImportFunctions.m */; };
 		08BDDD8C17EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BDDD5417EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.m */; };
@@ -921,6 +922,7 @@
 		08BD2F76185BAA48002B256B /* Rc2Timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Rc2Timer.h; path = ../../Rpackages/rc2/src/Rc2Timer.h; sourceTree = "<group>"; };
 		08BD2F77185BACD8002B256B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		08BD2F79185BACE8002B256B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
+		08BD2F7B18636CC2002B256B /* FileSearchResultCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileSearchResultCell.xib; sourceTree = "<group>"; };
 		08BDDD5117EA48AB00E669E3 /* MagicalImportFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MagicalImportFunctions.h; sourceTree = "<group>"; };
 		08BDDD5217EA48AB00E669E3 /* MagicalImportFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MagicalImportFunctions.m; sourceTree = "<group>"; };
 		08BDDD5317EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributeDescription+MagicalDataImport.h"; sourceTree = "<group>"; };
@@ -2031,6 +2033,10 @@
 				08D2439915B5D5E20064A9FA /* SessionFilesController.h */,
 				08D2439A15B5D5E20064A9FA /* SessionFilesController.m */,
 				08D2439B15B5D5E20064A9FA /* SessionFilesController.xib */,
+				08D243CA15B5D7590064A9FA /* FileDetailsCell.h */,
+				08D243CB15B5D7590064A9FA /* FileDetailsCell.m */,
+				08D243CC15B5D7590064A9FA /* FileDetailsCell.xib */,
+				08BD2F7B18636CC2002B256B /* FileSearchResultCell.xib */,
 				08D243A415B5D5FA0064A9FA /* DoodleView.h */,
 				08D243A515B5D5FA0064A9FA /* DoodleView.m */,
 				08D243A615B5D5FA0064A9FA /* DoodleViewController.h */,
@@ -2085,9 +2091,6 @@
 				08D243C715B5D7590064A9FA /* DropboxImportCell.h */,
 				08D243C815B5D7590064A9FA /* DropboxImportCell.m */,
 				08D243C915B5D7590064A9FA /* DropboxImportCell.xib */,
-				08D243CA15B5D7590064A9FA /* FileDetailsCell.h */,
-				08D243CB15B5D7590064A9FA /* FileDetailsCell.m */,
-				08D243CC15B5D7590064A9FA /* FileDetailsCell.xib */,
 				08D243D115B5D7590064A9FA /* MessageListCell.h */,
 				08D243D215B5D7590064A9FA /* MessageListCell.m */,
 				08D243D315B5D7590064A9FA /* MessageListCell.xib */,
@@ -2707,6 +2710,7 @@
 				08D2458315B5DB270064A9FA /* LICENSE in Resources */,
 				08D2461615B5E0780064A9FA /* DropboxImportController.xib in Resources */,
 				08D2461715B5E07C0064A9FA /* ControlViewController.xib in Resources */,
+				08BD2F7C18636CC2002B256B /* FileSearchResultCell.xib in Resources */,
 				08C5F39315DEC50A00B0402F /* console in Resources */,
 				08C99AC715EE9D35002D430D /* RC2FileTypes.plist in Resources */,
 				083AAEF3162DDECF0037AAB3 /* VariableListViewController.xib in Resources */,

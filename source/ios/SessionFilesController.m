@@ -53,6 +53,7 @@
 	self.preferredContentSize = CGSizeMake(320, 520);
 	self.tableView.rowHeight = 52;
 	[self.tableView registerNib:[UINib nibWithNibName:@"FileDetailsCell" bundle:nil] forCellReuseIdentifier:@"file"];
+	[self.tableView registerNib:[UINib nibWithNibName:@"FileSearchResultCell" bundle:nil] forCellReuseIdentifier:@"search"];
 	__weak SessionFilesController *blockSelf = self;
 	self.tableView.doubleTapHandler = ^(AMTableView *tv) {
 		[blockSelf handleDoubleTap];
@@ -110,6 +111,8 @@
 		[UIView commitAnimations];
 		self.inSearchMode = !visible; //we changed the value of visible
 		[self.tableView reloadData];
+		if (self.inSearchMode)
+			[self.searchBar becomeFirstResponder];
 	}
 }
 
@@ -149,7 +152,7 @@
 -(void)handleDoubleTap
 {
 	NSIndexPath *ipath = [self.tableView indexPathForSelectedRow];
-	[self.delegate loadFile:[self fileAtIndexPath:ipath]];
+	[self.delegate loadFile:[self fileAtIndexPath:ipath] fromSearch:nil];
 }
 
 -(IBAction)doNewFile:(id)sender
@@ -211,11 +214,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	RCFile *file = self.inSearchMode ? [[self.searchResults objectAtIndex:indexPath.row] objectForKey:@"file"] : [self fileAtIndexPath:indexPath];
-	FileDetailsCell *cell = [tv dequeueReusableCellWithIdentifier:@"file"];
-	cell.dateFormatter = self.dateFormatter;
-	[cell showValuesForFile:file];
-	
+	FileDetailsCell *cell;
+	if (self.inSearchMode) {
+		NSDictionary *fileDict = [self.searchResults objectAtIndex:indexPath.row];
+		cell = [tv dequeueReusableCellWithIdentifier:@"search"];
+		[cell showValuesForFile:fileDict[@"file"] snippet:fileDict[@"snippet"]];
+	} else {
+		RCFile *file = [self fileAtIndexPath:indexPath];
+		cell = [tv dequeueReusableCellWithIdentifier:@"file"];
+		cell.dateFormatter = self.dateFormatter;
+		[cell showValuesForFile:file];
+	}
 	return cell;
 }
 
@@ -275,7 +284,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[self.delegate loadFile:[self fileAtIndexPath:indexPath]];
+	RCFile *file = self.inSearchMode ? self.searchResults[indexPath.row][@"file"] : [self fileAtIndexPath:indexPath];
+	NSString *searchStr = self.inSearchMode ? self.searchBar.text : nil;
+	[self.delegate loadFile:file fromSearch:searchStr];
 }
 
 @end
