@@ -12,4 +12,7 @@
 @property (nonatomic,getter=isBusy) BOOL busy;
 @property (nonatomic, strong) NSString *statusMessage;
 @property (nonatomic, readonly) NSView *rightStatusView;
+
+//for subclasses to optionally override
+-(void)didBecomeVisible;
 @end

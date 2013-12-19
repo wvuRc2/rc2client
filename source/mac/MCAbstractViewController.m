@@ -25,4 +25,9 @@
 {
 	return nil;
 }
+
+-(void)didBecomeVisible
+{
+}
+
 @end

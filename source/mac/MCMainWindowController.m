@@ -106,11 +106,13 @@
 	while (self.rightStatusView.subviews.count > 0)
 		[self.rightStatusView.subviews.firstObject removeFromSuperview];
 	if ([viewController isKindOfClass:[MCAbstractViewController class]]) {
-		NSView *view = [(id)viewController rightStatusView];
+		MCAbstractViewController *avc = (MCAbstractViewController*)viewController;
+		NSView *view = [avc rightStatusView];
 		if (view) {
 			view.frame = self.rightStatusView.bounds;
 			[self.rightStatusView addSubview:view];
 		}
+		[avc didBecomeVisible];
 	}
 }
 

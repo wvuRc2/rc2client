@@ -49,7 +49,7 @@
 @property (nonatomic, copy) NSArray *data;
 @end
 
-@interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate,NSTextStorageDelegate,NSMenuDelegate> {
+@interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate,NSTextStorageDelegate,NSMenuDelegate,NSToolbarDelegate> {
 	BOOL __didInit;
 	BOOL __movingFileList;
 	BOOL __fileListInitiallyVisible;
@@ -259,6 +259,7 @@
 		for (MCVariableWindowController *wc in [self.variableWindows copy])
 			[wc close];
 		[self.variableWindows removeAllObjects];
+		self.view.window.toolbar.visible = NO;
 	}
 }
 
@@ -270,6 +271,14 @@
 		self.statusMessage = @"Connecting to server…";
 		[self prepareForSession];
 	}
+}
+
+-(void)didBecomeVisible
+{
+	NSToolbar *tbar = [[NSToolbar alloc] initWithIdentifier:@"maintba"];
+	tbar.delegate = self;
+	self.view.window.toolbar = tbar;
+	self.view.window.toolbar.visible = YES;
 }
 
 -(BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -988,7 +997,6 @@
 	[self saveSessionState:NO];
 }
 
-
 #pragma mark - dropbox sync
 
 -(IBAction)handleDropboxSync:(id)useless
@@ -1437,6 +1445,56 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self setEditViewTextWithHighlighting:self.editView.attributedString];
 	});
+}
+
+#pragma mark - toolbar delegate
+
+-(NSArray*)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+{
+	return @[@"back", @"leftside", NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, NSToolbarSpaceItemIdentifier];
+}
+
+-(NSArray*)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
+{
+	return @[@"back", NSToolbarSeparatorItemIdentifier, @"leftside"];
+}
+
+-(NSToolbarItem*)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
+{
+	NSToolbarItem *item;
+	if ([itemIdentifier isEqualToString:@"back"]) {
+		item = [self toolbarButtonWithIdentifier:@"back" imgName:NSImageNameLeftFacingTriangleTemplate];
+		item.view.toolTip = @"Back";
+	} else if ([itemIdentifier isEqualToString:@"leftside"]) {
+		NSSegmentedControl *segs = [[NSSegmentedControl alloc] initWithFrame:NSMakeRect(0, 0, 140, 25)];
+		segs.segmentCount = 3;
+		segs.selectedSegment = 0;
+		[segs setImage:[NSImage imageNamed:@"files"] forSegment:0];
+		[segs setImage:[NSImage imageNamed:@"variables"] forSegment:1];
+		[segs setImage:[NSImage imageNamed:@"users"] forSegment:2];
+		[segs setSegmentStyle:NSSegmentStyleTexturedRounded];
+		[segs.cell setToolTip:@"Files" forSegment:0];
+		[segs.cell setToolTip:@"Variables" forSegment:1];
+		[segs.cell setToolTip:@"Users" forSegment:2];
+		item = [[NSToolbarItem alloc] initWithItemIdentifier:@"leftside"];
+		item.view = segs;
+	}
+	return item;
+}
+
+-(NSToolbarItem*)toolbarButtonWithIdentifier:(NSString*)ident imgName:(NSString*)imgName
+{
+	NSImage *img = [[NSImage imageNamed:imgName] copy];
+	img.size = CGSizeMake(10, 10);
+	NSButton *button = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, 29, 23)];
+	button.image = img;
+//	[button setBordered:NO];
+	[button setBezelStyle:NSTexturedRoundedBezelStyle];
+	[button setButtonType:NSMomentaryChangeButton];
+	NSToolbarItem *item = [[AMMacToolbarItem alloc] initWithItemIdentifier:ident];
+	item.view = button;
+	item.minSize = button.frame.size;
+	return item;
 }
 
 #pragma mark - menu delegate

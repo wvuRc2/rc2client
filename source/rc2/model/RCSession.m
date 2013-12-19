@@ -53,7 +53,8 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 @property (nonatomic, strong) NSTimer *keepAliveTimer;
 @property (nonatomic, strong) NSDate *timeOfLastTraffic;
 @property (nonatomic, strong) NSMutableDictionary *listVariableCallbacks;
-@property (nonatomic, strong) dispatch_queue_t searchQueue;
+//FIXME: the following leaks on 10.7. 
+@property (nonatomic, strong) __attribute__((NSObject)) dispatch_queue_t searchQueue;
 -(void)keepAliveTimerFired:(NSTimer*)timer;
 @end
 
