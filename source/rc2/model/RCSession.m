@@ -53,8 +53,12 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 @property (nonatomic, strong) NSTimer *keepAliveTimer;
 @property (nonatomic, strong) NSDate *timeOfLastTraffic;
 @property (nonatomic, strong) NSMutableDictionary *listVariableCallbacks;
-//FIXME: the following leaks on 10.7. 
+#if TARGET_OS_IPHONE
+@property (nonatomic, strong) dispatch_queue_t searchQueue;
+#else
+//10.7 doesn't support queues with ARC so this will leak
 @property (nonatomic, strong) __attribute__((NSObject)) dispatch_queue_t searchQueue;
+#endif
 -(void)keepAliveTimerFired:(NSTimer*)timer;
 @end
 
@@ -595,7 +599,7 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 		[self handleVariableValue:dict];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
-			NSString *helpstr = [NSString stringWithFormat:@"HELP: %@", dict[@"helpTopic"]];
+			NSString *helpstr = [NSString stringWithFormat:@"HELP: %@\n", dict[@"helpTopic"]];
 			NSString *helpPath = [[[dict objectForKey:@"helpPath"] firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 			if (helpPath.length > 0) {
 				[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:helpstr attributes:self.outputColors[kOutputColorKey_Help]]];
