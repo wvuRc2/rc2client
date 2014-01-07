@@ -28,6 +28,8 @@
 @property (nonatomic, strong) IBOutlet RCMConsoleTextField *consoleField;
 @property (nonatomic, copy) NSString *inputText;
 @property (nonatomic) BOOL canExecute;
+@property (nonatomic, readonly) BOOL canIncreaseFontSize;
+@property (nonatomic, readonly) BOOL canDecreaseFontSize;
 @property (nonatomic) BOOL consoleVisible;
 @property (nonatomic) BOOL historyHasItems;
 @property (nonatomic) BOOL restrictedMode; //mirrored to session view controller's value
@@ -36,10 +38,13 @@
 -(IBAction)doExecuteQuery:(id)sender;
 -(IBAction)doClear:(id)sender;
 -(IBAction)openInWebBrowser:(id)sender;
+-(IBAction)doConsoleBack:(id)sender;
 -(IBAction)executeQueryViaButton:(id)sender;
 -(IBAction)saveSelectedPDF:(id)sender;
 -(IBAction)loadPreviousCommand:(id)sender;
 -(IBAction)loadNextCommand:(id)sender;
+-(IBAction)doIncreaseFontSize:(id)sender;
+-(IBAction)doDecreaseFontSize:(id)sender;
 
 -(void)saveSessionState:(RCSavedSession*)savedState;
 -(void)restoreSessionState:(RCSavedSession*)savedState;

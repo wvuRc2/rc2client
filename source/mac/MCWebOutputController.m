@@ -98,7 +98,7 @@
 	if (action == @selector(loadPreviousCommand:) || action == @selector(loadNextCommand:)) {
 		return self.consoleField.fieldOrEditorIsFirstResponder && self.commandHistory.count > 0;
 	}
-	if (action == @selector(rcGoBack:)) {
+	if (action == @selector(doConsoleBack:)) {
 		if (self.restrictedMode) return NO;
 		if (self.textLeftConstraint.constant >= 0) return NO;
 		return YES;
@@ -354,6 +354,16 @@
 	[self.textView.textStorage deleteCharactersInRange:NSMakeRange(0, self.textView.textStorage.length)];
 }
 
+-(IBAction)doIncreaseFontSize:(id)sender
+{
+	
+}
+
+-(IBAction)doDecreaseFontSize:(id)sender
+{
+	
+}
+
 -(IBAction)saveSelectedPDF:(id)sender
 {
 	
@@ -368,10 +378,10 @@
 //for some lame reason, a binding is using goBack which I can't find.
 -(void)goBack:(id)sender
 {
-	[self rcGoBack:sender];
+	[self doConsoleBack:sender];
 }
 
--(IBAction)rcGoBack:(id)sender
+-(IBAction)doConsoleBack:(id)sender
 {
 	ZAssert(self.textLeftConstraint.constant < 0, @"bad situation");
 	if (self.webView.canGoBack) {
@@ -617,7 +627,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	}
 	if (!hasBack && !self.consoleVisible && !self.restrictedMode) {
 		//add a back men item
-		NSMenuItem *backItem = [[NSMenuItem alloc] initWithTitle:@"Back" action:@selector(rcGoBack:) keyEquivalent:@""];
+		NSMenuItem *backItem = [[NSMenuItem alloc] initWithTitle:@"Back" action:@selector(doConsoleBack:) keyEquivalent:@""];
 		[items addObject:backItem];
 	}
 	[items reverse];
@@ -647,7 +657,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 	return items;
 }
 
-#pragma mark - synthesizers
+#pragma mark - accessors
 
 -(void)setDelegate:(id<MCWebOutputDelegate>)delegate
 {
@@ -659,6 +669,16 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 {
 	__inputText = inputText;
 	self.canExecute = [inputText length] > 0;
+}
+
+-(BOOL)canIncreaseFontSize
+{
+	return !self.consoleVisible;
+}
+
+-(BOOL)canDecreaseFontSize
+{
+	return !self.consoleVisible;
 }
 
 @end

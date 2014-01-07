@@ -8,6 +8,7 @@
 
 #import "MCSessionViewController.h"
 #import "MCWebOutputController.h"
+#import "MCMainWindowController.h" //for doBackToMainView: action
 #import "RCMImageViewer.h"
 #import "RCMMultiImageController.h"
 #import "RCMTextPrintView.h"
@@ -42,8 +43,45 @@
 #import "RCDropboxSync.h"
 #import "RCChunk.h"
 #import <DropboxOSX/DropboxOSX.h>
+#import <objc/runtime.h>
 
 #define logJson 0
+
+void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block);
+
+void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
+{
+	IMP imp = imp_implementationWithBlock(block);
+	NSString *name = [NSString stringWithUUID];
+	class_addMethod([control class], @selector(name), imp, "v@:@");
+	[control setTarget:control];
+	[control setAction:@selector(name)];
+}
+
+@interface AMTargetActionBlockWrapper : NSObject
+//control must have target and action properties. they will be set to the generated wrapper
++(instancetype)wrapperForControl:(id)control withBlock:(BasicBlock1Arg)block;
+@property (nonatomic, copy) BasicBlock1Arg actionBlock;
+-(void)invokeAction:(id)sender;
+@end
+
+@implementation AMTargetActionBlockWrapper
+
++(instancetype)wrapperForControl:(id)control withBlock:(BasicBlock1Arg)block
+{
+	AMTargetActionBlockWrapper *wrapper = [[AMTargetActionBlockWrapper alloc] init];
+	wrapper.actionBlock = block;
+	[control setTarget:wrapper];
+	[control setAction:@selector(invokeAction:)];
+	return wrapper;
+}
+
+-(void)invokeAction:(id)sender
+{
+	if (self.actionBlock)
+		self.actionBlock(sender);
+}
+@end
 
 @interface VariableTableHelper : NSObject<NSTableViewDataSource,NSTableViewDelegate>
 @property (nonatomic, copy) NSArray *data;
@@ -275,8 +313,9 @@
 
 -(void)didBecomeVisible
 {
-	NSToolbar *tbar = [[NSToolbar alloc] initWithIdentifier:@"maintba"];
+	NSToolbar *tbar = [[NSToolbar alloc] initWithIdentifier:@"maintbar"];
 	tbar.delegate = self;
+	tbar.displayMode = NSToolbarDisplayModeIconOnly;
 	self.view.window.toolbar = tbar;
 	self.view.window.toolbar.visible = YES;
 }
@@ -412,7 +451,7 @@
 }
 
 -(IBAction)tbTabButtonPressed:(NSButton*)sender
-{
+{ /*
 	if (sender == self.tbFilesButton) {
 		self.tbVarsButton.state = NSOffState;
 		self.tbUsersButton.state = NSOffState;
@@ -437,6 +476,22 @@
 	}
 	if (sender.state == NSOnState && !self.sessionView.leftViewVisible)
 		[self.sessionView toggleLeftView:sender];
+*/}
+
+-(IBAction)leftSegmentSelected:(id)sender
+{
+	NSLog(@"sel seg=%ld", [sender selectedSegment]);
+	NSInteger selIdx = [sender selectedSegment];
+	if (selIdx == self.selectedLeftViewIndex) {
+		//already selected, so toggle visibility
+		BOOL markSel = !self.sessionView.leftViewVisible; //we need to record because toggle animates and value won't change until animation finishes
+		[self.sessionView toggleLeftView:sender];
+		[sender setSelected:markSel forSegment:selIdx];
+	} else {
+		if (!self.sessionView.leftViewVisible)
+			[self.sessionView toggleLeftView:self];
+		self.selectedLeftViewIndex = selIdx;
+	}
 }
 
 -(IBAction)changeMode:(id)sender
@@ -1451,24 +1506,28 @@
 
 -(NSArray*)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
-	return @[@"back", @"leftside", NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, NSToolbarSpaceItemIdentifier];
+	return @[@"back", @"leftside", @"hand", @"mike", @"clear", @"openother", @"consoleBack", @"fontsize", @"workspace", NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, NSToolbarSpaceItemIdentifier];
 }
 
 -(NSArray*)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
-	return @[@"back", NSToolbarSeparatorItemIdentifier, @"leftside"];
+	return @[@"back", NSToolbarSeparatorItemIdentifier, @"leftside", NSToolbarSeparatorItemIdentifier, @"hand", NSToolbarSeparatorItemIdentifier, @"mike", NSToolbarFlexibleSpaceItemIdentifier, @"workspace", NSToolbarFlexibleSpaceItemIdentifier, @"consoleBack", @"fontsize", @"openother", @"clear"];
 }
 
 -(NSToolbarItem*)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
 {
+	__weak MCSessionViewController *bself = self;
 	NSToolbarItem *item;
 	if ([itemIdentifier isEqualToString:@"back"]) {
-		item = [self toolbarButtonWithIdentifier:@"back" imgName:NSImageNameLeftFacingTriangleTemplate];
+		item = [self toolbarButtonWithIdentifier:@"back" imgName:NSImageNameLeftFacingTriangleTemplate width:10];
 		item.view.toolTip = @"Back";
+		item.action = @selector(doBackToMainView:);
 	} else if ([itemIdentifier isEqualToString:@"leftside"]) {
 		NSSegmentedControl *segs = [[NSSegmentedControl alloc] initWithFrame:NSMakeRect(0, 0, 140, 25)];
 		segs.segmentCount = 3;
 		segs.selectedSegment = 0;
+		segs.target = self;
+		segs.action = @selector(leftSegmentSelected:);
 		[segs setImage:[NSImage imageNamed:@"files"] forSegment:0];
 		[segs setImage:[NSImage imageNamed:@"variables"] forSegment:1];
 		[segs setImage:[NSImage imageNamed:@"users"] forSegment:2];
@@ -1478,14 +1537,95 @@
 		[segs.cell setToolTip:@"Users" forSegment:2];
 		item = [[NSToolbarItem alloc] initWithItemIdentifier:@"leftside"];
 		item.view = segs;
+	} else if ([itemIdentifier isEqualToString:@"hand"]) {
+		item = [self toolbarButtonWithIdentifier:@"hand" imgName:@"hand-grey" width:0];
+		item.view.toolTip = @"Raise/Lower Hand";
+		NSButton *button = (NSButton*)item.view;
+		[button setButtonType:NSOnOffButton];
+		[(AMMacToolbarItem*)item setValidationBlock:^(AMMacToolbarItem *titem){
+			[(NSButton*)titem.view setEnabled:bself.session.isClassroomMode];
+		}];
+		button.action = @selector(toggleHand:);
+	} else if ([itemIdentifier isEqualToString:@"mike"]) {
+		item = [self toolbarButtonWithIdentifier:@"mike" imgName:@"microphone" width:16];
+		item.view.toolTip = @"Toggle Microphone";
+		NSButton *button = (NSButton*)item.view;
+		[button setButtonType:NSOnOffButton];
+		[(AMMacToolbarItem*)item setValidationBlock:^(AMMacToolbarItem *titem){
+			[(NSButton*)titem.view setEnabled:bself.session.isClassroomMode];
+		}];
+		button.action = @selector(toggleMicrophone:);
+	} else if ([itemIdentifier isEqualToString:@"clear"]) {
+		item = [self toolbarButtonWithIdentifier:@"clear" imgName:@"clear" width:16];
+		item.view.toolTip = @"Clear Console";
+		item.action = @selector(doClear:);
+		item.target = self.outputController;
+		[(AMMacToolbarItem*)item setValidationBlock:^(AMMacToolbarItem *titem){
+			[(NSButton*)titem.view setEnabled:bself.outputController.consoleVisible];
+		}];
+	} else if ([itemIdentifier isEqualToString:@"openother"]) {
+		item = [self toolbarButtonWithIdentifier:@"openother" imgName:@"openother" width:16];
+		item.view.toolTip = @"Open in Default Application";
+		item.action = @selector(openInWebBrowser:);
+		item.target = self.outputController;
+		[(AMMacToolbarItem*)item setValidationBlock:^(AMMacToolbarItem *titem){
+			[(NSButton*)titem.view setEnabled:!bself.outputController.consoleVisible];
+		}];
+	} else if ([itemIdentifier isEqualToString:@"fontsize"]) {
+		NSSegmentedControl *segs = [[NSSegmentedControl alloc] initWithFrame:NSMakeRect(0, 0, 72, 25)];
+		segs.segmentCount = 2;
+		NSSegmentedCell *segcell = (NSSegmentedCell*)segs.cell;
+		segcell.trackingMode = NSSegmentSwitchTrackingMomentary;
+		AMSetTargetActionWithBlock(segs, ^(id sender) {
+			if ([sender selectedSegment] == 0)
+				[bself.outputController doIncreaseFontSize:sender];
+			else
+				[bself.outputController doDecreaseFontSize:sender];
+		});
+		NSImage *simg = [NSImage imageNamed:@"fontUp"];
+		simg.size = CGSizeMake(16, 16);
+		[segs setImage:simg forSegment:0];
+		simg = [NSImage imageNamed:@"fontDown"];
+		simg.size = CGSizeMake(16, 16);
+		[segs setImage:simg forSegment:1];
+		[segs setSegmentStyle:NSSegmentStyleTexturedRounded];
+		[segs.cell setToolTip:@"Increase Font Size" forSegment:0];
+		[segs.cell setToolTip:@"Decrease Font Size" forSegment:1];
+		item = [[AMMacToolbarItem alloc] initWithItemIdentifier:@"fontsize"];
+		item.view = segs;
+		[(AMMacToolbarItem*)item setValidationBlock:^(AMMacToolbarItem *titem) {
+			NSSegmentedControl *bseg = (NSSegmentedControl*)titem.view;
+			[bseg setEnabled:bself.outputController.canIncreaseFontSize forSegment:0];
+			[bseg setEnabled:bself.outputController.canDecreaseFontSize forSegment:1];
+		}];
+	} else if ([itemIdentifier isEqualToString:@"consoleBack"]) {
+		item = [self toolbarButtonWithIdentifier:@"consoleBack" imgName:@"webback" width:16];
+		item.view.toolTip = @"Back to Previous Output";
+		item.action = @selector(doConsoleBack:);
+		item.target = self.outputController;
+		[(AMMacToolbarItem*)item setValidationBlock:^(AMMacToolbarItem *titem){
+			[(NSButton*)titem.view setEnabled:!bself.outputController.consoleVisible];
+		}];
+	} else if ([itemIdentifier isEqualToString:@"workspace"]) {
+		[NSTextField setCellClass:[AMVerticallyCenteredTextFieldCell class]];
+		NSTextField *label = [NSTextField labelTextFieldWithFrame:NSMakeRect(0, 0, 100, 23)];
+		[NSTextField setCellClass:[NSTextFieldCell class]];
+		label.stringValue = self.workspaceTitle;
+		item = [[NSToolbarItem alloc] initWithItemIdentifier:@"workspace"];
+		item.view = label;
+		[label sizeToFit];
+		item.minSize = label.frame.size;
 	}
 	return item;
 }
 
--(NSToolbarItem*)toolbarButtonWithIdentifier:(NSString*)ident imgName:(NSString*)imgName
+-(NSToolbarItem*)toolbarButtonWithIdentifier:(NSString*)ident imgName:(NSString*)imgName width:(NSInteger)imgWidth
 {
-	NSImage *img = [[NSImage imageNamed:imgName] copy];
-	img.size = CGSizeMake(10, 10);
+	NSImage *img = [NSImage imageNamed:imgName];
+	if (imgWidth > 0) {
+		img = [img copy];
+		img.size = CGSizeMake(imgWidth, imgWidth);
+	}
 	NSButton *button = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, 29, 23)];
 	button.image = img;
 //	[button setBordered:NO];
@@ -1619,6 +1759,7 @@
 {
 	_restrictedMode = rmode;
 	self.outputController.restrictedMode = rmode;
+	[self.view.window.toolbar validateVisibleItems];
 }
 
 -(void)setSelectedLeftViewIndex:(NSInteger)idx
