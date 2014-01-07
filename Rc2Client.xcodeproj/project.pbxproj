@@ -114,7 +114,6 @@
 		0845942715B5F22700297C9D /* RLogo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0845941515B5F22700297C9D /* RLogo.icns */; };
 		0845942915B5F22700297C9D /* syncArrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941715B5F22700297C9D /* syncArrows.png */; };
 		0845942A15B5F22700297C9D /* syncArrowsSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941815B5F22700297C9D /* syncArrowsSelected.png */; };
-		0845942B15B5F22700297C9D /* webback.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941915B5F22700297C9D /* webback.png */; };
 		0845943A15B5F29200297C9D /* MCAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942D15B5F29100297C9D /* MCAbstractViewController.m */; };
 		0845943B15B5F29200297C9D /* MCLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942F15B5F29100297C9D /* MCLoginController.m */; };
 		0845943C15B5F29200297C9D /* MCLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943015B5F29100297C9D /* MCLoginController.xib */; };
@@ -522,6 +521,7 @@
 		08F3FE1218356660000112F3 /* MCVariableWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE1018356660000112F3 /* MCVariableWindowController.m */; };
 		08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08F3FE1118356660000112F3 /* MCVariableWindowController.xib */; };
 		08F3FE17183D676D000112F3 /* DrropboxUploadActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE16183D676D000112F3 /* DrropboxUploadActivity.m */; };
+		08F65CF0187C7F930039F74B /* webback.png in Resources */ = {isa = PBXBuildFile; fileRef = 08F65CEF187C7F930039F74B /* webback.png */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
@@ -718,7 +718,6 @@
 		0845941515B5F22700297C9D /* RLogo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = RLogo.icns; path = resources/mac/RLogo.icns; sourceTree = SOURCE_ROOT; };
 		0845941715B5F22700297C9D /* syncArrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrows.png; path = resources/mac/syncArrows.png; sourceTree = SOURCE_ROOT; };
 		0845941815B5F22700297C9D /* syncArrowsSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrowsSelected.png; path = resources/mac/syncArrowsSelected.png; sourceTree = SOURCE_ROOT; };
-		0845941915B5F22700297C9D /* webback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = webback.png; path = resources/mac/webback.png; sourceTree = SOURCE_ROOT; };
 		0845942C15B5F29100297C9D /* MCAbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAbstractViewController.h; path = source/mac/MCAbstractViewController.h; sourceTree = SOURCE_ROOT; };
 		0845942D15B5F29100297C9D /* MCAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAbstractViewController.m; path = source/mac/MCAbstractViewController.m; sourceTree = SOURCE_ROOT; };
 		0845942E15B5F29100297C9D /* MCLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCLoginController.h; path = source/mac/MCLoginController.h; sourceTree = SOURCE_ROOT; };
@@ -1243,6 +1242,7 @@
 		08F3FE1118356660000112F3 /* MCVariableWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCVariableWindowController.xib; sourceTree = "<group>"; };
 		08F3FE15183D676D000112F3 /* DrropboxUploadActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrropboxUploadActivity.h; sourceTree = "<group>"; };
 		08F3FE16183D676D000112F3 /* DrropboxUploadActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrropboxUploadActivity.m; sourceTree = "<group>"; };
+		08F65CEF187C7F930039F74B /* webback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = webback.png; path = resources/mac/webback.png; sourceTree = SOURCE_ROOT; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
 		08FF3D0316E9250900F3E09E /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/theme/ThemeEngine.h; sourceTree = "<group>"; };
 		08FF3D0416E9250900F3E09E /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/theme/ThemeEngine.m; sourceTree = "<group>"; };
@@ -1548,6 +1548,7 @@
 				0845940F15B5F22700297C9D /* clear.png */,
 				0845941115B5F22700297C9D /* history.png */,
 				0845941315B5F22700297C9D /* openother.png */,
+				08F65CEF187C7F930039F74B /* webback.png */,
 				08C5F3A015DEC74800B0402F /* microphone.png */,
 				08C5F3A115DEC74800B0402F /* microphoneOff.png */,
 				08063D66173D8E290054FD1D /* shareperm.png */,
@@ -1559,7 +1560,6 @@
 				086D6EBB15DD4EFA00EF28F1 /* sas.icns */,
 				0845941715B5F22700297C9D /* syncArrows.png */,
 				0845941815B5F22700297C9D /* syncArrowsSelected.png */,
-				0845941915B5F22700297C9D /* webback.png */,
 				085E3C4017A9A832005C523F /* dropbox-logo.png */,
 				085E3C4117A9A832005C523F /* dropbox-logo@2x.png */,
 				085E3C4217A9A832005C523F /* dropbox-long.png */,
@@ -2767,6 +2767,7 @@
 				0845941B15B5F22700297C9D /* accord-left.png in Resources */,
 				0845941C15B5F22700297C9D /* accord-right.png in Resources */,
 				0845941D15B5F22700297C9D /* accord-rightExpanded.png in Resources */,
+				08F65CF0187C7F930039F74B /* webback.png in Resources */,
 				0845941E15B5F22700297C9D /* baccord-center.png in Resources */,
 				08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */,
 				08BDDDC017ECCD7A00E669E3 /* CommonDefaults.plist in Resources */,
@@ -2781,7 +2782,6 @@
 				0845942715B5F22700297C9D /* RLogo.icns in Resources */,
 				0845942915B5F22700297C9D /* syncArrows.png in Resources */,
 				0845942A15B5F22700297C9D /* syncArrowsSelected.png in Resources */,
-				0845942B15B5F22700297C9D /* webback.png in Resources */,
 				0845943C15B5F29200297C9D /* MCLoginController.xib in Resources */,
 				0845943F15B5F29200297C9D /* MacMainWindow.xib in Resources */,
 				0845944215B5F29200297C9D /* MCSessionViewController.xib in Resources */,
@@ -3953,6 +3953,7 @@
 				08BD2F52185A4ED4002B256B /* Archive */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		08D2431915B5D04D0064A9FA /* Build configuration list for PBXProject "Rc2Client" */ = {
 			isa = XCConfigurationList;
