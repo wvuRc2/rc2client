@@ -480,7 +480,6 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 
 -(IBAction)leftSegmentSelected:(id)sender
 {
-	NSLog(@"sel seg=%ld", [sender selectedSegment]);
 	NSInteger selIdx = [sender selectedSegment];
 	if (selIdx == self.selectedLeftViewIndex) {
 		//already selected, so toggle visibility

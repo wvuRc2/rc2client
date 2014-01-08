@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		08063D5C173AF33C0054FD1D /* MCVariableDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08063D5A173AF33B0054FD1D /* MCVariableDisplayController.m */; };
 		08063D5D173AF33C0054FD1D /* MCVariableDisplayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08063D5B173AF33B0054FD1D /* MCVariableDisplayController.xib */; };
-		08063D68173D8E290054FD1D /* shareperm.png in Resources */ = {isa = PBXBuildFile; fileRef = 08063D66173D8E290054FD1D /* shareperm.png */; };
-		08063D69173D8E290054FD1D /* shareperm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08063D67173D8E290054FD1D /* shareperm@2x.png */; };
 		080E5082166FDFB800E95531 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5070166FDFB800E95531 /* AFHTTPClient.m */; };
 		080E5083166FDFB800E95531 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5070166FDFB800E95531 /* AFHTTPClient.m */; };
 		080E5084166FDFB800E95531 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5072166FDFB800E95531 /* AFHTTPRequestOperation.m */; };
@@ -33,8 +31,6 @@
 		0811F9F917189C390060BAB4 /* RCMMultiUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F9F817189C390060BAB4 /* RCMMultiUpView.m */; };
 		0811F9FC17342CB70060BAB4 /* RCMPreviewImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F9FB17342CB60060BAB4 /* RCMPreviewImageView.m */; };
 		0811F9FE17342CEC0060BAB4 /* RCMPreviewImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0811F9FD17342CEB0060BAB4 /* RCMPreviewImageView.xib */; };
-		0811FA0117345C6D0060BAB4 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 0811F9FF17345C6D0060BAB4 /* image.png */; };
-		0811FA0217345C6D0060BAB4 /* image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0811FA0017345C6D0060BAB4 /* image@2x.png */; };
 		08137A3017C8024C005EA804 /* SharedImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08137A2F17C8024C005EA804 /* SharedImages.xcassets */; };
 		08137A3117C8024C005EA804 /* SharedImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08137A2F17C8024C005EA804 /* SharedImages.xcassets */; };
 		08137A3317C804DA005EA804 /* iOSIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08137A3217C804DA005EA804 /* iOSIcons.xcassets */; };
@@ -50,12 +46,6 @@
 		0828605218526300002BA8D2 /* AMHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828605118526300002BA8D2 /* AMHudView.m */; };
 		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
-		082CEEB3161E2ADD00E01F48 /* variables.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB1161E2ADD00E01F48 /* variables.png */; };
-		082CEEB4161E2ADD00E01F48 /* variables@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB2161E2ADD00E01F48 /* variables@2x.png */; };
-		082CEEBA161E2D2600E01F48 /* files.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB6161E2D2600E01F48 /* files.png */; };
-		082CEEBB161E2D2600E01F48 /* files@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB7161E2D2600E01F48 /* files@2x.png */; };
-		082CEEBC161E2D2600E01F48 /* users.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB8161E2D2600E01F48 /* users.png */; };
-		082CEEBD161E2D2600E01F48 /* users@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 082CEEB9161E2D2600E01F48 /* users@2x.png */; };
 		082CEEC0161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
 		082CEEC1161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
 		082D1EB617E23B2C00723EB3 /* RCChunk.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EB517E23B2C00723EB3 /* RCChunk.m */; };
@@ -82,8 +72,6 @@
 		082D1EE017E9014100723EB3 /* ParseKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 082D1EDD17E900DE00723EB3 /* ParseKit.framework */; };
 		0833CAB0174160CA0007B54E /* RCMCourseAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */; };
 		0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */; };
-		0833CABE17441D640007B54E /* fontDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 0833CABC17441D640007B54E /* fontDown.png */; };
-		0833CABF17441D640007B54E /* fontUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 0833CABD17441D640007B54E /* fontUp.png */; };
 		083AAEE8162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
 		083AAEE9162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
 		083AAEF2162DDECF0037AAB3 /* VariableListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */; };
@@ -99,21 +87,9 @@
 		084593E715B5F16F00297C9D /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593E615B5F16F00297C9D /* RCMAppConstants.m */; };
 		084593FA15B5F1D700297C9D /* RCMEditUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F515B5F1D700297C9D /* RCMEditUserController.m */; };
 		084593FC15B5F1D700297C9D /* RCMUserAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F815B5F1D700297C9D /* RCMUserAdminController.m */; };
-		0845941A15B5F22700297C9D /* accord-center.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940815B5F22700297C9D /* accord-center.png */; };
-		0845941B15B5F22700297C9D /* accord-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940915B5F22700297C9D /* accord-left.png */; };
-		0845941C15B5F22700297C9D /* accord-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940A15B5F22700297C9D /* accord-right.png */; };
-		0845941D15B5F22700297C9D /* accord-rightExpanded.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940B15B5F22700297C9D /* accord-rightExpanded.png */; };
-		0845941E15B5F22700297C9D /* baccord-center.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940C15B5F22700297C9D /* baccord-center.png */; };
-		0845941F15B5F22700297C9D /* baccord-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940D15B5F22700297C9D /* baccord-left.png */; };
-		0845942015B5F22700297C9D /* baccord-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940E15B5F22700297C9D /* baccord-right.png */; };
-		0845942115B5F22700297C9D /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845940F15B5F22700297C9D /* clear.png */; };
 		0845942215B5F22700297C9D /* MacDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0845941015B5F22700297C9D /* MacDefaults.plist */; };
-		0845942315B5F22700297C9D /* history.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941115B5F22700297C9D /* history.png */; };
-		0845942515B5F22700297C9D /* openother.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941315B5F22700297C9D /* openother.png */; };
 		0845942615B5F22700297C9D /* Rdoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0845941415B5F22700297C9D /* Rdoc.icns */; };
 		0845942715B5F22700297C9D /* RLogo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0845941515B5F22700297C9D /* RLogo.icns */; };
-		0845942915B5F22700297C9D /* syncArrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941715B5F22700297C9D /* syncArrows.png */; };
-		0845942A15B5F22700297C9D /* syncArrowsSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 0845941815B5F22700297C9D /* syncArrowsSelected.png */; };
 		0845943A15B5F29200297C9D /* MCAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942D15B5F29100297C9D /* MCAbstractViewController.m */; };
 		0845943B15B5F29200297C9D /* MCLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845942F15B5F29100297C9D /* MCLoginController.m */; };
 		0845943C15B5F29200297C9D /* MCLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845943015B5F29100297C9D /* MCLoginController.xib */; };
@@ -166,10 +142,6 @@
 		08541980178771DA008AF602 /* projwspaceJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0854197F178771DA008AF602 /* projwspaceJson.txt */; };
 		085C6EF817A99DE80085DE88 /* DropboxOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085C6EF717A99DE80085DE88 /* DropboxOSX.framework */; };
 		085C6EF917A99E370085DE88 /* DropboxOSX.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 085C6EF717A99DE80085DE88 /* DropboxOSX.framework */; };
-		085E3C4417A9A832005C523F /* dropbox-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4017A9A832005C523F /* dropbox-logo.png */; };
-		085E3C4517A9A832005C523F /* dropbox-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4117A9A832005C523F /* dropbox-logo@2x.png */; };
-		085E3C4617A9A832005C523F /* dropbox-long.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4217A9A832005C523F /* dropbox-long.png */; };
-		085E3C4717A9A832005C523F /* dropbox-long@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4317A9A832005C523F /* dropbox-long@2x.png */; };
 		085E3C4817AAE386005C523F /* RCDropboxSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B461774E409005BB3BB /* RCDropboxSync.m */; };
 		085E3C4C17AAEADB005C523F /* MCDropboxConfigWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E3C4A17AAEADB005C523F /* MCDropboxConfigWindow.m */; };
 		085E3C4D17AAEADB005C523F /* MCDropboxConfigWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4B17AAEADB005C523F /* MCDropboxConfigWindow.xib */; };
@@ -202,8 +174,6 @@
 		08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
 		08ADBE2717A06C9F0004A89C /* RC2LoopQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */; };
 		08ADBE2817A06C9F0004A89C /* RC2LoopQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */; };
-		08B3477E175D2C4000B86FD2 /* no.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B3477C175D2C4000B86FD2 /* no.png */; };
-		08B3477F175D2C4000B86FD2 /* no@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08B3477D175D2C4000B86FD2 /* no@2x.png */; };
 		08B70534183160E200868E38 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845940215B5F20100297C9D /* MainMenu.xib */; };
 		08B705381831648500868E38 /* RCList.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B705371831648500868E38 /* RCList.m */; };
 		08B705391831648500868E38 /* RCList.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B705371831648500868E38 /* RCList.m */; };
@@ -318,8 +288,6 @@
 		08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F38E15DEB59C00B0402F /* rc2app.icns */; };
 		08C5F39315DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
 		08C5F39415DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
-		08C5F3A215DEC74800B0402F /* microphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F3A015DEC74800B0402F /* microphone.png */; };
-		08C5F3A315DEC74800B0402F /* microphoneOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F3A115DEC74800B0402F /* microphoneOff.png */; };
 		08C99AC315EE9CDF002D430D /* Rc2FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C99AC215EE9CDF002D430D /* Rc2FileType.m */; };
 		08C99AC415EE9CDF002D430D /* Rc2FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C99AC215EE9CDF002D430D /* Rc2FileType.m */; };
 		08C99AC715EE9D35002D430D /* RC2FileTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08C99AC615EE9D35002D430D /* RC2FileTypes.plist */; };
@@ -521,8 +489,7 @@
 		08F3FE1218356660000112F3 /* MCVariableWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE1018356660000112F3 /* MCVariableWindowController.m */; };
 		08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08F3FE1118356660000112F3 /* MCVariableWindowController.xib */; };
 		08F3FE17183D676D000112F3 /* DrropboxUploadActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE16183D676D000112F3 /* DrropboxUploadActivity.m */; };
-		08F65CF0187C7F930039F74B /* webback.png in Resources */ = {isa = PBXBuildFile; fileRef = 08F65CEF187C7F930039F74B /* webback.png */; };
-		08F65CF6187DE77F0039F74B /* clear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08F65CF5187DE77F0039F74B /* clear@2x.png */; };
+		08F65CF8187DF5B30039F74B /* MacClient.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08F65CF7187DF5B30039F74B /* MacClient.xcassets */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
@@ -594,8 +561,6 @@
 		08063D59173AF33B0054FD1D /* MCVariableDisplayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVariableDisplayController.h; sourceTree = "<group>"; };
 		08063D5A173AF33B0054FD1D /* MCVariableDisplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCVariableDisplayController.m; sourceTree = "<group>"; };
 		08063D5B173AF33B0054FD1D /* MCVariableDisplayController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCVariableDisplayController.xib; sourceTree = "<group>"; };
-		08063D66173D8E290054FD1D /* shareperm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shareperm.png; path = resources/mac/shareperm.png; sourceTree = SOURCE_ROOT; };
-		08063D67173D8E290054FD1D /* shareperm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shareperm@2x.png"; path = "resources/mac/shareperm@2x.png"; sourceTree = SOURCE_ROOT; };
 		080E506F166FDFB800E95531 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		080E5070166FDFB800E95531 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		080E5071166FDFB800E95531 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -623,8 +588,6 @@
 		0811F9FA17342CB50060BAB4 /* RCMPreviewImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMPreviewImageView.h; sourceTree = "<group>"; };
 		0811F9FB17342CB60060BAB4 /* RCMPreviewImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMPreviewImageView.m; sourceTree = "<group>"; };
 		0811F9FD17342CEB0060BAB4 /* RCMPreviewImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMPreviewImageView.xib; sourceTree = "<group>"; };
-		0811F9FF17345C6D0060BAB4 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image.png; path = resources/mac/image.png; sourceTree = SOURCE_ROOT; };
-		0811FA0017345C6D0060BAB4 /* image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "image@2x.png"; path = "resources/mac/image@2x.png"; sourceTree = SOURCE_ROOT; };
 		08137A2F17C8024C005EA804 /* SharedImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = SharedImages.xcassets; path = resources/SharedImages.xcassets; sourceTree = "<group>"; };
 		08137A3217C804DA005EA804 /* iOSIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = iOSIcons.xcassets; path = resources/ios/iOSIcons.xcassets; sourceTree = SOURCE_ROOT; };
 		08137A3417CBC57F005EA804 /* ImageHolderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageHolderView.xib; sourceTree = "<group>"; };
@@ -644,12 +607,6 @@
 		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
-		082CEEB1161E2ADD00E01F48 /* variables.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = variables.png; path = resources/mac/variables.png; sourceTree = SOURCE_ROOT; };
-		082CEEB2161E2ADD00E01F48 /* variables@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "variables@2x.png"; path = "resources/mac/variables@2x.png"; sourceTree = SOURCE_ROOT; };
-		082CEEB6161E2D2600E01F48 /* files.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = files.png; path = resources/mac/files.png; sourceTree = SOURCE_ROOT; };
-		082CEEB7161E2D2600E01F48 /* files@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "files@2x.png"; path = "resources/mac/files@2x.png"; sourceTree = SOURCE_ROOT; };
-		082CEEB8161E2D2600E01F48 /* users.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = users.png; path = resources/mac/users.png; sourceTree = SOURCE_ROOT; };
-		082CEEB9161E2D2600E01F48 /* users@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "users@2x.png"; path = "resources/mac/users@2x.png"; sourceTree = SOURCE_ROOT; };
 		082CEEBE161F685900E01F48 /* RCVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCVariable.h; sourceTree = "<group>"; };
 		082CEEBF161F685900E01F48 /* RCVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCVariable.m; sourceTree = "<group>"; };
 		082D1EB417E23B2C00723EB3 /* RCChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCChunk.h; sourceTree = "<group>"; };
@@ -676,8 +633,6 @@
 		0833CAAD174160CA0007B54E /* RCMCourseAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMCourseAdminController.h; sourceTree = "<group>"; };
 		0833CAAE174160CA0007B54E /* RCMCourseAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMCourseAdminController.m; sourceTree = "<group>"; };
 		0833CAAF174160CA0007B54E /* RCMCourseAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMCourseAdminController.xib; sourceTree = "<group>"; };
-		0833CABC17441D640007B54E /* fontDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fontDown.png; path = resources/mac/fontDown.png; sourceTree = SOURCE_ROOT; };
-		0833CABD17441D640007B54E /* fontUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fontUp.png; path = resources/mac/fontUp.png; sourceTree = SOURCE_ROOT; };
 		083AAEE6162CA73E0037AAB3 /* MAKVONotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAKVONotificationCenter.h; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.h; sourceTree = "<group>"; };
 		083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAKVONotificationCenter.m; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.m; sourceTree = "<group>"; };
 		083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableListViewController.h; sourceTree = "<group>"; };
@@ -703,22 +658,10 @@
 		084593FF15B5F20100297C9D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = resources/mac/en.lproj/Credits.rtf; sourceTree = SOURCE_ROOT; };
 		0845940115B5F20100297C9D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = resources/mac/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
 		0845940315B5F20100297C9D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = resources/mac/en.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
-		0845940815B5F22700297C9D /* accord-center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accord-center.png"; path = "resources/mac/accord-center.png"; sourceTree = SOURCE_ROOT; };
-		0845940915B5F22700297C9D /* accord-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accord-left.png"; path = "resources/mac/accord-left.png"; sourceTree = SOURCE_ROOT; };
-		0845940A15B5F22700297C9D /* accord-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accord-right.png"; path = "resources/mac/accord-right.png"; sourceTree = SOURCE_ROOT; };
-		0845940B15B5F22700297C9D /* accord-rightExpanded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accord-rightExpanded.png"; path = "resources/mac/accord-rightExpanded.png"; sourceTree = SOURCE_ROOT; };
-		0845940C15B5F22700297C9D /* baccord-center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "baccord-center.png"; path = "resources/mac/baccord-center.png"; sourceTree = SOURCE_ROOT; };
-		0845940D15B5F22700297C9D /* baccord-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "baccord-left.png"; path = "resources/mac/baccord-left.png"; sourceTree = SOURCE_ROOT; };
-		0845940E15B5F22700297C9D /* baccord-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "baccord-right.png"; path = "resources/mac/baccord-right.png"; sourceTree = SOURCE_ROOT; };
-		0845940F15B5F22700297C9D /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clear.png; path = resources/mac/clear.png; sourceTree = SOURCE_ROOT; };
 		0845941015B5F22700297C9D /* MacDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = MacDefaults.plist; path = resources/mac/MacDefaults.plist; sourceTree = SOURCE_ROOT; };
-		0845941115B5F22700297C9D /* history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = history.png; path = resources/mac/history.png; sourceTree = SOURCE_ROOT; };
 		0845941215B5F22700297C9D /* MacClient-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "MacClient-Info.plist"; path = "resources/mac/MacClient-Info.plist"; sourceTree = SOURCE_ROOT; };
-		0845941315B5F22700297C9D /* openother.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = openother.png; path = resources/mac/openother.png; sourceTree = SOURCE_ROOT; };
 		0845941415B5F22700297C9D /* Rdoc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rdoc.icns; path = resources/mac/Rdoc.icns; sourceTree = SOURCE_ROOT; };
 		0845941515B5F22700297C9D /* RLogo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = RLogo.icns; path = resources/mac/RLogo.icns; sourceTree = SOURCE_ROOT; };
-		0845941715B5F22700297C9D /* syncArrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrows.png; path = resources/mac/syncArrows.png; sourceTree = SOURCE_ROOT; };
-		0845941815B5F22700297C9D /* syncArrowsSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncArrowsSelected.png; path = resources/mac/syncArrowsSelected.png; sourceTree = SOURCE_ROOT; };
 		0845942C15B5F29100297C9D /* MCAbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAbstractViewController.h; path = source/mac/MCAbstractViewController.h; sourceTree = SOURCE_ROOT; };
 		0845942D15B5F29100297C9D /* MCAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAbstractViewController.m; path = source/mac/MCAbstractViewController.m; sourceTree = SOURCE_ROOT; };
 		0845942E15B5F29100297C9D /* MCLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCLoginController.h; path = source/mac/MCLoginController.h; sourceTree = SOURCE_ROOT; };
@@ -803,10 +746,6 @@
 		084D39B61627300F00B8A06B /* RCDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDataFrame.m; sourceTree = "<group>"; };
 		0854197F178771DA008AF602 /* projwspaceJson.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = projwspaceJson.txt; sourceTree = "<group>"; };
 		085C6EF717A99DE80085DE88 /* DropboxOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		085E3C4017A9A832005C523F /* dropbox-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropbox-logo.png"; path = "resources/mac/dropbox-logo.png"; sourceTree = SOURCE_ROOT; };
-		085E3C4117A9A832005C523F /* dropbox-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropbox-logo@2x.png"; path = "resources/mac/dropbox-logo@2x.png"; sourceTree = SOURCE_ROOT; };
-		085E3C4217A9A832005C523F /* dropbox-long.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropbox-long.png"; path = "resources/mac/dropbox-long.png"; sourceTree = SOURCE_ROOT; };
-		085E3C4317A9A832005C523F /* dropbox-long@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropbox-long@2x.png"; path = "resources/mac/dropbox-long@2x.png"; sourceTree = SOURCE_ROOT; };
 		085E3C4917AAEADB005C523F /* MCDropboxConfigWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDropboxConfigWindow.h; sourceTree = "<group>"; };
 		085E3C4A17AAEADB005C523F /* MCDropboxConfigWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCDropboxConfigWindow.m; sourceTree = "<group>"; };
 		085E3C4B17AAEADB005C523F /* MCDropboxConfigWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCDropboxConfigWindow.xib; sourceTree = "<group>"; };
@@ -852,8 +791,6 @@
 		08ADBE2217A054B40004A89C /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = Vendor/DropBlocks.m; sourceTree = "<group>"; };
 		08ADBE2517A06C9F0004A89C /* RC2LoopQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RC2LoopQueue.h; sourceTree = "<group>"; };
 		08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RC2LoopQueue.m; sourceTree = "<group>"; };
-		08B3477C175D2C4000B86FD2 /* no.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = no.png; path = resources/mac/no.png; sourceTree = SOURCE_ROOT; };
-		08B3477D175D2C4000B86FD2 /* no@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no@2x.png"; path = "resources/mac/no@2x.png"; sourceTree = SOURCE_ROOT; };
 		08B705361831648500868E38 /* RCList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCList.h; sourceTree = "<group>"; };
 		08B705371831648500868E38 /* RCList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCList.m; sourceTree = "<group>"; };
 		08B7053A183181C200868E38 /* VariableListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableListController.h; sourceTree = "<group>"; };
@@ -981,8 +918,6 @@
 		08C3A27C1784A0210050BD28 /* KeyboardToolbar.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KeyboardToolbar.plist; sourceTree = "<group>"; };
 		08C5F38E15DEB59C00B0402F /* rc2app.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = rc2app.icns; path = resources/mac/rc2app.icns; sourceTree = SOURCE_ROOT; };
 		08C5F39215DEC50A00B0402F /* console */ = {isa = PBXFileReference; lastKnownFileType = folder; name = console; path = resources/console/console; sourceTree = "<group>"; };
-		08C5F3A015DEC74800B0402F /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = microphone.png; path = resources/mac/microphone.png; sourceTree = SOURCE_ROOT; };
-		08C5F3A115DEC74800B0402F /* microphoneOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = microphoneOff.png; path = resources/mac/microphoneOff.png; sourceTree = SOURCE_ROOT; };
 		08C99AC115EE9CDF002D430D /* Rc2FileType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rc2FileType.h; sourceTree = "<group>"; };
 		08C99AC215EE9CDF002D430D /* Rc2FileType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rc2FileType.m; sourceTree = "<group>"; };
 		08C99AC615EE9D35002D430D /* RC2FileTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = RC2FileTypes.plist; path = resources/RC2FileTypes.plist; sourceTree = SOURCE_ROOT; };
@@ -1243,8 +1178,7 @@
 		08F3FE1118356660000112F3 /* MCVariableWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCVariableWindowController.xib; sourceTree = "<group>"; };
 		08F3FE15183D676D000112F3 /* DrropboxUploadActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrropboxUploadActivity.h; sourceTree = "<group>"; };
 		08F3FE16183D676D000112F3 /* DrropboxUploadActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrropboxUploadActivity.m; sourceTree = "<group>"; };
-		08F65CEF187C7F930039F74B /* webback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = webback.png; path = resources/mac/webback.png; sourceTree = SOURCE_ROOT; };
-		08F65CF5187DE77F0039F74B /* clear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "clear@2x.png"; path = "resources/mac/clear@2x.png"; sourceTree = SOURCE_ROOT; };
+		08F65CF7187DF5B30039F74B /* MacClient.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = MacClient.xcassets; path = resources/mac/MacClient.xcassets; sourceTree = SOURCE_ROOT; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
 		08FF3D0316E9250900F3E09E /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/theme/ThemeEngine.h; sourceTree = "<group>"; };
 		08FF3D0416E9250900F3E09E /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/theme/ThemeEngine.m; sourceTree = "<group>"; };
@@ -1528,45 +1462,11 @@
 				0845940015B5F20100297C9D /* InfoPlist.strings */,
 				084593FE15B5F20100297C9D /* Credits.rtf */,
 				08C5F38E15DEB59C00B0402F /* rc2app.icns */,
-				0845940815B5F22700297C9D /* accord-center.png */,
-				0845940915B5F22700297C9D /* accord-left.png */,
-				0845940A15B5F22700297C9D /* accord-right.png */,
-				0845940B15B5F22700297C9D /* accord-rightExpanded.png */,
-				0845940C15B5F22700297C9D /* baccord-center.png */,
-				0845940D15B5F22700297C9D /* baccord-left.png */,
-				0845940E15B5F22700297C9D /* baccord-right.png */,
-				082CEEB6161E2D2600E01F48 /* files.png */,
-				082CEEB7161E2D2600E01F48 /* files@2x.png */,
-				0833CABC17441D640007B54E /* fontDown.png */,
-				0833CABD17441D640007B54E /* fontUp.png */,
-				08B3477C175D2C4000B86FD2 /* no.png */,
-				08B3477D175D2C4000B86FD2 /* no@2x.png */,
-				082CEEB8161E2D2600E01F48 /* users.png */,
-				082CEEB9161E2D2600E01F48 /* users@2x.png */,
-				082CEEB1161E2ADD00E01F48 /* variables.png */,
-				082CEEB2161E2ADD00E01F48 /* variables@2x.png */,
-				0811F9FF17345C6D0060BAB4 /* image.png */,
-				0811FA0017345C6D0060BAB4 /* image@2x.png */,
-				0845940F15B5F22700297C9D /* clear.png */,
-				08F65CF5187DE77F0039F74B /* clear@2x.png */,
-				0845941115B5F22700297C9D /* history.png */,
-				0845941315B5F22700297C9D /* openother.png */,
-				08F65CEF187C7F930039F74B /* webback.png */,
-				08C5F3A015DEC74800B0402F /* microphone.png */,
-				08C5F3A115DEC74800B0402F /* microphoneOff.png */,
-				08063D66173D8E290054FD1D /* shareperm.png */,
-				08063D67173D8E290054FD1D /* shareperm@2x.png */,
 				0845941415B5F22700297C9D /* Rdoc.icns */,
 				0845941515B5F22700297C9D /* RLogo.icns */,
 				086D6EBE15DD500D00EF28F1 /* Rnw.icns */,
 				086D6EBA15DD4EFA00EF28F1 /* Rmd.icns */,
 				086D6EBB15DD4EFA00EF28F1 /* sas.icns */,
-				0845941715B5F22700297C9D /* syncArrows.png */,
-				0845941815B5F22700297C9D /* syncArrowsSelected.png */,
-				085E3C4017A9A832005C523F /* dropbox-logo.png */,
-				085E3C4117A9A832005C523F /* dropbox-logo@2x.png */,
-				085E3C4217A9A832005C523F /* dropbox-long.png */,
-				085E3C4317A9A832005C523F /* dropbox-long@2x.png */,
 			);
 			name = "mac resources";
 			sourceTree = "<group>";
@@ -2374,6 +2274,7 @@
 				084594A315B5F3FD00297C9D /* courses */,
 				084594B015B5F53900297C9D /* mac 3rdParty */,
 				08D2463B15B5ED300064A9FA /* main.m */,
+				08F65CF7187DF5B30039F74B /* MacClient.xcassets */,
 				0845940715B5F20700297C9D /* mac resources */,
 			);
 			name = mac;
@@ -2766,25 +2667,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0845941A15B5F22700297C9D /* accord-center.png in Resources */,
-				0845941B15B5F22700297C9D /* accord-left.png in Resources */,
-				0845941C15B5F22700297C9D /* accord-right.png in Resources */,
-				0845941D15B5F22700297C9D /* accord-rightExpanded.png in Resources */,
-				08F65CF0187C7F930039F74B /* webback.png in Resources */,
-				0845941E15B5F22700297C9D /* baccord-center.png in Resources */,
+				08F65CF8187DF5B30039F74B /* MacClient.xcassets in Resources */,
 				08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */,
 				08BDDDC017ECCD7A00E669E3 /* CommonDefaults.plist in Resources */,
-				0845941F15B5F22700297C9D /* baccord-left.png in Resources */,
-				0845942015B5F22700297C9D /* baccord-right.png in Resources */,
-				0845942115B5F22700297C9D /* clear.png in Resources */,
 				0845942215B5F22700297C9D /* MacDefaults.plist in Resources */,
-				0845942315B5F22700297C9D /* history.png in Resources */,
-				0845942515B5F22700297C9D /* openother.png in Resources */,
 				0845942615B5F22700297C9D /* Rdoc.icns in Resources */,
 				082D1EC817E38B6900723EB3 /* RKeywords.txt in Resources */,
 				0845942715B5F22700297C9D /* RLogo.icns in Resources */,
-				0845942915B5F22700297C9D /* syncArrows.png in Resources */,
-				0845942A15B5F22700297C9D /* syncArrowsSelected.png in Resources */,
 				0845943C15B5F29200297C9D /* MCLoginController.xib in Resources */,
 				0845943F15B5F29200297C9D /* MacMainWindow.xib in Resources */,
 				0845944215B5F29200297C9D /* MCSessionViewController.xib in Resources */,
@@ -2806,16 +2695,7 @@
 				08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */,
 				08B70534183160E200868E38 /* MainMenu.xib in Resources */,
 				08C5F39415DEC50A00B0402F /* console in Resources */,
-				08F65CF6187DE77F0039F74B /* clear@2x.png in Resources */,
-				08C5F3A215DEC74800B0402F /* microphone.png in Resources */,
-				08C5F3A315DEC74800B0402F /* microphoneOff.png in Resources */,
 				08C99AC815EE9D35002D430D /* RC2FileTypes.plist in Resources */,
-				082CEEB3161E2ADD00E01F48 /* variables.png in Resources */,
-				082CEEB4161E2ADD00E01F48 /* variables@2x.png in Resources */,
-				082CEEBA161E2D2600E01F48 /* files.png in Resources */,
-				082CEEBB161E2D2600E01F48 /* files@2x.png in Resources */,
-				082CEEBC161E2D2600E01F48 /* users.png in Resources */,
-				082CEEBD161E2D2600E01F48 /* users@2x.png in Resources */,
 				08B74C461639AC0E00083F9A /* MCProjectViewController.xib in Resources */,
 				08B74C4B1639AEBB00083F9A /* MCProjectCollectionItem.xib in Resources */,
 				08B74C5E163AE72100083F9A /* MCProjectItemWorkspace.xib in Resources */,
@@ -2825,22 +2705,10 @@
 				08FF3D3F16F0F84600F3E09E /* ThemeEngine.plist in Resources */,
 				0811F99416FB6A290060BAB4 /* RCMAdminController.xib in Resources */,
 				0811F9FE17342CEC0060BAB4 /* RCMPreviewImageView.xib in Resources */,
-				0811FA0117345C6D0060BAB4 /* image.png in Resources */,
-				0811FA0217345C6D0060BAB4 /* image@2x.png in Resources */,
 				08063D5D173AF33C0054FD1D /* MCVariableDisplayController.xib in Resources */,
-				08063D68173D8E290054FD1D /* shareperm.png in Resources */,
-				08063D69173D8E290054FD1D /* shareperm@2x.png in Resources */,
 				08F3FE0B18340C3B000112F3 /* MCVariableDetailsController.xib in Resources */,
 				0833CAB1174160CA0007B54E /* RCMCourseAdminController.xib in Resources */,
-				0833CABE17441D640007B54E /* fontDown.png in Resources */,
-				0833CABF17441D640007B54E /* fontUp.png in Resources */,
-				08B3477E175D2C4000B86FD2 /* no.png in Resources */,
-				08B3477F175D2C4000B86FD2 /* no@2x.png in Resources */,
 				0847FDC617679F6F00D950EA /* MASPreferencesWindow.xib in Resources */,
-				085E3C4417A9A832005C523F /* dropbox-logo.png in Resources */,
-				085E3C4517A9A832005C523F /* dropbox-logo@2x.png in Resources */,
-				085E3C4617A9A832005C523F /* dropbox-long.png in Resources */,
-				085E3C4717A9A832005C523F /* dropbox-long@2x.png in Resources */,
 				085E3C4D17AAEADB005C523F /* MCDropboxConfigWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

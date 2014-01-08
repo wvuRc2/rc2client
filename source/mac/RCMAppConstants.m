@@ -23,6 +23,7 @@ NSString *const kPref_EditorWordWrap = @"EditorWordWrap";
 NSString *const kPref_EditorShowInvisible = @"ShowInvisibleChars";
 NSString *const kPref_TreatNewlinesAsSemicolons = @"TreatNewlinesAsSemicolons";
 NSString *const kPref_ExecuteByDefault = @"ExecuteInsteadOfSource";
+NSString *const kPref_ConsoleFontSize = @"ConsoleFontSize";
 
 NSString * const RCMToolbarItem_Files = @"RCMToolbarItem_Files";
 NSString * const RCMToolbarItem_OpenSession = @"RCMToolbarItem_OpenSession";

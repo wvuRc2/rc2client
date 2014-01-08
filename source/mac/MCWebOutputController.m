@@ -22,6 +22,9 @@
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
 
+const NSInteger kMinFontSize = 9;
+const NSInteger kMaxFontSize = 32;
+
 @interface MCWebOutputController() <NSTextViewDelegate> {
 	NSInteger __cmdHistoryIdx;
 	BOOL __didInit;
@@ -47,7 +50,6 @@
 @end
 
 @implementation MCWebOutputController
-@synthesize inputText=__inputText;
 
 - (id)init
 {
@@ -152,6 +154,7 @@
 	[self.commandHistory removeAllObjects];
 	[self.commandHistory addObjectsFromArray:savedState.commandHistory];
 	self.historyHasItems = self.commandHistory.count > 0;
+	[self applyFontSize];
 	[self.textView.textStorage enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0,self.textView.textStorage.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop)
 	{
 		NSFileWrapper *fw = [value fileWrapper];
@@ -162,6 +165,18 @@
 			[value setAttachmentCell:[self attachmentCellForAttachment:value]];
 		}
 	}];
+}
+
+-(void)applyFontSize
+{
+	NSInteger fntSize = [[NSUserDefaults standardUserDefaults] integerForKey:kPref_ConsoleFontSize];
+	if (fntSize < kMinFontSize || fntSize > kMaxFontSize)
+		fntSize = 13;
+	NSTextStorage *ts = self.textView.textStorage;
+	NSRange rng = NSMakeRange(0, ts.length);
+	NSFont *fnt = [NSFont userFixedPitchFontOfSize:fntSize];
+	//was using NSFontName/SizeAttribute, but there was an NSFont value with helvetica 12 that took precedent.
+	[ts addAttribute:@"NSFont" value:fnt range:rng];
 }
 
 -(NSTextAttachmentCell*)attachmentCellForAttachment:(NSTextAttachment*)tattach
@@ -356,12 +371,24 @@
 
 -(IBAction)doIncreaseFontSize:(id)sender
 {
-	
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+	NSInteger fntSize = [defs integerForKey:kPref_ConsoleFontSize];
+	fntSize++;
+	if (fntSize <= kMaxFontSize) {
+		[defs setInteger:fntSize forKey:kPref_ConsoleFontSize];
+		[self applyFontSize];
+	}
 }
 
 -(IBAction)doDecreaseFontSize:(id)sender
 {
-	
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+	NSInteger fntSize = [defs integerForKey:kPref_ConsoleFontSize];
+	fntSize--;
+	if (fntSize >= kMinFontSize) {
+		[defs setInteger:fntSize forKey:kPref_ConsoleFontSize];
+		[self applyFontSize];
+	}
 }
 
 -(IBAction)saveSelectedPDF:(id)sender
@@ -667,18 +694,24 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 
 -(void)setInputText:(NSString *)inputText
 {
-	__inputText = inputText;
+	_inputText = inputText;
 	self.canExecute = [inputText length] > 0;
 }
 
 -(BOOL)canIncreaseFontSize
 {
-	return !self.consoleVisible;
+	if (self.consoleVisible)
+		return [[NSUserDefaults standardUserDefaults] integerForKey:kPref_ConsoleFontSize] < kMaxFontSize;
+	else
+		return self.webView.canMakeTextLarger;
 }
 
 -(BOOL)canDecreaseFontSize
 {
-	return !self.consoleVisible;
+	if (self.consoleVisible)
+		return [[NSUserDefaults standardUserDefaults] integerForKey:kPref_ConsoleFontSize] > kMinFontSize;
+	else
+		return self.webView.canMakeTextSmaller;
 }
 
 @end

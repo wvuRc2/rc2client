@@ -28,6 +28,7 @@ extern NSString *const kPref_EditorWordWrap;
 extern NSString *const kPref_EditorShowInvisible;
 extern NSString *const kPref_TreatNewlinesAsSemicolons;
 extern NSString *const kPref_ExecuteByDefault;
+extern NSString *const kPref_ConsoleFontSize;
 
 extern const NSInteger kMenuView;
 extern const NSInteger kMenuView_Theme;
