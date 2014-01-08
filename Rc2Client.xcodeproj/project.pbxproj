@@ -522,6 +522,7 @@
 		08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08F3FE1118356660000112F3 /* MCVariableWindowController.xib */; };
 		08F3FE17183D676D000112F3 /* DrropboxUploadActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE16183D676D000112F3 /* DrropboxUploadActivity.m */; };
 		08F65CF0187C7F930039F74B /* webback.png in Resources */ = {isa = PBXBuildFile; fileRef = 08F65CEF187C7F930039F74B /* webback.png */; };
+		08F65CF6187DE77F0039F74B /* clear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08F65CF5187DE77F0039F74B /* clear@2x.png */; };
 		08FF3C7E16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3C7F16E91F6B00F3E09E /* themeTemplate.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */; };
 		08FF3D0516E9250900F3E09E /* ThemeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D0416E9250900F3E09E /* ThemeEngine.m */; };
@@ -1243,6 +1244,7 @@
 		08F3FE15183D676D000112F3 /* DrropboxUploadActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrropboxUploadActivity.h; sourceTree = "<group>"; };
 		08F3FE16183D676D000112F3 /* DrropboxUploadActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrropboxUploadActivity.m; sourceTree = "<group>"; };
 		08F65CEF187C7F930039F74B /* webback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = webback.png; path = resources/mac/webback.png; sourceTree = SOURCE_ROOT; };
+		08F65CF5187DE77F0039F74B /* clear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "clear@2x.png"; path = "resources/mac/clear@2x.png"; sourceTree = SOURCE_ROOT; };
 		08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themeTemplate.plist; path = resources/themeTemplate.plist; sourceTree = "<group>"; };
 		08FF3D0316E9250900F3E09E /* ThemeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeEngine.h; path = source/theme/ThemeEngine.h; sourceTree = "<group>"; };
 		08FF3D0416E9250900F3E09E /* ThemeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeEngine.m; path = source/theme/ThemeEngine.m; sourceTree = "<group>"; };
@@ -1546,6 +1548,7 @@
 				0811F9FF17345C6D0060BAB4 /* image.png */,
 				0811FA0017345C6D0060BAB4 /* image@2x.png */,
 				0845940F15B5F22700297C9D /* clear.png */,
+				08F65CF5187DE77F0039F74B /* clear@2x.png */,
 				0845941115B5F22700297C9D /* history.png */,
 				0845941315B5F22700297C9D /* openother.png */,
 				08F65CEF187C7F930039F74B /* webback.png */,
@@ -2803,6 +2806,7 @@
 				08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */,
 				08B70534183160E200868E38 /* MainMenu.xib in Resources */,
 				08C5F39415DEC50A00B0402F /* console in Resources */,
+				08F65CF6187DE77F0039F74B /* clear@2x.png in Resources */,
 				08C5F3A215DEC74800B0402F /* microphone.png in Resources */,
 				08C5F3A315DEC74800B0402F /* microphoneOff.png in Resources */,
 				08C99AC815EE9D35002D430D /* RC2FileTypes.plist in Resources */,
