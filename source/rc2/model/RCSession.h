@@ -118,7 +118,7 @@ typedef void(^RCSessionListUpdateBlock)(RCList*);
 -(void)displayEditorFile:(RCFile*)file;
 -(void)displayOutputFile:(RCFile*)file;
 -(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted;
--(void)loadHelpURL:(NSURL*)url;
+-(void)loadHelpURLs:(NSArray*)urls;
 -(void)variablesUpdated;
 -(NSTextAttachment*)textAttachmentForImageId:(NSNumber*)imgId imageUrl:(NSString*)imgUrl;
 -(NSTextAttachment*)textAttachmentForFileId:(NSNumber*)fileId name:(NSString*)fileName fileType:(Rc2FileType*)fileType;

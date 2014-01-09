@@ -600,14 +600,17 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			NSString *helpstr = [NSString stringWithFormat:@"HELP: %@\n", dict[@"helpTopic"]];
-			NSString *helpPath = [[[dict objectForKey:@"helpPath"] firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-			if (helpPath.length > 0) {
-				[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:helpstr attributes:self.outputColors[kOutputColorKey_Help]]];
-				NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.stat.wvu.edu/rc2/%@.html", helpPath]];
-				[self.delegate loadHelpURL:helpUrl];
+			NSMutableArray *helpUrls = [NSMutableArray array];
+			for (NSString *aPath in [dict objectForKey:@"helpPath"]) {
+				NSString *thePath = [aPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+				NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.stat.wvu.edu/rc2/%@.html", thePath]];
+				[helpUrls addObject:helpUrl];
+			}
+			if (helpUrls.count > 0) {
+				[self.delegate loadHelpURLs:helpUrls];
 			} else {
 				[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"No help available for \"%@\"", helpstr] attributes:self.outputColors[kOutputColorKey_Help]]];
-				[self.delegate loadHelpURL:nil]; //lets it handle per platform (i.e. beep on mac)
+				[self.delegate loadHelpURLs:nil]; //lets it handle per platform (i.e. beep on mac)
 			}
 		} else if ([dict objectForKey:@"complexResults"]) {
 NSLog(@"complexResults!");

@@ -191,11 +191,11 @@ const CGFloat kAnimDuration = 0.5;
 	[self adjustInterface];
 }
 
--(void)loadHelpURL:(NSURL*)url
+-(void)loadHelpURLs:(NSArray*)urls
 {
 	if (self.visibleOutputView != self.webView)
 		[self animateToWebview];
-	[self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+	[self.webView loadRequest:[NSURLRequest requestWithURL:urls.firstObject]];
 }
 
 -(void)loadLocalFile:(RCFile*)file

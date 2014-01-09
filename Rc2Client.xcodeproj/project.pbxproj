@@ -292,6 +292,8 @@
 		08C99AC415EE9CDF002D430D /* Rc2FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C99AC215EE9CDF002D430D /* Rc2FileType.m */; };
 		08C99AC715EE9D35002D430D /* RC2FileTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08C99AC615EE9D35002D430D /* RC2FileTypes.plist */; };
 		08C99AC815EE9D35002D430D /* RC2FileTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08C99AC615EE9D35002D430D /* RC2FileTypes.plist */; };
+		08CB421A187F48AF00F0F794 /* MCHelpSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08CB4218187F48AF00F0F794 /* MCHelpSheetController.m */; };
+		08CB421B187F48AF00F0F794 /* MCHelpSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08CB4219187F48AF00F0F794 /* MCHelpSheetController.xib */; };
 		08D2432415B5D04D0064A9FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432315B5D04D0064A9FA /* UIKit.framework */; };
 		08D2432615B5D04D0064A9FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432515B5D04D0064A9FA /* Foundation.framework */; };
 		08D2432815B5D04D0064A9FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432715B5D04D0064A9FA /* CoreGraphics.framework */; };
@@ -921,6 +923,9 @@
 		08C99AC115EE9CDF002D430D /* Rc2FileType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rc2FileType.h; sourceTree = "<group>"; };
 		08C99AC215EE9CDF002D430D /* Rc2FileType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rc2FileType.m; sourceTree = "<group>"; };
 		08C99AC615EE9D35002D430D /* RC2FileTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = RC2FileTypes.plist; path = resources/RC2FileTypes.plist; sourceTree = SOURCE_ROOT; };
+		08CB4217187F48AF00F0F794 /* MCHelpSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCHelpSheetController.h; sourceTree = "<group>"; };
+		08CB4218187F48AF00F0F794 /* MCHelpSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCHelpSheetController.m; sourceTree = "<group>"; };
+		08CB4219187F48AF00F0F794 /* MCHelpSheetController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCHelpSheetController.xib; sourceTree = "<group>"; };
 		08D2431F15B5D04D0064A9FA /* Rc².app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rc².app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08D2432315B5D04D0064A9FA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		08D2432515B5D04D0064A9FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1488,6 +1493,9 @@
 		084594A215B5F38F00297C9D /* secondary controllers */ = {
 			isa = PBXGroup;
 			children = (
+				08CB4217187F48AF00F0F794 /* MCHelpSheetController.h */,
+				08CB4218187F48AF00F0F794 /* MCHelpSheetController.m */,
+				08CB4219187F48AF00F0F794 /* MCHelpSheetController.xib */,
 				0811F9F717189C380060BAB4 /* RCMMultiUpView.h */,
 				0811F9F817189C390060BAB4 /* RCMMultiUpView.m */,
 				0845942E15B5F29100297C9D /* MCLoginController.h */,
@@ -2671,6 +2679,7 @@
 				08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */,
 				08BDDDC017ECCD7A00E669E3 /* CommonDefaults.plist in Resources */,
 				0845942215B5F22700297C9D /* MacDefaults.plist in Resources */,
+				08CB421B187F48AF00F0F794 /* MCHelpSheetController.xib in Resources */,
 				0845942615B5F22700297C9D /* Rdoc.icns in Resources */,
 				082D1EC817E38B6900723EB3 /* RKeywords.txt in Resources */,
 				0845942715B5F22700297C9D /* RLogo.icns in Resources */,
@@ -3096,6 +3105,7 @@
 				08D2466415B5EDE30064A9FA /* SBJsonParser.m in Sources */,
 				08BDDD9D17EA48AB00E669E3 /* NSManagedObject+MagicalFinders.m in Sources */,
 				08D2466515B5EDE30064A9FA /* SBJsonWriter.m in Sources */,
+				08CB421A187F48AF00F0F794 /* MCHelpSheetController.m in Sources */,
 				08D2466615B5EE670064A9FA /* AsyncSocket.m in Sources */,
 				08D2466715B5EE670064A9FA /* GCDAsyncSocket.m in Sources */,
 				08D2466815B5EE670064A9FA /* HandshakeHeader.m in Sources */,

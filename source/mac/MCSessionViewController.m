@@ -1220,10 +1220,10 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	return tattach;
 }
 
--(void)loadHelpURL:(NSURL*)url
+-(void)loadHelpURLs:(NSArray *)urls
 {
-	if (url)
-		[self.outputController loadHelpURL:url];
+	if (urls)
+		[self.outputController loadHelpURLs:urls];
 	else //error message displayed, beep to alert user
 		NSBeep();
 }

@@ -21,6 +21,7 @@
 #import "MAKVONotificationCenter.h"
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
+#import "MCHelpSheetController.h"
 
 const NSInteger kMinFontSize = 9;
 const NSInteger kMaxFontSize = 32;
@@ -43,6 +44,8 @@ const NSInteger kMaxFontSize = 32;
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) NSMenuItem *viewSourceMenuItem;
 @property (nonatomic, strong) NSMutableArray *commandHistory;
+@property (nonatomic, strong) NSFont *outputFont;
+@property (nonatomic, strong) MCHelpSheetController *helpSheet;
 @property BOOL completedInitialLoad;
 @property (nonatomic, strong) RCFile *localFileToLoadAfterInitialLoad;
 @property (nonatomic, copy) NSString *webTmpFileDirectory;
@@ -112,10 +115,12 @@ const NSInteger kMaxFontSize = 32;
 
 #pragma mark - meat & potatos
 
--(void)appendAttributedString:(NSAttributedString *)aString
+-(void)appendAttributedString:(NSAttributedString*)aString
 {
+	NSMutableAttributedString *attrStr = [aString mutableCopy];
+	[attrStr addAttribute:@"NSFont" value:self.outputFont range:NSMakeRange(0, aString.length)];
 	NSTextStorage *ts = self.textView.textStorage;
-	[ts appendAttributedString:aString];
+	[ts appendAttributedString:attrStr];
 	[self.textView scrollToEndOfDocument:nil];
 	[self animateToTextView]; //ony does if not visible
 }
@@ -175,6 +180,7 @@ const NSInteger kMaxFontSize = 32;
 	NSTextStorage *ts = self.textView.textStorage;
 	NSRange rng = NSMakeRange(0, ts.length);
 	NSFont *fnt = [NSFont userFixedPitchFontOfSize:fntSize];
+	self.outputFont = fnt;
 	//was using NSFontName/SizeAttribute, but there was an NSFont value with helvetica 12 that took precedent.
 	[ts addAttribute:@"NSFont" value:fnt range:rng];
 }
@@ -256,11 +262,35 @@ const NSInteger kMaxFontSize = 32;
 		[self loadFileFromWebTmp:file];
 }
 
--(void)loadHelpURL:(NSURL*)helpUrl
+-(void)loadHelpURLs:(NSArray*)urls
 {
 	self.currentFile = nil;
-	[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:helpUrl]];
-	[self animateToWebView];
+	if (urls.count > 1) {
+		NSMutableArray *displayValues = [NSMutableArray arrayWithCapacity:urls.count];
+		for (NSURL *anUrl in urls) {
+			NSArray *components = [[anUrl path] pathComponents];
+			NSString *funName = [components.lastObject stringByDeletingPathExtension];
+			ZAssert(components.count > 3, @"bad help url during title parse");
+			NSString *pkgName = components[components.count - 3];
+			[displayValues addObject:[NSString stringWithFormat:@"%@ {%@}", funName, pkgName]];
+		}
+		MCHelpSheetController *ctrl = [[MCHelpSheetController alloc] init];
+		ctrl.urls = urls;
+		ctrl.topics = displayValues;
+		ctrl.handler = ^(MCHelpSheetController *bCtrl, NSURL *selUrl) {
+			[NSApp endSheet:bCtrl.window];
+			self.helpSheet = nil;
+			if (selUrl) {
+				[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:selUrl]];
+				[self animateToWebView];
+			}
+		};
+		self.helpSheet = ctrl;
+		[NSApp beginSheet:ctrl.window modalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+	} else {
+		[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:urls.firstObject]];
+		[self animateToWebView];
+	}
 }
 
 -(NSArray*)imageGroupAtCharIndex:(NSInteger)charIndex

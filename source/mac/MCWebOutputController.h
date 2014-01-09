@@ -50,7 +50,7 @@
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 
 -(void)loadLocalFile:(RCFile*)file;
--(void)loadHelpURL:(NSURL*)helpUrl;
+-(void)loadHelpURLs:(NSArray*)urls;
 
 -(void)appendAttributedString:(NSAttributedString*)aString;
 
