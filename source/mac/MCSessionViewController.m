@@ -1167,6 +1167,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	} else {
 		self.busy=NO;
 	}
+	[self.outputController connectionOpened];
 }
 
 -(void)connectionClosed

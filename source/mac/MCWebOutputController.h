@@ -49,6 +49,8 @@
 -(void)saveSessionState:(RCSavedSession*)savedState;
 -(void)restoreSessionState:(RCSavedSession*)savedState;
 
+-(void)connectionOpened;
+
 -(void)loadLocalFile:(RCFile*)file;
 -(void)loadHelpURLs:(NSArray*)urls;
 

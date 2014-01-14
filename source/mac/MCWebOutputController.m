@@ -115,6 +115,11 @@ const NSInteger kMaxFontSize = 32;
 
 #pragma mark - meat & potatos
 
+-(void)connectionOpened
+{
+	[self.textView scrollRangeToVisible:NSMakeRange(self.textView.textStorage.length-2, 1)];
+}
+
 -(void)appendAttributedString:(NSAttributedString*)aString
 {
 	NSMutableAttributedString *attrStr = [aString mutableCopy];
