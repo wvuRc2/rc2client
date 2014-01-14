@@ -186,7 +186,7 @@
 			//need to sanitize the input string. we'll just test for only alphanumeric
 			NSString *str = [editView.text substringWithRange:editView.selectedRange];
 			if (str && ![str containsCharacterNotInSet:[NSCharacterSet alphanumericCharacterSet]])
-				[weakSelf.session executeScript:[NSString stringWithFormat:@"help(%@)", str] scriptName:nil];
+				[weakSelf.session lookupInHelp:str];
 			if (!weakSelf.externalKeyboardVisible)
 				[editView resignFirstResponder];
 		};

@@ -80,6 +80,7 @@ typedef void(^RCSessionListUpdateBlock)(RCList*);
 -(void)executeScriptFile:(RCFile*)file;
 -(void)executeSas:(RCFile*)file;
 -(void)sendChatMessage:(NSString*)message;
+-(void)lookupInHelp:(NSString*)helpStr;
 -(void)requestUserList;
 -(void)restartR;
 

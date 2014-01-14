@@ -1364,7 +1364,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	NSString *txt = [self.editView.string substringWithRange:[self.editView selectedRange]];
 	txt = [txt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	if (txt.length > 0)
-		[self executeConsoleCommand:[NSString stringWithFormat:@"help(%@)", txt]];
+		[self.session lookupInHelp:txt];
 }
 
 #pragma mark - popover delegate

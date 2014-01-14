@@ -44,6 +44,8 @@ const CGFloat kAnimDuration = 0.5;
 @property (nonatomic, strong) ImageCollectionController *imageDetailsController;
 @property (nonatomic, weak) RCFile *currentFile;
 @property BOOL haveExternalKeyboard;
+@property BOOL viewIsAnimating;
+@property (nonatomic, copy) BasicBlock postAnimationBlock;
 -(void)sessionModeChanged;
 @end
 
@@ -133,6 +135,7 @@ const CGFloat kAnimDuration = 0.5;
 	[UIView performWithoutAnimation:^{
 		self.webLeftConstraint.constant = self.containerView.bounds.size.width;
 	}];
+	self.viewIsAnimating = YES;
 	[UIView animateWithDuration:kAnimDuration animations:^{
 		self.webLeftConstraint.constant = 0;
 		self.outputLeftConstraint.constant = - self.outputView.bounds.size.width;
@@ -141,6 +144,11 @@ const CGFloat kAnimDuration = 0.5;
 	} completion:^(BOOL finished) {
 		self.visibleOutputView = self.webView;
 		self.backButton.enabled = YES;
+		self.viewIsAnimating = NO;
+		if (self.postAnimationBlock) {
+			RunAfterDelay(0.1, self.postAnimationBlock);
+			self.postAnimationBlock=nil;
+		}
 	}];
 }
 
@@ -149,6 +157,7 @@ const CGFloat kAnimDuration = 0.5;
 	[UIView performWithoutAnimation:^{
 		self.outputLeftConstraint.constant = - self.containerView.bounds.size.width;
 	}];
+	self.viewIsAnimating = YES;
 	[UIView animateWithDuration:kAnimDuration animations:^{
 		self.outputLeftConstraint.constant = 0;
 		self.webLeftConstraint.constant = 900;
@@ -159,6 +168,11 @@ const CGFloat kAnimDuration = 0.5;
 		self.backButton.enabled = NO;
 		[self.webView removeFromSuperview];
 		[self setupWebView];
+		self.viewIsAnimating = NO;
+		if (self.postAnimationBlock) {
+			RunAfterDelay(0.1, self.postAnimationBlock);
+			self.postAnimationBlock=nil;
+		}
 	}];
 }
 
@@ -193,6 +207,13 @@ const CGFloat kAnimDuration = 0.5;
 
 -(void)loadHelpURLs:(NSArray*)urls
 {
+	if (self.viewIsAnimating) {
+		__weak ConsoleViewController *bself = self;
+		self.postAnimationBlock = ^{
+			[bself loadHelpURLs:urls];
+		};
+		return;
+	}
 	if (self.visibleOutputView != self.webView)
 		[self animateToWebview];
 	[self.webView loadRequest:[NSURLRequest requestWithURL:urls.firstObject]];

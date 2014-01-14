@@ -21,11 +21,6 @@
 	return self;
 }
 
--(void)dealloc
-{
-	NSLog(@"help dealloced");
-}
-
 -(void)windowDidLoad
 {
 	self.topicTableView.doubleAction = @selector(doDisplay:);

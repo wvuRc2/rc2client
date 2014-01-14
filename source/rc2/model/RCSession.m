@@ -225,6 +225,13 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 	self.timeOfLastTraffic = [NSDate date];
 }
 
+-(void)lookupInHelp:(NSString *)helpStr
+{
+	NSDictionary *dict = @{@"cmd":@"help", @"topic":helpStr};
+	[_ws sendText:[dict JSONRepresentation]];
+	self.timeOfLastTraffic = [NSDate date];
+}
+
 -(void)executeSas:(RCFile*)file
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"executeSas", @"cmd", file.fileId, @"fileId", 
