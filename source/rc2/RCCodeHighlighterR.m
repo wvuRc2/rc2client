@@ -40,12 +40,14 @@
 {
 	[content removeAttribute:NSForegroundColorAttributeName range:range]; //remove old colors
 	NSString *sourceStr = [content.string substringWithRange:range];
-	NSRange nlRange = [sourceStr rangeOfString:@"\n"];
+	// not sure why this was here. Likely something to do with Rnw or Rmd processing, but I don't see the problem removing it.
+	// without removing it, the first line of an R file would not be highlighted.
+//	NSRange nlRange = [sourceStr rangeOfString:@"\n"];
 //	NSAssert(nlRange.location != NSNotFound, @"failed to find newline on code chunk");
-	if (NSNotFound == nlRange.location)
-		nlRange.location = nlRange.length = 0;
-	if (nlRange.length > 0)
-		sourceStr = [sourceStr substringFromIndex:nlRange.location + nlRange.length];
+//	if (NSNotFound == nlRange.location)
+//		nlRange.location = nlRange.length = 0;
+//	if (nlRange.length > 0)
+//		sourceStr = [sourceStr substringFromIndex:nlRange.location + nlRange.length];
 
 	PKTokenizer *t = [[PKTokenizer alloc] initWithString:sourceStr];
 	[t setTokenizerState:t.symbolState from:'/' to:'/'];
@@ -57,7 +59,7 @@
 	PKToken *eof = [PKToken EOFToken];
 	PKToken *token = nil;
 	while ((token = [t nextToken]) != eof) {
-		NSRange rng = NSMakeRange(range.location + nlRange.location + nlRange.length + token.offset, token.stringValue.length);
+		NSRange rng = NSMakeRange(range.location /*+ nlRange.location + nlRange.length*/ + token.offset, token.stringValue.length);
 		id color=nil;
 //		NSLog(@"tk=%@", token.debugDescription);
 		switch (token.tokenType) {

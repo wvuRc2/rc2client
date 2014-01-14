@@ -526,7 +526,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		}
 	};
 	RCFile *selFile = self.editorFile;
-	if (selFile.isTextFile) {
+	if (selFile.isTextFile && selFile.locallyModified) {
 		selFile.localEdits = self.editView.string;
 		[self syncFile:self.editorFile completionBlock:eblock];
 	} else {
