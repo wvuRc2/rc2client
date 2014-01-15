@@ -16,13 +16,13 @@
 #import "AppDelegate.h"
 #import "RCMacToolbarItem.h"
 #import "MCProjectViewController.h"
-#import "RCMAdminController.h"
+#import "MCAdminController.h"
 
 @interface MCMainWindowController()
 @property (strong) NSMutableArray *kvoObservers;
 @property (nonatomic, strong) MCProjectViewController *projectController;
 @property (nonatomic, strong) MCSessionViewController *currentSessionController;
-@property (nonatomic, strong) RCMAdminController *adminController;
+@property (nonatomic, strong) MCAdminController *adminController;
 @end
 
 #pragma mark -
@@ -128,7 +128,7 @@
 -(IBAction)showAdminTools:(id)sender
 {
 	if (nil == self.adminController)
-		self.adminController = [[RCMAdminController alloc] init];
+		self.adminController = [[MCAdminController alloc] init];
 	[self.navController pushViewController:self.adminController animated:YES];
 }
 

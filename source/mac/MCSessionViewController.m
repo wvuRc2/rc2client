@@ -285,6 +285,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 
 -(void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
+	[super viewWillMoveToWindow:newWindow];
 	if (!__didFirstWindow) {
 /*		if ((self.sessionView.leftViewVisible && !__fileListInitiallyVisible) ||
 			(!self.sessionView.leftViewVisible && __fileListInitiallyVisible))
@@ -297,12 +298,12 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		for (MCVariableWindowController *wc in [self.variableWindows copy])
 			[wc close];
 		[self.variableWindows removeAllObjects];
-		self.view.window.toolbar.visible = NO;
 	}
 }
 
 -(void)viewDidMoveToWindow
 {
+	[super viewDidMoveToWindow];
 	[self.view.window makeFirstResponder:self.editView];
 	if (!self.session.socketOpen) {
 		self.busy = YES;
@@ -311,14 +312,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	}
 }
 
--(void)didBecomeVisible
-{
-	NSToolbar *tbar = [[NSToolbar alloc] initWithIdentifier:@"maintbar"];
-	tbar.delegate = self;
-	tbar.displayMode = NSToolbarDisplayModeIconOnly;
-	self.view.window.toolbar = tbar;
-	self.view.window.toolbar.visible = YES;
-}
+-(BOOL)usesToolbar { return YES; }
 
 -(BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
@@ -1523,9 +1517,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	__weak MCSessionViewController *bself = self;
 	NSToolbarItem *item;
 	if ([itemIdentifier isEqualToString:@"back"]) {
-		item = [self toolbarButtonWithIdentifier:@"back" imgName:NSImageNameLeftFacingTriangleTemplate width:10];
-		item.view.toolTip = @"Back";
-		item.action = @selector(doBackToMainView:);
+		item = [super toolbar:toolbar itemForItemIdentifier:itemIdentifier willBeInsertedIntoToolbar:flag];
 	} else if ([itemIdentifier isEqualToString:@"leftside"]) {
 		NSSegmentedControl *segs = [[NSSegmentedControl alloc] initWithFrame:NSMakeRect(0, 0, 140, 25)];
 		segs.segmentCount = 3;
@@ -1620,24 +1612,6 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		[label sizeToFit];
 		item.minSize = label.frame.size;
 	}
-	return item;
-}
-
--(NSToolbarItem*)toolbarButtonWithIdentifier:(NSString*)ident imgName:(NSString*)imgName width:(NSInteger)imgWidth
-{
-	NSImage *img = [NSImage imageNamed:imgName];
-	if (imgWidth > 0) {
-		img = [img copy];
-		img.size = CGSizeMake(imgWidth, imgWidth);
-	}
-	NSButton *button = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, 29, 23)];
-	button.image = img;
-//	[button setBordered:NO];
-	[button setBezelStyle:NSTexturedRoundedBezelStyle];
-	[button setButtonType:NSMomentaryChangeButton];
-	NSToolbarItem *item = [[AMMacToolbarItem alloc] initWithItemIdentifier:ident];
-	item.view = button;
-	item.minSize = button.frame.size;
 	return item;
 }
 
