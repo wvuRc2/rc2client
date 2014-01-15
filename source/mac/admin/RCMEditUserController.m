@@ -103,12 +103,12 @@
 
 -(NSString*)name
 {
-	return self.theUser.name;
+	return self.theUser.firstname;
 }
 
 -(void)setName:(NSString *)name
 {
-	self.theUser.name = name;
+	self.theUser.firstname = name;
 	[self checkValidity];
 }
 
