@@ -22,6 +22,7 @@ const CGFloat kFrameWidth = 214;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *editorWidthConstraint;
 @property (nonatomic, weak) IBOutlet MacSessionSplitter *splitterView;
 @property (nonatomic, strong) NSTrackingArea *dragTrackingArea;
+@property (nonatomic, readwrite) BOOL editorWidthLocked;
 @end
 
 @implementation MCSessionView {
@@ -42,6 +43,15 @@ const CGFloat kFrameWidth = 214;
 	CABasicAnimation *anim = [CABasicAnimation animation];
 	anim.delegate = self;
 	[self.leftXConstraint setAnimations:@{@"constant": anim}];
+}
+
+-(BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	if (menuItem.action == @selector(toggleEditorWidthLock:)) {
+		menuItem.state = self.editorWidthLocked ? NSOnState : NSOffState;
+		return YES;
+	}
+	return [super validateMenuItem:menuItem];
 }
 
 -(void)saveSessionState:(RCSavedSession*)sessionState
@@ -68,15 +78,20 @@ const CGFloat kFrameWidth = 214;
 
 -(void)resizeSubviewsWithOldSize:(NSSize)oldSize
 {
-	CGFloat editorWidth = 0;
-	CGFloat newWidth = self.frame.size.width;
-	if (newWidth != oldSize.width && oldSize.width > 0) {
-		CGFloat perChange = self.frame.size.width / oldSize.width;
-		editorWidth = _editorView.frame.size.width * perChange;
+	if (self.editorWidthLocked) {
+		[super resizeSubviewsWithOldSize:oldSize];
+		return;
 	}
+	//compute proportion of editor width to output width
+	CGFloat origEditorWidth = _editorView.frame.size.width;
+	CGFloat splitPercent = _editorView.frame.size.width / (_editorView.frame.size.width + _outputView.frame.size.width);
+	CGFloat editorX = _editorView.frame.origin.x;
 	[super resizeSubviewsWithOldSize:oldSize];
-	if (editorWidth > 0)
-		self.editorWidthConstraint.constant = editorWidth;
+	CGFloat newTotalWidth = _editorView.frame.size.width + _outputView.frame.size.width;
+	CGFloat newEditorWidth = splitPercent * newTotalWidth;
+	CGFloat editorWidthDelta = newEditorWidth - origEditorWidth;
+//	NSLog(@"per=%1f, delta=%1f", splitPercent, editorWidthDelta);
+	self.editorWidthConstraint.constant = self.editorWidthConstraint.constant + editorWidthDelta;
 }
 
 -(void)mouseDown:(NSEvent *)evt
@@ -136,6 +151,11 @@ const CGFloat kFrameWidth = 214;
 			[self didChangeValueForKey:@"leftViewVisible"];
 		});
 	}
+}
+
+-(IBAction)toggleEditorWidthLock:(id)sender
+{
+	self.editorWidthLocked = !self.editorWidthLocked;
 }
 
 -(IBAction)toggleLeftView:(id)sender

@@ -17,9 +17,12 @@
 @property (nonatomic) CGFloat editorWidth; //for saving in session data
 @property (nonatomic, copy) BasicBlock leftViewAnimationHandler;
 @property (nonatomic, readonly) BOOL leftViewVisible;
+@property (nonatomic, readonly) BOOL editorWidthLocked;
 
 -(void)embedOutputView:(NSView*)outputView;
 -(IBAction)toggleLeftView:(id)sender;
+
+-(IBAction)toggleEditorWidthLock:(id)sender;
 
 -(void)saveSessionState:(RCSavedSession*)sessionState;
 -(void)restoreSessionState:(RCSavedSession*)savedState;

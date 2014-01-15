@@ -1475,8 +1475,12 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 			mi = [[NSMenuItem alloc] initWithTitle:title action:@selector(executeCurrentLine:) keyEquivalent:@""];
 			[mi setEnabled:YES];
 			[menu insertItem:mi atIndex:idx++];
-			[menu insertItem:[NSMenuItem separatorItem] atIndex:idx];
+			[menu insertItem:[NSMenuItem separatorItem] atIndex:idx++];
 		}
+		NSMenuItem *lockItem = [[NSMenuItem alloc] initWithTitle:@"Editor Width Locked" action:@selector(toggleEditorWidthLock:) keyEquivalent:@""];
+		lockItem.target = self.sessionView;
+		[menu insertItem:lockItem atIndex:idx++];
+		[menu insertItem:[NSMenuItem separatorItem] atIndex:idx];
 	}
 	return menu;
 }
