@@ -22,5 +22,5 @@
 -(BOOL)usesToolbar;
 
 //convience for subclasses
--(NSToolbarItem*)toolbarButtonWithIdentifier:(NSString*)ident imgName:(NSString*)imgName width:(NSInteger)imgWidth;
+-(AMMacToolbarItem*)toolbarButtonWithIdentifier:(NSString*)ident imgName:(NSString*)imgName width:(NSInteger)imgWidth;
 @end

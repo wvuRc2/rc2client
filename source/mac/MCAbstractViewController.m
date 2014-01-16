@@ -68,7 +68,7 @@
 	}	return item;
 }
 
--(NSToolbarItem*)toolbarButtonWithIdentifier:(NSString*)ident imgName:(NSString*)imgName width:(NSInteger)imgWidth
+-(AMMacToolbarItem*)toolbarButtonWithIdentifier:(NSString*)ident imgName:(NSString*)imgName width:(NSInteger)imgWidth
 {
 	NSImage *img = [NSImage imageNamed:imgName];
 	if (imgWidth > 0) {
@@ -80,7 +80,7 @@
 	//	[button setBordered:NO];
 	[button setBezelStyle:NSTexturedRoundedBezelStyle];
 	[button setButtonType:NSMomentaryChangeButton];
-	NSToolbarItem *item = [[AMMacToolbarItem alloc] initWithItemIdentifier:ident];
+	AMMacToolbarItem *item = [[AMMacToolbarItem alloc] initWithItemIdentifier:ident];
 	item.view = button;
 	item.minSize = button.frame.size;
 	return item;

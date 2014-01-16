@@ -65,8 +65,6 @@ const CGFloat kBoxHeightDiff = 42;
 	for (id aView in views.reverseObjectEnumerator) {
 		if (![aView conformsToProtocol:@protocol(RCMMultiUpChildView)])
 			[NSException raise:NSInvalidArgumentException format:@"proposed view does not conform to RCMMultiUpChildView protocol (%@)", aView];
-//		if (![aView isKindOfClass:[NSViewController class]])
-//			[NSException raise:NSInvalidArgumentException format:@"proposed viewcontroller is not a viewcontroller (%@)", aView];
 		[self addSubview:aView];
 		//add constraints for this view
 		[aView setMultiXConstraint:[NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
@@ -78,8 +76,10 @@ const CGFloat kBoxHeightDiff = 42;
 			[aView setMultiWConstraint: [NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200]];
 			[[aView multiWConstraint] setPriority: 1000];
 			[self addConstraint:[aView multiWConstraint]];
-			[aView setMultiHConstraint:[NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem: nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + kBoxHeightDiff]];
-			[[aView multiHConstraint] setPriority:400];
+//			[aView setMultiHConstraint:[NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem: nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + kBoxHeightDiff]];
+//			[[aView multiHConstraint] setPriority:400];
+			[aView setMultiHConstraint:[NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem: aView attribute:NSLayoutAttributeWidth multiplier:1.0 constant: kBoxHeightDiff]];
+			[[aView multiHConstraint] setPriority: 1000];
 			[self addConstraint:[aView multiHConstraint]];
 			//don't allow any of the views to be taller than self
 			[self addConstraint:[NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
@@ -110,7 +110,7 @@ const CGFloat kBoxHeightDiff = 42;
 			if (i == 0) {
 				CGFloat height = self.frame.size.height - 40;
 				[[[aView multiWConstraint] animator] setConstant:height - kBoxHeightDiff];
-				[[[aView multiHConstraint] animator] setConstant:height];
+//				[[[aView multiHConstraint] animator] setConstant:height];
 			} else {
 				[[aView animator] setAlphaValue:0];
 			}
@@ -124,6 +124,8 @@ const CGFloat kBoxHeightDiff = 42;
 	CGSize containerSize = self.frame.size;
 	CGFloat marginspace = 10 + 10 + 20;
 	CGFloat newWidth = fabs((containerSize.width - marginspace)/2);
+	while ((newWidth + kBoxHeightDiff +20) > containerSize.height)
+		newWidth -= 20;
 	CGFloat xAdjust = fabs((newWidth+20)/2);
 	CGFloat yAdjust = 0;
 	id view1 = [_viewControllers[0] view];
@@ -136,7 +138,7 @@ const CGFloat kBoxHeightDiff = 42;
 		for (NSInteger i=2; i < _viewControllers.count; i++)
 			[[[_viewControllers[i] view] animator] setAlphaValue:0];
 		[[[view1 multiWConstraint] animator] setConstant: newWidth];
-		[[[view1 multiHConstraint] animator] setConstant:  newWidth + kBoxHeightDiff];
+//		[[[view1 multiHConstraint] animator] setConstant:  newWidth + kBoxHeightDiff];
 		[[[view1 multiXConstraint] animator] setConstant: -xAdjust];
 		[[[view2 multiXConstraint] animator] setConstant: xAdjust];
 		[[[view1 multiYConstraint] animator] setConstant: yAdjust];
@@ -157,8 +159,8 @@ const CGFloat kBoxHeightDiff = 42;
 		newWidth -=10;
 		newHeight -=10;
 	}
-	if (proposedWidth - newWidth > 40)
-		widthAdjustment = 40;
+//	if (proposedWidth - newWidth > 40)
+//		widthAdjustment = 40;
 	CGFloat xAdjust = fabs((containerSize.width-20)/4);
 	CGFloat yAdjust = fabs((containerSize.height-20)/4);
 	NSArray *views = [_viewControllers valueForKeyPath:@"view"];
@@ -170,7 +172,7 @@ const CGFloat kBoxHeightDiff = 42;
 		for (NSView *aView in views)
 			[aView.animator setAlphaValue:1.0];
 		[[[view1 multiWConstraint] animator] setConstant: newWidth + widthAdjustment];
-		[[[view1 multiHConstraint] animator] setConstant:  newWidth + kBoxHeightDiff];
+//		[[[view1 multiHConstraint] animator] setConstant:  newWidth + kBoxHeightDiff];
 		
 		[[[views[0] multiXConstraint] animator] setConstant: -xAdjust];
 		[[[views[1] multiXConstraint] animator] setConstant: xAdjust];

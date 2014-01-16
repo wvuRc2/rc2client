@@ -20,8 +20,7 @@
 @property (nonatomic, strong) IBOutlet RCMImageDetailController *imageView2;
 @property (nonatomic, strong) IBOutlet RCMImageDetailController *imageView3;
 @property (nonatomic, strong) IBOutlet RCMImageDetailController *imageView4;
-@property (nonatomic, strong) IBOutlet NSSegmentedControl *layoutControl;
-@property (nonatomic, weak) IBOutlet NSButton *shareButton;
+@property (nonatomic, strong) NSSegmentedControl *imgUpControl;
 @property (nonatomic, strong) IBOutlet RCMMultiUpView *mupView;
 @end
 
@@ -45,7 +44,6 @@
 	self.imageView3 = [[RCMImageDetailController alloc] init];
 	self.imageView4 = [[RCMImageDetailController alloc] init];
 	self.mupView.viewControllers = @[self.imageView1, self.imageView2, self.imageView3, self.imageView4];
-	[self.shareButton sendActionOn:NSLeftMouseDownMask];
 }
 
 -(void)viewDidMoveToWindow
@@ -54,6 +52,7 @@
 		[[NSUserDefaults standardUserDefaults] setInteger:self.numberImagesVisible forKey:kPref_NumImagesVisible];
 		if (self.didLeaveWindowBlock)
 			self.didLeaveWindowBlock();
+		[self.imgUpControl unbind:@"selectedTag"];
 		//our view is still involved in an animation, so we need to keep a reference around for longer than the animation
 		RunAfterDelay(0.5, ^{
 			[self.mupView description];
@@ -81,6 +80,52 @@
 	return YES;
 }
 
+-(BOOL)usesToolbar { return YES; }
+
+-(NSArray*)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+{
+	return [self toolbarDefaultItemIdentifiers:toolbar];
+}
+
+-(NSArray*)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
+{
+	return @[@"back", NSToolbarFlexibleSpaceItemIdentifier, @"Xup", NSToolbarFlexibleSpaceItemIdentifier, @"share"];
+}
+
+-(NSToolbarItem*)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
+{
+	AMMacToolbarItem *item;
+	if ([itemIdentifier isEqualToString:@"back"])
+		return [super toolbar:toolbar itemForItemIdentifier:itemIdentifier willBeInsertedIntoToolbar:flag];
+	else if ([itemIdentifier isEqualToString:@"share"]) {
+		item = [super toolbarButtonWithIdentifier:@"share" imgName:NSImageNameShareTemplate width:16];
+		item.view.toolTip = @"Share Images";
+		item.action = @selector(shareImages:);
+		item.target = self;
+	} else if ([itemIdentifier isEqualToString:@"Xup"]) {
+		NSSegmentedControl *segs = [[NSSegmentedControl alloc] initWithFrame:NSMakeRect(0, 0, 160, 25)];
+		segs.segmentCount = 3;
+		segs.selectedSegment = 0;
+		segs.target = self;
+		segs.action = @selector(adjustVisibleImages:);
+		[segs setLabel:@"1 up" forSegment:0];
+		[segs setLabel:@"2 up" forSegment:1];
+		[segs setLabel:@"4 up" forSegment:2];
+		[segs setSegmentStyle:NSSegmentStyleTexturedRounded];
+		[segs.cell setToolTip:@"1 up" forSegment:0];
+		[segs.cell setToolTip:@"2 up" forSegment:1];
+		[segs.cell setToolTip:@"4 up" forSegment:2];
+		[segs.cell setTag:1 forSegment:0];
+		[segs.cell setTag:2 forSegment:1];
+		[segs.cell setTag:4 forSegment:2];
+		item = [[AMMacToolbarItem alloc] initWithItemIdentifier:@"Xup"];
+		item.view = segs;
+		self.imgUpControl = segs;
+		[segs bind:@"selectedTag" toObject:self withKeyPath:@"numberImagesVisible" options:nil];
+	}
+	return item;
+}
+
 -(void)print:(id)sender
 {
 	//figure out which images to print. only what's visible
@@ -106,7 +151,6 @@
 
 -(IBAction)adjustVisibleImages:(id)sender
 {
-	[self setNumberImagesVisible:[sender tag]];
 }
 
 -(IBAction)shareImages:(id)sender
