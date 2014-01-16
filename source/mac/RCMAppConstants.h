@@ -33,6 +33,7 @@ extern NSString *const kPref_ConsoleFontSize;
 extern const NSInteger kMenuView;
 extern const NSInteger kMenuView_Theme;
 extern const NSInteger kMenu_Chunks;
+extern const NSInteger kRHelpMenuTag;
 
 @interface RCMAppConstants : NSObject
 //array of all preference keys that should be removed when users chooses to reset all warnings

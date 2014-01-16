@@ -42,6 +42,7 @@
 #import "MCDropboxConfigWindow.h"
 #import "RCDropboxSync.h"
 #import "RCChunk.h"
+#import "RCMConsoleTextField.h"
 #import <DropboxOSX/DropboxOSX.h>
 #import <objc/runtime.h>
 
@@ -222,7 +223,10 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		NoodleLineNumberView *lnv = [[NoodleLineNumberView alloc] initWithScrollView:self.editView.enclosingScrollView];
 		[self.editView.enclosingScrollView setVerticalRulerView:lnv];
 		[self.editView.enclosingScrollView setRulersVisible:YES];
-		
+
+		self.outputController.consoleField.adjustContextualMenuBlock = ^(NSText *fieldEditor, NSMenu *menu) {
+			return [blockSelf contextualMenuItemsForConsoleTextField:fieldEditor menu:menu];
+		};
 		
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:kPref_EditorShowInvisible])
 			[self.editView.layoutManager setShowsInvisibleCharacters:YES];
@@ -1356,10 +1360,43 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 
 -(IBAction)contextualHelp:(id)sender
 {
-	NSString *txt = [self.editView.string substringWithRange:[self.editView selectedRange]];
+	NSText *tview = sender;
+	if ([sender isKindOfClass:[NSMenuItem class]])
+		tview = [sender representedObject];
+	if (nil == tview)
+		tview = self.editView;
+	ZAssert([tview isKindOfClass:[NSText class]], @"bad sender");
+	NSString *txt = [tview.string substringWithRange:[tview selectedRange]];
 	txt = [txt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	if (txt.length > 0)
 		[self.session lookupInHelp:txt];
+}
+
+-(NSMenu*)contextualMenuItemsForConsoleTextField:(NSText*)fieldEditor menu:(NSMenu*)menu
+{
+	NSMenuItem *oldItem = [menu itemWithTag:kRHelpMenuTag];
+	if (oldItem)
+		[menu removeItem:oldItem];
+	if (fieldEditor.selectedRange.length < 1)
+		return menu;
+	NSInteger idx = -1;
+	for (NSMenuItem *anItem in menu.itemArray) {
+		if ([anItem isSeparatorItem]) {
+			idx = [menu indexOfItem:anItem];
+			break;
+		}
+	}
+	if (idx >= 0) {
+		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"Lookup in R Help" action:@selector(contextualHelp:) keyEquivalent:@""];
+		mi.target = self;
+		mi.tag = kRHelpMenuTag;
+		mi.representedObject = fieldEditor;
+		[mi setEnabled:YES];
+		if (![[menu itemAtIndex:0] isSeparatorItem])
+			[menu insertItem:[NSMenuItem separatorItem] atIndex:0];
+		[menu insertItem:mi atIndex:0];
+	}
+	return menu;
 }
 
 #pragma mark - popover delegate
@@ -1450,6 +1487,13 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 
 -(NSMenu*)textView:(NSTextView *)view menu:(NSMenu *)menu forEvent:(NSEvent *)event atIndex:(NSUInteger)charIndex
 {
+	NSMenuItem *oldItem = [menu itemWithTag:kRHelpMenuTag];
+	if (oldItem) {
+		NSInteger midx = [menu indexOfItem:oldItem];
+		[menu removeItem:oldItem];
+		if ([[menu itemAtIndex:midx-1] isSeparatorItem])
+			[menu removeItemAtIndex:midx-1];
+	}
 	NSInteger idx = -1;
 	for (NSMenuItem *anItem in menu.itemArray) {
 		if ([anItem action] == @selector(cut:))
@@ -1464,12 +1508,13 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		if (selText.length > 0) {
 			NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:@"Lookup in R Help" action:@selector(contextualHelp:) keyEquivalent:@""];
 			[mi setEnabled:YES];
+			if (idx > 0 && ![[menu itemAtIndex:idx-1] isSeparatorItem])
+				[menu insertItem:[NSMenuItem separatorItem] atIndex:idx++];
 			[menu insertItem:mi atIndex:idx++];
 			NSString *title = selRng.length > 0 ? @"Run Selection" : @"Run Line";
 			mi = [[NSMenuItem alloc] initWithTitle:title action:@selector(executeCurrentLine:) keyEquivalent:@""];
 			[mi setEnabled:YES];
 			[menu insertItem:mi atIndex:idx++];
-			[menu insertItem:[NSMenuItem separatorItem] atIndex:idx++];
 		}
 		NSMenuItem *lockItem = [[NSMenuItem alloc] initWithTitle:@"Editor Width Locked" action:@selector(toggleEditorWidthLock:) keyEquivalent:@""];
 		lockItem.target = self.sessionView;

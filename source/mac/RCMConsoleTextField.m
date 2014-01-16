@@ -15,6 +15,28 @@
 	return nil != self.currentEditor;
 }
 
+-(void)updateContextMenu
+{
+	if (self.adjustContextualMenuBlock) {
+		NSMenu *menu = self.currentEditor.menu;
+		menu = self.adjustContextualMenuBlock(self.currentEditor, menu);
+		self.currentEditor.menu = menu;
+	}
+}
 
+-(void)textDidBeginEditing:(NSNotification *)notification
+{
+	[super textDidBeginEditing:notification];
+	[self updateContextMenu];
+}
 
+-(void)textDidEndEditing:(NSNotification *)notification
+{
+	self.currentEditor.menu = [NSTextView defaultMenu];
+}
+
+-(void)textViewDidChangeSelection:(NSNotification*)note
+{
+	[self updateContextMenu];
+}
 @end

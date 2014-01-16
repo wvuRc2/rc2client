@@ -9,5 +9,6 @@
 #import <AppKit/AppKit.h>
 
 @interface RCMConsoleTextField : NSTextField
+@property (nonatomic, copy) NSMenu* (^adjustContextualMenuBlock)(NSText *fieldEditor, NSMenu *stdMenu);
 -(BOOL)fieldOrEditorIsFirstResponder;
 @end
