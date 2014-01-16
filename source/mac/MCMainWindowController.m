@@ -52,6 +52,7 @@
 	self.navController.delegate = (id)self;
 	RCMacToolbarItem *addItem = [self.window.toolbar.items firstObjectWithValue:RCMToolbarItem_Add forKey:@"itemIdentifier"];
 	addItem.actionMenu = self.addToolbarMenu;
+	[self.projectController didBecomeVisible];
 	//if the list of projects is refreshed, the current session will be referencing a dealloced project since the workspace
 	// keeps a weak reference
 	__weak MCMainWindowController *bself = self;
@@ -122,6 +123,8 @@
 {
 	if (self.navController.canPopViewController) {
 		[self.navController popViewControllerAnimated:YES];
+	} else if (self.navController.topViewController == self.projectController && !self.projectController.showingProjects) {
+		[self.projectController displayTopLevel];
 	}
 }
 

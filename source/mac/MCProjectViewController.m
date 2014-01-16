@@ -15,6 +15,7 @@
 #import "MCProjectCollectionItem.h"
 #import "ThemeEngine.h"
 #import "RCMAppConstants.h"
+#import "MCMainWindowController.h" //for doBackToMainView: selector
 
 @interface MCProjectView : AMControlledView
 
@@ -54,6 +55,25 @@
 }
 
 #pragma mark - meat & potatos
+
+-(BOOL)usesToolbar { return YES; }
+
+-(NSArray*)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
+{
+	return @[@"back"];
+}
+
+-(NSToolbarItem*)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
+{
+	NSToolbarItem *item = [super toolbar:toolbar itemForItemIdentifier:itemIdentifier willBeInsertedIntoToolbar:flag];
+	if (item.action == @selector(doBackToMainView:)) {
+		AMMacToolbarItem *titem = (AMMacToolbarItem*)item;
+		titem.validationBlock = ^(AMMacToolbarItem *bitem) {
+			[bitem setEnabled:!self.showingProjects];
+		};
+	}
+	return item;
+}
 
 -(BOOL)validateMenuItem:(NSMenuItem *)anItem
 {
@@ -125,6 +145,7 @@
 	};
 	[NSAnimationContext endGrouping];
 	self.selectedProject = item;
+	[self.view.window.toolbar validateVisibleItems];
 }
 
 -(void)displayTopLevel
@@ -140,6 +161,7 @@
 	});
 	self.selectedProject=nil;
 	[[Rc2Server sharedInstance] updateProjects];
+	[self.view.window.toolbar validateVisibleItems];
 }
 
 #pragma mark - actions

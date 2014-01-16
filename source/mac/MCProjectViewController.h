@@ -9,5 +9,8 @@
 #import "MCAbstractViewController.h"
 
 @interface MCProjectViewController : MCAbstractViewController
+@property (nonatomic, readonly) BOOL showingProjects;
+
+-(void)displayTopLevel;
 
 @end
