@@ -1,19 +1,23 @@
 //
-//  RCMUserAdminController.m
+//  MCUserAdminController.m
 //  MacClient
 //
 //  Created by Mark Lilback on 10/28/11.
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
-#import "RCMUserAdminController.h"
+#import "MCUserAdminController.h"
 #import "RCMEditUserController.h"
 #import "RCUser.h"
 #import "Rc2Server.h"
 #import <Vyana/AMBlockUtils.h>
 #import <Vyana/NSApplication+AMExtensions.h>
 
-@interface RCMUserAdminController()
+@interface MCUserAdminController()
+@property (nonatomic, strong) IBOutlet NSTableView *resultsTable;
+@property (nonatomic, strong) IBOutlet NSSearchField *searchField;
+@property (nonatomic, strong) IBOutlet NSArrayController *userController;
+@property (nonatomic, strong) IBOutlet NSArrayController *detailController;
 @property (nonatomic, strong) id lastSelectedUserRole;
 @property (nonatomic, copy) NSArray *users;
 @property (nonatomic, copy) NSArray *roles;
@@ -24,11 +28,11 @@
 @property (assign) BOOL updatingRole;
 @end
 
-@implementation RCMUserAdminController
+@implementation MCUserAdminController
 
 - (id)init
 {
-	if ((self = [super initWithNibName:@"RCMUserAdminController" bundle:nil])) {
+	if ((self = [super initWithNibName:@"MCUserAdminController" bundle:nil])) {
 	}
 	return self;
 }
@@ -41,7 +45,7 @@
 -(void)awakeFromNib
 {
 	self.searchesLogins=YES;
-	__weak RCMUserAdminController *bself = self;
+	__weak MCUserAdminController *bself = self;
 	[[Rc2Server sharedInstance] fetchRoles:^(BOOL success, id results) {
 		bself.roles = [results objectForKey:@"roles"];
 	}];
@@ -66,7 +70,7 @@
 
 -(void)toggleRole:(NSMutableDictionary*)roleDict
 {
-	__weak RCMUserAdminController *bself = self;
+	__weak MCUserAdminController *bself = self;
 	self.updatingRole=YES;
 	[[Rc2Server sharedInstance] toggleRole:[roleDict objectForKey:@"id"]
 									  user:[self.userController.selectedObjects.firstObject userId]
@@ -190,7 +194,7 @@
 	{
 		[self.editController.window orderOut:self];
 		if (NSOKButton == returnCode)
-			[self completeAddUser:self.editController.theUser password:self.editController.pass1Field.stringValue];
+			[self completeAddUser:self.editController.theUser password:self.editController.selectedPassword];
 	}];
 }
 

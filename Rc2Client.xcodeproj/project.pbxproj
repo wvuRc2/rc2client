@@ -26,6 +26,7 @@
 		080E5090166FDFB800E95531 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E507F166FDFB800E95531 /* AFXMLRequestOperation.m */; };
 		080E5091166FDFB800E95531 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E507F166FDFB800E95531 /* AFXMLRequestOperation.m */; };
 		080E5092166FDFB800E95531 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5081166FDFB800E95531 /* UIImageView+AFNetworking.m */; };
+		080F50D81889D88000CF39FB /* MCUserAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 084593F915B5F1D700297C9D /* MCUserAdminController.xib */; };
 		0811F99316FB6A290060BAB4 /* RCMAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F99116FB6A290060BAB4 /* RCMAdminController.m */; };
 		0811F99416FB6A290060BAB4 /* RCMAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0811F99216FB6A290060BAB4 /* RCMAdminController.xib */; };
 		0811F9F917189C390060BAB4 /* RCMMultiUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F9F817189C390060BAB4 /* RCMMultiUpView.m */; };
@@ -86,7 +87,7 @@
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
 		084593E715B5F16F00297C9D /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593E615B5F16F00297C9D /* RCMAppConstants.m */; };
 		084593FA15B5F1D700297C9D /* RCMEditUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F515B5F1D700297C9D /* RCMEditUserController.m */; };
-		084593FC15B5F1D700297C9D /* RCMUserAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F815B5F1D700297C9D /* RCMUserAdminController.m */; };
+		084593FC15B5F1D700297C9D /* MCUserAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F815B5F1D700297C9D /* MCUserAdminController.m */; };
 		0845942215B5F22700297C9D /* MacDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0845941015B5F22700297C9D /* MacDefaults.plist */; };
 		0845942615B5F22700297C9D /* Rdoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0845941415B5F22700297C9D /* Rdoc.icns */; };
 		0845942715B5F22700297C9D /* RLogo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0845941515B5F22700297C9D /* RLogo.icns */; };
@@ -656,9 +657,9 @@
 		084593F415B5F1D700297C9D /* RCMEditUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMEditUserController.h; sourceTree = "<group>"; };
 		084593F515B5F1D700297C9D /* RCMEditUserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMEditUserController.m; sourceTree = "<group>"; };
 		084593F615B5F1D700297C9D /* RCMEditUserController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMEditUserController.xib; sourceTree = "<group>"; };
-		084593F715B5F1D700297C9D /* RCMUserAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMUserAdminController.h; sourceTree = "<group>"; };
-		084593F815B5F1D700297C9D /* RCMUserAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMUserAdminController.m; sourceTree = "<group>"; };
-		084593F915B5F1D700297C9D /* RCMUserAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMUserAdminController.xib; sourceTree = "<group>"; };
+		084593F715B5F1D700297C9D /* MCUserAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCUserAdminController.h; sourceTree = "<group>"; };
+		084593F815B5F1D700297C9D /* MCUserAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCUserAdminController.m; sourceTree = "<group>"; };
+		084593F915B5F1D700297C9D /* MCUserAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCUserAdminController.xib; sourceTree = "<group>"; };
 		084593FF15B5F20100297C9D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = resources/mac/en.lproj/Credits.rtf; sourceTree = SOURCE_ROOT; };
 		0845940115B5F20100297C9D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = resources/mac/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
 		0845940315B5F20100297C9D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = resources/mac/en.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
@@ -1443,15 +1444,15 @@
 				08CB421C188734A000F0F794 /* MCAdminController.h */,
 				08CB421D188734A000F0F794 /* MCAdminController.m */,
 				08CB421E188734A000F0F794 /* MCAdminController.xib */,
+				084593F715B5F1D700297C9D /* MCUserAdminController.h */,
+				084593F815B5F1D700297C9D /* MCUserAdminController.m */,
+				084593F915B5F1D700297C9D /* MCUserAdminController.xib */,
 				084593F415B5F1D700297C9D /* RCMEditUserController.h */,
 				084593F515B5F1D700297C9D /* RCMEditUserController.m */,
 				084593F615B5F1D700297C9D /* RCMEditUserController.xib */,
 				084594A415B5F44400297C9D /* RCMRolePermController.h */,
 				084594A515B5F44400297C9D /* RCMRolePermController.m */,
 				084594A615B5F44400297C9D /* RCMRolePermController.xib */,
-				084593F715B5F1D700297C9D /* RCMUserAdminController.h */,
-				084593F815B5F1D700297C9D /* RCMUserAdminController.m */,
-				084593F915B5F1D700297C9D /* RCMUserAdminController.xib */,
 				084594A915B5F46900297C9D /* RCMUserSearchPopupController.h */,
 				084594AA15B5F46900297C9D /* RCMUserSearchPopupController.m */,
 				084594AB15B5F46900297C9D /* RCMUserSearchPopupController.xib */,
@@ -2709,6 +2710,7 @@
 				086D6EBD15DD4EFA00EF28F1 /* sas.icns in Resources */,
 				08CB4220188734A000F0F794 /* MCAdminController.xib in Resources */,
 				086D6EBF15DD500D00EF28F1 /* Rnw.icns in Resources */,
+				080F50D81889D88000CF39FB /* MCUserAdminController.xib in Resources */,
 				08137A3117C8024C005EA804 /* SharedImages.xcassets in Resources */,
 				08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */,
 				08B70534183160E200868E38 /* MainMenu.xib in Resources */,
@@ -3140,7 +3142,7 @@
 				08BDDD9117EA48AB00E669E3 /* NSNumber+MagicalDataImport.m in Sources */,
 				08BDDDA717EA48AB00E669E3 /* NSManagedObjectContext+MagicalSaves.m in Sources */,
 				084593FA15B5F1D700297C9D /* RCMEditUserController.m in Sources */,
-				084593FC15B5F1D700297C9D /* RCMUserAdminController.m in Sources */,
+				084593FC15B5F1D700297C9D /* MCUserAdminController.m in Sources */,
 				0845943A15B5F29200297C9D /* MCAbstractViewController.m in Sources */,
 				082D1EB717E23B2C00723EB3 /* RCChunk.m in Sources */,
 				0845943B15B5F29200297C9D /* MCLoginController.m in Sources */,

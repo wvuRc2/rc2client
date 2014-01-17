@@ -7,7 +7,7 @@
 //
 
 #import "RCMAdminController.h"
-#import "RCMUserAdminController.h"
+#import "MCUserAdminController.h"
 #import "RCMRolePermController.h"
 #import "MCMainWindowController.h"
 #import "RCMCourseAdminController.h"
@@ -29,7 +29,7 @@
 
 -(void)awakeFromNib
 {
-	self.controllers = @[[[RCMUserAdminController alloc] init], [[RCMRolePermController alloc] init],
+	self.controllers = @[[[MCUserAdminController alloc] init], [[RCMRolePermController alloc] init],
 					  [[RCMCourseAdminController alloc] init]];
 	self.currentController = [self.controllers firstObject];
 	[[self.tabView tabViewItemAtIndex:0] setView:self.currentController.view];

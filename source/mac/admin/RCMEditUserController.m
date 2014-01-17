@@ -15,7 +15,19 @@
 @property (nonatomic, strong) PasswordVerifier *passwordVerifier;
 @property (strong) NSArray *ldapServers;
 @property (nonatomic, strong) NSDictionary *selectedLdapServer;
+
+@property (nonatomic, copy) NSString *emailAddress;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *login;
+@property (nonatomic, copy) NSString *ldapLogin;
+@property (nonatomic, strong) NSNumber *ldapServerId;
+@property (nonatomic, assign) BOOL isValid;
 @property (nonatomic, assign) BOOL useLdap;
+
+@property (nonatomic, strong) IBOutlet NSTextField *loginField;
+@property (nonatomic, strong) IBOutlet NSSecureTextField *pass1Field;
+@property (nonatomic, strong) IBOutlet NSSecureTextField *pass2Field;
+
 -(void)checkValidity;
 @end
 
@@ -135,6 +147,11 @@
 	self.ldapServerId = [selectedLdapServer objectForKey:@"id"];
 	if (self.useLdap)
 		self.theUser.ldapServerId = self.ldapServerId;
+}
+
+-(NSString*)selectedPassword
+{
+	return self.pass1Field.stringValue;
 }
 
 @end

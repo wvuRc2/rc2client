@@ -814,7 +814,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(void)addUser:(RCUser*)user password:(NSString*)password
 	completionHandler:(Rc2FetchCompletionHandler)hblock
 {
-	NSMutableDictionary *params = [@{@"email":user.email, @"login":user.login, @"fname": user.firstname, @"lname": user.lastname} mutableCopy];
+	NSMutableDictionary *params = [@{@"email":user.email, @"login":user.login, @"firstname": user.firstname, @"lastname": user.lastname} mutableCopy];
 	if (user.ldapServerId) {
 		[params setObject:user.ldapServerId forKey:@"ldapServerId"];
 		[params setObject:user.ldapLogin forKey:@"ldapLogin"];

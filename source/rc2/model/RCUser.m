@@ -28,8 +28,8 @@
 	self.origDict = dict;
 	self.userId = [dict objectForKey:@"id"];
 	self.login = [dict objectForKey:@"login"];
-	self.firstname = [dict objectForKey:@"fname"];
-	self.lastname = [dict objectForKey:@"lname"];
+	self.firstname = [dict objectForKey:@"firstname"];
+	self.lastname = [dict objectForKey:@"lastname"];
 	self.email = [dict objectForKey:@"email"];
 	self.ldapLogin = [dict objectForKey:@"ldaplogin"];
 	self.ldapServerId = [dict valueForKeyPath:@"ldapServer.id"];
@@ -53,8 +53,8 @@
 
 -(BOOL)isDirty
 {
-	return [self.firstname isEqualToString:[self.origDict objectForKey:@"fname"]] &&
-		[self.lastname isEqualToString:[self.origDict objectForKey:@"lname"]] &&
+	return [self.firstname isEqualToString:[self.origDict objectForKey:@"firstname"]] &&
+		[self.lastname isEqualToString:[self.origDict objectForKey:@"lastname"]] &&
 		[self.email isEqualToString:[self.origDict objectForKey:@"email"]] &&
 		[self.login isEqualToString:[self.origDict objectForKey:@"login"]] &&
 		self.isAdmin == [[self.origDict objectForKey:@"isadmin"] boolValue];
