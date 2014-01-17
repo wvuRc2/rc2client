@@ -1153,8 +1153,8 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	self.statusMessage = @"Connected";
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.session requestUserList];
-		if (self.selectedLeftViewIndex == 1)
-			[self.session forceVariableRefresh];
+//		if (self.selectedLeftViewIndex == 1)
+//			[self.session forceVariableRefresh];
 	});
 //	[self.audioEngine playDataFromFile:@"/Users/mlilback/Desktop/rc2audio.plist"];
 	if (!self.reconnecting)
@@ -1566,7 +1566,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	} else if ([itemIdentifier isEqualToString:@"leftside"]) {
 		NSSegmentedControl *segs = [[NSSegmentedControl alloc] initWithFrame:NSMakeRect(0, 0, 140, 25)];
 		segs.segmentCount = 3;
-		segs.selectedSegment = 0;
+		segs.selectedSegment = self.selectedLeftViewIndex;
 		segs.target = self;
 		segs.action = @selector(leftSegmentSelected:);
 		[segs setImage:[NSImage imageNamed:@"files"] forSegment:0];

@@ -273,8 +273,11 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 		blockSelf.loginController=nil;
 		[blockSelf handleSucessfulLogin];
 	}];
-	if (__firstLogin && [[NSUserDefaults standardUserDefaults] boolForKey:@"AutoLogin"])
+	if (__firstLogin && [[NSUserDefaults standardUserDefaults] boolForKey:@"AutoLogin"] &&
+		!([NSEvent modifierFlags] & NSCommandKeyMask))
+	{
 		[self.loginController doLogin:self];
+	}
 	__firstLogin=NO;
 }
 
