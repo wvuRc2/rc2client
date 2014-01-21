@@ -205,12 +205,12 @@ const CGFloat kAnimDuration = 0.5;
 	[self adjustInterface];
 }
 
--(void)loadHelpURLs:(NSArray*)urls
+-(void)loadHelpURLs:(NSArray*)urls topic:(NSString*)helpTopic
 {
 	if (self.viewIsAnimating) {
 		__weak ConsoleViewController *bself = self;
 		self.postAnimationBlock = ^{
-			[bself loadHelpURLs:urls];
+			[bself loadHelpURLs:urls topic:helpTopic];
 		};
 		return;
 	}

@@ -7,13 +7,34 @@
 //
 
 #import "MCSessionViewController.h"
+#import "RCMAppConstants.h"
+#import <DropboxOSX/DropboxOSX.h>
+#import <objc/runtime.h>
+
+//view controllers
 #import "MCWebOutputController.h"
 #import "MCMainWindowController.h" //for doBackToMainView: action
-#import "RCMImageViewer.h"
 #import "RCMMultiImageController.h"
+#import "MCNewFileController.h"
+#import "MCVariableDisplayController.h"
+#import "MCVariableWindowController.h"
+#import "MCSessionFileController.h"
+#import "MCDropboxConfigWindow.h"
+
+//views
+#import "RCMImageViewer.h"
 #import "RCMTextPrintView.h"
-#import "Rc2Server.h"
 #import "RCMacToolbarItem.h"
+#import "MultiFileImporter.h"
+#import "RCMTextView.h"
+#import "NoodleLineNumberView.h"
+#import "MCSessionView.h"
+#import "RCMTableView.h"
+#import "MCTableRowView.h"
+#import "RCMConsoleTextField.h"
+
+//model
+#import "Rc2Server.h"
 #import "RCWorkspace.h"
 #import "RCProject.h"
 #import "RCFile.h"
@@ -22,29 +43,16 @@
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
 #import "RCVariable.h"
-#import "MultiFileImporter.h"
-#import "RCMTextView.h"
-#import "MCNewFileController.h"
-#import "RCMAppConstants.h"
+#import "RCChunk.h"
+#import "RCImageCache.h"
+
+//utility
 #import "AppDelegate.h"
 #import "RCSyntaxParser.h"
 #import "RCAudioChatEngine.h"
-#import "RCImageCache.h"
-#import "RCMTableView.h"
-#import "NoodleLineNumberView.h"
-#import "MCSessionView.h"
-#import "MCVariableDisplayController.h"
-#import "MCVariableWindowController.h"
-#import "MCSessionFileController.h"
 #import "MAKVONotificationCenter.h"
-#import "MCTableRowView.h"
 #import "MLReachability.h"
-#import "MCDropboxConfigWindow.h"
 #import "RCDropboxSync.h"
-#import "RCChunk.h"
-#import "RCMConsoleTextField.h"
-#import <DropboxOSX/DropboxOSX.h>
-#import <objc/runtime.h>
 
 #define logJson 0
 
@@ -89,12 +97,6 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 @end
 
 @interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate,NSTextStorageDelegate,NSMenuDelegate,NSToolbarDelegate> {
-	BOOL __didInit;
-	BOOL __movingFileList;
-	BOOL __fileListInitiallyVisible;
-	BOOL __didFirstLoad;
-	BOOL __didFirstWindow;
-	BOOL __toggledFileViewOnFullScreen;
 #if logJson
 	NSFileHandle *_jsonLog;
 #endif
@@ -127,10 +129,8 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 @property (nonatomic, assign) NSTimeInterval lastParseTime;
 @property (nonatomic, copy) NSString *workspaceTitle;
 @property (nonatomic, strong) NSMutableSet *variableWindows;
-@property BOOL importToProject;
-@property (nonatomic, assign) BOOL reconnecting;
-@property (nonatomic, assign) BOOL shouldReconnect;
-@property (nonatomic, assign) BOOL isParsing;
+@property (nonatomic, assign) BOOL didInit, reconnecting, fileListInitiallyVisible, didFirstLoad, shouldReconnect;
+@property (nonatomic, assign) BOOL isParsing, toggledFileViewOnFullScreen, importToProject;
 @end
 
 @implementation MCSessionViewController
@@ -185,8 +185,8 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 -(void)awakeFromNib
 {
 	[super awakeFromNib];
-	if (!__didInit) {
-		__unsafe_unretained MCSessionViewController *blockSelf = self;
+	if (!self.didInit) {
+		__weak MCSessionViewController *blockSelf = self;
 		self.outputController = [[MCWebOutputController alloc] init];
 		[self.sessionView embedOutputView:self.outputController.view];
 		self.outputController.delegate = (id)self;
@@ -239,14 +239,14 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		}];
 		[self observeTarget:[NSApp delegate] keyPath:@"isFullScreen" options:0 block:^(MAKVONotification *notification) {
 			dispatch_async(dispatch_get_main_queue(), ^{
-				if ([notification.target isFullScreen]) {
+				if ([[notification.target valueForKey:@"isFullScreen"] boolValue]) {
 					if (!blockSelf.sessionView.leftViewVisible) {
 						[blockSelf.sessionView toggleLeftView:blockSelf];
-						blockSelf->__toggledFileViewOnFullScreen = YES;
+						blockSelf.toggledFileViewOnFullScreen = YES;
 					}
-				} else if (blockSelf->__toggledFileViewOnFullScreen && blockSelf.sessionView.leftViewVisible) {
+				} else if (blockSelf.toggledFileViewOnFullScreen && blockSelf.sessionView.leftViewVisible) {
 					[blockSelf.sessionView toggleLeftView:blockSelf];
-					blockSelf->__toggledFileViewOnFullScreen = NO;
+					blockSelf.toggledFileViewOnFullScreen = NO;
 				}
 			});
 		}];
@@ -258,7 +258,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		}];
 		[self adjustExecuteButton];
 		[self.modeLabel setHidden:YES];
-		__didInit=YES;
+		self.didInit=YES;
 	}
 }
 
@@ -266,13 +266,13 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 {
 	NSToolbar *tbar = [NSApp valueForKeyPath:@"delegate.mainWindowController.window.toolbar"];
 	RCMacToolbarItem *ti = [tbar.items firstObjectWithValue:RCMToolbarItem_Add forKey:@"itemIdentifier"];
-	if (!__didFirstLoad) {
+	if (!self.didFirstLoad) {
 		if (newSuperview) {
 			RCSavedSession *savedState = self.session.savedSessionState;
 			[self restoreSessionState:savedState];
 			[ti pushActionMenu:self.addMenu];
 		}
-		__didFirstLoad=YES;
+		self.didFirstLoad=YES;
 	} else if (newSuperview == nil) {
 		[self saveSessionState:YES];
 		[self.audioEngine tearDownAudio];
@@ -290,14 +290,6 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 -(void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
 	[super viewWillMoveToWindow:newWindow];
-	if (!__didFirstWindow) {
-/*		if ((self.sessionView.leftViewVisible && !__fileListInitiallyVisible) ||
-			(!self.sessionView.leftViewVisible && __fileListInitiallyVisible))
-		{
-			[self.sessionView toggleLeftView:nil];
-		}
-*/		__didFirstWindow=YES;
-	}
 	if (nil == newWindow) {
 		for (MCVariableWindowController *wc in [self.variableWindows copy])
 			[wc close];
@@ -834,7 +826,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.sessionView restoreSessionState:savedState];
 	});
-	__fileListInitiallyVisible = [savedState boolPropertyForKey:@"fileListVisible"];
+	self.fileListInitiallyVisible = [savedState boolPropertyForKey:@"fileListVisible"];
 	self.session.showResultDetails = [savedState boolPropertyForKey:@"showDetailResults"];
 	self.selectedLeftViewIndex = [[savedState propertyForKey:@"selLeftViewIdx"] intValue];
 	[self adjustLeftViewButtonsToMatchState:YES];
@@ -846,7 +838,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	self.tbVarsButton.state = NSOffState;
 	self.tbUsersButton.state = NSOffState;
 	if (forTheFirstTime) {
-		if (__fileListInitiallyVisible) {
+		if (self.fileListInitiallyVisible) {
 			if (self.selectedLeftViewIndex == 0)
 				self.tbFilesButton.state = NSOnState;
 			else if (self.selectedLeftViewIndex == 1)
@@ -1219,10 +1211,10 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	return tattach;
 }
 
--(void)loadHelpURLs:(NSArray *)urls
+-(void)loadHelpURLs:(NSArray *)urls topic:(NSString *)helpTopic
 {
 	if (urls)
-		[self.outputController loadHelpURLs:urls];
+		[self.outputController loadHelpURLs:urls topic:helpTopic];
 	else //error message displayed, beep to alert user
 		NSBeep();
 }

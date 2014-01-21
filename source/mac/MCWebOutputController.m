@@ -267,7 +267,7 @@ const NSInteger kMaxFontSize = 32;
 		[self loadFileFromWebTmp:file];
 }
 
--(void)loadHelpURLs:(NSArray*)urls
+-(void)loadHelpURLs:(NSArray*)urls topic:(NSString*)helpTopic
 {
 	self.currentFile = nil;
 	if (urls.count > 1) {
@@ -280,22 +280,35 @@ const NSInteger kMaxFontSize = 32;
 			[displayValues addObject:[NSString stringWithFormat:@"%@ {%@}", funName, pkgName]];
 		}
 		MCHelpSheetController *ctrl = [[MCHelpSheetController alloc] init];
+		self.helpSheet = ctrl;
 		ctrl.urls = urls;
 		ctrl.topics = displayValues;
 		ctrl.handler = ^(MCHelpSheetController *bCtrl, NSURL *selUrl) {
 			[NSApp endSheet:bCtrl.window];
-			self.helpSheet = nil;
-			if (selUrl) {
-				[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:selUrl]];
-				[self animateToWebView];
-			}
+			if (selUrl)
+				[self displayHelp:selUrl topic:helpTopic];
+			RunAfterDelay(0.5, ^{
+				self.helpSheet = nil;
+			});
 		};
-		self.helpSheet = ctrl;
 		[NSApp beginSheet:ctrl.window modalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
 	} else {
-		[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:urls.firstObject]];
-		[self animateToWebView];
+		[self displayHelp:urls.firstObject topic:helpTopic];
 	}
+}
+
+-(void)displayHelp:(NSURL*)url topic:(NSString*)helpTopic
+{
+	NSURLRequest *req = [NSURLRequest requestWithURL:url];
+	[NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+	{
+		if ([(NSHTTPURLResponse*)response statusCode] > 399) {
+			[self appendAttributedString:[self.delegate.session noHelpFoundString:helpTopic]];
+		} else {
+			[self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:url]];
+			[self animateToWebView];
+		}
+	}];
 }
 
 -(NSArray*)imageGroupAtCharIndex:(NSInteger)charIndex

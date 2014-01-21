@@ -614,10 +614,10 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 				[helpUrls addObject:helpUrl];
 			}
 			if (helpUrls.count > 0) {
-				[self.delegate loadHelpURLs:helpUrls];
+				[self.delegate loadHelpURLs:helpUrls topic:helpstr];
 			} else {
-				[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"No help available for \"%@\"", helpstr] attributes:self.outputColors[kOutputColorKey_Help]]];
-				[self.delegate loadHelpURLs:nil]; //lets it handle per platform (i.e. beep on mac)
+				[self.delegate appendAttributedString:[self noHelpFoundString:helpstr]];
+				[self.delegate loadHelpURLs:nil topic:helpstr]; //lets it handle per platform (i.e. beep on mac)
 			}
 		} else if ([dict objectForKey:@"complexResults"]) {
 NSLog(@"complexResults!");
@@ -663,6 +663,11 @@ NSLog(@"complexResults!");
 }
 
 #pragma mark - data formatting
+
+-(NSAttributedString*)noHelpFoundString:(NSString*)helpTopic
+{
+	return [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"No help available for \"%@\"", helpTopic] attributes:self.outputColors[kOutputColorKey_Help]];
+}
 
 -(void)appendFiles:(NSArray*)fileInfo
 {

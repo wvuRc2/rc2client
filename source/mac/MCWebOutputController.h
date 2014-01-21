@@ -52,7 +52,7 @@
 -(void)connectionOpened;
 
 -(void)loadLocalFile:(RCFile*)file;
--(void)loadHelpURLs:(NSArray*)urls;
+-(void)loadHelpURLs:(NSArray*)urls topic:(NSString*)helpTopic;
 
 -(void)appendAttributedString:(NSAttributedString*)aString;
 

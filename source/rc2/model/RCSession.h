@@ -86,6 +86,9 @@ typedef void(^RCSessionListUpdateBlock)(RCList*);
 
 -(NSDictionary*)outputAttributesForKey:(NSString*)key;
 
+//necessary if a help URL gets a 404 when fetched
+-(NSAttributedString*)noHelpFoundString:(NSString*)helpTopic;
+
 //search file contents. handler passed array of dicts, keys are file and snippet
 -(void)searchFiles:(NSString*)searchString handler:(BasicBlock1Arg)searchHandler;
 
@@ -119,7 +122,7 @@ typedef void(^RCSessionListUpdateBlock)(RCList*);
 -(void)displayEditorFile:(RCFile*)file;
 -(void)displayOutputFile:(RCFile*)file;
 -(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted;
--(void)loadHelpURLs:(NSArray*)urls;
+-(void)loadHelpURLs:(NSArray*)urls topic:(NSString*)helpTopic;
 -(void)variablesUpdated;
 -(NSTextAttachment*)textAttachmentForImageId:(NSNumber*)imgId imageUrl:(NSString*)imgUrl;
 -(NSTextAttachment*)textAttachmentForFileId:(NSNumber*)fileId name:(NSString*)fileName fileType:(Rc2FileType*)fileType;

@@ -27,7 +27,7 @@
 -(IBAction)doExecute:(id)sender;
 -(IBAction)doBack:(id)sender;
 
--(void)loadHelpURLs:(NSArray*)urls;
+-(void)loadHelpURLs:(NSArray*)urls topic:(NSString*)helpTopic;
 -(void)loadLocalFile:(RCFile*)file;
 -(void)variablesUpdated;
 
