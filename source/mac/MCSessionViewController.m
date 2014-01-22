@@ -1615,6 +1615,11 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 			else
 				[bself.outputController doDecreaseFontSize:sender];
 		});
+		[(AMMacToolbarItem*)item setValidationBlock:^(AMMacToolbarItem *titem) {
+			NSSegmentedControl *bsegs = (NSSegmentedControl*)titem.view;
+			[bsegs setEnabled:bself.outputController.canIncreaseFontSize forSegment:0];
+			[bsegs setEnabled:bself.outputController.canDecreaseFontSize forSegment:1];
+		}];
 		NSImage *simg = [NSImage imageNamed:@"fontUp"];
 		simg.size = CGSizeMake(16, 16);
 		[segs setImage:simg forSegment:0];

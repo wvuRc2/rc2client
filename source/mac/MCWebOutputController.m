@@ -370,6 +370,7 @@ const NSInteger kMaxFontSize = 32;
 	} completionHandler:^{
 		[self.textView setHidden:YES];
 		self.consoleVisible = NO;
+		[self.view.window.toolbar validateVisibleItems];
 	}];
 }
 
@@ -388,6 +389,7 @@ const NSInteger kMaxFontSize = 32;
 		[self.webView setHidden:YES];
 		[self.webView.mainFrame loadHTMLString:@"" baseURL:nil];
 		self.consoleVisible = YES;
+		[self.view.window.toolbar validateVisibleItems];
 	}];
 	self.currentFile=nil;
 }
@@ -419,23 +421,31 @@ const NSInteger kMaxFontSize = 32;
 
 -(IBAction)doIncreaseFontSize:(id)sender
 {
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSInteger fntSize = [defs integerForKey:kPref_ConsoleFontSize];
-	fntSize++;
-	if (fntSize <= kMaxFontSize) {
-		[defs setInteger:fntSize forKey:kPref_ConsoleFontSize];
-		[self applyFontSize];
+	if (self.consoleVisible) {
+		NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+		NSInteger fntSize = [defs integerForKey:kPref_ConsoleFontSize];
+		fntSize++;
+		if (fntSize <= kMaxFontSize) {
+			[defs setInteger:fntSize forKey:kPref_ConsoleFontSize];
+			[self applyFontSize];
+		}
+	} else {
+		[self.webView makeTextLarger:sender];
 	}
 }
 
 -(IBAction)doDecreaseFontSize:(id)sender
 {
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSInteger fntSize = [defs integerForKey:kPref_ConsoleFontSize];
-	fntSize--;
-	if (fntSize >= kMinFontSize) {
-		[defs setInteger:fntSize forKey:kPref_ConsoleFontSize];
-		[self applyFontSize];
+	if (self.consoleVisible) {
+		NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+		NSInteger fntSize = [defs integerForKey:kPref_ConsoleFontSize];
+		fntSize--;
+		if (fntSize >= kMinFontSize) {
+			[defs setInteger:fntSize forKey:kPref_ConsoleFontSize];
+			[self applyFontSize];
+		}
+	} else {
+		[self.webView makeTextSmaller:sender];
 	}
 }
 
