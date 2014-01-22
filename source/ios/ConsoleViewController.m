@@ -6,6 +6,7 @@
 //  Copyright (c) 2011 University of West Virginia. All rights reserved.
 //
 
+#import <objc/runtime.h>
 #import "ConsoleViewController.h"
 #import "RCSession.h"
 #import "RCSavedSession.h"
@@ -21,7 +22,7 @@
 #import "ImagePreviewTransition.h"
 #import "ImagePreviewViewController.h"
 #import "ImageCollectionController.h"
-#import <objc/runtime.h>
+#import "CXAlertView.h"
 
 const CGFloat kAnimDuration = 0.5;
 
@@ -205,18 +206,63 @@ const CGFloat kAnimDuration = 0.5;
 	[self adjustInterface];
 }
 
--(void)loadHelpURLs:(NSArray*)urls topic:(NSString*)helpTopic
+-(void)loadHelpItems:(NSArray*)items topic:(NSString*)helpTopic
 {
 	if (self.viewIsAnimating) {
 		__weak ConsoleViewController *bself = self;
 		self.postAnimationBlock = ^{
-			[bself loadHelpURLs:urls topic:helpTopic];
+			[bself loadHelpItems:items topic:helpTopic];
 		};
 		return;
 	}
-	if (self.visibleOutputView != self.webView)
-		[self animateToWebview];
-	[self.webView loadRequest:[NSURLRequest requestWithURL:urls.firstObject]];
+	if (items.count == 0) {
+		//need to report error
+	} else if (items.count == 1) {
+		[self displayHelp:items[0][kHelpItemURL] topic:items[0][kHelpItemTitle]];
+	} else { //multiple
+		UITableView *table =  [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 300, 160) style:UITableViewStylePlain];
+		[table registerClass:[UITableViewCell class] forCellReuseIdentifier:@"helptable"];
+		AMGenericTableViewHandler *handler = [[AMGenericTableViewHandler alloc] initWithTableView:table];
+		handler.rowData = items;
+		handler.prepareCellBlock = ^(AMGenericTableViewHandler *thandler, UITableView *btable, NSIndexPath *indexPath) {
+			UITableViewCell *cell = [btable dequeueReusableCellWithIdentifier:@"helptable"];
+			cell.textLabel.text = thandler.rowData[indexPath.row][@"title"];
+			return cell;
+		};
+		table.separatorStyle = UITableViewCellSeparatorStyleNone;
+		__block CXAlertView *alert = [[CXAlertView alloc] initWithTitle:@"Select Help Topic" contentView:table cancelButtonTitle:@"Cancel"];
+		[alert addButtonWithTitle:@"Show" type:CXAlertViewButtonTypeDefault handler:^(CXAlertView *alertView, CXAlertButtonItem *button) {
+			[alertView dismiss];
+			NSIndexPath *ipath = handler.theTableView.indexPathForSelectedRow;
+			if (ipath)
+				[self displayHelp:items[ipath.row][kHelpItemURL] topic:items[ipath.row][kHelpItemTitle]];
+		}];
+		alert.showBlurBackground = YES;
+		alert.cancelButtonFont = alert.buttonFont;
+		//this is not really a retain cycle as the block is breaking the retain handler
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-retain-cycles"
+		alert.didDismissHandler = ^(CXAlertView *alertView) {
+			alert=nil;
+		};
+#pragma clang diagnostic pop
+		[alert show];
+	}
+}
+
+-(void)displayHelp:(NSURL*)url topic:(NSString*)helpTopic
+{
+	NSURLRequest *req = [NSURLRequest requestWithURL:url];
+	[NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+	 {
+		 if ([(NSHTTPURLResponse*)response statusCode] > 399) {
+			 [self appendAttributedString:[self.session noHelpFoundString:helpTopic]];
+		 } else {
+			 if (self.visibleOutputView != self.webView)
+				 [self animateToWebview];
+			 [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+		 }
+	 }];
 }
 
 -(void)loadLocalFile:(RCFile*)file

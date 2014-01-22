@@ -7,6 +7,7 @@
 //
 
 #import "MCHelpSheetController.h"
+#import "RCSession.h"
 
 @interface MCHelpSheetController () <NSTableViewDataSource, NSTableViewDelegate>
 @property (nonatomic, weak) IBOutlet NSTableView *topicTableView;
@@ -31,7 +32,7 @@
 -(IBAction)doDisplay:(id)sender
 {
 	[self.window orderOut:self];
-	self.handler(self, self.urls[self.selectedIndex]);
+	self.handler(self, self.helpItems[self.selectedIndex]);
 }
 
 -(IBAction)doCancel:(id)sender
@@ -42,12 +43,12 @@
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	return self.topics.count;
+	return self.helpItems.count;
 }
 
 -(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	return self.topics[row];
+	return self.helpItems[row][kHelpItemTitle];
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification

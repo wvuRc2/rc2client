@@ -267,38 +267,30 @@ const NSInteger kMaxFontSize = 32;
 		[self loadFileFromWebTmp:file];
 }
 
--(void)loadHelpURLs:(NSArray*)urls topic:(NSString*)helpTopic
+-(void)loadHelpItems:(NSArray*)items topic:(NSString*)helpTopic
 {
 	self.currentFile = nil;
-	if (urls.count > 1) {
-		NSMutableArray *displayValues = [NSMutableArray arrayWithCapacity:urls.count];
-		for (NSURL *anUrl in urls) {
-			NSArray *components = [[anUrl path] pathComponents];
-			NSString *funName = [components.lastObject stringByDeletingPathExtension];
-			ZAssert(components.count > 3, @"bad help url during title parse");
-			NSString *pkgName = components[components.count - 3];
-			[displayValues addObject:[NSString stringWithFormat:@"%@ {%@}", funName, pkgName]];
-		}
+	if (items.count > 1) {
 		MCHelpSheetController *ctrl = [[MCHelpSheetController alloc] init];
 		self.helpSheet = ctrl;
-		ctrl.urls = urls;
-		ctrl.topics = displayValues;
-		ctrl.handler = ^(MCHelpSheetController *bCtrl, NSURL *selUrl) {
+		ctrl.helpItems = items;
+		ctrl.handler = ^(MCHelpSheetController *bCtrl, NSDictionary *selItem) {
 			[NSApp endSheet:bCtrl.window];
-			if (selUrl)
-				[self displayHelp:selUrl topic:helpTopic];
+			if (selItem)
+				[self displayHelp:selItem topic:helpTopic];
 			RunAfterDelay(0.5, ^{
 				self.helpSheet = nil;
 			});
 		};
 		[NSApp beginSheet:ctrl.window modalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
 	} else {
-		[self displayHelp:urls.firstObject topic:helpTopic];
+		[self displayHelp:items.firstObject topic:helpTopic];
 	}
 }
 
--(void)displayHelp:(NSURL*)url topic:(NSString*)helpTopic
+-(void)displayHelp:(NSDictionary*)item topic:(NSString*)helpTopic
 {
+	NSURL *url = item[kHelpItemURL];
 	NSURLRequest *req = [NSURLRequest requestWithURL:url];
 	[NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
 	{

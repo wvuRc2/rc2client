@@ -34,6 +34,8 @@ extern NSString *const kOutputColorKey_Status;
 extern NSString *const kOutputColorKey_Error;
 extern NSString *const kOutputColorKey_Log;
 extern NSString *const kOutputColorKey_Note;
+extern NSString *const kHelpItemTitle;
+extern NSString *const kHelpItemURL;
 
 typedef NS_OPTIONS(NSUInteger, RCSessionExecuteOptions) {
 	RCSessionExecuteOptionNone,
@@ -122,7 +124,7 @@ typedef void(^RCSessionListUpdateBlock)(RCList*);
 -(void)displayEditorFile:(RCFile*)file;
 -(void)displayOutputFile:(RCFile*)file;
 -(void)workspaceFileUpdated:(RCFile*)file deleted:(BOOL)deleted;
--(void)loadHelpURLs:(NSArray*)urls topic:(NSString*)helpTopic;
+-(void)loadHelpItems:(NSArray*)items topic:(NSString*)helpTopic;
 -(void)variablesUpdated;
 -(NSTextAttachment*)textAttachmentForImageId:(NSNumber*)imgId imageUrl:(NSString*)imgUrl;
 -(NSTextAttachment*)textAttachmentForFileId:(NSNumber*)fileId name:(NSString*)fileName fileType:(Rc2FileType*)fileType;

@@ -561,10 +561,10 @@
 	[self.consoleController variablesUpdated];
 }
 
--(void)loadHelpURLs:(NSArray*)urls
+-(void)loadHelpItems:(NSArray*)items topic:(NSString *)helpTopic
 {
-	if (urls)
-		[self.consoleController loadHelpURLs:urls];
+	if (items)
+		[self.consoleController loadHelpItems:items topic:helpTopic];
 }
 
 -(void)processWebSocketMessage:(NSDictionary*)dict json:(NSString*)jsonString

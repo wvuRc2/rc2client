@@ -68,6 +68,8 @@ NSString *const kOutputColorKey_Status = @"OutputColor_Status";
 NSString *const kOutputColorKey_Error = @"OutputColor_Error";
 NSString *const kOutputColorKey_Log = @"OutputColor_Log";
 NSString *const kOutputColorKey_Note = @"OutputColor_Note";
+NSString *const kHelpItemTitle = @"title";
+NSString *const kHelpItemURL = @"url";
 
 @implementation RCSession
 
@@ -606,19 +608,7 @@ NSString *const kOutputColorKey_Note = @"OutputColor_Note";
 		[self handleVariableValue:dict];
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
-			NSString *helpstr = [NSString stringWithFormat:@"HELP: %@\n", dict[@"helpTopic"]];
-			NSMutableArray *helpUrls = [NSMutableArray array];
-			for (NSString *aPath in [dict objectForKey:@"helpPath"]) {
-				NSString *thePath = [aPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-				NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.stat.wvu.edu/rc2/%@.html", thePath]];
-				[helpUrls addObject:helpUrl];
-			}
-			if (helpUrls.count > 0) {
-				[self.delegate loadHelpURLs:helpUrls topic:helpstr];
-			} else {
-				[self.delegate appendAttributedString:[self noHelpFoundString:helpstr]];
-				[self.delegate loadHelpURLs:nil topic:helpstr]; //lets it handle per platform (i.e. beep on mac)
-			}
+			[self handleHelpResults:dict];
 		} else if ([dict objectForKey:@"complexResults"]) {
 NSLog(@"complexResults!");
 		} else if ([dict objectForKey:@"json"]) {
@@ -663,6 +653,30 @@ NSLog(@"complexResults!");
 }
 
 #pragma mark - data formatting
+
+-(void)handleHelpResults:(NSDictionary*)dict
+{
+	NSString *helpstr = [NSString stringWithFormat:@"HELP: %@\n", dict[@"helpTopic"]];
+	NSMutableArray *helpItems = [NSMutableArray array];
+	for (NSString *aPath in [dict objectForKey:@"helpPath"]) {
+		NSString *thePath = [aPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.stat.wvu.edu/rc2/%@.html", thePath]];
+
+		NSArray *components = [aPath pathComponents];
+		NSString *funName = [components.lastObject stringByDeletingPathExtension];
+		ZAssert(components.count > 3, @"bad help url during title parse");
+		NSString *pkgName = components[components.count - 3];
+		NSString *title = [NSString stringWithFormat:@"%@ {%@}", funName, pkgName];
+		
+		[helpItems addObject:@{kHelpItemURL:helpUrl, kHelpItemTitle:title}];
+	}
+	if (helpItems.count > 0) {
+		[self.delegate loadHelpItems:helpItems topic:helpstr];
+	} else {
+		[self.delegate appendAttributedString:[self noHelpFoundString:helpstr]];
+		[self.delegate loadHelpItems:nil topic:helpstr]; //lets it handle per platform (i.e. beep on mac)
+	}
+}
 
 -(NSAttributedString*)noHelpFoundString:(NSString*)helpTopic
 {

@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MCHelpSheetController : NSWindowController
-@property (nonatomic, copy) NSArray *urls;
-@property (nonatomic, copy) NSArray *topics;
-@property (nonatomic, copy) void (^handler)(MCHelpSheetController *controller, NSURL *selectedURL);
+@property (nonatomic, copy) NSArray *helpItems;
+@property (nonatomic, copy) void (^handler)(MCHelpSheetController *controller, NSDictionary *selItem);
 @end
