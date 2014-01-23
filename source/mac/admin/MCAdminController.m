@@ -8,12 +8,14 @@
 
 #import "MCAdminController.h"
 #import "MCUserAdminController.h"
+#import "MCCourseAdminController.h"
 
 @interface MCAdminController () <NSOutlineViewDataSource,NSOutlineViewDelegate>
 @property (nonatomic, weak) IBOutlet NSOutlineView *sourceList;
 @property (nonatomic, weak) IBOutlet NSView *detailView;
 @property (nonatomic, copy) NSArray *sourceItems;
 @property (nonatomic, strong) MCUserAdminController *userController;
+@property (nonatomic, strong) MCCourseAdminController *courseController;
 @end
 
 @implementation MCAdminController
@@ -63,15 +65,21 @@
 -(void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
 	NSView *view;
-	if (self.sourceList.selectedRow == 0) {
-		if (nil == self.userController)
-			self.userController = [[MCUserAdminController alloc] init];
-		view = self.userController.view;
+	switch (self.sourceList.selectedRow) {
+		case 0:
+			if (nil == self.userController)
+				self.userController = [[MCUserAdminController alloc] init];
+			view = self.userController.view;
+			break;
+		case 2:
+			if (nil == self.courseController)
+				self.courseController = [[MCCourseAdminController alloc] init];
+			view = self.courseController.view;
 	}
 	while (self.detailView.subviews.count > 0)
 		[self.detailView.subviews[0] removeFromSuperview];
 	if (view) {
-		[self.detailView addSubview:self.userController.view];
+		[self.detailView addSubview:view];
 		[self.detailView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(view)]];
 		[self.detailView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(view)]];
 	}

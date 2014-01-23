@@ -67,5 +67,9 @@
 	return nil != self.userId;
 }
 
+-(NSString*)fullName
+{
+	return [NSString stringWithFormat:@"%@, %@", self.lastname, self.firstname];
+}
 @end
 

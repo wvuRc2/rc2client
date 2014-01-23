@@ -1,5 +1,5 @@
 //
-//  RCMCourseAdminController.h
+//  MCCourseAdminController.h
 //  Rc2Client
 //
 //  Created by Mark Lilback on 5/13/13.
@@ -8,6 +8,6 @@
 
 #import "MCAbstractViewController.h"
 
-@interface RCMCourseAdminController : MCAbstractViewController
+@interface MCCourseAdminController : MCAbstractViewController
 
 @end

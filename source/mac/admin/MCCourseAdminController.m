@@ -1,16 +1,16 @@
 //
-//  RCMCourseAdminController.m
+//  MCCourseAdminController.m
 //  Rc2Client
 //
 //  Created by Mark Lilback on 5/13/13.
 //  Copyright (c) 2013 West Virginia University. All rights reserved.
 //
 
-#import "RCMCourseAdminController.h"
+#import "MCCourseAdminController.h"
 #import "Rc2Server.h"
 #import "MAKVONotificationCenter.h"
 
-@interface RCMCourseAdminController ()
+@interface MCCourseAdminController ()
 @property (nonatomic, copy) NSArray *semesters;
 @property (nonatomic, copy) NSArray *courses;
 @property (nonatomic, copy) NSArray *instances;
@@ -28,7 +28,7 @@
 -(void)fetchStudents;
 @end
 
-@implementation RCMCourseAdminController
+@implementation MCCourseAdminController
 
 -(id)init
 {
@@ -72,7 +72,7 @@
 	[self.requestLock lock];
 	NSString *rid = [NSString stringWithUUID];
 	self.requestId = rid;
-	__weak RCMCourseAdminController *bself = self;
+	__weak MCCourseAdminController *bself = self;
 	[[Rc2Server sharedInstance] searchUsers:@{@"type":@"all", @"value":_searchString} completionHandler:^(BOOL success, id results)
 	 {
 		 [bself.requestLock lock];

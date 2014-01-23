@@ -14,6 +14,7 @@
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, copy) NSString *firstname;
 @property (nonatomic, copy) NSString *lastname;
+@property (nonatomic, readonly) NSString *fullName;
 @property (nonatomic, copy) NSString *ldapLogin;
 @property (nonatomic, strong) NSNumber *ldapServerId;
 @property (nonatomic, copy) NSArray *roleIds;
