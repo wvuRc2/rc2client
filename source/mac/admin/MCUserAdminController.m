@@ -137,11 +137,8 @@
 -(IBAction)searchUsers:(id)sender
 {
 	NSString *ss = self.searchField.stringValue;
-	if (ss.length < 1) {
-		self.users = nil;
-		[self.resultsTable reloadData];
-		return;
-	}
+	if (nil == ss)
+		ss = @"";
 	NSString *type = @"name";
 	if (self.searchesEmails)
 		type = @"email";
