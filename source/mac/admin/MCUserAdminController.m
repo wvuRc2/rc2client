@@ -7,7 +7,7 @@
 //
 
 #import "MCUserAdminController.h"
-#import "RCMEditUserController.h"
+#import "MCEditUserController.h"
 #import "RCUser.h"
 #import "Rc2Server.h"
 #import <Vyana/AMBlockUtils.h>
@@ -21,7 +21,7 @@
 @property (nonatomic, strong) id lastSelectedUserRole;
 @property (nonatomic, copy) NSArray *users;
 @property (nonatomic, copy) NSArray *roles;
-@property (nonatomic, strong) RCMEditUserController *editController;
+@property (nonatomic, strong) MCEditUserController *editController;
 @property (nonatomic, strong) IBOutlet NSWindow *passwordWindow;
 @property (nonatomic, copy) NSString *passChange1;
 @property (nonatomic, copy) NSString *passChange2;
@@ -64,6 +64,8 @@
 		if (needUpdate)
 			[bself toggleRole:roleDict];
 	}];
+	self.resultsTable.doubleAction = @selector(editUser:);
+	self.resultsTable.target = self;
 }
 
 #pragma mark - meat & potatos
@@ -132,6 +134,11 @@
 	}];
 }
 
+-(void)completeEditUser:(RCUser*)user
+{
+	
+}
+
 #pragma mark - actions
 
 -(IBAction)searchUsers:(id)sender
@@ -182,7 +189,7 @@
 -(IBAction)addUser:(id)sender
 {
 	if (nil == self.editController) {
-		self.editController = [[RCMEditUserController alloc] init];
+		self.editController = [[MCEditUserController alloc] init];
 		[self.editController window];
 	}
 	self.editController.theUser = [[RCUser alloc] init];
@@ -235,6 +242,23 @@
 -(IBAction)performPasswordChange:(id)sender
 {
 	[NSApp endSheet:self.passwordWindow returnCode:1];
+}
+
+-(IBAction)editUser:(id)sender
+{
+	RCUser *user = [self.userController.arrangedObjects objectAtIndex:self.resultsTable.clickedRow];
+	if (nil == self.editController) {
+		self.editController = [[MCEditUserController alloc] init];
+		[self.editController window];
+	}
+	self.editController.theUser = user;
+	[NSApp beginSheet:self.editController.window modalForWindow:self.view.window
+	completionHandler:^(NSInteger returnCode)
+	 {
+		 [self.editController.window orderOut:self];
+		 if (NSOKButton == returnCode)
+			 [self completeEditUser:self.editController.theUser];
+	 }];
 }
 
 #pragma mark - table view

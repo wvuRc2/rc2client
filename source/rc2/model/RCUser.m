@@ -27,12 +27,14 @@
 	self = [super init];
 	self.origDict = dict;
 	self.userId = [dict objectForKey:@"id"];
-	self.login = [dict objectForKey:@"login"];
-	self.firstname = [dict objectForKey:@"firstname"];
-	self.lastname = [dict objectForKey:@"lastname"];
-	self.email = [dict objectForKey:@"email"];
-	self.ldapLogin = [dict objectForKey:@"ldaplogin"];
+	self.login = [dict objectForKeyWithNullAsNil:@"login"];
+	self.firstname = [dict objectForKeyWithNullAsNil:@"firstname"];
+	self.lastname = [dict objectForKeyWithNullAsNil:@"lastname"];
+	self.email = [dict objectForKeyWithNullAsNil:@"email"];
+	self.ldapLogin = [dict objectForKeyWithNullAsNil:@"ldaplogin"];
 	self.ldapServerId = [dict valueForKeyPath:@"ldapServer.id"];
+	if ([self.ldapServerId isEqual:[NSNull null]])
+		self.ldapServerId = nil;
 	self.isAdmin = [[dict objectForKey:@"isadmin"] boolValue];
 	self.roleIds = [dict objectForKey:@"roleIds"];
 	NSMutableArray *roleArray = [NSMutableArray arrayWithCapacity:allRoles.count];

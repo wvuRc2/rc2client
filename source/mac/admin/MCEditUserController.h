@@ -1,5 +1,5 @@
 //
-//  RCMEditUserController.h
+//  MCEditUserController.h
 //  MacClient
 //
 //  Created by Mark Lilback on 10/28/11.
@@ -10,7 +10,7 @@
 
 @class RCUser;
 
-@interface RCMEditUserController : NSWindowController
+@interface MCEditUserController : NSWindowController
 //only property caller needs to worry about. rest are IB-related
 @property (nonatomic, strong) RCUser *theUser;
 @property (nonatomic, readonly) NSString *selectedPassword;

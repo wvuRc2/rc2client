@@ -215,8 +215,8 @@
                         <constraint firstAttribute="width" constant="240" id="2X9-Oa-B01"/>
                         <constraint firstAttribute="height" constant="184" id="o2C-IR-OJn"/>
                     </constraints>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="55">
-                        <rect key="frame" x="1" y="1" width="0.0" height="16"/>
+                    <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="55">
+                        <rect key="frame" x="1" y="167" width="238" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="57">

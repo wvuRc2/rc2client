@@ -1,17 +1,17 @@
 //
-//  RCMEditUserController.m
+//  MCEditUserController.m
 //  MacClient
 //
 //  Created by Mark Lilback on 10/28/11.
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
-#import "RCMEditUserController.h"
+#import "MCEditUserController.h"
 #import "PasswordVerifier.h"
 #import "RCUser.h"
 #import "Rc2Server.h"
 
-@interface RCMEditUserController()
+@interface MCEditUserController()
 @property (nonatomic, strong) PasswordVerifier *passwordVerifier;
 @property (strong) NSArray *ldapServers;
 @property (nonatomic, strong) NSDictionary *selectedLdapServer;
@@ -31,11 +31,11 @@
 -(void)checkValidity;
 @end
 
-@implementation RCMEditUserController
+@implementation MCEditUserController
 
 -(id)init
 {
-	return [super initWithWindowNibName:@"RCMEditUserController"];
+	return [super initWithWindowNibName:@"MCEditUserController"];
 }
 
 -(void)windowDidLoad
@@ -69,8 +69,14 @@
 		v = NO;
 	else if (self.name.length < 2)
 		v = NO;
-	else if (self.ldapServerId != nil && self.ldapLogin.length < 2)
+	else if (self.useLdap && self.ldapServerId != nil && self.ldapLogin.length < 2)
 		v = NO;
+	if (self.theUser.existsOnServer) {
+		if (self.passwordVerifier.password1.length > 0 || self.passwordVerifier.password2.length > 0)
+			v = self.passwordVerifier.isValid;
+	} else if (!self.passwordVerifier.isValid) {
+		v = NO;
+	}
 	self.isValid = v;
 }
 
