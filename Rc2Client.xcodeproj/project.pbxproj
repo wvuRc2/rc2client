@@ -2550,7 +2550,6 @@
 				08B70533182C1E6800868E38 /* Link hockeysdk.bundle for archive build */,
 				08D2431C15B5D04D0064A9FA /* Frameworks */,
 				08D2431D15B5D04D0064A9FA /* Resources */,
-				08D2461015B5DF120064A9FA /* compile scss */,
 			);
 			buildRules = (
 			);
@@ -2570,8 +2569,8 @@
 				08D2461815B5EBC20064A9FA /* Sources */,
 				08D2461915B5EBC20064A9FA /* Frameworks */,
 				08D2461A15B5EBC20064A9FA /* Resources */,
-				084594E615B5F7C700297C9D /* compile css */,
 				084593D615B5F09F00297C9D /* Copy Frameworks */,
+				089C0D6C189193DE0046E8DF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2795,20 +2794,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		084594E615B5F7C700297C9D /* compile css */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "compile css";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /usr/bin/ruby;
-			shellScript = "require 'rubygems'\nrequire 'sass'\nsrcdir = ENV[\"SRCROOT\"]\nlibdir = \"#{srcdir}/resources/console/\"\nbuilddir = ENV[\"TARGET_BUILD_DIR\"]\nwrapper = ENV[\"WRAPPER_NAME\"]\n\nsass = Sass::Engine.for_file(\"#{libdir}/mac.scss\", {:load_paths => [libdir]})\noutput = sass.render\nFile.open(\"#{builddir}/#{wrapper}/Contents/Resources/console/console.css\", \"w\") do |os|\nos.puts(output)\nend\n";
-		};
 		084594E715B5F84700297C9D /* increment build number */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2837,6 +2822,19 @@
 			shellPath = /bin/sh;
 			shellScript = "if test \"${SRCROOT}/source/rc2/model/generated\" -ot \"${SRCROOT}/Rc2.xcdatamodeld\"\nthen\nFNAME=`/usr/libexec/PlistBuddy -c \"Print _XCCurrentVersionName\" ${SRCROOT}/Rc2.xcdatamodeld/.xccurrentversion`\n/usr/bin/mogenerator -m \"${SRCROOT}/Rc2.xcdatamodeld/$FNAME\" --template-path \"${SRCROOT}/modeltemplates\" -M \"${SRCROOT}/source/rc2/model/generated\" -H \"${SRCROOT}/source/rc2/model\" --use-pbx-vars --template-var arc=true\nfi";
 		};
+		089C0D6C189193DE0046E8DF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nIDENTITY=\"rc2sign\"\ncodesign --verbose --force --sign \"$IDENTITY\" \"$LOCATION/DropboxOSX.framework/Versions/A\"\ncodesign --verbose --force --sign \"$IDENTITY\" \"$LOCATION/ParseKit.framework/Versions/A\"\ncodesign --verbose --force --sign \"$IDENTITY\" \"$LOCATION/Vyana.framework/Versions/B\"";
+		};
 		08B70533182C1E6800868E38 /* Link hockeysdk.bundle for archive build */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -2863,20 +2861,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "R CMD INSTALL --no-multiarch $SRCROOT/../Rpackages/rc2";
-		};
-		08D2461015B5DF120064A9FA /* compile scss */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "compile scss";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /usr/bin/ruby;
-			shellScript = "require 'rubygems'\nrequire 'sass'\nsrcdir = ENV[\"SRCROOT\"]\nlibdir = \"#{srcdir}/resources/console/\"\nbuilddir = ENV[\"TARGET_BUILD_DIR\"]\nwrapper = ENV[\"WRAPPER_NAME\"]\n\nsass = Sass::Engine.for_file(\"#{libdir}/ipad.scss\", {:load_paths => [libdir]})\noutput = sass.render\nFile.open(\"#{builddir}/#{wrapper}/console/console.css\", \"w\") do |os|\nos.puts(output)\nend\n";
 		};
 		08D2461215B5DF820064A9FA /* generate model files */ = {
 			isa = PBXShellScriptBuildPhase;
