@@ -14,6 +14,7 @@
 #import "NSString+SBJSON.h"
 #import "NSObject+SBJSON.h"
 #endif
+#import "RCUser.h"
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
 #import "RCList.h"
@@ -435,7 +436,7 @@ NSString *const kHelpItemURL = @"url";
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:self.workspace];
 	if (nil == savedState) {
 		savedState = [RCSavedSession MR_createEntity];
-		savedState.login = [Rc2Server sharedInstance].currentLogin;
+		savedState.login = [Rc2Server sharedInstance].currentUser.login;
 		savedState.wspaceId = self.workspace.wspaceId;
 	}
 	return savedState;

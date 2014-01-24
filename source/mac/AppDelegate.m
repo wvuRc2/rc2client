@@ -16,6 +16,7 @@
 #import "RCSession.h"
 #import "RCWorkspace.h"
 #import "RCFile.h"
+#import "RCUser.h"
 #import "RCMacToolbarItem.h"
 #import "ThemeEngine.h"
 #import "BBEdit.h"
@@ -284,7 +285,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 -(void)handleSucessfulLogin
 {
 	self.loggedIn = YES;
-	[[NSUserDefaults standardUserDefaults] setObject:[Rc2Server sharedInstance].currentLogin forKey:kPref_LastLoginString];
+	[[NSUserDefaults standardUserDefaults] setObject:[Rc2Server sharedInstance].currentUser.login forKey:kPref_LastLoginString];
 	self.mainWindowController = [[MCMainWindowController alloc] init];
 	[self.mainWindowController.window makeKeyAndOrderFront:self];
 	[[NSNotificationCenter defaultCenter] addObserver:self 

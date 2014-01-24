@@ -35,9 +35,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 @interface Rc2Server()
 @property (nonatomic, strong, readwrite) AFHTTPClient *httpClient;
 @property (nonatomic, assign, readwrite) BOOL loggedIn;
-@property (nonatomic, copy, readwrite) NSString *currentLogin;
-@property (nonatomic, readwrite) BOOL isAdmin;
-@property (nonatomic, strong, readwrite) NSNumber *currentUserId;
+@property (nonatomic, strong, readwrite) RCUser *currentUser;
 @property (nonatomic, copy, readwrite) NSArray *projects;
 @property (nonatomic, strong) NSMutableDictionary *cachedData;
 @property (nonatomic, strong) NSMutableDictionary *cachedDataTimestamps;
@@ -109,11 +107,12 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 
 -(NSString*)connectionDescription
 {
+	NSString *login = self.currentUser.login;
 	if (eRc2Host_Rc2 == self.serverHost)
-		return self.currentLogin;
+		return login;
 	if (eRc2Host_Barney == self.serverHost)
-		return [NSString stringWithFormat:@"%@@barney", self.currentLogin];
-	return [NSString stringWithFormat:@"%@@local", self.currentLogin];
+		return [NSString stringWithFormat:@"%@@barney", login];
+	return [NSString stringWithFormat:@"%@@local", login];
 }
 
 -(void)setServerHost:(NSInteger)sh
@@ -322,7 +321,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace
 {
 	return [RCSavedSession MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"wspaceId = %@ and login like %@",
-													  workspace.wspaceId, self.currentLogin]];
+													  workspace.wspaceId, self.currentUser.login]];
 }
 
 -(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId
@@ -895,10 +894,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 		//set to use json for everything else
 		_httpClient.parameterEncoding = AFJSONParameterEncoding;
 		//success
-		self.currentLogin=user;
-		self.currentUserId = [rsp objectForKey:@"userid"];
-		self.isAdmin = [[rsp objectForKey:@"isAdmin"] boolValue];
-		self.userSettings = [rsp objectForKey:@"settings"];
+		self.currentUser = [[RCUser alloc] initWithDictionary:rsp[@"user"] allRoles:rsp[@"roles"]];
 		[self.cachedData setObject:[rsp objectForKey:@"permissions"] forKey:@"permissions"];
 		[self.cachedData setObjectIgnoringNil:[rsp objectForKey:@"ldapServers"] forKey:@"ldapServers"];
 		[self.cachedData setObject:[RCCourse classesFromJSONArray:[rsp objectForKey:@"classes"]] forKey:@"classesTaught"];
@@ -945,7 +941,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(void)logout
 {
 	self.loggedIn=NO;
-	self.currentLogin=nil;
+	self.currentUser=nil;
 	self.remoteLogger.logHost=nil;
 	self.projects = nil;
 	[self.cachedData removeAllObjects];
@@ -1018,4 +1014,8 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	return rcpts;
 }
 
+-(BOOL)isAdmin
+{
+	return self.currentUser.isAdmin;
+}
 @end

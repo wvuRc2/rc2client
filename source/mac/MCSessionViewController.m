@@ -306,6 +306,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		self.statusMessage = @"Connecting to server…";
 		[self prepareForSession];
 	}
+	[self.sessionView setNeedsLayout:YES]; //there was a display glitch when compiled on mavericks. this fixes it.
 }
 
 -(BOOL)usesToolbar { return YES; }

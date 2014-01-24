@@ -14,6 +14,7 @@
 #import "Rc2Server.h"
 #import "RCWorkspace.h"
 #import "DropboxFolderSelectController.h"
+#import "RCUser.h"
 
 enum { eTree_Theme, eTree_Keyboard };
 
@@ -65,11 +66,11 @@ enum { eTree_Theme, eTree_Keyboard };
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	NSDictionary *settings = [[Rc2Server sharedInstance] userSettings];
-	self.emailField.text = [settings objectForKey:@"email"];
-	self.smsField.text = [settings objectForKey:@"smsphone"];
-	self.twitterField.text = [settings objectForKey:@"twitter"];
-	self.emailNoteSwitch.on = [[settings objectForKey:@"noteByEmail"] boolValue];
+	RCUser *user = [[Rc2Server sharedInstance] currentUser];
+	self.emailField.text = user.email;
+	self.smsField.text = user.smsphone;
+	self.twitterField.text = user.twitter;
+	self.emailNoteSwitch.on = user.notesByEmail;
 	ThemeEngine *te = [ThemeEngine sharedInstance];
 	Theme *curTheme = te.currentTheme;
 	self.themeLabel.text = curTheme.name;
@@ -178,17 +179,17 @@ enum { eTree_Theme, eTree_Keyboard };
 	if (textField == self.twitterField) {
 		[self updateUserSetting:@"twitter" withValue:textField.text success:^(NSInteger status) {
 			if (status != 0)
-				textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"twitter"];
+				textField.text = [Rc2Server sharedInstance].currentUser.twitter;
 		}];
 	} else if (textField == self.smsField) {
 		[self updateUserSetting:@"smsphone" withValue:textField.text success:^(NSInteger status) {
 			if (status != 0)
-				textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"smsphone"];
+				textField.text = [Rc2Server sharedInstance].currentUser.smsphone;
 		}];
 	} else if (textField == self.emailField) {
 		[self updateUserSetting:@"email" withValue:textField.text success:^(NSInteger status) {
 			if (status != 0)
-				textField.text = [[Rc2Server sharedInstance].userSettings objectForKey:@"email"];
+				textField.text = [Rc2Server sharedInstance].currentUser.email;
 		}];
 	}
 	return NO;

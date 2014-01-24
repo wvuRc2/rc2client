@@ -17,8 +17,11 @@
 @property (nonatomic, readonly) NSString *fullName;
 @property (nonatomic, copy) NSString *ldapLogin;
 @property (nonatomic, strong) NSNumber *ldapServerId;
+@property (nonatomic, copy) NSString *smsphone;
+@property (nonatomic, copy) NSString *twitter;
 @property (nonatomic, copy) NSArray *roleIds;
 @property (nonatomic, copy) NSArray *roles;
+@property (nonatomic, assign) BOOL notesByEmail;
 @property (nonatomic, readonly) BOOL isDirty;
 @property (nonatomic, readonly) BOOL existsOnServer;
 @property (nonatomic) BOOL isAdmin;

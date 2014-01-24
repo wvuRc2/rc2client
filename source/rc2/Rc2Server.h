@@ -53,9 +53,7 @@ extern NSString * const FileDeletedNotification;
 @property (weak, nonatomic, readonly) NSString *userAgentString;
 @property (nonatomic, assign) NSInteger serverHost;
 @property (nonatomic, assign, readonly) BOOL loggedIn;
-@property (nonatomic, copy, readonly) NSString *currentLogin;
-@property (nonatomic, strong, readonly) NSNumber *currentUserId;
-@property (nonatomic, copy) NSDictionary *userSettings;
+@property (nonatomic, strong, readonly) RCUser *currentUser;
 @property (nonatomic, readonly) NSString *connectionDescription; //login name plus host if host is not rc2
 @property (nonatomic, readonly) BOOL isAdmin;
 @property (nonatomic, copy, readonly) NSArray *projects;

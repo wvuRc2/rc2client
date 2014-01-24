@@ -35,9 +35,10 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 +(NSArray*)projectsForJsonArray:(NSArray*)jsonArray includeAdmin:(BOOL)admin
 {
 	NSMutableArray *a = [NSMutableArray arrayWithCapacity:jsonArray.count + 1];
-	if (admin) {
+#if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
+	if (admin)
 		[a addObject:[[RCProject alloc] initWithDictionary:@{@"name":@"Admin",@"id":@-2,@"type":@"admin"}]];
-	}
+#endif
 	for (NSDictionary *d in jsonArray)
 		[a addObject:[[RCProject alloc] initWithDictionary:d]];
 	[a sortUsingDescriptors:[RCProject projectSortDescriptors]];
