@@ -10,6 +10,7 @@
 #import "RCSyntaxParser.h"
 #import "RCCodeHighlighterR.h"
 #import "Rc2FileType.h"
+#import "Rc2AppConstants.h"
 
 @interface SyntaxParserTests : XCTestCase
 
@@ -32,9 +33,14 @@
 - (void)testRHighlighter
 {
 	RCCodeHighlighterR *rhigh = [[RCCodeHighlighterR alloc] init];
+	rhigh.colorMap = @{kPref_SyntaxColor_Keyword:[NSColor blueColor]};
 	XCTAssertNoThrow([rhigh highlightText:nil range:NSMakeRange(0, 24)], @"failed with nil text");
 	NSMutableAttributedString *mstr = [NSMutableAttributedString attributedStringWithString:@"" attributes:nil];
 	XCTAssertNoThrow([rhigh highlightText:mstr range:NSMakeRange(0, mstr.length)], @"failed empty string");
+	[mstr appendString:@"plot(rnorm(22))"];
+	[rhigh highlightText:mstr range:NSMakeRange(0, mstr.length)];
+	NSRange matchRange;
+	XCTAssertNotNil([mstr attribute:NSForegroundColorAttributeName atIndex:1 effectiveRange:&matchRange], @"failed to get color for plot");
 }
 
 @end

@@ -3797,7 +3797,7 @@
 		08D248CD176A498A00D71F02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3822,7 +3822,7 @@
 		08D248CE176A498A00D71F02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3847,7 +3847,7 @@
 		08D248CF176A498A00D71F02 /* Archive */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;

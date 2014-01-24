@@ -28,7 +28,7 @@
 	NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:self.testJson options:0 error:&err];
 	XCTAssertNotNil(jsonDict, @"failed to parse test json:%@", err);
 	NSArray *projects = [RCProject projectsForJsonArray:[jsonDict objectForKey:@"projects"] includeAdmin:NO];
-	XCTAssertTrue(projects.count == 1, @"inaccruate number of projects:%d", projects.count);
+	XCTAssertTrue(projects.count == 1, @"inaccruate number of projects:%ld", (long)projects.count);
 	XCTAssertEqualObjects(@"Cornocopia", [projects[0] name], @"incorrect project name");
 }
 
