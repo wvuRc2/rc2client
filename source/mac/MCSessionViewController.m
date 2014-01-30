@@ -103,9 +103,6 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 }
 @property (nonatomic, strong) IBOutlet RCMTableView *varTableView;
 @property (nonatomic, strong) IBOutlet NSButton *backButton;
-@property (nonatomic, weak) IBOutlet NSButton *tbFilesButton;
-@property (nonatomic, weak) IBOutlet NSButton *tbVarsButton;
-@property (nonatomic, weak) IBOutlet NSButton *tbUsersButton;
 @property (nonatomic, weak) IBOutlet NSPopUpButton *fileActionPopUp;
 @property (nonatomic, strong) IBOutlet NSView *importAccessoryView;
 @property (nonatomic, strong) NSRegularExpression *jsQuiteRExp;
@@ -117,6 +114,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 @property (nonatomic, strong) RCFile *editorFile;
 @property (nonatomic, strong) NSPopover *imagePopover;
 @property (nonatomic, strong) RCMImageViewer *imageController;
+@property (nonatomic, strong) NSSegmentedControl *leftViewSegments;
 @property (nonatomic, strong) NSArray *users;
 @property (nonatomic, strong) NSNumber *fileIdJustImported;
 @property (nonatomic, strong) RCAudioChatEngine *audioEngine;
@@ -358,19 +356,8 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		return selFile.isTextFile && ![self.editView.string isEqualToString:selFile.currentContents];
 	} else if (action == @selector(revert:)) {
 		return selFile.isTextFile && selFile.locallyModified;
-	} else if (action == @selector(toggleUsers:)) {
-		return YES;
 	} else if (action == @selector(changeMode:)) {
 		return self.session.currentUser.master;
-	} else if (action == @selector(toggleFiles:)) {
-		if (self.selectedLeftViewIndex == 0)
-			return NO;
-	} else if (action == @selector(toggleVariables:)) {
-		if (self.selectedLeftViewIndex == 1)
-			return NO;
-	} else if (action == @selector(toggleUsers:)) {
-		if (self.selectedLeftViewIndex == 2)
-			return NO;
 	} else if (action == @selector(contextualHelp:)) {
 		return YES;
 	} else if (action == @selector(restartR:)) {
@@ -425,49 +412,6 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 {
 	[self.sessionView toggleLeftView:sender];
 }
-
--(IBAction)toggleFiles:(id)sender
-{
-	[self tbTabButtonPressed:self.tbFilesButton];
-}
-
--(IBAction)toggleUsers:(id)sender
-{
-	[self tbTabButtonPressed:self.tbUsersButton];
-}
-
--(IBAction)toggleVariables:(id)sender
-{
-	[self tbTabButtonPressed:self.tbVarsButton];
-}
-
--(IBAction)tbTabButtonPressed:(NSButton*)sender
-{ /*
-	if (sender == self.tbFilesButton) {
-		self.tbVarsButton.state = NSOffState;
-		self.tbUsersButton.state = NSOffState;
-		if (sender.state == NSOnState)
-			self.selectedLeftViewIndex = 0;
-		else
-			[self.sessionView toggleLeftView:sender];
-	} else if (sender == self.tbVarsButton) {
-		self.tbUsersButton.state = NSOffState;
-		self.tbFilesButton.state = NSOffState;
-		if (sender.state == NSOnState)
-			self.selectedLeftViewIndex = 1;
-		else
-			[self.sessionView toggleLeftView:sender];
-	} else if (sender == self.tbUsersButton) {
-		self.tbVarsButton.state = NSOffState;
-		self.tbFilesButton.state = NSOffState;
-		if (sender.state)
-			self.selectedLeftViewIndex = 2;
-		else
-			[self.sessionView toggleLeftView:sender];
-	}
-	if (sender.state == NSOnState && !self.sessionView.leftViewVisible)
-		[self.sessionView toggleLeftView:sender];
-*/}
 
 -(IBAction)leftSegmentSelected:(id)sender
 {
@@ -830,32 +774,20 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	self.fileListInitiallyVisible = [savedState boolPropertyForKey:@"fileListVisible"];
 	self.session.showResultDetails = [savedState boolPropertyForKey:@"showDetailResults"];
 	self.selectedLeftViewIndex = [[savedState propertyForKey:@"selLeftViewIdx"] intValue];
-	[self adjustLeftViewButtonsToMatchState:YES];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self adjustLeftViewButtonsToMatchState:YES];
+	});
 }
 
 -(void)adjustLeftViewButtonsToMatchState:(BOOL)forTheFirstTime
 {
-	self.tbFilesButton.state = NSOffState;
-	self.tbVarsButton.state = NSOffState;
-	self.tbUsersButton.state = NSOffState;
-	if (forTheFirstTime) {
-		if (self.fileListInitiallyVisible) {
-			if (self.selectedLeftViewIndex == 0)
-				self.tbFilesButton.state = NSOnState;
-			else if (self.selectedLeftViewIndex == 1)
-				self.tbVarsButton.state = NSOnState;
-			else
-				self.tbUsersButton.state = NSOnState;
-		}
+	BOOL testValue = forTheFirstTime ? self.fileListInitiallyVisible : self.sessionView.leftViewVisible;
+	if (testValue) {
+		self.leftViewSegments.selectedSegment = self.selectedLeftViewIndex;
 	} else {
-		if (self.sessionView.leftViewVisible) {
-			if (self.selectedLeftViewIndex == 0)
-				self.tbFilesButton.state = NSOnState;
-			else if (self.selectedLeftViewIndex == 1)
-				self.tbVarsButton.state = NSOnState;
-			else
-				self.tbUsersButton.state = NSOnState;
-		}
+		[self.leftViewSegments setSelected:NO forSegment:0];
+		[self.leftViewSegments setSelected:NO forSegment:1];
+		[self.leftViewSegments setSelected:NO forSegment:2];
 	}
 }
 
@@ -1571,6 +1503,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		[segs.cell setToolTip:@"Users" forSegment:2];
 		item = [[NSToolbarItem alloc] initWithItemIdentifier:@"leftside"];
 		item.view = segs;
+		self.leftViewSegments = segs;
 	} else if ([itemIdentifier isEqualToString:@"hand"]) {
 		item = [self toolbarButtonWithIdentifier:@"hand" imgName:@"hand-grey" width:0];
 		item.view.toolTip = @"Raise/Lower Hand";
