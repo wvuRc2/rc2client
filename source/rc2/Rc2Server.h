@@ -154,6 +154,7 @@ extern NSString * const FileDeletedNotification;
 -(void)addPermission:(NSNumber*)permId toRole:(NSNumber*)roleId completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)searchUsers:(NSDictionary*)args completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)addUser:(RCUser*)user password:(NSString*)password completionHandler:(Rc2FetchCompletionHandler)handler;
+-(void)importUsers:(NSURL*)fileUrl completionHandler:(Rc2FetchCompletionHandler)handler;
 -(void)toggleRole:(NSNumber*)roleId user:(NSNumber*)userId
 	completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)fetchCourses:(Rc2FetchCompletionHandler)hblock;

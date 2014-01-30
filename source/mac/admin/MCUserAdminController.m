@@ -139,7 +139,46 @@
 	
 }
 
+-(void)handleFileImport:(NSURL*)fileUrl
+{
+	self.busy = YES;
+	self.statusMessage = @"Importing Users";
+	[[Rc2Server sharedInstance] importUsers:fileUrl completionHandler:^(BOOL success, id results) {
+		if (success) {
+			self.statusMessage = @"Import Complete";
+			NSArray *matches = [results objectForKey:@"users"];
+			NSMutableArray *a = [NSMutableArray arrayWithCapacity:[matches count]];
+			for (NSDictionary *dict in matches)
+				[a addObject:[[RCUser alloc] initWithDictionary:dict allRoles:self.roles]];
+			self.users = a;
+			[self.resultsTable reloadData];
+		} else {
+			//show error message on main queue
+			dispatch_async(dispatch_get_main_queue(), ^{
+				NSAlert *alert = [NSAlert alertWithMessageText:@"Import Failed" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", results];
+				[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+				}];
+			});
+		}
+		self.busy = NO;
+	}];
+}
+
 #pragma mark - actions
+
+-(IBAction)promptForImport:(id)sender
+{
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	openPanel.prompt = NSLocalizedString(@"Import", @"");
+	[openPanel setAllowedFileTypes:@[@"txt",@"tab"]];
+	[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
+		[openPanel orderOut:nil];
+		if (NSFileHandlingPanelCancelButton == result)
+			return;
+		[self handleFileImport:[[openPanel URLs] firstObject]];
+	}];
+	
+}
 
 -(IBAction)searchUsers:(id)sender
 {

@@ -831,6 +831,31 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	}];
 }
 
+-(void)importUsers:(NSURL*)fileUrl completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"POST" path:@"admin/user" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> fdata)
+	{
+		NSError *err=nil;
+		if (![fdata appendPartWithFileURL:fileUrl name:@"contents" error:&err]) {
+			Rc2LogError(@"failed to append file to upload request:%@", err);
+			hblock(NO, [err localizedDescription]);
+		}
+	}];
+	[req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
+		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
+			hblock(YES, rsp);
+		} else {
+			Rc2LogWarn(@"status != 0 for user import:%@", [rsp objectForKey:@"message"]);
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		Rc2LogError(@"error importing users:%@", error);
+	}];
+	[_httpClient enqueueHTTPRequestOperation:op];
+	
+}
+
 -(void)fetchCourses:(Rc2FetchCompletionHandler)hblock
 {
 	return [self genericGetRequest:@"courses" parameters:nil handler:hblock];

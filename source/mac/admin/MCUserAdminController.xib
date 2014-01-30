@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="RCMUserAdminController">
+        <customObject id="-2" userLabel="File's Owner" customClass="MCUserAdminController">
             <connections>
                 <outlet property="detailController" destination="49" id="50"/>
                 <outlet property="passwordWindow" destination="78" id="92"/>
@@ -215,7 +215,7 @@
                         <constraint firstAttribute="width" constant="240" id="2X9-Oa-B01"/>
                         <constraint firstAttribute="height" constant="184" id="o2C-IR-OJn"/>
                     </constraints>
-                    <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="55">
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="55">
                         <rect key="frame" x="1" y="167" width="238" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
@@ -238,6 +238,17 @@
                     <connections>
                         <action selector="changePassword:" target="-2" id="74"/>
                         <binding destination="42" name="enabled" keyPath="canRemove" id="77"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ifF-ig-HbZ">
+                    <rect key="frame" x="571" y="273" width="49" height="23"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="smallSquare" title="Import" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3gZ-4L-qHC">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="promptForImport:" target="-2" id="nuX-Yi-XK2"/>
                     </connections>
                 </button>
             </subviews>
