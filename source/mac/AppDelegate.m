@@ -241,7 +241,6 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
 	NSTimeInterval elapsed = now - self.lastEventTime;
 	if (elapsed > kMinIdleTimeBeforeAction) {
-		Rc2LogInfo(@"idle timer triggered");
 		[[NSNotificationCenter defaultCenter] postNotificationName:RC2IdleTimerFiredNotification object:self];
 		[self autoSaveChanges];
 		self.lastEventTime = now;
@@ -320,7 +319,6 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 		NSManagedObjectContext *moc = [NSManagedObjectContext MR_defaultContext];
 		if (moc.hasChanges) {
 			[moc MR_saveToPersistentStoreAndWait];
-			Rc2LogInfo(@"saved persistent store");
 		}
 		self.lastSaveTime = now;
 	}

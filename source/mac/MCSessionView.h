@@ -26,4 +26,7 @@
 
 -(void)saveSessionState:(RCSavedSession*)sessionState;
 -(void)restoreSessionState:(RCSavedSession*)savedState;
+
+//manually force an adjustment
+-(void)adjustViewSizes;
 @end

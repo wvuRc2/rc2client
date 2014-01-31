@@ -304,7 +304,10 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		self.statusMessage = @"Connecting to server…";
 		[self prepareForSession];
 	}
-	[self.sessionView setNeedsLayout:YES]; //there was a display glitch when compiled on mavericks. this fixes it.
+	//FIXME: this is a hack. should be able to do it w/o a delay
+	RunAfterDelay(0.1, ^{
+		[self.sessionView adjustViewSizes];
+	});
 }
 
 -(BOOL)usesToolbar { return YES; }
@@ -755,7 +758,6 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		[savedState setProperty:windict forKey:@"variableWindows"];
 	}
 	[self.sessionView saveSessionState:savedState];
-	Rc2LogInfo(@"saved session state");
 	if (saveToStore)
 		[savedState.managedObjectContext MR_saveToPersistentStoreAndWait];
 }

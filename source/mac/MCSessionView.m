@@ -8,8 +8,11 @@
 
 #import "MCSessionView.h"
 #import "RCSavedSession.h"
+#import "MAKVONotificationCenter.h"
 
 const CGFloat kFrameWidth = 214;
+const CGFloat kDefaultSplitPercent = 0.5;
+NSString * const kAnimationKey = @"SessionAnimation";
 
 @interface MacSessionEditView : NSView
 @end
@@ -22,7 +25,9 @@ const CGFloat kFrameWidth = 214;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *editorWidthConstraint;
 @property (nonatomic, weak) IBOutlet MacSessionSplitter *splitterView;
 @property (nonatomic, strong) NSTrackingArea *dragTrackingArea;
-@property (nonatomic, readwrite) BOOL editorWidthLocked;
+@property (nonatomic, readwrite) BOOL editorWidthLocked, leftViewAnimating;
+@property (nonatomic) CGFloat splitterPercent;
+@property (nonatomic) NSTimeInterval leftAnimLastUpdateTime;
 @end
 
 @implementation MCSessionView {
@@ -31,6 +36,7 @@ const CGFloat kFrameWidth = 214;
 - (id)init
 {
 	if ((self = [super init])) {
+		self.splitterPercent = kDefaultSplitPercent;
 	}
 	return self;
 }
@@ -40,9 +46,6 @@ const CGFloat kFrameWidth = 214;
 	[super awakeFromNib];
 	self.editorWidthConstraint.priority = NSLayoutPriorityDragThatCannotResizeWindow;
 	self.editorWidthConstraint.constant = 400;
-	CABasicAnimation *anim = [CABasicAnimation animation];
-	anim.delegate = self;
-	[self.leftXConstraint setAnimations:@{@"constant": anim}];
 }
 
 -(BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -56,17 +59,20 @@ const CGFloat kFrameWidth = 214;
 
 -(void)saveSessionState:(RCSavedSession*)sessionState
 {
-	CGFloat fullWidth = _outputView.frame.size.width + _editorView.frame.size.width;
-	CGFloat splitPer = _editorView.frame.size.width / fullWidth;
-	[sessionState setProperty:@(splitPer) forKey:@"editorWidthPercent"];
+	[sessionState setProperty:@(self.splitterPercent) forKey:@"editorWidthPercent"];
 }
 
 -(void)restoreSessionState:(RCSavedSession*)savedState
 {
 	BOOL showLeft = [savedState boolPropertyForKey:@"fileListVisible"];
 	CGFloat splitPer = [[savedState propertyForKey:@"editorWidthPercent"] doubleValue];
+	if (splitPer < .1 || splitPer > .9) {
+		splitPer = kDefaultSplitPercent;
+		self.splitterPercent = splitPer;
+	}
 	CGFloat fullWidth = _outputView.frame.size.width + _editorView.frame.size.width;
 	CGFloat ew = fullWidth * splitPer;
+	self.splitterPercent = splitPer;
 	if (!showLeft) {
 		[self.leftXConstraint setConstant:-kFrameWidth];
 		ew += kFrameWidth/2;
@@ -76,25 +82,43 @@ const CGFloat kFrameWidth = 214;
 	self.editorWidthConstraint.constant = ew;
 }
 
--(void)resizeSubviewsWithOldSize:(NSSize)oldSize
+-(void)adjustViewSizes
 {
-	if (self.editorWidthLocked) {
-		[super resizeSubviewsWithOldSize:oldSize];
-		return;
-	}
-	//compute proportion of editor width to output width
-	CGFloat origEditorWidth = _editorView.frame.size.width;
-	CGFloat splitPercent = _editorView.frame.size.width / (_editorView.frame.size.width + _outputView.frame.size.width);
-	CGFloat editorX = _editorView.frame.origin.x;
-	[super resizeSubviewsWithOldSize:oldSize];
-	CGFloat newTotalWidth = _editorView.frame.size.width + _outputView.frame.size.width;
-	CGFloat newEditorWidth = splitPercent * newTotalWidth;
-	CGFloat editorWidthDelta = newEditorWidth - origEditorWidth;
-//	NSLog(@"per=%1f, delta=%1f", splitPercent, editorWidthDelta);
-	self.editorWidthConstraint.constant = self.editorWidthConstraint.constant + editorWidthDelta;
+	[self adjustEditorWidth:self.splitterView.frame.origin.x - NSMinX(self.editorView.frame) + 1];
+	[self.outputView setNeedsUpdateConstraints:YES];
 }
 
--(void)mouseDown:(NSEvent *)evt
+-(CGFloat)computeEditorWidth
+{
+	CGFloat leftWidth = _leftView.frame.origin.x + kFrameWidth;
+	CGFloat splittableWidth = self.frame.size.width - leftWidth - _splitterView.frame.size.width;
+	CGFloat editWidth = splittableWidth * self.splitterPercent;
+//	NSLog(@"lx=%1.0f, lw=%1.0f, sw=%1.0f, ew=%1.0f, sp=%1.2f", _leftView.frame.origin.x, leftWidth, splittableWidth, editWidth, self.splitterPercent);
+	return editWidth;
+}
+
+-(void)resizeSubviewsWithOldSize:(NSSize)oldSize
+{
+	[super resizeSubviewsWithOldSize:oldSize];
+
+	if (self.editorWidthLocked || _dragging || self.leftViewAnimating)
+		return;
+
+	CGFloat editWidth = [self computeEditorWidth];
+	
+	if (self.window.inLiveResize) {
+		CGFloat delta = self.frame.size.width - oldSize.width;
+		if (delta >= 1) {
+			CGFloat editWidth = _editorView.frame.size.width + (delta / 2);
+			//don't want animation
+			self.editorWidthConstraint.constant = editWidth;
+		}
+	} else {
+		[self adjustEditorWidth:editWidth];
+	}
+}
+
+-(void)mouseDown:(NSEvent*)evt
 {
 	NSPoint loc = [self convertPoint:evt.locationInWindow fromView:nil];
 	NSRect f = NSInsetRect(self.splitterView.frame, -2, 0);
@@ -123,6 +147,7 @@ const CGFloat kFrameWidth = 214;
 		_dragging = NO;
 		[self removeTrackingArea:self.dragTrackingArea];
 		self.dragTrackingArea=nil;
+		self.splitterPercent = _editorView.frame.size.width / (_editorView.frame.size.width + _outputView.frame.size.width);
 	}
 }
 
@@ -139,18 +164,25 @@ const CGFloat kFrameWidth = 214;
 	[self.outputView addSubview:newView];
 	[self addConstraint:[NSLayoutConstraint constraintWithItem:newView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.outputView attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
 	[self addConstraint:[NSLayoutConstraint constraintWithItem:newView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.outputView attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[newView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(newView)]];
+	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[newView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(newView)]];
 }
 
--(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+-(void)adjustEditorWidth:(CGFloat)editWidth
 {
-	if (flag) {
-		//even though the animation is reported stopped, the left view was still at -17 instead of 0.
-		// so we impose a delay to make sure it is back to zero
-		RunAfterDelay(0.1, ^{
-			[self willChangeValueForKey:@"leftViewVisible"];
-			[self didChangeValueForKey:@"leftViewVisible"];
-		});
-	}
+	self.editorWidthConstraint.animator.constant = editWidth;
+//	CGFloat diff = fabs(self.editorWidthConstraint.constant - editWidth);
+//	if (diff > 1.99) {
+//		[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+//			context.duration = 0.3;
+//			NSLog(@"animating");
+//			self.editorWidthConstraint.constant = editWidth;
+//			CGFloat newX = NSMinX(self.leftView.frame) >= 0 ? -kFrameWidth : 0;
+//			[[self.leftXConstraint animator] setConstant:newX];
+//		} completionHandler:^{
+//			
+//		}];
+//	}
 }
 
 -(IBAction)toggleEditorWidthLock:(id)sender
@@ -161,8 +193,23 @@ const CGFloat kFrameWidth = 214;
 -(IBAction)toggleLeftView:(id)sender
 {
 	CGFloat newX = NSMinX(self.leftView.frame) >= 0 ? -kFrameWidth : 0;
-	[[self.leftXConstraint animator] setConstant:newX];
 	//If we wanted to split the space, we could use the edit width constraint to reduce editor width
+
+	CGFloat newWidth;
+	if (newX < 0)
+		newWidth = (self.frame.size.width - self.splitterView.frame.size.width) / 2;
+	else
+		newWidth = (self.frame.size.width - self.splitterView.frame.size.width - kFrameWidth) / 2;
+	self.leftViewAnimating = YES;
+	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+		context.duration = 0.3;
+		NSLog(@"animating");
+		self.editorWidthConstraint.animator.constant = newWidth;
+		self.leftXConstraint.animator.constant = newX;
+	} completionHandler:^{
+		self.leftViewAnimating = NO;
+	}];
+
 }
 
 -(BOOL)leftViewVisible
@@ -178,7 +225,8 @@ const CGFloat kFrameWidth = 214;
 -(void)setEditorWidth:(CGFloat)editorWidth
 {
 	if (editorWidth > 100) {
-		[[self.editorWidthConstraint animator] setConstant:editorWidth];
+		[self adjustEditorWidth:editorWidth];
+//		[[self.editorWidthConstraint animator] setConstant:editorWidth];
 	}
 }
 
