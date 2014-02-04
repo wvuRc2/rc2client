@@ -18,6 +18,7 @@
 @interface RCImageCache()
 @property (nonatomic, strong, readwrite) NSString *imgCachePath;
 @property (nonatomic, strong) NSFetchRequest *allImageFetchRequest;
+@property (atomic) BOOL ignoreLoadNotification;
 @end
 
 NSString *const kPref_ImageMetaData = @"ImageMetaData";
@@ -65,21 +66,31 @@ NSString *const kPref_ImageMetaData = @"ImageMetaData";
 	NSString *urlStr = [NSString stringWithFormat:@"/simg/%@.png", image.imageId];
 	__weak RCImage *weakImage = image;
 	[[Rc2Server sharedInstance] downloadAppPath:urlStr toFilePath:imgPath completionHandler:^(BOOL success, id rsp) {
-		weakImage.image = [[ImageClass alloc] initWithContentsOfFile:imgPath];
+		if (success) {
+			weakImage.image = [[ImageClass alloc] initWithContentsOfFile:imgPath];
+		} else {
+			Rc2LogWarn(@"loadImageFromNetwork: rcved a %@ for %@", rsp, urlStr);
+		}
 	}];
 }
 
 -(void)loadImageFromFile:(NSNotification*)note
 {
+	if (self.ignoreLoadNotification)
+		return;
+	self.ignoreLoadNotification = YES;
 	RCImage *image = note.object;
 	NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", image.imageId]];
 	if ([[NSFileManager defaultManager] fileExistsAtPath:imgPath]) {
 		image.image = [[ImageClass alloc] initWithContentsOfFile:imgPath];
-		if (image.image)
+		if (image.image) {
+			self.ignoreLoadNotification = NO;
 			return;
+		}
 		//delete that file since isn't a valid image
 		[[NSFileManager defaultManager] removeItemAtPath:imgPath error:nil];
 	}
+	self.ignoreLoadNotification = NO;
 	[self loadImageFromNetwork:image];
 }
 
