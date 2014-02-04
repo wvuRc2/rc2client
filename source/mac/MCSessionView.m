@@ -108,11 +108,9 @@ NSString * const kAnimationKey = @"SessionAnimation";
 	
 	if (self.window.inLiveResize) {
 		CGFloat delta = self.frame.size.width - oldSize.width;
-		if (delta >= 1) {
-			CGFloat editWidth = _editorView.frame.size.width + (delta / 2);
-			//don't want animation
-			self.editorWidthConstraint.constant = editWidth;
-		}
+		CGFloat editWidth = _editorView.frame.size.width + (delta / 2);
+		//don't want animation
+		self.editorWidthConstraint.constant = editWidth;
 	} else {
 		[self adjustEditorWidth:editWidth];
 	}
@@ -203,8 +201,8 @@ NSString * const kAnimationKey = @"SessionAnimation";
 	self.leftViewAnimating = YES;
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
 		context.duration = 0.3;
-		NSLog(@"animating");
-		self.editorWidthConstraint.animator.constant = newWidth;
+		if (!self.editorWidthLocked)
+			self.editorWidthConstraint.animator.constant = newWidth;
 		self.leftXConstraint.animator.constant = newX;
 	} completionHandler:^{
 		self.leftViewAnimating = NO;
