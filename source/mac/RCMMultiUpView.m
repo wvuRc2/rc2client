@@ -73,7 +73,7 @@ const CGFloat kBoxHeightDiff = 42;
 		[self addConstraint:[aView multiYConstraint]];
 		
 		if (aView == view1) { //first view needs a starting size, will do so at low priority
-			[aView setMultiWConstraint: [NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200]];
+			[aView setMultiWConstraint: [NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200]];
 			[[aView multiWConstraint] setPriority: 1000];
 			[self addConstraint:[aView multiWConstraint]];
 //			[aView setMultiHConstraint:[NSLayoutConstraint constraintWithItem:aView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem: nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + kBoxHeightDiff]];
@@ -124,8 +124,8 @@ const CGFloat kBoxHeightDiff = 42;
 	CGSize containerSize = self.frame.size;
 	CGFloat marginspace = 10 + 10 + 20;
 	CGFloat newWidth = fabs((containerSize.width - marginspace)/2);
-	while ((newWidth + kBoxHeightDiff +20) > containerSize.height)
-		newWidth -= 20;
+	if (newWidth > 500) //default image size is 480, so if we're blowing it up we'll add some extra margin
+		newWidth = round(newWidth * 0.9);
 	CGFloat xAdjust = fabs((newWidth+20)/2);
 	CGFloat yAdjust = 0;
 	id view1 = [_viewControllers[0] view];
