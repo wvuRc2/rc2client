@@ -9,6 +9,9 @@
 #import "RCMPreviewImageView.h"
 #import "RCImage.h"
 
+@interface RCMPreviewImageView()
+@property (atomic) BOOL generatingRawImage;
+@end
 
 @implementation RCMPreviewImageView
 
@@ -65,16 +68,23 @@
 
 -(NSImage*)rawImage
 {
+	if (self.generatingRawImage)
+		return _image.image;
 	if (nil == _rawImage && _image) {
 		if (_sharpen) {
-			CIFilter *filter = [CIFilter filterWithName:@"CISharpenLuminance"];
-			[filter setValue:[CIImage imageWithContentsOfURL:self.image.fileUrl] forKey:@"inputImage"];
-			[filter setValue:@0.7 forKey:@"inputSharpness"];
-			CIImage *cimg = [filter valueForKey:@"outputImage"];
+			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+				CIFilter *filter = [CIFilter filterWithName:@"CISharpenLuminance"];
+				[filter setValue:[CIImage imageWithContentsOfURL:self.image.fileUrl] forKey:@"inputImage"];
+				[filter setValue:@0.7 forKey:@"inputSharpness"];
+				CIImage *cimg = [filter valueForKey:@"outputImage"];
 
-			NSImage *nimg = [[NSImage alloc] initWithSize:NSMakeSize([cimg extent].size.width, [cimg extent].size.height)];
-			[nimg addRepresentation:[NSCIImageRep imageRepWithCIImage:cimg]];
-			_rawImage = [NSImage imageWithData:[nimg pngData]];
+				NSImage *nimg = [[NSImage alloc] initWithSize:NSMakeSize([cimg extent].size.width, [cimg extent].size.height)];
+				[nimg addRepresentation:[NSCIImageRep imageRepWithCIImage:cimg]];
+				_rawImage = [NSImage imageWithData:[nimg pngData]];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					self.imageView.image = _rawImage;
+				});
+			});
 		} else {
 			_rawImage = _image.image;
 		}
