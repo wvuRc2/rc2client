@@ -653,6 +653,7 @@
 
 -(IBAction)doExecute:(id)sender
 {
+	[self.richEditor resignFirstResponder];
 	[self internalExecute:RCSessionExecuteOptionNone];
 }
 

@@ -454,7 +454,7 @@
 -(NSTextAttachment*)textAttachmentForFileId:(NSNumber*)fileId name:(NSString*)fileName fileType:(Rc2FileType *)ftype
 {
 	NSString *iconname = ftype.iconName;
-	ImageClass *fimg = [ImageClass imageNamed:iconname];
+	ImageClass *fimg = iconname.length > 0 ? [ImageClass imageNamed:iconname] : nil;
 	if (nil == fimg)
 		fimg = [ImageClass imageNamed:@"gendoc"];
 	RCFileAttachment *tattach = [[RCFileAttachment alloc] initWithData:nil ofType:@"rc2.file"];

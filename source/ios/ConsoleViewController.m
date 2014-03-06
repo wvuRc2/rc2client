@@ -16,6 +16,7 @@
 #import "RCImageCache.h"
 #import "RCImage.h"
 #import "RCFile.h"
+#import "Rc2FileType.h"
 #import "RCTextAttachment.h"
 #import "MAKVONotificationCenter.h"
 #import "VariableListViewController.h"
@@ -278,7 +279,7 @@ const CGFloat kAnimDuration = 0.5;
 		[self animateToWebview];
 	self.currentFile = file;
 	NSString *path = file.fileContentsPath;
-	if ([file.name.pathExtension isEqualToString:@"lst"])
+	if (file.fileType.isTextFile && ![file.fileType.extension isEqualToString:@"txt"])
 		path = [self.session pathForCopyForWebKitDisplay:file];
 	[self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
 }
@@ -464,8 +465,6 @@ const CGFloat kAnimDuration = 0.5;
 	RCFile *file = [self.session.workspace fileWithId:fileAttachment.fileId];
 	if (nil == file)
 		return; //if it was deleted
-	if (self.visibleOutputView != self.webView)
-		[self animateToWebview];
 	[self loadLocalFile:file];
 }
 
