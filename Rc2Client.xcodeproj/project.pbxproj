@@ -32,8 +32,6 @@
 		080F50EB1890606200CF39FB /* CXAlertButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 080F50DF1890606200CF39FB /* CXAlertButtonItem.m */; };
 		080F50EC1890606200CF39FB /* CXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 080F50E11890606200CF39FB /* CXAlertView.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
 		080F50ED1890606200CF39FB /* CXAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 080F50E31890606200CF39FB /* CXAlertViewController.m */; };
-		080F50EE1890606200CF39FB /* LFDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 080F50E51890606200CF39FB /* LFDisplayBridge.m */; };
-		080F50EF1890606200CF39FB /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 080F50E71890606200CF39FB /* LFGlassView.m */; };
 		080F50F11890658100CF39FB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080F50F01890658100CF39FB /* Accelerate.framework */; };
 		0811F9F917189C390060BAB4 /* RCMMultiUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F9F817189C390060BAB4 /* RCMMultiUpView.m */; };
 		0811F9FC17342CB70060BAB4 /* RCMPreviewImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811F9FB17342CB60060BAB4 /* RCMPreviewImageView.m */; };
@@ -182,6 +180,8 @@
 		08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
 		08ADBE2717A06C9F0004A89C /* RC2LoopQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */; };
 		08ADBE2817A06C9F0004A89C /* RC2LoopQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */; };
+		08B1F20318CA6AC200FCA279 /* LFDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B1F1FF18CA6AC200FCA279 /* LFDisplayBridge.m */; };
+		08B1F20418CA6AC200FCA279 /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B1F20118CA6AC200FCA279 /* LFGlassView.m */; };
 		08B70534183160E200868E38 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845940215B5F20100297C9D /* MainMenu.xib */; };
 		08B705381831648500868E38 /* RCList.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B705371831648500868E38 /* RCList.m */; };
 		08B705391831648500868E38 /* RCList.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B705371831648500868E38 /* RCList.m */; };
@@ -602,11 +602,6 @@
 		080F50E11890606200CF39FB /* CXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertView.m; sourceTree = "<group>"; };
 		080F50E21890606200CF39FB /* CXAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertViewController.h; sourceTree = "<group>"; };
 		080F50E31890606200CF39FB /* CXAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertViewController.m; sourceTree = "<group>"; };
-		080F50E41890606200CF39FB /* LFDisplayBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFDisplayBridge.h; sourceTree = "<group>"; };
-		080F50E51890606200CF39FB /* LFDisplayBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFDisplayBridge.m; sourceTree = "<group>"; };
-		080F50E61890606200CF39FB /* LFGlassView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFGlassView.h; sourceTree = "<group>"; };
-		080F50E71890606200CF39FB /* LFGlassView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFGlassView.m; sourceTree = "<group>"; };
-		080F50E81890606200CF39FB /* LiveFrost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFrost.h; sourceTree = "<group>"; };
 		080F50F01890658100CF39FB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		0811F9F717189C380060BAB4 /* RCMMultiUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMMultiUpView.h; sourceTree = "<group>"; };
 		0811F9F817189C390060BAB4 /* RCMMultiUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMMultiUpView.m; sourceTree = "<group>"; };
@@ -816,6 +811,12 @@
 		08ADBE2217A054B40004A89C /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = Vendor/DropBlocks.m; sourceTree = "<group>"; };
 		08ADBE2517A06C9F0004A89C /* RC2LoopQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RC2LoopQueue.h; sourceTree = "<group>"; };
 		08ADBE2617A06C9F0004A89C /* RC2LoopQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RC2LoopQueue.m; sourceTree = "<group>"; };
+		08B1F1FC18CA66A100FCA279 /* MagicalRecordVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MagicalRecordVersion.h; sourceTree = "<group>"; };
+		08B1F1FE18CA6AC200FCA279 /* LFDisplayBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFDisplayBridge.h; sourceTree = "<group>"; };
+		08B1F1FF18CA6AC200FCA279 /* LFDisplayBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFDisplayBridge.m; sourceTree = "<group>"; };
+		08B1F20018CA6AC200FCA279 /* LFGlassView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFGlassView.h; sourceTree = "<group>"; };
+		08B1F20118CA6AC200FCA279 /* LFGlassView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFGlassView.m; sourceTree = "<group>"; };
+		08B1F20218CA6AC200FCA279 /* LiveFrost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFrost.h; sourceTree = "<group>"; };
 		08B705361831648500868E38 /* RCList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCList.h; sourceTree = "<group>"; };
 		08B705371831648500868E38 /* RCList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCList.m; sourceTree = "<group>"; };
 		08B7053A183181C200868E38 /* VariableListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableListController.h; sourceTree = "<group>"; };
@@ -1363,11 +1364,6 @@
 				080F50E11890606200CF39FB /* CXAlertView.m */,
 				080F50E21890606200CF39FB /* CXAlertViewController.h */,
 				080F50E31890606200CF39FB /* CXAlertViewController.m */,
-				080F50E41890606200CF39FB /* LFDisplayBridge.h */,
-				080F50E51890606200CF39FB /* LFDisplayBridge.m */,
-				080F50E61890606200CF39FB /* LFGlassView.h */,
-				080F50E71890606200CF39FB /* LFGlassView.m */,
-				080F50E81890606200CF39FB /* LiveFrost.h */,
 			);
 			name = CXAlertView;
 			path = Dependencies/CXAlertView/CXAlertView;
@@ -1663,6 +1659,19 @@
 			name = "keyboard toolbar";
 			sourceTree = "<group>";
 		};
+		08B1F1FD18CA6AC200FCA279 /* LiveFrost */ = {
+			isa = PBXGroup;
+			children = (
+				08B1F1FE18CA6AC200FCA279 /* LFDisplayBridge.h */,
+				08B1F1FF18CA6AC200FCA279 /* LFDisplayBridge.m */,
+				08B1F20018CA6AC200FCA279 /* LFGlassView.h */,
+				08B1F20118CA6AC200FCA279 /* LFGlassView.m */,
+				08B1F20218CA6AC200FCA279 /* LiveFrost.h */,
+			);
+			name = LiveFrost;
+			path = Dependencies/LiveFrost/LiveFrost;
+			sourceTree = SOURCE_ROOT;
+		};
 		08B705351831643E00868E38 /* variables */ = {
 			isa = PBXGroup;
 			children = (
@@ -1772,6 +1781,7 @@
 				08BDDD4F17EA48AB00E669E3 /* Categories */,
 				08BDDD7917EA48AB00E669E3 /* Core */,
 				08BDDD8917EA48AB00E669E3 /* CoreData+MagicalRecord.h */,
+				08B1F1FC18CA66A100FCA279 /* MagicalRecordVersion.h */,
 			);
 			name = MagicalRecord;
 			path = Dependencies/MagicalRecord/MagicalRecord;
@@ -2075,6 +2085,7 @@
 				08D243F315B5D78A0064A9FA /* GradientButton.h */,
 				08D243F415B5D78A0064A9FA /* GradientButton.m */,
 				080F50D91890606200CF39FB /* CXAlertView */,
+				08B1F1FD18CA6AC200FCA279 /* LiveFrost */,
 				08D243F515B5D78A0064A9FA /* JSTokenField */,
 				08FF3D0E16F0C71F00F3E09E /* WHMessageActivities */,
 				08D2440815B5D78A0064A9FA /* PHRefreshGestureRecognizer */,
@@ -2602,6 +2613,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "West Virginia University";
 				TargetAttributes = {
+					08D2431E15B5D04D0064A9FA = {
+						DevelopmentTeam = MTJ8HS9UY7;
+					};
 					08D2461B15B5EBC20064A9FA = {
 						DevelopmentTeam = LRMKU6353E;
 					};
@@ -2950,7 +2964,7 @@
 				08B7053F183187C700868E38 /* BaseVariableViewController.m in Sources */,
 				082D1EDB17E8D2DC00723EB3 /* RCRmdParser.m in Sources */,
 				08D243EB15B5D7590064A9FA /* SessionEditView.m in Sources */,
-				080F50EE1890606200CF39FB /* LFDisplayBridge.m in Sources */,
+				08B1F20318CA6AC200FCA279 /* LFDisplayBridge.m in Sources */,
 				08D243EC15B5D7590064A9FA /* StudentAssignmentCell.m in Sources */,
 				08D2441115B5D78A0064A9FA /* GradientButton.m in Sources */,
 				08BD2F6A185BA6FD002B256B /* FMDatabase.m in Sources */,
@@ -2960,7 +2974,7 @@
 				082D1ECF17E3B5C800723EB3 /* RCSyntaxParser.m in Sources */,
 				0868D4D61805CF43002AD679 /* ImagePreviewViewController.m in Sources */,
 				08D2441D15B5D78A0064A9FA /* PHRefreshGestureRecognizer.m in Sources */,
-				080F50EF1890606200CF39FB /* LFGlassView.m in Sources */,
+				08B1F20418CA6AC200FCA279 /* LFGlassView.m in Sources */,
 				087342CC17BD6A73000EC1E0 /* WorkspaceViewController.m in Sources */,
 				08D2441E15B5D78A0064A9FA /* PHRefreshTriggerView.m in Sources */,
 				0828600718451B7C002BA8D2 /* Rc2AppConstants.m in Sources */,
@@ -3546,7 +3560,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/3rdParty\"",
 					"$(BUILT_PRODUCTS_DIR)",
@@ -3560,7 +3575,7 @@
 					"\"$(SRCROOT)/Vendor/\"/**",
 					"\" \"$(BUILT_PRODUCTS_DIR)/include",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** \"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3570,7 +3585,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "B9DE945E-9818-49F2-8A34-BE26D2BEC58E";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3587,8 +3602,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/3rdParty\"",
 					"$(BUILT_PRODUCTS_DIR)",
@@ -3602,7 +3617,7 @@
 					"\"$(SRCROOT)/Vendor/\"/**",
 					"\" \"$(BUILT_PRODUCTS_DIR)/include",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** \"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3612,7 +3627,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "B9DE945E-9818-49F2-8A34-BE26D2BEC58E";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3660,7 +3675,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/3rdParty\"",
 					"$(BUILT_PRODUCTS_DIR)",
@@ -3674,7 +3690,7 @@
 					"\"$(SRCROOT)/Vendor/\"/**",
 					"\" \"$(BUILT_PRODUCTS_DIR)/include",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** \"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3686,7 +3702,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
-				PROVISIONING_PROFILE = "B9DE945E-9818-49F2-8A34-BE26D2BEC58E";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
