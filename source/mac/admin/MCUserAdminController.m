@@ -283,6 +283,22 @@
 	[NSApp endSheet:self.passwordWindow returnCode:1];
 }
 
+-(IBAction)toggleEnabled:(id)sender
+{
+	NSInteger row = self.resultsTable.selectedRow;
+	RCUser *user = self.userController.arrangedObjects[row];
+	self.busy = YES;
+	self.statusMessage = @"Saving Change";
+	[[Rc2Server sharedInstance] saveUserEdits:user completionHandler:^(BOOL success, id results) {
+		self.busy = NO;
+		if (!success) {
+			//revert back the value
+			user.enabled = !user.enabled;
+			[NSAlert displayAlertWithTitle:@"Update Failed" details:results window:self.view.window];
+		}
+	}];
+}
+
 -(IBAction)editUser:(id)sender
 {
 	RCUser *user = [self.userController.arrangedObjects objectAtIndex:self.resultsTable.clickedRow];

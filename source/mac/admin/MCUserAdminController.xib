@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -29,7 +29,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" typeSelect="NO" autosaveName="adminusersearch" headerView="7" id="5">
-                                <rect key="frame" x="0.0" y="0.0" width="598" height="228"/>
+                                <rect key="frame" x="0.0" y="0.0" width="599" height="228"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -82,7 +82,7 @@
                                             </binding>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn identifier="email" editable="NO" width="285.58984375" minWidth="10" maxWidth="3.4028234663852886e+38" id="37">
+                                    <tableColumn identifier="email" editable="NO" width="222" minWidth="10" maxWidth="3.4028234663852886e+38" id="37">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Email">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -103,6 +103,25 @@
                                             </binding>
                                         </connections>
                                     </tableColumn>
+                                    <tableColumn identifier="enabled" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="PTC-M0-YxU">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Enabled">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                        </tableHeaderCell>
+                                        <buttonCell key="dataCell" type="check" bezelStyle="regularSquare" imagePosition="left" alignment="center" inset="2" id="7ZC-wf-gjE">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                            <connections>
+                                                <action selector="toggleEnabled:" target="-2" id="Ww5-eu-OrQ"/>
+                                            </connections>
+                                        </buttonCell>
+                                        <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="enabled"/>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <connections>
+                                            <binding destination="42" name="value" keyPath="arrangedObjects.enabled" id="zx1-TX-KMP"/>
+                                        </connections>
+                                    </tableColumn>
                                 </tableColumns>
                                 <connections>
                                     <outlet property="dataSource" destination="-2" id="19"/>
@@ -116,7 +135,7 @@
                         <constraint firstAttribute="height" constant="246" id="6Bl-Qz-2vx"/>
                         <constraint firstAttribute="width" constant="600" id="B3m-Ep-brm"/>
                     </constraints>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="6">
+                    <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="6">
                         <rect key="frame" x="1" y="229" width="598" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
@@ -125,7 +144,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <tableHeaderView key="headerView" id="7">
-                        <rect key="frame" x="0.0" y="0.0" width="598" height="17"/>
+                        <rect key="frame" x="0.0" y="0.0" width="599" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </tableHeaderView>
                 </scrollView>

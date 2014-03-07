@@ -25,6 +25,7 @@
 @property (nonatomic, readonly) BOOL isDirty;
 @property (nonatomic, readonly) BOOL existsOnServer;
 @property (nonatomic) BOOL isAdmin;
+@property (nonatomic) BOOL enabled;
 
 -(id)initWithDictionary:(NSDictionary*)dict allRoles:(NSArray*)allRoles;
 @end

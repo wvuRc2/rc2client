@@ -856,6 +856,20 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	
 }
 
+-(void)saveUserEdits:(RCUser*)user completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSDictionary *params = @{@"id":user.userId, @"enabled":[NSNumber numberWithBool:user.enabled]};
+	[_httpClient putPath:@"admin/user" parameters:params success:^(id op, id rsp) {
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			hblock(YES, rsp[@"user"]);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
 -(void)fetchCourses:(Rc2FetchCompletionHandler)hblock
 {
 	return [self genericGetRequest:@"courses" parameters:nil handler:hblock];

@@ -38,6 +38,7 @@
 	self.ldapServerId = [dict valueForKeyPath:@"ldapServer.id"];
 	if ([self.ldapServerId isEqual:[NSNull null]])
 		self.ldapServerId = nil;
+	self.enabled = [[dict objectForKey:@"enabled"] boolValue];
 	self.roleIds = [dict objectForKey:@"roleIds"];
 	NSMutableArray *roleArray = [NSMutableArray arrayWithCapacity:allRoles.count];
 	for (NSDictionary *roleDict in allRoles) {
