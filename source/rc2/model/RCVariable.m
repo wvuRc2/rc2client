@@ -15,7 +15,6 @@
 @interface RCVariable ()
 @property (nonatomic, copy, readwrite) NSString *name;
 @property (nonatomic, copy, readwrite) NSString *className; //from R
-@property (readwrite) RCVariableType type;
 @property (readwrite) RCPrimitiveType primitiveType; //=Unknown if type != eVarType_Vector
 @property BOOL notAVector;
 @end
@@ -60,7 +59,7 @@
 		self.notAVector = [[dict objectForKey:@"notAVector"] boolValue];
 		_length = [[dict objectForKey:@"length"] intValue];
 		if (primitive) {
-			self.type = eVarType_Primitive;
+			_type = eVarType_Primitive;
 			self.primitiveType = [self primitiveTypeForString:[dict objectForKey:@"type"]];
 			self.values = [dict objectForKey:@"value"];
 			switch (self.primitiveType) {
@@ -74,7 +73,7 @@
 					break;
 			}
 		} else if ([dict objectForKey:@"levels"]) {
-			self.type = eVarType_Factor;
+			_type = eVarType_Factor;
 			_values = [dict objectForKey:@"levels"];
 		} else {
 			[self decodeSupportedObjects:dict];
@@ -150,7 +149,7 @@
 -(void)decodeSupportedObjects:(NSDictionary*)dict
 {
 	if ([[dict objectForKey:@"S4"] boolValue])
-		self.type = eVarType_S4Object;
+		_type = eVarType_S4Object;
 	NSString *cname = [dict objectForKey:@"class"];
 	if ([cname isEqualToString:@"Date"]) {
 		//store the string version as second value
@@ -168,21 +167,21 @@
 		self.values = @[[NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"value"] doubleValue]]];
 		self.summaryIsDescription = YES;
 	} else if ([cname isEqualToString:@"matrix"]) {
-		self.type = eVarType_Matrix;
+		_type = eVarType_Matrix;
 		self.values = [dict objectForKey:@"value"];
 		self.primitiveType = [self primitiveTypeForString:[dict objectForKey:@"type"]];
 	} else if ([cname isEqualToString:@"array"]) {
-		self.type = eVarType_Array;
+		_type = eVarType_Array;
 	} else if ([cname isEqualToString:@"environment"]) {
-		self.type = eVarType_Environment;
+		_type = eVarType_Environment;
 		self.summaryIsDescription = YES;
 	} else if ([cname isEqualToString:@"function"]) {
-		self.type = eVarType_Function;
+		_type = eVarType_Function;
 		self.values = [NSArray arrayWithObject:[dict objectForKey:@"body"]];
 	} else if ([cname isEqualToString:@"list"]) {
-		self.type = eVarType_List;
+		_type = eVarType_List;
 	} else if ([dict[@"generic"] boolValue])
-		self.type = eVarType_S3Object;
+		_type = eVarType_S3Object;
 }
 
 -(RCPrimitiveType)primitiveTypeForString:(NSString*)str

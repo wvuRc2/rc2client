@@ -9,10 +9,10 @@
 #import "ImageHolderView.h"
 #import "RCImage.h"
 
-static const CGFloat kKeyAnimationDuration = 0.3;
-static const CGFloat kMinScrollFraction = 0.2;
-static const CGFloat kMaxScrollFraction = 0.8;
-static const CGFloat kKeyboardHeight = 354;
+//static const CGFloat kKeyAnimationDuration = 0.3;
+//static const CGFloat kMinScrollFraction = 0.2;
+//static const CGFloat kMaxScrollFraction = 0.8;
+//static const CGFloat kKeyboardHeight = 354;
 
 @interface ImageHolderView() {
 	CGFloat _animationDistance;

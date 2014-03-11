@@ -9,7 +9,6 @@
 #import "RCDataFrame.h"
 
 @interface RCDataFrame ()
-@property (readwrite) RCVariableType type;
 @property (nonatomic, readwrite) NSInteger rowCount;
 @property (nonatomic, readwrite) NSInteger colCount;
 @property (nonatomic, strong) NSNumberFormatter *decFormatter;
@@ -24,7 +23,7 @@
 -(id)initWithDictionary:(NSDictionary *)dict
 {
 	if ((self = [super initWithDictionary:dict])) {
-		self.type = eVarType_DataFrame;
+		_type = eVarType_DataFrame;
 		self.rowCount = [[dict objectForKey:@"nrow"] longValue];
 		self.columnNames = [dict objectForKey:@"cols"];
 		self.colCount = self.columnNames.count;

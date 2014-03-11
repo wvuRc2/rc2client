@@ -10,7 +10,6 @@
 @interface DropboxImportCell : iAMTableViewCell
 @property (nonatomic, strong) IBOutlet UIButton *importButton;
 @property (nonatomic, strong) IBOutlet UIImageView *statusImage;
-@property (nonatomic, strong) IBOutlet UILabel *textLabel;
 
 -(void)treatAsDirectory;
 -(void)treatAsUnsupported;

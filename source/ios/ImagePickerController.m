@@ -13,7 +13,6 @@
 @end
 
 @interface ImagePickerCell : UITableViewCell
-@property (nonatomic, weak) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UILabel *label;
 @property (nonatomic, weak) NSLayoutConstraint *hwConstraint;
 @end

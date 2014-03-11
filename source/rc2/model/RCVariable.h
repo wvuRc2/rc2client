@@ -37,7 +37,10 @@ typedef enum {
 
 @class RCList;
 
-@interface RCVariable : NSObject
+@interface RCVariable : NSObject {
+	@protected
+	RCVariableType _type; //needed so subclasses can write to the value
+}
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, copy, readonly) NSString *fullyQualifiedName; //foo[0][2][3] etc.
 @property (nonatomic, copy, readonly) NSString *className; //from R
