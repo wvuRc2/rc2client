@@ -526,7 +526,9 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	self.authController.loginCompleteHandler = ^ {
 		[blockVC dismissViewControllerAnimated:YES completion:nil];
 		blockSelf.authController=nil;
+#if !TARGET_IPHONE_SIMULATOR
 		[blockSelf registerForPushNotification];
+#endif
 		if ([[NSUserDefaults standardUserDefaults] objectForKey:kPref_CurrentSessionWorkspace]) {
 			[blockSelf restoreLastSession];
 		}
