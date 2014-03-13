@@ -76,5 +76,12 @@
 {
 	return [NSString stringWithFormat:@"%@, %@", self.lastname, self.firstname];
 }
+
+-(id)debugQuickLookObject
+{
+	NSData *data = [NSJSONSerialization dataWithJSONObject:self.origDict options:NSJSONWritingPrettyPrinted error:nil];
+	return [NSString stringWithUTF8Data:data];
+}
+
 @end
 

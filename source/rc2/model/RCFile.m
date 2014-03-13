@@ -296,6 +296,11 @@
 	return [[self.container fileCachePath] stringByAppendingPathComponent:self.name];
 }
 
+-(id)debugQuickLookObject
+{
+	return [NSString stringWithFormat:@"RCFile: %@(%@)", self.name, self.fileId];
+}
+
 @synthesize fileType;
 @synthesize fileSize;
 @synthesize attrCache;

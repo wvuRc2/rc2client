@@ -181,4 +181,9 @@
 	return self.project.projectId;
 }
 
+-(id)debugQuickLookObject
+{
+	return [NSString stringWithFormat:@"RCWorkspace: %@(%@)", self.name, self.wspaceId];
+}
+
 @end

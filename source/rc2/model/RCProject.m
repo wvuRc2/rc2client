@@ -156,4 +156,9 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 	return [NSString stringWithFormat:@"RCProject: %@, (%d workspaces)", self.name, (int)_workspaces.count];
 }
 
+-(id)debugQuickLookObject
+{
+	return [NSString stringWithFormat:@"RCProject: %@(%@), %d workspaces", self.name, self.projectId, (int)_workspaces.count];
+}
+
 @end
