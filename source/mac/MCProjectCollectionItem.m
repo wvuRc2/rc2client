@@ -199,7 +199,7 @@
 	}
 	
 	f = [self.superview convertRect:self.shareButton.frame fromView:self.shareButton.superview];
-	if (NSPointInRect(aPoint, f)) {
+	if (NSPointInRect(aPoint, f) && !self.shareButton.isHidden) {
 		return self.shareButton;
 	}
 	if (NSPointInRect(aPoint, [self convertRect:self.bounds toView:self.superview]))
