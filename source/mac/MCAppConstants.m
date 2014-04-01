@@ -1,12 +1,12 @@
 //
-//  RCMAppConstants.m
+//  MCAppConstants.m
 //  MacClient
 //
 //  Created by Mark Lilback on 10/16/11.
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
-#import "RCMAppConstants.h"
+#import "MCAppConstants.h"
 
 const NSInteger kMenuView = 2;
 const NSInteger kMenuView_Theme = 2112;
@@ -35,7 +35,7 @@ NSString * const RCMToolbarItem_Remove = @"RCMToolbarItem_Remove";
 NSString * const RCMToolbarItem_Add = @"RCMToolbarItem_Add";
 NSString * const RCMToolbarItem_Users = @"RCMToolbarItem_Users";
 
-@implementation RCMAppConstants
+@implementation MCAppConstants
 +(NSArray*)alertSupressionKeys
 {
 	static NSArray *supressKeys;

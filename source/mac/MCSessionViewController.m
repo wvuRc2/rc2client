@@ -7,7 +7,7 @@
 //
 
 #import "MCSessionViewController.h"
-#import "RCMAppConstants.h"
+#import "MCAppConstants.h"
 #import <DropboxOSX/DropboxOSX.h>
 #import <objc/runtime.h>
 

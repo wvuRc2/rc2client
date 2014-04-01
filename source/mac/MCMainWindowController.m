@@ -7,7 +7,7 @@
 //
 
 #import "MCMainWindowController.h"
-#import "RCMAppConstants.h"
+#import "MCAppConstants.h"
 #import "Rc2Server.h"
 #import "RCWorkspace.h"
 #import "RCSession.h"

@@ -9,7 +9,7 @@
 #import "RCMMultiImageController.h"
 #import "RCMImageDetailController.h"
 #import "RCMImagePrintView.h"
-#import "RCMAppConstants.h"
+#import "MCAppConstants.h"
 #import "RCImage.h"
 #import "RCMMultiUpView.h"
 

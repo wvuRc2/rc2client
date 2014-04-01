@@ -7,7 +7,7 @@
 //
 
 #import "RCMGeneralPrefs.h"
-#import "RCMAppConstants.h"
+#import "MCAppConstants.h"
 #import "DropBlocks.h"
 #import <DropboxOSX/DropboxOSX.h>
 #import <libkern/OSAtomic.h>
@@ -68,7 +68,7 @@
 -(IBAction)resetWarnings:(id)sender
 {
 	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-	for (NSString *key in [RCMAppConstants alertSupressionKeys])
+	for (NSString *key in [MCAppConstants alertSupressionKeys])
 		[prefs removeObjectForKey:key];
 }
 

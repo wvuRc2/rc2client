@@ -7,7 +7,7 @@
 //
 
 #import "RCMTextView.h"
-#import "RCMAppConstants.h"
+#import "MCAppConstants.h"
 #import "ThemeEngine.h"
 
 @interface RCMTextView() {

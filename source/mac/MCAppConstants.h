@@ -1,5 +1,5 @@
 //
-//  RCMRc2AppConstants
+//  MCAppConstants
 //  MacClient
 //
 //  Created by Mark Lilback on 10/16/11.
@@ -37,7 +37,7 @@ extern const NSInteger kMenuView_Theme;
 extern const NSInteger kMenu_Chunks;
 extern const NSInteger kRHelpMenuTag;
 
-@interface RCMAppConstants : NSObject
+@interface MCAppConstants : NSObject
 //array of all preference keys that should be removed when users chooses to reset all warnings
 +(NSArray*)alertSupressionKeys;
 @end

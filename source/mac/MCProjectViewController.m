@@ -14,7 +14,7 @@
 #import "MCMainWindowController.h"
 #import "MCProjectCollectionItem.h"
 #import "ThemeEngine.h"
-#import "RCMAppConstants.h"
+#import "MCAppConstants.h"
 #import "MCMainWindowController.h" //for doBackToMainView: selector
 
 @interface MCProjectView : AMControlledView

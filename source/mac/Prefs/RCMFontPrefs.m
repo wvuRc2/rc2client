@@ -7,7 +7,7 @@
 //
 
 #import "RCMFontPrefs.h"
-#import "RCMAppConstants.h"
+#import "MCAppConstants.h"
 
 @interface RCMFontPrefs()
 @property (nonatomic, strong) IBOutlet NSTextField *wsheetFontField;

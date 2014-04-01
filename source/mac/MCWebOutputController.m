@@ -11,7 +11,7 @@
 #import "RCSavedSession.h"
 #import "RCMConsoleTextField.h"
 #import "MCMainWindowController.h"
-#import "RCMAppConstants.h"
+#import "MCAppConstants.h"
 #import "RCImageCache.h"
 #import "RCFile.h"
 #import "Rc2FileType.h"

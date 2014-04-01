@@ -89,7 +89,7 @@
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
-		084593E715B5F16F00297C9D /* RCMAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593E615B5F16F00297C9D /* RCMAppConstants.m */; };
+		084593E715B5F16F00297C9D /* MCAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593E615B5F16F00297C9D /* MCAppConstants.m */; };
 		084593FA15B5F1D700297C9D /* MCEditUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F515B5F1D700297C9D /* MCEditUserController.m */; };
 		084593FC15B5F1D700297C9D /* MCUserAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F815B5F1D700297C9D /* MCUserAdminController.m */; };
 		0845942215B5F22700297C9D /* MacDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0845941015B5F22700297C9D /* MacDefaults.plist */; };
@@ -667,8 +667,8 @@
 		083AAEFF162F480C0037AAB3 /* FunctionVariableSummaryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionVariableSummaryCell.m; sourceTree = "<group>"; };
 		083AAF01162F48210037AAB3 /* FunctionVariableSummaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FunctionVariableSummaryCell.xib; sourceTree = "<group>"; };
 		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
-		084593E515B5F16F00297C9D /* RCMAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMAppConstants.h; path = source/mac/RCMAppConstants.h; sourceTree = SOURCE_ROOT; };
-		084593E615B5F16F00297C9D /* RCMAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMAppConstants.m; path = source/mac/RCMAppConstants.m; sourceTree = SOURCE_ROOT; };
+		084593E515B5F16F00297C9D /* MCAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAppConstants.h; path = source/mac/MCAppConstants.h; sourceTree = SOURCE_ROOT; };
+		084593E615B5F16F00297C9D /* MCAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAppConstants.m; path = source/mac/MCAppConstants.m; sourceTree = SOURCE_ROOT; };
 		084593F415B5F1D700297C9D /* MCEditUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCEditUserController.h; sourceTree = "<group>"; };
 		084593F515B5F1D700297C9D /* MCEditUserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCEditUserController.m; sourceTree = "<group>"; };
 		084593F615B5F1D700297C9D /* MCEditUserController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCEditUserController.xib; sourceTree = "<group>"; };
@@ -2326,8 +2326,8 @@
 		08D2462415B5EBC20064A9FA /* mac */ = {
 			isa = PBXGroup;
 			children = (
-				084593E515B5F16F00297C9D /* RCMAppConstants.h */,
-				084593E615B5F16F00297C9D /* RCMAppConstants.m */,
+				084593E515B5F16F00297C9D /* MCAppConstants.h */,
+				084593E615B5F16F00297C9D /* MCAppConstants.m */,
 				08D2463D15B5ED3C0064A9FA /* AppDelegate.h */,
 				08D2463E15B5ED3C0064A9FA /* AppDelegate.m */,
 				0845943515B5F29100297C9D /* MCMainWindowController.h */,
@@ -3184,7 +3184,7 @@
 				08D2467115B5EE950064A9FA /* WebSocketConnectConfig.m in Sources */,
 				0828600818451B7C002BA8D2 /* Rc2AppConstants.m in Sources */,
 				08D2467215B5EE950064A9FA /* WebSocketFragment.m in Sources */,
-				084593E715B5F16F00297C9D /* RCMAppConstants.m in Sources */,
+				084593E715B5F16F00297C9D /* MCAppConstants.m in Sources */,
 				08BDDDAD17EA48AB00E669E3 /* NSPersistentStore+MagicalRecord.m in Sources */,
 				08BDDDA917EA48AB00E669E3 /* NSManagedObjectContext+MagicalThreading.m in Sources */,
 				08BDDD9117EA48AB00E669E3 /* NSNumber+MagicalDataImport.m in Sources */,
