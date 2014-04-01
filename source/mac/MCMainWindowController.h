@@ -23,5 +23,9 @@
 -(void)openSession:(RCWorkspace*)wspace inNewWindow:(BOOL)inNewWindow;
 -(IBAction)showAdminTools:(id)sender;
 
+-(void)showViewController:(AMViewController*)controller;
+-(void)displayPdfFile:(RCFile*)file;
+-(void)popCurrentViewController;
+
 -(IBAction)doBackToMainView:(id)sender;
 @end

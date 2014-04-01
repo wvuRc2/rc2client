@@ -10,7 +10,7 @@
 #import "MCWebOutputController.h"
 #import "RCSavedSession.h"
 #import "RCMConsoleTextField.h"
-#import "AppDelegate.h"
+#import "MCMainWindowController.h"
 #import "RCMAppConstants.h"
 #import "RCImageCache.h"
 #import "RCFile.h"
@@ -137,8 +137,7 @@ const NSInteger kMaxFontSize = 32;
 
 -(void)viewSource:(id)sender
 {
-	AppDelegate *del = (AppDelegate*)[NSApp delegate];
-	[del displayTextInExternalEditor:self.webView.mainFrameDocument.body.innerHTML];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MCEditTextDocumentNotification object:self.webView.mainFrameDocument.body.innerHTML userInfo:nil];
 }
 
 -(void)saveSessionState:(RCSavedSession*)savedState
@@ -505,7 +504,7 @@ const NSInteger kMaxFontSize = 32;
 -(IBAction)viewFullWindow:(id)sender
 {
 	if ([self.currentFile.name hasSuffix:@".pdf"]) {
-		[(AppDelegate*)[NSApp delegate] displayPdfFile:self.currentFile];
+		[self.view.window.windowController displayPdfFile:self.currentFile];
 	}
 //	NSURL *pdfUrl = self.webView.mainFrame.dataSource.request.URL;
 }

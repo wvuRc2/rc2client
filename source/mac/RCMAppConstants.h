@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "Rc2AppConstants.h"
 
+extern NSString * const MCEditTextDocumentNotification;
+
 //tooolbar items
 extern NSString * const RCMToolbarItem_Files;
 extern NSString * const RCMToolbarItem_OpenSession;

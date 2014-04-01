@@ -113,6 +113,9 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	{
 		self.isFullScreen = NO;
 	}]];
+	[self storeNotificationToken:[nc addObserverForName:MCEditTextDocumentNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+		[self displayTextInExternalEditor:note.object];
+	}]];
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
 	[self setupThemeMenu];
 	self.lastEventTime = [NSDate timeIntervalSinceReferenceDate];
@@ -245,24 +248,6 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 		[self autoSaveChanges];
 		self.lastEventTime = now;
 	}
-}
-
--(void)displayPdfFile:(RCFile*)file
-{
-	RCMPDFViewController *pvc = [[RCMPDFViewController alloc] init];
-	[pvc view]; //load from nib
-	[pvc loadPdfFile:file];
-	[self showViewController:pvc];
-}
-
--(void)popCurrentViewController
-{
-	[self.mainWindowController.navController popViewControllerAnimated:YES];
-}
-
--(void)showViewController:(AMViewController*)controller
-{
-	[self.mainWindowController.navController pushViewController:controller animated:YES];
 }
 
 -(void)presentLoginPanel

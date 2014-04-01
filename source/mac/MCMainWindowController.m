@@ -17,6 +17,7 @@
 #import "RCMacToolbarItem.h"
 #import "MCProjectViewController.h"
 #import "MCAdminController.h"
+#import "RCMPDFViewController.h"
 
 @interface MCMainWindowController()
 @property (strong) NSMutableArray *kvoObservers;
@@ -71,6 +72,25 @@
 		self.currentSessionController.session=nil;
 		self.currentSessionController=nil;
 	}
+}
+
+
+-(void)displayPdfFile:(RCFile*)file
+{
+	RCMPDFViewController *pvc = [[RCMPDFViewController alloc] init];
+	[pvc view]; //load from nib
+	[pvc loadPdfFile:file];
+	[self showViewController:pvc];
+}
+
+-(void)showViewController:(AMViewController*)controller
+{
+	[self.navController pushViewController:controller animated:YES];
+}
+
+-(void)popCurrentViewController
+{
+	[self.navController popViewControllerAnimated:YES];
 }
 
 #pragma mark - standard shit

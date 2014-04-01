@@ -47,7 +47,6 @@
 #import "RCImageCache.h"
 
 //utility
-#import "AppDelegate.h"
 #import "RCSyntaxParser.h"
 #import "RCAudioChatEngine.h"
 #import "MAKVONotificationCenter.h"
@@ -612,8 +611,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 			ivc.availableImages = imgArray;
 		else
 			ivc.availableImages = [[RCImageCache sharedInstance] allImages];
-		AppDelegate *del = [TheApp delegate];
-		[del showViewController:ivc];
+		[self.view.window.windowController showViewController:ivc];
 		[ivc setDisplayedImages: imgArray];
 		self.multiImageController = ivc;
 		ivc.didLeaveWindowBlock = ^{
@@ -1049,8 +1047,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	} else if (NSOrderedSame == [selectedFile.name.pathExtension caseInsensitiveCompare:@".pdf"]) {
 		if (![[NSFileManager defaultManager] fileExistsAtPath:selectedFile.fileContentsPath])
 			[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:selectedFile];
-		AppDelegate *del = (AppDelegate*)[TheApp delegate];
-		[del displayPdfFile:selectedFile];
+		[self.view.window.windowController displayPdfFile:selectedFile];
 	} else {
 		[self.outputController loadLocalFile:selectedFile];
 	}

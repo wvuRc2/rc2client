@@ -13,6 +13,8 @@ const NSInteger kMenuView_Theme = 2112;
 const NSInteger kMenu_Chunks = 24090;
 const NSInteger kRHelpMenuTag = 438872;
 
+NSString * const MCEditTextDocumentNotification = @"MCEditTextDocumentNotification";
+
 NSString *const kPref_SupressDeleteFileWarning = @"SupressDeleteFileWarning";
 NSString *const kPref_SupressClearWorkspaceWarning = @"SupressClearWorkspaceWarning";
 NSString *const kPref_CommandHistoryMaxLen = @"CommandHistoryMaxLen";

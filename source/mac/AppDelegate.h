@@ -20,10 +20,6 @@
 @property (nonatomic, readonly) BOOL loggedIn;
 @property (nonatomic, readonly) BOOL isFullScreen;
 
--(void)showViewController:(AMViewController*)controller;
--(void)displayPdfFile:(RCFile*)file;
--(void)popCurrentViewController;
-
 -(IBAction)doLogOut:(id)sender;
 
 -(void)displayTextInExternalEditor:(NSString*)text;

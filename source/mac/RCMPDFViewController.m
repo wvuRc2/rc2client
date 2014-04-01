@@ -8,7 +8,7 @@
 
 #import "RCMPDFViewController.h"
 #import "RCFile.h"
-#import "AppDelegate.h"
+#import "MCMainWindowController.h"
 
 @interface RCMPDFView : PDFView
 @end
@@ -78,7 +78,7 @@
 								   usingHandler:^(CGFloat gestureAmount, NSEventPhase phase, BOOL isComplete, BOOL *stop)
 				{
 					if (phase == NSEventPhaseEnded)
-						[[TheApp delegate] popCurrentViewController];
+						[self.window.windowController popCurrentViewController];
 				}];
 			}
 		}];
