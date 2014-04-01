@@ -117,14 +117,12 @@
 	if (nil == item)
 		item = self.arrayController.selectedObjects.firstObject;
 	if ([item isKindOfClass:[RCWorkspace class]]) {
-		id controller = [TheApp valueForKeyPath:@"delegate.mainWindowController"];
-		[controller openSession:item file:nil inNewWindow:NO];
+		[self.view.window.windowController openSession:item file:nil inNewWindow:NO];
 		return;
 	}
 	if ([item isKindOfClass:[RCProject class]]) {
 		if ([[(RCProject*)item type] isEqualToString:@"admin"]) {
-			id controller = [TheApp valueForKeyPath:@"delegate.mainWindowController"];
-			[controller showAdminTools:self];
+			[self.view.window.windowController showAdminTools:self];
 			return;
 		}
 		if ([[item workspaces] count] < 1)
