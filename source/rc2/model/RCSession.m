@@ -25,8 +25,7 @@
 #import "WebSocket.h"
 #import "WebSocketConnectConfig.h"
 #import "HandshakeHeader.h"
-#import "FMDatabase.h"
-#import "FMResultSet.h"
+#import "FMDB.h"
 
 #define kWebSocketTimeOutSeconds 6
 
