@@ -548,6 +548,8 @@ NSString *const kHelpItemURL = @"url";
 		[self echoInput:dict[@"script"] username:dict[@"username"] user:dict[@"user"]];
 	} else if ([cmd isEqualToString:@"error"]) {
 		[self appendError:dict[@"error"]];
+	} else if ([cmd isEqualToString:@"status"]) {
+		[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:dict[@"status"] attributes:self.outputColors[kOutputColorKey_Status]]];
 	} else if ([cmd isEqualToString:@"join"]) {
 		[self updateUsers:[dict valueForKeyPath:@"session.users"]];
 		NSString *joinstr = [NSString stringWithFormat:@"[%@] %@ joined the session\n", [self.dateFormatter stringFromDate:[NSDate date]], dict[@"user"]];
