@@ -393,6 +393,7 @@ const NSInteger kMaxFontSize = 32;
 		[self.consoleField.window endEditing];
 		[self.delegate executeConsoleCommand:self.inputText];
 		[self addToCommandHistory:self.inputText];
+		[self.consoleField.window makeFirstResponder:self.consoleField];
 	}
 }
 
@@ -403,6 +404,7 @@ const NSInteger kMaxFontSize = 32;
 	self.ignoreExecuteMessage=NO;
 	[self.delegate executeConsoleCommand:self.inputText];
 	[self addToCommandHistory:self.inputText];
+	[self.consoleField.window makeFirstResponder:self.consoleField];
 }
 
 -(IBAction)doClear:(id)sender
@@ -496,7 +498,7 @@ const NSInteger kMaxFontSize = 32;
 -(IBAction)displayHistoryItem:(id)sender
 {
 	NSMenuItem *mi = sender;
-	self.inputText = mi.title;
+	self.inputText = mi.representedObject;
 	self.canExecute = self.inputText.length > 0;
 	[self.consoleField.window makeFirstResponder:self.consoleField];
 }
@@ -563,6 +565,7 @@ const NSInteger kMaxFontSize = 32;
 		return YES;
 	} else if (command == @selector(insertNewline:)) {
 		[self doExecuteQuery:self];
+		[self.consoleField.window makeFirstResponder:self.consoleField];
 	}
 	return NO;
 }
@@ -586,6 +589,7 @@ const NSInteger kMaxFontSize = 32;
 			str = [[str substringToIndex:49] stringByAppendingString:@"…"];
 		NSMenuItem *mi = [[NSMenuItem alloc] initWithTitle:str action:@selector(displayHistoryItem:) keyEquivalent:@""];
 		mi.target = self;
+		mi.representedObject = item;
 		[menu addItem:mi];
 	}
 }

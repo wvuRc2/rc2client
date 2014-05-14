@@ -611,15 +611,13 @@ NSString *const kHelpItemURL = @"url";
 	} else if ([cmd isEqualToString:@"results"]) {
 		if ([dict objectForKey:@"helpPath"]) {
 			[self handleHelpResults:dict];
-		} else if ([dict objectForKey:@"complexResults"]) {
-NSLog(@"complexResults!");
-		} else if ([dict objectForKey:@"json"]) {
-			NSLog(@"json results!");
 		} else if ([dict objectForKey:@"stdout"]) {
 			if ([dict objectForKey:@"command"]) {
 				[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:dict[@"command"] attributes:self.outputColors[kOutputColorKey_Input]]];
 			}
 			[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:dict[@"string"] attributes:nil]];
+		} else if ([dict objectForKey:@"stderr"]) {
+			[self.delegate appendAttributedString:[[NSAttributedString alloc] initWithString:dict[@"string"] attributes:self.outputColors[kOutputColorKey_Error]]];
 		}
 		if ([[dict objectForKey:@"imageUrls"] count] > 0) {
 			//this call caches the images, so we call even though we don't need the returned array
@@ -643,8 +641,9 @@ NSLog(@"complexResults!");
 		if (self.variablesVisible && [dict objectForKey:@"variables"])
 			[self updateVariables:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {
-		[self appendFiles:@[dict]];
-		[self.workspace updateFileId:dict[@"fileId"]];
+		NSDictionary *fileDict = [dict objectForKey:@"file"];
+		[self appendFiles:@[fileDict]];
+		[self.workspace updateFileId:fileDict[@"fileId"]];
 	} else if ([cmd isEqualToString:@"sasoutput"]) {
 		[self appendFiles:dict[@"files"]];
 		if (dict[@"error"])

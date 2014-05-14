@@ -978,12 +978,12 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 
 -(IBAction)handleDropboxSync:(id)useless
 {
-	self.dbsync = [[RCDropboxSync alloc] initWithWorkspace:self.session.workspace];
-	self.dbsync.syncDelegate = self;
-	[self.dbsync startSync];
-	if (!self.busy)
-		self.busy = YES;
-	self.statusMessage = @"Starting Dropbox sync…";
+//	self.dbsync = [[RCDropboxSync alloc] initWithWorkspace:self.session.workspace];
+//	self.dbsync.syncDelegate = self;
+//	[self.dbsync startSync];
+//	if (!self.busy)
+//		self.busy = YES;
+//	self.statusMessage = @"Starting Dropbox sync…";
 }
 
 -(void)dbsync:(RCDropboxSync*)sync updateProgress:(CGFloat)percent message:(NSString*)message
