@@ -150,6 +150,8 @@ const NSInteger kMaxFontSize = 32;
 			savedState.consoleRtf = data;
 		else
 			Rc2LogError(@"error saving document data:%@", err);
+	} else {
+		savedState.consoleRtf = nil;
 	}
 	savedState.commandHistory = self.commandHistory;
 }
@@ -393,7 +395,9 @@ const NSInteger kMaxFontSize = 32;
 		[self.consoleField.window endEditing];
 		[self.delegate executeConsoleCommand:self.inputText];
 		[self addToCommandHistory:self.inputText];
-		[self.consoleField.window makeFirstResponder:self.consoleField];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.consoleField.window makeFirstResponder:self.consoleField];
+		});
 	}
 }
 
