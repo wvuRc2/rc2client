@@ -3579,7 +3579,8 @@
 					"\"$(SRCROOT)/Vendor/\"/**",
 					"\" \"$(BUILT_PRODUCTS_DIR)/include",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** \"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
+					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3621,7 +3622,8 @@
 					"\"$(SRCROOT)/Vendor/\"/**",
 					"\" \"$(BUILT_PRODUCTS_DIR)/include",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** \"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
+					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3695,7 +3697,8 @@
 					"\"$(SRCROOT)/Vendor/\"/**",
 					"\" \"$(BUILT_PRODUCTS_DIR)/include",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** \"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
+					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
