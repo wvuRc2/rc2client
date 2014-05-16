@@ -72,9 +72,9 @@
 			<key>Extension</key>
 			<string>sas</string>
 			<key>Name</key>
-			<string>Sas file</string>
+			<string>SAS file</string>
 			<key>Description</key>
-			<string>Sas source file (.sas)</string>
+			<string>SAS source file (.sas)</string>
 			<key>IconName</key>
 			<string>sas</string>
 			<key>IsTextFile</key>
