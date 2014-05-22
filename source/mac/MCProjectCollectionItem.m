@@ -88,7 +88,7 @@
 	self.cellView.shareButton.state = [[self.representedObject name] length] > 6;
 	//tell delegate
 	id del = self.collectionView.delegate;
-	NSRect r = [self.cellView.shareButton convertRect:self.cellView.shareButton.frame toView:self.view];
+	NSRect r = [self.cellView.shareButton convertRect:self.cellView.shareButton.bounds toView:self.collectionView];
 	[del collectionView:(id)self.collectionView showShareInfo:self.representedObject fromRect:r];
 }
 

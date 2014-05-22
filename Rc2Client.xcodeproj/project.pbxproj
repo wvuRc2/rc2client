@@ -148,6 +148,10 @@
 		084594BD15B5F53900297C9D /* NoodleLineNumberMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B415B5F53900297C9D /* NoodleLineNumberMarker.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		084594BE15B5F53900297C9D /* NoodleLineNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B615B5F53900297C9D /* NoodleLineNumberView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		084594BF15B5F53900297C9D /* PXSourceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B915B5F53900297C9D /* PXSourceList.m */; settings = {COMPILER_FLAGS = "-Wno-format"; }; };
+		0845C540192E8554009877E5 /* MCProjectShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845C53E192E8554009877E5 /* MCProjectShareController.m */; };
+		0845C541192E8554009877E5 /* MCProjectShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845C53F192E8554009877E5 /* MCProjectShareController.xib */; };
+		0845C544192E9118009877E5 /* MCProjectShareCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845C543192E9118009877E5 /* MCProjectShareCellView.m */; };
+		0845C546192E99C6009877E5 /* MCProjectShareCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845C545192E99C6009877E5 /* MCProjectShareCellView.xib */; };
 		0847FDAC175D30AF00D950EA /* MCTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDAB175D30AF00D950EA /* MCTableRowView.m */; };
 		0847FDC617679F6F00D950EA /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0847FDC317679F6F00D950EA /* MASPreferencesWindow.xib */; };
 		0847FDC717679F6F00D950EA /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0847FDC517679F6F00D950EA /* MASPreferencesWindowController.m */; };
@@ -767,6 +771,12 @@
 		084594B915B5F53900297C9D /* PXSourceList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PXSourceList.m; sourceTree = "<group>"; };
 		084594BA15B5F53900297C9D /* PXSourceListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceListDataSource.h; sourceTree = "<group>"; };
 		084594BB15B5F53900297C9D /* PXSourceListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceListDelegate.h; sourceTree = "<group>"; };
+		0845C53D192E8554009877E5 /* MCProjectShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCProjectShareController.h; sourceTree = "<group>"; };
+		0845C53E192E8554009877E5 /* MCProjectShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCProjectShareController.m; sourceTree = "<group>"; };
+		0845C53F192E8554009877E5 /* MCProjectShareController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCProjectShareController.xib; sourceTree = "<group>"; };
+		0845C542192E9118009877E5 /* MCProjectShareCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCProjectShareCellView.h; sourceTree = "<group>"; };
+		0845C543192E9118009877E5 /* MCProjectShareCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCProjectShareCellView.m; sourceTree = "<group>"; };
+		0845C545192E99C6009877E5 /* MCProjectShareCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCProjectShareCellView.xib; sourceTree = "<group>"; };
 		0847FDAA175D30AF00D950EA /* MCTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTableRowView.h; sourceTree = "<group>"; };
 		0847FDAB175D30AF00D950EA /* MCTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTableRowView.m; sourceTree = "<group>"; };
 		0847FDC217679F6E00D950EA /* MASPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASPreferencesViewController.h; path = Dependencies/MASPreferences/MASPreferencesViewController.h; sourceTree = SOURCE_ROOT; };
@@ -1720,6 +1730,12 @@
 				08B74C5D163AE72100083F9A /* MCProjectItemWorkspace.xib */,
 				08B74C591639EAB800083F9A /* MCProjectCollectionView.h */,
 				08B74C5A1639EAB800083F9A /* MCProjectCollectionView.m */,
+				0845C53D192E8554009877E5 /* MCProjectShareController.h */,
+				0845C53E192E8554009877E5 /* MCProjectShareController.m */,
+				0845C53F192E8554009877E5 /* MCProjectShareController.xib */,
+				0845C542192E9118009877E5 /* MCProjectShareCellView.h */,
+				0845C543192E9118009877E5 /* MCProjectShareCellView.m */,
+				0845C545192E99C6009877E5 /* MCProjectShareCellView.xib */,
 			);
 			name = "project view";
 			sourceTree = "<group>";
@@ -2742,6 +2758,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0845C546192E99C6009877E5 /* MCProjectShareCellView.xib in Resources */,
 				08F65CF8187DF5B30039F74B /* MacClient.xcassets in Resources */,
 				08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */,
 				08BDDDC017ECCD7A00E669E3 /* CommonDefaults.plist in Resources */,
@@ -2751,6 +2768,7 @@
 				0845942615B5F22700297C9D /* Rdoc.icns in Resources */,
 				082D1EC817E38B6900723EB3 /* RKeywords.txt in Resources */,
 				0845942715B5F22700297C9D /* RLogo.icns in Resources */,
+				0845C541192E8554009877E5 /* MCProjectShareController.xib in Resources */,
 				0845943C15B5F29200297C9D /* MCLoginController.xib in Resources */,
 				0845943F15B5F29200297C9D /* MacMainWindow.xib in Resources */,
 				0845944215B5F29200297C9D /* MCSessionViewController.xib in Resources */,
@@ -3162,6 +3180,7 @@
 				08D2466315B5EDE30064A9FA /* SBJsonBase.m in Sources */,
 				08D2466415B5EDE30064A9FA /* SBJsonParser.m in Sources */,
 				08BDDD9D17EA48AB00E669E3 /* NSManagedObject+MagicalFinders.m in Sources */,
+				0845C544192E9118009877E5 /* MCProjectShareCellView.m in Sources */,
 				08D2466515B5EDE30064A9FA /* SBJsonWriter.m in Sources */,
 				08CB421A187F48AF00F0F794 /* MCHelpSheetController.m in Sources */,
 				08D2466615B5EE670064A9FA /* AsyncSocket.m in Sources */,
@@ -3170,6 +3189,7 @@
 				08D2466815B5EE670064A9FA /* HandshakeHeader.m in Sources */,
 				08D2466915B5EE670064A9FA /* MutableQueue.m in Sources */,
 				08D2466A15B5EE670064A9FA /* NSData+Base64.m in Sources */,
+				0845C540192E8554009877E5 /* MCProjectShareController.m in Sources */,
 				08D2466B15B5EE670064A9FA /* WebSocket.m in Sources */,
 				08BDDDA517EA48AB00E669E3 /* NSManagedObjectContext+MagicalRecord.m in Sources */,
 				08D2466C15B5EE670064A9FA /* WebSocket00.m in Sources */,

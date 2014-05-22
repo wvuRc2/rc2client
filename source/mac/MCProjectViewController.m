@@ -16,17 +16,20 @@
 #import "ThemeEngine.h"
 #import "MCAppConstants.h"
 #import "MCMainWindowController.h" //for doBackToMainView: selector
+#import "MCProjectShareController.h"
 
 @interface MCProjectView : AMControlledView
 
 @end
 
-@interface MCProjectViewController () <ProjectCollectionDelegate>
+@interface MCProjectViewController () <ProjectCollectionDelegate,NSPopoverDelegate>
 @property (weak) IBOutlet MCProjectCollectionView *collectionView;
 @property (strong) IBOutlet NSArrayController *arrayController;
 @property (strong) NSMutableArray *pathCells;
 @property (weak) IBOutlet NSPathControl *pathControl;
 @property (strong) RCProject *selectedProject;
+@property (strong) MCProjectShareController *currentShareController;
+@property (strong) NSPopover *sharePopover;
 @end
 
 @implementation MCProjectViewController
@@ -328,7 +331,18 @@
 
 -(void)collectionView:(MCProjectCollectionView *)cview showShareInfo:(RCProject*)project fromRect:(NSRect)rect
 {
-	NSLog(@"show share info");
+	self.currentShareController = [[MCProjectShareController alloc] init];
+	self.sharePopover = [[NSPopover alloc] init];
+	self.sharePopover.behavior = NSPopoverBehaviorTransient;
+	self.sharePopover.contentViewController = self.currentShareController;
+	self.sharePopover.delegate = self;
+	[self.sharePopover showRelativeToRect:rect ofView:cview preferredEdge:NSMaxXEdge];
+}
+
+-(void)popoverDidClose:(NSNotification *)notification
+{
+	self.currentShareController = nil;
+	self.sharePopover = nil;
 }
 
 @end
