@@ -81,6 +81,12 @@ extern NSString * const FileDeletedNotification;
 -(void)deleteProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock;
 //triggers a refresh of projects. use KVO to know when it has been updated
 -(void)updateProjects;
+//return array of user dicts
+-(void)sharesForProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock;
+//share a project with a user
+-(void)shareProject:(RCProject*)project userId:(NSNumber*)userId completionBlock:(Rc2FetchCompletionHandler)hblock;
+//stop sharing of a project with a user
+-(void)unshareProject:(RCProject*)project userId:(NSNumber*)userId completionBlock:(Rc2FetchCompletionHandler)hblock;
 
 #pragma mark - workspaces
 

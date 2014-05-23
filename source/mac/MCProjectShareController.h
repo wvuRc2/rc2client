@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MCProjectShareController : AMViewController
+@class RCProject;
 
+@interface MCProjectShareController : AMViewController
+@property (nonatomic, strong) RCProject *project;
 @end

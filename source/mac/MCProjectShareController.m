@@ -45,16 +45,48 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.view.window makeFirstResponder:self.searchField];
 	});
+	[[Rc2Server sharedInstance] sharesForProject:self.project completionBlock:^(BOOL success, id results)
+	 {
+		 if (success) {
+			 self.sharedUsers = results;
+			 [self.shareTable reloadData];
+		 } else {
+			 //TODO: tell user failed to load
+		 }
+	 }];
 }
 
 -(IBAction)addUserToShareList:(id)sender
 {
-	
+	NSDictionary *userDict = self.selectedResult;
+	if ([self.sharedUsers firstObjectWithValue:userDict[@"id"] forKey:@"id"])
+		return;
+	[[Rc2Server sharedInstance] shareProject:self.project userId:userDict[@"id"] completionBlock:^(BOOL success, id results)
+	{
+		if (success) {
+			NSArray *shares = [self.sharedUsers arrayByAddingObject:results];
+			self.sharedUsers = shares;
+			self.selectedResult = nil;
+			self.searchResults = [self.searchResults arrayByRemovingObjectAtIndex:[self.searchResults indexOfObject:userDict]];
+			[self.searchTable reloadData];
+			[self.shareTable reloadData];
+		} else {
+			NSBeep();
+		}
+	}];
 }
 
 -(IBAction)removeUserFromShareList:(id)sender
 {
-	
+	NSDictionary *userDict = self.selectedUser;
+	[[Rc2Server sharedInstance] unshareProject:self.project userId:userDict[@"id"] completionBlock:^(BOOL success, id results)
+	{
+		if (success) {
+			self.sharedUsers = [self.sharedUsers arrayByRemovingObjectAtIndex:[self.sharedUsers indexOfObject:userDict]];
+			self.selectedUser = nil;
+			[self.shareTable reloadData];
+		}
+	}];
 }
 
 -(IBAction)searchUsers:(id)sender
@@ -110,6 +142,20 @@
 	} else {
 		self.selectedUser = idx >= 0 ? self.sharedUsers[idx] : nil;
 	}
+}
+
+#pragma mark - accessors
+
+-(void)setSearchResults:(NSArray *)searchResults
+{
+	NSArray *sd = @[[NSSortDescriptor sortDescriptorWithKey:@"login" ascending:YES]];
+	_searchResults = [searchResults sortedArrayUsingDescriptors:sd];
+}
+
+-(void)setSharedUsers:(NSArray *)sharedUsers
+{
+	NSArray *sd = @[[NSSortDescriptor sortDescriptorWithKey:@"login" ascending:YES]];
+	_sharedUsers = [sharedUsers sortedArrayUsingDescriptors:sd];
 }
 
 @end

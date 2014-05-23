@@ -238,6 +238,46 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	}
 }
 
+-(void)sharesForProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock
+{
+	NSString *path = [NSString stringWithFormat:@"proj/%@/share", project.projectId];
+	[self genericGetRequest:path parameters:nil handler:^(BOOL success, id results) {
+		if (success)
+			hblock(YES, [results objectForKey:@"users"]);
+		else
+			hblock(NO, [results objectForKey:@"message"]);
+	}];
+}
+
+-(void)shareProject:(RCProject*)project userId:(NSNumber*)userId completionBlock:(Rc2FetchCompletionHandler)hblock
+{
+	NSString *path = [NSString stringWithFormat:@"proj/%@/share/%@", project.projectId, userId];
+	[_httpClient postPath:path parameters:nil success:^(id op, id rsp) {
+		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+			hblock(YES, [rsp objectForKey:@"user"]);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
+-(void)unshareProject:(RCProject*)project userId:(NSNumber*)userId completionBlock:(Rc2FetchCompletionHandler)hblock
+{
+	NSString *path = [NSString stringWithFormat:@"proj/%@/share/%@", project.projectId, userId];
+	[_httpClient deletePath:path parameters:nil success:^(id op, id rsp) {
+		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+			hblock(YES, project);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
+
 #pragma mark - workspaces
 
 //updates the project object, calls hblock with the new workspace

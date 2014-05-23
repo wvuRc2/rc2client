@@ -332,6 +332,7 @@
 -(void)collectionView:(MCProjectCollectionView *)cview showShareInfo:(RCProject*)project fromRect:(NSRect)rect
 {
 	self.currentShareController = [[MCProjectShareController alloc] init];
+	self.currentShareController.project = project;
 	self.sharePopover = [[NSPopover alloc] init];
 	self.sharePopover.behavior = NSPopoverBehaviorTransient;
 	self.sharePopover.contentViewController = self.currentShareController;
