@@ -358,6 +358,22 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	}];
 }
 
+-(void)toggleWorkspaceShare:(RCWorkspace*)wspace share:(BOOL)shareWS completionHandler:(Rc2FetchCompletionHandler)hblock
+{
+	NSString *path = [NSString stringWithFormat:@"wspace/%@/share", wspace.wspaceId];
+	[_httpClient putPath:path parameters:@{@"toggle": @YES} success:^(id op, id rsp) {
+		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+			wspace.shared = [[[rsp objectForKey:@"workspace"] objectForKey:@"shared"] boolValue];
+			hblock(YES, wspace);
+		} else {
+			hblock(NO, [rsp objectForKey:@"message"]);
+		}
+	} failure:^(id op, NSError *error) {
+		hblock(NO, [error localizedDescription]);
+	}];
+}
+
+
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace
 {
 	return [RCSavedSession MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"wspaceId = %@ and login like %@",

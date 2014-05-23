@@ -25,6 +25,7 @@
 -(void)startEditing;
 -(void)endEditing;
 -(void)adjustColors;
+-(void)setupShareButton;
 @end
 
 @interface MCProjectCollectionItem()
@@ -82,14 +83,25 @@
 	return (MacProjectCellView*)self.view;
 }
 
--(IBAction)showShareInfo:(id)sender
+-(IBAction)shareButtonClicked:(id)sender
 {
-	//reset button to current state
-	self.cellView.shareButton.state = [[self.representedObject name] length] > 6;
-	//tell delegate
-	id del = self.collectionView.delegate;
-	NSRect r = [self.cellView.shareButton convertRect:self.cellView.shareButton.bounds toView:self.collectionView];
-	[del collectionView:(id)self.collectionView showShareInfo:self.representedObject fromRect:r];
+	if ([self.representedObject isKindOfClass:[RCProject class]]) {
+		//tell delegate
+		id del = self.collectionView.delegate;
+		NSRect r = [self.cellView.shareButton convertRect:self.cellView.shareButton.bounds toView:self.collectionView];
+		[del collectionView:(id)self.collectionView showShareInfo:self.representedObject fromRect:r];
+	} else {
+		//workspace
+		RCWorkspace *ws = self.representedObject;
+		[[Rc2Server sharedInstance] toggleWorkspaceShare:ws share:!ws.shared completionHandler:^(BOOL success, id results)
+		{
+			if (!success) {
+				self.cellView.shareButton.state = ws.shared ? NSOnState : NSOffState;
+				NSBeep();
+				//TODO: give message to user
+			}
+		}];
+	}
 }
 
 -(void)reloadItemDetails
@@ -109,6 +121,7 @@
 		//workspace
 		self.imageView.image = [NSImage imageNamed:NSImageNameMultipleDocuments];
 		[self.lastModifiedField setObjectValue:[self.representedObject lastAccess]];
+		[[self.cellView shareButton] setState:[[self representedObject] shared] ? NSOnState : NSOffState];
 	}
 	NSString *label = [self.representedObject name];
 	if (nil == label)
@@ -129,7 +142,7 @@
 	self.cellView.isProject = [representedObject isKindOfClass:[RCProject class]];
 	self.cellView.isCourse = self.cellView.isProject && [representedObject isClass];
 	[self.cellView adjustColors];
-	self.cellView.shareButton.state = [[representedObject name] length] > 6;
+	[self.cellView setupShareButton];
 	[self reloadItemDetails];
 }
 
@@ -160,10 +173,6 @@
 	layer.backgroundColor = self.regColor.CGColor;
 	[self.layer addSublayer:layer];
 	self.innerLayer = layer;
-	NSImage *baseImg = self.shareButton.image;
-	self.shareButton.image = [baseImg tintedImageWithColor:[NSColor darkGrayColor]];
-	self.shareButton.alternateImage = [baseImg tintedImageWithColor:[NSColor lightGrayColor]];
-	
 	
 	self.layer.backgroundColor = [NSColor clearColor].CGColor;
 
@@ -171,6 +180,18 @@
 	[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *theme) {
 		[bself adjustColors];
 	}];
+}
+
+-(void)setupShareButton
+{
+	if (self.isProject) {
+		NSImage *baseImg = [NSImage imageNamed:@"shareperm"];
+		self.shareButton.image = [baseImg tintedImageWithColor:[NSColor darkGrayColor]];
+		self.shareButton.alternateImage = [baseImg tintedImageWithColor:[NSColor lightGrayColor]];
+	} else {
+		self.shareButton.image = [NSImage imageNamed:@"shared"];
+		self.shareButton.alternateImage = [NSImage imageNamed:@"sharedFull"];
+	}
 }
 
 -(void)startEditing

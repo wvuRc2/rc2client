@@ -30,7 +30,7 @@
 		self.dropboxPath = [dict objectForKeyWithNullAsNil:@"dbpath"];
 		self.dropboxHash = [dict objectForKeyWithNullAsNil:@"dbhash"];
 		self.dropboxHistory = [dict objectForKeyWithNullAsNil:@"dbhistory"];
-		self.shared = [[dict objectForKeyWithNullAsNil:@"shared"] booleanValue];
+		self.shared = [[dict objectForKeyWithNullAsNil:@"shared"] boolValue];
 		
 		self.wspaceId = [dict objectForKey:@"id"];
 		NSNumber *ladate = [dict objectForKey:@"lastaccess"];
