@@ -15,8 +15,13 @@
 
 @interface MacProjectCellView : AMControlledView
 @property (nonatomic) BOOL selected;
-@property (nonatomic) BOOL isProject;
-@property (nonatomic) BOOL isCourse;
+@property (nonatomic, weak) id representedObject;
+@property (nonatomic, readonly) RCProject *project;
+@property (nonatomic, readonly) RCWorkspace *workspace;
+//legacy accessors from before we had above
+@property (nonatomic, readonly) BOOL isProject;
+@property (nonatomic, readonly) BOOL isClass;
+
 @property (strong) AMColor *regColor;
 @property (weak) CALayer *innerLayer;
 @property (weak) IBOutlet NSTextField *itemLabel;
@@ -119,9 +124,11 @@
 		[[self.cellView shareButton] setHidden: !proj.userEditable];
 	} else {
 		//workspace
+		RCWorkspace *ws = self.representedObject;
 		self.imageView.image = [NSImage imageNamed:NSImageNameMultipleDocuments];
-		[self.lastModifiedField setObjectValue:[self.representedObject lastAccess]];
-		[[self.cellView shareButton] setState:[[self representedObject] shared] ? NSOnState : NSOffState];
+		[self.lastModifiedField setObjectValue:ws.lastAccess];
+		[[self.cellView shareButton] setHidden:ws.project.isShared];
+		[[self.cellView shareButton] setState:ws.shared ? NSOnState : NSOffState];
 	}
 	NSString *label = [self.representedObject name];
 	if (nil == label)
@@ -139,8 +146,7 @@
 	}
 	self.itemLabel.delegate = self;
 	[self.cellView setItemLabel:self.itemLabel];
-	self.cellView.isProject = [representedObject isKindOfClass:[RCProject class]];
-	self.cellView.isCourse = self.cellView.isProject && [representedObject isClass];
+	self.cellView.representedObject = self.representedObject;
 	[self.cellView adjustColors];
 	[self.cellView setupShareButton];
 	[self reloadItemDetails];
@@ -158,7 +164,6 @@
 
 -(void)awakeFromNib
 {
-	self.isProject = YES;
 	CALayer *layer = self.innerView.layer;
 	layer.cornerRadius = 13.0;
 	layer.backgroundColor = [NSColor whiteColor].CGColor;
@@ -182,9 +187,27 @@
 	}];
 }
 
+-(RCProject*)project
+{
+	if ([self.representedObject isKindOfClass:[RCProject class]])
+		return self.representedObject;
+	return nil;
+}
+
+-(RCWorkspace*)workspace
+{
+	if ([self.representedObject isKindOfClass:[RCWorkspace class]])
+		return self.representedObject;
+	return nil;
+}
+
+-(BOOL)isClass { return self.project.isClass; }
+
+-(BOOL)isProject { return [self.representedObject isKindOfClass:[RCProject class]]; }
+
 -(void)setupShareButton
 {
-	if (self.isProject) {
+	if (self.project) {
 		NSImage *baseImg = [NSImage imageNamed:@"shareperm"];
 		self.shareButton.image = [baseImg tintedImageWithColor:[NSColor darkGrayColor]];
 		self.shareButton.alternateImage = [baseImg tintedImageWithColor:[NSColor lightGrayColor]];
@@ -250,7 +273,15 @@
 -(void)adjustColors
 {
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
-	NSString *cstring = self.isCourse ? @"ClassColor" : (self.isProject ? @"ProjectColor" : @"WorkspaceColor");
+	NSString *cstring = @"WorkspaceColor";
+	if (self.project) {
+		if (self.project.isClass)
+			cstring = @"ClassColor";
+		else if (self.project.isShared)
+			cstring = @"SharedProjectColor";
+		else
+			cstring = @"ProjectColor";
+	}
 	AMColor *color = [AMColor colorWithColor: [theme colorForKey: cstring]];
 	self.regColor = [color colorWithAlpha:0.3];
 	self.innerLayer.backgroundColor = self.regColor.CGColor;

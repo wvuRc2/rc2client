@@ -136,7 +136,7 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 
 -(BOOL)userEditable
 {
-	if ([_type isEqualToString:@"admin"] || [_type isEqualToString:@"class"])
+	if ([_type isEqualToString:@"admin"] || [_type isEqualToString:@"class"] || [_type isEqualToString:@"shared"])
 		return NO;
 	return YES;
 }
@@ -149,6 +149,11 @@ NSString * const RCFileContainerChangedNotification = @"RCFileContainerChangedNo
 -(BOOL)isClass
 {
 	return [_type isEqualToString:@"class"];
+}
+
+-(BOOL)isShared
+{
+	return [_type isEqualToString:@"shared"];
 }
 
 -(NSString*)description

@@ -22,6 +22,8 @@
 		<string>b7b7b7</string>
 		<key>ClassColor</key>
 		<string>eeb6b7</string>
+		<key>SharedProjectColor</key>
+		<string>d3e39d</string>
 		<key>NoteCellStart</key>
 		<string>e5d28d</string>
 		<key>NoteCellEnd</key>

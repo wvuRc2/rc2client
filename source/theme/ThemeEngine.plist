@@ -25,6 +25,7 @@
 		<string>ResultsOddRow</string>
 		<string>ProjectColor</string>
 		<string>WorkspaceColor</string>
+		<string>SharedProjectColor</string>
 		<string>MessageBackground</string>
 		<string>MessageCellStart</string>
 		<string>MessageCellEnd</string>
