@@ -22,7 +22,10 @@
 @property (nonatomic, copy) NSString *dropboxPath;
 @property (nonatomic, copy) NSString *dropboxHash;
 @property (nonatomic, copy) NSString *dropboxHistory;
-@property (nonatomic, assign) BOOL shared;
+@property (nonatomic, copy) NSString *sharePerms;
+@property (nonatomic, readonly) BOOL isShareNone;
+@property (nonatomic, readonly) BOOL isShareRO;
+@property (nonatomic, readonly) BOOL isShareRW;
 
 @property (nonatomic, copy, readonly) NSArray *files;
 @property (nonatomic, readonly) RCWorkspaceCache *cache;

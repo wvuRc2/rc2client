@@ -97,7 +97,7 @@ extern NSString * const FileDeletedNotification;
 -(void)deleteWorkspce:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)renameWorkspce:(RCWorkspace*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)refereshWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
--(void)toggleWorkspaceShare:(RCWorkspace*)wspace share:(BOOL)shareWS completionHandler:(Rc2FetchCompletionHandler)hblock;
+-(void)updateWorkspaceShare:(RCWorkspace*)wspace perm:(NSString*)sharPerm completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace;
 

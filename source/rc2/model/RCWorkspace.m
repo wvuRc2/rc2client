@@ -30,7 +30,7 @@
 		self.dropboxPath = [dict objectForKeyWithNullAsNil:@"dbpath"];
 		self.dropboxHash = [dict objectForKeyWithNullAsNil:@"dbhash"];
 		self.dropboxHistory = [dict objectForKeyWithNullAsNil:@"dbhistory"];
-		self.shared = [[dict objectForKeyWithNullAsNil:@"shared"] boolValue];
+		self.sharePerms = [dict objectForKeyWithNullAsNil:@"sharePermissions"];
 		
 		self.wspaceId = [dict objectForKey:@"id"];
 		NSNumber *ladate = [dict objectForKey:@"lastaccess"];
@@ -181,6 +181,28 @@
 -(NSNumber*)projectId
 {
 	return self.project.projectId;
+}
+
+-(BOOL)isShareNone
+{
+	return self.sharePerms.length < 2;
+}
+
+-(BOOL)isShareRO
+{
+	return [self.sharePerms isEqualToString:@"ro"];
+}
+
+-(BOOL)isShareRW
+{
+	return [self.sharePerms isEqualToString:@"rw"];
+}
+
+-(void)setSharePerms:(NSString *)sharePerms
+{
+	if ([sharePerms isEqual: [NSNull null]])
+		sharePerms = nil;
+	_sharePerms = [sharePerms copy];
 }
 
 -(id)debugQuickLookObject

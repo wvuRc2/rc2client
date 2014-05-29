@@ -358,12 +358,14 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	}];
 }
 
--(void)toggleWorkspaceShare:(RCWorkspace*)wspace share:(BOOL)shareWS completionHandler:(Rc2FetchCompletionHandler)hblock
+-(void)updateWorkspaceShare:(RCWorkspace*)wspace perm:(NSString*)sharePerm completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	NSString *path = [NSString stringWithFormat:@"wspace/%@/share", wspace.wspaceId];
-	[_httpClient putPath:path parameters:@{@"toggle": @YES} success:^(id op, id rsp) {
+	if (sharePerm == nil)
+		sharePerm = (NSString*)[NSNull null];
+	[_httpClient putPath:path parameters:@{@"perm": sharePerm} success:^(id op, id rsp) {
 		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
-			wspace.shared = [[[rsp objectForKey:@"workspace"] objectForKey:@"shared"] boolValue];
+			wspace.sharePerms = [[rsp objectForKey:@"workspace"] objectForKey:@"sharePermissions"];
 			hblock(YES, wspace);
 		} else {
 			hblock(NO, [rsp objectForKey:@"message"]);

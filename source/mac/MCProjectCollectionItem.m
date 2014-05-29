@@ -88,6 +88,21 @@
 	return (MacProjectCellView*)self.view;
 }
 
+-(void)adjustShareButton
+{
+	RCWorkspace *ws = self.representedObject;
+	if (ws.isShareNone) {
+		self.cellView.shareButton.image = [NSImage imageNamed:@"sharedDisabled"];
+		self.cellView.shareButton.toolTip = @"Not shared";
+	} else if (ws.isShareRO) {
+			self.cellView.shareButton.image = [NSImage imageNamed:@"shared"];
+			self.cellView.shareButton.toolTip = @"Shared read-only";
+	} else if (ws.isShareRW) {
+		self.cellView.shareButton.image = [NSImage imageNamed:@"sharedFull"];
+		self.cellView.shareButton.toolTip = @"Shared read-write";
+	}
+}
+
 -(IBAction)shareButtonClicked:(id)sender
 {
 	if ([self.representedObject isKindOfClass:[RCProject class]]) {
@@ -98,10 +113,15 @@
 	} else {
 		//workspace
 		RCWorkspace *ws = self.representedObject;
-		[[Rc2Server sharedInstance] toggleWorkspaceShare:ws share:!ws.shared completionHandler:^(BOOL success, id results)
+		NSString *newPerm = nil;
+		if (ws.isShareNone)
+			newPerm = @"ro";
+		else if (ws.isShareRO)
+			newPerm = @"rw";
+		[[Rc2Server sharedInstance] updateWorkspaceShare:ws perm:newPerm completionHandler:^(BOOL success, id results)
 		{
+			[self adjustShareButton];
 			if (!success) {
-				self.cellView.shareButton.state = ws.shared ? NSOnState : NSOffState;
 				NSBeep();
 				//TODO: give message to user
 			}
@@ -128,7 +148,7 @@
 		self.imageView.image = [NSImage imageNamed:NSImageNameMultipleDocuments];
 		[self.lastModifiedField setObjectValue:ws.lastAccess];
 		[[self.cellView shareButton] setHidden:ws.project.isShared];
-		[[self.cellView shareButton] setState:ws.shared ? NSOnState : NSOffState];
+		[self adjustShareButton];
 	}
 	NSString *label = [self.representedObject name];
 	if (nil == label)
