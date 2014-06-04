@@ -53,6 +53,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 @property (nonatomic, strong) NSTimer *keepAliveTimer;
 @property (nonatomic, strong) NSDate *timeOfLastTraffic;
 @property (nonatomic, strong) NSMutableDictionary *listVariableCallbacks;
+@property (nonatomic, strong) NSRegularExpression *helpRegex;
 #if TARGET_OS_IPHONE
 @property (nonatomic, strong) dispatch_queue_t searchQueue;
 #else
@@ -97,6 +98,11 @@ NSString *const kHelpItemURL = @"url";
 		self.dateFormatter = [[NSDateFormatter alloc] init];
 		self.dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
 		self.dateFormatter.dateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
+		NSError *err=nil;
+		self.helpRegex = [NSRegularExpression regularExpressionWithPattern:@"(help\\(([\\w\\d]+)\\)\\s*;?\\s?)" options:0 error:&err];
+		if (nil == self.helpRegex) {
+			Rc2LogError(@"error compiling help regex:%@", err);
+		}
     }
     return self;
 }
@@ -214,8 +220,20 @@ NSString *const kHelpItemURL = @"url";
 	if (script.stringByTrimmingWhitespace.length < 1)
 		return; //don't send empty strings
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObject:@"executeScript" forKey:@"cmd"];
-	if (script)
+	if (script) {
+		NSTextCheckingResult *helpResult = [self.helpRegex firstMatchInString:script options:0 range:NSMakeRange(0, script.length)];
+		if (helpResult.numberOfRanges == 3) {
+			NSString *helpTopic = [script substringWithRange:[helpResult rangeAtIndex:2]];
+			NSString *adjScript = [script stringByReplacingCharactersInRange:helpResult.range withString:@""].stringByTrimmingWhitespace;
+			[self lookupInHelp:helpTopic];
+			if (adjScript.length > 1) {
+				script = adjScript;
+			} else {
+				return;
+			}
+		}
 		[dict setObject:script forKey:@"script"];
+	}
 	if (fname)
 		[dict setObject:fname forKey:@"fname"];
 	//the second condtion below is a hack. the server needs to support help output when running with nlAsSemi
@@ -661,6 +679,11 @@ NSString *const kHelpItemURL = @"url";
 	NSMutableArray *helpItems = [NSMutableArray array];
 	for (NSString *aPath in [dict objectForKey:@"helpPath"]) {
 		NSString *thePath = [aPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		NSRange librng = [thePath rangeOfString:@"/library/"];
+		if (librng.length > 0) {
+			thePath = [thePath substringFromIndex:librng.location + 1];
+			thePath = [thePath replaceString:@"/help/" withString:@"/html/"];
+		}
 		NSURL *helpUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.stat.wvu.edu/rc2/%@.html", thePath]];
 
 		NSArray *components = [aPath pathComponents];
@@ -668,20 +691,20 @@ NSString *const kHelpItemURL = @"url";
 		ZAssert(components.count > 3, @"bad help url during title parse");
 		NSString *pkgName = components[components.count - 3];
 		NSString *title = [NSString stringWithFormat:@"%@ {%@}", funName, pkgName];
-		
+		//?? should we not add any item w/o a title or url?
 		[helpItems addObject:@{kHelpItemURL:helpUrl, kHelpItemTitle:title}];
 	}
 	if (helpItems.count > 0) {
 		[self.delegate loadHelpItems:helpItems topic:helpstr];
 	} else {
-		[self.delegate appendAttributedString:[self noHelpFoundString:helpstr]];
+		[self.delegate appendAttributedString:[self noHelpFoundString:dict[@"helpTopic"]]];
 		[self.delegate loadHelpItems:nil topic:helpstr]; //lets it handle per platform (i.e. beep on mac)
 	}
 }
 
 -(NSAttributedString*)noHelpFoundString:(NSString*)helpTopic
 {
-	return [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"No help available for \"%@\"", helpTopic] attributes:self.outputColors[kOutputColorKey_Help]];
+	return [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"No help available for \"%@\"\n", helpTopic] attributes:self.outputColors[kOutputColorKey_Help]];
 }
 
 -(void)appendFiles:(NSArray*)fileInfo
