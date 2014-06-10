@@ -219,15 +219,18 @@ const NSInteger kMaxFontSize = 32;
 // adds ".txt" on to the end and copies to a tmp directory that will be cleaned up later
 -(void)loadFileFromWebTmp:(RCFile*)file
 {
+	__block NSError *err=nil;
 	NSFileManager *fm = [[NSFileManager alloc] init];
-	if (nil == self.webTmpFileDirectory) {
+	if (nil == self.webTmpFileDirectory || ![fm fileExistsAtPath:self.webTmpFileDirectory]) {
 		self.webTmpFileDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
-		[fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+		if (![fm createDirectoryAtPath:self.webTmpFileDirectory withIntermediateDirectories:YES attributes:nil error:&err]) {
+			Rc2LogError(@"failed to create web tmp dir %@: %@", self.webTmpFileDirectory, err);
+			return;
+		}
 	}
 	NSString *newPath = [self.webTmpFileDirectory stringByAppendingPathComponent:file.name];
 	if (NSOrderedSame != [file.name.pathExtension caseInsensitiveCompare:@"html"])
 		newPath = [newPath stringByAppendingPathExtension:@"txt"];
-	__block NSError *err=nil;
 	if ([fm fileExistsAtPath:newPath])
 		[fm removeItemAtPath:newPath error:nil];
 	if (file.contentsLoaded) {

@@ -654,8 +654,9 @@ NSString *const kHelpItemURL = @"url";
 			[mstr appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n"]];
 			[self.delegate appendAttributedString:mstr];
 		}
-		if ([dict objectForKey:@"files"])
+		if ([dict objectForKey:@"files"]) {
 			[self appendFiles:dict[@"files"]];
+		}
 		if (self.variablesVisible && [dict objectForKey:@"variables"])
 			[self updateVariables:[dict objectForKey:@"variables"] isDelta:[[dict objectForKey:@"delta"] boolValue]];
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {
@@ -714,8 +715,8 @@ NSString *const kHelpItemURL = @"url";
 	RCFile *lastFile;
 	for (NSDictionary *fileDict in fileInfo) {
 		lastFile = [self.workspace updateFileId:fileDict[@"fileId"]]; //triggers refresh from server
-		Rc2FileType *ftype = [Rc2FileType fileTypeWithExtension:fileDict[@"ext"]];
-		NSTextAttachment *tattach = [self.delegate textAttachmentForFileId:fileDict[@"fileId"] name:fileDict[@"name"] fileType:ftype];
+		Rc2FileType *ftype = [Rc2FileType fileTypeWithExtension:[fileDict[@"name"] pathExtension]];
+		NSTextAttachment *tattach = [self.delegate textAttachmentForFileId:fileDict[@"id"] name:fileDict[@"name"] fileType:ftype];
 		NSAttributedString *graphStr = [NSAttributedString attributedStringWithAttachment:tattach];
 		[mstr appendAttributedString:graphStr];
 		[mstr appendAttributedString:[[NSAttributedString alloc] initWithString:[fileDict[@"name"] stringByAppendingString:@" "]]];

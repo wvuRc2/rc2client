@@ -91,6 +91,13 @@ const CGFloat kAnimDuration = 0.5;
 	self.modalDimmingView.hidden = YES;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	NSRange rng = NSMakeRange(self.outputView.textStorage.length-2, 1);
+	[self.outputView scrollRangeToVisible:rng];
+}
+
 -(void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];

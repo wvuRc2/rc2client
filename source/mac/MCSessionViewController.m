@@ -1136,7 +1136,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 {
 	NSData *metaData = [NSKeyedArchiver archivedDataWithRootObject:@{@"id":fileId, @"name":fileName, @"ext":fileType.extension}];
 	NSFileWrapper *fw = [[NSFileWrapper alloc] initRegularFileWithContents:metaData];
-	fw.filename = [NSString stringWithFormat:@"file%@", fileId];
+	fw.filename = [NSString stringWithFormat:@"file%@-%ld", fileId, (long)[NSDate timeIntervalSinceReferenceDate]];
 	fw.preferredFilename = fw.filename;
 	NSTextAttachment *tattach = [[NSTextAttachment alloc] initWithFileWrapper:fw];
 	tattach.attachmentCell = [self.outputController attachmentCellForAttachment:tattach];
