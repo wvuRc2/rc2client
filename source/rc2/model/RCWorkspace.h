@@ -45,7 +45,7 @@
 -(RCFile*)fileWithName:(NSString*)fileName;
 
 //for others to tell the workspace that a file was added or updated
--(RCFile*)updateFileId:(NSNumber*)fileId;
+-(RCFile*)updateFileWithMetadata:(NSDictionary*)fileInfo;
 
 -(NSComparisonResult)compareWithItem:(RCWorkspace*)anItem;
 

@@ -198,7 +198,10 @@ const NSInteger kMaxFontSize = 32;
 	NSString *imgName = ftype.iconName;
 	if (nil == imgName)
 		imgName = @"gendoc";
-	return [[NSTextAttachmentCell alloc] initImageCell:[NSImage imageNamed:imgName]];
+	//for types that don't have a 32x32 image, the 128x was being used. this will force them down.
+	NSImage *img = [NSImage imageNamed:imgName];
+	[img setSize:NSMakeSize(32, 32)];
+	return [[NSTextAttachmentCell alloc] initImageCell:img];
 }
 
 -(void)loadFileUrl:(NSURL*)url file:(RCFile*)file

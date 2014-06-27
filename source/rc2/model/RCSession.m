@@ -662,7 +662,7 @@ NSString *const kHelpItemURL = @"url";
 	} else if ([cmd isEqualToString:@"sweaveresults"]) {
 		NSDictionary *fileDict = [dict objectForKey:@"file"];
 		[self appendFiles:@[fileDict]];
-		[self.workspace updateFileId:fileDict[@"fileId"]];
+		[self.workspace updateFileWithMetadata:fileDict];
 	} else if ([cmd isEqualToString:@"sasoutput"]) {
 		[self appendFiles:dict[@"files"]];
 		if (dict[@"error"])
@@ -714,7 +714,7 @@ NSString *const kHelpItemURL = @"url";
 	[mstr replaceCharactersInRange:NSMakeRange(0, 0) withString:@"\n"];
 	RCFile *lastFile;
 	for (NSDictionary *fileDict in fileInfo) {
-		lastFile = [self.workspace updateFileId:fileDict[@"fileId"]]; //triggers refresh from server
+		lastFile = [self.workspace updateFileWithMetadata:fileDict]; //triggers refresh from server
 		Rc2FileType *ftype = [Rc2FileType fileTypeWithExtension:[fileDict[@"name"] pathExtension]];
 		NSTextAttachment *tattach = [self.delegate textAttachmentForFileId:fileDict[@"id"] name:fileDict[@"name"] fileType:ftype];
 		NSAttributedString *graphStr = [NSAttributedString attributedStringWithAttachment:tattach];

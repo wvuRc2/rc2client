@@ -77,11 +77,11 @@
 	}];
 }
 
--(RCFile*)updateFileId:(NSNumber*)fileId
+-(RCFile*)updateFileWithMetadata:(NSDictionary*)fileInfo
 {
-	RCFile *file = [self fileWithId:fileId];
+	RCFile *file = [self fileWithId:fileInfo[@"id"]];
 	if (file) {
-		//FIXME: this doesn't update metadata
+		[file updateWithDictionary:fileInfo];
 		[file updateContentsFromServer:^(NSInteger success){}];
 	} else {
 		//FIXME: for now, we're just refreshing them all
