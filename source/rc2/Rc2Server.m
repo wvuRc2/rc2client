@@ -352,6 +352,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
+	ZAssert(wspace, @"prepareWorkspace: called with null workspace");
 	NSString *path = [NSString stringWithFormat:@"proj/%@/wspace/%@?use", wspace.projectId, wspace.wspaceId];
 	[self genericGetRequest:path parameters:nil handler:^(BOOL success, id results) {
 		hblock(success, results);

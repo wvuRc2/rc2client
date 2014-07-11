@@ -141,7 +141,7 @@ NSString *const kHelpItemURL = @"url";
 	config.timeout = -1;
 	config.keepAlive = 10.0;
 	config.maxPayloadSize = 1024;
-	config.version = WebSocketVersion07;
+	config.version = WebSocketVersionRFC6455;
 	config.headers = [NSMutableArray array];
 	//add cookies
 	NSArray *cks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:config.url];

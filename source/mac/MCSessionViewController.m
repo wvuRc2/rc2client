@@ -54,6 +54,7 @@
 #import "RCDropboxSync.h"
 
 #define logJson 0
+#define DBOX_SYNC_ENABLED 0
 
 void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block);
 
@@ -978,12 +979,16 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 
 -(IBAction)handleDropboxSync:(id)useless
 {
-//	self.dbsync = [[RCDropboxSync alloc] initWithWorkspace:self.session.workspace];
-//	self.dbsync.syncDelegate = self;
-//	[self.dbsync startSync];
-//	if (!self.busy)
-//		self.busy = YES;
-//	self.statusMessage = @"Starting Dropbox sync…";
+#if DBOX_SYNC_ENABLED
+	self.dbsync = [[RCDropboxSync alloc] initWithWorkspace:self.session.workspace];
+	self.dbsync.syncDelegate = self;
+	[self.dbsync startSync];
+	if (!self.busy)
+		self.busy = YES;
+	self.statusMessage = @"Starting Dropbox sync…";
+#else
+	self.busy = NO;
+#endif
 }
 
 -(void)dbsync:(RCDropboxSync*)sync updateProgress:(CGFloat)percent message:(NSString*)message
