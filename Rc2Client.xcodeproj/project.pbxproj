@@ -144,7 +144,6 @@
 		084594A815B5F44400297C9D /* RCMRolePermController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 084594A615B5F44400297C9D /* RCMRolePermController.xib */; };
 		084594AC15B5F46900297C9D /* RCMUserSearchPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594AA15B5F46900297C9D /* RCMUserSearchPopupController.m */; };
 		084594AD15B5F46900297C9D /* RCMUserSearchPopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 084594AB15B5F46900297C9D /* RCMUserSearchPopupController.xib */; };
-		084594BC15B5F53900297C9D /* EMKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B215B5F53900297C9D /* EMKeychainItem.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		084594BD15B5F53900297C9D /* NoodleLineNumberMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B415B5F53900297C9D /* NoodleLineNumberMarker.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		084594BE15B5F53900297C9D /* NoodleLineNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B615B5F53900297C9D /* NoodleLineNumberView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		084594BF15B5F53900297C9D /* PXSourceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 084594B915B5F53900297C9D /* PXSourceList.m */; settings = {COMPILER_FLAGS = "-Wno-format"; }; };
@@ -235,6 +234,12 @@
 		08B74CF61643045F00083F9A /* ProjectViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B74CF51643045F00083F9A /* ProjectViewLayout.m */; };
 		08B74CF81648615800083F9A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CF71648615800083F9A /* Localizable.strings */; };
 		08B74CF91648615800083F9A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08B74CF71648615800083F9A /* Localizable.strings */; };
+		08BAF5281974649C007228DC /* SSKeychain.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08BAF5221974649C007228DC /* SSKeychain.strings */; };
+		08BAF5291974649C007228DC /* SSKeychain.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08BAF5221974649C007228DC /* SSKeychain.strings */; };
+		08BAF52A1974649C007228DC /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF5251974649C007228DC /* SSKeychain.m */; };
+		08BAF52B1974649C007228DC /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF5251974649C007228DC /* SSKeychain.m */; };
+		08BAF52C1974649C007228DC /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF5271974649C007228DC /* SSKeychainQuery.m */; };
+		08BAF52D1974649C007228DC /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF5271974649C007228DC /* SSKeychainQuery.m */; };
 		08BD2F55185A5257002B256B /* libRcpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F54185A5257002B256B /* libRcpp.a */; };
 		08BD2F57185A5289002B256B /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F56185A5289002B256B /* R.framework */; };
 		08BD2F59185A52CA002B256B /* EnvList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F58185A52CA002B256B /* EnvList.cpp */; };
@@ -761,8 +766,6 @@
 		084594A915B5F46900297C9D /* RCMUserSearchPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMUserSearchPopupController.h; sourceTree = "<group>"; };
 		084594AA15B5F46900297C9D /* RCMUserSearchPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMUserSearchPopupController.m; sourceTree = "<group>"; };
 		084594AB15B5F46900297C9D /* RCMUserSearchPopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RCMUserSearchPopupController.xib; sourceTree = "<group>"; };
-		084594B115B5F53900297C9D /* EMKeychainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMKeychainItem.h; sourceTree = "<group>"; };
-		084594B215B5F53900297C9D /* EMKeychainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMKeychainItem.m; sourceTree = "<group>"; };
 		084594B315B5F53900297C9D /* NoodleLineNumberMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoodleLineNumberMarker.h; sourceTree = "<group>"; };
 		084594B415B5F53900297C9D /* NoodleLineNumberMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoodleLineNumberMarker.m; sourceTree = "<group>"; };
 		084594B515B5F53900297C9D /* NoodleLineNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoodleLineNumberView.h; sourceTree = "<group>"; };
@@ -886,6 +889,11 @@
 		08B74CF41643045E00083F9A /* ProjectViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewLayout.h; sourceTree = "<group>"; };
 		08B74CF51643045F00083F9A /* ProjectViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewLayout.m; sourceTree = "<group>"; };
 		08B74CF71648615800083F9A /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = resources/Localizable.strings; sourceTree = "<group>"; };
+		08BAF5231974649C007228DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SSKeychain.strings; sourceTree = "<group>"; };
+		08BAF5241974649C007228DC /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
+		08BAF5251974649C007228DC /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
+		08BAF5261974649C007228DC /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
+		08BAF5271974649C007228DC /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
 		08BD2F49185A4ED4002B256B /* rc2.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rc2.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BD2F53185A5088002B256B /* rc2.R */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = rc2.R; path = ../Rpackages/rc2/R/rc2.R; sourceTree = "<group>"; };
 		08BD2F54185A5257002B256B /* libRcpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRcpp.a; path = ../../../../../../Library/Frameworks/R.framework/Versions/3.0/Resources/library/Rcpp/lib/libRcpp.a; sourceTree = "<group>"; };
@@ -1646,8 +1654,6 @@
 		084594B015B5F53900297C9D /* mac 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
-				084594B115B5F53900297C9D /* EMKeychainItem.h */,
-				084594B215B5F53900297C9D /* EMKeychainItem.m */,
 				084594B315B5F53900297C9D /* NoodleLineNumberMarker.h */,
 				084594B415B5F53900297C9D /* NoodleLineNumberMarker.m */,
 				084594B515B5F53900297C9D /* NoodleLineNumberView.h */,
@@ -1777,6 +1783,19 @@
 				0873431417C3DF41000EC1E0 /* ProjectViewTransition.m */,
 			);
 			name = "Project View";
+			sourceTree = "<group>";
+		};
+		08BAF5211974649C007228DC /* SSKeychain */ = {
+			isa = PBXGroup;
+			children = (
+				08BAF5221974649C007228DC /* SSKeychain.strings */,
+				08BAF5241974649C007228DC /* SSKeychain.h */,
+				08BAF5251974649C007228DC /* SSKeychain.m */,
+				08BAF5261974649C007228DC /* SSKeychainQuery.h */,
+				08BAF5271974649C007228DC /* SSKeychainQuery.m */,
+			);
+			name = SSKeychain;
+			path = Dependencies/SSKeychain/SSKeychain;
 			sourceTree = "<group>";
 		};
 		08BD2F4A185A4ED4002B256B /* Rc2 Packageg */ = {
@@ -2190,6 +2209,7 @@
 				08D2459715B5DBB70064A9FA /* rc2 */,
 				0830EF4018EB50FC00422167 /* fmdb */,
 				08BDDD4E17EA48AB00E669E3 /* MagicalRecord */,
+				08BAF5211974649C007228DC /* SSKeychain */,
 				080E506E166FDFB800E95531 /* AFNetworking */,
 				08D2455115B5DB270064A9FA /* json */,
 				08D2455E15B5DB270064A9FA /* WebSocketClient */,
@@ -2717,6 +2737,7 @@
 				08B74CC5163B31F000083F9A /* flag.png in Resources */,
 				08B74CC6163B31F000083F9A /* folder.png in Resources */,
 				08B74CCF163B31F000083F9A /* importCheck.png in Resources */,
+				08BAF5281974649C007228DC /* SSKeychain.strings in Resources */,
 				08B74CD2163B31F000083F9A /* message-tbar-badged-down.png in Resources */,
 				08B74CD3163B31F000083F9A /* message-tbar-badged.png in Resources */,
 				08B74CD4163B31F000083F9A /* message-tbar-down.png in Resources */,
@@ -2762,6 +2783,7 @@
 				08F65CF8187DF5B30039F74B /* MacClient.xcassets in Resources */,
 				08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */,
 				08BDDDC017ECCD7A00E669E3 /* CommonDefaults.plist in Resources */,
+				08BAF5291974649C007228DC /* SSKeychain.strings in Resources */,
 				089C0D6D1891A5230046E8DF /* MCEditUserController.xib in Resources */,
 				0845942215B5F22700297C9D /* MacDefaults.plist in Resources */,
 				08CB421B187F48AF00F0F794 /* MCHelpSheetController.xib in Resources */,
@@ -2983,6 +3005,7 @@
 				08B7053F183187C700868E38 /* BaseVariableViewController.m in Sources */,
 				082D1EDB17E8D2DC00723EB3 /* RCRmdParser.m in Sources */,
 				08D243EB15B5D7590064A9FA /* SessionEditView.m in Sources */,
+				08BAF52C1974649C007228DC /* SSKeychainQuery.m in Sources */,
 				08B1F20318CA6AC200FCA279 /* LFDisplayBridge.m in Sources */,
 				08D243EC15B5D7590064A9FA /* StudentAssignmentCell.m in Sources */,
 				08D2441115B5D78A0064A9FA /* GradientButton.m in Sources */,
@@ -3131,6 +3154,7 @@
 				08E63B3D1773824D005BB3BB /* DropboxFolderSelectController.m in Sources */,
 				08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */,
 				08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */,
+				08BAF52A1974649C007228DC /* SSKeychain.m in Sources */,
 				08BDDDBC17EA48AB00E669E3 /* MagicalRecord.m in Sources */,
 				08ADBE2717A06C9F0004A89C /* RC2LoopQueue.m in Sources */,
 			);
@@ -3170,6 +3194,7 @@
 				08BDDD9B17EA48AB00E669E3 /* NSManagedObject+MagicalDataImport.m in Sources */,
 				08D2465215B5ED9D0064A9FA /* RCWorkspaceCache.m in Sources */,
 				08D2465615B5EDA60064A9FA /* _RCFile.m in Sources */,
+				08BAF52D1974649C007228DC /* SSKeychainQuery.m in Sources */,
 				08D2465715B5EDA60064A9FA /* _RCMessage.m in Sources */,
 				08D2465815B5EDA60064A9FA /* _RCSavedSession.m in Sources */,
 				08BDDD9717EA48AB00E669E3 /* NSString+MagicalDataImport.m in Sources */,
@@ -3186,6 +3211,7 @@
 				08D2466615B5EE670064A9FA /* AsyncSocket.m in Sources */,
 				08D2466715B5EE670064A9FA /* GCDAsyncSocket.m in Sources */,
 				0830EF4F18EB50FC00422167 /* FMDatabaseAdditions.m in Sources */,
+				08BAF52B1974649C007228DC /* SSKeychain.m in Sources */,
 				08D2466815B5EE670064A9FA /* HandshakeHeader.m in Sources */,
 				08D2466915B5EE670064A9FA /* MutableQueue.m in Sources */,
 				08D2466A15B5EE670064A9FA /* NSData+Base64.m in Sources */,
@@ -3249,7 +3275,6 @@
 				0845949B15B5F31100297C9D /* RCMUserListCell.m in Sources */,
 				084594A715B5F44400297C9D /* RCMRolePermController.m in Sources */,
 				084594AC15B5F46900297C9D /* RCMUserSearchPopupController.m in Sources */,
-				084594BC15B5F53900297C9D /* EMKeychainItem.m in Sources */,
 				084594BD15B5F53900297C9D /* NoodleLineNumberMarker.m in Sources */,
 				082D1EBC17E2406000723EB3 /* RCSweaveParser.m in Sources */,
 				08F3FE1218356660000112F3 /* MCVariableWindowController.m in Sources */,
@@ -3357,6 +3382,14 @@
 				08B74C75163B31C700083F9A /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		08BAF5221974649C007228DC /* SSKeychain.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				08BAF5231974649C007228DC /* en */,
+			);
+			name = SSKeychain.strings;
 			sourceTree = "<group>";
 		};
 		08D248C6176A498A00D71F02 /* InfoPlist.strings */ = {
@@ -3759,7 +3792,7 @@
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = Rc2;
@@ -3794,7 +3827,7 @@
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = Rc2;
 				PROVISIONING_PROFILE = "";
@@ -3828,7 +3861,7 @@
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = Rc2;
 				PROVISIONING_PROFILE = "";

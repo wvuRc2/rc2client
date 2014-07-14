@@ -62,9 +62,10 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 {
 	IMP imp = imp_implementationWithBlock(block);
 	NSString *name = [NSString stringWithUUID];
-	class_addMethod([control class], @selector(name), imp, "v@:@");
+	SEL sel = NSSelectorFromString(name);
+	class_addMethod([control class], sel, imp, "v@:@");
 	[control setTarget:control];
-	[control setAction:@selector(name)];
+	[control setAction:sel];
 }
 
 @interface AMTargetActionBlockWrapper : NSObject

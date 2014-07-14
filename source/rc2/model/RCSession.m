@@ -54,12 +54,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 @property (nonatomic, strong) NSDate *timeOfLastTraffic;
 @property (nonatomic, strong) NSMutableDictionary *listVariableCallbacks;
 @property (nonatomic, strong) NSRegularExpression *helpRegex;
-#if TARGET_OS_IPHONE
 @property (nonatomic, strong) dispatch_queue_t searchQueue;
-#else
-//10.7 doesn't support queues with ARC so this will leak
-@property (nonatomic, strong) __attribute__((NSObject)) dispatch_queue_t searchQueue;
-#endif
 -(void)keepAliveTimerFired:(NSTimer*)timer;
 @end
 

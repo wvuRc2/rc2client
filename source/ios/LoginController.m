@@ -10,7 +10,7 @@
 #import "Rc2Server.h"
 #import <Vyana-ios/UIAlertView+AMExtensions.h>
 #import "Rc2AppConstants.h"
-
+#import "SSKeychain.h"
 
 @interface LoginController()
 -(void)reportError:(NSString*)errMsg;
@@ -93,13 +93,13 @@
 
 -(void)saveLoginInfo
 {
-	[SFHFKeychainUtils storeUsername:self.useridField.text andPassword:self.passwordField.text forServiceName:@"Rc2" updateExisting:YES error:nil];
+	[SSKeychain setPassword:self.passwordField.text forService:@"Rc2" account:self.useridField.text];
 	[[NSUserDefaults standardUserDefaults] setObject:self.useridField.text forKey:kPrefLastLogin];
 }
 
 -(void)loadPasswordForLogin:(NSString*)login
 {
-	NSString *pass = [SFHFKeychainUtils getPasswordForUsername:login andServiceName:@"Rc2" error:nil];
+	NSString *pass = [SSKeychain passwordForService:@"Rc2" account:login];
 	if (pass)
 		self.passwordField.text = pass;
 }

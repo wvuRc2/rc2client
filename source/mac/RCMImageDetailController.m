@@ -101,7 +101,7 @@
 		[mi setEnabled:YES];
 		mi.target = self;
 		mi.action = @selector(selectImage:);
-		[nib instantiateNibWithOwner:mi topLevelObjects:nil];
+		[nib instantiateWithOwner:mi topLevelObjects:nil];
 		[menu addItem:mi];
 		[(RCMPreviewImageView*)mi.view setImage:img];
 		//see if the image is is dark after switching to monotone and getting average color

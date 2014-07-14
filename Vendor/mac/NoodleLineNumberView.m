@@ -490,7 +490,7 @@
 					}
 					
                     // Draw string flush right, centered vertically within the line
-                    x = ypos + (NSHeight(rects[0]) - stringSize.height) / 2.0;
+//                    x = ypos + (NSHeight(rects[0]) - stringSize.height) / 2.0;
                     [labelText drawInRect:
                      NSMakeRect(NSWidth(bounds) - stringSize.width - RULER_MARGIN,
                                 ypos + (NSHeight(rects[0]) - stringSize.height) / 2.0,

@@ -108,10 +108,9 @@ NSString *const kPref_ImageMetaData = @"ImageMetaData";
 {
 	NSMutableArray *outImages = [NSMutableArray arrayWithCapacity:imgDicts.count];
 	for (NSDictionary *imgDict in imgDicts) {
-		NSString *urlStr = [imgDict objectForKey:@"url"];
-		if ([urlStr characterAtIndex:0] == '/')
-			urlStr = [urlStr substringFromIndex:1];
-		urlStr = [urlStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+//		NSString *urlStr = [imgDict objectForKey:@"url"];
+//		if ([urlStr characterAtIndex:0] == '/')
+//			urlStr = [urlStr substringFromIndex:1];
 		RCImage *anImage = [RCImage MR_createEntity];
 		anImage.name = imgDict[@"name"];
 		anImage.imageId = imgDict[@"id"];

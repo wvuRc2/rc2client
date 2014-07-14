@@ -29,6 +29,7 @@
 #import "ProjectViewTransition.h"
 #import "iSettingsController.h"
 #import "AMHudView.h"
+#import "SSKeychain.h"
 
 const CGFloat kIdleTimerFrequency = 5;
 const CGFloat kMinIdleTimeBeforeAction = 20;
@@ -500,7 +501,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 		[self promptForLogin];
 		return;
 	}
-	NSString *pass = [SFHFKeychainUtils getPasswordForUsername:login andServiceName:@"Rc2" error:nil];
+	NSString *pass = [SSKeychain passwordForService:@"Rc2" account:login];
 	if (nil == pass) {
 		[self promptForLogin];
 		return;

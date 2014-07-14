@@ -8,7 +8,7 @@
 
 #import "MCLoginController.h"
 #import "Rc2Server.h"
-#import "EMKeychainItem.h"
+#import "SSKeychain.h"
 
 NSString *const kLastLoginKey = @"LastLogin";
 NSString *const kLastServerKey = @"LastServer";
@@ -72,24 +72,15 @@ NSString *const kLastServerKey = @"LastServer";
 -(void)saveLoginInfo
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:self.selectedServerIdx forKey:kLastServerKey];
-	@try {
-		EMGenericKeychainItem *ki = [EMGenericKeychainItem genericKeychainItemForService:@"rc2" withUsername:self.loginName];
-		if (ki) {
-			ki.password = self.password;
-		} else {
-			[EMGenericKeychainItem addGenericKeychainItemForService:@"rc2" withUsername:self.loginName password:self.password];
-		}
-		[[NSUserDefaults standardUserDefaults] setObject:self.loginName forKey:kLastLoginKey];
-	} @catch (NSException *e) {
-		Rc2LogError(@"got exception in saveLoginInfo: %@", e);
-	}
+	[SSKeychain setPassword:self.password forService:@"rc2" account:self.loginName];
+	[[NSUserDefaults standardUserDefaults] setObject:self.loginName forKey:kLastLoginKey];
 }
 
 -(void)loadPasswordForLogin
 {
-	EMGenericKeychainItem *ki = [EMGenericKeychainItem genericKeychainItemForService:@"rc2" withUsername:self.loginName];
-	if (ki)
-		self.password = ki.password;
+	NSString *pass = [SSKeychain passwordForService:@"rc2" account:self.loginName];
+	if (pass)
+		self.password = pass;
 }
 
 -(NSString*)selectedHost
