@@ -240,6 +240,10 @@
 		08BAF52B1974649C007228DC /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF5251974649C007228DC /* SSKeychain.m */; };
 		08BAF52C1974649C007228DC /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF5271974649C007228DC /* SSKeychainQuery.m */; };
 		08BAF52D1974649C007228DC /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF5271974649C007228DC /* SSKeychainQuery.m */; };
+		08BAF53819748790007228DC /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF53719748790007228DC /* AsyncSocket.m */; };
+		08BAF53919748790007228DC /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF53719748790007228DC /* AsyncSocket.m */; };
+		08BAF53C1974879A007228DC /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF53B1974879A007228DC /* GCDAsyncSocket.m */; };
+		08BAF53D1974879A007228DC /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF53B1974879A007228DC /* GCDAsyncSocket.m */; };
 		08BD2F55185A5257002B256B /* libRcpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F54185A5257002B256B /* libRcpp.a */; };
 		08BD2F57185A5289002B256B /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F56185A5289002B256B /* R.framework */; };
 		08BD2F59185A52CA002B256B /* EnvList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F58185A52CA002B256B /* EnvList.cpp */; };
@@ -398,8 +402,6 @@
 		08D2458615B5DB270064A9FA /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455915B5DB270064A9FA /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458715B5DB270064A9FA /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455B15B5DB270064A9FA /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458815B5DB270064A9FA /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455D15B5DB270064A9FA /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2458915B5DB270064A9FA /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456015B5DB270064A9FA /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2458A15B5DB270064A9FA /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456215B5DB270064A9FA /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-Wno-undeclared-selector"; }; };
 		08D2458B15B5DB270064A9FA /* HandshakeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456415B5DB270064A9FA /* HandshakeHeader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458C15B5DB270064A9FA /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456615B5DB270064A9FA /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458D15B5DB270064A9FA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456815B5DB270064A9FA /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -472,8 +474,6 @@
 		08D2466315B5EDE30064A9FA /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455915B5DB270064A9FA /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466415B5EDE30064A9FA /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455B15B5DB270064A9FA /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466515B5EDE30064A9FA /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2455D15B5DB270064A9FA /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2466615B5EE670064A9FA /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456015B5DB270064A9FA /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2466715B5EE670064A9FA /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456215B5DB270064A9FA /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-Wno-undeclared-selector -Wno-sometimes-uninitialized"; }; };
 		08D2466815B5EE670064A9FA /* HandshakeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456415B5DB270064A9FA /* HandshakeHeader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466915B5EE670064A9FA /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456615B5DB270064A9FA /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466A15B5EE670064A9FA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456815B5DB270064A9FA /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -889,11 +889,15 @@
 		08B74CF41643045E00083F9A /* ProjectViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewLayout.h; sourceTree = "<group>"; };
 		08B74CF51643045F00083F9A /* ProjectViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewLayout.m; sourceTree = "<group>"; };
 		08B74CF71648615800083F9A /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = resources/Localizable.strings; sourceTree = "<group>"; };
-		08BAF5231974649C007228DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SSKeychain.strings; sourceTree = "<group>"; };
+		08BAF5231974649C007228DC /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SSKeychain.strings; sourceTree = "<group>"; };
 		08BAF5241974649C007228DC /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
 		08BAF5251974649C007228DC /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		08BAF5261974649C007228DC /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
 		08BAF5271974649C007228DC /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
+		08BAF53619748790007228DC /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncSocket.h; path = Dependencies/CocoaAsyncSocket/RunLoop/AsyncSocket.h; sourceTree = "<group>"; };
+		08BAF53719748790007228DC /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncSocket.m; path = Dependencies/CocoaAsyncSocket/RunLoop/AsyncSocket.m; sourceTree = "<group>"; };
+		08BAF53A1974879A007228DC /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = Dependencies/CocoaAsyncSocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
+		08BAF53B1974879A007228DC /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = Dependencies/CocoaAsyncSocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		08BD2F49185A4ED4002B256B /* rc2.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rc2.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BD2F53185A5088002B256B /* rc2.R */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = rc2.R; path = ../Rpackages/rc2/R/rc2.R; sourceTree = "<group>"; };
 		08BD2F54185A5257002B256B /* libRcpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRcpp.a; path = ../../../../../../Library/Frameworks/R.framework/Versions/3.0/Resources/library/Rcpp/lib/libRcpp.a; sourceTree = "<group>"; };
@@ -1101,10 +1105,6 @@
 		08D2455B15B5DB270064A9FA /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		08D2455C15B5DB270064A9FA /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		08D2455D15B5DB270064A9FA /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		08D2455F15B5DB270064A9FA /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
-		08D2456015B5DB270064A9FA /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
-		08D2456115B5DB270064A9FA /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
-		08D2456215B5DB270064A9FA /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
 		08D2456315B5DB270064A9FA /* HandshakeHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandshakeHeader.h; sourceTree = "<group>"; };
 		08D2456415B5DB270064A9FA /* HandshakeHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandshakeHeader.m; sourceTree = "<group>"; };
 		08D2456515B5DB270064A9FA /* MutableQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableQueue.h; sourceTree = "<group>"; };
@@ -1798,6 +1798,17 @@
 			path = Dependencies/SSKeychain/SSKeychain;
 			sourceTree = "<group>";
 		};
+		08BAF53E1974879F007228DC /* AsyncSocket */ = {
+			isa = PBXGroup;
+			children = (
+				08BAF53619748790007228DC /* AsyncSocket.h */,
+				08BAF53719748790007228DC /* AsyncSocket.m */,
+				08BAF53A1974879A007228DC /* GCDAsyncSocket.h */,
+				08BAF53B1974879A007228DC /* GCDAsyncSocket.m */,
+			);
+			name = AsyncSocket;
+			sourceTree = "<group>";
+		};
 		08BD2F4A185A4ED4002B256B /* Rc2 Packageg */ = {
 			isa = PBXGroup;
 			children = (
@@ -2210,6 +2221,7 @@
 				0830EF4018EB50FC00422167 /* fmdb */,
 				08BDDD4E17EA48AB00E669E3 /* MagicalRecord */,
 				08BAF5211974649C007228DC /* SSKeychain */,
+				08BAF53E1974879F007228DC /* AsyncSocket */,
 				080E506E166FDFB800E95531 /* AFNetworking */,
 				08D2455115B5DB270064A9FA /* json */,
 				08D2455E15B5DB270064A9FA /* WebSocketClient */,
@@ -2240,10 +2252,6 @@
 		08D2455E15B5DB270064A9FA /* WebSocketClient */ = {
 			isa = PBXGroup;
 			children = (
-				08D2455F15B5DB270064A9FA /* AsyncSocket.h */,
-				08D2456015B5DB270064A9FA /* AsyncSocket.m */,
-				08D2456115B5DB270064A9FA /* GCDAsyncSocket.h */,
-				08D2456215B5DB270064A9FA /* GCDAsyncSocket.m */,
 				08D2456315B5DB270064A9FA /* HandshakeHeader.h */,
 				08D2456415B5DB270064A9FA /* HandshakeHeader.m */,
 				08D2456515B5DB270064A9FA /* MutableQueue.h */,
@@ -3028,8 +3036,6 @@
 				08D2458615B5DB270064A9FA /* SBJsonBase.m in Sources */,
 				08D2458715B5DB270064A9FA /* SBJsonParser.m in Sources */,
 				08D2458815B5DB270064A9FA /* SBJsonWriter.m in Sources */,
-				08D2458915B5DB270064A9FA /* AsyncSocket.m in Sources */,
-				08D2458A15B5DB270064A9FA /* GCDAsyncSocket.m in Sources */,
 				08D2458B15B5DB270064A9FA /* HandshakeHeader.m in Sources */,
 				08D2458C15B5DB270064A9FA /* MutableQueue.m in Sources */,
 				08BDDDB417EA48AB00E669E3 /* MagicalRecord+iCloud.m in Sources */,
@@ -3111,6 +3117,7 @@
 				08B74CED163B330500083F9A /* ProjectViewController.m in Sources */,
 				08B74CF1163B357600083F9A /* ProjectCell.m in Sources */,
 				08286002183EBB84002BA8D2 /* SessionEditorLayoutManager.m in Sources */,
+				08BAF53C1974879A007228DC /* GCDAsyncSocket.m in Sources */,
 				0830EF4E18EB50FC00422167 /* FMDatabaseAdditions.m in Sources */,
 				08B74CF61643045F00083F9A /* ProjectViewLayout.m in Sources */,
 				080E5082166FDFB800E95531 /* AFHTTPClient.m in Sources */,
@@ -3154,6 +3161,7 @@
 				08E63B3D1773824D005BB3BB /* DropboxFolderSelectController.m in Sources */,
 				08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */,
 				08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */,
+				08BAF53819748790007228DC /* AsyncSocket.m in Sources */,
 				08BAF52A1974649C007228DC /* SSKeychain.m in Sources */,
 				08BDDDBC17EA48AB00E669E3 /* MagicalRecord.m in Sources */,
 				08ADBE2717A06C9F0004A89C /* RC2LoopQueue.m in Sources */,
@@ -3191,6 +3199,7 @@
 				08D2465015B5ED9D0064A9FA /* RCUser.m in Sources */,
 				08D2465115B5ED9D0064A9FA /* RCWorkspace.m in Sources */,
 				082D1ED817E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */,
+				08BAF53919748790007228DC /* AsyncSocket.m in Sources */,
 				08BDDD9B17EA48AB00E669E3 /* NSManagedObject+MagicalDataImport.m in Sources */,
 				08D2465215B5ED9D0064A9FA /* RCWorkspaceCache.m in Sources */,
 				08D2465615B5EDA60064A9FA /* _RCFile.m in Sources */,
@@ -3208,8 +3217,6 @@
 				0845C544192E9118009877E5 /* MCProjectShareCellView.m in Sources */,
 				08D2466515B5EDE30064A9FA /* SBJsonWriter.m in Sources */,
 				08CB421A187F48AF00F0F794 /* MCHelpSheetController.m in Sources */,
-				08D2466615B5EE670064A9FA /* AsyncSocket.m in Sources */,
-				08D2466715B5EE670064A9FA /* GCDAsyncSocket.m in Sources */,
 				0830EF4F18EB50FC00422167 /* FMDatabaseAdditions.m in Sources */,
 				08BAF52B1974649C007228DC /* SSKeychain.m in Sources */,
 				08D2466815B5EE670064A9FA /* HandshakeHeader.m in Sources */,
@@ -3277,6 +3284,7 @@
 				084594AC15B5F46900297C9D /* RCMUserSearchPopupController.m in Sources */,
 				084594BD15B5F53900297C9D /* NoodleLineNumberMarker.m in Sources */,
 				082D1EBC17E2406000723EB3 /* RCSweaveParser.m in Sources */,
+				08BAF53D1974879A007228DC /* GCDAsyncSocket.m in Sources */,
 				08F3FE1218356660000112F3 /* MCVariableWindowController.m in Sources */,
 				084594BE15B5F53900297C9D /* NoodleLineNumberView.m in Sources */,
 				0830EF4D18EB50FC00422167 /* FMDatabase.m in Sources */,
