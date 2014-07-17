@@ -19,11 +19,10 @@
 @property (nonatomic, weak) IBOutlet NSTextField *nameLabel;
 @property (nonatomic, weak) IBOutlet NSPathControl *listPathControl;
 @property (nonatomic, strong) NSMutableArray *detailControllers;
+@property BOOL didInit;
 @end
 
-@implementation MCVariableDisplayController {
-	BOOL _didInit;
-}
+@implementation MCVariableDisplayController
 
 -(id)init
 {
@@ -35,20 +34,20 @@
 
 -(void)awakeFromNib
 {
-	if (!_didInit) {
+	if (!self.didInit) {
 		if (self.variable) {
 			self.nameLabel.stringValue = self.variable.name;
-			MCVariableDetailsController *dc = [[MCVariableDetailsController alloc] init];
-			dc.variableDelegate = self;
-			[self.detailControllers addObject:dc];
-			dc.view.frame = self.detailsContainerView.bounds;
-			[self.detailsContainerView addSubview:dc.view];
-			dc.view.autoresizingMask = NSViewWidthSizable|NSViewHeightSizable;
-			dc.variable = self.variable;
+			MCVariableDetailsController *dvc = [[MCVariableDetailsController alloc] init];
+			dvc.variableDelegate = self;
+			[self.detailControllers addObject:dvc];
+			dvc.view.frame = self.detailsContainerView.bounds;
+			[self.detailsContainerView addSubview:dvc.view];
+			dvc.view.autoresizingMask = NSViewWidthSizable|NSViewHeightSizable;
+			dvc.variable = self.variable;
 			[self adjustForVariable];
 			self.nameLabel.backgroundColor = [NSColor clearColor];
 		}
-		_didInit=YES;
+		self.didInit=YES;
 	}
 }
 
@@ -157,22 +156,12 @@
 	[self.detailsContainerView addSubview:dc.view];
 	
 	dc.view.autoresizingMask = NSViewWidthSizable|NSViewHeightSizable;
-#ifdef ANIM_DEBUG
-	dc.view.translatesAutoresizingMaskIntoConstraints = NO;
-	[self.view addConstraint:[NSLayoutConstraint constraintWithItem:dc.view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.detailsContainerView attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
-	[self.view addConstraint:[NSLayoutConstraint constraintWithItem:dc.view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.detailsContainerView attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
-#endif
 	[NSAnimationContext beginGrouping];
 	[[NSAnimationContext currentContext] setDuration:0.3];
 	NSRect oldDestRect = oldDc.view.frame;
 	oldDestRect.origin.x -= oldDestRect.size.width;
 	[[oldDc.view animator] setFrame:oldDestRect];
 	[[dc.view animator] setFrame:self.detailsContainerView.bounds];
-#ifdef ANIM_DEBUG
-	[[NSAnimationContext currentContext] setCompletionHandler:^{
-		self.popover.contentSize = [dc calculateContentSize:self.popover.contentSize];
-	}];
-#endif
 	[NSAnimationContext endGrouping];
 
 	if ([variable isKindOfClass:[RCList class]]) {
@@ -191,8 +180,7 @@
 	if (nil == sname)
 		sname = [NSString stringWithFormat:@"[%ld]", [curList indexOfVariable:variable]];
 	
-	NSMutableArray *pathCs = [self.listPathControl.pathComponentCells mutableCopy];
-	[pathCs addObject:[NSPathComponentCell pathCellWithTitle:sname]];
+	NSArray *pathCs = [self.listPathControl.pathComponentCells arrayByAddingObject:[NSPathComponentCell pathCellWithTitle:sname]];
 	self.listPathControl.pathComponentCells = pathCs;
 }
 

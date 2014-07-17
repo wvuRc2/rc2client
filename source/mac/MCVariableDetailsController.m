@@ -26,9 +26,7 @@
 
 -(id)init
 {
-	if ((self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil])) {
-	}
-	return self;
+	return [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
 }
 
 -(void)dealloc
@@ -100,7 +98,7 @@
 	for (NSInteger i=1; i < numCols; i++) {
 		NSTableColumn *col = [self.ssTableView.tableColumns objectAtIndex:i];
 		col.width = 60;
-		[[col headerCell] setStringValue:[[self.ssData columnNames] objectAtIndex:i-1]];
+		[[col headerCell] setStringValue:[self.ssData columnNames][i-1]];
 	}
 }
 
@@ -133,18 +131,18 @@
 	}
 	if (tableView == self.listTableView) {
 		RCList *list = (RCList*)self.variable;
+		NSTableCellView *hcell=nil;
 		if ([tableColumn.identifier isEqualToString:@"listhead"]) {
-			NSTableCellView *hcell = [tableView makeViewWithIdentifier:@"listhead" owner:self];
+			hcell = [tableView makeViewWithIdentifier:@"listhead" owner:self];
 			if ([list isKindOfClass:[RCEnvironment class]])
 				hcell.textField.stringValue = [list nameAtIndex:row];
 			else
 				hcell.textField.stringValue = [NSString stringWithFormat:@"%ld. %@", row+1, [list nameAtIndex:row]];
-			return hcell;
 		} else {
-			NSTableCellView *hcell = [tableView makeViewWithIdentifier:@"listitem" owner:self];
+			hcell = [tableView makeViewWithIdentifier:@"listitem" owner:self];
 			hcell.textField.stringValue = [[list valueAtIndex:row] description];
-			return hcell;
 		}
+		return hcell;
 	}
 	BOOL isRowHead = [tableColumn.identifier isEqualToString:@"0"];
 	NSInteger colNum = tableColumn.identifier.integerValue;
