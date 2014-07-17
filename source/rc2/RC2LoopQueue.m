@@ -17,7 +17,7 @@
 
 -(id)initWithObjectArray:(NSArray*)array task:(BasicBlock1Arg)task
 {
-	if ((self = [super init])) {
+	if (self = [super init]) {
 		self.objectArray = array;
 		self.taskBlock = task;
 		_dgroup = dispatch_group_create();

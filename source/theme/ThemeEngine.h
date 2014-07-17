@@ -34,7 +34,7 @@ typedef void (^ThemeChangedBlock)(Theme*);
 
 @interface ThemeEngine : NSObject
 @property (nonatomic, strong) Theme *currentTheme;
-@property (strong, readonly) NSArray *allThemes;
+@property (nonatomic, copy, readonly) NSArray *allThemes;
 @property (strong, readonly) NSArray *allColorKeys;
 @property (strong, readonly) CustomTheme *customTheme;
 

@@ -21,7 +21,7 @@
 	dispatch_once(&onceToken, ^{
 		NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RC2FileTypes" ofType:@"plist"]];
 		ZAssert(dict, @"failed to load file types dict");
-		NSArray *rawTypes = [dict objectForKey:@"FileTypes"];
+		NSArray *rawTypes = dict[@"FileTypes"];
 		NSMutableArray *types = [NSMutableArray arrayWithCapacity:rawTypes.count];
 		for (NSDictionary *aDict in rawTypes)
 			[types addObject:[[Rc2FileType alloc] initWithDictionary:aDict]];
@@ -30,8 +30,9 @@
 	return sAllTypes;
 }
 
-+(Rc2FileType*)fileTypeWithExtension:(NSString*)fileExt
++(Rc2FileType*)fileTypeWithExtension:(NSString*)fileExtention
 {
+	NSString *fileExt = fileExtention;
 	if ([fileExt hasPrefix:@"."])
 		fileExt = [fileExt substringFromIndex:1];
 	for (Rc2FileType *ft in [Rc2FileType allFileTypes]) {
@@ -83,7 +84,7 @@
 
 - (id)initWithDictionary:(NSDictionary*)dict
 {
-	if ((self = [super init])) {
+	if (self = [super init]) {
 		self.data = dict;
 	}
 	return self;
@@ -95,14 +96,14 @@
 -(NSString*)iconName { return [self.data objectForKey:@"IconName"]; }
 -(NSString*)mimeType
 {
-	NSString *mt = [self.data objectForKey:@"MimeType"];
-	if (nil == mt) {
+	NSString *mtype = [self.data objectForKey:@"MimeType"];
+	if (nil == mtype) {
 		if (self.isTextFile)
-			mt = @"text/plain";
+			mtype = @"text/plain";
 		else
-			mt = @"application/octet-stream";
+			mtype = @"application/octet-stream";
 	}
-	return mt;
+	return mtype;
 }
 
 -(BOOL)isTextFile { return [[self.data objectForKey:@"IsTextFile"] boolValue]; }

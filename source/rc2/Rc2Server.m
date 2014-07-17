@@ -115,11 +115,11 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	return [NSString stringWithFormat:@"%@@local", login];
 }
 
--(void)setServerHost:(NSInteger)sh
+-(void)setServerHost:(NSInteger)shost
 {
 	if (self.serverHost >= eRc2Host_Rc2 && self.serverHost <= eRc2Host_Local) {
-		_serverHost = sh;
-		[[NSUserDefaults standardUserDefaults] setInteger:sh forKey:kServerHostKey];
+		_serverHost = shost;
+		[[NSUserDefaults standardUserDefaults] setInteger:shost forKey:kServerHostKey];
 	}
 }
 
@@ -180,11 +180,11 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(void)createProject:(NSString*)projectName completionBlock:(Rc2FetchCompletionHandler)hblock
 {
 	[_httpClient postPath:@"proj" parameters:@{@"name":projectName} success:^(id op, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
-			self.projects = [RCProject projectsForJsonArray:[rsp objectForKey:@"projects"] includeAdmin:self.isAdmin];
+		if (rsp && [rsp[@"status"] intValue] == 0) {
+			self.projects = [RCProject projectsForJsonArray:rsp[@"projects"] includeAdmin:self.isAdmin];
 			hblock(YES, [self.projects firstObjectWithValue:projectName forKey:@"name"]);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -195,12 +195,12 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	NSString *path = [NSString stringWithFormat:@"proj/%@", project.projectId];
 	[_httpClient putPath:path parameters:@{@"name":newName, @"id":project.projectId} success:^(id op, id rsp) {
-		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+		if ([rsp[@"status"] intValue] == 0) {
 			project.name = newName;
 			self.projects = [self.projects sortedArrayUsingDescriptors:[RCProject projectSortDescriptors]];
 			hblock(YES, project);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -212,13 +212,13 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	NSString *path = [NSString stringWithFormat:@"proj/%@", project.projectId];
 	[_httpClient deletePath:path parameters:nil success:^(id op, id rsp) {
-		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+		if ([rsp[@"status"] intValue] == 0) {
 			NSInteger idx = [self.projects indexOfObject:project];
 			if (idx != NSNotFound)
 				self.projects = [self.projects arrayByRemovingObjectAtIndex:[self.projects indexOfObject:project]];
 			hblock(YES, nil);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -233,7 +233,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 		lastUpdate = now;
 		Rc2LogInfo(@"updating project list");
 		[self genericGetRequest:@"/proj" parameters:nil handler:^(BOOL success, id results) {
-			self.projects = [RCProject projectsForJsonArray:[results objectForKey:@"projects"] includeAdmin:self.isAdmin];
+			self.projects = [RCProject projectsForJsonArray:results[@"projects"] includeAdmin:self.isAdmin];
 		}];
 	}
 }
@@ -243,9 +243,9 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	NSString *path = [NSString stringWithFormat:@"proj/%@/share", project.projectId];
 	[self genericGetRequest:path parameters:nil handler:^(BOOL success, id results) {
 		if (success)
-			hblock(YES, [results objectForKey:@"users"]);
+			hblock(YES, results[@"users"]);
 		else
-			hblock(NO, [results objectForKey:@"message"]);
+			hblock(NO, results[@"message"]);
 	}];
 }
 
@@ -253,10 +253,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	NSString *path = [NSString stringWithFormat:@"proj/%@/share/%@", project.projectId, userId];
 	[_httpClient postPath:path parameters:nil success:^(id op, id rsp) {
-		if ([[rsp objectForKey:@"status"] intValue] == 0) {
-			hblock(YES, [rsp objectForKey:@"user"]);
+		if ([rsp[@"status"] intValue] == 0) {
+			hblock(YES, rsp[@"user"]);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -267,10 +267,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	NSString *path = [NSString stringWithFormat:@"proj/%@/share/%@", project.projectId, userId];
 	[_httpClient deletePath:path parameters:nil success:^(id op, id rsp) {
-		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+		if ([rsp[@"status"] intValue] == 0) {
 			hblock(YES, project);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -285,12 +285,12 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	NSString *path = [NSString stringWithFormat:@"proj/%@/wspace", project.projectId];
 	[_httpClient postPath:path parameters:@{@"name":wspaceName} success:^(id op, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
-			[project updateWithDictionary:[rsp objectForKey:@"project"]];
+		if (rsp && [rsp[@"status"] intValue] == 0) {
+			[project updateWithDictionary:rsp[@"project"]];
 			//we need to add the updated project to our cache of workspaces
-			hblock(YES, [project.workspaces firstObjectWithValue:[rsp objectForKey:@"wspaceId"] forKey:@"wspaceId"]);
+			hblock(YES, [project.workspaces firstObjectWithValue:rsp[@"wspaceId"] forKey:@"wspaceId"]);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -306,10 +306,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	[dict setObjectIgnoringNil:wspace.dropboxHistory forKey:@"dbhistory"];
 	[_httpClient putPath:[self containerPath:wspace] parameters:dict success:^(AFHTTPRequestOperation *operation, id rsp)
 	{
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+		if (rsp && [rsp[@"status"] intValue] == 0) {
 			hblock(YES, rsp);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -319,11 +319,11 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(void)renameWorkspce:(RCWorkspace*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
 {
 	[_httpClient putPath:[self containerPath:wspace] parameters:@{@"name":newName} success:^(id op, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+		if (rsp && [rsp[@"status"] intValue] == 0) {
 			wspace.name = newName;
 			hblock(YES, wspace);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -333,11 +333,11 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(void)deleteWorkspce:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	[_httpClient deletePath:[self containerPath:wspace] parameters:nil success:^(id op, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+		if (rsp && [rsp[@"status"] intValue] == 0) {
 			[wspace.project removeWorkspace:wspace];
 			hblock(YES, nil);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -359,17 +359,18 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	}];
 }
 
--(void)updateWorkspaceShare:(RCWorkspace*)wspace perm:(NSString*)sharePerm completionHandler:(Rc2FetchCompletionHandler)hblock
+-(void)updateWorkspaceShare:(RCWorkspace*)wspace perm:(NSString*)permission completionHandler:(Rc2FetchCompletionHandler)hblock
 {
+	NSString *sharePerm = permission;
 	NSString *path = [NSString stringWithFormat:@"wspace/%@/share", wspace.wspaceId];
 	if (sharePerm == nil)
 		sharePerm = (NSString*)[NSNull null];
 	[_httpClient putPath:path parameters:@{@"perm": sharePerm} success:^(id op, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
-			wspace.sharePerms = [[rsp objectForKey:@"workspace"] objectForKey:@"sharePermissions"];
+		if (rsp && [rsp[@"status"] intValue] == 0) {
+			wspace.sharePerms = [rsp[@"workspace"] objectForKey:@"sharePermissions"];
 			hblock(YES, wspace);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -470,15 +471,15 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	}];
 	[req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
-		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
-			NSDictionary *fdata = [[rsp objectForKey:@"files"] firstObject];
+		if (0 == [rsp[@"status"] integerValue]) {
+			NSDictionary *fdata = [rsp[@"files"] firstObject];
 			RCFile *theFile = [RCFile MR_createEntity];
 			[theFile updateWithDictionary:fdata];
 			[container addFile:theFile];
 			hblock(YES, theFile);
 		} else {
-			Rc2LogWarn(@"status != 0 for file import:%@", [rsp objectForKey:@"message"]);
-			hblock(NO, [rsp objectForKey:@"message"]);
+			Rc2LogWarn(@"status != 0 for file import:%@", rsp[@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		Rc2LogError(@"error uploading file sync:%@", error);
@@ -501,7 +502,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	[req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 	__block NSMutableArray *outFiles = [[NSMutableArray alloc] init];
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
-		NSArray *fileArray = [rsp objectForKey:@"files"];
+		NSArray *fileArray = rsp[@"files"];
 		for (NSDictionary *fdata in fileArray) {
 			RCFile *theFile = [RCFile MR_createEntity];
 			[theFile updateWithDictionary:fdata];
@@ -538,15 +539,15 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	}
 	[op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
 		NSDictionary *rsp = [[NSString stringWithUTF8Data:responseObject] JSONValue];
-		if ([[rsp objectForKey:@"status"] integerValue] == 0) {
-			NSArray *fs = [RCFile filesFromJsonArray:[rsp objectForKey:@"files"] container:container];
+		if ([rsp[@"status"] integerValue] == 0) {
+			NSArray *fs = [RCFile filesFromJsonArray:rsp[@"files"] container:container];
 			for (RCFile *aFile in fs)
 				[container addFile:aFile];
 			hblock(YES, rsp);
 			[[NSNotificationCenter defaultCenter] postNotificationName:FilesChagedNotification object:container];
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
-			Rc2LogWarn(@"error on import:%@", [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
+			Rc2LogWarn(@"error on import:%@", rsp[@"message"]);
 		}
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		hblock(NO, error.localizedDescription);
@@ -571,10 +572,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	file.savingToServer = YES;
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
 		NSError *err=nil;
-		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
+		if (0 == [rsp[@"status"] integerValue]) {
 			if (file.existsOnServer) {
 				NSString *oldContents = file.localEdits;
-				[file updateWithDictionary:[rsp objectForKey:@"file"]];
+				[file updateWithDictionary:rsp[@"file"]];
 				[file discardEdits];
 				if (![oldContents writeToFile:file.fileContentsPath atomically:YES encoding:NSUTF8StringEncoding error:&err]) {
 					Rc2LogWarn(@"failed to write file after save to server:%@", err);
@@ -583,7 +584,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 				}
 				hblock(YES, file);
 			} else {
-				NSDictionary *fdata = [[rsp objectForKey:@"files"] firstObject];
+				NSDictionary *fdata = [rsp[@"files"] firstObject];
 				RCFile *rcfile = [RCFile MR_createEntity];
 				[rcfile updateWithDictionary:fdata];
 				[rcfile setValue:container forKey:@"container"];
@@ -592,7 +593,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 				hblock(YES, rcfile);
 			}
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 		file.savingToServer = NO;
 	} failure:^(id operation, NSError *error) {
@@ -610,11 +611,11 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	{
 	}];
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
-			[file updateWithDictionary:[rsp objectForKey:@"file"]];
+		if (rsp && [rsp[@"status"] intValue] == 0) {
+			[file updateWithDictionary:rsp[@"file"]];
 			hblock(YES, file);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -626,6 +627,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(BOOL)updateFile:(RCFile*)file withContents:(NSURL*)contentsFileUrl workspace:(RCWorkspace*)workspace
 			error:(NSError *__autoreleasing *)outError
 {
+	BOOL success = NO;
 	NSString *path = [NSString stringWithFormat:@"file/%@", file.fileId];
 	NSMutableURLRequest *req = [_httpClient multipartFormRequestWithMethod:@"PUT" path:path parameters:nil
 												 constructingBodyWithBlock:^(id <AFMultipartFormData>formData)
@@ -635,13 +637,13 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:outError];
 	if (nil == data) {
 		Rc2LogError(@"error uploading file data (%@): %@", file.name, *outError);
-		return NO;
 	} else {
 		NSDictionary *dict = [[NSString stringWithUTF8Data:data] JSONValue];
 		[file discardEdits];
-		[file updateWithDictionary:[dict objectForKey:@"file"]];
-		return YES;
+		[file updateWithDictionary:dict[@"file"]];
+		success = YES;
 	}
+	return success;
 }
 
 //called to delete a file
@@ -650,12 +652,12 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	NSMutableString *path = [self containerPath:container];
 	[path appendFormat:@"/file/%@", file.fileId];
 	[_httpClient deletePath:path parameters:nil success:^(id req, id rsp) {
-		BOOL success = [[rsp objectForKey:@"status"] intValue] == 0;
+		BOOL success = [rsp[@"status"] intValue] == 0;
 		if (success) {
 			[[NSNotificationCenter defaultCenter] postNotificationName:FileDeletedNotification object:file];
 			[container removeFile:file];
-			if ([rsp objectForKey:@"alsoDeleted"]) {
-				for (NSNumber *anId in [rsp objectForKey:@"alsoDeleted"]) {
+			if (rsp[@"alsoDeleted"]) {
+				for (NSNumber *anId in rsp[@"alsoDeleted"]) {
 					RCFile *otherFile = [[container files] firstObjectWithValue:anId forKey:@"fileId"];
 					if (otherFile) {
 						[[NSNotificationCenter defaultCenter] postNotificationName:FileDeletedNotification object:otherFile];
@@ -764,12 +766,12 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 			return;
 		}
 		NSDictionary *rsp = [respStr JSONValue];
-		if ([rsp objectForKey:@"status"] && [[rsp objectForKey:@"status"] intValue] == 0) {
-			[RCMessage syncFromJsonArray:[rsp objectForKey:@"messages"]];
+		if (rsp[@"status"] && [rsp[@"status"] intValue] == 0) {
+			[RCMessage syncFromJsonArray:rsp[@"messages"]];
 			hblock(YES, nil);
 			[[NSNotificationCenter defaultCenter] postNotificationName:MessagesUpdatedNotification object:self];
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	}];
 	[req setFailedBlock:^{
@@ -831,10 +833,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	NSDictionary *params = @{@"action":@"add", @"perm":permId, @"role":roleId};
 	[_httpClient putPath:@"role" parameters:params success:^(id op, id rsp) {
-		if ([[rsp objectForKey:@"status"] intValue] == 0) {
+		if ([rsp[@"status"] intValue] == 0) {
 			hblock(YES, rsp);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -846,10 +848,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	NSDictionary *args = @{@"userid":userId, @"roleid":roleId};
 	[_httpClient postPath:@"admin/userrole" parameters:args success:^(id op, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+		if (rsp && [rsp[@"status"] intValue] == 0) {
 			hblock(YES, rsp);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -859,10 +861,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(void)searchUsers:(NSDictionary*)args completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	[_httpClient postPath:@"user" parameters:args success:^(id op, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+		if (rsp && [rsp[@"status"] intValue] == 0) {
 			hblock(YES, rsp);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -874,16 +876,16 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	NSMutableDictionary *params = [@{@"email":user.email, @"login":user.login, @"firstname": user.firstname, @"lastname": user.lastname} mutableCopy];
 	if (user.ldapServerId) {
-		[params setObject:user.ldapServerId forKey:@"ldapServerId"];
-		[params setObject:user.ldapLogin forKey:@"ldapLogin"];
+		params[@"ldapServerId"] = user.ldapServerId;
+		params[@"ldapLogin"] = user.ldapLogin;
 	} else {
-		[params setObject:password forKey:@"pass"];
+		params[@"pass"] = password;
 	}
 	[_httpClient postPath:@"admin/user" parameters:params success:^(id op, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+		if (rsp && [rsp[@"status"] intValue] == 0) {
 			hblock(YES, rsp);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -902,11 +904,11 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	}];
 	[req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 	AFHTTPRequestOperation *op = [_httpClient HTTPRequestOperationWithRequest:req success:^(id operation, id rsp) {
-		if (0 == [[rsp objectForKey:@"status"] integerValue]) {
+		if (0 == [rsp[@"status"] integerValue]) {
 			hblock(YES, rsp);
 		} else {
-			Rc2LogWarn(@"status != 0 for user import:%@", [rsp objectForKey:@"message"]);
-			hblock(NO, [rsp objectForKey:@"message"]);
+			Rc2LogWarn(@"status != 0 for user import:%@", rsp[@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		Rc2LogError(@"error importing users:%@", error);
@@ -919,10 +921,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	NSDictionary *params = @{@"id":user.userId, @"enabled":[NSNumber numberWithBool:user.enabled]};
 	[_httpClient putPath:@"admin/user" parameters:params success:^(id op, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+		if (rsp && [rsp[@"status"] intValue] == 0) {
 			hblock(YES, rsp[@"user"]);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -942,10 +944,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(void)addCourse:(NSDictionary*)params completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	[_httpClient postPath:@"courses" parameters:params success:^(id op, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+		if (rsp && [rsp[@"status"] intValue] == 0) {
 			hblock(YES, rsp);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -956,10 +958,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	NSString *path = [NSString stringWithFormat:@"/courses/%@/student", courseId];
 	[_httpClient postPath:path parameters:@{@"student":userId} success:^(AFHTTPRequestOperation *operation, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+		if (rsp && [rsp[@"status"] intValue] == 0) {
 			hblock(YES, rsp);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -970,10 +972,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	NSString *path = [NSString stringWithFormat:@"/courses/%@/student/%@", courseId, userId];
 	[_httpClient deletePath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id rsp) {
-		if (rsp && [[rsp objectForKey:@"status"] intValue] == 0) {
+		if (rsp && [rsp[@"status"] intValue] == 0) {
 			hblock(YES, rsp);
 		} else {
-			hblock(NO, [rsp objectForKey:@"message"]);
+			hblock(NO, rsp[@"message"]);
 		}
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
@@ -985,18 +987,18 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(void)handleLoginResponse:(id)response forUser:(NSString*)user completionHandler:(Rc2FetchCompletionHandler)handler
 {
 	NSDictionary *rsp = [response JSONValue];
-	if ([[rsp objectForKey:@"status"] intValue] != 0) {
+	if ([rsp[@"status"] intValue] != 0) {
 		//error
-		handler(NO, [rsp objectForKey:@"message"]);
+		handler(NO, rsp[@"message"]);
 	} else {
 		//set to use json for everything else
 		_httpClient.parameterEncoding = AFJSONParameterEncoding;
 		//success
 		self.currentUser = [[RCUser alloc] initWithDictionary:rsp[@"user"] allRoles:rsp[@"roles"]];
-		[self.cachedData setObject:[rsp objectForKey:@"permissions"] forKey:@"permissions"];
-		[self.cachedData setObjectIgnoringNil:[rsp objectForKey:@"ldapServers"] forKey:@"ldapServers"];
-		[self.cachedData setObject:[RCCourse classesFromJSONArray:[rsp objectForKey:@"classes"]] forKey:@"classesTaught"];
-		[self.cachedData setObjectIgnoringNil:[rsp objectForKey:@"tograde"] forKey:@"tograde"];
+		[self.cachedData setObject:rsp[@"permissions"] forKey:@"permissions"];
+		[self.cachedData setObjectIgnoringNil:rsp[@"ldapServers"] forKey:@"ldapServers"];
+		[self.cachedData setObject:[RCCourse classesFromJSONArray:rsp[@"classes"]] forKey:@"classesTaught"];
+		[self.cachedData setObjectIgnoringNil:rsp[@"tograde"] forKey:@"tograde"];
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
@@ -1007,22 +1009,23 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 		self.remoteLogger.clientIdent = [NSString stringWithFormat:@"%@/%@/%@/%@",
 										 user, [dev systemName], [dev systemVersion], [dev model]];
 #endif
-		self.projects = [RCProject projectsForJsonArray:[rsp objectForKey:@"projects"] includeAdmin:self.isAdmin];
+		self.projects = [RCProject projectsForJsonArray:rsp[@"projects"] includeAdmin:self.isAdmin];
 		self.loggedIn=YES;
 		handler(YES, rsp);
 		[[NSNotificationCenter defaultCenter] postNotificationName:NotificationsReceivedNotification 
 															object:self 
-														  userInfo:[NSDictionary dictionaryWithObject:[rsp objectForKey:@"notes"] forKey:@"notes"]];
+														  userInfo:@{@"notes":rsp[@"notes"]}];
 	}
 }
 
 -(void)loginAsUser:(NSString*)user password:(NSString*)password completionHandler:(Rc2FetchCompletionHandler)hblock
 {
 	//setup our client
-	_httpClient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:self.baseUrl]];
-	[_httpClient setDefaultHeader:@"User-Agent" value:self.userAgentString];
-	[_httpClient setDefaultHeader:@"Accept" value:@"application/json"];
-	[_httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+	AFHTTPClient *httpClient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:self.baseUrl]];
+	[httpClient setDefaultHeader:@"User-Agent" value:self.userAgentString];
+	[httpClient setDefaultHeader:@"Accept" value:@"application/json"];
+	[httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+	self.httpClient = httpClient;
 	//perform the login
 	NSMutableURLRequest *request = [_httpClient requestWithMethod:@"POST" path:@"login" parameters:@{@"login": user, @"password": password}];
 	[request setTimeoutInterval:8];
@@ -1100,11 +1103,11 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 
 -(NSArray*)handleMessageRcpts:(NSDictionary*)resp
 {
-	if (nil == [resp objectForKey:@"rcpts"]) {
+	if (nil == resp[@"rcpts"]) {
 		Rc2LogWarn(@"server returned no message rcpts");
 		return nil;
 	}
-	NSArray *rcpts = [[resp objectForKey:@"rcpts"] sortedArrayUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES])];
+	NSArray *rcpts = [resp[@"rcpts"] sortedArrayUsingDescriptors:ARRAY([NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES])];
 	[self willChangeValueForKey:@"messageRecipients"];
 	[self.cachedDataTimestamps setObject:[NSDate date] forKey:@"messageRecipients"];
 	[self.cachedData setObject:rcpts forKey:@"messageRecipients"];

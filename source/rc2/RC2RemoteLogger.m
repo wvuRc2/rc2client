@@ -25,8 +25,8 @@
 	self = [super init];
 	NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
 	versionStr = [[NSString alloc] initWithFormat:@"%@/%@", 
-				  [info objectForKey:@"CFBundleShortVersionString"],
-				  [info objectForKey:@"CFBundleVersion"]];
+				  info[@"CFBundleShortVersionString"],
+				  info[@"CFBundleVersion"]];
 	self.clientIdent = @"";
 	return self;
 }
@@ -43,18 +43,18 @@
 	[req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 	[req setValue:[NSString stringWithFormat:@"%ld", (unsigned long)data.length] forHTTPHeaderField:@"Content-Length"];
 	[req setHTTPBody:data];
-	[NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *r, NSData *d, NSError *e) {
+	[NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *rresp, NSData *data, NSError *error) {
 	}];
 }
 
 -(NSData*)messageToJSONData:(DDLogMessage*)msg
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObject:self.apiKey forKey:@"apikey"];
-	[dict setObject:[NSNumber numberWithInt:msg->logFlag] forKey:@"level"];
-	[dict setObject:[NSNumber numberWithInt:msg->logContext] forKey:@"context"];
-	[dict setObject:versionStr forKey:@"versionStr"];
-	[dict setObject:self.clientIdent forKey:@"clientident"];
-	[dict setObject:msg->logMsg forKey:@"message"];
+	dict[@"level"] = @(msg->logFlag);
+	dict[@"context"] = @(msg->logContext);
+	dict[@"versionStr"] = versionStr;
+	dict[@"clientident"] = self.clientIdent;
+	dict[@"message"] = msg->logMsg;
 	return [[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
 }
 

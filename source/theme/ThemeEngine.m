@@ -13,10 +13,8 @@
 
 #if TARGET_OS_IPHONE
 #import "Vyana-ios/CALayer+LayerDebugging.h"
-#define COLOR_W_WHITE colorWithWhite
 #else
 #import <Vyana/CALayer+LayerDebugging.h>
-#define COLOR_W_WHITE colorWithCalibratedWhite
 #endif
 
 NSString *const kPref_CurrentTheme = @"CurrentThemeEngineTheme";
@@ -40,7 +38,7 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 @synthesize themeDict;
 -(id)initWithDictionary:(NSDictionary*)dict
 {
-	if ((self = [super init])) {
+	if (self = [super init]) {
 		self.themeDict = dict;
 		ZAssert(dict, @"invalid theme info");
 		_colorCache = [[NSMutableDictionary alloc] init];
@@ -74,7 +72,7 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 		@try {
 			color = [ColorClass colorWithHexString:[self hexStringForKey:key]];
 			if (color)
-				[_colorCache setObject:color forKey:key];
+				_colorCache[key] = color;
 		} @catch (id e) {
 			NSLog(@"error with color '%@' = '%@'", key, [self hexStringForKey:key]);
 		}
@@ -118,6 +116,7 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 	NSMutableSet *_toNotify;
 	Theme *_defaultTheme;
 }
+@property (nonatomic, copy, readwrite) NSArray *allThemes;
 -(NSArray*)allColorKeys;
 @property (strong, readwrite) CustomTheme *customTheme;
 @property (copy) NSArray *colorKeys;
@@ -130,28 +129,27 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 	static ThemeEngine *global;
 	
 	dispatch_once(&pred, ^{ 
-		global = [[ThemeEngine alloc] init];
-		NSMutableArray *a = [NSMutableArray array];
+		NSMutableArray *themes = [NSMutableArray array];
+		Theme *defaultTheme = nil;
 		for (NSURL *aUrl in [[NSBundle mainBundle] URLsForResourcesWithExtension:@"plist" subdirectory:@"themes"]) {
-			NSDictionary *d = [NSDictionary dictionaryWithContentsOfURL:aUrl];
-			if ([[d objectForKey:@"version"] intValue] >= 21) {
-				Theme *t = [[Theme alloc] initWithDictionary:d];
-				if ([t.name isEqualToString:@"Default"]) {
-					global->_currentTheme = t;
-					global->_defaultTheme = t;
+			NSDictionary *aDict = [NSDictionary dictionaryWithContentsOfURL:aUrl];
+			if ([aDict[@"version"] intValue] >= 21) {
+				Theme *aTheme = [[Theme alloc] initWithDictionary:aDict];
+				if ([aTheme.name isEqualToString:@"Default"]) {
+					defaultTheme = aTheme;
 				}
-				[a addObject:t];
+				[themes addObject:aTheme];
 			}
 		}
+		global = [[ThemeEngine alloc] initWithDefaultTheme:defaultTheme];
 		NSString *tname = [[NSUserDefaults standardUserDefaults] stringForKey:kPref_CurrentTheme];
 		if (tname) {
-			Theme *t = [a firstObjectWithValue:tname forKey:@"name"];
-			if (t)
-				global.currentTheme = t;
+			Theme *theme = [themes firstObjectWithValue:tname forKey:@"name"];
+			if (theme)
+				global.currentTheme = theme;
 		}
 		[global createCustomTheme];
-		global->_allThemes = [a copy];
-		global->_toNotify = [[NSMutableSet alloc] init];
+		global.allThemes = themes;
 		[global observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" options:0 block:^(MAKVONotification *note) {
 			[note.observer createCustomTheme];
 		}];
@@ -162,9 +160,14 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 	});
 	return global;
 }
--(NSArray*)allThemes
+
+-(id)initWithDefaultTheme:(Theme*)theme
 {
-	return _allThemes;
+	self = [super init];
+	_defaultTheme = theme;
+	_currentTheme = theme;
+	_toNotify = [[NSMutableSet alloc] init];
+	return self;
 }
 
 -(void)createCustomTheme
@@ -176,13 +179,13 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 			[self.customTheme load];
 		}
 		if (![_allThemes containsObject:self.customTheme]) {
-			_allThemes = [_allThemes arrayByAddingObject:self.customTheme];
+			self.allThemes = [_allThemes arrayByAddingObject:self.customTheme];
 		}
 	} else {
 		if ([_allThemes containsObject:self.customTheme]) {
 			NSUInteger idx = [_allThemes indexOfObject:self.customTheme];
 			if (idx != NSNotFound) {
-				_allThemes = [_allThemes arrayByRemovingObjectAtIndex:idx];
+				self.allThemes = [_allThemes arrayByRemovingObjectAtIndex:idx];
 				[self setCurrentTheme:_defaultTheme];
 			}
 		}
@@ -211,10 +214,10 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 //an object will be returned. releasing that object will unregister the block
 -(void)registerThemeChangeObserver:(id)obs block:(ThemeChangedBlock)tblock
 {
-	ThemeNotifyTracker *tn = [[ThemeNotifyTracker alloc] init];
-	tn.block = tblock;
-	tn.observer = [MAZeroingWeakRef refWithTarget:obs];
-	[_toNotify addObject:tn];
+	ThemeNotifyTracker *tnt = [[ThemeNotifyTracker alloc] init];
+	tnt.block = tblock;
+	tnt.observer = [MAZeroingWeakRef refWithTarget:obs];
+	[_toNotify addObject:tnt];
 }
 
 #define kThemeBGLayerName @"themed bg"
@@ -227,23 +230,22 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 	if (nil != existingLayer) {
 		[existingLayer removeFromSuperlayer];
 	}
-    CAGradientLayer *gl = [CAGradientLayer layer];
-    [gl setBounds:frame];
-    [gl setPosition:CGPointMake(parentLayer.bounds.size.width/2, parentLayer.bounds.size.height/2)];
-    [parentLayer insertSublayer:gl atIndex:(unsigned)[parentLayer.sublayers count]];
-	gl.zPosition = -1;
-	gl.name = kThemeBGLayerName;
+    CAGradientLayer *glayer = [CAGradientLayer layer];
+    [glayer setBounds:frame];
+    [glayer setPosition:CGPointMake(parentLayer.bounds.size.width/2, parentLayer.bounds.size.height/2)];
+    [parentLayer insertSublayer:glayer atIndex:(unsigned)[parentLayer.sublayers count]];
+	glayer.zPosition = -1;
+	glayer.name = kThemeBGLayerName;
 	//now we need to find out what colors to use
-	Theme *th = _currentTheme;
-	ColorClass *startColor = [th colorForKey:[key stringByAppendingString:@"Start"]];
-	ColorClass *endColor = [th colorForKey:[key stringByAppendingString:@"End"]];
+	Theme *theme = _currentTheme;
+	ColorClass *startColor = [theme colorForKey:[key stringByAppendingString:@"Start"]];
+	ColorClass *endColor = [theme colorForKey:[key stringByAppendingString:@"End"]];
 	if (startColor && endColor) {
-		NSArray *colors = [NSArray arrayWithObjects:(id)startColor.CGColor, (id)endColor.CGColor, nil];
-		[gl setColors:colors];
+		[glayer setColors:@[(id)startColor.CGColor, (id)endColor.CGColor]];
 	} else {
-		startColor = [th colorForKey:key];
+		startColor = [theme colorForKey:key];
 		if (startColor) {
-			gl.backgroundColor = startColor.CGColor;
+			glayer.backgroundColor = startColor.CGColor;
 		}
 	}
 }
@@ -253,7 +255,7 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 	if (nil == self.colorKeys) {
 		NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ThemeEngine" ofType:@"plist"]];
 		ZAssert(dict, @"failed to load theme engine config");
-		self.colorKeys = [dict objectForKey:@"colorKeys"];
+		self.colorKeys = dict[@"colorKeys"];
 	}
 	return self.colorKeys;
 }
@@ -269,7 +271,7 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 
 -(NSString*)hexStringForKey:(NSString*)key
 {
-	NSString *str = [self.themeColors objectForKey:key];
+	NSString *str = self.themeColors[key];
 	if (nil == str)
 		str = [self.defaultTheme hexStringForKey:key];
 	return str;
@@ -279,13 +281,13 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 {
 	if (nil != self.themeColorEntries)
 		return [self.themeColorEntries copy];
-	NSMutableArray *a = [NSMutableArray array];
+	NSMutableArray *array = [NSMutableArray array];
 	for (NSString *aKey in [[ThemeEngine sharedInstance] allColorKeys]) {
 		ThemeColorEntry *entry = [[ThemeColorEntry alloc] initWithName:aKey color:[self colorForKey:aKey]];
-		[a addObject:entry];
+		[array addObject:entry];
 	}
-	self.themeColorEntries = a;
-	return [a copy];
+	self.themeColorEntries = array;
+	return [array copy];
 }
 -(void)load
 {
@@ -296,7 +298,7 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 																				 format:nil error:&err];
 		if (custom) {
 			NSMutableDictionary * dict = [self.themeDict mutableCopy];
-			[dict setObject:custom forKey:@"colors"];
+			dict[@"colors"] = custom;
 			self.themeDict = dict;
 		} else {
 			Rc2LogWarn(@"failed to parse theme plist:%@", err);
@@ -311,7 +313,7 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 	for (ThemeColorEntry *entry in self.colorEntries) {
 		NSString *hex = [entry.color hexString];
 		if (hex.length > 2)
-			[cdict setObject:hex forKey:entry.name];
+			cdict[entry.name] = hex;
 	}
 	NSError *err;
 	data = [NSPropertyListSerialization dataWithPropertyList:cdict format:NSPropertyListXMLFormat_v1_0 options:0 error:&err];
@@ -342,11 +344,11 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
     CAGradientLayer *shineLayer = [CAGradientLayer layer];
     shineLayer.frame = bounds;
     shineLayer.colors = [NSArray arrayWithObjects:
-                         (id)[ColorClass COLOR_W_WHITE:0.8f alpha:0.4f].CGColor,
-                         (id)[ColorClass COLOR_W_WHITE:0.8f alpha:0.2f].CGColor,
-                         (id)[ColorClass COLOR_W_WHITE:0.75f alpha:0.2f].CGColor,
-                         (id)[ColorClass COLOR_W_WHITE:0.4f alpha:0.2f].CGColor,
-                         (id)[ColorClass COLOR_W_WHITE:1.0f alpha:0.4f].CGColor,
+                         (id)[ColorClass colorWithWhite:0.8f alpha:0.4f].CGColor,
+                         (id)[ColorClass colorWithWhite:0.8f alpha:0.2f].CGColor,
+                         (id)[ColorClass colorWithWhite:0.75f alpha:0.2f].CGColor,
+                         (id)[ColorClass colorWithWhite:0.4f alpha:0.2f].CGColor,
+                         (id)[ColorClass colorWithWhite:1.0f alpha:0.4f].CGColor,
                          nil];
     shineLayer.locations = @[@0.0f, @0.3f, @0.3f, @0.8f, @1.0f];
     [parentLayer addSublayer:shineLayer];
