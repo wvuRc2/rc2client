@@ -8,7 +8,7 @@
 
 #import "RCCodeHighlighterSas.h"
 #import "Rc2AppConstants.h"
-#import <ParseKit/ParseKit.h>
+#import <PEGKit/PEGKit.h>
 
 @interface RCCodeHighlighterSas()
 @property (nonatomic, strong) NSRegularExpression *sasCommentRegex;

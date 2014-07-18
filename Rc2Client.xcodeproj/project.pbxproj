@@ -6,9 +6,25 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		086AFE7519798EA800C83EF4 /* OCLint Mac */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 086AFE7919798EA800C83EF4 /* Build configuration list for PBXAggregateTarget "OCLint Mac" */;
+			buildPhases = (
+				086AFE7A19798EBE00C83EF4 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "OCLint Mac";
+			productName = "OCLint Mac";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		08063D5C173AF33C0054FD1D /* MCVariableDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08063D5A173AF33B0054FD1D /* MCVariableDisplayController.m */; };
 		08063D5D173AF33C0054FD1D /* MCVariableDisplayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08063D5B173AF33B0054FD1D /* MCVariableDisplayController.xib */; };
+		08093C1A1979B08E00F5852A /* libPEGKitIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08093C191979B08E00F5852A /* libPEGKitIOS.a */; };
+		08093C1C1979B0DA00F5852A /* libPEGKitOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08093C1B1979B0DA00F5852A /* libPEGKitOSX.a */; };
 		080E5082166FDFB800E95531 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5070166FDFB800E95531 /* AFHTTPClient.m */; };
 		080E5083166FDFB800E95531 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5070166FDFB800E95531 /* AFHTTPClient.m */; };
 		080E5084166FDFB800E95531 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5072166FDFB800E95531 /* AFHTTPRequestOperation.m */; };
@@ -59,7 +75,6 @@
 		082D1EBC17E2406000723EB3 /* RCSweaveParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EBA17E2406000723EB3 /* RCSweaveParser.m */; };
 		082D1EC017E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */; };
 		082D1EC117E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EBF17E2442E00723EB3 /* RCCodeHighlighterR.m */; };
-		082D1EC317E2460A00723EB3 /* libParseKitMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 082D1EC217E2460A00723EB3 /* libParseKitMobile.a */; };
 		082D1EC517E2475200723EB3 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 082D1EC417E2475200723EB3 /* libicucore.dylib */; };
 		082D1EC717E38B6900723EB3 /* RKeywords.txt in Resources */ = {isa = PBXBuildFile; fileRef = 082D1EC617E38B6900723EB3 /* RKeywords.txt */; };
 		082D1EC817E38B6900723EB3 /* RKeywords.txt in Resources */ = {isa = PBXBuildFile; fileRef = 082D1EC617E38B6900723EB3 /* RKeywords.txt */; };
@@ -73,8 +88,6 @@
 		082D1ED817E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1ED617E8C77C00723EB3 /* RCCodeHighlighterSas.m */; };
 		082D1EDB17E8D2DC00723EB3 /* RCRmdParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EDA17E8D2DC00723EB3 /* RCRmdParser.m */; };
 		082D1EDC17E8D2DC00723EB3 /* RCRmdParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082D1EDA17E8D2DC00723EB3 /* RCRmdParser.m */; };
-		082D1EDE17E900DF00723EB3 /* ParseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082D1EDD17E900DE00723EB3 /* ParseKit.framework */; };
-		082D1EE017E9014100723EB3 /* ParseKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 082D1EDD17E900DE00723EB3 /* ParseKit.framework */; };
 		0830EF4C18EB50FC00422167 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0830EF4218EB50FC00422167 /* FMDatabase.m */; };
 		0830EF4D18EB50FC00422167 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0830EF4218EB50FC00422167 /* FMDatabase.m */; };
 		0830EF4E18EB50FC00422167 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0830EF4418EB50FC00422167 /* FMDatabaseAdditions.m */; };
@@ -559,7 +572,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				082D1EE017E9014100723EB3 /* ParseKit.framework in Copy Frameworks */,
 				084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */,
 				084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */,
 				085C6EF917A99E370085DE88 /* DropboxOSX.framework in Copy Frameworks */,
@@ -582,6 +594,8 @@
 		08063D59173AF33B0054FD1D /* MCVariableDisplayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVariableDisplayController.h; sourceTree = "<group>"; };
 		08063D5A173AF33B0054FD1D /* MCVariableDisplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCVariableDisplayController.m; sourceTree = "<group>"; };
 		08063D5B173AF33B0054FD1D /* MCVariableDisplayController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCVariableDisplayController.xib; sourceTree = "<group>"; };
+		08093C191979B08E00F5852A /* libPEGKitIOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPEGKitIOS.a; path = "Dependencies/PEGKit/build/Debug-iphoneos/libPEGKitIOS.a"; sourceTree = "<group>"; };
+		08093C1B1979B0DA00F5852A /* libPEGKitOSX.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPEGKitOSX.a; path = "../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug/libPEGKitOSX.a"; sourceTree = "<group>"; };
 		080E506F166FDFB800E95531 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		080E5070166FDFB800E95531 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		080E5071166FDFB800E95531 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -1281,10 +1295,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08093C1A1979B08E00F5852A /* libPEGKitIOS.a in Frameworks */,
 				080F50F11890658100CF39FB /* Accelerate.framework in Frameworks */,
 				08BD2F78185BACD8002B256B /* libsqlite3.dylib in Frameworks */,
 				082D1EC517E2475200723EB3 /* libicucore.dylib in Frameworks */,
-				082D1EC317E2460A00723EB3 /* libParseKitMobile.a in Frameworks */,
 				087DB8C417B57A8200724811 /* libHockeySDK.a in Frameworks */,
 				08D245FB15B5DDD00064A9FA /* libz.dylib in Frameworks */,
 				08D245F915B5DDCB0064A9FA /* CFNetwork.framework in Frameworks */,
@@ -1315,8 +1329,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08093C1C1979B0DA00F5852A /* libPEGKitOSX.a in Frameworks */,
 				08BD2F7A185BACE8002B256B /* libsqlite3.dylib in Frameworks */,
-				082D1EDE17E900DF00723EB3 /* ParseKit.framework in Frameworks */,
 				08D2468315B5EFDD0064A9FA /* Vyana.framework in Frameworks */,
 				08D2467A15B5EF630064A9FA /* AudioToolbox.framework in Frameworks */,
 				08D2467B15B5EF630064A9FA /* Quartz.framework in Frameworks */,
@@ -1960,6 +1974,8 @@
 		08D2432215B5D04D0064A9FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				08093C1B1979B0DA00F5852A /* libPEGKitOSX.a */,
+				08093C191979B08E00F5852A /* libPEGKitIOS.a */,
 				080F50F01890658100CF39FB /* Accelerate.framework */,
 				08BD2F79185BACE8002B256B /* libsqlite3.dylib */,
 				08BD2F77185BACD8002B256B /* libsqlite3.dylib */,
@@ -2686,6 +2702,7 @@
 				08D2461B15B5EBC20064A9FA /* Mac App */,
 				08D248B9176A498900D71F02 /* CoreUnitTests */,
 				08BD2F48185A4ED4002B256B /* Rc2 Package */,
+				086AFE7519798EA800C83EF4 /* OCLint Mac */,
 			);
 		};
 /* End PBXProject section */
@@ -2878,6 +2895,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if test \"${SRCROOT}/source/rc2/model/generated\" -ot \"${SRCROOT}/Rc2.xcdatamodeld\"\nthen\nFNAME=`/usr/libexec/PlistBuddy -c \"Print _XCCurrentVersionName\" ${SRCROOT}/Rc2.xcdatamodeld/.xccurrentversion`\n/usr/bin/mogenerator -m \"${SRCROOT}/Rc2.xcdatamodeld/$FNAME\" --template-path \"${SRCROOT}/modeltemplates\" -M \"${SRCROOT}/source/rc2/model/generated\" -H \"${SRCROOT}/source/rc2/model\" --use-pbx-vars --template-var arc=true\nfi";
+		};
+		086AFE7A19798EBE00C83EF4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source ~/.bash_profile\n\nOCL_DIR=/tmp/rc2oclint\n\nif [ -d $OCL_DIR ] ; then\nrm -rf $OCL_DIR\nfi\nmkdir $OCL_DIR\n\nhash oclint &> /dev/null\nif [ $? -eq 1 ]; then\necho >&2 \"oclint not found, analyzing stopped\"\nexit 1\nfi\n\ncd ${OCL_DIR}\n\nif [ ! -f compile_commands.json ]; then\necho \"[*] compile_commands.json not found, possibly clean was performed\"\necho \"[*] starting xcodebuild to rebuild the project..\"\n# clean previous output\nif [ -f xcodebuild.log ]; then\nrm xcodebuild.log\nfi\n\ncd ${SRCROOT}\ncd .. #back to workspace directory\n\n#build xcodebuild.log\nxcodebuild -workspace rc2.xcworkspace -configuration Debug -scheme \"Mac App\" | cat > ${OCL_DIR}/xcodebuild.log\n#xcodebuild <options>| tee ${OCL_DIR}/xcodebuild.log\n\necho \"[*] transforming xcodebuild.log into compile_commands.json...\"\ncd ${OCL_DIR}\n#transform it into compile_commands.json\noclint-xcodebuild\n\necho \"[*] copy compile_commands.json to the project root...\"\ncp ${OCL_DIR}/compile_commands.json ${SRCROOT}/compile_commands.json\n\nfi\n\necho \"[*] starting analyzing\"\ncd ${OCL_DIR}\noclint-json-compilation-database -- -rc LONG_VARIABLE_NAME=40 -rc LONG_LINE=160 -rc SHORT_VARIABLE_NAME=2 | sed 's/\\(.*\\.\\m\\{1,2\\}:[0-9]*:[0-9]*:\\)/\\1 warning:/'";
 		};
 		089C0D6C189193DE0046E8DF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3411,6 +3441,33 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		086AFE7619798EA800C83EF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+			};
+			name = Debug;
+		};
+		086AFE7719798EA800C83EF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+			};
+			name = Release;
+		};
+		086AFE7819798EA800C83EF4 /* Archive */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+			};
+			name = Archive;
+		};
 		08BD2F50185A4ED4002B256B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3639,9 +3696,10 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 					"\"$(SRCROOT)/Vendor/\"/**",
 					"\" \"$(BUILT_PRODUCTS_DIR)/include",
+					"\"$(SRCROOT)/Dependencies/PEGKit/include\"",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
 					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** ",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3682,9 +3740,10 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 					"\"$(SRCROOT)/Vendor/\"/**",
 					"\" \"$(BUILT_PRODUCTS_DIR)/include",
+					"\"$(SRCROOT)/Dependencies/PEGKit/include\"",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
 					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** ",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3757,9 +3816,10 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 					"\"$(SRCROOT)/Vendor/\"/**",
 					"\" \"$(BUILT_PRODUCTS_DIR)/include",
+					"\"$(SRCROOT)/Dependencies/PEGKit/include\"",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
 					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** ",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3796,10 +3856,13 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = source/ios/3rdParty;
+				HEADER_SEARCH_PATHS = (
+					source/ios/3rdParty,
+					"\"$(SRCROOT)/Dependencies/PEGKit/include\"",
+				);
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lz";
@@ -3831,10 +3894,13 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = source/ios/3rdParty;
+				HEADER_SEARCH_PATHS = (
+					source/ios/3rdParty,
+					"\"$(SRCROOT)/Dependencies/PEGKit/include\"",
+				);
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = Rc2;
@@ -3865,10 +3931,13 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = source/ios/3rdParty;
+				HEADER_SEARCH_PATHS = (
+					source/ios/3rdParty,
+					"\"$(SRCROOT)/Dependencies/PEGKit/include\"",
+				);
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = Rc2;
@@ -3882,7 +3951,7 @@
 		08D248CD176A498A00D71F02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3907,7 +3976,7 @@
 		08D248CE176A498A00D71F02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3932,7 +4001,7 @@
 		08D248CF176A498A00D71F02 /* Archive */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3957,6 +4026,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		086AFE7919798EA800C83EF4 /* Build configuration list for PBXAggregateTarget "OCLint Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				086AFE7619798EA800C83EF4 /* Debug */,
+				086AFE7719798EA800C83EF4 /* Release */,
+				086AFE7819798EA800C83EF4 /* Archive */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		08BD2F4F185A4ED4002B256B /* Build configuration list for PBXNativeTarget "Rc2 Package" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

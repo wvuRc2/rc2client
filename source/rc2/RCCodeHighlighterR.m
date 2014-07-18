@@ -7,7 +7,7 @@
 //
 
 #import "RCCodeHighlighterR.h"
-#import <ParseKit/ParseKit.h>
+#import <PEGKit/PEGKit.h>
 #import "Rc2AppConstants.h"
 
 @interface RCCodeHighlighterR ()

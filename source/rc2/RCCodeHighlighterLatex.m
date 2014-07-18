@@ -8,7 +8,7 @@
 
 #import "RCCodeHighlighterLatex.h"
 #import "Rc2AppConstants.h"
-#import <ParseKit/ParseKit.h>
+#import <PEGKit/PEGKit.h>
 
 @interface RCCodeHighlighterLatex ()
 @property (nonatomic, strong) NSRegularExpression *commentRegex;
