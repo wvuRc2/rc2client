@@ -406,6 +406,18 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 
 -(void)completeSessionStartup:(id)results selectedFile:(RCFile*)selFile workspace:(RCWorkspace*)wspace
 {
+	if ([[results objectForKey:@"status"] intValue] != 0) {
+		Rc2LogWarn(@"error on session startup:%@", [results objectForKey:@"message"]);
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Server Error"
+														message:[results objectForKey:@"message"]
+													   delegate:nil
+											  cancelButtonTitle:@"OK"
+											  otherButtonTitles:nil];
+		[alert show];
+		[self.currentHud hide];
+		self.currentHud=nil;
+		return;
+	}
 	RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:results];
 	session.initialFileSelection = selFile;
 	SessionViewController *svc = [[SessionViewController alloc] initWithSession:session];
