@@ -341,8 +341,6 @@
 		08D2437115B5D4D30064A9FA /* AbstractTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2436315B5D49C0064A9FA /* AbstractTopViewController.m */; };
 		08D2437215B5D4D60064A9FA /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2435C15B5D42E0064A9FA /* RootViewController.m */; };
 		08D2437415B5D4E10064A9FA /* Rc2AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2435815B5D4130064A9FA /* Rc2AppDelegate.m */; };
-		08D2437815B5D4F90064A9FA /* GradingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2437615B5D4F90064A9FA /* GradingViewController.m */; };
-		08D2437915B5D4F90064A9FA /* GradingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2437715B5D4F90064A9FA /* GradingViewController.xib */; };
 		08D2438815B5D59A0064A9FA /* SessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2438615B5D59A0064A9FA /* SessionViewController.m */; };
 		08D2438915B5D59A0064A9FA /* SessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2438715B5D59A0064A9FA /* SessionViewController.xib */; };
 		08D2438D15B5D5AB0064A9FA /* EditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2438B15B5D5AB0064A9FA /* EditorViewController.m */; };
@@ -2672,7 +2670,7 @@
 		08D2431615B5D04D0064A9FA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "West Virginia University";
 				TargetAttributes = {
 					08D2431E15B5D04D0064A9FA = {
@@ -2714,7 +2712,6 @@
 			files = (
 				08D2436D15B5D4C50064A9FA /* MessagesViewController.xib in Resources */,
 				08D2436F15B5D4CC0064A9FA /* WelcomeViewController.xib in Resources */,
-				08D2437915B5D4F90064A9FA /* GradingViewController.xib in Resources */,
 				08D2438915B5D59A0064A9FA /* SessionViewController.xib in Resources */,
 				08D2438E15B5D5AB0064A9FA /* EditorViewController.xib in Resources */,
 				08D2439315B5D5C10064A9FA /* ConsoleViewController.xib in Resources */,
@@ -3015,7 +3012,6 @@
 				08BDDD9617EA48AB00E669E3 /* NSString+MagicalDataImport.m in Sources */,
 				08D2437215B5D4D60064A9FA /* RootViewController.m in Sources */,
 				08D2437415B5D4E10064A9FA /* Rc2AppDelegate.m in Sources */,
-				08D2437815B5D4F90064A9FA /* GradingViewController.m in Sources */,
 				08D2438815B5D59A0064A9FA /* SessionViewController.m in Sources */,
 				08BDDDAE17EA48AB00E669E3 /* NSPersistentStoreCoordinator+MagicalRecord.m in Sources */,
 				08BDDDB817EA48AB00E669E3 /* MagicalRecord+Setup.m in Sources */,
@@ -3511,7 +3507,7 @@
 					"-fPIC",
 				);
 				PRODUCT_NAME = rc2.so;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -3555,7 +3551,7 @@
 					"-fPIC",
 				);
 				PRODUCT_NAME = rc2.so;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -3599,7 +3595,7 @@
 					"-fPIC",
 				);
 				PRODUCT_NAME = rc2.so;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Archive;
 		};
@@ -3613,9 +3609,11 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3625,6 +3623,7 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -3649,12 +3648,15 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=0";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -3675,10 +3677,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = (
-					armv7,
-					armv7s,
-				);
+				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
@@ -3719,10 +3718,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = (
-					armv7,
-					armv7s,
-				);
+				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
@@ -3769,12 +3765,15 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=0";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -3795,10 +3794,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = (
-					armv7,
-					armv7s,
-				);
+				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
