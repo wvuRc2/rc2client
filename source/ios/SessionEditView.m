@@ -152,7 +152,9 @@ const CGFloat kLineNumberGutterWidth = 40;
 	//this is a skanky hack using private API. There appears to be no other way to hide the accessory
 	// view once keyboard notifications are received.
 	Class cz = NSClassFromString(@"UIKeyboardImpl");
-	id keybd = objc_msgSend(cz, NSSelectorFromString(@"sharedInstance"));
+	typedef id (*sha_type)(Class, SEL);
+	sha_type meth = (sha_type)objc_msgSend;
+	id keybd = meth(cz, NSSelectorFromString(@"sharedInstance"));
 	id val = [keybd valueForKey:@"inHardwareKeyboardMode"];
 	if ([val boolValue])
 		self.inputAccessoryView = nil;
