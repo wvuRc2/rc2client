@@ -330,6 +330,7 @@
 		08CB421B187F48AF00F0F794 /* MCHelpSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08CB4219187F48AF00F0F794 /* MCHelpSheetController.xib */; };
 		08CB421F188734A000F0F794 /* MCAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08CB421D188734A000F0F794 /* MCAdminController.m */; };
 		08CB4220188734A000F0F794 /* MCAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08CB421E188734A000F0F794 /* MCAdminController.xib */; };
+		08CFBFE91979C3E3009939CB /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08CFBFE81979C3E3009939CB /* QuickLook.framework */; };
 		08D2432415B5D04D0064A9FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432315B5D04D0064A9FA /* UIKit.framework */; };
 		08D2432615B5D04D0064A9FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432515B5D04D0064A9FA /* Foundation.framework */; };
 		08D2432815B5D04D0064A9FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432715B5D04D0064A9FA /* CoreGraphics.framework */; };
@@ -988,6 +989,7 @@
 		08CB421C188734A000F0F794 /* MCAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAdminController.h; sourceTree = "<group>"; };
 		08CB421D188734A000F0F794 /* MCAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAdminController.m; sourceTree = "<group>"; };
 		08CB421E188734A000F0F794 /* MCAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCAdminController.xib; sourceTree = "<group>"; };
+		08CFBFE81979C3E3009939CB /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		08D2431F15B5D04D0064A9FA /* Rc².app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rc².app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08D2432315B5D04D0064A9FA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		08D2432515B5D04D0064A9FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1293,6 +1295,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08CFBFE91979C3E3009939CB /* QuickLook.framework in Frameworks */,
 				08093C1A1979B08E00F5852A /* libPEGKitIOS.a in Frameworks */,
 				080F50F11890658100CF39FB /* Accelerate.framework in Frameworks */,
 				08BD2F78185BACD8002B256B /* libsqlite3.dylib in Frameworks */,
@@ -1972,6 +1975,7 @@
 		08D2432215B5D04D0064A9FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				08CFBFE81979C3E3009939CB /* QuickLook.framework */,
 				08093C1B1979B0DA00F5852A /* libPEGKitOSX.a */,
 				08093C191979B08E00F5852A /* libPEGKitIOS.a */,
 				080F50F01890658100CF39FB /* Accelerate.framework */,
