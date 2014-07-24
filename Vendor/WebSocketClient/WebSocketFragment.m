@@ -245,7 +245,7 @@
             }
             
             payloadStart = index;
-            payloadLength = dataLength;
+            payloadLength = (int)dataLength;
 
             return YES;
         }
@@ -313,7 +313,7 @@
     
     //payload data
     payloadStart = [temp length];
-    payloadLength = fullPayloadLength;
+    payloadLength = (int)fullPayloadLength;
     [temp appendData:[self mask:self.mask data:self.payloadData]];
     self.fragment = temp;
 }
