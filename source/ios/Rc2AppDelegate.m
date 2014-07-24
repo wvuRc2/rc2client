@@ -11,7 +11,6 @@
 #import "include/HockeySDK/HockeySDK.h"
 #import "LoginController.h"
 #import "SessionViewController.h"
-#import "RootViewController.h"
 #import "Rc2Server.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
@@ -39,7 +38,6 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 }
 @property (nonatomic, strong) MLReachability *reachability;
 @property (nonatomic, strong) UINavigationController *rootNavController;
-@property (nonatomic, strong) RootViewController *rootController;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *myPsc;
 @property (nonatomic, strong) LoginController *authController;
 @property (nonatomic, strong) ThemeColorViewController *themeEditor;
@@ -164,7 +162,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 		}
 		return YES;
 	} else if ([[url lastPathComponent] hasSuffix:@".pdf"] && [url.lastPathComponent hasPrefix:@"rc2g"]) {
-		[self.rootController handleGradingUrl:url];
+//		[self.rootController handleGradingUrl:url];
 		return YES;
 	} else if ([url.scheme isEqualToString:@"file"] && url.isFileURL) {
 		self.fileToImport = url;
@@ -230,7 +228,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
 	NSLog(@"got note:%@", userInfo);
-	[self.rootController reloadNotifications];
+//	[self.rootController reloadNotifications];
 }
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
@@ -246,32 +244,12 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 
 #pragma mark - actions
 
--(IBAction)showWelcome:(id)sender
-{
-	[self.rootController showWelcome];
-}
-
--(IBAction)showMessages:(id)sender
-{
-	[self.rootController showMessages];
-}
-
--(IBAction)showWorkspaces:(id)sender
-{
-	[self.rootController showWorkspaces];
-}
-
--(IBAction)showGrading:(id)sender
-{
-	[self.rootController showGrading];
-}
-
 -(IBAction)logout:(id)sender
 {
 	[[Rc2Server sharedInstance] logout];
-	[self.rootController showWelcome];
+//	[self.rootController showWelcome];
 	CGFloat delay = 0.1;
-	if (self.rootController.presentedViewController != nil)
+	if (self.window.rootViewController.presentedViewController != nil)
 		delay = 0.5;
 	RunAfterDelay(delay, ^{
 		[self promptForLogin];
@@ -282,7 +260,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 {
 	if (self.themeEditor) {
 		//already visible. get rid of it
-		[self.rootController dismissViewControllerAnimated:YES completion:nil];
+		[self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
 		self.themeEditor=nil;
 		return;
 	}
@@ -293,7 +271,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 		bself.themeEditor=nil;
 		RunAfterDelay(0.5, ^{ [bself sendThemeMail]; });
 	};
-	[self.rootController presentViewController:self.themeEditor animated:YES completion:nil];
+	[self.window.rootViewController presentViewController:self.themeEditor animated:YES completion:nil];
 	self.themeEditor.view.superview.frame = CGRectMake(112, 80, 800, 600);
 }
 
@@ -304,7 +282,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	[smc.composer setSubject:@"Custom Theme Save"];
 	[smc.composer setToRecipients:@[@"rc2@stat.wvu.edu"]];
 	[smc.composer addAttachmentData:data mimeType:@"text/xml" fileName:@"customTheme.plist"];
-	[self.rootController presentViewController:smc.composer animated:YES completion:nil];
+	[self.window.rootViewController presentViewController:smc.composer animated:YES completion:nil];
 }
 
 -(void)showGearMenu:(id)sender
@@ -390,7 +368,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 		ic.cleanupBlock = ^{
 			nc=nil;
 		};
-		[self.rootController presentViewController:nc animated:YES completion:^{}];
+		[self.window.rootViewController presentViewController:nc animated:YES completion:^{}];
 		NSFileManager *fm = [[NSFileManager alloc] init];
 		[fm removeItemAtURL:self.fileToImport error:nil];
 

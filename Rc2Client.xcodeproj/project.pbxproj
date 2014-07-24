@@ -340,7 +340,6 @@
 		08D2436F15B5D4CC0064A9FA /* WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2436615B5D49C0064A9FA /* WelcomeViewController.xib */; };
 		08D2437015B5D4D00064A9FA /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2436515B5D49C0064A9FA /* WelcomeViewController.m */; };
 		08D2437115B5D4D30064A9FA /* AbstractTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2436315B5D49C0064A9FA /* AbstractTopViewController.m */; };
-		08D2437215B5D4D60064A9FA /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2435C15B5D42E0064A9FA /* RootViewController.m */; };
 		08D2437415B5D4E10064A9FA /* Rc2AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2435815B5D4130064A9FA /* Rc2AppDelegate.m */; };
 		08D2438815B5D59A0064A9FA /* SessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2438615B5D59A0064A9FA /* SessionViewController.m */; };
 		08D2438915B5D59A0064A9FA /* SessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2438715B5D59A0064A9FA /* SessionViewController.xib */; };
@@ -998,8 +997,6 @@
 		08D2435315B5D2940064A9FA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		08D2435715B5D4130064A9FA /* Rc2AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rc2AppDelegate.h; sourceTree = "<group>"; };
 		08D2435815B5D4130064A9FA /* Rc2AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Rc2AppDelegate.m; sourceTree = "<group>"; };
-		08D2435B15B5D42E0064A9FA /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		08D2435C15B5D42E0064A9FA /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		08D2436215B5D49C0064A9FA /* AbstractTopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AbstractTopViewController.h; sourceTree = "<group>"; };
 		08D2436315B5D49C0064A9FA /* AbstractTopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AbstractTopViewController.m; sourceTree = "<group>"; };
 		08D2436415B5D49C0064A9FA /* WelcomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
@@ -2019,8 +2016,6 @@
 				08D2435715B5D4130064A9FA /* Rc2AppDelegate.h */,
 				08D2435815B5D4130064A9FA /* Rc2AppDelegate.m */,
 				08B74C71163B2E7D00083F9A /* MainWindow.xib */,
-				08D2435B15B5D42E0064A9FA /* RootViewController.h */,
-				08D2435C15B5D42E0064A9FA /* RootViewController.m */,
 				0873431617C53911000EC1E0 /* AddFullConstraintsView.h */,
 				0873431717C53911000EC1E0 /* AddFullConstraintsView.m */,
 				08D2436015B5D4680064A9FA /* top level controllers */,
@@ -3014,7 +3009,6 @@
 				08D2437015B5D4D00064A9FA /* WelcomeViewController.m in Sources */,
 				08D2437115B5D4D30064A9FA /* AbstractTopViewController.m in Sources */,
 				08BDDD9617EA48AB00E669E3 /* NSString+MagicalDataImport.m in Sources */,
-				08D2437215B5D4D60064A9FA /* RootViewController.m in Sources */,
 				08D2437415B5D4E10064A9FA /* Rc2AppDelegate.m in Sources */,
 				08D2438815B5D59A0064A9FA /* SessionViewController.m in Sources */,
 				08BDDDAE17EA48AB00E669E3 /* NSPersistentStoreCoordinator+MagicalRecord.m in Sources */,

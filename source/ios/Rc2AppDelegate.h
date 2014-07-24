@@ -22,10 +22,6 @@
 @property (nonatomic, copy, readonly) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readonly) NSArray *standardRightNavBarItems;
 
--(IBAction)showMessages:(id)sender;
--(IBAction)showWelcome:(id)sender;
--(IBAction)showWorkspaces:(id)sender;
--(IBAction)showGrading:(id)sender;
 -(IBAction)logout:(id)sender;
 -(IBAction)editTheme:(id)sender;
 
