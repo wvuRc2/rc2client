@@ -524,23 +524,9 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 			[blockSelf restoreLastSession];
 		}
 	};
-	self.authController.modalPresentationStyle = UIModalPresentationFormSheet;
-	self.authController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-	[self.authController view];
-	CGSize sz = self.authController.view.frame.size;
+	self.authController.transitioningDelegate = self.authController;
+	self.authController.modalPresentationStyle = UIModalPresentationCustom;
 	[blockVC presentViewController:self.authController animated:YES completion:nil];
-
-	BOOL land = UIInterfaceOrientationIsLandscape(TheApp.statusBarOrientation);
-
-   self.authController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
-	| UIViewAutoresizingFlexibleBottomMargin;
-	CGRect r = self.authController.view.superview.frame;
-	r.size = sz;
-	self.authController.view.superview.frame = r;
-
-	CGSize screenSize = land ? CGSizeMake(1024, 748) : CGSizeMake(768, 1004);
-	CGPoint pt = CGPointMake(screenSize.width/2, floor(screenSize.height/3));
-	self.authController.view.superview.center = pt;
 }
 
 

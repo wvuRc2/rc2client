@@ -12,11 +12,11 @@
 #import "Rc2AppConstants.h"
 #import "SSKeychain.h"
 
-@interface LoginController()
--(void)reportError:(NSString*)errMsg;
--(void)saveLoginInfo;
--(void)loadPasswordForLogin:(NSString*)login;
+@interface LoginController() <UIViewControllerAnimatedTransitioning>
+@property BOOL presenting;
 @end
+
+static const CGFloat kAnimDuration = 0.4;
 
 @implementation LoginController
 
@@ -35,6 +35,7 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	self.view.translatesAutoresizingMaskIntoConstraints = NO;
 	NSString *lastLogin = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefLastLogin];
 	if (lastLogin) {
 		self.useridField.text = lastLogin;
@@ -44,11 +45,11 @@
 	self.hostControl.selectedSegmentIndex = [[Rc2Server sharedInstance] serverHost];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)ior
+-(void)viewWillAppear:(BOOL)animated
 {
-	return YES;
+	[super viewWillAppear:animated];
+	self.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 }
-
 #pragma mark - actions
 
 -(IBAction)doLogin:(id)sender
@@ -116,6 +117,52 @@
 										  cancelButtonTitle:@"OK"
 										  otherButtonTitles:nil];
 	[alert show];
+}
+
+#pragma mark - view transition
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+	self.presenting = YES;
+	return self;
+}
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+	self.presenting = NO;
+	return self;
+}
+
+-(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+	UIView *container = [transitionContext containerView];
+	
+	CGAffineTransform completeTransform = CGAffineTransformIdentity;
+
+	container.autoresizesSubviews = NO;
+	if (self.presenting) {
+		[container addSubview:self.view];
+		[container addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+		[container addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeTop multiplier:1 constant:200]];
+		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:342]];
+		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:301]];
+		self.view.transform = CGAffineTransformMakeTranslation(0, container.bounds.size.height);
+	} else {
+		completeTransform = CGAffineTransformMakeTranslation(0, container.bounds.size.height);
+	}
+	
+	[UIView animateWithDuration:kAnimDuration animations:^{
+		self.view.transform = completeTransform;
+	} completion:^(BOOL finished) {
+		if (!self.presenting)
+			[self.view removeFromSuperview];
+		[transitionContext completeTransition:YES];
+	}];
+}
+
+-(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+	return kAnimDuration;
 }
 
 @end

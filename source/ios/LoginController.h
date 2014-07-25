@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoginController : UIViewController<UITextFieldDelegate>
+@interface LoginController : UIViewController<UITextFieldDelegate,UIViewControllerTransitioningDelegate>
 @property (nonatomic, strong) IBOutlet UITextField *useridField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordField;
 @property (nonatomic, strong) IBOutlet UIButton *loginButton;
