@@ -13,10 +13,14 @@
 #import "SSKeychain.h"
 
 @interface LoginController() <UIViewControllerAnimatedTransitioning>
+@property (nonatomic, strong) NSLayoutConstraint *xConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *yConstraint;
 @property BOOL presenting;
 @end
 
-static const CGFloat kAnimDuration = 0.4;
+static const CGFloat kAnimDuration = 0.8;
+static const CGFloat kViewWidth = 342;
+static const CGFloat kViewHeight = 301;
 
 @implementation LoginController
 
@@ -50,6 +54,13 @@ static const CGFloat kAnimDuration = 0.4;
 	[super viewWillAppear:animated];
 	self.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 }
+
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	[super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	[self.view setNeedsUpdateConstraints];
+}
+
 #pragma mark - actions
 
 -(IBAction)doLogin:(id)sender
@@ -136,28 +147,51 @@ static const CGFloat kAnimDuration = 0.4;
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
 	UIView *container = [transitionContext containerView];
+	UIViewController *fromController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
 	
-	CGAffineTransform completeTransform = CGAffineTransformIdentity;
+	BOOL landscape = UIInterfaceOrientationIsLandscape(fromController.interfaceOrientation);
+	CGSize parentSize = container.frame.size;
 
+	if (nil == self.xConstraint) {
+		CGFloat startY = (landscape ? parentSize.width : parentSize.height);
+		CGFloat startX = fabs((landscape ? parentSize.height - kViewHeight : parentSize.width - kViewWidth)/2.0);
+		self.xConstraint = [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeLeft multiplier:1 constant:startX];
+		self.yConstraint = [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeTop multiplier:1 constant:startY];
+		NSLog(@"startx=%1f, starty=%1f", startX, startY);
+	}
+	
+	CGFloat targetY = 200;
 	container.autoresizesSubviews = NO;
 	if (self.presenting) {
 		[container addSubview:self.view];
-		[container addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
-		[container addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeTop multiplier:1 constant:200]];
-		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:342]];
-		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:301]];
-		self.view.transform = CGAffineTransformMakeTranslation(0, container.bounds.size.height);
+		[container addConstraint:self.xConstraint];
+		[container addConstraint:self.yConstraint];
+		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kViewWidth]];
+		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kViewHeight]];
+		CGFloat lmargin = fabs((landscape ? parentSize.height - kViewHeight : parentSize.width - kViewWidth)/2.0);
+		targetY = 200;
+		if (landscape) {
+			targetY = lmargin;
+		}
 	} else {
-		completeTransform = CGAffineTransformMakeTranslation(0, container.bounds.size.height);
+		targetY = parentSize.height;
 	}
-	
-	[UIView animateWithDuration:kAnimDuration animations:^{
-		self.view.transform = completeTransform;
-	} completion:^(BOOL finished) {
-		if (!self.presenting)
-			[self.view removeFromSuperview];
-		[transitionContext completeTransition:YES];
-	}];
+	[self.view layoutIfNeeded];
+	[CATransaction flush];
+	NSLog(@"frame=%@", NSStringFromCGRect(self.view.frame));
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		NSLog(@"x=%1f, y=%1f", self.xConstraint.constant, self.yConstraint.constant);
+		[UIView animateWithDuration:3 animations:^{
+			self.yConstraint.constant = targetY;
+			[self.view setNeedsLayout];
+		} completion:^(BOOL finished) {
+			NSLog(@"x=%1f, y=%1f, fin=%d", self.xConstraint.constant, self.yConstraint.constant, finished);
+			if (!self.presenting)
+				[self.view removeFromSuperview];
+			[transitionContext completeTransition:YES];
+			NSLog(@"frame=%@", NSStringFromCGRect(self.view.frame));
+		}];
+	});
 }
 
 -(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext

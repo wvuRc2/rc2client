@@ -526,6 +526,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	};
 	self.authController.transitioningDelegate = self.authController;
 	self.authController.modalPresentationStyle = UIModalPresentationCustom;
+	[UIViewController attemptRotationToDeviceOrientation];
 	[blockVC presentViewController:self.authController animated:YES completion:nil];
 }
 

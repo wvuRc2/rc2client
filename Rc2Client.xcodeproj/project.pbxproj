@@ -3696,7 +3696,6 @@
 					"\"$(SRCROOT)/Dependencies/PEGKit/include\"",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
 					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** ",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3708,6 +3707,7 @@
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3737,7 +3737,6 @@
 					"\"$(SRCROOT)/Dependencies/PEGKit/include\"",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
 					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** ",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3749,6 +3748,7 @@
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -3813,7 +3813,6 @@
 					"\"$(SRCROOT)/Dependencies/PEGKit/include\"",
 					"\"$(SRCROOT)/../3rdparty/DropBoxSDK\"",
 					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
-					"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/** ",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3827,6 +3826,7 @@
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Archive;
