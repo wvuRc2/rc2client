@@ -1005,9 +1005,6 @@
 		08D2436715B5D4B70064A9FA /* MessagesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessagesViewController.h; sourceTree = "<group>"; };
 		08D2436815B5D4B70064A9FA /* MessagesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessagesViewController.m; sourceTree = "<group>"; };
 		08D2436915B5D4B70064A9FA /* MessagesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessagesViewController.xib; sourceTree = "<group>"; };
-		08D2437515B5D4F90064A9FA /* GradingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradingViewController.h; sourceTree = "<group>"; };
-		08D2437615B5D4F90064A9FA /* GradingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradingViewController.m; sourceTree = "<group>"; };
-		08D2437715B5D4F90064A9FA /* GradingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GradingViewController.xib; sourceTree = "<group>"; };
 		08D2438515B5D59A0064A9FA /* SessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionViewController.h; sourceTree = "<group>"; };
 		08D2438615B5D59A0064A9FA /* SessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionViewController.m; sourceTree = "<group>"; };
 		08D2438715B5D59A0064A9FA /* SessionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SessionViewController.xib; sourceTree = "<group>"; };
@@ -1405,26 +1402,26 @@
 			children = (
 				08B7053D183187C700868E38 /* BaseVariableViewController.h */,
 				08B7053E183187C700868E38 /* BaseVariableViewController.m */,
-				083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */,
-				083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */,
-				083AAEF1162DDECF0037AAB3 /* VariableListViewController.xib */,
-				08B7053A183181C200868E38 /* VariableListController.h */,
-				08B7053B183181C200868E38 /* VariableListController.m */,
-				083AAEF9162EFFBE0037AAB3 /* VariableDetailViewController.h */,
-				083AAEFA162EFFBF0037AAB3 /* VariableDetailViewController.m */,
-				08B74C2E1635CA8700083F9A /* VariableSpreadsheetController.h */,
-				08B74C2F1635CA8700083F9A /* VariableSpreadsheetController.m */,
-				08B74C301635CA8700083F9A /* VariableSpreadsheetController.xib */,
-				08B74C3B1635CF4B00083F9A /* SpreadsheetScroller.h */,
-				08B74C3C1635CF4B00083F9A /* SpreadsheetScroller.m */,
-				08B74C3F1635D14800083F9A /* SpreadsheetCell.h */,
-				08B74C401635D14800083F9A /* SpreadsheetCell.m */,
 				083AAEF4162DE7870037AAB3 /* BasicVariableCell.h */,
 				083AAEF5162DE7870037AAB3 /* BasicVariableCell.m */,
 				083AAEF7162DE7B10037AAB3 /* BasicVariableCell.xib */,
 				083AAEFE162F480C0037AAB3 /* FunctionVariableSummaryCell.h */,
 				083AAEFF162F480C0037AAB3 /* FunctionVariableSummaryCell.m */,
 				083AAF01162F48210037AAB3 /* FunctionVariableSummaryCell.xib */,
+				08B74C3F1635D14800083F9A /* SpreadsheetCell.h */,
+				08B74C401635D14800083F9A /* SpreadsheetCell.m */,
+				08B74C3B1635CF4B00083F9A /* SpreadsheetScroller.h */,
+				08B74C3C1635CF4B00083F9A /* SpreadsheetScroller.m */,
+				083AAEF9162EFFBE0037AAB3 /* VariableDetailViewController.h */,
+				083AAEFA162EFFBF0037AAB3 /* VariableDetailViewController.m */,
+				08B7053A183181C200868E38 /* VariableListController.h */,
+				08B7053B183181C200868E38 /* VariableListController.m */,
+				083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */,
+				083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */,
+				083AAEF1162DDECF0037AAB3 /* VariableListViewController.xib */,
+				08B74C2E1635CA8700083F9A /* VariableSpreadsheetController.h */,
+				08B74C2F1635CA8700083F9A /* VariableSpreadsheetController.m */,
+				08B74C301635CA8700083F9A /* VariableSpreadsheetController.xib */,
 			);
 			name = Variables;
 			sourceTree = "<group>";
@@ -1447,27 +1444,27 @@
 		08285FFF183EBB47002BA8D2 /* image display */ = {
 			isa = PBXGroup;
 			children = (
+				0868D4C617FCC655002AD679 /* ImageCollectionCell.h */,
+				0868D4C717FCC655002AD679 /* ImageCollectionCell.m */,
+				0868D4C917FCC67F002AD679 /* ImageCollectionCell.xib */,
+				0868D4C317FCBDD6002AD679 /* ImageCollectionController.h */,
+				0868D4C417FCBDD6002AD679 /* ImageCollectionController.m */,
+				0868D4CD17FDECC0002AD679 /* ImageCollectionLayout.h */,
+				0868D4CE17FDECC0002AD679 /* ImageCollectionLayout.m */,
+				08D2439415B5D5E20064A9FA /* ImageDisplayController.h */,
+				08D2439515B5D5E20064A9FA /* ImageDisplayController.m */,
+				08D2439615B5D5E20064A9FA /* ImageDisplayController.xib */,
+				08D243CD15B5D7590064A9FA /* ImageHolderView.h */,
+				08D243CE15B5D7590064A9FA /* ImageHolderView.m */,
+				08137A3417CBC57F005EA804 /* ImageHolderView.xib */,
+				082860031843D2AB002BA8D2 /* ImagePickerCell.xib */,
+				08D2439715B5D5E20064A9FA /* ImagePickerController.h */,
+				08D2439815B5D5E20064A9FA /* ImagePickerController.m */,
 				0868D4D01805CE6A002AD679 /* ImagePreviewTransition.h */,
 				0868D4D11805CE6A002AD679 /* ImagePreviewTransition.m */,
 				0868D4D31805CF43002AD679 /* ImagePreviewViewController.h */,
 				0868D4D41805CF43002AD679 /* ImagePreviewViewController.m */,
 				0868D4D51805CF43002AD679 /* ImagePreviewViewController.xib */,
-				08D2439415B5D5E20064A9FA /* ImageDisplayController.h */,
-				08D2439515B5D5E20064A9FA /* ImageDisplayController.m */,
-				08D2439615B5D5E20064A9FA /* ImageDisplayController.xib */,
-				0868D4C317FCBDD6002AD679 /* ImageCollectionController.h */,
-				0868D4C417FCBDD6002AD679 /* ImageCollectionController.m */,
-				0868D4CD17FDECC0002AD679 /* ImageCollectionLayout.h */,
-				0868D4CE17FDECC0002AD679 /* ImageCollectionLayout.m */,
-				0868D4C617FCC655002AD679 /* ImageCollectionCell.h */,
-				0868D4C717FCC655002AD679 /* ImageCollectionCell.m */,
-				0868D4C917FCC67F002AD679 /* ImageCollectionCell.xib */,
-				08D2439715B5D5E20064A9FA /* ImagePickerController.h */,
-				08D2439815B5D5E20064A9FA /* ImagePickerController.m */,
-				082860031843D2AB002BA8D2 /* ImagePickerCell.xib */,
-				08D243CD15B5D7590064A9FA /* ImageHolderView.h */,
-				08D243CE15B5D7590064A9FA /* ImageHolderView.m */,
-				08137A3417CBC57F005EA804 /* ImageHolderView.xib */,
 			);
 			name = "image display";
 			sourceTree = "<group>";
@@ -2044,9 +2041,6 @@
 				08D2436715B5D4B70064A9FA /* MessagesViewController.h */,
 				08D2436815B5D4B70064A9FA /* MessagesViewController.m */,
 				08D2436915B5D4B70064A9FA /* MessagesViewController.xib */,
-				08D2437515B5D4F90064A9FA /* GradingViewController.h */,
-				08D2437615B5D4F90064A9FA /* GradingViewController.m */,
-				08D2437715B5D4F90064A9FA /* GradingViewController.xib */,
 			);
 			name = "top level controllers";
 			sourceTree = "<group>";
@@ -2085,32 +2079,32 @@
 		08D243AC15B5D6080064A9FA /* secondary controllers */ = {
 			isa = PBXGroup;
 			children = (
-				08D243AD15B5D6260064A9FA /* LoginController.h */,
-				08D243AE15B5D6260064A9FA /* LoginController.m */,
-				08D243AF15B5D6260064A9FA /* LoginController.xib */,
-				08D243B215B5D6310064A9FA /* iSettingsController.h */,
-				08D243B315B5D6310064A9FA /* iSettingsController.m */,
-				08D243B415B5D6310064A9FA /* iSettingsController.xib */,
-				08FF3D5216F278EE00F3E09E /* SendMailController.h */,
-				08FF3D5316F278EE00F3E09E /* SendMailController.m */,
-				08E63B3B1773824D005BB3BB /* DropboxFolderSelectController.h */,
-				08E63B3C1773824D005BB3BB /* DropboxFolderSelectController.m */,
-				08D8C334169E1637000DDA04 /* FileImportViewController.h */,
-				08D8C335169E1637000DDA04 /* FileImportViewController.m */,
-				08D8C337169E1977000DDA04 /* FileImportViewController.xib */,
 				08D245FC15B5DE090064A9FA /* ControlViewController.h */,
 				08D245FD15B5DE090064A9FA /* ControlViewController.m */,
 				08D245FE15B5DE090064A9FA /* ControlViewController.xib */,
+				08E63B3B1773824D005BB3BB /* DropboxFolderSelectController.h */,
+				08E63B3C1773824D005BB3BB /* DropboxFolderSelectController.m */,
 				08D243B715B5D63D0064A9FA /* DropboxImportController.h */,
 				08D243B815B5D63D0064A9FA /* DropboxImportController.m */,
 				08D243B915B5D63D0064A9FA /* DropboxImportController.xib */,
+				08F3FE15183D676D000112F3 /* DrropboxUploadActivity.h */,
+				08F3FE16183D676D000112F3 /* DrropboxUploadActivity.m */,
+				08D8C334169E1637000DDA04 /* FileImportViewController.h */,
+				08D8C335169E1637000DDA04 /* FileImportViewController.m */,
+				08D8C337169E1977000DDA04 /* FileImportViewController.xib */,
+				08D243B215B5D6310064A9FA /* iSettingsController.h */,
+				08D243B315B5D6310064A9FA /* iSettingsController.m */,
+				08D243B415B5D6310064A9FA /* iSettingsController.xib */,
+				08D243BF15B5D6670064A9FA /* KeyboardToolbar.h */,
+				08D243C015B5D6670064A9FA /* KeyboardToolbar.m */,
+				08D243AD15B5D6260064A9FA /* LoginController.h */,
+				08D243AE15B5D6260064A9FA /* LoginController.m */,
+				08D243AF15B5D6260064A9FA /* LoginController.xib */,
+				08FF3D5216F278EE00F3E09E /* SendMailController.h */,
+				08FF3D5316F278EE00F3E09E /* SendMailController.m */,
 				08D243BA15B5D6560064A9FA /* SendMessageViewController.h */,
 				08D243BB15B5D6560064A9FA /* SendMessageViewController.m */,
 				08D243BC15B5D6560064A9FA /* SendMessageViewController.xib */,
-				08D243BF15B5D6670064A9FA /* KeyboardToolbar.h */,
-				08D243C015B5D6670064A9FA /* KeyboardToolbar.m */,
-				08F3FE15183D676D000112F3 /* DrropboxUploadActivity.h */,
-				08F3FE16183D676D000112F3 /* DrropboxUploadActivity.m */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -2321,36 +2315,36 @@
 		08D2459815B5DBB70064A9FA /* model */ = {
 			isa = PBXGroup;
 			children = (
-				08D245B015B5DBB70064A9FA /* RCSession.h */,
-				08D245B115B5DBB70064A9FA /* RCSession.m */,
-				086CC4B5167122C7004356F6 /* RCFileContainer.h */,
-				08B74C551639D3A900083F9A /* RCProject.h */,
-				08B74C561639D3A900083F9A /* RCProject.m */,
-				08D245B815B5DBB70064A9FA /* RCWorkspace.h */,
-				08D245B915B5DBB70064A9FA /* RCWorkspace.m */,
-				08D245A815B5DBB70064A9FA /* RCFile.h */,
-				08D245A915B5DBB70064A9FA /* RCFile.m */,
-				08D245AA15B5DBB70064A9FA /* RCImage.h */,
-				08D245AB15B5DBB70064A9FA /* RCImage.m */,
+				08D2459915B5DBB70064A9FA /* generated */,
 				08D245A215B5DBB70064A9FA /* RCAssignment.h */,
 				08D245A315B5DBB70064A9FA /* RCAssignment.m */,
 				08D245A415B5DBB70064A9FA /* RCAssignmentFile.h */,
 				08D245A515B5DBB70064A9FA /* RCAssignmentFile.m */,
 				08D245A615B5DBB70064A9FA /* RCCourse.h */,
 				08D245A715B5DBB70064A9FA /* RCCourse.m */,
+				08D245A815B5DBB70064A9FA /* RCFile.h */,
+				08D245A915B5DBB70064A9FA /* RCFile.m */,
+				086CC4B5167122C7004356F6 /* RCFileContainer.h */,
+				08D245AA15B5DBB70064A9FA /* RCImage.h */,
+				08D245AB15B5DBB70064A9FA /* RCImage.m */,
 				08D245AC15B5DBB70064A9FA /* RCMessage.h */,
 				08D245AD15B5DBB70064A9FA /* RCMessage.m */,
+				08B74C551639D3A900083F9A /* RCProject.h */,
+				08B74C561639D3A900083F9A /* RCProject.m */,
 				08D245AE15B5DBB70064A9FA /* RCSavedSession.h */,
 				08D245AF15B5DBB70064A9FA /* RCSavedSession.m */,
+				08D245B015B5DBB70064A9FA /* RCSession.h */,
+				08D245B115B5DBB70064A9FA /* RCSession.m */,
 				08D245B215B5DBB70064A9FA /* RCSessionUser.h */,
 				08D245B315B5DBB70064A9FA /* RCSessionUser.m */,
 				08D245B415B5DBB70064A9FA /* RCStudentAssignment.h */,
 				08D245B515B5DBB70064A9FA /* RCStudentAssignment.m */,
 				08D245B615B5DBB70064A9FA /* RCUser.h */,
 				08D245B715B5DBB70064A9FA /* RCUser.m */,
+				08D245B815B5DBB70064A9FA /* RCWorkspace.h */,
+				08D245B915B5DBB70064A9FA /* RCWorkspace.m */,
 				08D245BA15B5DBB70064A9FA /* RCWorkspaceCache.h */,
 				08D245BB15B5DBB70064A9FA /* RCWorkspaceCache.m */,
-				08D2459915B5DBB70064A9FA /* generated */,
 			);
 			path = model;
 			sourceTree = "<group>";
