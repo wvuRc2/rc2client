@@ -20,7 +20,6 @@
 	if (self.isDismissal) {
 		CGRect endFrame = [self.presenting.view convertRect:self.srcRect toView:container];
 		[container addSubview:fromController.view];
-		[container addSubview:toController.view];
 		[UIView animateWithDuration:.4 animations:^{
 			fromController.view.frame = endFrame;
 		} completion:^(BOOL finished) {
@@ -29,7 +28,6 @@
 	} else {
 		container.autoresizesSubviews = NO;
 		CGRect endFrame = [toController targetFrame];
-		[container addSubview:fromController.view];
 		[container addSubview:toController.view];
 		CGRect startFrame = [self.presenting.view convertRect:self.srcRect toView:container];
 		

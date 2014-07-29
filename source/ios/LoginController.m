@@ -12,7 +12,11 @@
 #import "Rc2AppConstants.h"
 #import "SSKeychain.h"
 
-@interface LoginController() <UIViewControllerAnimatedTransitioning>
+@interface LoginTransition : NSObject <UIViewControllerAnimatedTransitioning>
+@property (nonatomic) BOOL presenting;
+@end
+
+@interface LoginController()
 @property (nonatomic, strong) NSLayoutConstraint *xConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *yConstraint;
 @property BOOL presenting;
@@ -134,69 +138,68 @@ static const CGFloat kViewHeight = 301;
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
 {
-	self.presenting = YES;
-	return self;
+	LoginTransition *trans = [[LoginTransition alloc] init];
+	trans.presenting = YES;
+	return trans;
 }
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
-	self.presenting = NO;
-	return self;
+	LoginTransition *trans = [[LoginTransition alloc] init];
+	trans.presenting = NO;
+	return trans;
 }
+
+@end
+
+@implementation LoginTransition
+
+-(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+	return kAnimDuration;
+}
+
 
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
 	UIView *container = [transitionContext containerView];
 	UIViewController *fromController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+	UIViewController *toController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+	LoginController *loginController = (LoginController*)(self.presenting ? toController : fromController);
+	UIView *loginView = loginController.view;
 	
 	BOOL landscape = UIInterfaceOrientationIsLandscape(fromController.interfaceOrientation);
 	CGSize parentSize = container.frame.size;
 
-	if (nil == self.xConstraint) {
+	if (self.presenting && nil == loginController.xConstraint) {
 		CGFloat startY = (landscape ? parentSize.width : parentSize.height);
 		CGFloat startX = fabs((landscape ? parentSize.height - kViewHeight : parentSize.width - kViewWidth)/2.0);
-		self.xConstraint = [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeLeft multiplier:1 constant:startX];
-		self.yConstraint = [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeTop multiplier:1 constant:startY];
-		NSLog(@"startx=%1f, starty=%1f", startX, startY);
+		loginController.xConstraint = [NSLayoutConstraint constraintWithItem:loginView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeLeft multiplier:1 constant:startX];
+		loginController.yConstraint = [NSLayoutConstraint constraintWithItem:loginView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeTop multiplier:1 constant:startY];
 	}
 	
 	CGFloat targetY = 200;
 	container.autoresizesSubviews = NO;
 	if (self.presenting) {
-		[container addSubview:self.view];
-		[container addConstraint:self.xConstraint];
-		[container addConstraint:self.yConstraint];
-		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kViewWidth]];
-		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kViewHeight]];
-		CGFloat lmargin = fabs((landscape ? parentSize.height - kViewHeight : parentSize.width - kViewWidth)/2.0);
-		targetY = 200;
+		[container addSubview:loginView];
+		[container addConstraint:loginController.xConstraint];
+		[container addConstraint:loginController.yConstraint];
+		[toController.view addConstraint:[NSLayoutConstraint constraintWithItem:loginView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kViewWidth]];
+		[toController.view addConstraint:[NSLayoutConstraint constraintWithItem:loginView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kViewHeight]];
 		if (landscape) {
+			CGFloat lmargin = fabs((parentSize.height - kViewHeight)/2.0);
 			targetY = lmargin;
 		}
 	} else {
+		[container addSubview:fromController.view];
 		targetY = parentSize.height;
 	}
-	[self.view layoutIfNeeded];
-	[CATransaction flush];
-	NSLog(@"frame=%@", NSStringFromCGRect(self.view.frame));
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		NSLog(@"x=%1f, y=%1f", self.xConstraint.constant, self.yConstraint.constant);
-		[UIView animateWithDuration:3 animations:^{
-			self.yConstraint.constant = targetY;
-			[self.view setNeedsLayout];
-		} completion:^(BOOL finished) {
-			NSLog(@"x=%1f, y=%1f, fin=%d", self.xConstraint.constant, self.yConstraint.constant, finished);
-			if (!self.presenting)
-				[self.view removeFromSuperview];
-			[transitionContext completeTransition:YES];
-			NSLog(@"frame=%@", NSStringFromCGRect(self.view.frame));
-		}];
-	});
-}
-
--(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
-{
-	return kAnimDuration;
+	[UIView animateWithDuration:5 animations:^{
+		loginController.yConstraint.constant = targetY;
+		[loginView setNeedsLayout];
+	} completion:^(BOOL finished) {
+		[transitionContext completeTransition:YES];
+	}];
 }
 
 @end
