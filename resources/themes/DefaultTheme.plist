@@ -70,6 +70,12 @@
 		<string>dbdf81</string>
 		<key>TextSelectionColor</key>
 		<string>e7f431</string>
+		<key>LineNumberFillColor</key>
+		<string>555555</string>
+		<key>LineNumberStrokeColor</key>
+		<string>7f7f7f</string>
+		<key>LineNumberTextColor</key>
+		<string>ffffff</string>
 	</dict>
 	<key>cssfile</key>
 	<string>standard.css</string>

@@ -7,6 +7,7 @@
 //
 
 #import "SessionEditorLayoutManager.h"
+#import "ThemeEngine.h"
 
 @interface SessionEditorLayoutManager ()
 
@@ -90,8 +91,9 @@
 	[super drawBackgroundForGlyphRange:glyphsToShow atPoint:origin];
 	
 	//  Draw line numbers.  Note that the background for line number gutter is drawn by the LineNumberTextView class.
+	UIColor *lnColor = [[[ThemeEngine sharedInstance] currentTheme] colorForKey:@"LineNumberTextColor" ];
 	NSDictionary* atts = @{NSFontAttributeName : [UIFont systemFontOfSize:11.0],
-						   NSForegroundColorAttributeName : [UIColor whiteColor]};
+						   NSForegroundColorAttributeName : lnColor};
 	
 	[self enumerateLineFragmentsForGlyphRange:glyphsToShow
 								   usingBlock:^(CGRect rect, CGRect usedRect, NSTextContainer *textContainer, NSRange glyphRange, BOOL *stop) {

@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import "SessionEditorLayoutManager.h"
+#import "ThemeEngine.h"
 
 const CGFloat kLineNumberGutterWidth = 40;
 
@@ -37,7 +38,7 @@ const CGFloat kLineNumberGutterWidth = 40;
 	self.scrollIndicatorInsets = UIEdgeInsetsZero;
 }
 
--(id)initWithFrame:(CGRect)frame
+-(instancetype)initWithFrame:(CGRect)frame
 {
 	NSTextStorage *ts = [[NSTextStorage alloc] init];
 	SessionEditorLayoutManager *lm = [[SessionEditorLayoutManager alloc] init];
@@ -62,6 +63,10 @@ const CGFloat kLineNumberGutterWidth = 40;
 		self.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		self.autocorrectionType = UITextAutocorrectionTypeNo;
 		self.layer.masksToBounds=YES;
+		__weak SessionEditView *bself = self;
+		[[ThemeEngine sharedInstance] registerThemeChangeObserver:self block:^(Theme *theme) {
+			[bself setNeedsDisplay];
+		}];
 	}
 	return self;
 }
@@ -170,10 +175,11 @@ const CGFloat kLineNumberGutterWidth = 40;
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGRect bounds = self.bounds;
 	
-	CGContextSetFillColorWithColor(context, [UIColor grayColor].CGColor);
+	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
+	CGContextSetFillColorWithColor(context, [theme colorForKey:@"LineNumberFillColor"].CGColor);
 	CGContextFillRect(context, CGRectMake(bounds.origin.x, bounds.origin.y, kLineNumberGutterWidth, bounds.size.height));
 	
-	CGContextSetStrokeColorWithColor(context, [UIColor darkGrayColor].CGColor);
+	CGContextSetStrokeColorWithColor(context, [theme colorForKey:@"LineNumberStrokeColor"].CGColor);
 	CGContextSetLineWidth(context, 0.5);
 	CGContextStrokeRect(context, CGRectMake(bounds.origin.x + 39.5, bounds.origin.y, 0.5, CGRectGetHeight(bounds)));
 	
