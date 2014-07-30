@@ -34,6 +34,9 @@
 		<string>MessageCenterBackground</string>
 		<string>PriorityColors</string>
 		<string>TextSelectionColor</string>
+		<string>LineNumberFillColor</string>
+		<string>LineNumberStrokeColor</string>
+		<string>LineNumberTextColor</string>
 	</array>
 </dict>
 </plist>

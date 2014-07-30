@@ -81,9 +81,6 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	self = [super init];
 	self.serverHost = [[NSUserDefaults standardUserDefaults] integerForKey:kServerHostKey];
 	self.jsonParser = [[SBJsonParser alloc] init];
-#if TARGET_IPHONE_SIMULATOR
-	self.serverHost = eRc2Host_Local;
-#endif
 	self.remoteLogger = [[RC2RemoteLogger alloc] init];
 	self.remoteLogger.apiKey = @"sf92j5t9fk2kfkegfd110lsm";
 	[[VyanaLogger sharedInstance] startLogging];
@@ -119,7 +116,9 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	if (self.serverHost >= eRc2Host_Rc2 && self.serverHost <= eRc2Host_Local) {
 		_serverHost = shost;
-		[[NSUserDefaults standardUserDefaults] setInteger:shost forKey:kServerHostKey];
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		[defaults setInteger:shost forKey:kServerHostKey];
+		[defaults synchronize];
 	}
 }
 
