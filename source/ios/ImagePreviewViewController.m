@@ -15,24 +15,23 @@
 #import "RCImage.h"
 #import "MAKVONotificationCenter.h"
 
-#define kViewWidth 416
-#define kViewHeight 458
+#define kViewWidth 440
+#define kViewHeight 466
 #define kPortraitBottomMargin 20
 #define kLandscapeRightMargin 20
 
 @interface ImagePreviewViewController ()
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UIButton *closeButton;
+@property (nonatomic, weak) IBOutlet UIButton *detailsButton;
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UIPageControl *pageControl;
-@property (nonatomic, strong) UIToolbar *blurToolbar;
 @property (nonatomic, strong) UIImageView *animationImage;
 @property (nonatomic, strong) id<MAKVOObservation> curImageToken;
 @end
 
 @interface ImagePreviewView : UIView
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
-@property (nonatomic, weak) UIToolbar *blurToolbar;
 @property BOOL displayed;
 -(CGRect)rectForOrientation;
 @end
@@ -51,10 +50,7 @@
 {
 	[super viewDidLoad];
 	self.view.translatesAutoresizingMaskIntoConstraints = NO;
-	self.blurToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kViewWidth, kViewHeight)];
-	[(ImagePreviewView*)self.view setBlurToolbar:self.blurToolbar];
 	self.view.clipsToBounds = YES;
-	[self.view.layer insertSublayer:self.blurToolbar.layer atIndex:0];
 
 	UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeft:)];
 	gesture.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -65,9 +61,11 @@
 
 	self.animationImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kViewWidth, kViewHeight)];
 	
-//	[self.blurToolbar setBarTintColor:[[UIColor colorWithHexString:@"#A8A8A8"] colorWithAlphaComponent:0.3]];
-//	self.nameLabel.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.3];
-//	self.imageView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
+	self.view.backgroundColor = [UIColor darkGrayColor];
+	self.nameLabel.textColor = [UIColor whiteColor];
+	self.closeButton.tintColor = [UIColor whiteColor];
+	self.pageControl.tintColor = [UIColor whiteColor];
+	self.detailsButton.tintColor = [UIColor whiteColor];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -190,11 +188,12 @@
 
 -(CGRect)rectForOrientation
 {
+	BOOL ios7 = NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1;
 	UIDeviceOrientation curOrientation = [UIDevice currentDevice].orientation;
 	CGRect frame = CGRectZero;
 	frame.size.width = kViewWidth;
 	frame.size.height = kViewHeight;
-	if (UIInterfaceOrientationIsLandscape(curOrientation)) {
+	if (ios7 && UIInterfaceOrientationIsLandscape(curOrientation)) {
 		frame.size.width = kViewHeight;
 		frame.size.height = kViewWidth;
 	}
@@ -202,13 +201,20 @@
 	frame.origin.x = floorf((sz.width - frame.size.width)/2);
 	if (UIInterfaceOrientationIsPortrait(curOrientation)) {
 		CGFloat py = floorf(sz.height - (frame.size.height + kPortraitBottomMargin));
-		if (curOrientation == UIInterfaceOrientationPortraitUpsideDown)
-			py = kPortraitBottomMargin;
+		if (ios7) {
+			if (curOrientation == UIInterfaceOrientationPortraitUpsideDown)
+				py = kPortraitBottomMargin;
+		}
 		frame.origin.y = py;
 	} else {
-		frame.origin.y = UIInterfaceOrientationLandscapeLeft == curOrientation ?
-			kLandscapeRightMargin : floorf(sz.height - frame.size.height - kLandscapeRightMargin);
-		frame.origin.x = 184;
+		if (ios7) {
+			frame.origin.y = UIInterfaceOrientationLandscapeLeft == curOrientation ?
+				kLandscapeRightMargin : floorf(sz.height - frame.size.height - kLandscapeRightMargin);
+			frame.origin.x = 184;
+		} else {
+			frame.origin.x = sz.width - frame.size.width - kLandscapeRightMargin;
+			frame.origin.y = 184;
+		}
 	}
 	return frame;
 }
@@ -218,7 +224,6 @@
 	if (self.displayed)
 		frame = [self rectForOrientation];
 	[super setFrame:frame];
-	self.blurToolbar.frame = self.bounds;
 }
 
 @end
