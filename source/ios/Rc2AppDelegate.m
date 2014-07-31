@@ -94,6 +94,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	[MagicalRecord setShouldDeleteStoreOnModelMismatch:YES];
 	
 	ProjectViewController *pvc = [[ProjectViewController alloc] init];
+	pvc.useLayoutToLayoutNavigationTransitions = NO;
 	UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:pvc];
 	self.window.rootViewController = navc;
 	navc.delegate = self;
