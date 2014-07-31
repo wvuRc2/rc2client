@@ -7,6 +7,7 @@
 //
 
 #import "Rc2Server.h"
+#import "RCActiveLogin.h"
 #import "RCWorkspace.h"
 #import "RCFile.h"
 #import "RCCourse.h"
@@ -34,11 +35,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 
 @interface Rc2Server()
 @property (nonatomic, strong, readwrite) AFHTTPClient *httpClient;
-@property (nonatomic, assign, readwrite) BOOL loggedIn;
-@property (nonatomic, strong, readwrite) RCUser *currentUser;
-@property (nonatomic, copy, readwrite) NSArray *projects;
-@property (nonatomic, strong) NSMutableDictionary *cachedData;
-@property (nonatomic, strong) NSMutableDictionary *cachedDataTimestamps;
+@property (nonatomic, strong, readwrite) RCActiveLogin *activeLogin;
 @property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
 @property (nonatomic, strong) SBJsonParser *jsonParser;
 @end
@@ -85,8 +82,6 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	self.remoteLogger.apiKey = @"sf92j5t9fk2kfkegfd110lsm";
 	[[VyanaLogger sharedInstance] startLogging];
 	[DDLog addLogger:self.remoteLogger];
-	self.cachedDataTimestamps = [[NSMutableDictionary alloc] init];
-	self.cachedData = [[NSMutableDictionary alloc] init];
 	return self;
 }
 
@@ -104,7 +99,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 
 -(NSString*)connectionDescription
 {
-	NSString *login = self.currentUser.login;
+	NSString *login = self.activeLogin.currentUser.login;
 	if (eRc2Host_Rc2 == self.serverHost)
 		return login;
 	if (eRc2Host_Barney == self.serverHost)
@@ -180,8 +175,8 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 {
 	[_httpClient postPath:@"proj" parameters:@{@"name":projectName} success:^(id op, id rsp) {
 		if (rsp && [rsp[@"status"] intValue] == 0) {
-			self.projects = [RCProject projectsForJsonArray:rsp[@"projects"] includeAdmin:self.isAdmin];
-			hblock(YES, [self.projects firstObjectWithValue:projectName forKey:@"name"]);
+			NSArray *projects = [RCProject projectsForJsonArray:rsp[@"projects"] includeAdmin:self.activeLogin.isAdmin];
+			hblock(YES, @{@"newProject":[projects firstObjectWithValue:projectName forKey:@"name"],@"projects":projects});
 		} else {
 			hblock(NO, rsp[@"message"]);
 		}
@@ -196,7 +191,6 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	[_httpClient putPath:path parameters:@{@"name":newName, @"id":project.projectId} success:^(id op, id rsp) {
 		if ([rsp[@"status"] intValue] == 0) {
 			project.name = newName;
-			self.projects = [self.projects sortedArrayUsingDescriptors:[RCProject projectSortDescriptors]];
 			hblock(YES, project);
 		} else {
 			hblock(NO, rsp[@"message"]);
@@ -212,9 +206,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	NSString *path = [NSString stringWithFormat:@"proj/%@", project.projectId];
 	[_httpClient deletePath:path parameters:nil success:^(id op, id rsp) {
 		if ([rsp[@"status"] intValue] == 0) {
-			NSInteger idx = [self.projects indexOfObject:project];
-			if (idx != NSNotFound)
-				self.projects = [self.projects arrayByRemovingObjectAtIndex:[self.projects indexOfObject:project]];
+			self.activeLogin.projects = [self.activeLogin.projects arrayByRemovingObjectAtIndex:[self.activeLogin.projects indexOfObject:project]];
 			hblock(YES, nil);
 		} else {
 			hblock(NO, rsp[@"message"]);
@@ -222,19 +214,6 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	} failure:^(id op, NSError *error) {
 		hblock(NO, [error localizedDescription]);
 	}];
-}
-
--(void)updateProjects
-{
-	static NSTimeInterval lastUpdate = 0;
-	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
-	if (now - lastUpdate > 60) {
-		lastUpdate = now;
-		Rc2LogInfo(@"updating project list");
-		[self genericGetRequest:@"/proj" parameters:nil handler:^(BOOL success, id results) {
-			self.projects = [RCProject projectsForJsonArray:results[@"projects"] includeAdmin:self.isAdmin];
-		}];
-	}
 }
 
 -(void)sharesForProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock
@@ -380,12 +359,12 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace
 {
 	return [RCSavedSession MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"wspaceId = %@ and login like %@",
-													  workspace.wspaceId, self.currentUser.login]];
+													  workspace.wspaceId, self.activeLogin.currentUser.login]];
 }
 
 -(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId
 {
-	for (RCProject *project in [Rc2Server sharedInstance].projects) {
+	for (RCProject *project in self.activeLogin.projects) {
 		for (RCWorkspace *wspace in project.workspaces) {
 			if ([wspace.wspaceId isEqualToNumber:wspaceId])
 				return wspace;
@@ -675,7 +654,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 -(void)removeFileReferences:(RCFile*)file
 {
 	id<RCFileContainer> container;
-	for (RCProject *proj in self.projects) {
+	for (RCProject *proj in self.activeLogin.projects) {
 		if ([proj.files containsObjectWithValue:file.fileId forKey:@"fileId"]) {
 			container = proj;
 			break;
@@ -990,14 +969,10 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 		//error
 		handler(NO, rsp[@"message"]);
 	} else {
+		self.activeLogin = [[RCActiveLogin alloc] initWithJsonData:rsp];
 		//set to use json for everything else
 		_httpClient.parameterEncoding = AFJSONParameterEncoding;
 		//success
-		self.currentUser = [[RCUser alloc] initWithDictionary:rsp[@"user"] allRoles:rsp[@"roles"]];
-		[self.cachedData setObject:rsp[@"permissions"] forKey:@"permissions"];
-		[self.cachedData setObjectIgnoringNil:rsp[@"ldapServers"] forKey:@"ldapServers"];
-		[self.cachedData setObject:[RCCourse classesFromJSONArray:rsp[@"classes"]] forKey:@"classesTaught"];
-		[self.cachedData setObjectIgnoringNil:rsp[@"tograde"] forKey:@"tograde"];
 		self.remoteLogger.logHost = [NSURL URLWithString:[NSString stringWithFormat:@"%@iR/al",
 														  [self baseUrl]]];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
@@ -1008,8 +983,6 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 		self.remoteLogger.clientIdent = [NSString stringWithFormat:@"%@/%@/%@/%@",
 										 user, [dev systemName], [dev systemVersion], [dev model]];
 #endif
-		self.projects = [RCProject projectsForJsonArray:rsp[@"projects"] includeAdmin:self.isAdmin];
-		self.loggedIn=YES;
 		handler(YES, rsp);
 		[[NSNotificationCenter defaultCenter] postNotificationName:NotificationsReceivedNotification 
 															object:self 
@@ -1040,40 +1013,23 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 
 -(void)logout
 {
-	self.loggedIn=NO;
-	self.currentUser=nil;
+	self.activeLogin=nil;
 	self.remoteLogger.logHost=nil;
-	self.projects = nil;
-	[self.cachedData removeAllObjects];
-	[self.cachedDataTimestamps removeAllObjects];
+	[self willChangeValueForKey:@"loggedIn"];
+	[self didChangeValueForKey:@"loggedIn"];
 	//FIXME: need to send a logout request to server
 }
 
 #pragma mark - accessors
 
--(NSArray*)usersPermissions
+-(BOOL)loggedIn
 {
-	return [self.cachedData objectForKey:@"permissions"];
+	return self.activeLogin != nil;
 }
 
--(NSArray*)classesTaught
+/*-(NSArray*)messageRecipients
 {
-	return [self.cachedData objectForKey:@"classesTaught"];
-}
-
--(NSArray*)assignmentsToGrade
-{
-	return [self.cachedData objectForKey:@"tograde"];
-}
-
--(NSArray*)ldapServers
-{
-	return [self.cachedData objectForKey:@"ldapServers"];
-}
-
--(NSArray*)messageRecipients
-{
-/*	NSArray *rcpts = [self.cachedData objectForKey:@"messageRecipients"];
+	NSArray *rcpts = [self.cachedData objectForKey:@"messageRecipients"];
 	NSDate *date = [self.cachedDataTimestamps objectForKey:@"messageRecipients"];
 	if (rcpts && ([NSDate timeIntervalSinceReferenceDate] - date.timeIntervalSinceReferenceDate > 300)) {
 		//if data is less than 5 minutes old, use it
@@ -1096,7 +1052,7 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 		Rc2LogError(@"error fetching message rcpt list: %d", req.responseStatusCode);
 		return nil;
 	}
-	return [self handleMessageRcpts:[req.responseString JSONValue]]; */
+	return [self handleMessageRcpts:[req.responseString JSONValue]];
 	return nil;
 }
 
@@ -1113,9 +1069,5 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 	[self didChangeValueForKey:@"messageRecipients"];
 	return rcpts;
 }
-
--(BOOL)isAdmin
-{
-	return self.currentUser.isAdmin;
-}
+*/
 @end

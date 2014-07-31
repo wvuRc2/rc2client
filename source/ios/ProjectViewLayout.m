@@ -111,7 +111,7 @@ const CGFloat MARGIN = 20;
 
 -(UICollectionViewLayoutAttributes*)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
 {
-	UICollectionViewLayoutAttributes *attrs = [super finalLayoutAttributesForDisappearingItemAtIndexPath:itemIndexPath];
+	UICollectionViewLayoutAttributes *attrs = [super initialLayoutAttributesForAppearingItemAtIndexPath:itemIndexPath];
 	if ([self.insertedItems containsObject:itemIndexPath]) {
 		attrs = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:itemIndexPath];
 		attrs.alpha = 0;

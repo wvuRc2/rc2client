@@ -10,6 +10,7 @@
 #import "RCProject.h"
 #import "RCWorkspace.h"
 #import "Rc2Server.h"
+#import "RCActiveLogin.h"
 #import "ProjectViewLayout.h"
 #import "ProjectCell.h"
 #import "ThemeEngine.h"
@@ -23,6 +24,7 @@
 @property (strong) NSMutableArray *projects;
 @property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readwrite) NSArray *standardRightNavBarItems;
+@property (nonatomic) BOOL ignoreProjectUpdates;
 @property (strong) id myChild; //setting cv delegate in dealloc reloads ourself which is a big crash. this ref saves us from that.
 @end
 
@@ -56,15 +58,19 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 	}];
 	[self updateForNewTheme:[[ThemeEngine sharedInstance] currentTheme]];
 	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(loginStatusChanged) userInfo:nil options:0];
-	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
-		bself.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
-		[bself.collectionView reloadData];
+	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"activeLogin" options:0 block:^(MAKVONotification *notification) {
+		if ([Rc2Server sharedInstance].activeLogin) {
+			[self observeTarget:[Rc2Server sharedInstance].activeLogin keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
+				[bself updateProjects];
+			}];
+			[bself updateProjects];
+		}
 	}];
 	[[NSNotificationCenter defaultCenter] addObserverForName:UIContentSizeCategoryDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note)
 	{
 		[bself.collectionView reloadData];
 	}];
-	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
+	self.projects = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
 	ProjectViewLayout *flow = (ProjectViewLayout*)self.collectionViewLayout;
 	[flow setItemSize:CGSizeMake(200, 150)];
 	self.collectionView.allowsSelection = YES;
@@ -98,6 +104,14 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 
 -(BOOL)canBecomeFirstResponder { return YES;}
 
+-(void)updateProjects
+{
+	if (!self.ignoreProjectUpdates) {
+		self.projects = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
+		[self.collectionView reloadData];
+	}
+}
+
 -(void)adjustConstraints
 {
 	if ([self.view.superview constraints].count == 0) {
@@ -115,7 +129,7 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 
 -(void)loginStatusChanged
 {
-	self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
+	self.projects = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
 	[self.collectionView reloadData];
 	self.projectButton.title = @"Logout";
 	self.selectedProject = nil;
@@ -210,7 +224,7 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 				[[Rc2Server sharedInstance] deleteProject:item completionBlock:^(BOOL success, id rsp) {
 					if (success) {
 						NSInteger idx = [self.projects indexOfObject:item];
-						self.projects = [[Rc2Server sharedInstance].projects mutableCopy];
+						self.projects = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
 						if (idx != NSNotFound)
 							[self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
 					}
@@ -260,12 +274,20 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 		return;
 	}
 	if (nil == _selectedProject) {
+		self.ignoreProjectUpdates = YES;
 		[[Rc2Server sharedInstance] createProject:newNamee completionBlock:^(BOOL success, id rsp) {
+			self.ignoreProjectUpdates = NO;
 			if (success) {
-				self.projects = [[[Rc2Server sharedInstance] projects] mutableCopy];
-				NSInteger idx = [self.projects indexOfObject:rsp];
-				if (idx != NSNotFound)
-					[self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
+				NSMutableArray *updatedProjects = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
+				NSInteger idx = [updatedProjects indexOfObject:rsp];
+				if (idx != NSNotFound) {
+					self.projects = updatedProjects;
+					if (updatedProjects.count == 1) {
+						[self.collectionView reloadData];
+					} else {
+						[self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
+					}
+				}
 			} else {
 				[UIAlertView showAlertWithTitle:@"Failed to create project" message:rsp];
 			}
@@ -274,7 +296,10 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 		[[Rc2Server sharedInstance] createWorkspace:newNamee inProject:self.selectedProject completionBlock:^(BOOL sucess, id rsp) {
 			if (sucess) {
 				NSInteger idx = [self.selectedProject.workspaces indexOfObject:rsp];
-				[self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
+				if (self.selectedProject.workspaces.count == 1)
+					[self.collectionView reloadData];
+				else
+					[self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
 			} else {
 				[UIAlertView showAlertWithTitle:@"Failed to create workspace" message:rsp];
 			}

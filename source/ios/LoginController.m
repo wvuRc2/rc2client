@@ -274,6 +274,22 @@ static const CGFloat kViewHeight = 301;
 	UIViewController *srcController = self.presenting ? fromController : toController;
 	CGRect containerEnd = [loginController endRectForPresentedState:srcController.interfaceOrientation containerSize:parentSize];
 	CGRect containerStart = [loginController startRectForPresentedState:srcController.interfaceOrientation containerSize:parentSize];
+	if (!self.presenting) {
+		CGRect tmpRect = containerEnd;
+		containerEnd = containerStart;
+		containerStart = tmpRect;
+		if (srcController.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+			if (ios7) {
+				containerEnd.origin.x = - containerEnd.size.width;
+			} else {
+				containerEnd.origin.y = parentSize.width;
+			}
+		}
+	} else {
+		if (!ios7 && srcController.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+			containerStart.origin.y = parentSize.width;
+		}
+	}
 	CGRect viewEnd = [loginController finalRectForOrientation:srcController.interfaceOrientation containerSize:parentSize];
 
 	UIView *snapshotView = [loginController.view snapshotViewAfterScreenUpdates:YES];

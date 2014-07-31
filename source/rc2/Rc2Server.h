@@ -20,6 +20,7 @@
 @class RCMessage;
 @class RCAssignment;
 @class RCProject;
+@class RCActiveLogin;
 
 enum {
 	eRc2Host_Rc2=0,
@@ -39,6 +40,7 @@ extern NSString * const FilesChagedNotification;
 //posted when a file has been deleted on the server (via this or any other client). object is the file.
 extern NSString * const FileDeletedNotification;
 
+
 @interface Rc2Server : NSObject
 #pragma mark - class methods
 +(Rc2Server*)sharedInstance;
@@ -49,19 +51,13 @@ extern NSString * const FileDeletedNotification;
 
 #pragma mark - properties
 
+@property (nonatomic, strong, readonly) RCActiveLogin *activeLogin;
+
 @property (nonatomic, strong, readonly) AFHTTPClient *httpClient;
 @property (weak, nonatomic, readonly) NSString *userAgentString;
 @property (nonatomic, assign) NSInteger serverHost;
 @property (nonatomic, assign, readonly) BOOL loggedIn;
-@property (nonatomic, strong, readonly) RCUser *currentUser;
 @property (nonatomic, readonly) NSString *connectionDescription; //login name plus host if host is not rc2
-@property (nonatomic, readonly) BOOL isAdmin;
-@property (nonatomic, copy, readonly) NSArray *projects;
-@property (nonatomic, copy, readonly) NSArray *usersPermissions;
-@property (nonatomic, copy, readonly) NSArray *ldapServers;
-@property (nonatomic, copy, readonly) NSArray *classesTaught;
-@property (nonatomic, copy, readonly) NSArray *assignmentsToGrade;
-@property (nonatomic, strong, readonly) NSArray *messageRecipients;
 
 -(NSString*)websocketUrl;
 
@@ -79,8 +75,6 @@ extern NSString * const FileDeletedNotification;
 -(void)editProject:(RCProject*)project newName:(NSString*)newName completionBlock:(Rc2FetchCompletionHandler)hblock;
 //will remove it from projects array before hblock called
 -(void)deleteProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock;
-//triggers a refresh of projects. use KVO to know when it has been updated
--(void)updateProjects;
 //return array of user dicts
 -(void)sharesForProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock;
 //share a project with a user

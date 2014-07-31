@@ -8,6 +8,7 @@
 
 #import "SendMessageViewController.h"
 #import "Rc2Server.h"
+#import "RCActiveLogin.h"
 #import "Vyana-ios/AMNavigationTreeController.h"
 #import "JSTokenField.h"
 #import "JSTokenButton.h"
@@ -62,8 +63,9 @@
 	tapg.numberOfTapsRequired = 1;
 	[self.toField addGestureRecognizer:tapg];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toFieldResized:) name:JSTokenFieldFrameDidChangeNotification object:self.toField];
-	NSArray *rcpts = [[Rc2Server sharedInstance] messageRecipients];
-	NSArray *classes = [Rc2Server sharedInstance].classesTaught;
+	RCActiveLogin *login = [Rc2Server sharedInstance].activeLogin;
+	NSArray *rcpts = login.messageRecipients;
+	NSArray *classes = login.classesTaught;
 	if (classes) //classes first in order
 		rcpts = [classes arrayByAddingObjectsFromArray:rcpts];
 	self.availableRcpts = rcpts;

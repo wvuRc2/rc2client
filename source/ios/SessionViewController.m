@@ -8,6 +8,7 @@
 
 #import "SessionViewController.h"
 #import "Rc2AppConstants.h"
+#import "RCActiveLogin.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
 #import "AMResizableSplitViewController.h"
@@ -130,13 +131,13 @@
 	[self.session.workspace refreshFiles];
 	if (!self.session.socketOpen)
 		[self performSelector:@selector(openSessionWithProgress:) withObject:@"Connecting to server…" afterDelay:0.2];
-	Rc2Server *server = [Rc2Server sharedInstance];
 	NSMutableArray *ritems = [self.standardRightNavBarItems mutableCopy];
 	if (nil == ritems)
 		ritems = [NSMutableArray array];
 	self.mikeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mikeOff"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleMicrophone:)];
 	[ritems addObject:self.mikeButton];
-	if ([server isAdmin] || [[server usersPermissions] containsObject:@"CROOM_SESS"]) {
+	RCActiveLogin *login = [Rc2Server sharedInstance].activeLogin;
+	if (login.isAdmin || [login.usersPermissions containsObject:@"CROOM_SESS"]) {
 		self.doodleButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"doodle"] style:UIBarButtonItemStylePlain target:self action:@selector(showDoodleView:)];
 		[ritems addObject:self.doodleButton];
 	}

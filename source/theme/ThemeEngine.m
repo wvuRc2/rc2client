@@ -8,6 +8,7 @@
 
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
+#import "RCActiveLogin.h"
 #import "MAKVONotificationCenter.h"
 #import "ThemeColorEntry.h"
 
@@ -172,7 +173,7 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 
 -(void)createCustomTheme
 {
-	if ([[Rc2Server sharedInstance] isAdmin]) {
+	if ([Rc2Server sharedInstance].activeLogin.isAdmin) {
 		if (nil == self.customTheme) {
 			self.customTheme = [[CustomTheme alloc] initWithDictionary:_defaultTheme.themeDict];
 			self.customTheme.defaultTheme = _defaultTheme;

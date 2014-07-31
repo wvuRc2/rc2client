@@ -12,6 +12,7 @@
 #import "Rc2Server.h"
 #import "RCMessage.h"
 #import "Rc2AppDelegate.h"
+#import "RCActiveLogin.h"
 
 @interface AbstractTopViewController ()
 @property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
@@ -104,7 +105,7 @@
 {
 	if (self.gradingButton) {
 		NSMutableArray *ma = [self.toolbar.items mutableCopy];
-		NSArray *classes = [[Rc2Server sharedInstance] classesTaught];
+		NSArray *classes = [Rc2Server sharedInstance].activeLogin.classesTaught;
 		if ([classes count] > 0) {
 			if (![ma containsObject:self.gradingButton]) {
 				[ma insertObject:self.gradingButton atIndex:[ma count] - 4];

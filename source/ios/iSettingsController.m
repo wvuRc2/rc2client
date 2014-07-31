@@ -14,6 +14,7 @@
 #import "Rc2Server.h"
 #import "RCWorkspace.h"
 #import "DropboxFolderSelectController.h"
+#import "RCActiveLogin.h"
 #import "RCUser.h"
 
 enum { eTree_Theme, eTree_Keyboard };
@@ -66,7 +67,8 @@ enum { eTree_Theme, eTree_Keyboard };
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	RCUser *user = [[Rc2Server sharedInstance] currentUser];
+	RCActiveLogin *login = [Rc2Server sharedInstance].activeLogin;
+	RCUser *user = login.currentUser;
 	self.emailField.text = user.email;
 	self.smsField.text = user.smsphone;
 	self.twitterField.text = user.twitter;
@@ -76,7 +78,7 @@ enum { eTree_Theme, eTree_Keyboard };
 	self.themeLabel.text = curTheme.name;
 
 	NSArray *settingsCells = @[self.themeCell];
-	if ([[Rc2Server  sharedInstance] isAdmin])
+	if (login.isAdmin)
 		settingsCells = [settingsCells arrayByAddingObject:self.editThemeCell];
 	self.sectionData = @[
 		@{@"name":@"Account", @"isSettings": @NO, @"cells": @[self.emailCell,self.emailNoteCell,self.twitterCell,self.smsCell,self.logoutCell]},
@@ -176,20 +178,21 @@ enum { eTree_Theme, eTree_Keyboard };
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];
+	RCUser *user = [Rc2Server sharedInstance].activeLogin.currentUser;
 	if (textField == self.twitterField) {
 		[self updateUserSetting:@"twitter" withValue:textField.text success:^(NSInteger status) {
 			if (status != 0)
-				textField.text = [Rc2Server sharedInstance].currentUser.twitter;
+				textField.text = user.twitter;
 		}];
 	} else if (textField == self.smsField) {
 		[self updateUserSetting:@"smsphone" withValue:textField.text success:^(NSInteger status) {
 			if (status != 0)
-				textField.text = [Rc2Server sharedInstance].currentUser.smsphone;
+				textField.text = user.smsphone;
 		}];
 	} else if (textField == self.emailField) {
 		[self updateUserSetting:@"email" withValue:textField.text success:^(NSInteger status) {
 			if (status != 0)
-				textField.text = [Rc2Server sharedInstance].currentUser.email;
+				textField.text = user.email;
 		}];
 	}
 	return NO;

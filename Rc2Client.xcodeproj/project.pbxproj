@@ -515,6 +515,8 @@
 		08E63B3D1773824D005BB3BB /* DropboxFolderSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B3C1773824D005BB3BB /* DropboxFolderSelectController.m */; };
 		08E63B411773A0BA005BB3BB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E63B401773A0B9005BB3BB /* DropboxSDK.framework */; };
 		08E63B471774E40A005BB3BB /* RCDropboxSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B461774E409005BB3BB /* RCDropboxSync.m */; };
+		08F17066198AE31700A79B9E /* RCActiveLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F17065198AE31700A79B9E /* RCActiveLogin.m */; };
+		08F17067198AE31700A79B9E /* RCActiveLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F17065198AE31700A79B9E /* RCActiveLogin.m */; };
 		08F3FE0A18340C3B000112F3 /* MCVariableDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE0818340C3B000112F3 /* MCVariableDetailsController.m */; };
 		08F3FE0B18340C3B000112F3 /* MCVariableDetailsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08F3FE0918340C3B000112F3 /* MCVariableDetailsController.xib */; };
 		08F3FE0E18342D8D000112F3 /* RCMTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F3FE0D18342D8D000112F3 /* RCMTableView.m */; };
@@ -1227,6 +1229,8 @@
 		08E63B401773A0B9005BB3BB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08E63B451774E409005BB3BB /* RCDropboxSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDropboxSync.h; sourceTree = "<group>"; };
 		08E63B461774E409005BB3BB /* RCDropboxSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDropboxSync.m; sourceTree = "<group>"; };
+		08F17064198AE31700A79B9E /* RCActiveLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCActiveLogin.h; sourceTree = "<group>"; };
+		08F17065198AE31700A79B9E /* RCActiveLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCActiveLogin.m; sourceTree = "<group>"; };
 		08F3FE0718340C3B000112F3 /* MCVariableDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVariableDetailsController.h; sourceTree = "<group>"; };
 		08F3FE0818340C3B000112F3 /* MCVariableDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCVariableDetailsController.m; sourceTree = "<group>"; };
 		08F3FE0918340C3B000112F3 /* MCVariableDetailsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCVariableDetailsController.xib; sourceTree = "<group>"; };
@@ -2294,6 +2298,8 @@
 				08D245C315B5DBB70064A9FA /* RC2RemoteLogger.m */,
 				08D245C415B5DBB70064A9FA /* Rc2Server.h */,
 				08D245C515B5DBB70064A9FA /* Rc2Server.m */,
+				08F17064198AE31700A79B9E /* RCActiveLogin.h */,
+				08F17065198AE31700A79B9E /* RCActiveLogin.m */,
 				08D245C615B5DBB70064A9FA /* RCAudioChatEngine.h */,
 				08D245C715B5DBB70064A9FA /* RCAudioChatEngine.m */,
 				08D245C815B5DBB70064A9FA /* RCImageCache.h */,
@@ -3069,6 +3075,7 @@
 				0873431817C53911000EC1E0 /* AddFullConstraintsView.m in Sources */,
 				08D2459315B5DB270064A9FA /* WebSocketConnectConfig.m in Sources */,
 				08BDDDA617EA48AB00E669E3 /* NSManagedObjectContext+MagicalSaves.m in Sources */,
+				08F17066198AE31700A79B9E /* RCActiveLogin.m in Sources */,
 				08D2459415B5DB270064A9FA /* WebSocketFragment.m in Sources */,
 				08D2459515B5DB270064A9FA /* WebSocketMessage.m in Sources */,
 				08D245CE15B5DBB70064A9FA /* _RCFile.m in Sources */,
@@ -3324,6 +3331,7 @@
 				080E5083166FDFB800E95531 /* AFHTTPClient.m in Sources */,
 				080E5085166FDFB800E95531 /* AFHTTPRequestOperation.m in Sources */,
 				080E5087166FDFB800E95531 /* AFImageRequestOperation.m in Sources */,
+				08F17067198AE31700A79B9E /* RCActiveLogin.m in Sources */,
 				080E5089166FDFB800E95531 /* AFJSONRequestOperation.m in Sources */,
 				08BDDD9517EA48AB00E669E3 /* NSRelationshipDescription+MagicalDataImport.m in Sources */,
 				080E508B166FDFB800E95531 /* AFNetworkActivityIndicatorManager.m in Sources */,
