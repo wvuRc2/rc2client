@@ -13,6 +13,7 @@
 
 @interface ProjectCell ()
 @property (weak) IBOutlet UILabel *nameLabel;
+@property (weak) IBOutlet UILabel *detilsLabel;
 @property (weak) IBOutlet AMLabel *lastAccessLabel;
 @property (weak) IBOutlet UIImageView *imageView;
 @property (weak) CALayer *cellLayer;
@@ -32,13 +33,15 @@
 		
 		layer = [CALayer layer];
 		layer.frame = CGRectInset(self.frame, 10, 10);
-		layer.shadowColor = [[UIColor blackColor] colorWithAlphaComponent:0.5].CGColor;
-		layer.shadowOpacity = 0.8;
-		layer.shadowOffset = CGSizeMake(4, -4);
-		layer.shadowRadius = 2;
-		layer.cornerRadius = 13.0;
+		layer.borderColor = [self.curColor CGColor];
+		layer.borderWidth = 2.0;
+//		layer.shadowColor = [[UIColor blackColor] colorWithAlphaComponent:0.5].CGColor;
+//		layer.shadowOpacity = 0.8;
+//		layer.shadowOffset = CGSizeMake(4, -4);
+//		layer.shadowRadius = 2;
+		layer.cornerRadius = 6.0;
 		self.curColor = [[AMColor colorWithHexString:@"45a7bc"] colorWithAlpha:0.3];
-		layer.backgroundColor = [self.curColor CGColor];
+//		layer.backgroundColor = [self.curColor CGColor];
 		self.contentView.backgroundColor = [UIColor clearColor];
 		[self.contentView.layer addSublayer:layer];
 		self.cellLayer = layer;
@@ -57,7 +60,8 @@
 	Theme *theme = [[ThemeEngine sharedInstance] currentTheme];
 	NSString *colorKey = [self.cellItem isKindOfClass:[RCProject class]] ? ([self.cellItem isClass] ? @"ClassColor" : @"ProjectColor") : @"WorkspaceColor";
 	self.curColor = [AMColor colorWithColor:[theme colorForKey: colorKey]];
-	self.curColor = [self.curColor colorWithAlpha:0.3];
+	self.cellLayer.borderColor = [self.curColor CGColor];
+	self.curColor = [self.curColor colorWithAlpha:0.1];
 	self.cellLayer.backgroundColor = [self.curColor CGColor];
 }
 
@@ -78,7 +82,9 @@
 	self.lastAccessLabel.verticalAlignment =  VerticalAlignmentBottom;
 	if ([cellItem isKindOfClass:[RCProject class]]) {
 		self.lastAccessLabel.hidden = YES;
+		self.detilsLabel.text = [NSString stringWithFormat:@"Workspaces:%d\nFiles:%d", [[cellItem workspaces] count], [[cellItem files] count]];
 	} else {
+		self.detilsLabel.text = [NSString stringWithFormat:@"Files:%d", [[cellItem files] count]];
 		self.lastAccessLabel.hidden = NO;
 		self.lastAccessLabel.text = [NSString stringWithFormat:@"Last Access:\n%@",[dateFormatter stringFromDate:[cellItem lastAccess]]];
 	}

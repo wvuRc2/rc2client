@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4488.2" systemVersion="12E55" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6185.11" systemVersion="14A261i" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3715.3"/>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6190.4"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,7 +16,6 @@
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3">
                         <rect key="frame" x="20" y="20" width="160" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="Gvx-PZ-76i"/>
                         </constraints>
@@ -26,29 +25,51 @@
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="date" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="17" customClass="AMLabel">
                         <rect key="frame" x="20" y="98" width="160" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="7UL-vu-yOd"/>
                         </constraints>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="vfU-vQ-JIi">
+                        <rect key="frame" x="20" y="49" width="160" height="41"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="41" id="bhh-xj-IkJ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <nil key="simulatedStatusBarMetrics"/>
+                <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             </view>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="17" firstAttribute="leading" secondItem="10" secondAttribute="leading" constant="20" id="2b7-pB-69v"/>
                 <constraint firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="20" id="Fvp-LX-2lv"/>
+                <constraint firstItem="vfU-vQ-JIi" firstAttribute="top" secondItem="3" secondAttribute="bottom" constant="8" symbolic="YES" id="Kvk-nI-KVu"/>
+                <constraint firstItem="vfU-vQ-JIi" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" id="eqZ-Fq-KUC"/>
                 <constraint firstItem="3" firstAttribute="leading" secondItem="10" secondAttribute="leading" constant="20" id="ixj-Fw-YqU"/>
+                <constraint firstItem="vfU-vQ-JIi" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="lIe-2g-NSg"/>
                 <constraint firstAttribute="trailing" secondItem="17" secondAttribute="trailing" constant="20" id="pWY-sO-lDV"/>
                 <constraint firstAttribute="bottom" secondItem="17" secondAttribute="bottom" constant="20" id="riz-nV-HQR"/>
                 <constraint firstItem="3" firstAttribute="top" secondItem="10" secondAttribute="top" constant="20" id="zMg-xU-YOb"/>
             </constraints>
             <connections>
+                <outlet property="detilsLabel" destination="vfU-vQ-JIi" id="ZlA-Ym-kkH"/>
                 <outlet property="lastAccessLabel" destination="17" id="G6H-a8-A0S"/>
                 <outlet property="nameLabel" destination="3" id="14"/>
             </connections>
         </collectionViewCell>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination">
+            <size key="portraitSize" width="768" height="1024"/>
+            <size key="landscapeSize" width="1024" height="768"/>
+        </simulatedScreenMetrics>
+    </simulatedMetricsContainer>
 </document>
