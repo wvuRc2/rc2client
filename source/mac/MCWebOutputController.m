@@ -21,6 +21,7 @@
 #import "MAKVONotificationCenter.h"
 #import "ThemeEngine.h"
 #import "Rc2Server.h"
+#import "RCActiveLogin.h"
 #import "MCHelpSheetController.h"
 
 const NSInteger kMinFontSize = 9;
@@ -711,7 +712,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 			[items addObject:mi];
 		if (mi.tag == WebMenuItemTagGoBack)
 			hasBack = YES;
-		if ([@"Inspect Element" isEqualToString:mi.title] && [Rc2Server sharedInstance].isAdmin) {
+		if ([@"Inspect Element" isEqualToString:mi.title] && [Rc2Server sharedInstance].activeLogin.isAdmin) {
 			inspectElemItem = mi;
 		}
 	}

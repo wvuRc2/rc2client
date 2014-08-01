@@ -135,7 +135,7 @@
 		RCProject *proj = self.representedObject;
 		self.canEdit = proj.userEditable;
 		if ([proj.type isEqualToString:@"shared"])
-			self.imageView.image = [NSImage imageNamed:NSImageNameDotMac];
+			self.imageView.image = [NSImage imageNamed:NSImageNameNetwork];
 		else if ([proj.type isEqualToString:@"admin"])
 			self.imageView.image = [NSImage imageNamed:NSImageNameUserAccounts];
 		else

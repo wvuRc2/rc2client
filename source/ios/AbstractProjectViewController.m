@@ -60,7 +60,7 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(loginStatusChanged) userInfo:nil options:0];
 	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"activeLogin" options:0 block:^(MAKVONotification *notification) {
 		if ([Rc2Server sharedInstance].activeLogin) {
-			[self observeTarget:[Rc2Server sharedInstance].activeLogin keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
+			[bself observeTarget:[Rc2Server sharedInstance].activeLogin keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
 				[bself updateProjects];
 			}];
 			[bself updateProjects];

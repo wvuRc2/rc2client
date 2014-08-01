@@ -11,6 +11,7 @@
 #import "MCLoginController.h"
 #import "MCMainWindowController.h"
 #import "Rc2Server.h"
+#import "RCActiveLogin.h"
 #import "MCSessionViewController.h"
 #import "RCMPDFViewController.h"
 #import "RCSession.h"
@@ -269,7 +270,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 -(void)handleSucessfulLogin
 {
 	self.loggedIn = YES;
-	[[NSUserDefaults standardUserDefaults] setObject:[Rc2Server sharedInstance].currentUser.login forKey:kPref_LastLoginString];
+	[[NSUserDefaults standardUserDefaults] setObject:[Rc2Server sharedInstance].activeLogin.currentUser.login forKey:kPref_LastLoginString];
 	self.mainWindowController = [[MCMainWindowController alloc] init];
 	[self.mainWindowController.window makeKeyAndOrderFront:self];
 	[[NSNotificationCenter defaultCenter] addObserver:self 

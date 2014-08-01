@@ -14,6 +14,7 @@
 #import "NSString+SBJSON.h"
 #import "NSObject+SBJSON.h"
 #endif
+#import "RCActiveLogin.h"
 #import "RCUser.h"
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
@@ -143,7 +144,7 @@ NSString *const kHelpItemURL = @"url";
 	NSDictionary *cookies = [NSHTTPCookie requestHeaderFieldsWithCookies:cks];
 	NSString *cookieHeader = [cookies objectForKey:@"Cookie"];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060 && defined(DEBUG))
-	if ([[Rc2Server sharedInstance] isAdmin]) {
+	if ([Rc2Server sharedInstance].activeLogin.isAdmin) {
 		NSMutableString *str = [NSMutableString string];
 		for (NSString *aStr in [cookieHeader componentsSeparatedByString:@"; "]) {
 			if ([aStr hasPrefix:@"wspaceid"] || [aStr hasPrefix:@"me"])
@@ -448,7 +449,7 @@ NSString *const kHelpItemURL = @"url";
 	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:self.workspace];
 	if (nil == savedState) {
 		savedState = [RCSavedSession MR_createEntity];
-		savedState.login = [Rc2Server sharedInstance].currentUser.login;
+		savedState.login = [Rc2Server sharedInstance].activeLogin.currentUser.login;
 		savedState.wspaceId = self.workspace.wspaceId;
 	}
 	return savedState;

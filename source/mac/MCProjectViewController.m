@@ -8,6 +8,7 @@
 
 #import "MCProjectViewController.h"
 #import "Rc2Server.h"
+#import "RCActiveLogin.h"
 #import "RCProject.h"
 #import "RCWorkspace.h"
 #import "MCProjectCollectionView.h"
@@ -46,18 +47,28 @@
 	self.pathCells = [NSMutableArray arrayWithCapacity:4];
 	[self.pathCells addObject:[NSPathComponentCell pathCellWithTitle:@"Projects"]];
 	[self.pathControl setPathComponentCells:self.pathCells];
-	self.arrayController.content = [[[Rc2Server sharedInstance] projects] mutableCopy];
+	self.arrayController.content = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
 	__weak __typeof(self) blockSelf = self;
 	[self observeTarget:self.arrayController keyPath:@"selectionIndexes" options:0 block:^(MAKVONotification *notification) {
 		[blockSelf willChangeValueForKey:@"canDeleteSelection"];
 		[blockSelf didChangeValueForKey:@"canDeleteSelection"];
 	}];
-	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
-		blockSelf.arrayController.content = [[[Rc2Server sharedInstance] projects] mutableCopy];
+	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"activeLogin" options:0 block:^(MAKVONotification *notification) {
+		if ([Rc2Server sharedInstance].activeLogin) {
+			[blockSelf observeTarget:[Rc2Server sharedInstance].activeLogin keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
+				[blockSelf updateProjects];
+			}];
+			[blockSelf updateProjects];
+		}
 	}];
 }
 
 #pragma mark - meat & potatos
+
+-(void)updateProjects
+{
+	self.arrayController.content = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
+}
 
 -(BOOL)usesToolbar { return YES; }
 
@@ -154,14 +165,13 @@
 	[self.pathCells removeAllObjects];
 	[self.pathCells addObject:[NSPathComponentCell pathCellWithTitle:@"Project"]];
 	[self.pathControl setPathComponentCells:self.pathCells];
-	self.arrayController.content = [[[Rc2Server sharedInstance] projects] mutableCopy];
+	[self updateProjects];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSPathComponentCell *cell = self.pathCells.firstObject;
 		[cell setState:NSOffState];
 		[self.collectionView setNeedsDisplay:YES];
 	});
 	self.selectedProject=nil;
-	[[Rc2Server sharedInstance] updateProjects];
 	[self.view.window.toolbar validateVisibleItems];
 }
 

@@ -10,6 +10,7 @@
 #import "PasswordVerifier.h"
 #import "RCUser.h"
 #import "Rc2Server.h"
+#import "RCActiveLogin.h"
 
 @interface MCEditUserController()
 @property (nonatomic, strong) PasswordVerifier *passwordVerifier;
@@ -41,7 +42,7 @@
 -(void)windowDidLoad
 {
     [super windowDidLoad];
-	self.ldapServers = [[Rc2Server sharedInstance] ldapServers];
+	self.ldapServers = [Rc2Server sharedInstance].activeLogin.ldapServers;
 	self.selectedLdapServer = [self.ldapServers firstObject];
 	self.passwordVerifier = [[PasswordVerifier alloc] init];
 	self.passwordVerifier.minLength = [NSNumber numberWithInt:4];
