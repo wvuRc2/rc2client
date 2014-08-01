@@ -36,6 +36,10 @@
 
 #endif
 
+#ifndef NSFoundationVersionNumber_iOS_7_1
+#define NSFoundationVersionNumber_iOS_7_1 1047.25
+#endif
+
 #if TARGET_OS_IPHONE
 	#define ColorClass UIColor
 	#define ImageClass UIImage
