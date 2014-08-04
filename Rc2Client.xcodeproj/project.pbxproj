@@ -24,7 +24,6 @@
 		08063D5C173AF33C0054FD1D /* MCVariableDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08063D5A173AF33B0054FD1D /* MCVariableDisplayController.m */; };
 		08063D5D173AF33C0054FD1D /* MCVariableDisplayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08063D5B173AF33B0054FD1D /* MCVariableDisplayController.xib */; };
 		08093C1A1979B08E00F5852A /* libPEGKitIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08093C191979B08E00F5852A /* libPEGKitIOS.a */; };
-		08093C1C1979B0DA00F5852A /* libPEGKitOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08093C1B1979B0DA00F5852A /* libPEGKitOSX.a */; };
 		080E5082166FDFB800E95531 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5070166FDFB800E95531 /* AFHTTPClient.m */; };
 		080E5083166FDFB800E95531 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5070166FDFB800E95531 /* AFHTTPClient.m */; };
 		080E5084166FDFB800E95531 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5072166FDFB800E95531 /* AFHTTPRequestOperation.m */; };
@@ -199,6 +198,7 @@
 		087DB8C417B57A8200724811 /* libHockeySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 087DB8C317B57A8200724811 /* libHockeySDK.a */; };
 		087DB8C617B57AB400724811 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087DB8C517B57AB400724811 /* CrashReporter.framework */; };
 		087DB8C817B57AFF00724811 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */; };
+		088C837E19900EF900831750 /* libPEGKitOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08093C1B1979B0DA00F5852A /* libPEGKitOSX.a */; };
 		089C0D6D1891A5230046E8DF /* MCEditUserController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 084593F615B5F1D700297C9D /* MCEditUserController.xib */; };
 		08A82B8C17F7127400F49071 /* SyntaxParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A82B8B17F7127400F49071 /* SyntaxParserTests.m */; };
 		08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
@@ -1323,7 +1323,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08093C1C1979B0DA00F5852A /* libPEGKitOSX.a in Frameworks */,
+				088C837E19900EF900831750 /* libPEGKitOSX.a in Frameworks */,
 				08BD2F7A185BACE8002B256B /* libsqlite3.dylib in Frameworks */,
 				08D2468315B5EFDD0064A9FA /* Vyana.framework in Frameworks */,
 				08D2467A15B5EF630064A9FA /* AudioToolbox.framework in Frameworks */,
@@ -3686,6 +3686,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug",
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
@@ -3727,6 +3728,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug",
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
@@ -3805,6 +3807,7 @@
 					"$(BUILT_PRODUCTS_DIR)",
 					"\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"",
 					"\"$(BUILT_PRODUCTS_DIR)/../../IntermediateBuildFilesPath/UninstalledProducts\"/**",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug",
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
@@ -3840,7 +3843,7 @@
 				);
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug";
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lz";
@@ -3878,7 +3881,7 @@
 				);
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug";
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = Rc2;
@@ -3915,7 +3918,7 @@
 				);
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug";
+				LIBRARY_SEARCH_PATHS = "$(DSTROOT)/usr/local/lib";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = Rc2;
