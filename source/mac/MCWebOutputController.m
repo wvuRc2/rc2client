@@ -350,7 +350,8 @@ const NSInteger kMaxFontSize = 32;
 
 -(void)handleFileDeletion:(RCFile*)file
 {
-	[self animateToTextView];
+	if ([file.fileId isEqualToNumber:self.currentFile.fileId])
+		[self animateToTextView];
 }
 
 -(void)animateToWebView

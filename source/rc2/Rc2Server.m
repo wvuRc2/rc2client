@@ -29,7 +29,6 @@ NSString *const kServerHostKey = @"ServerHostKey";
 
 NSString * const NotificationsReceivedNotification = @"NotificationsReceivedNotification";
 NSString * const MessagesUpdatedNotification = @"MessagesUpdatedNotification";
-NSString * const FilesChagedNotification = @"FilesChagedNotification";
 NSString * const FileDeletedNotification = @"FileDeletedNotification";
 #pragma mark -
 
@@ -522,7 +521,6 @@ NSString * const FileDeletedNotification = @"FileDeletedNotification";
 			for (RCFile *aFile in fs)
 				[container addFile:aFile];
 			hblock(YES, rsp);
-			[[NSNotificationCenter defaultCenter] postNotificationName:FilesChagedNotification object:container];
 		} else {
 			hblock(NO, rsp[@"message"]);
 			Rc2LogWarn(@"error on import:%@", rsp[@"message"]);

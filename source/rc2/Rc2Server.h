@@ -35,8 +35,6 @@ typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 extern NSString * const NotificationsReceivedNotification;
 //following is posted after messages are synced
 extern NSString * const MessagesUpdatedNotification;
-//posted after files are added to a FileContainer. object is the workspace/project
-extern NSString * const FilesChagedNotification;
 //posted when a file has been deleted on the server (via this or any other client). object is the file.
 extern NSString * const FileDeletedNotification;
 
