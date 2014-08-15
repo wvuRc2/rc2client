@@ -106,8 +106,8 @@
 	self.splitController.minimumView2Size = CGSizeMake(240, 240);
 	// Calc splitViewController's view's frame:
 	CGRect rec = self.view.bounds;
-	rec.origin.y += 44;
-	rec.size.height -= 44;
+	rec.origin.y += 64;
+	rec.size.height -= 64;
 	self.splitController.view.frame = rec;
 	self.splitController.splitterPosition = splitPos;
 	[self addChildViewController:self.splitController];
