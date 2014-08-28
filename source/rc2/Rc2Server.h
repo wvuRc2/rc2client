@@ -21,6 +21,7 @@
 @class RCAssignment;
 @class RCProject;
 @class RCActiveLogin;
+@protocol Rc2Server;
 
 enum {
 	eRc2Host_Rc2=0,
@@ -32,20 +33,18 @@ enum {
 typedef void (^Rc2FetchCompletionHandler)(BOOL success, id results);
 
 //following is posted after all other login steps are complete
-extern NSString * const NotificationsReceivedNotification;
+extern NSString * const RC2NotificationsReceivedNotification;
 //following is posted after messages are synced
-extern NSString * const MessagesUpdatedNotification;
+extern NSString * const RC2MessagesUpdatedNotification;
 //posted when a file has been deleted on the server (via this or any other client). object is the file.
-extern NSString * const FileDeletedNotification;
+extern NSString * const RC2FileDeletedNotification;
+
+id<Rc2Server> RC2_SharedInstance();
+NSArray* RC2_AcceptableTextFileSuffixes();
+NSArray* RC2_AcceptableImportFileSuffixes();
 
 
-@interface Rc2Server : NSObject
-#pragma mark - class methods
-+(Rc2Server*)sharedInstance;
-
-+(NSArray*)acceptableTextFileSuffixes;
-+(NSArray*)acceptableImportFileSuffixes;
-+(NSArray*)acceptableImageFileSuffixes;
+@protocol Rc2Server <NSObject>
 
 #pragma mark - properties
 

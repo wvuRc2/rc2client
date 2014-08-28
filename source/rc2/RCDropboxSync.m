@@ -48,7 +48,7 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 		self.tmpPath = [NSTemporaryDirectory() stringByAppendingString:[NSString stringWithUUID]];
 		[_fm createDirectoryAtPath:self.tmpPath withIntermediateDirectories:YES attributes:nil error:nil];
 		self.dloadedFiles = [NSMutableArray array];
-		self.vaildExtensions = [NSSet setWithArray:[[Rc2Server acceptableImportFileSuffixes] arrayByPerformingSelector:@selector(lowercaseString)]];
+		self.vaildExtensions = [NSSet setWithArray:[RC2_AcceptableImportFileSuffixes() arrayByPerformingSelector:@selector(lowercaseString)]];
 	}
 	return self;
 }
@@ -246,7 +246,7 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 			NSError *err=nil;
 			RCFile *efile = [self.wspace fileWithName:rcfname];
 			if (efile.existsOnServer) {
-				if ([[Rc2Server sharedInstance] updateFile:efile withContents:furl workspace:self.wspace error:&err]) {
+				if ([RC2_SharedInstance() updateFile:efile withContents:furl workspace:self.wspace error:&err]) {
 					NSLog(@"uploaded %@ to rc2", rcfname);
 				} else {
 					NSLog(@"error updating %@ via sync:%@", rcfname, err);
@@ -255,7 +255,7 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 				}
 			} else {
 				//synchronous call
-				[[Rc2Server sharedInstance] importFile:furl fileName:rcfname toContainer:self.wspace error:&err];
+				[RC2_SharedInstance() importFile:furl fileName:rcfname toContainer:self.wspace error:&err];
 				if (err) {
 					Rc2LogError(@"error syncing %@ to rc2:%@", rcfname, err);
 					[self.syncDelegate dbsync:self syncComplete:NO error:err];
@@ -330,7 +330,7 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 	[self.dloadedFiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		[files addObject:[NSURL fileURLWithPath:[self.tmpPath stringByAppendingPathComponent:obj]]];
 	}];
-	[[Rc2Server sharedInstance] importFiles:files toContainer:self.wspace completionHandler:^(BOOL success, id results) {
+	[RC2_SharedInstance() importFiles:files toContainer:self.wspace completionHandler:^(BOOL success, id results) {
 		if (!success) {
 			NSLog(@"error importing to rc2:%@", results);
 			[self.syncDelegate dbsync:self syncComplete:NO error:[NSError errorWithDomain:@"Rc2" code:-1 userInfo:@{NSLocalizedDescriptionKey:results}]];
@@ -366,7 +366,7 @@ typedef NS_ENUM(NSUInteger, SyncState) {
 {
 	self.wspace.dropboxHash = self.metad.hash;
 	self.wspace.dropboxHistory = [self serializeFilesToJSON];
-	[[Rc2Server sharedInstance] updateWorkspace:self.wspace completionBlock:^(BOOL success, id results) {
+	[RC2_SharedInstance() updateWorkspace:self.wspace completionBlock:^(BOOL success, id results) {
 		[self.syncDelegate dbsync:self syncComplete:YES error:nil];
 	}];	
 }

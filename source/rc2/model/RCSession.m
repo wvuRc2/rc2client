@@ -125,7 +125,7 @@ NSString *const kHelpItemURL = @"url";
 {
 	if (_ws)
 		return;
-	NSString *urlStr = [[Rc2Server sharedInstance] websocketUrl];
+	NSString *urlStr = [RC2_SharedInstance() websocketUrl];
 	id build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 	urlStr = [urlStr stringByAppendingFormat:@"?wid=%@&client=osx&build=%@", self.workspace.wspaceId, build];
@@ -144,7 +144,7 @@ NSString *const kHelpItemURL = @"url";
 	NSDictionary *cookies = [NSHTTPCookie requestHeaderFieldsWithCookies:cks];
 	NSString *cookieHeader = [cookies objectForKey:@"Cookie"];
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060 && defined(DEBUG))
-	if ([Rc2Server sharedInstance].activeLogin.isAdmin) {
+	if (RC2_SharedInstance().activeLogin.isAdmin) {
 		NSMutableString *str = [NSMutableString string];
 		for (NSString *aStr in [cookieHeader componentsSeparatedByString:@"; "]) {
 			if ([aStr hasPrefix:@"wspaceid"] || [aStr hasPrefix:@"me"])
@@ -337,7 +337,7 @@ NSString *const kHelpItemURL = @"url";
 	if ([fm fileExistsAtPath:newPath])
 		[fm removeItemAtPath:newPath error:nil];
 	if (![fm fileExistsAtPath:file.fileContentsPath]) {
-		NSString *fileContents = [[Rc2Server sharedInstance] fetchFileContentsSynchronously:file];
+		NSString *fileContents = [RC2_SharedInstance() fetchFileContentsSynchronously:file];
 		if (![fileContents writeToFile:newPath atomically:NO encoding:NSUTF8StringEncoding error:&err])
 			Rc2LogError(@"failed to write web tmp file:%@", err);
 	} else if (![fm copyItemAtPath:file.fileContentsPath toPath:newPath error:&err]) {
@@ -446,10 +446,10 @@ NSString *const kHelpItemURL = @"url";
 
 -(id)savedSessionState
 {
-	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:self.workspace];
+	RCSavedSession *savedState = [RC2_SharedInstance() savedSessionForWorkspace:self.workspace];
 	if (nil == savedState) {
 		savedState = [RCSavedSession MR_createEntity];
-		savedState.login = [Rc2Server sharedInstance].activeLogin.currentUser.login;
+		savedState.login = RC2_SharedInstance().activeLogin.currentUser.login;
 		savedState.wspaceId = self.workspace.wspaceId;
 	}
 	return savedState;
@@ -595,7 +595,7 @@ NSString *const kHelpItemURL = @"url";
 	} else if ([cmd isEqualToString:@"fileupdate"]) {
 		RCFile *file = [self.workspace fileWithId:[dict objectForKey:@"fileId"]];
 		if ([dict objectForKey:@"deleted"]) {
-			[[Rc2Server sharedInstance] removeFileReferences:file];
+			[RC2_SharedInstance() removeFileReferences:file];
 			[self.delegate workspaceFileUpdated:file deleted:YES];
 		} else {
 			if (file) {

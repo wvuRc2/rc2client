@@ -45,7 +45,7 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.view.window makeFirstResponder:self.searchField];
 	});
-	[[Rc2Server sharedInstance] sharesForProject:self.project completionBlock:^(BOOL success, id results)
+	[RC2_SharedInstance() sharesForProject:self.project completionBlock:^(BOOL success, id results)
 	 {
 		 if (success) {
 			 self.sharedUsers = results;
@@ -61,7 +61,7 @@
 	NSDictionary *userDict = self.selectedResult;
 	if ([self.sharedUsers firstObjectWithValue:userDict[@"id"] forKey:@"id"])
 		return;
-	[[Rc2Server sharedInstance] shareProject:self.project userId:userDict[@"id"] completionBlock:^(BOOL success, id results)
+	[RC2_SharedInstance() shareProject:self.project userId:userDict[@"id"] completionBlock:^(BOOL success, id results)
 	{
 		if (success) {
 			NSArray *shares = [self.sharedUsers arrayByAddingObject:results];
@@ -79,7 +79,7 @@
 -(IBAction)removeUserFromShareList:(id)sender
 {
 	NSDictionary *userDict = self.selectedUser;
-	[[Rc2Server sharedInstance] unshareProject:self.project userId:userDict[@"id"] completionBlock:^(BOOL success, id results)
+	[RC2_SharedInstance() unshareProject:self.project userId:userDict[@"id"] completionBlock:^(BOOL success, id results)
 	{
 		if (success) {
 			self.sharedUsers = [self.sharedUsers arrayByRemovingObjectAtIndex:[self.sharedUsers indexOfObject:userDict]];
@@ -97,7 +97,7 @@
 	if (ss.length < 1)
 		return;
 	NSDictionary *params = @{@"value":ss};
-	[[Rc2Server sharedInstance] searchUsers:params completionHandler:^(BOOL success, id results) {
+	[RC2_SharedInstance() searchUsers:params completionHandler:^(BOOL success, id results) {
 		if (success)
 			[self processSearchResults:results];
 		else

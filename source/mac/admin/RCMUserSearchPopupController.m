@@ -62,7 +62,7 @@
 	NSString *rid = [NSString stringWithUUID];
 	self.requestId = rid;
 	__weak RCMUserSearchPopupController *bself = self;
-	[[Rc2Server sharedInstance] searchUsers:@{@"type":self.searchType, @"value":sstring} completionHandler:^(BOOL success, id results)
+	[RC2_SharedInstance() searchUsers:@{@"type":self.searchType, @"value":sstring} completionHandler:^(BOOL success, id results)
 	{
 		[bself.requestLock lock];
 		//only if we are the most recent request

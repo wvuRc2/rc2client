@@ -65,7 +65,7 @@ NSString *const kPref_ImageMetaData = @"ImageMetaData";
 	NSString *imgPath = [self.imgCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", image.imageId]];
 	NSString *urlStr = [NSString stringWithFormat:@"/simg/%@.png", image.imageId];
 	__weak RCImage *weakImage = image;
-	[[Rc2Server sharedInstance] downloadAppPath:urlStr toFilePath:imgPath completionHandler:^(BOOL success, id rsp) {
+	[RC2_SharedInstance() downloadAppPath:urlStr toFilePath:imgPath completionHandler:^(BOOL success, id rsp) {
 		if (success) {
 			weakImage.image = [[ImageClass alloc] initWithContentsOfFile:imgPath];
 		} else {

@@ -38,7 +38,7 @@ enum {
 		return NSDragOperationNone;
 	NSArray *urls = [[info draggingPasteboard] readObjectsForClasses:ARRAY([NSURL class]) options:readOptions];
 	if ([urls count] > 0) {
-		NSArray *ftypes = [Rc2Server acceptableImportFileSuffixes];
+		NSArray *ftypes = RC2_AcceptableImportFileSuffixes();
 		for (NSURL *url in urls) {
 			if (![ftypes containsObject:[url pathExtension]])
 				return NSDragOperationNone;
@@ -108,7 +108,7 @@ enum {
 	pwc.progressMessage = @"Importing files…";
 	pwc.indeterminate = NO;
 	pwc.percentComplete = 0;
-	[[Rc2Server sharedInstance] importFiles:self.fileUrls toContainer:self.container completionHandler:^(BOOL success, id results) {
+	[RC2_SharedInstance() importFiles:self.fileUrls toContainer:self.container completionHandler:^(BOOL success, id results) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self markAsComplete];
 			[NSApp endSheet:pwc.window];

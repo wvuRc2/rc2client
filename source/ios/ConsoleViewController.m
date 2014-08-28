@@ -61,7 +61,7 @@ const CGFloat kAnimDuration = 0.5;
 	_didSetGraphUrl=NO;
 	self.backButton.enabled = NO;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFileDeletion:) name:FileDeletedNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFileDeletion:) name:RC2FileDeletedNotification object:nil];
 	
 	self.outputView = [[UITextView alloc] initWithFrame:self.containerView.bounds];
 	self.outputView.translatesAutoresizingMaskIntoConstraints = NO;

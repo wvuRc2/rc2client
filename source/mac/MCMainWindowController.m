@@ -43,7 +43,7 @@
 - (void)windowDidLoad
 {
 	[super windowDidLoad];
-	self.window.title = [NSString stringWithFormat:@"%@ (%@)", self.window.title, [[Rc2Server sharedInstance] connectionDescription]];
+	self.window.title = [NSString stringWithFormat:@"%@ (%@)", self.window.title, [RC2_SharedInstance() connectionDescription]];
 	self.projectController = [[MCProjectViewController alloc] init];
 	self.projectController.view.frame = self.detailContainer.frame;
 	self.projectController.view.autoresizingMask = self.detailContainer.autoresizingMask;
@@ -57,7 +57,7 @@
 	//if the list of projects is refreshed, the current session will be referencing a dealloced project since the workspace
 	// keeps a weak reference
 	__weak MCMainWindowController *bself = self;
-	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
+	[self observeTarget:RC2_SharedInstance() keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
 		if (bself.currentSessionController && nil == bself.currentSessionController.view.window)
 			bself.currentSessionController = nil;
 	}];

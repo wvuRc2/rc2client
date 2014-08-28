@@ -169,6 +169,8 @@
 		084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
 		084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
 		08541980178771DA008AF602 /* projwspaceJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0854197F178771DA008AF602 /* projwspaceJson.txt */; };
+		0857277619AFCD4400ADCC7B /* RC2ServerAFNet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0857277519AFCD4400ADCC7B /* RC2ServerAFNet1.m */; };
+		0857277719AFCD4400ADCC7B /* RC2ServerAFNet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0857277519AFCD4400ADCC7B /* RC2ServerAFNet1.m */; };
 		085C6EF817A99DE80085DE88 /* DropboxOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085C6EF717A99DE80085DE88 /* DropboxOSX.framework */; };
 		085C6EF917A99E370085DE88 /* DropboxOSX.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 085C6EF717A99DE80085DE88 /* DropboxOSX.framework */; };
 		085E3C4817AAE386005C523F /* RCDropboxSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B461774E409005BB3BB /* RCDropboxSync.m */; };
@@ -798,6 +800,8 @@
 		084D39B51627300F00B8A06B /* RCDataFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDataFrame.h; sourceTree = "<group>"; };
 		084D39B61627300F00B8A06B /* RCDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDataFrame.m; sourceTree = "<group>"; };
 		0854197F178771DA008AF602 /* projwspaceJson.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = projwspaceJson.txt; sourceTree = "<group>"; };
+		0857277419AFCD4400ADCC7B /* RC2ServerAFNet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RC2ServerAFNet1.h; sourceTree = "<group>"; };
+		0857277519AFCD4400ADCC7B /* RC2ServerAFNet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RC2ServerAFNet1.m; sourceTree = "<group>"; };
 		085C6EF717A99DE80085DE88 /* DropboxOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		085E3C4917AAEADB005C523F /* MCDropboxConfigWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDropboxConfigWindow.h; sourceTree = "<group>"; };
 		085E3C4A17AAEADB005C523F /* MCDropboxConfigWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCDropboxConfigWindow.m; sourceTree = "<group>"; };
@@ -2281,6 +2285,8 @@
 				08D245C315B5DBB70064A9FA /* RC2RemoteLogger.m */,
 				08D245C415B5DBB70064A9FA /* Rc2Server.h */,
 				08D245C515B5DBB70064A9FA /* Rc2Server.m */,
+				0857277419AFCD4400ADCC7B /* RC2ServerAFNet1.h */,
+				0857277519AFCD4400ADCC7B /* RC2ServerAFNet1.m */,
 				08F17064198AE31700A79B9E /* RCActiveLogin.h */,
 				08F17065198AE31700A79B9E /* RCActiveLogin.m */,
 				08D245C615B5DBB70064A9FA /* RCAudioChatEngine.h */,
@@ -3151,6 +3157,7 @@
 				080F50E91890606200CF39FB /* CXAlertBackgroundWindow.m in Sources */,
 				08FF3D2816F0C71F00F3E09E /* WHMailActivityItem.m in Sources */,
 				08FF3D2D16F0C71F00F3E09E /* WHTextActivity.m in Sources */,
+				0857277619AFCD4400ADCC7B /* RC2ServerAFNet1.m in Sources */,
 				080F50EC1890606200CF39FB /* CXAlertView.m in Sources */,
 				082D1EB617E23B2C00723EB3 /* RCChunk.m in Sources */,
 				08FF3D2E16F0C71F00F3E09E /* WHTextActivityItem.m in Sources */,
@@ -3195,6 +3202,7 @@
 				08D2464615B5ED9D0064A9FA /* RCAssignment.m in Sources */,
 				08D2464715B5ED9D0064A9FA /* RCAssignmentFile.m in Sources */,
 				08D2464815B5ED9D0064A9FA /* RCCourse.m in Sources */,
+				0857277719AFCD4400ADCC7B /* RC2ServerAFNet1.m in Sources */,
 				08D2464915B5ED9D0064A9FA /* RCFile.m in Sources */,
 				08BDDD9917EA48AB00E669E3 /* NSManagedObject+MagicalAggregation.m in Sources */,
 				08D2464A15B5ED9D0064A9FA /* RCImage.m in Sources */,

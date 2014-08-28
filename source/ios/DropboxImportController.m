@@ -86,7 +86,7 @@ NSString *const kLastDropBoxPathPref = @"LastDropBoxPath";
 -(void)metadataLoaded:(DBMetadata*)metadata
 {
 	self.metaData = metadata;
-	NSArray *fileTypes = [[Rc2Server acceptableImportFileSuffixes] arrayByPerformingSelector:@selector(lowercaseString)];
+	NSArray *fileTypes = [RC2_AcceptableImportFileSuffixes() arrayByPerformingSelector:@selector(lowercaseString)];
 	NSMutableArray *a = [NSMutableArray array];
 	for (DBMetadata *item in self.metaData.contents) {
 		NSString *ftype = [[item.path pathExtension] lowercaseString];
@@ -108,7 +108,7 @@ NSString *const kLastDropBoxPathPref = @"LastDropBoxPath";
 {
 	RCWorkspace *wspace = self.session.workspace;
 	self.currentHud = [AMHudView hudWithLabelText:@"Uploading to Rc²…"];
-	[[Rc2Server sharedInstance] importFile:[NSURL fileURLWithPath:destPath]
+	[RC2_SharedInstance() importFile:[NSURL fileURLWithPath:destPath]
 							   toContainer:wspace
 						 completionHandler:^(BOOL ok, id results)
 	 {

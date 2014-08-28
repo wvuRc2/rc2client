@@ -89,7 +89,7 @@ const NSInteger kMaxFontSize = 32;
 													 name:NSPopUpButtonWillPopUpNotification 
 												   object:self.historyPopUp];
 		[self observeTarget:self keyPath:@"restrictedMode" selector:@selector(updateTextFieldStatus) userInfo:nil options:0];
-		[[NSNotificationCenter defaultCenter] addObserverForName:FileDeletedNotification object:nil
+		[[NSNotificationCenter defaultCenter] addObserverForName:RC2FileDeletedNotification object:nil
 														   queue:nil usingBlock:^(NSNotification *note)
 		{
 			[bself handleFileDeletion:note.object];
@@ -713,7 +713,7 @@ decisionListener:(id < WebPolicyDecisionListener >)listener
 			[items addObject:mi];
 		if (mi.tag == WebMenuItemTagGoBack)
 			hasBack = YES;
-		if ([@"Inspect Element" isEqualToString:mi.title] && [Rc2Server sharedInstance].activeLogin.isAdmin) {
+		if ([@"Inspect Element" isEqualToString:mi.title] && RC2_SharedInstance().activeLogin.isAdmin) {
 			inspectElemItem = mi;
 		}
 	}

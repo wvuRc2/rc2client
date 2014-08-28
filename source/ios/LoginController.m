@@ -48,7 +48,7 @@ static const CGFloat kViewHeight = 301;
 		[self loadPasswordForLogin:lastLogin];
 		[self.useridField becomeFirstResponder];
 	}
-	self.hostControl.selectedSegmentIndex = [[Rc2Server sharedInstance] serverHost];
+	self.hostControl.selectedSegmentIndex = [RC2_SharedInstance() serverHost];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -77,9 +77,9 @@ static const CGFloat kViewHeight = 301;
 	self.loginButton.enabled = NO;
 	self.hostControl.enabled = NO;
 	[self.busyWheel startAnimating];
-	[Rc2Server sharedInstance].serverHost = self.hostControl.selectedSegmentIndex;
+	RC2_SharedInstance().serverHost = self.hostControl.selectedSegmentIndex;
 	__weak LoginController *blockSelf = self;
-	[[Rc2Server sharedInstance] loginAsUser:self.useridField.text 
+	[RC2_SharedInstance() loginAsUser:self.useridField.text 
 								   password:self.passwordField.text 
 						  completionHandler:^(BOOL success, NSString *message)
 	{

@@ -64,7 +64,7 @@
 		}
 		_didLoad=YES;
 	}
-	[[Rc2Server sharedInstance] syncMessages:^(BOOL success, id results) {
+	[RC2_SharedInstance() syncMessages:^(BOOL success, id results) {
 		if (success) {
 			[blockSelf refreshMessages];
 		}
@@ -132,7 +132,7 @@
 
 -(IBAction)doDeleteMessage:(id)sender
 {
-	[[Rc2Server sharedInstance] markMessageDeleted:[self.messages objectAtIndex:self.selRowIdx]];
+	[RC2_SharedInstance() markMessageDeleted:[self.messages objectAtIndex:self.selRowIdx]];
 	[self.tableView beginUpdates];
 	[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:self.selRowIdx inSection:0]]
 						  withRowAnimation:UITableViewRowAnimationFade];
@@ -207,7 +207,7 @@
 	RCMessage *message = [self.messages objectAtIndex:indexPath.row];
 	self.extraHeight = [newCell calculateHeightWithBody:message.body];
 	if (nil == message.dateRead)
-		[[Rc2Server sharedInstance] markMessageRead:message];
+		[RC2_SharedInstance() markMessageRead:message];
 	if (nil == indexPath)
 		self.selRowIdx = -1;
 	else

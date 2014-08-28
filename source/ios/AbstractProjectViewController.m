@@ -57,10 +57,10 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 		[bself updateForNewTheme:theme];
 	}];
 	[self updateForNewTheme:[[ThemeEngine sharedInstance] currentTheme]];
-	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(loginStatusChanged) userInfo:nil options:0];
-	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"activeLogin" options:0 block:^(MAKVONotification *notification) {
-		if ([Rc2Server sharedInstance].activeLogin) {
-			[bself observeTarget:[Rc2Server sharedInstance].activeLogin keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
+	[self observeTarget:RC2_SharedInstance() keyPath:@"loggedIn" selector:@selector(loginStatusChanged) userInfo:nil options:0];
+	[self observeTarget:RC2_SharedInstance() keyPath:@"activeLogin" options:0 block:^(MAKVONotification *notification) {
+		if (RC2_SharedInstance().activeLogin) {
+			[bself observeTarget:RC2_SharedInstance().activeLogin keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
 				[bself updateProjects];
 			}];
 			[bself updateProjects];
@@ -70,7 +70,7 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 	{
 		[bself.collectionView reloadData];
 	}];
-	self.projects = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
+	self.projects = [RC2_SharedInstance().activeLogin.projects mutableCopy];
 	ProjectViewLayout *flow = (ProjectViewLayout*)self.collectionViewLayout;
 	[flow setItemSize:CGSizeMake(200, 150)];
 	self.collectionView.allowsSelection = YES;
@@ -107,7 +107,7 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 -(void)updateProjects
 {
 	if (!self.ignoreProjectUpdates) {
-		self.projects = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
+		self.projects = [RC2_SharedInstance().activeLogin.projects mutableCopy];
 		[self.collectionView reloadData];
 	}
 }
@@ -129,7 +129,7 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 
 -(void)loginStatusChanged
 {
-	self.projects = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
+	self.projects = [RC2_SharedInstance().activeLogin.projects mutableCopy];
 	[self.collectionView reloadData];
 	self.projectButton.title = @"Logout";
 	self.selectedProject = nil;
@@ -178,7 +178,7 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 		if (1!=btnIdx || str.length < 1)
 			return;
 		if (isProj) {
-			[[Rc2Server sharedInstance] editProject:item newName:str completionBlock:^(BOOL success, id rsp) {
+			[RC2_SharedInstance() editProject:item newName:str completionBlock:^(BOOL success, id rsp) {
 				if (success) {
 					NSInteger idx = [self.projects indexOfObject:item];
 					if (idx != NSNotFound)
@@ -192,7 +192,7 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 				}
 			}];
 		} else {
-			[[Rc2Server sharedInstance] renameWorkspce:item name:str completionHandler:^(BOOL success, id rsp) {
+			[RC2_SharedInstance() renameWorkspce:item name:str completionHandler:^(BOOL success, id rsp) {
 				if (success) {
 					NSInteger idx = [self.projects indexOfObject:item];
 					if (idx != NSNotFound)
@@ -221,17 +221,17 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 	[confAlert showWithCompletionHandler:^(UIAlertView *alert, NSInteger rc) {
 		if (1 == rc) {
 			if ([item isKindOfClass:[RCProject class]]) {
-				[[Rc2Server sharedInstance] deleteProject:item completionBlock:^(BOOL success, id rsp) {
+				[RC2_SharedInstance() deleteProject:item completionBlock:^(BOOL success, id rsp) {
 					if (success) {
 						NSInteger idx = [self.projects indexOfObject:item];
-						self.projects = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
+						self.projects = [RC2_SharedInstance().activeLogin.projects mutableCopy];
 						if (idx != NSNotFound)
 							[self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
 					}
 				}];
 			} else {
 				NSInteger idx = [self.selectedProject.workspaces indexOfObject:item];
-				[[Rc2Server sharedInstance] deleteWorkspce:item completionHandler:^(BOOL success, id rsp) {
+				[RC2_SharedInstance() deleteWorkspce:item completionHandler:^(BOOL success, id rsp) {
 					if (success) {
 						if (idx != NSNotFound)
 							[self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]]];
@@ -275,10 +275,10 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 	}
 	if (nil == _selectedProject) {
 		self.ignoreProjectUpdates = YES;
-		[[Rc2Server sharedInstance] createProject:newNamee completionBlock:^(BOOL success, id rsp) {
+		[RC2_SharedInstance() createProject:newNamee completionBlock:^(BOOL success, id rsp) {
 			self.ignoreProjectUpdates = NO;
 			if (success) {
-				NSMutableArray *updatedProjects = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
+				NSMutableArray *updatedProjects = [RC2_SharedInstance().activeLogin.projects mutableCopy];
 				NSInteger idx = [updatedProjects indexOfObject:rsp];
 				if (idx != NSNotFound) {
 					self.projects = updatedProjects;
@@ -293,7 +293,7 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 			}
 		}];
 	} else {
-		[[Rc2Server sharedInstance] createWorkspace:newNamee inProject:self.selectedProject completionBlock:^(BOOL sucess, id rsp) {
+		[RC2_SharedInstance() createWorkspace:newNamee inProject:self.selectedProject completionBlock:^(BOOL sucess, id rsp) {
 			if (sucess) {
 				NSInteger idx = [self.selectedProject.workspaces indexOfObject:rsp];
 				if (self.selectedProject.workspaces.count == 1)

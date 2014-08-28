@@ -379,7 +379,7 @@
 	[hud showOverView:rootView];
 	self.currentHud = hud;
 	self.currentFile.localEdits = self.richEditor.text;
-	[[Rc2Server sharedInstance] saveFile:self.currentFile
+	[RC2_SharedInstance() saveFile:self.currentFile
 							 toContainer:_session.workspace
 					   completionHandler:^(BOOL success, id results)
 	 {
@@ -406,7 +406,7 @@
 -(void)userConfirmedDelete:(RCFile*)file
 {
 	RCWorkspace *wspace = self.session.workspace;
-	[[Rc2Server sharedInstance] deleteFile:file container:wspace completionHandler:^(BOOL success, id results) {
+	[RC2_SharedInstance() deleteFile:file container:wspace completionHandler:^(BOOL success, id results) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if (file == self.currentFile) {
 				RCFile *nfile = wspace.files.firstObject;
@@ -517,13 +517,13 @@
 		if (str.length < 1)
 			return;
 		NSString *ext = [str pathExtension];
-		if (![[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
+		if (![RC2_AcceptableTextFileSuffixes() containsObject:ext])
 			str = [str stringByAppendingPathExtension:@"R"];
 		RCFile *file = [RCFile MR_createEntity];
 		file.name = str;
 		file.localEdits = @"";
 		id<RCFileContainer> container = shared ? blockSelf.session.workspace.project : blockSelf.session.workspace;
-		[[Rc2Server sharedInstance] saveFile:file toContainer:container completionHandler:^(BOOL success, id results) {
+		[RC2_SharedInstance() saveFile:file toContainer:container completionHandler:^(BOOL success, id results) {
 			if (success) {
 				[self loadFile:results];
 			} else {
@@ -688,7 +688,7 @@
 				hud = [[AMHudView alloc] init];
 			hud.mainLabelText = [NSString stringWithFormat:@"Loading %@…", file.name];
 			self.currentHud = hud;
-			[[Rc2Server sharedInstance] fetchFileContents:file completionHandler:^(BOOL success, id results) {
+			[RC2_SharedInstance() fetchFileContents:file completionHandler:^(BOOL success, id results) {
 				if (showProgress)
 					[self.currentHud hide];
 				if (success)
@@ -711,7 +711,7 @@
 			hud = [AMHudView hudWithLabelText:@"Loading…"];
 		self.currentHud = hud;
 		[hud showOverView:rootView];
-		[[Rc2Server sharedInstance] fetchFileContents:file completionHandler:^(BOOL success, id results) {
+		[RC2_SharedInstance() fetchFileContents:file completionHandler:^(BOOL success, id results) {
 			[self loadFileData:file];
 			[self.currentHud hide];
 			self.currentHud=nil;
@@ -788,9 +788,9 @@
 		NSString *str = [alert textFieldAtIndex:0].text;
 		if (1==btnIdx && str.length > 0) {
 			NSString *ext = [str pathExtension];
-			if (![[Rc2Server acceptableTextFileSuffixes] containsObject:ext])
+			if (![RC2_AcceptableTextFileSuffixes() containsObject:ext])
 				str = [str stringByAppendingPathExtension:@"R"];
-			[[Rc2Server sharedInstance] renameFile:blockSelf.currentFile toName:str completionHandler:^(BOOL success, id rsp) {
+			[RC2_SharedInstance() renameFile:blockSelf.currentFile toName:str completionHandler:^(BOOL success, id rsp) {
 				if (success) {
 					blockSelf.docTitleLabel.text = str;
 					[self.fileController reloadData];

@@ -42,7 +42,7 @@
 -(void)windowDidLoad
 {
     [super windowDidLoad];
-	self.ldapServers = [Rc2Server sharedInstance].activeLogin.ldapServers;
+	self.ldapServers = RC2_SharedInstance().activeLogin.ldapServers;
 	self.selectedLdapServer = [self.ldapServers firstObject];
 	self.passwordVerifier = [[PasswordVerifier alloc] init];
 	self.passwordVerifier.minLength = [NSNumber numberWithInt:4];

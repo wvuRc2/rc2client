@@ -63,7 +63,7 @@
 	tapg.numberOfTapsRequired = 1;
 	[self.toField addGestureRecognizer:tapg];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toFieldResized:) name:JSTokenFieldFrameDidChangeNotification object:self.toField];
-	RCActiveLogin *login = [Rc2Server sharedInstance].activeLogin;
+	RCActiveLogin *login = RC2_SharedInstance().activeLogin;
 	NSArray *rcpts = login.messageRecipients;
 	NSArray *classes = login.classesTaught;
 	if (classes) //classes first in order
@@ -200,7 +200,7 @@
 	[msg setObject:userRcpts forKey:@"userRcpts"];
 	[msg setObject:classRcpts forKey:@"classRcpts"];
 	//send the message
-	[[Rc2Server sharedInstance] sendMessage:msg completionHandler:^(BOOL success, id results) {
+	[RC2_SharedInstance() sendMessage:msg completionHandler:^(BOOL success, id results) {
 		//FIXME: need to verify it was sent or report any error
 		self.completionBlock(YES);
 	}];

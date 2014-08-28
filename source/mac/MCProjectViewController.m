@@ -47,15 +47,15 @@
 	self.pathCells = [NSMutableArray arrayWithCapacity:4];
 	[self.pathCells addObject:[NSPathComponentCell pathCellWithTitle:@"Projects"]];
 	[self.pathControl setPathComponentCells:self.pathCells];
-	self.arrayController.content = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
+	self.arrayController.content = [RC2_SharedInstance().activeLogin.projects mutableCopy];
 	__weak __typeof(self) blockSelf = self;
 	[self observeTarget:self.arrayController keyPath:@"selectionIndexes" options:0 block:^(MAKVONotification *notification) {
 		[blockSelf willChangeValueForKey:@"canDeleteSelection"];
 		[blockSelf didChangeValueForKey:@"canDeleteSelection"];
 	}];
-	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"activeLogin" options:0 block:^(MAKVONotification *notification) {
-		if ([Rc2Server sharedInstance].activeLogin) {
-			[blockSelf observeTarget:[Rc2Server sharedInstance].activeLogin keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
+	[self observeTarget:RC2_SharedInstance() keyPath:@"activeLogin" options:0 block:^(MAKVONotification *notification) {
+		if (RC2_SharedInstance().activeLogin) {
+			[blockSelf observeTarget:RC2_SharedInstance().activeLogin keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
 				[blockSelf updateProjects];
 			}];
 			[blockSelf updateProjects];
@@ -67,7 +67,7 @@
 
 -(void)updateProjects
 {
-	self.arrayController.content = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
+	self.arrayController.content = [RC2_SharedInstance().activeLogin.projects mutableCopy];
 }
 
 -(BOOL)usesToolbar { return YES; }
@@ -214,9 +214,9 @@
 		self.statusMessage = nil;
 		if (rc == NSOKButton) {
 			if (isProj) {
-				[[Rc2Server sharedInstance] createProject:pc.stringValue completionBlock:^(BOOL success, id obj) {
+				[RC2_SharedInstance() createProject:pc.stringValue completionBlock:^(BOOL success, id obj) {
 					if (success) {
-						//NSInteger idx = [[Rc2Server sharedInstance].projects indexOfObject:obj];
+						//NSInteger idx = [RC2_SharedInstance().projects indexOfObject:obj];
 					//			[self.arrayController insertObject:obj atArrangedObjectIndex:idx];
 					} else {
 						//TODO: notify user that failed
@@ -224,7 +224,7 @@
 					}
 				}];
 			} else {
-				[[Rc2Server sharedInstance] createWorkspace:pc.stringValue inProject:self.selectedProject completionBlock:^(BOOL success, id obj) {
+				[RC2_SharedInstance() createWorkspace:pc.stringValue inProject:self.selectedProject completionBlock:^(BOOL success, id obj) {
 					if (success) {
 						NSInteger idx = [self.selectedProject.workspaces indexOfObject:obj];
 						[self.arrayController insertObject:obj atArrangedObjectIndex:idx];
@@ -249,7 +249,7 @@
 	[alert am_beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *balert, NSInteger rc) {
 		if (NSAlertDefaultReturn == rc) {
 			if ([selObj isKindOfClass:[RCProject class]]) {
-				[[Rc2Server sharedInstance] deleteProject:selObj completionBlock:^(BOOL success, id obj) {
+				[RC2_SharedInstance() deleteProject:selObj completionBlock:^(BOOL success, id obj) {
 					if (success) {
 						[self.arrayController removeObject:selObj];
 					} else {
@@ -259,7 +259,7 @@
 				}];
 			} else {
 				//handle workspace
-				[[Rc2Server sharedInstance] deleteWorkspce:selObj completionHandler:^(BOOL success, id results) {
+				[RC2_SharedInstance() deleteWorkspce:selObj completionHandler:^(BOOL success, id results) {
 					if (success) {
 							[self.arrayController removeObject:selObj];
 					[[selObj project] removeWorkspace:selObj];
@@ -319,7 +319,7 @@
 	self.busy = YES;
 	if ([modelObject isKindOfClass:[RCProject class]]) {
 		ZAssert([modelObject userEditable], @"renaming uneditable project");
-		[[Rc2Server sharedInstance] editProject:modelObject newName:newName completionBlock:^(BOOL success, id arg) {
+		[RC2_SharedInstance() editProject:modelObject newName:newName completionBlock:^(BOOL success, id arg) {
 			if (!success) {
 				[NSAlert displayAlertWithTitle:@"Error renaming project" details:arg];
 				[item reloadItemDetails];
@@ -328,7 +328,7 @@
 		}];
 	} else if ([modelObject isKindOfClass:[RCWorkspace class]]) {
 		ZAssert([modelObject userEditable], @"renaming uneditable workspace");
-		[[Rc2Server sharedInstance] renameWorkspce:modelObject name:newName completionHandler:^(BOOL success, id arg) {
+		[RC2_SharedInstance() renameWorkspce:modelObject name:newName completionHandler:^(BOOL success, id arg) {
 			if (success) {
 				[item reloadItemDetails];
 			} else {

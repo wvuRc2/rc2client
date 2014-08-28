@@ -25,7 +25,7 @@
 	self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
 	if (self) {
 		self.notes = [NSMutableArray arrayWithCapacity:10];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notesLoaded:) name:NotificationsReceivedNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notesLoaded:) name:RC2NotificationsReceivedNotification object:nil];
 		self.dateFormatter = [[NSDateFormatter alloc] init];
 		self.dateFormatter.dateStyle = NSDateFormatterShortStyle;
 		self.dateFormatter.timeStyle = NSDateFormatterShortStyle;
@@ -77,7 +77,7 @@
 -(void)reloadNotifications
 {
 	__weak WelcomeViewController *bself = self;
-	[[Rc2Server sharedInstance] requestNotifications:^(BOOL success, id results) {
+	[RC2_SharedInstance() requestNotifications:^(BOOL success, id results) {
 		bself.noteTable.refreshGestureRecognizer.refreshState = PHRefreshIdle;
 		if (success) {
 			NSDictionary *d = results;
@@ -129,7 +129,7 @@
 	if (UITableViewCellEditingStyleDelete == editingStyle) {
 		NSDictionary *note = [self.notes objectAtIndex:indexPath.row];
 		__weak WelcomeViewController *bself = self;
-		[[Rc2Server sharedInstance] deleteNotification:[note objectForKey:@"id"] completionHandler:^(BOOL success, id results)
+		[RC2_SharedInstance() deleteNotification:[note objectForKey:@"id"] completionHandler:^(BOOL success, id results)
 		{
 			if (success) {
 				[bself.notes removeObjectAtIndex:indexPath.row];

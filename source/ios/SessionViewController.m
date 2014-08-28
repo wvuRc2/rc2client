@@ -75,7 +75,7 @@
 													 name: UIApplicationDidEnterBackgroundNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDropboxSync:) name:kDropboxSyncRequestedNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(idleTimeEvent:) name:RC2IdleTimerFiredNotification object:nil];
-		[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(loginStatusChanged:) userInfo:nil options:0];
+		[self observeTarget:RC2_SharedInstance() keyPath:@"loggedIn" selector:@selector(loginStatusChanged:) userInfo:nil options:0];
 	}
 	return self;
 }
@@ -136,7 +136,7 @@
 		ritems = [NSMutableArray array];
 	self.mikeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mikeOff"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleMicrophone:)];
 	[ritems addObject:self.mikeButton];
-	RCActiveLogin *login = [Rc2Server sharedInstance].activeLogin;
+	RCActiveLogin *login = RC2_SharedInstance().activeLogin;
 	if (login.isAdmin || [login.usersPermissions containsObject:@"CROOM_SESS"]) {
 		self.doodleButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"doodle"] style:UIBarButtonItemStylePlain target:self action:@selector(showDoodleView:)];
 		[ritems addObject:self.doodleButton];
@@ -347,7 +347,7 @@
 
 -(void)loginStatusChanged:(MAKVONotification*)note
 {
-	if (![[Rc2Server sharedInstance] loggedIn])
+	if (![RC2_SharedInstance() loggedIn])
 		[(id)TheApp.delegate endSession];
 }
 

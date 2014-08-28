@@ -67,7 +67,7 @@ enum { eTree_Theme, eTree_Keyboard };
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	RCActiveLogin *login = [Rc2Server sharedInstance].activeLogin;
+	RCActiveLogin *login = RC2_SharedInstance().activeLogin;
 	RCUser *user = login.currentUser;
 	self.emailField.text = user.email;
 	self.smsField.text = user.smsphone;
@@ -149,14 +149,14 @@ enum { eTree_Theme, eTree_Keyboard };
 
 -(void)updateUserSetting:(NSString*)name withValue:(id)val success:(BasicBlock1IntArg)sblock
 {
-	[[Rc2Server sharedInstance] updateUserSettings:@{name:val} completionHandler:^(BOOL success, id results)
+	[RC2_SharedInstance() updateUserSettings:@{name:val} completionHandler:^(BOOL success, id results)
 	{
 		if (success) {
 			int status = [[results objectForKey:@"status"] integerValue];
 			sblock(status);
 		}
 	}];
-/*	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"user"];
+/*	ASIFormDataRequest *req = [RC2_SharedInstance() postRequestWithRelativeURL:@"user"];
 	[req setRequestMethod:@"PUT"];
 	[req appendPostData:[[[NSDictionary dictionaryWithObject:val forKey:name] JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 	[req startSynchronous];
@@ -178,7 +178,7 @@ enum { eTree_Theme, eTree_Keyboard };
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];
-	RCUser *user = [Rc2Server sharedInstance].activeLogin.currentUser;
+	RCUser *user = RC2_SharedInstance().activeLogin.currentUser;
 	if (textField == self.twitterField) {
 		[self updateUserSetting:@"twitter" withValue:textField.text success:^(NSInteger status) {
 			if (status != 0)
@@ -271,7 +271,7 @@ enum { eTree_Theme, eTree_Keyboard };
 		dbc.doneHandler = ^(DropboxFolderSelectController *controller, NSString *thePath) {
 			self.currentWorkspace.dropboxPath = thePath;
 			self.currentWorkspace.dropboxUser = [[[DBSession sharedSession] userIds] firstObject];
-			[[Rc2Server sharedInstance] updateWorkspace:self.currentWorkspace completionBlock:^(BOOL success, id results) {
+			[RC2_SharedInstance() updateWorkspace:self.currentWorkspace completionBlock:^(BOOL success, id results) {
 				if (!success)
 					Rc2LogError(@"Failed to save db sync info:%@", results);
 			}];

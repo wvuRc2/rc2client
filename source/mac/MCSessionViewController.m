@@ -148,7 +148,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		self.jsQuiteRExp = [NSRegularExpression regularExpressionWithPattern:@"'" options:0 error:&err];
 		ZAssert(nil == err, @"error compiling regex, %@", [err localizedDescription]);
 		[self observeTarget:aSession keyPath:@"mode" selector:@selector(modeChanged) userInfo:nil options:0];
-		NSURL *serverUrl = [NSURL URLWithString:[[Rc2Server sharedInstance] websocketUrl]];
+		NSURL *serverUrl = [NSURL URLWithString:[RC2_SharedInstance() websocketUrl]];
 		self.serverReach = [MLReachability reachabilityWithHostname:serverUrl.host];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kMLReachabilityChangedNotification object:self.serverReach];
 		[self.serverReach startNotifier];
@@ -534,7 +534,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	openPanel.accessoryView = self.importAccessoryView;
 	openPanel.prompt = NSLocalizedString(@"Import", @"");
 	openPanel.allowsMultipleSelection = YES;
-	[openPanel setAllowedFileTypes:[Rc2Server acceptableImportFileSuffixes]];
+	[openPanel setAllowedFileTypes:RC2_AcceptableImportFileSuffixes()];
 	[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
 		[openPanel orderOut:nil];
 		if (NSFileHandlingPanelCancelButton == result)
@@ -822,7 +822,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	[wspace addFile:file];
 	self.statusMessage = [NSString stringWithFormat:@"Sending %@ to server…", file.name];
 	self.busy=YES;
-	[[Rc2Server sharedInstance] saveFile:file toContainer:wspace completionHandler:^(BOOL success, RCFile *newFile) {
+	[RC2_SharedInstance() saveFile:file toContainer:wspace completionHandler:^(BOOL success, RCFile *newFile) {
 		self.busy=NO;
 		if (success) {
 			self.fileIdJustImported = newFile.fileId;
@@ -855,7 +855,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 {
 	self.busy = YES;
 	self.statusMessage = [NSString stringWithFormat:@"Deleting \"%@\"", self.fileHelper.selectedFile.name];
-	[[Rc2Server sharedInstance] deleteFile:self.fileHelper.selectedFile container:self.session.workspace completionHandler:^(BOOL success, id results)
+	[RC2_SharedInstance() deleteFile:self.fileHelper.selectedFile container:self.session.workspace completionHandler:^(BOOL success, id results)
 	{
 		self.busy = NO;
 		self.statusMessage = @"File deleted";
@@ -878,7 +878,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 	ZAssert(file.isTextFile, @"asked to sync non-text file");
 	self.statusMessage = [NSString stringWithFormat:@"Saving %@ to server…", file.name];
 	self.busy=YES;
-	[[Rc2Server sharedInstance] saveFile:file toContainer:self.session.workspace completionHandler:^(BOOL success, RCFile *theFile) {
+	[RC2_SharedInstance() saveFile:file toContainer:self.session.workspace completionHandler:^(BOOL success, RCFile *theFile) {
 		self.busy=NO;
 		if (success) {
 			[self.fileTableView reloadData];
@@ -904,7 +904,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 
 -(void)prepareForSession
 {
-	[[Rc2Server sharedInstance] prepareWorkspace:self.session.workspace completionHandler:^(BOOL success, id response) {
+	[RC2_SharedInstance() prepareWorkspace:self.session.workspace completionHandler:^(BOOL success, id response) {
 		if (success) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[self completeSessionStartup:response];
@@ -1052,7 +1052,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 			[self.outputController loadLocalFile:selectedFile];
 	} else if (NSOrderedSame == [selectedFile.name.pathExtension caseInsensitiveCompare:@".pdf"]) {
 		if (![[NSFileManager defaultManager] fileExistsAtPath:selectedFile.fileContentsPath])
-			[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:selectedFile];
+			[RC2_SharedInstance() fetchBinaryFileContentsSynchronously:selectedFile];
 		[self.view.window.windowController displayPdfFile:selectedFile];
 	} else {
 		[self.outputController loadLocalFile:selectedFile];
@@ -1066,7 +1066,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 {
 	self.busy = YES;
 	self.statusMessage = [NSString stringWithFormat:@"Renaming %@…", newName];
-	[[Rc2Server sharedInstance] renameFile:file toName:newName completionHandler:^(BOOL success, id rsp) {
+	[RC2_SharedInstance() renameFile:file toName:newName completionHandler:^(BOOL success, id rsp) {
 		self.busy = NO;
 		self.statusMessage=nil;
 		if (!success) {

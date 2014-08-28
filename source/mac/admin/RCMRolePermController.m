@@ -58,7 +58,7 @@ NSString *const kPermPboardType = @"edu.wvu.stat.rc2.mac.perm";
 -(void)fetchRoles
 {
 	__weak RCMRolePermController *bself = self;
-	[[Rc2Server sharedInstance] fetchRoles:^(BOOL success, id results) {
+	[RC2_SharedInstance() fetchRoles:^(BOOL success, id results) {
 		NSArray *nroles = [results objectForKey:@"roles"];
 		NSMutableArray *editRoles = [NSMutableArray arrayWithCapacity:nroles.count];
 		for (NSDictionary *aRole in nroles) {
@@ -75,7 +75,7 @@ NSString *const kPermPboardType = @"edu.wvu.stat.rc2.mac.perm";
 -(void)fetchPermissions
 {
 	__weak RCMRolePermController *bself = self;
-	[[Rc2Server sharedInstance] fetchPermissions:^(BOOL success, id results) {
+	[RC2_SharedInstance() fetchPermissions:^(BOOL success, id results) {
 		NSArray *nperms = [results objectForKey:@"perm"];
 		bself.permController.content = nperms;
 		bself.perms = nperms;
@@ -118,7 +118,7 @@ NSString *const kPermPboardType = @"edu.wvu.stat.rc2.mac.perm";
 	NSString *permStr = [[info draggingPasteboard] stringForType:kPermPboardType];
 	NSDictionary *perm = [self.perms firstObjectWithValue:permStr forKey:@"short"];
 	//TODO: need to show busy status while waiting on response
-	[[Rc2Server sharedInstance] addPermission:[perm objectForKey:@"id"]
+	[RC2_SharedInstance() addPermission:[perm objectForKey:@"id"]
 									   toRole:[self.selectedRole objectForKey:@"id"]
 							completionHandler:^(BOOL success, id results)
 	{

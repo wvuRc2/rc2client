@@ -133,7 +133,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	self.fileToImport = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
 
 	//watch for login status
-	Rc2Server *rc2 = [Rc2Server sharedInstance];
+	Rc2Server *rc2 = RC2_SharedInstance();
 	if (rc2.loggedIn) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self completeFileImport];
@@ -240,14 +240,14 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
 	self.pushToken = deviceToken;
-	[[Rc2Server sharedInstance] updateDeviceToken:deviceToken];
+	[RC2_SharedInstance() updateDeviceToken:deviceToken];
 }
 
 #pragma mark - actions
 
 -(IBAction)logout:(id)sender
 {
-	[[Rc2Server sharedInstance] logout];
+	[RC2_SharedInstance() logout];
 //	[self.rootController showWelcome];
 	CGFloat delay = 0.1;
 	if (self.window.rootViewController.presentedViewController != nil)
@@ -411,11 +411,11 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 
 -(void)openSession:(RCWorkspace*)wspace
 {
-	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
+	RCSavedSession *savedState = [RC2_SharedInstance() savedSessionForWorkspace:wspace];
 	BOOL restoring = nil != savedState;
 	self.currentHud = [AMHudView hudWithLabelText:restoring ? @"Restoring session…" : @"Loading…"];
 	[self.currentHud showOverView:self.rootNavController.view];
-	[[Rc2Server sharedInstance] prepareWorkspace:wspace completionHandler:^(BOOL success, id response) {
+	[RC2_SharedInstance() prepareWorkspace:wspace completionHandler:^(BOOL success, id response) {
 		if (success) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[self completeSessionStartup:response selectedFile:nil workspace:wspace];
@@ -440,11 +440,11 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 		return;
 	}
 	ZAssert(wspace, @"startSession called without a selected workspace");
-	RCSavedSession *savedState = [[Rc2Server sharedInstance] savedSessionForWorkspace:wspace];
+	RCSavedSession *savedState = [RC2_SharedInstance() savedSessionForWorkspace:wspace];
 	BOOL restoring = nil != savedState;
 	self.currentHud = [AMHudView hudWithLabelText:restoring ? @"Restoring session…" : @"Loading…"];
 	[self.currentHud showOverView:self.rootNavController.view];
-	[[Rc2Server sharedInstance] prepareWorkspace: wspace completionHandler:^(BOOL success, id response) {
+	[RC2_SharedInstance() prepareWorkspace: wspace completionHandler:^(BOOL success, id response) {
 		if (success) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[self completeSessionStartup:response selectedFile:initialFile workspace:wspace];
@@ -473,7 +473,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 {
 	NSNumber *wspaceId = [[NSUserDefaults standardUserDefaults] objectForKey:kPref_CurrentSessionWorkspace];
 	if (wspaceId) {
-		RCWorkspace *wspace = [[Rc2Server sharedInstance] workspaceWithId:wspaceId];
+		RCWorkspace *wspace = [RC2_SharedInstance() workspaceWithId:wspaceId];
 		if (wspace)
 			[self startSession:nil workspace:wspace];
 	}
@@ -486,7 +486,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 
 -(void)startLoginProcess
 {
-	Rc2Server *rc2 = [Rc2Server sharedInstance];
+	Rc2Server *rc2 = RC2_SharedInstance();
 	NSString *login = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefLastLogin];
 	if (nil == login) {
 		[self promptForLogin];
@@ -554,7 +554,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	ZAssert([file.name hasSuffix:@".pdf"], @"non-pdf file pased to displayPdf:");
 	if (![[NSFileManager defaultManager] fileExistsAtPath:file.fileContentsPath]) {
 		Rc2LogWarn(@"displayPdfFile: called without content downloaded");
-		[[Rc2Server sharedInstance] fetchBinaryFileContentsSynchronously:file];
+		[RC2_SharedInstance() fetchBinaryFileContentsSynchronously:file];
 	}
 	UIDocumentInteractionController *dic = [UIDocumentInteractionController interactionControllerWithURL:
 											[NSURL fileURLWithPath:[file fileContentsPath]]];

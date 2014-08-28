@@ -60,7 +60,7 @@
 
 	_wspace.dropboxPath = item.metadata.path;
 	_wspace.dropboxUser = [[[DBSession sharedSession] userIds] firstObject];
-	[[Rc2Server sharedInstance] updateWorkspace:_wspace completionBlock:^(BOOL success, id results) {
+	[RC2_SharedInstance() updateWorkspace:_wspace completionBlock:^(BOOL success, id results) {
 		if (!success)
 			Rc2LogError(@"Failed to save db sync info:%@", results);
 	}];
@@ -77,7 +77,7 @@
 {
 	_wspace.dropboxPath = nil;
 	_wspace.dropboxUser = nil;
-	[[Rc2Server sharedInstance] updateWorkspace:_wspace completionBlock:^(BOOL success, id results) {
+	[RC2_SharedInstance() updateWorkspace:_wspace completionBlock:^(BOOL success, id results) {
 		if (!success)
 			Rc2LogError(@"Failed to save db sync info:%@", results);
 	}];

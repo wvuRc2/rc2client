@@ -217,7 +217,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	[self.mainWindowController close];
 	self.mainWindowController=nil;
 	self.loggedIn=NO;
-	[[Rc2Server sharedInstance] logout];
+	[RC2_SharedInstance() logout];
 	[self presentLoginPanel];
 }
 
@@ -270,7 +270,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 -(void)handleSucessfulLogin
 {
 	self.loggedIn = YES;
-	[[NSUserDefaults standardUserDefaults] setObject:[Rc2Server sharedInstance].activeLogin.currentUser.login forKey:kPref_LastLoginString];
+	[[NSUserDefaults standardUserDefaults] setObject:RC2_SharedInstance().activeLogin.currentUser.login forKey:kPref_LastLoginString];
 	self.mainWindowController = [[MCMainWindowController alloc] init];
 	[self.mainWindowController.window makeKeyAndOrderFront:self];
 	[[NSNotificationCenter defaultCenter] addObserver:self 

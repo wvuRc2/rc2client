@@ -40,7 +40,7 @@
 -(void)awakeFromNib
 {
 	self.requestLock = [[NSRecursiveLock alloc] init];
-	[[Rc2Server sharedInstance] fetchCourses:^(BOOL success, id results) {
+	[RC2_SharedInstance() fetchCourses:^(BOOL success, id results) {
 		if (success) {
 			[self loadCourses:results];
 		} else {
@@ -57,7 +57,7 @@
 	NSDictionary *course = self.instanceController.selectedObjects.firstObject;
 	self.studentsController.content = @[];
 	if (course) {
-		[[Rc2Server sharedInstance] fetchCourseStudents:[course objectForKey:@"id"] completionHandler:^(BOOL success, id results) {
+		[RC2_SharedInstance() fetchCourseStudents:[course objectForKey:@"id"] completionHandler:^(BOOL success, id results) {
 			self.studentsController.content = [[results objectForKey:@"students"] mutableCopy];
 		}];
 	}
@@ -73,7 +73,7 @@
 	NSString *rid = [NSString stringWithUUID];
 	self.requestId = rid;
 	__weak MCCourseAdminController *bself = self;
-	[[Rc2Server sharedInstance] searchUsers:@{@"type":@"all", @"value":_searchString} completionHandler:^(BOOL success, id results)
+	[RC2_SharedInstance() searchUsers:@{@"type":@"all", @"value":_searchString} completionHandler:^(BOOL success, id results)
 	 {
 		 [bself.requestLock lock];
 		 //only if we are the most recent request
@@ -101,7 +101,7 @@
 	NSNumber *userId = [userDict objectForKey:@"id"];
 	NSDictionary *courseDict = self.instanceController.selectedObjects.firstObject;
 	NSNumber *courseId = [courseDict objectForKey:@"id"];
-	[[Rc2Server sharedInstance] addStudent:userId toCourse:courseId completionHandler:^(BOOL success, id results) {
+	[RC2_SharedInstance() addStudent:userId toCourse:courseId completionHandler:^(BOOL success, id results) {
 		if (success) {
 			[self.studentsController addObject:userDict];
 		} else {
@@ -122,7 +122,7 @@
 	NSNumber *userId = [userDict objectForKey:@"id"];
 	NSDictionary *courseDict = self.instanceController.selectedObjects.firstObject;
 	NSNumber *courseId = [courseDict objectForKey:@"id"];
-	[[Rc2Server sharedInstance] removeStudent:userId fromCourse:courseId completionHandler:^(BOOL success, id results) {
+	[RC2_SharedInstance() removeStudent:userId fromCourse:courseId completionHandler:^(BOOL success, id results) {
 		if (success) {
 			[self.studentsController removeObject:userDict];
 		} else {
@@ -156,7 +156,7 @@
 	NSDictionary *params = @{@"course": [self.courseController.selection valueForKey:@"id"],
 						  @"semester": [self.semesterController.selection valueForKey:@"id"],
 						  @"instructor": [self.instructorController.selection valueForKey:@"id"]};
-	[[Rc2Server sharedInstance] addCourse:params completionHandler:^(BOOL success, id results) {
+	[RC2_SharedInstance() addCourse:params completionHandler:^(BOOL success, id results) {
 		if (success) {
 			[self loadCourses:results];
 		} else {

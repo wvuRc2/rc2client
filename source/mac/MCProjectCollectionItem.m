@@ -118,7 +118,7 @@
 			newPerm = @"ro";
 		else if (ws.isShareRO)
 			newPerm = @"rw";
-		[[Rc2Server sharedInstance] updateWorkspaceShare:ws perm:newPerm completionHandler:^(BOOL success, id results)
+		[RC2_SharedInstance() updateWorkspaceShare:ws perm:newPerm completionHandler:^(BOOL success, id results)
 		{
 			[self adjustShareButton];
 			if (!success) {

@@ -151,7 +151,7 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 		}
 		[global createCustomTheme];
 		global.allThemes = themes;
-		[global observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" options:0 block:^(MAKVONotification *note) {
+		[global observeTarget:RC2_SharedInstance() keyPath:@"loggedIn" options:0 block:^(MAKVONotification *note) {
 			[note.observer createCustomTheme];
 		}];
 		dispatch_async(dispatch_get_main_queue(), ^{
@@ -173,7 +173,7 @@ NSString *const kPrefCustomThemeURL = @"CustomThemeURL";
 
 -(void)createCustomTheme
 {
-	if ([Rc2Server sharedInstance].activeLogin.isAdmin) {
+	if (RC2_SharedInstance().activeLogin.isAdmin) {
 		if (nil == self.customTheme) {
 			self.customTheme = [[CustomTheme alloc] initWithDictionary:_defaultTheme.themeDict];
 			self.customTheme.defaultTheme = _defaultTheme;

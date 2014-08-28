@@ -39,7 +39,7 @@
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doDone:)];
 	self.navigationItem.rightBarButtonItem = doneButton;
 	self.navigationItem.title = @"Import File";
-	NSMutableArray *prjs = [[Rc2Server sharedInstance].activeLogin.projects mutableCopy];
+	NSMutableArray *prjs = [RC2_SharedInstance().activeLogin.projects mutableCopy];
 	for (NSInteger i=prjs.count-1; i>=0; i--) {
 		if (![[prjs objectAtIndex:i] userEditable])
 			[prjs removeObjectAtIndex:i];

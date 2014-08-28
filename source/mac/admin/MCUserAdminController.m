@@ -46,7 +46,7 @@
 {
 	self.searchesLogins=YES;
 	__weak MCUserAdminController *bself = self;
-	[[Rc2Server sharedInstance] fetchRoles:^(BOOL success, id results) {
+	[RC2_SharedInstance() fetchRoles:^(BOOL success, id results) {
 		bself.roles = [results objectForKey:@"roles"];
 	}];
 	[self observeTarget:self.detailController keyPath:@"selection.have" options:0 block:^(MAKVONotification *notification)
@@ -74,7 +74,7 @@
 {
 	__weak MCUserAdminController *bself = self;
 	self.updatingRole=YES;
-	[[Rc2Server sharedInstance] toggleRole:[roleDict objectForKey:@"id"]
+	[RC2_SharedInstance() toggleRole:[roleDict objectForKey:@"id"]
 									  user:[self.userController.selectedObjects.firstObject userId]
 						 completionHandler:^(BOOL success, id results)
 	{
@@ -119,7 +119,7 @@
 
 -(void)completeAddUser:(RCUser*)user password:(NSString*)pass
 {
-	[[Rc2Server sharedInstance] addUser:user password:pass completionHandler:^(BOOL sucess, id results)
+	[RC2_SharedInstance() addUser:user password:pass completionHandler:^(BOOL sucess, id results)
 	{
 		if (!sucess) {
 			[NSAlert displayAlertWithTitle:@"Error" details:results window:self.view.window];
@@ -143,7 +143,7 @@
 {
 	self.busy = YES;
 	self.statusMessage = @"Importing Users";
-	[[Rc2Server sharedInstance] importUsers:fileUrl completionHandler:^(BOOL success, id results) {
+	[RC2_SharedInstance() importUsers:fileUrl completionHandler:^(BOOL success, id results) {
 		if (success) {
 			self.statusMessage = @"Import Complete";
 			NSArray *matches = [results objectForKey:@"users"];
@@ -191,7 +191,7 @@
 	else if (self.searchesLogins)
 		type = @"login";
 	NSDictionary *params = @{@"type":type, @"value":ss};
-	[[Rc2Server sharedInstance] searchUsers:params completionHandler:^(BOOL success, id results) {
+	[RC2_SharedInstance() searchUsers:params completionHandler:^(BOOL success, id results) {
 		if (success)
 			[self processSearchResults:results];
 		else
@@ -257,7 +257,7 @@
 				return;
 			}
 			//do the password change
-			ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:@"admin/cp"];
+			ASIFormDataRequest *req = [RC2_SharedInstance() postRequestWithRelativeURL:@"admin/cp"];
 			req.requestMethod = @"PUT";
 			NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:self.passChange1, @"p", user.userId, @"uid", nil];
 			[req appendPostData:[[d JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -289,7 +289,7 @@
 	RCUser *user = self.userController.arrangedObjects[row];
 	self.busy = YES;
 	self.statusMessage = @"Saving Change";
-	[[Rc2Server sharedInstance] saveUserEdits:user completionHandler:^(BOOL success, id results) {
+	[RC2_SharedInstance() saveUserEdits:user completionHandler:^(BOOL success, id results) {
 		self.busy = NO;
 		if (!success) {
 			//revert back the value

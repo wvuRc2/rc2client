@@ -51,14 +51,14 @@ NSString *const kLastServerKey = @"LastServer";
 -(IBAction)doLogin:(id)sender
 {
 	self.isBusy=YES;
-	[Rc2Server sharedInstance].serverHost = self.selectedServerIdx;
+	RC2_SharedInstance().serverHost = self.selectedServerIdx;
 	__block MCLoginController *blockSelf = self;
-	[[Rc2Server sharedInstance] loginAsUser:self.loginName password:self.password
+	[RC2_SharedInstance() loginAsUser:self.loginName password:self.password
 		completionHandler:^(BOOL success, NSString *message) 
 		{
 			blockSelf.isBusy=NO;
 			if (success) {
-				if ([Rc2Server sharedInstance].loggedIn) {
+				if (RC2_SharedInstance().loggedIn) {
 					[blockSelf.window orderOut:self];
 					blockSelf.completionHandler();
 				}

@@ -59,7 +59,7 @@
 //	NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:aname, @"name", 
 //						  [NSNumber numberWithDouble:startDate.timeIntervalSince1970 * 1000], @"startDate", 
 //						  [NSNumber numberWithDouble:endDate.timeIntervalSince1970 * 1000], @"endDate", nil];
-//	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment", self.theCourse.courseId]];
+//	ASIFormDataRequest *req = [RC2_SharedInstance() postRequestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment", self.theCourse.courseId]];
 //	[req appendPostData:[[args JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 //	[req startSynchronous];
 //	if (req.responseStatusCode != 200) {
@@ -79,7 +79,7 @@
 
 -(IBAction)deleteAssignment:(id)sender
 {
-//	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment/%@", self.theCourse.courseId, self.selectedAssignment.assignmentId]];
+//	ASIHTTPRequest *req = [RC2_SharedInstance() requestWithRelativeURL:[NSString stringWithFormat:@"courses/%@/assignment/%@", self.theCourse.courseId, self.selectedAssignment.assignmentId]];
 //	[req setRequestMethod:@"DELETE"];
 //	[req startSynchronous];
 //	if (req.responseStatusCode != 200) {
@@ -103,7 +103,7 @@
 -(IBAction)uploadFiles:(id)sender
 {
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-	[openPanel setAllowedFileTypes:[Rc2Server acceptableImportFileSuffixes]];
+	[openPanel setAllowedFileTypes:RC2_AcceptableImportFileSuffixes()];
 	[openPanel setAllowsMultipleSelection:YES];
 	[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
 		if (NSFileHandlingPanelCancelButton == result)
@@ -120,7 +120,7 @@
 -(IBAction)deleteFile:(id)sender
 {
 //	NSString *errorMessage=nil;
-//	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/file/%@", self.selectedAssignment.assignmentId, self.selectedFile.assignmentFileId]];
+//	ASIHTTPRequest *req = [RC2_SharedInstance() requestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/file/%@", self.selectedAssignment.assignmentId, self.selectedFile.assignmentFileId]];
 //	[req setRequestMethod:@"DELETE"];
 //	[req startSynchronous];
 //	if (req.responseStatusCode != 200) {
@@ -138,7 +138,7 @@
 
 -(IBAction)showStudents:(id)sender
 {
-//	ASIHTTPRequest *req = [[Rc2Server sharedInstance] requestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/due", self.selectedAssignment.assignmentId]];
+//	ASIHTTPRequest *req = [RC2_SharedInstance() requestWithRelativeURL:[NSString stringWithFormat:@"assignment/%@/due", self.selectedAssignment.assignmentId]];
 //	[req startSynchronous];
 //	if (req.responseStatusCode == 200) {
 //		NSDictionary *d = [req.responseString JSONValue];
@@ -165,7 +165,7 @@
 //	NSString *errorMessage=nil;
 //	NSString *uploadUrl = [NSString stringWithFormat:@"assignment/%@/file", self.selectedAssignment.assignmentId];
 //	for (NSURL *fileUrl in fileUrls) {
-//		ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:uploadUrl];
+//		ASIFormDataRequest *req = [RC2_SharedInstance() postRequestWithRelativeURL:uploadUrl];
 //		[req setFile:fileUrl.path forKey:@"content"];
 //		[req setPostValue:fileUrl.path.lastPathComponent forKey:@"name"];
 //		[req startSynchronous];
@@ -192,7 +192,7 @@
 
 -(void)loadAssignments
 {
-//	ASIHTTPRequest *theReq = [[Rc2Server sharedInstance] requestWithRelativeURL:
+//	ASIHTTPRequest *theReq = [RC2_SharedInstance() requestWithRelativeURL:
 //							  [NSString stringWithFormat:@"courses/%@", self.theCourse.classId]];
 //	__unsafe_unretained ASIHTTPRequest *req = theReq;
 //	[theReq setCompletionBlock:^{
@@ -237,7 +237,7 @@
 //	}
 //	NSDictionary *mods = [NSDictionary dictionaryWithObject:object forKey:prop];
 //	NSString *urlstr = [NSString stringWithFormat:@"courses/%@/assignment/%@", self.theCourse.courseId, assign.assignmentId];
-//	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
+//	ASIFormDataRequest *req = [RC2_SharedInstance() postRequestWithRelativeURL:urlstr];
 //	[req setRequestMethod:@"PUT"];
 //	[req addRequestHeader:@"Content-Type" value:@"application/json"];
 //	[req appendPostData:[[mods JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -255,7 +255,7 @@
 {
 //	//send to server
 //	NSString *urlstr = [NSString stringWithFormat:@"assignment/%@/file/%@", self.selectedAssignment.assignmentId, afile.assignmentFileId];
-//	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
+//	ASIFormDataRequest *req = [RC2_SharedInstance() postRequestWithRelativeURL:urlstr];
 //	[req setRequestMethod:@"PUT"];
 //	[req addRequestHeader:@"Content-Type" value:@"application/json"];
 //	NSDictionary *d = [NSDictionary dictionaryWithObject:object forKey:@"readonly"];
@@ -273,7 +273,7 @@
 {
 //	//send to server
 //	NSString *urlstr = [NSString stringWithFormat:@"assignment/%@/due", self.selectedAssignment.assignmentId];
-//	ASIFormDataRequest *req = [[Rc2Server sharedInstance] postRequestWithRelativeURL:urlstr];
+//	ASIFormDataRequest *req = [RC2_SharedInstance() postRequestWithRelativeURL:urlstr];
 //	[req setRequestMethod:@"PUT"];
 //	[req addRequestHeader:@"Content-Type" value:@"application/json"];
 //	NSMutableDictionary *d = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:[object timeIntervalSince1970] * 1000], @"duedate", [studentDict objectForKey:@"wsid"], @"wsid", nil];

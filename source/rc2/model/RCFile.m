@@ -48,7 +48,7 @@
 	//fire off fetching the contets if we don't have them
 	//TODO: this should check the version field and any cached value
 //	if ([[dict objectForKey:@"fsize"] cgFloatValue] < 4096)
-//		[[Rc2Server sharedInstance] fetchFileContents:file completionHandler:^(BOOL success, id obj) {}];
+//		[RC2_SharedInstance() fetchFileContents:file completionHandler:^(BOOL success, id obj) {}];
 
 	NSNumber *aDate = [dict objectForKey:@"startDate"];
 	self.startDate = aDate ? [NSDate dateWithTimeIntervalSince1970:[aDate longLongValue]/1000] : nil;
@@ -79,7 +79,7 @@
 -(void)updateContentsFromServer:(BasicBlock1IntArg)hblock
 {
 	if (self.isTextFile) {
-		[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id results) {
+		[RC2_SharedInstance() fetchFileContents:self completionHandler:^(BOOL success, id results) {
 			if (success) {
 				NSError *err=nil;
 				NSURL *fileUrl = [NSURL fileURLWithPath:self.fileContentsPath];
@@ -103,7 +103,7 @@
 	} else {
 		//binary file: just delete cached copy and refetch
 		[[NSFileManager defaultManager] removeItemAtPath:self.fileContentsPath error:nil];
-		[[Rc2Server sharedInstance] fetchFileContents:self completionHandler:^(BOOL success, id obj) {
+		[RC2_SharedInstance() fetchFileContents:self completionHandler:^(BOOL success, id obj) {
 			hblock(success);
 		}];
 	}
@@ -255,7 +255,7 @@
 		NSString *cacheContents = [NSString stringWithContentsOfFile:self.fileContentsPath encoding:NSUTF8StringEncoding error:nil];
 		if (nil == cacheContents) {
 			//load synchronously from server
-			cacheContents = [[Rc2Server sharedInstance] fetchFileContentsSynchronously:self];
+			cacheContents = [RC2_SharedInstance() fetchFileContentsSynchronously:self];
 			if (cacheContents)
 				[cacheContents writeToFile:self.fileContentsPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 		}

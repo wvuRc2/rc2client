@@ -29,7 +29,7 @@
 
 -(void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MessagesUpdatedNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:RC2MessagesUpdatedNotification object:nil];
 }
 
 -(void)viewDidLoad
@@ -41,8 +41,8 @@
 		[blockSelf updateForNewTheme:theme];
 	}];
 	[self updateForNewTheme:[[ThemeEngine sharedInstance] currentTheme]];
-	[self observeTarget:[Rc2Server sharedInstance] keyPath:@"loggedIn" selector:@selector(adjustInterfaceBasedOnLogin) userInfo:nil options:0];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messagesUpdated:) name:MessagesUpdatedNotification object:nil];
+	[self observeTarget:RC2_SharedInstance() keyPath:@"loggedIn" selector:@selector(adjustInterfaceBasedOnLogin) userInfo:nil options:0];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messagesUpdated:) name:RC2MessagesUpdatedNotification object:nil];
 	[self adjustInterfaceBasedOnLogin];
 
 	self.standardLeftNavBarItems = [(id)[TheApp delegate] standardLeftNavBarItems];
@@ -105,7 +105,7 @@
 {
 	if (self.gradingButton) {
 		NSMutableArray *ma = [self.toolbar.items mutableCopy];
-		NSArray *classes = [Rc2Server sharedInstance].activeLogin.classesTaught;
+		NSArray *classes = RC2_SharedInstance().activeLogin.classesTaught;
 		if ([classes count] > 0) {
 			if (![ma containsObject:self.gradingButton]) {
 				[ma insertObject:self.gradingButton atIndex:[ma count] - 4];
