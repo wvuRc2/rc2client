@@ -564,6 +564,13 @@
 			remoteGlobalIDString = 08D2461B15B5EBC20064A9FA;
 			remoteInfo = "Mac App";
 		};
+		0857277819B0F7CC00ADCC7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08D2431615B5D04D0064A9FA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 08D2461B15B5EBC20064A9FA;
+			remoteInfo = "Mac App";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -2646,6 +2653,7 @@
 			);
 			dependencies = (
 				0854197E17876F34008AF602 /* PBXTargetDependency */,
+				0857277919B0F7CC00ADCC7B /* PBXTargetDependency */,
 			);
 			name = CoreUnitTests;
 			productName = CoreUnitTests;
@@ -2668,7 +2676,7 @@
 						DevelopmentTeam = LRMKU6353E;
 					};
 					08D248B9176A498900D71F02 = {
-						TestTargetID = 08D2431E15B5D04D0064A9FA;
+						TestTargetID = 08D2461B15B5EBC20064A9FA;
 					};
 				};
 			};
@@ -3365,6 +3373,11 @@
 			target = 08D2461B15B5EBC20064A9FA /* Mac App */;
 			targetProxy = 0854197D17876F34008AF602 /* PBXContainerItemProxy */;
 		};
+		0857277919B0F7CC00ADCC7B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 08D2461B15B5EBC20064A9FA /* Mac App */;
+			targetProxy = 0857277819B0F7CC00ADCC7B /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -3940,7 +3953,7 @@
 		08D248CD176A498A00D71F02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3958,14 +3971,14 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
 			};
 			name = Debug;
 		};
 		08D248CE176A498A00D71F02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -3983,14 +3996,14 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
 			};
 			name = Release;
 		};
 		08D248CF176A498A00D71F02 /* Archive */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Rc².app/Rc²";
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -4008,7 +4021,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
 			};
 			name = Archive;
 		};
