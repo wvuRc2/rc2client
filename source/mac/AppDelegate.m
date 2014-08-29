@@ -27,7 +27,6 @@
 #import "MASPreferencesWindowController.h"
 #import <DropboxOSX/DropboxOSX.h>
 
-NSString *const kPref_LastLoginString = @"LastLoginString";
 NSString *const kPref_StartInFullScreen = @"StartInFullScreen";
 
 const CGFloat kIdleTimerFrequency = 5;
@@ -270,7 +269,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 -(void)handleSucessfulLogin
 {
 	self.loggedIn = YES;
-	[[NSUserDefaults standardUserDefaults] setObject:RC2_SharedInstance().activeLogin.currentUser.login forKey:kPref_LastLoginString];
+	[[NSUserDefaults standardUserDefaults] setObject:RC2_SharedInstance().activeLogin.currentUser.login forKey:kPrefLastLogin];
 	self.mainWindowController = [[MCMainWindowController alloc] init];
 	[self.mainWindowController.window makeKeyAndOrderFront:self];
 	[[NSNotificationCenter defaultCenter] addObserver:self 
@@ -338,7 +337,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 
 -(NSString*)crashReportUserID
 {
-	return [[NSUserDefaults standardUserDefaults] objectForKey:kPref_LastLoginString];
+	return [[NSUserDefaults standardUserDefaults] objectForKey:kPrefLastLogin];
 }
 
 -(void)showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager

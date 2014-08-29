@@ -8,8 +8,9 @@
 
 extern NSString *const RC2IdleTimerFiredNotification;
 
-//iOS ones, many which need to be removed/deprecated
 extern NSString *const kPrefLastLogin;
+
+//iOS ones, many which need to be removed/deprecated
 extern NSString *const kPrefCustomKey1URL;
 extern NSString *const kPrefCustomKey2URL;
 extern NSString *const kPrefKeyboardLayout;

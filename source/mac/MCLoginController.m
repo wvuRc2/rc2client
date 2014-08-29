@@ -8,10 +8,8 @@
 
 #import "MCLoginController.h"
 #import "Rc2Server.h"
+#import "Rc2AppConstants.h"
 #import "SSKeychain.h"
-
-NSString *const kLastLoginKey = @"LastLogin";
-NSString *const kLastServerKey = @"LastServer";
 
 
 @interface MCLoginController()
@@ -33,12 +31,12 @@ NSString *const kLastServerKey = @"LastServer";
 - (void)windowDidLoad
 {
 	[super windowDidLoad];
-	NSString *lastLogin = [[NSUserDefaults standardUserDefaults] objectForKey:kLastLoginKey];
+	NSString *lastLogin = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefLastLogin];
 	if (lastLogin) {
 		self.loginName = lastLogin;
 		[self loadPasswordForLogin];
 	}
-	self.selectedServerIdx = [[NSUserDefaults standardUserDefaults] integerForKey:kLastServerKey];
+	self.selectedServerIdx = [RC2_SharedInstance() serverHost];
 }
 
 -(void)promptForLoginWithCompletionBlock:(void (^)(void))cblock
@@ -71,9 +69,8 @@ NSString *const kLastServerKey = @"LastServer";
 
 -(void)saveLoginInfo
 {
-	[[NSUserDefaults standardUserDefaults] setInteger:self.selectedServerIdx forKey:kLastServerKey];
 	[SSKeychain setPassword:self.password forService:@"rc2" account:self.loginName];
-	[[NSUserDefaults standardUserDefaults] setObject:self.loginName forKey:kLastLoginKey];
+	[[NSUserDefaults standardUserDefaults] setObject:self.loginName forKey:kPrefLastLogin];
 }
 
 -(void)loadPasswordForLogin
