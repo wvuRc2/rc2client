@@ -512,6 +512,8 @@
 		08D248D3176A4A5600D71F02 /* ProjectWorkspaceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D248D2176A4A5600D71F02 /* ProjectWorkspaceTests.m */; };
 		08D8C336169E1637000DDA04 /* FileImportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D8C335169E1637000DDA04 /* FileImportViewController.m */; };
 		08D8C338169E1977000DDA04 /* FileImportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D8C337169E1977000DDA04 /* FileImportViewController.xib */; };
+		08DDC6E519BA623A0008CCD3 /* lognormal.R in Resources */ = {isa = PBXBuildFile; fileRef = 08DDC6E319BA61E40008CCD3 /* lognormal.R */; };
+		08DDC6E619BA623A0008CCD3 /* samples.R in Resources */ = {isa = PBXBuildFile; fileRef = 08DDC6E419BA61E40008CCD3 /* samples.R */; };
 		08DF3D5115BDBC79000A339D /* AMResizableSplitterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D4E15BDBC79000A339D /* AMResizableSplitterView.m */; };
 		08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */; };
 		08E49223166E7834005E83DE /* MCSessionFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E49222166E7834005E83DE /* MCSessionFileController.m */; };
@@ -557,6 +559,18 @@
 		08FF3D5116F24F5200F3E09E /* ThemeColorEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */; };
 		08FF3D5416F278EE00F3E09E /* SendMailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF3D5316F278EE00F3E09E /* SendMailController.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		08E414F919BA6557006DC6EF /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = sourcecode.rez;
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "$(DEVELOPER_BIN_DIR)/Rez\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
 		0814987F19B1158F006C1290 /* PBXContainerItemProxy */ = {
@@ -1268,6 +1282,8 @@
 		08D8C334169E1637000DDA04 /* FileImportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileImportViewController.h; sourceTree = "<group>"; };
 		08D8C335169E1637000DDA04 /* FileImportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileImportViewController.m; sourceTree = "<group>"; };
 		08D8C337169E1977000DDA04 /* FileImportViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileImportViewController.xib; sourceTree = "<group>"; };
+		08DDC6E319BA61E40008CCD3 /* lognormal.R */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = lognormal.R; sourceTree = "<group>"; };
+		08DDC6E419BA61E40008CCD3 /* samples.R */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = samples.R; sourceTree = "<group>"; };
 		08DF3D4D15BDBC79000A339D /* AMResizableSplitterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMResizableSplitterView.h; sourceTree = "<group>"; };
 		08DF3D4E15BDBC79000A339D /* AMResizableSplitterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMResizableSplitterView.m; sourceTree = "<group>"; };
 		08DF3D4F15BDBC79000A339D /* AMResizableSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMResizableSplitViewController.h; sourceTree = "<group>"; };
@@ -1750,6 +1766,8 @@
 		0857278019B0F89700ADCC7B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				08DDC6E319BA61E40008CCD3 /* lognormal.R */,
+				08DDC6E419BA61E40008CCD3 /* samples.R */,
 				0857278119B0F89700ADCC7B /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -2662,6 +2680,7 @@
 				0857277C19B0F89700ADCC7B /* Resources */,
 			);
 			buildRules = (
+				08E414F919BA6557006DC6EF /* PBXBuildRule */,
 			);
 			dependencies = (
 				0857278519B0F89700ADCC7B /* PBXTargetDependency */,
@@ -2805,6 +2824,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08DDC6E519BA623A0008CCD3 /* lognormal.R in Resources */,
+				08DDC6E619BA623A0008CCD3 /* samples.R in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

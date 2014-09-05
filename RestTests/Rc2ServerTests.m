@@ -140,4 +140,65 @@
 
 }
 
+-(void)testFiles
+{
+	NSString *const wspaceName = @"ftestws";
+	
+	id<Rc2Server> server = RC2_SharedInstance();
+	NSArray *projects = [[server activeLogin] projects];
+	RCProject *project = projects.firstObject;
+	XCTAssertNotNil(project, @"no default project found");
+	
+	__block RCWorkspace *wspace = [[project workspaces] firstObjectWithValue:wspaceName forKey:@"name"];
+	if (wspace) {
+		//delete existing workspace
+		XCTestExpectation *delWspaceExpect = [self expectationWithDescription:@"delete workspace"];
+		[server deleteWorkspce:wspace completionHandler:^(BOOL success, id results) {
+			XCTAssertTrue(success, @"Failed to delete workspace: %@", results);
+			[delWspaceExpect fulfill];
+		}];
+		[self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {}];
+	}
+	//create workspace
+	XCTestExpectation *createWorkExpect = [self expectationWithDescription:@"create workspace"];
+	[server createWorkspace:wspaceName inProject:project completionBlock:^(BOOL success, id results) {
+		XCTAssertTrue(success, @"failed to create workspace: %@", results);
+		wspace = results;
+		XCTAssertEqualObjects(wspaceName, wspace.name, @"created workspace name incorrect");
+		[createWorkExpect fulfill];
+	}];
+	[self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {}];
+
+	//import files
+	NSURL *file1 = [[NSBundle bundleForClass:[self class]] URLForResource:@"samples" withExtension:@"R"];
+	NSURL *file2 = [[NSBundle bundleForClass:[self class]] URLForResource:@"lognormal" withExtension:@"R"];
+	NSArray *files = @[file1,file2];
+	XCTestExpectation *importExpect = [self expectationWithDescription:@"import files"];
+	[server importFiles:files toContainer:wspace completionHandler:^(BOOL success, id results) {
+		XCTAssertTrue(success, @"failed to import files: %@", results);
+		XCTAssertNotNil([wspace fileWithName:file1.lastPathComponent], @"failed to find file 1");
+		XCTAssertNotNil([wspace fileWithName:file2.lastPathComponent], @"failed to find file 2");
+		[importExpect fulfill];
+	} progress:^(CGFloat perComplete) {
+	}];
+	[self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {}];
+
+	//delete file
+	XCTestExpectation *fileDelExpect = [self expectationWithDescription:@"delete file 1"];
+	[server deleteFile:wspace.files.firstObject container:wspace completionHandler:^(BOOL success, id results) {
+		XCTAssertTrue(success, @"Failed to delete file 1");
+		XCTAssertNil([wspace fileWithName:file1.lastPathComponent], @"deleted file not removed from local workspace");
+		[fileDelExpect fulfill];
+	}];
+	[self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {}];
+	
+	//delete workspace
+	XCTestExpectation *delWspaceExpect = [self expectationWithDescription:@"delete workspace"];
+	[server deleteWorkspce:wspace completionHandler:^(BOOL success, id results) {
+		XCTAssertTrue(success, @"Failed to delete workspace: %@", results);
+		[delWspaceExpect fulfill];
+	}];
+	[self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {}];
+}
+
 @end
