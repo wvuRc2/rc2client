@@ -1,3 +1,4 @@
+
 //
 //  Rc2ServerTests.m
 //  RestTests
@@ -113,6 +114,14 @@
 	}];
 	[self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {}];
 
+	//prepare workspace
+	XCTestExpectation *useExpect = [self expectationWithDescription:@"use workspace"];
+	[server prepareWorkspace:wspace completionHandler:^(BOOL success, id results) {
+		XCTAssertTrue(success, @"failed to prepare workspace");
+		[useExpect fulfill];
+	}];
+	[self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {}];
+	
 	//delete workspace
 	XCTestExpectation *delWspaceExpect = [self expectationWithDescription:@"delete workspace"];
 	[server deleteWorkspce:wspace completionHandler:^(BOOL success, id results) {

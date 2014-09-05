@@ -98,7 +98,7 @@ NSArray* RC2_AcceptableImportFileSuffixes();
 //looks up a saved session from local storage for workspace
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace;
 
-//checks to see if user has permission to use the workspace, server also sets wspaceid cookie
+//*HAS TEST* checks to see if user has permission to use the workspace, server also sets wspaceid cookie
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
 
