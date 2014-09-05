@@ -8,6 +8,7 @@
 
 #import "RCActiveLogin.h"
 #import "RCProject.h"
+#import "RCWorkspace.h"
 #import "RCUser.h"
 
 @interface RCActiveLogin ()
@@ -33,4 +34,17 @@
 	}
 	return self;
 }
+
+-(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId
+{
+	for (RCProject *project in self.projects) {
+		for (RCWorkspace *wspace in project.workspaces) {
+			if ([wspace.wspaceId isEqualToNumber:wspaceId])
+				return wspace;
+		}
+	}
+	return nil;
+}
+
+
 @end

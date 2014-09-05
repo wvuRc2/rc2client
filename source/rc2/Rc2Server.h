@@ -66,12 +66,13 @@ NSArray* RC2_AcceptableImportFileSuffixes();
 
 #pragma mark - projects
 
-//projects array is updated and hblock called with the new project
+//*HAS TEST* projects array is updated and hblock called with a dict containg keys for "projects" and "newProject"
 -(void)createProject:(NSString*)projectName completionBlock:(Rc2FetchCompletionHandler)hblock;
-//updates project with the new name on success
+//*HAS TEST* updates project with the new name on success
 -(void)editProject:(RCProject*)project newName:(NSString*)newName completionBlock:(Rc2FetchCompletionHandler)hblock;
-//will remove it from projects array before hblock called
+//*HAS TEST* will remove it from projects array before hblock called
 -(void)deleteProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock;
+
 //return array of user dicts
 -(void)sharesForProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock;
 //share a project with a user
@@ -81,21 +82,25 @@ NSArray* RC2_AcceptableImportFileSuffixes();
 
 #pragma mark - workspaces
 
-//updates the project object, calls hblock with the new workspace
+//*HAS TEST* updates the project object, calls hblock with the new workspace
 -(void)createWorkspace:(NSString*)projectName inProject:(RCProject*)project completionBlock:(Rc2FetchCompletionHandler)hblock;
+//this is for dropbox sync only
 -(void)updateWorkspace:(RCWorkspace*)wspace completionBlock:(Rc2FetchCompletionHandler)hblock;
-//results is tesponse dict from server with either workspace or error entry
+//*HAS TEST* results is tesponse dict from server with either workspace or error entry
 -(void)deleteWorkspce:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
+//*HAS TEST*
 -(void)renameWorkspce:(RCWorkspace*)wspace name:(NSString*)newName completionHandler:(Rc2FetchCompletionHandler)hblock;
+
+//this is for internal use of the RCWorkspace class which handles the json parsing
 -(void)refereshWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 -(void)updateWorkspaceShare:(RCWorkspace*)wspace perm:(NSString*)sharPerm completionHandler:(Rc2FetchCompletionHandler)hblock;
 
+//looks up a saved session from local storage for workspace
 -(id)savedSessionForWorkspace:(RCWorkspace*)workspace;
 
+//checks to see if user has permission to use the workspace, server also sets wspaceid cookie
 -(void)prepareWorkspace:(RCWorkspace*)wspace completionHandler:(Rc2FetchCompletionHandler)hblock;
 
-//convience method used when ipad restores the last open session
--(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId;
 
 #pragma mark - messages
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)

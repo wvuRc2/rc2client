@@ -12,6 +12,7 @@
 #import "LoginController.h"
 #import "SessionViewController.h"
 #import "Rc2Server.h"
+#import "RCActiveLogin.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
 #import "RCSavedSession.h"
@@ -133,7 +134,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	self.fileToImport = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
 
 	//watch for login status
-	Rc2Server *rc2 = RC2_SharedInstance();
+	id<Rc2Server> rc2 = RC2_SharedInstance();
 	if (rc2.loggedIn) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self completeFileImport];
@@ -473,7 +474,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 {
 	NSNumber *wspaceId = [[NSUserDefaults standardUserDefaults] objectForKey:kPref_CurrentSessionWorkspace];
 	if (wspaceId) {
-		RCWorkspace *wspace = [RC2_SharedInstance() workspaceWithId:wspaceId];
+		RCWorkspace *wspace = [RC2_SharedInstance().activeLogin workspaceWithId:wspaceId];
 		if (wspace)
 			[self startSession:nil workspace:wspace];
 	}
@@ -486,7 +487,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 
 -(void)startLoginProcess
 {
-	Rc2Server *rc2 = RC2_SharedInstance();
+	id<Rc2Server> rc2 = RC2_SharedInstance();
 	NSString *login = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefLastLogin];
 	if (nil == login) {
 		[self promptForLogin];

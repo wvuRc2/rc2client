@@ -35,6 +35,7 @@ NSString *const kServerHostKey = @"ServerHostKey";
 @property (nonatomic, strong, readwrite) RCActiveLogin *activeLogin;
 @property (nonatomic, strong) RC2RemoteLogger *remoteLogger;
 @property (nonatomic, strong) SBJsonParser *jsonParser;
+@property (atomic) BOOL loginInProgress;
 @end
 
 #pragma mark -
@@ -146,6 +147,7 @@ NSString *const kServerHostKey = @"ServerHostKey";
 	[_httpClient postPath:@"proj" parameters:@{@"name":projectName} success:^(id op, id rsp) {
 		if (rsp && [rsp[@"status"] intValue] == 0) {
 			NSArray *projects = [RCProject projectsForJsonArray:rsp[@"projects"] includeAdmin:self.activeLogin.isAdmin];
+			self.activeLogin.projects = projects;
 			hblock(YES, @{@"newProject":[projects firstObjectWithValue:projectName forKey:@"name"],@"projects":projects});
 		} else {
 			hblock(NO, rsp[@"message"]);
@@ -331,18 +333,6 @@ NSString *const kServerHostKey = @"ServerHostKey";
 	return [RCSavedSession MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"wspaceId = %@ and login like %@",
 													  workspace.wspaceId, self.activeLogin.currentUser.login]];
 }
-
--(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId
-{
-	for (RCProject *project in self.activeLogin.projects) {
-		for (RCWorkspace *wspace in project.workspaces) {
-			if ([wspace.wspaceId isEqualToNumber:wspaceId])
-				return wspace;
-		}
-	}
-	return nil;
-}
-
 
 #pragma mark - files
 
@@ -956,11 +946,17 @@ NSString *const kServerHostKey = @"ServerHostKey";
 		[[NSNotificationCenter defaultCenter] postNotificationName:RC2NotificationsReceivedNotification 
 															object:self 
 														  userInfo:@{@"notes":rsp[@"notes"]}];
+		[self willChangeValueForKey:@"loggedIn"];
+		[self didChangeValueForKey:@"loggedIn"];
 	}
 }
 
 -(void)loginAsUser:(NSString*)user password:(NSString*)password completionHandler:(Rc2FetchCompletionHandler)hblock
 {
+	if (self.loginInProgress) {
+		Rc2LogInfo(@"login already in progress");
+		return;
+	}
 	//setup our client
 	AFHTTPClient *httpClient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:self.baseUrl]];
 	[httpClient setDefaultHeader:@"User-Agent" value:self.userAgentString];
@@ -972,11 +968,14 @@ NSString *const kServerHostKey = @"ServerHostKey";
 	[request setTimeoutInterval:8];
 	AFHTTPRequestOperation *rop = [_httpClient HTTPRequestOperationWithRequest:request success:^(id op, id response) {
 		[self handleLoginResponse:[op responseString] forUser:user completionHandler:hblock];
+		self.loginInProgress = NO;
 	} failure:^(id op, NSError *error) {
 		Rc2LogError(@"login request failed:%@", error);
+		self.loginInProgress = NO;
 		NSString *msg = [NSString stringWithFormat:@"server returned %@", [error localizedDescription]];
 		hblock(NO, msg);
 	}];
+	self.loginInProgress = YES;
 	[_httpClient enqueueHTTPRequestOperation:rop];
 }
 

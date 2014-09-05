@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class RCUser;
+@class RCWorkspace;
 
 @interface RCActiveLogin : NSObject
 @property (nonatomic, copy) NSArray *projects;
@@ -22,4 +23,7 @@
 @property (nonatomic, strong, readonly) NSArray *messageRecipients;
 
 -(instancetype)initWithJsonData:(NSDictionary*)json;
+
+//convience method used when ipad restores the last open session
+-(RCWorkspace*)workspaceWithId:(NSNumber*)wspaceId;
 @end
