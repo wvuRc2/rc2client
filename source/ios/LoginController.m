@@ -23,6 +23,8 @@
 static const CGFloat kAnimDuration = 0.5;
 static const CGFloat kViewWidth = 342;
 static const CGFloat kViewHeight = 301;
+static const CGFloat kVerticalOffset = 100;
+static const CGFloat kVerticalOffsetPortrait = 200;
 
 @implementation LoginController
 
@@ -142,23 +144,23 @@ static const CGFloat kViewHeight = 301;
 				CGRect r = CGRectMake(100, fabs((winSize.height - kViewWidth)/2), kViewHeight, kViewWidth);
 				return r;
 			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), 200, kViewWidth, kViewHeight);
+			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffset, kViewWidth, kViewHeight);
 		case UIInterfaceOrientationLandscapeRight:
 			if (ios7) {
-				CGRect r = CGRectMake(winSize.width - 100 -kViewWidth, fabs((winSize.height - kViewWidth)/2), kViewHeight, kViewWidth);
+				CGRect r = CGRectMake(winSize.width - kVerticalOffset -kViewWidth, fabs((winSize.height - kViewWidth)/2), kViewHeight, kViewWidth);
 				return r;
 			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), 200, kViewWidth, kViewHeight);
+			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffset, kViewWidth, kViewHeight);
 		case UIInterfaceOrientationPortrait:
 		case UIInterfaceOrientationUnknown:
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), 200, kViewWidth, kViewHeight);
+			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffsetPortrait, kViewWidth, kViewHeight);
 		case UIInterfaceOrientationPortraitUpsideDown:
 			if (ios7) {
-				return CGRectMake(fabs((winSize.width - kViewWidth)/2), winSize.height - 200 - kViewHeight, kViewWidth, kViewHeight);
+				return CGRectMake(fabs((winSize.width - kViewWidth)/2), winSize.height - kVerticalOffsetPortrait - kViewHeight, kViewWidth, kViewHeight);
 			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), 200, kViewWidth, kViewHeight);
+			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffsetPortrait, kViewWidth, kViewHeight);
 	}
-	return CGRectMake(fabs((winSize.width - kViewWidth)/2), 200, kViewWidth, kViewHeight);
+	return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffset, kViewWidth, kViewHeight);
 }
 
 
@@ -171,20 +173,20 @@ static const CGFloat kViewHeight = 301;
 				CGRect r = CGRectMake(100, fabs((winSize.height - kViewWidth)/2), kViewHeight, kViewWidth);
 				return r;
 			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), 200, kViewWidth, kViewHeight);
+			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffset, kViewWidth, kViewHeight);
 		case UIInterfaceOrientationLandscapeRight:
 			if (ios7) {
 				CGRect r = CGRectMake(winSize.width - 100 -kViewWidth, fabs((winSize.height - kViewWidth)/2), kViewHeight, kViewWidth);
 				return r;
 			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), 200, kViewWidth, kViewHeight);
+			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffset, kViewWidth, kViewHeight);
 		case UIInterfaceOrientationPortrait:
 		case UIInterfaceOrientationUnknown:
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), 200, kViewWidth, kViewHeight);
+			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffsetPortrait, kViewWidth, kViewHeight);
 		case UIInterfaceOrientationPortraitUpsideDown:
 			if (ios7)
-				return CGRectMake(fabs((winSize.width - kViewWidth)/2), winSize.height - 200 - kViewHeight, kViewWidth, kViewHeight);
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), 200, kViewWidth, kViewHeight);
+				return CGRectMake(fabs((winSize.width - kViewWidth)/2), winSize.height - kVerticalOffsetPortrait - kViewHeight, kViewWidth, kViewHeight);
+			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffsetPortrait, kViewWidth, kViewHeight);
 	}
 }
 
