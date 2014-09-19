@@ -75,9 +75,11 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	 
 #if !TARGET_IPHONE_SIMULATOR
 	[[BITHockeyManager sharedHockeyManager] configureWithBetaIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" liveIdentifier:@"1ecec8cd34e796a9159794e9e86610ee" delegate:self];
-	[[BITHockeyManager sharedHockeyManager] startManager];
-	[BITHockeyManager sharedHockeyManager].debugLogEnabled = YES;
-	[BITHockeyManager sharedHockeyManager].authenticator.authenticationSecret = @"3feb3562d8cc26b457d228d04aee497d";
+	BITHockeyManager *hockey = [BITHockeyManager sharedHockeyManager];
+	[hockey startManager];
+	hockey.debugLogEnabled = YES;
+	hockey.authenticator.authenticationSecret = @"3feb3562d8cc26b457d228d04aee497d";
+	hockey.authenticator.restrictApplicationUsage = NO;
 #endif
 	
 	self.reachability = [MLReachability reachabilityForInternetConnection];
@@ -142,8 +144,8 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	} else {
 		[self observeTarget:rc2 keyPath:@"loggedIn" options:0 block:^(MAKVONotification *note) {
 #if !TARGET_IPHONE_SIMULATOR
-			[BITHockeyManager sharedHockeyManager].authenticator.identificationType = BITAuthenticatorIdentificationTypeHockeyAppEmail;
-			[[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+//			[BITHockeyManager sharedHockeyManager].authenticator.identificationType = BITAuthenticatorIdentificationTypeHockeyAppEmail;
+//			[[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
 #endif
 			//#endif
 			if (self.fileToImport)
