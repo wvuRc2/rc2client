@@ -88,6 +88,7 @@
 	self.nameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
 	self.lastAccessLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
 	self.lastAccessLabel.verticalAlignment =  VerticalAlignmentBottom;
+	self.detilsLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
 	if ([cellItem isKindOfClass:[RCProject class]]) {
 		self.lastAccessLabel.hidden = YES;
 		self.detilsLabel.text = [NSString stringWithFormat:@"Workspaces:%d\nFiles:%d", [[cellItem workspaces] count], [[cellItem files] count]];
