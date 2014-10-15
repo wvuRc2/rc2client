@@ -44,9 +44,9 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 @property (nonatomic, strong) ThemeColorViewController *themeEditor;
 @property (nonatomic, strong) UIView *messageListView;
 @property (nonatomic, strong) UIView *currentMasterView;
-@property (nonatomic, strong) NSData *pushToken;
 @property (nonatomic, strong) NSURL *fileToImport;
 @property (nonatomic, strong) AMHudView *currentHud;
+@property (nonatomic, strong) NSMutableSet *pendingNotifications;
 @property (nonatomic, copy, readwrite) NSArray *standardLeftNavBarItems;
 @property (nonatomic, copy, readwrite) NSArray *standardRightNavBarItems;
 @property (nonatomic, strong) iSettingsController *isettingsController;
@@ -95,6 +95,13 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	
 	[MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"Rc2.sqlite"];
 	[MagicalRecord setShouldDeleteStoreOnModelMismatch:YES];
+	
+	[self queueLaunchNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]];
+#if !TARGET_IPHONE_SIMULATOR
+	UIUserNotificationType types = UIUserNotificationTypeAlert;
+	UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+	[[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+#endif
 	
 	ProjectViewController *pvc = [[ProjectViewController alloc] init];
 	pvc.useLayoutToLayoutNavigationTransitions = NO;
@@ -150,6 +157,10 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 			//#endif
 			if (self.fileToImport)
 				[self completeFileImport];
+			//handle notifications
+			for (NSDictionary *note in self.pendingNotifications)
+				[self handleRemoteNotification:note];
+			[self.pendingNotifications removeAllObjects];
 		}];
 	}
 	
@@ -229,20 +240,19 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	[MagicalRecord cleanUp];
 }
 
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-	NSLog(@"got note:%@", userInfo);
-//	[self.rootController reloadNotifications];
+	[self handleRemoteNotification:userInfo];
+	completionHandler(UIBackgroundFetchResultNoData);
 }
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
-	NSLog(@"failed to reg: %@", error);
+	Rc2LogWarn(@"failed to register for remote notifications: %@", error);
 }
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-	self.pushToken = deviceToken;
 	[RC2_SharedInstance() updateDeviceToken:deviceToken];
 }
 
@@ -330,7 +340,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	self.standardLeftNavBarItems = @[];
 	
 	NSMutableArray *rightItems = [NSMutableArray arrayWithCapacity:3];
-	UIBarButtonItem *gearItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStyleBordered target:self action:@selector(showGearMenu:)];
+	UIBarButtonItem *gearItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStylePlain target:self action:@selector(showGearMenu:)];
 	[rightItems addObject:gearItem];
 	//	UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home-tbar"] style:UIBarButtonItemStyleBordered target:self action:@selector(showProjects:)];
 	//	[rightItems addObject:homeItem];
@@ -358,6 +368,22 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 //	if ([fromVC isKindOfClass:[AbstractProjectViewController class]] && [toVC isKindOfClass:[AbstractProjectViewController class]])
 		return [[ProjectViewTransition alloc] initWithFromController:(AbstractProjectViewController*)fromVC toController:(AbstractProjectViewController*)toVC];
 //	return nil;
+}
+
+#pragma mark - notifications
+
+-(void)queueLaunchNotification:(NSDictionary*)note
+{
+	if (nil == note)
+		return;
+	if (nil == self.pendingNotifications)
+		self.pendingNotifications = [NSMutableSet set];
+	[self.pendingNotifications addObject:note];
+}
+
+-(void)handleRemoteNotification:(NSDictionary*)note
+{
+	Rc2LogInfo(@"got note:%@", note);
 }
 
 #pragma mark - meat & potatoes
@@ -482,11 +508,6 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	}
 }
 
--(void)registerForPushNotification
-{
-	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeBadge];
-}
-
 -(void)startLoginProcess
 {
 	id<Rc2Server> rc2 = RC2_SharedInstance();
@@ -521,9 +542,6 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	self.authController.loginCompleteHandler = ^ {
 		[blockVC dismissViewControllerAnimated:YES completion:nil];
 		blockSelf.authController=nil;
-#if !TARGET_IPHONE_SIMULATOR
-		[blockSelf registerForPushNotification];
-#endif
 		if ([[NSUserDefaults standardUserDefaults] objectForKey:kPref_CurrentSessionWorkspace]) {
 			[blockSelf restoreLastSession];
 		}

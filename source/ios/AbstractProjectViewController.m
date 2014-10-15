@@ -82,7 +82,7 @@ const CGFloat CV_ANIM_DELAY = 0.2;
 	
 	self.navigationItem.leftItemsSupplementBackButton = YES;
 	NSMutableArray *leftItems = [self.standardLeftNavBarItems mutableCopy];
-	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add"] style:UIBarButtonItemStyleBordered target:self action:@selector(addNewObject:)];
+	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewObject:)];
 	[leftItems insertObject:addItem atIndex:0];
 	self.navigationItem.leftBarButtonItems = leftItems;
 	self.navigationItem.rightBarButtonItems = self.standardRightNavBarItems;

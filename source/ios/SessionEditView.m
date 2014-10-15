@@ -44,6 +44,7 @@ const CGFloat kLineNumberGutterWidth = 40;
 	SessionEditorLayoutManager *lm = [[SessionEditorLayoutManager alloc] init];
 	NSTextContainer *tc = [[NSTextContainer alloc] initWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
 	
+	lm.allowsNonContiguousLayout = NO;
 	tc.widthTracksTextView = YES;
 	tc.exclusionPaths = @[[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, kLineNumberGutterWidth+8, CGFLOAT_MAX)]];
 	[lm addTextContainer:tc];

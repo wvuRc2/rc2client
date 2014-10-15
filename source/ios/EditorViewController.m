@@ -24,10 +24,9 @@
 #import "DropboxImportController.h"
 #import "SessionEditView.h"
 #import "kTController.h"
-#import "WHMailActivity.h"
+#import "MailActionFileProvider.h"
 #import "MAKVONotificationCenter.h"
 #import "RCSyntaxParser.h"
-#import "DrropboxUploadActivity.h"
 #import "DropboxFolderSelectController.h"
 #import "DropBlocks.h"
 #import "SessionEditorCotnainerView.h"
@@ -101,7 +100,7 @@
 	NSDictionary *info = note.userInfo;
 	CGRect keyframe = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 	keyframe = [self.view.window.rootViewController.view convertRect:keyframe fromView:nil];
-	BOOL isLand = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+	BOOL isLand = keyframe.size.width > keyframe.size.height;
 	self.externalKeyboardVisible = NO;
 	if (isLand) {
 		if (keyframe.origin.x < 0)
@@ -560,30 +559,9 @@
 //	[self adjustLineNumbers];
 }
 
--(void)presentFileExport:(RCFile*)file
+-(void)exportFile:(RCFile*)file
 {
-	if (![[DBSession sharedSession] isLinked]) {
-		Rc2AppDelegate *del = (Rc2AppDelegate*)TheApp.delegate;
-		__weak EditorViewController *bself = self;
-		del.dropboxCompletionBlock = ^{
-			[bself presentFileExport:file];
-		};
-		[[DBSession sharedSession] linkFromController:self.view.window.rootViewController];
-		return;
-	}
-	DropboxFolderSelectController *dbc = [[DropboxFolderSelectController alloc] init];
-	UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:dbc];
-	__weak UIViewController *blockVC = nc;
-	dbc.doneButtonTitle = @"Select";
-	dbc.dropboxCache = [[NSMutableDictionary alloc] init];
-	dbc.navigationItem.title = @"Select Destination:";
-	dbc.doneHandler = ^(DropboxFolderSelectController *controller, NSString *thePath) {
-		[blockVC.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-		[self uploadFile:file toPath:thePath existingRevision:[controller revisiionIdForFile:file.name]];
-	};
-	nc.modalPresentationStyle = UIModalPresentationFormSheet;
-	[nc setValue:[NSValue valueWithCGSize:CGSizeMake(400, 450)] forKey:@"formSheetSize"];
-	[self presentViewController:nc animated:YES completion:nil];
+	NSLog(@"exporting...");
 }
 
 -(void)uploadFile:(RCFile*)file toPath:(NSString*)dbPath existingRevision:(NSString*)revisionId
@@ -738,39 +716,30 @@
 		return;
 	}
 	RCFile *file = self.currentFile;
-	NSArray *excluded = @[UIActivityTypeMail,UIActivityTypeAssignToContact,UIActivityTypeMessage,UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo];
+	NSArray *excluded = @[UIActivityTypeAssignToContact,UIActivityTypeMessage,UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo];
 	NSMutableArray *items = [NSMutableArray arrayWithCapacity:5];
 	NSMutableArray *activs = [NSMutableArray arrayWithCapacity:5];
 	if (self.currentFile.isTextFile)
 		[items addObject:self.richEditor.text];
-	DrropboxUploadActivity *dbactivity = [[DrropboxUploadActivity alloc] init];
-	dbactivity.filesToUpload = @[file];
-	dbactivity.performBlock = ^{
-		[self presentFileExport:file];
-	};
-	[activs addObject:dbactivity];
-	AMActivity *renameActivity = [[AMActivity alloc] initWithActivityType:@"edu.wvu.stat.rc2.renameActivity" title:@"Rename" image:@"renameActivity"];
-	renameActivity.canPerformBlock = ^(NSArray *items) {
-		return YES;
-	};
-	renameActivity.prepareBlock = ^(NSArray *items) {
+	[activs addObject:[AMActivity activityOfType:@"edu.wvu.stat.rc2.exportActivity" title:@"Export" image:@"export" canPerformBlock:^(NSArray *items) { return YES; } prepareBlock:^(NSArray *items)
+   {
+	   dispatch_async(dispatch_get_main_queue(), ^{
+		   [self exportFile:file];
+	   });
+   }]];
+	[activs addObject:[AMActivity activityOfType:@"edu.wvu.stat.rc2.renameActivity" title:@"Rename" image:@"renameActivity" canPerformBlock:^(NSArray *items) { return YES; } prepareBlock:^(NSArray *items)
+	{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self doRenameFile:sender];
 		});
-	};
-	[activs addObject:renameActivity];
-	[items addObject:[WHMailActivityItem mailActivityItemWithSelectionHandler:^(MFMailComposeViewController *messageC) {
-		[messageC setSubject:[NSString stringWithFormat:@"%@ from Rc²", file.name]];
-		[messageC addAttachmentData:[NSData dataWithContentsOfFile:file.fileContentsPath]
-						   mimeType:file.mimeType fileName:file.name];
 	}]];
-	[activs addObject:[[WHMailActivity alloc] init]];
+	[items addObject:[[MailActionFileProvider alloc] initWithRCFile:file]];
 	UIActivityViewController *avc = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:activs];
 	__weak UIActivityViewController *weakAvc = avc;
 	avc.excludedActivityTypes = excluded;
 	UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:avc];
-	avc.completionHandler = ^(NSString *actType, BOOL completed) {
-		weakAvc.completionHandler=nil;
+	avc.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+		weakAvc.completionWithItemsHandler=nil;
 		[self.activityPopover dismissPopoverAnimated:YES];
 		self.activityPopover=nil;
 	};

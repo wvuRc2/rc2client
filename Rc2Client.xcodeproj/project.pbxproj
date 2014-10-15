@@ -24,6 +24,7 @@
 		08063D5C173AF33C0054FD1D /* MCVariableDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08063D5A173AF33B0054FD1D /* MCVariableDisplayController.m */; };
 		08063D5D173AF33C0054FD1D /* MCVariableDisplayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08063D5B173AF33B0054FD1D /* MCVariableDisplayController.xib */; };
 		08093C1A1979B08E00F5852A /* libPEGKitIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08093C191979B08E00F5852A /* libPEGKitIOS.a */; };
+		080D655819EEF89100C50D66 /* MailActionFileProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 080D655719EEF89100C50D66 /* MailActionFileProvider.m */; };
 		080E5082166FDFB800E95531 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5070166FDFB800E95531 /* AFHTTPClient.m */; };
 		080E5083166FDFB800E95531 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5070166FDFB800E95531 /* AFHTTPClient.m */; };
 		080E5084166FDFB800E95531 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 080E5072166FDFB800E95531 /* AFHTTPRequestOperation.m */; };
@@ -110,8 +111,8 @@
 		083AAF00162F480C0037AAB3 /* FunctionVariableSummaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEFF162F480C0037AAB3 /* FunctionVariableSummaryCell.m */; };
 		083AAF02162F48210037AAB3 /* FunctionVariableSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083AAF01162F48210037AAB3 /* FunctionVariableSummaryCell.xib */; };
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
-		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
-		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; };
+		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		084593E715B5F16F00297C9D /* MCAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593E615B5F16F00297C9D /* MCAppConstants.m */; };
 		084593FA15B5F1D700297C9D /* MCEditUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F515B5F1D700297C9D /* MCEditUserController.m */; };
 		084593FC15B5F1D700297C9D /* MCUserAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F815B5F1D700297C9D /* MCUserAdminController.m */; };
@@ -174,7 +175,7 @@
 		0857277719AFCD4400ADCC7B /* RC2ServerAFNet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0857277519AFCD4400ADCC7B /* RC2ServerAFNet1.m */; };
 		0857278B19B0FC9300ADCC7B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0857278A19B0FC9300ADCC7B /* SystemConfiguration.framework */; };
 		085C6EF817A99DE80085DE88 /* DropboxOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085C6EF717A99DE80085DE88 /* DropboxOSX.framework */; };
-		085C6EF917A99E370085DE88 /* DropboxOSX.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 085C6EF717A99DE80085DE88 /* DropboxOSX.framework */; };
+		085C6EF917A99E370085DE88 /* DropboxOSX.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 085C6EF717A99DE80085DE88 /* DropboxOSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		085E3C4817AAE386005C523F /* RCDropboxSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E63B461774E409005BB3BB /* RCDropboxSync.m */; };
 		085E3C4C17AAEADB005C523F /* MCDropboxConfigWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 085E3C4A17AAEADB005C523F /* MCDropboxConfigWindow.m */; };
 		085E3C4D17AAEADB005C523F /* MCDropboxConfigWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 085E3C4B17AAEADB005C523F /* MCDropboxConfigWindow.xib */; };
@@ -658,6 +659,8 @@
 		08063D5B173AF33B0054FD1D /* MCVariableDisplayController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCVariableDisplayController.xib; sourceTree = "<group>"; };
 		08093C191979B08E00F5852A /* libPEGKitIOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPEGKitIOS.a; path = "Dependencies/PEGKit/build/Debug-iphoneos/libPEGKitIOS.a"; sourceTree = "<group>"; };
 		08093C1B1979B0DA00F5852A /* libPEGKitOSX.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPEGKitOSX.a; path = "../../../Library/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug/libPEGKitOSX.a"; sourceTree = "<group>"; };
+		080D655619EEF89100C50D66 /* MailActionFileProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailActionFileProvider.h; sourceTree = "<group>"; };
+		080D655719EEF89100C50D66 /* MailActionFileProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailActionFileProvider.m; sourceTree = "<group>"; };
 		080E506F166FDFB800E95531 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		080E5070166FDFB800E95531 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		080E5071166FDFB800E95531 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -2193,6 +2196,8 @@
 				08D243BA15B5D6560064A9FA /* SendMessageViewController.h */,
 				08D243BB15B5D6560064A9FA /* SendMessageViewController.m */,
 				08D243BC15B5D6560064A9FA /* SendMessageViewController.xib */,
+				080D655619EEF89100C50D66 /* MailActionFileProvider.h */,
+				080D655719EEF89100C50D66 /* MailActionFileProvider.m */,
 			);
 			name = "secondary controllers";
 			sourceTree = "<group>";
@@ -2779,7 +2784,7 @@
 		08D2431615B5D04D0064A9FA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "West Virginia University";
 				TargetAttributes = {
 					0857277D19B0F89700ADCC7B = {
@@ -2788,6 +2793,11 @@
 					};
 					08D2431E15B5D04D0064A9FA = {
 						DevelopmentTeam = MTJ8HS9UY7;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					08D2461B15B5EBC20064A9FA = {
 						DevelopmentTeam = LRMKU6353E;
@@ -3150,6 +3160,7 @@
 				08D2439C15B5D5E20064A9FA /* ImageDisplayController.m in Sources */,
 				08D2439E15B5D5E20064A9FA /* ImagePickerController.m in Sources */,
 				08BDDDB217EA48AB00E669E3 /* MagicalRecord+ErrorHandling.m in Sources */,
+				080D655819EEF89100C50D66 /* MailActionFileProvider.m in Sources */,
 				08D2439F15B5D5E20064A9FA /* SessionFilesController.m in Sources */,
 				08BDDDAA17EA48AB00E669E3 /* NSManagedObjectModel+MagicalRecord.m in Sources */,
 				0868D4B617FA0C72002AD679 /* KTPanel.m in Sources */,
@@ -3945,7 +3956,7 @@
 					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3988,7 +3999,7 @@
 					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4066,7 +4077,7 @@
 					"\"$(SRCROOT)/Dependencies/LiveFrost/LiveFrost\"",
 				);
 				INFOPLIST_FILE = "resources/ios/ipad-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

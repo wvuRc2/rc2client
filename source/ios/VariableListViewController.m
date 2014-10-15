@@ -37,7 +37,7 @@
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refresh Variables"];
 	[self.refreshControl addTarget:self action:@selector(forceRefresh) forControlEvents:UIControlEventValueChanged];
 	self.navigationItem.title = NSLocalizedString(@"Variables", @"");
-	UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStyleBordered target:self action:@selector(clearVariables:)];
+	UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStylePlain target:self action:@selector(clearVariables:)];
 	self.navigationItem.rightBarButtonItem = clearButton;
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 	__weak UITableView *btable = self.tableView;

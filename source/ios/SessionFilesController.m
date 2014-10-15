@@ -60,7 +60,7 @@
 	};
 	[self reloadData];
 	//add dropbox item to toolbar
-	UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"dropboxIcon"] style:UIBarButtonItemStyleBordered target:self action:@selector(doDropboxImport:)];
+	UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"dropboxIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(doDropboxImport:)];
 	if (barButton) {
 		barButton.target = self;
 		barButton.action = @selector(doDropboxImport:);
