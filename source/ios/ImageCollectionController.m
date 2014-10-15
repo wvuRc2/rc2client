@@ -100,8 +100,8 @@
 	__weak UIActivityViewController *weakAvc = avc;
 	avc.excludedActivityTypes = excluded;
 	UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:avc];
-	avc.completionHandler = ^(NSString *actType, BOOL completed) {
-		weakAvc.completionHandler=nil;
+	avc.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+		weakAvc.completionWithItemsHandler=nil;
 		[self.cellPopoverController dismissPopoverAnimated:YES];
 		self.cellPopoverController=nil;
 	};

@@ -120,7 +120,7 @@ const CGFloat kAnimDuration = 0.5;
 -(void)keyboardWillShow:(NSNotification*)note
 {
 	CGRect endFrame = [[note.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-	if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+	if (endFrame.size.width > endFrame.size.height)
 		self.haveExternalKeyboard = endFrame.origin.y != 0;
 	else
 		self.haveExternalKeyboard = self.textField.inputAccessoryView.frame.size.height == 768 - endFrame.origin.x;
