@@ -734,17 +734,18 @@
 		});
 	}]];
 	[items addObject:[[MailActionFileProvider alloc] initWithRCFile:file]];
+
 	UIActivityViewController *avc = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:activs];
 	__weak UIActivityViewController *weakAvc = avc;
 	avc.excludedActivityTypes = excluded;
-	UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:avc];
-	avc.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+	UIPopoverPresentationController *pop = avc.popoverPresentationController;
+	pop.barButtonItem = self.actionButtonItem;
+	pop.permittedArrowDirections = UIPopoverArrowDirectionAny;
+	[self presentViewController:avc animated:YES completion:^{
 		weakAvc.completionWithItemsHandler=nil;
 		[self.activityPopover dismissPopoverAnimated:YES];
 		self.activityPopover=nil;
-	};
-	self.activityPopover = pop;
-	[pop presentPopoverFromBarButtonItem:self.actionButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+	}];
 }
 
 -(IBAction)doRenameFile:(id)sender
