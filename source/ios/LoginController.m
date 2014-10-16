@@ -59,11 +59,16 @@ static const CGFloat kVerticalOffsetPortrait = 200;
 	self.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 }
 
--(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+-(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
-	[super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-	CGRect rect = [self finalRectForOrientation:toInterfaceOrientation containerSize:self.view.superview.bounds.size];
-	self.view.frame = rect;
+	CGRect frame = self.view.window.frame;
+	BOOL toWide = frame.size.width < frame.size.height;
+	CGRect rect = [self endRectForPresentedState:toWide containerSize:size];
+	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+		self.view.frame = rect;
+	} completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+		
+	}];
 }
 
 #pragma mark - actions
@@ -135,85 +140,16 @@ static const CGFloat kVerticalOffsetPortrait = 200;
 	[alert show];
 }
 
--(CGRect)finalRectForOrientation:(UIInterfaceOrientation)orientation containerSize:(CGSize)winSize
+-(CGRect)endRectForPresentedState:(BOOL)widescreen containerSize:(CGSize)winSize
 {
-	BOOL ios7 = NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1;
-	switch (orientation) {
-		case UIInterfaceOrientationLandscapeLeft:
-			if (ios7) {
-				CGRect r = CGRectMake(100, fabs((winSize.height - kViewWidth)/2), kViewHeight, kViewWidth);
-				return r;
-			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffset, kViewWidth, kViewHeight);
-		case UIInterfaceOrientationLandscapeRight:
-			if (ios7) {
-				CGRect r = CGRectMake(winSize.width - kVerticalOffset -kViewWidth, fabs((winSize.height - kViewWidth)/2), kViewHeight, kViewWidth);
-				return r;
-			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffset, kViewWidth, kViewHeight);
-		case UIInterfaceOrientationPortrait:
-		case UIInterfaceOrientationUnknown:
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffsetPortrait, kViewWidth, kViewHeight);
-		case UIInterfaceOrientationPortraitUpsideDown:
-			if (ios7) {
-				return CGRectMake(fabs((winSize.width - kViewWidth)/2), winSize.height - kVerticalOffsetPortrait - kViewHeight, kViewWidth, kViewHeight);
-			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffsetPortrait, kViewWidth, kViewHeight);
-	}
-	return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffset, kViewWidth, kViewHeight);
+	CGFloat voffset = widescreen ? kVerticalOffset : kVerticalOffsetPortrait;
+	CGRect r = CGRectMake(fabs((winSize.width - kViewWidth)/2), voffset, kViewWidth, kViewHeight);
+	return r;
 }
 
-
--(CGRect)endRectForPresentedState:(UIInterfaceOrientation)orientation containerSize:(CGSize)winSize
+-(CGRect)startRectForPresentedState:(BOOL)widescreen containerSize:(CGSize)winSize
 {
-	BOOL ios7 = NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1;
-	switch (orientation) {
-		case UIInterfaceOrientationLandscapeLeft:
-			if (ios7) {
-				CGRect r = CGRectMake(100, fabs((winSize.height - kViewWidth)/2), kViewHeight, kViewWidth);
-				return r;
-			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffset, kViewWidth, kViewHeight);
-		case UIInterfaceOrientationLandscapeRight:
-			if (ios7) {
-				CGRect r = CGRectMake(winSize.width - 100 -kViewWidth, fabs((winSize.height - kViewWidth)/2), kViewHeight, kViewWidth);
-				return r;
-			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffset, kViewWidth, kViewHeight);
-		case UIInterfaceOrientationPortrait:
-		case UIInterfaceOrientationUnknown:
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffsetPortrait, kViewWidth, kViewHeight);
-		case UIInterfaceOrientationPortraitUpsideDown:
-			if (ios7)
-				return CGRectMake(fabs((winSize.width - kViewWidth)/2), winSize.height - kVerticalOffsetPortrait - kViewHeight, kViewWidth, kViewHeight);
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), kVerticalOffsetPortrait, kViewWidth, kViewHeight);
-	}
-}
-
--(CGRect)startRectForPresentedState:(UIInterfaceOrientation)orientation containerSize:(CGSize)winSize
-{
-	BOOL ios7 = NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1;
-	switch (orientation) {
-		case UIInterfaceOrientationLandscapeLeft:
-			if (ios7) {
-				CGRect r = CGRectMake(winSize.width, fabs((winSize.height - kViewWidth)/2), kViewHeight, kViewWidth);
-				return r;
-			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), winSize.height, kViewWidth, kViewHeight);
-		case UIInterfaceOrientationLandscapeRight:
-			if (ios7) {
-				CGRect r = CGRectMake(0, fabs((winSize.height - kViewWidth)/2), kViewHeight, kViewWidth);
-				return r;
-			}
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), -kViewHeight, kViewWidth, kViewHeight);
-		case UIInterfaceOrientationPortrait:
-		case UIInterfaceOrientationUnknown:
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), winSize.height, kViewWidth, kViewHeight);
-		case UIInterfaceOrientationPortraitUpsideDown:
-			if (ios7)
-				return CGRectMake(fabs((winSize.width - kViewWidth)/2), -kViewHeight, kViewWidth, kViewHeight);
-			return CGRectMake(fabs((winSize.width - kViewWidth)/2), winSize.height, kViewWidth, kViewHeight);
-	}
+	return CGRectMake(fabs((winSize.width - kViewWidth)/2), winSize.height, kViewWidth, kViewHeight);
 }
 
 #pragma mark - view transition
@@ -241,30 +177,15 @@ static const CGFloat kVerticalOffsetPortrait = 200;
 	return kAnimDuration;
 }
 
--(CGAffineTransform)transformForOrientation:(UIInterfaceOrientation)orientation
-{
-	switch (orientation) {
-		case UIInterfaceOrientationLandscapeLeft:
-			return CGAffineTransformMakeRotation(M_PI/-2.0);
-		case UIInterfaceOrientationLandscapeRight:
-			return CGAffineTransformMakeRotation(M_PI/2.0);
-		case UIInterfaceOrientationPortrait:
-			return CGAffineTransformIdentity;
-		case UIInterfaceOrientationUnknown:
-		case UIInterfaceOrientationPortraitUpsideDown:
-			return CGAffineTransformMakeRotation(M_PI);
-	}
-}
-
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
-	BOOL ios7 = NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1;
 	UIView *container = [transitionContext containerView];
 	UIViewController *fromController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
 	UIViewController *toController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
 	LoginController *loginController = (LoginController*)(self.presenting ? toController : fromController);
 	UIView *loginView = loginController.view;
 	CGSize parentSize = container.bounds.size;
+	BOOL widescreen = parentSize.width > parentSize.height;
 
 	container.autoresizesSubviews = NO;
 	if (self.presenting) {
@@ -273,30 +194,16 @@ static const CGFloat kVerticalOffsetPortrait = 200;
 		[container addSubview:fromController.view];
 	}
 
-	UIViewController *srcController = self.presenting ? fromController : toController;
-	CGRect containerEnd = [loginController endRectForPresentedState:srcController.interfaceOrientation containerSize:parentSize];
-	CGRect containerStart = [loginController startRectForPresentedState:srcController.interfaceOrientation containerSize:parentSize];
+	CGRect containerEnd = [loginController endRectForPresentedState:widescreen containerSize:parentSize];
+	CGRect containerStart = [loginController startRectForPresentedState:widescreen containerSize:parentSize];
 	if (!self.presenting) {
-		CGRect tmpRect = containerEnd;
+		CGRect tmp = containerEnd;
 		containerEnd = containerStart;
-		containerStart = tmpRect;
-		if (srcController.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-			if (ios7) {
-				containerEnd.origin.x = - containerEnd.size.width;
-			} else {
-				containerEnd.origin.y = parentSize.width;
-			}
-		}
-	} else {
-		if (!ios7 && srcController.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-			containerStart.origin.y = parentSize.width;
-		}
+		containerStart = tmp;
 	}
-	CGRect viewEnd = [loginController finalRectForOrientation:srcController.interfaceOrientation containerSize:parentSize];
+	CGRect viewEnd = [loginController endRectForPresentedState:widescreen containerSize:parentSize];
 
 	UIView *snapshotView = [loginController.view snapshotViewAfterScreenUpdates:YES];
-	if (ios7)
-		snapshotView.transform = [self transformForOrientation:srcController.interfaceOrientation];
 	[container addSubview:snapshotView];
 	snapshotView.frame = containerStart;
 	loginController.view.frame = containerStart;
