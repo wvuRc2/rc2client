@@ -3959,7 +3959,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug",
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "Rc²";
