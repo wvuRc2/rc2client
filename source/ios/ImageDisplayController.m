@@ -142,23 +142,27 @@
 
 -(void)layoutAs1Up
 {
+	CGRect winFrame = self.view.window.frame;
+	BOOL wide = winFrame.size.width > winFrame.size.height;
 	[UIView animateWithDuration:kAnimDuration animations:^{
 		self.holder1.alpha = 1;
 		self.holder2.alpha = 0;
 		self.holder3.alpha = 0;
 		self.holder4.alpha = 0;
-		[self adjustFramesFor1Up:self.interfaceOrientation];
+		[self adjustFramesFor1Up:wide];
 	}];
 }
 
 -(void)layoutAs2Up
 {
+	CGRect winFrame = self.view.window.frame;
+	BOOL wide = winFrame.size.width > winFrame.size.height;
 	[UIView animateWithDuration:kAnimDuration animations:^{
 		self.holder1.alpha = 1;
 		self.holder2.alpha = 1;
 		self.holder3.alpha = 0;
 		self.holder4.alpha = 0;
-		[self adjustFramesFor2Up:self.interfaceOrientation];
+		[self adjustFramesFor2Up:wide];
 		self.holder1.scrollView.zoomScale = .75;
 		self.holder2.scrollView.zoomScale = .75;
 	}];
@@ -166,12 +170,14 @@
 
 -(void)layoutAs4Up
 {
+	CGRect winFrame = self.view.window.frame;
+	BOOL wide = winFrame.size.width > winFrame.size.height;
 	[UIView animateWithDuration:kAnimDuration animations:^{
 		self.holder1.alpha = 1;
 		self.holder2.alpha = 1;
 		self.holder3.alpha = 1;
 		self.holder4.alpha = 1;
-		[self adjustFramesFor4Up:self.interfaceOrientation];
+		[self adjustFramesFor4Up:wide];
 		self.holder1.scrollView.zoomScale = .5;
 		self.holder2.scrollView.zoomScale = .5;
 		self.holder3.scrollView.zoomScale = .5;
