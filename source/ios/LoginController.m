@@ -17,7 +17,12 @@
 @end
 
 @interface LoginController()
+@property (nonatomic) NSLayoutConstraint *topMaginConstraint;
 @property BOOL presenting;
+@end
+
+@interface LoginPresentationController : UIPresentationController
+@property (strong) UIView *dimmingView;
 @end
 
 static const CGFloat kAnimDuration = 0.5;
@@ -168,9 +173,27 @@ static const CGFloat kVerticalOffsetPortrait = 200;
 	return trans;
 }
 
+- (UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source
+{
+	return [[LoginPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
+}
 @end
 
 @implementation LoginTransition
+
+-(void)setupConstraints:(LoginController*)loginController container:(UIView*)container
+{
+	UIView *loginView = loginController.view;
+	//center x
+	[container addConstraint:[NSLayoutConstraint constraintWithItem:loginView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+	//top margin
+	loginController.topMaginConstraint = [NSLayoutConstraint constraintWithItem:loginView attribute:NSLayoutAttributeTopMargin relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeTopMargin multiplier:1.0 constant:100.0];
+	[container addConstraint:loginController.topMaginConstraint];
+	//width
+	[container addConstraint:[NSLayoutConstraint constraintWithItem:loginView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kViewWidth]];
+	//height
+	[container addConstraint:[NSLayoutConstraint constraintWithItem:loginView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kViewHeight]];
+}
 
 -(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
 {
@@ -185,38 +208,71 @@ static const CGFloat kVerticalOffsetPortrait = 200;
 	LoginController *loginController = (LoginController*)(self.presenting ? toController : fromController);
 	UIView *loginView = loginController.view;
 	CGSize parentSize = container.bounds.size;
-	BOOL widescreen = parentSize.width > parentSize.height;
+	CGFloat targetMargin = 100;
 
 	container.autoresizesSubviews = NO;
 	if (self.presenting) {
 		[container addSubview:loginView];
+		[self setupConstraints:loginController container:container];
+		loginController.topMaginConstraint.constant = parentSize.height;
 	} else {
-		[container addSubview:fromController.view];
+		targetMargin = parentSize.height;
+		loginController.topMaginConstraint.constant = 100;
 	}
+	[loginView layoutIfNeeded];
+	loginController.topMaginConstraint.constant = targetMargin;
 
-	CGRect containerEnd = [loginController endRectForPresentedState:widescreen containerSize:parentSize];
-	CGRect containerStart = [loginController startRectForPresentedState:widescreen containerSize:parentSize];
-	if (!self.presenting) {
-		CGRect tmp = containerEnd;
-		containerEnd = containerStart;
-		containerStart = tmp;
-	}
-	CGRect viewEnd = [loginController endRectForPresentedState:widescreen containerSize:parentSize];
-
-	UIView *snapshotView = [loginController.view snapshotViewAfterScreenUpdates:YES];
-	[container addSubview:snapshotView];
-	snapshotView.frame = containerStart;
-	loginController.view.frame = containerStart;
-	loginController.view.hidden = YES;
 	[UIView animateWithDuration:kAnimDuration animations:^{
-		snapshotView.frame = containerEnd;
-		loginView.frame = viewEnd;
+		[container layoutIfNeeded];
 	} completion:^(BOOL finished) {
-		[snapshotView removeFromSuperview];
-		loginView.frame = viewEnd;
-		loginView.hidden = NO;
+		if (!self.presenting)
+			[loginView removeFromSuperview];
 		[transitionContext completeTransition:YES];
 	}];
 }
 
+@end
+
+#pragma mark - PresentationController
+
+@implementation LoginPresentationController
+
+-(instancetype)initWithPresentedViewController:(UIViewController *)presentedViewController presentingViewController:(UIViewController *)presentingViewController
+{
+	self = [super initWithPresentedViewController:presentedViewController presentingViewController:presentingViewController];
+	if (self) {
+		self.dimmingView = [[UIView alloc] initWithFrame:presentingViewController.view.bounds];
+		self.dimmingView.backgroundColor = [UIColor colorWithWhite:.5 alpha:1];
+		self.dimmingView.alpha = 0;
+	}
+	return self;
+}
+
+-(void)presentationTransitionWillBegin
+{
+	[[self containerView] addSubview:self.dimmingView];
+	self.dimmingView.frame = [self containerView].bounds;
+	[[self containerView] addSubview:[self presentedViewController].view];
+	id <UIViewControllerTransitionCoordinator> transitionCoordinator = [[self presentingViewController] transitionCoordinator];
+	[transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+		self.dimmingView.alpha = 1.0;
+	} completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+	}];
+}
+
+-(void)dismissalTransitionWillBegin
+{
+	id <UIViewControllerTransitionCoordinator> transitionCoordinator = [[self presentingViewController] transitionCoordinator];
+	[transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+		self.dimmingView.alpha = 0.0;
+	} completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+	}];
+}
+
+-(void)presentationTransitionDidEnd:(BOOL)completed
+{
+	if (!completed) {
+		[self.dimmingView removeFromSuperview];
+	}
+}
 @end
