@@ -1,0 +1,23 @@
+{
+  "AppIcons" : {
+
+  },
+  "FormatVersion" : 1,
+  "WhitelistedFiles" : {
+    "resources\/SharedImages.xcassets\/microphone.imageset\/185070 - micro record streamline-1.png" : {
+      "WhitelistedUsed" : true
+    },
+    "resources\/ios\/iOSIcons.xcassets\/mikeOff.imageset\/mike30.png" : {
+      "WhitelistedUsed" : true
+    },
+    "resources\/mac\/MacClient.xcassets\/variables.imageset\/variables.png" : {
+      "WhitelistedUsed" : true
+    },
+    "resources\/ios\/iOSIcons.xcassets\/variables.imageset\/variables30.png" : {
+      "WhitelistedUsed" : true
+    },
+    "resources\/ios\/iOSIcons.xcassets\/mike.imageset\/onmike30.png" : {
+      "WhitelistedUsed" : true
+    }
+  }
+}
