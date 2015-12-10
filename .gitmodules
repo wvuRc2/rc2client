@@ -1,0 +1,48 @@
+[submodule "Vyana"]
+	path = Dependencies/Vyana
+url=https://mlilback@bitbucket.org/mlilback/vyana.git
+[submodule "AMResizableSplitterViewController"]
+	path = Dependencies/AMResizableSplitterViewController
+	url = https://mlilback@github.com/agilemonks/AMResizableSplitterViewController.git
+[submodule "Dependencies/MAKVONotificationCenter"]
+	path = Dependencies/MAKVONotificationCenter
+	url = https://github.com/mikeash/MAKVONotificationCenter.git
+[submodule "Dependencies/AFNetworking"]
+	path = Dependencies/AFNetworking
+	url = https://github.com/AFNetworking/AFNetworking.git
+[submodule "Dependencies/WHMessageActivities"]
+	path = Dependencies/WHMessageActivities
+url=https://github.com/mlilback/WHMessageActivities.git
+[submodule "Dependencies/MASPreferences"]
+	path = Dependencies/MASPreferences
+url=https://github.com/shpakovski/MASPreferences.git
+[submodule "Dependencies/Dropbox"]
+	path = Dependencies/Dropbox
+url=https://github.com/mlilback/dropbox-sdk-ios.git
+[submodule "Dependencies/HockeySDK-iOS"]
+	path = Dependencies/HockeySDK-iOS
+	url = https://github.com/bitstadium/HockeySDK-iOS.git
+[submodule "Dependencies/MagicalRecord"]
+	path = Dependencies/MagicalRecord
+	url = https://github.com/magicalpanda/MagicalRecord.git
+[submodule "Dependencies/AMHudView"]
+	path = Dependencies/AMHudView
+	url = https://github.com/agilemonks/AMHudView.git
+[submodule "Dependencies/fmdb"]
+	path = Dependencies/fmdb
+	url = https://github.com/ccgus/fmdb.git
+[submodule "Dependencies/CXAlertView"]
+	path = Dependencies/CXAlertView
+	url = https://github.com/ChrisXu1221/CXAlertView.git
+[submodule "Dependencies/LiveFrost"]
+	path = Dependencies/LiveFrost
+	url = https://github.com/radi/LiveFrost.git
+[submodule "Dependencies/SSKeychain"]
+	path = Dependencies/SSKeychain
+	url = https://github.com/soffes/sskeychain.git
+[submodule "Dependencies/CocoaAsyncSocket"]
+	path = Dependencies/CocoaAsyncSocket
+	url = https://github.com/robbiehanson/CocoaAsyncSocket.git
+[submodule "Dependencies/PEGKit"]
+	path = Dependencies/PEGKit
+	url = https://github.com/itod/pegkit.git
