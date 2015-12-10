@@ -161,7 +161,7 @@ const NSInteger kMaxFontSize = 32;
 {
 	NSData *rtfdata = savedState.consoleRtf;
 	NSError *err;
-	if (rtfdata && ![self.textView.textStorage readFromData:rtfdata options:nil documentAttributes:nil error:nil])
+	if (rtfdata && ![self.textView.textStorage readFromData:rtfdata options:@{} documentAttributes:nil error:nil])
 		Rc2LogError(@"error reading consolertf:%@", err);
 	[self.commandHistory removeAllObjects];
 	[self.commandHistory addObjectsFromArray:savedState.commandHistory];

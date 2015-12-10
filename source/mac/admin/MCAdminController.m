@@ -36,7 +36,7 @@
 {
 	[super viewDidMoveToWindow];
 	if (nil == self.userController)
-		[self outlineViewSelectionDidChange:nil];
+		[self outlineViewSelectionDidChange:[NSNotification notificationWithName:@"nothing" object:nil]];
 }
 
 -(BOOL)usesToolbar { return YES; }

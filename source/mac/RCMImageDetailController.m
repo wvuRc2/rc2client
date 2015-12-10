@@ -9,6 +9,7 @@
 #import "RCMImageDetailController.h"
 #import "RCImage.h"
 #import "RCMPreviewImageView.h"
+#import <CoreImage/CoreImage.h>
 
 @interface ImageDetailPopUpCell : NSPopUpButtonCell
 

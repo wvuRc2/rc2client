@@ -8,6 +8,7 @@
 
 #import "RCMPreviewImageView.h"
 #import "RCImage.h"
+#import <CoreImage/CoreImage.h>
 
 @interface RCMPreviewImageView()
 @property (atomic) BOOL generatingRawImage;

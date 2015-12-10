@@ -246,7 +246,7 @@
 	[self.itemLabel setEditable:YES];
 	[self.window makeFirstResponder:self.itemLabel];
 	NSCollectionView *colView = [(MCProjectCollectionItem*)self.viewController collectionView];
-	[colView setSelectionIndexes:nil];
+	[colView setSelectionIndexes:[NSIndexSet indexSet]];
 }
 
 -(void)endEditing

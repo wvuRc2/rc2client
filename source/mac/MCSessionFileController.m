@@ -70,7 +70,7 @@
 			[self.fileTableView amSelectRow:idx byExtendingSelection:NO];
 		}
 		self.fileIdJustImported=nil;
-		[self tableViewSelectionDidChange:nil];
+		[self tableViewSelectionDidChange:[NSNotification notificationWithName:@"nothing" object:nil]];
 	}
 }
 

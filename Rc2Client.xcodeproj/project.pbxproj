@@ -170,6 +170,7 @@
 		084B479D167A8B3D000A0A6F /* MLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245F515B5DCD70064A9FA /* MLReachability.m */; };
 		084D39B71627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
 		084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 084D39B61627300F00B8A06B /* RCDataFrame.m */; };
+		0851D5FC1C18DCED00B8E993 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0851D5FB1C18DCED00B8E993 /* SystemConfiguration.framework */; };
 		08541980178771DA008AF602 /* projwspaceJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0854197F178771DA008AF602 /* projwspaceJson.txt */; };
 		0857277619AFCD4400ADCC7B /* RC2ServerAFNet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0857277519AFCD4400ADCC7B /* RC2ServerAFNet1.m */; };
 		0857277719AFCD4400ADCC7B /* RC2ServerAFNet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0857277519AFCD4400ADCC7B /* RC2ServerAFNet1.m */; };
@@ -422,9 +423,6 @@
 		08D2458D15B5DB270064A9FA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456815B5DB270064A9FA /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458E15B5DB270064A9FA /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456B15B5DB270064A9FA /* WebSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458F15B5DB270064A9FA /* WebSocket00.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456D15B5DB270064A9FA /* WebSocket00.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2459015B5DB270064A9FA /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456F15B5DB270064A9FA /* WebSocket07.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2459115B5DB270064A9FA /* WebSocket08.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457115B5DB270064A9FA /* WebSocket08.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2459215B5DB270064A9FA /* WebSocket10.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457315B5DB270064A9FA /* WebSocket10.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2459315B5DB270064A9FA /* WebSocketConnectConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457515B5DB270064A9FA /* WebSocketConnectConfig.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2459415B5DB270064A9FA /* WebSocketFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457715B5DB270064A9FA /* WebSocketFragment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2459515B5DB270064A9FA /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457915B5DB270064A9FA /* WebSocketMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -494,10 +492,7 @@
 		08D2466A15B5EE670064A9FA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456815B5DB270064A9FA /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466B15B5EE670064A9FA /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456B15B5DB270064A9FA /* WebSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32 -Wno-format"; }; };
 		08D2466C15B5EE670064A9FA /* WebSocket00.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456D15B5DB270064A9FA /* WebSocket00.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
-		08D2466D15B5EE670064A9FA /* WebSocket07.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456F15B5DB270064A9FA /* WebSocket07.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
-		08D2466E15B5EE670064A9FA /* WebSocket08.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457115B5DB270064A9FA /* WebSocket08.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
 		08D2466F15B5EE670064A9FA /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457915B5DB270064A9FA /* WebSocketMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
-		08D2467015B5EE950064A9FA /* WebSocket10.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457315B5DB270064A9FA /* WebSocket10.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
 		08D2467115B5EE950064A9FA /* WebSocketConnectConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457515B5DB270064A9FA /* WebSocketConnectConfig.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2467215B5EE950064A9FA /* WebSocketFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457715B5DB270064A9FA /* WebSocketFragment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
 		08D2467A15B5EF630064A9FA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2467315B5EF530064A9FA /* AudioToolbox.framework */; };
@@ -863,6 +858,7 @@
 		0847FDC517679F6F00D950EA /* MASPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASPreferencesWindowController.m; path = Dependencies/MASPreferences/MASPreferencesWindowController.m; sourceTree = SOURCE_ROOT; };
 		084D39B51627300F00B8A06B /* RCDataFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDataFrame.h; sourceTree = "<group>"; };
 		084D39B61627300F00B8A06B /* RCDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDataFrame.m; sourceTree = "<group>"; };
+		0851D5FB1C18DCED00B8E993 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		0854197F178771DA008AF602 /* projwspaceJson.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = projwspaceJson.txt; sourceTree = "<group>"; };
 		0857277419AFCD4400ADCC7B /* RC2ServerAFNet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RC2ServerAFNet1.h; sourceTree = "<group>"; };
 		0857277519AFCD4400ADCC7B /* RC2ServerAFNet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RC2ServerAFNet1.m; sourceTree = "<group>"; };
@@ -1352,6 +1348,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0851D5FC1C18DCED00B8E993 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2057,6 +2054,7 @@
 		08D2432215B5D04D0064A9FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0851D5FB1C18DCED00B8E993 /* SystemConfiguration.framework */,
 				0857278A19B0FC9300ADCC7B /* SystemConfiguration.framework */,
 				08CFBFE81979C3E3009939CB /* QuickLook.framework */,
 				08093C1B1979B0DA00F5852A /* libPEGKitOSX.a */,
@@ -2561,7 +2559,7 @@
 				08DF3D5015BDBC79000A339D /* AMResizableSplitViewController.m */,
 			);
 			name = AMResizableSplitterViewController;
-			path = ../AMResizableSplitterViewController/CustomSplitView;
+			path = Dependencies/AMResizableSplitterViewController/CustomSplitView;
 			sourceTree = SOURCE_ROOT;
 		};
 		08E49218166E7251005E83DE /* session */ = {
@@ -2782,7 +2780,7 @@
 		08D2431615B5D04D0064A9FA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "West Virginia University";
 				TargetAttributes = {
 					0857277D19B0F89700ADCC7B = {
@@ -3039,14 +3037,14 @@
 		};
 		089C0D6C189193DE0046E8DF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nIDENTITY=\"rc2sign\"\ncodesign --verbose --force --sign \"$IDENTITY\" \"$LOCATION/DropboxOSX.framework/Versions/A\"\ncodesign --verbose --force --sign \"$IDENTITY\" \"$LOCATION/Vyana.framework/Versions/B\"";
 		};
@@ -3209,9 +3207,6 @@
 				08D2458E15B5DB270064A9FA /* WebSocket.m in Sources */,
 				08BDDD9017EA48AB00E669E3 /* NSNumber+MagicalDataImport.m in Sources */,
 				08D2458F15B5DB270064A9FA /* WebSocket00.m in Sources */,
-				08D2459015B5DB270064A9FA /* WebSocket07.m in Sources */,
-				08D2459115B5DB270064A9FA /* WebSocket08.m in Sources */,
-				08D2459215B5DB270064A9FA /* WebSocket10.m in Sources */,
 				0817C6981821A3EC00C70CA8 /* _RCImage.m in Sources */,
 				0873431817C53911000EC1E0 /* AddFullConstraintsView.m in Sources */,
 				08D2459315B5DB270064A9FA /* WebSocketConnectConfig.m in Sources */,
@@ -3394,14 +3389,11 @@
 				08D2466B15B5EE670064A9FA /* WebSocket.m in Sources */,
 				08BDDDA517EA48AB00E669E3 /* NSManagedObjectContext+MagicalRecord.m in Sources */,
 				08D2466C15B5EE670064A9FA /* WebSocket00.m in Sources */,
-				08D2466D15B5EE670064A9FA /* WebSocket07.m in Sources */,
 				082D1EC117E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */,
 				08BDDDB917EA48AB00E669E3 /* MagicalRecord+Setup.m in Sources */,
-				08D2466E15B5EE670064A9FA /* WebSocket08.m in Sources */,
 				08F3FE0E18342D8D000112F3 /* RCMTableView.m in Sources */,
 				08B705391831648500868E38 /* RCList.m in Sources */,
 				08D2466F15B5EE670064A9FA /* WebSocketMessage.m in Sources */,
-				08D2467015B5EE950064A9FA /* WebSocket10.m in Sources */,
 				08D2467115B5EE950064A9FA /* WebSocketConnectConfig.m in Sources */,
 				0828600818451B7C002BA8D2 /* Rc2AppConstants.m in Sources */,
 				08D2467215B5EE950064A9FA /* WebSocketFragment.m in Sources */,
@@ -3629,6 +3621,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
@@ -3657,6 +3650,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
@@ -3685,6 +3679,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
@@ -3868,8 +3863,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mark Lilback (8GPQDH8C2M)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -3885,6 +3882,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9DE4A953-EF27-4F01-9B4A-2AD81E259306";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -3908,6 +3906,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=0";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -3931,7 +3930,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
@@ -3961,6 +3959,7 @@
 					"$(BUILT_PRODUCTS_DIR)",
 				);
 				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.ipad3;
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -3973,7 +3972,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
@@ -4004,6 +4002,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug",
 				);
 				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.ipad3;
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -4028,6 +4027,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=0";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -4051,7 +4051,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
@@ -4084,6 +4083,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/rc2-ennnaeddkunxjxclykuzafxnnalw/Build/Products/Debug",
 				);
 				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.ipad3;
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -4096,8 +4096,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = rc2sign;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = rc2sign;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4122,6 +4122,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lz";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.MacClient;
 				PRODUCT_NAME = Rc2;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -4134,8 +4135,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = rc2sign;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = rc2sign;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4160,6 +4161,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-lz";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.MacClient;
 				PRODUCT_NAME = Rc2;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -4172,8 +4174,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = rc2sign;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = rc2sign;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4198,6 +4200,7 @@
 				LIBRARY_SEARCH_PATHS = "$(DSTROOT)/usr/local/lib";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-lz";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.MacClient;
 				PRODUCT_NAME = Rc2;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -4225,6 +4228,7 @@
 				INFOPLIST_FILE = "CoreUnitTests/CoreUnitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
@@ -4250,6 +4254,7 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = "CoreUnitTests/CoreUnitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
@@ -4275,6 +4280,7 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = "CoreUnitTests/CoreUnitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
