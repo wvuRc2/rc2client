@@ -13,6 +13,7 @@ import Foundation
 	let userId : Int32
 	let name : String
 	let version : Int32
+	let files : [Rc2File]
 	
 	static func workspacesFromJsonArray(jsonArray : AnyObject) -> [Rc2Workspace] {
 		let array = JSON(jsonArray)
@@ -37,5 +38,6 @@ import Foundation
 		userId = json["userId"].int32Value
 		version = json["version"].int32Value
 		name = json["name"].stringValue
+		files = Rc2File.filesFromJsonArray(json["files"])
 	}
 }

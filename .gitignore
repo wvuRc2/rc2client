@@ -1,2 +1,4 @@
 3rdParty
 xcuserdata
+*.playground
+OHHTTPStubs
