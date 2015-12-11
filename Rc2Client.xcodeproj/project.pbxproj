@@ -125,6 +125,12 @@
 		0843BE751C1B445100DD8F28 /* Rc2RestServerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */; };
 		0843BE771C1B5EBD00DD8F28 /* Rc2LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */; };
 		0843BE781C1B5EBD00DD8F28 /* Rc2LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */; };
+		0843BE7A1C1B6B0700DD8F28 /* loginResults.json in Resources */ = {isa = PBXBuildFile; fileRef = 0843BE791C1B6B0700DD8F28 /* loginResults.json */; };
+		0843BE7C1C1B735B00DD8F28 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0843BE7B1C1B735B00DD8F28 /* OHHTTPStubs.framework */; };
+		0843BE7D1C1B7E2100DD8F28 /* Rc2LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */; };
+		0843BE7E1C1B7E3300DD8F28 /* Rc2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE671C1A1F6400DD8F28 /* Rc2User.swift */; };
+		0843BE7F1C1B7E3700DD8F28 /* Rc2Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6D1C1A259100DD8F28 /* Rc2Workspace.swift */; };
+		0843BE801C1B7E4D00DD8F28 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6A1C1A22EC00DD8F28 /* SwiftyJSON.swift */; };
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -787,6 +793,8 @@
 		0843BE711C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Rc2Extensions.m"; path = "source/NSArray+Rc2Extensions.m"; sourceTree = "<group>"; };
 		0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rc2RestServerTest.m; sourceTree = "<group>"; };
 		0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2LoginSession.swift; sourceTree = "<group>"; };
+		0843BE791C1B6B0700DD8F28 /* loginResults.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loginResults.json; sourceTree = "<group>"; };
+		0843BE7B1C1B735B00DD8F28 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = 3rdParty/OHHTTPStubs.framework; sourceTree = SOURCE_ROOT; };
 		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* MCAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAppConstants.h; path = source/mac/MCAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* MCAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAppConstants.m; path = source/mac/MCAppConstants.m; sourceTree = SOURCE_ROOT; };
@@ -1376,6 +1384,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0851D5FC1C18DCED00B8E993 /* SystemConfiguration.framework in Frameworks */,
+				0843BE7C1C1B735B00DD8F28 /* OHHTTPStubs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1800,6 +1809,7 @@
 			children = (
 				0857278219B0F89700ADCC7B /* Rc2ServerTests.m */,
 				0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */,
+				0843BE7B1C1B735B00DD8F28 /* OHHTTPStubs.framework */,
 				0857278019B0F89700ADCC7B /* Supporting Files */,
 			);
 			path = RestTests;
@@ -1808,6 +1818,7 @@
 		0857278019B0F89700ADCC7B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0843BE791C1B6B0700DD8F28 /* loginResults.json */,
 				08DDC6E319BA61E40008CCD3 /* lognormal.R */,
 				08DDC6E419BA61E40008CCD3 /* samples.R */,
 				0857278119B0F89700ADCC7B /* Info.plist */,
@@ -2880,6 +2891,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08DDC6E519BA623A0008CCD3 /* lognormal.R in Resources */,
+				0843BE7A1C1B6B0700DD8F28 /* loginResults.json in Resources */,
 				08DDC6E619BA623A0008CCD3 /* samples.R in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3176,7 +3188,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0843BE751C1B445100DD8F28 /* Rc2RestServerTest.m in Sources */,
+				0843BE7D1C1B7E2100DD8F28 /* Rc2LoginSession.swift in Sources */,
+				0843BE7E1C1B7E3300DD8F28 /* Rc2User.swift in Sources */,
+				0843BE801C1B7E4D00DD8F28 /* SwiftyJSON.swift in Sources */,
 				0814988519B115B7006C1290 /* Rc2ServerTests.m in Sources */,
+				0843BE7F1C1B7E3700DD8F28 /* Rc2Workspace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3670,9 +3686,11 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
+					"$(PROJECT_DIR)/3rdParty",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -3681,11 +3699,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = RestTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(SRCROOT)/3rdParty";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_MODULE_NAME = Rc2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
@@ -3703,18 +3722,21 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
+					"$(PROJECT_DIR)/3rdParty",
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = RestTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(SRCROOT)/3rdParty";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_MODULE_NAME = Rc2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
@@ -3732,18 +3754,21 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
+					"$(PROJECT_DIR)/3rdParty",
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = RestTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(SRCROOT)/3rdParty";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_MODULE_NAME = Rc2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";

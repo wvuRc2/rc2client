@@ -102,8 +102,8 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 		if (httpResponse.statusCode == 401) {
 			handler(NO, nil, error);
 		} else if (httpResponse.statusCode == 200) {
-			Rc2LoginSession *loginSession = [[Rc2LoginSession alloc] initWithJsonData:json];
-			handler(YES, loginSession, nil);
+			self.loginSession = [[Rc2LoginSession alloc] initWithJsonData:json];
+			handler(YES, self.loginSession, nil);
 			[[NSNotificationCenter defaultCenter] postNotificationName:Rc2RestLoginStatusChangedNotification object:self];
 		} else {
 			Rc2LogWarn(@"login got unknown error:%ld", (long)httpResponse.statusCode);
