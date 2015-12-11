@@ -16,8 +16,12 @@ import Foundation
 	
 	static func workspacesFromJsonArray(jsonArray : AnyObject) -> [Rc2Workspace] {
 		let array = JSON(jsonArray)
+		return workspacesFromJsonArray(array)
+	}
+
+	static func workspacesFromJsonArray(json : JSON) -> [Rc2Workspace] {
 		var wspaces = [Rc2Workspace]()
-		for (_,subJson):(String, JSON) in array {
+		for (_,subJson):(String, JSON) in json {
 			wspaces.append(Rc2Workspace(json:subJson))
 		}
 		return wspaces

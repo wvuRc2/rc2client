@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class Rc2LoginSession;
+
 typedef void (^Rc2RestCompletionHandler)(BOOL success, id results, NSError *error);
 
 ///posted on login and logout with the object being the Rc2RestServer instance
@@ -16,6 +18,7 @@ extern NSString * const Rc2RestLoginStatusChangedNotification;
 @interface Rc2RestServer : NSObject
 @property (nonatomic, strong, readonly) NSURLSession *urlSession;
 @property (nonatomic, copy, readonly) NSArray<NSString*> *restHosts;
+@property (nonatomic, strong, readonly) Rc2LoginSession *loginSession;
 
 +(instancetype)sharedInstance;
 +(void)setSharedInstance:(Rc2RestServer*)server;

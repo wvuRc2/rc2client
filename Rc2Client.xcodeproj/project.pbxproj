@@ -114,8 +114,6 @@
 		0843BE5C1C1A12E600DD8F28 /* Rc2RestServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE5A1C1A12E600DD8F28 /* Rc2RestServer.m */; };
 		0843BE5E1C1A186900DD8F28 /* Rc2RestHosts.json in Resources */ = {isa = PBXBuildFile; fileRef = 0843BE5D1C1A186900DD8F28 /* Rc2RestHosts.json */; };
 		0843BE5F1C1A186900DD8F28 /* Rc2RestHosts.json in Resources */ = {isa = PBXBuildFile; fileRef = 0843BE5D1C1A186900DD8F28 /* Rc2RestHosts.json */; };
-		0843BE621C1A1BDA00DD8F28 /* RCLoginSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE611C1A1BDA00DD8F28 /* RCLoginSession.m */; };
-		0843BE631C1A1BDA00DD8F28 /* RCLoginSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE611C1A1BDA00DD8F28 /* RCLoginSession.m */; };
 		0843BE681C1A1F6400DD8F28 /* Rc2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE671C1A1F6400DD8F28 /* Rc2User.swift */; };
 		0843BE691C1A1F6400DD8F28 /* Rc2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE671C1A1F6400DD8F28 /* Rc2User.swift */; };
 		0843BE6B1C1A22EC00DD8F28 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6A1C1A22EC00DD8F28 /* SwiftyJSON.swift */; };
@@ -125,6 +123,8 @@
 		0843BE721C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE711C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m */; };
 		0843BE731C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE711C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m */; };
 		0843BE751C1B445100DD8F28 /* Rc2RestServerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */; };
+		0843BE771C1B5EBD00DD8F28 /* Rc2LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */; };
+		0843BE781C1B5EBD00DD8F28 /* Rc2LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */; };
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -778,8 +778,6 @@
 		0843BE591C1A12E600DD8F28 /* Rc2RestServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rc2RestServer.h; sourceTree = "<group>"; };
 		0843BE5A1C1A12E600DD8F28 /* Rc2RestServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rc2RestServer.m; sourceTree = "<group>"; };
 		0843BE5D1C1A186900DD8F28 /* Rc2RestHosts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Rc2RestHosts.json; path = resources/Rc2RestHosts.json; sourceTree = "<group>"; };
-		0843BE601C1A1BDA00DD8F28 /* RCLoginSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLoginSession.h; sourceTree = "<group>"; };
-		0843BE611C1A1BDA00DD8F28 /* RCLoginSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLoginSession.m; sourceTree = "<group>"; };
 		0843BE651C1A1F6400DD8F28 /* Mac App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mac App-Bridging-Header.h"; sourceTree = "<group>"; };
 		0843BE661C1A1F6400DD8F28 /* iPad App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iPad App-Bridging-Header.h"; sourceTree = "<group>"; };
 		0843BE671C1A1F6400DD8F28 /* Rc2User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2User.swift; sourceTree = "<group>"; };
@@ -788,6 +786,7 @@
 		0843BE701C1A2D9400DD8F28 /* NSArray+Rc2Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Rc2Extensions.h"; path = "source/NSArray+Rc2Extensions.h"; sourceTree = "<group>"; };
 		0843BE711C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Rc2Extensions.m"; path = "source/NSArray+Rc2Extensions.m"; sourceTree = "<group>"; };
 		0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rc2RestServerTest.m; sourceTree = "<group>"; };
+		0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2LoginSession.swift; sourceTree = "<group>"; };
 		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* MCAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAppConstants.h; path = source/mac/MCAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* MCAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAppConstants.m; path = source/mac/MCAppConstants.m; sourceTree = SOURCE_ROOT; };
@@ -1635,8 +1634,7 @@
 			children = (
 				0843BE591C1A12E600DD8F28 /* Rc2RestServer.h */,
 				0843BE5A1C1A12E600DD8F28 /* Rc2RestServer.m */,
-				0843BE601C1A1BDA00DD8F28 /* RCLoginSession.h */,
-				0843BE611C1A1BDA00DD8F28 /* RCLoginSession.m */,
+				0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */,
 				0843BE671C1A1F6400DD8F28 /* Rc2User.swift */,
 				0843BE6D1C1A259100DD8F28 /* Rc2Workspace.swift */,
 				0843BE651C1A1F6400DD8F28 /* Mac App-Bridging-Header.h */,
@@ -3268,6 +3266,7 @@
 				0873431817C53911000EC1E0 /* AddFullConstraintsView.m in Sources */,
 				08D2459315B5DB270064A9FA /* WebSocketConnectConfig.m in Sources */,
 				08BDDDA617EA48AB00E669E3 /* NSManagedObjectContext+MagicalSaves.m in Sources */,
+				0843BE781C1B5EBD00DD8F28 /* Rc2LoginSession.swift in Sources */,
 				08F17066198AE31700A79B9E /* RCActiveLogin.m in Sources */,
 				08D2459415B5DB270064A9FA /* WebSocketFragment.m in Sources */,
 				08D2459515B5DB270064A9FA /* WebSocketMessage.m in Sources */,
@@ -3331,7 +3330,6 @@
 				08B74C311635CA8700083F9A /* VariableSpreadsheetController.m in Sources */,
 				08B74C3D1635CF4B00083F9A /* SpreadsheetScroller.m in Sources */,
 				08B74C411635D14800083F9A /* SpreadsheetCell.m in Sources */,
-				0843BE631C1A1BDA00DD8F28 /* RCLoginSession.m in Sources */,
 				08B74C571639D3AA00083F9A /* RCProject.m in Sources */,
 				0868D4D21805CE6A002AD679 /* ImagePreviewTransition.m in Sources */,
 				08B74CED163B330500083F9A /* ProjectViewController.m in Sources */,
@@ -3398,7 +3396,6 @@
 				08D2463F15B5ED3C0064A9FA /* AppDelegate.m in Sources */,
 				08D2464015B5ED6D0064A9FA /* Rc2.xcdatamodeld in Sources */,
 				08D2464115B5ED800064A9FA /* RC2RemoteLogger.m in Sources */,
-				0843BE621C1A1BDA00DD8F28 /* RCLoginSession.m in Sources */,
 				08BDDDAF17EA48AB00E669E3 /* NSPersistentStoreCoordinator+MagicalRecord.m in Sources */,
 				08D2464215B5ED800064A9FA /* Rc2Server.m in Sources */,
 				08D2464315B5ED800064A9FA /* RCAudioChatEngine.m in Sources */,
@@ -3476,6 +3473,7 @@
 				082D1ED017E3B5C800723EB3 /* RCSyntaxParser.m in Sources */,
 				082D1ED417E3C12C00723EB3 /* RCHighlightingParser.m in Sources */,
 				0845944D15B5F2BC00297C9D /* MCNewFileController.m in Sources */,
+				0843BE771C1B5EBD00DD8F28 /* Rc2LoginSession.swift in Sources */,
 				0845944F15B5F2BC00297C9D /* MCWebOutputController.m in Sources */,
 				0845945115B5F2BC00297C9D /* MultiFileImporter.m in Sources */,
 				0845945215B5F2BC00297C9D /* PasswordVerifier.m in Sources */,

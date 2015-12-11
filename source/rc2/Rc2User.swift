@@ -17,8 +17,12 @@ import Foundation
 	let email: String;
 	let admin: Bool;
 	
-	init(jsonData : AnyObject) {
+	convenience init (jsonData:AnyObject) {
 		let json = JSON(jsonData)
+		self.init(json: json)
+	}
+	
+	init(json : JSON) {
 		userId = json["id"].int32Value
 		login = json["login"].stringValue
 		version = json["version"].int32Value

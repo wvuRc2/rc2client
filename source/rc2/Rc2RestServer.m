@@ -8,6 +8,7 @@
 
 #import "Rc2RestServer.h"
 #import "NSArray+Rc2Extensions.h"
+#import "Rc2-Swift.h"
 
 static Rc2RestServer *sInstance;
 
@@ -18,6 +19,7 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 @interface Rc2RestServer ()
 @property (nonatomic, strong) NSURLSessionConfiguration *urlConfig;
 @property (nonatomic, strong, readwrite) NSURLSession *urlSession;
+@property (nonatomic, strong, readwrite) Rc2LoginSession *loginSession;
 @property (nonatomic, copy) NSArray *hosts;
 @property (nonatomic, copy) NSURL *baseUrl;
 @end
@@ -100,7 +102,9 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 		if (httpResponse.statusCode == 401) {
 			handler(NO, nil, error);
 		} else if (httpResponse.statusCode == 200) {
-			handler(YES, json, nil);
+			Rc2LoginSession *loginSession = [[Rc2LoginSession alloc] initWithJsonData:json];
+			handler(YES, loginSession, nil);
+			[[NSNotificationCenter defaultCenter] postNotificationName:Rc2RestLoginStatusChangedNotification object:self];
 		} else {
 			Rc2LogWarn(@"login got unknown error:%ld", (long)httpResponse.statusCode);
 			handler(NO, nil, error);
