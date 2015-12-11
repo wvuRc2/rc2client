@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFHTTPClient.h"
 #import "RCFileContainer.h"
 
 @class RCWorkspace;
@@ -50,7 +49,7 @@ NSArray* RC2_AcceptableImportFileSuffixes();
 
 @property (nonatomic, strong, readonly) RCActiveLogin *activeLogin;
 
-@property (nonatomic, strong, readonly) AFHTTPClient *httpClient;
+//@property (nonatomic, strong, readonly) AFHTTPClient *httpClient;
 @property (weak, nonatomic, readonly) NSString *userAgentString;
 @property (nonatomic, assign) NSInteger serverHost;
 @property (nonatomic, assign, readonly) BOOL loggedIn;

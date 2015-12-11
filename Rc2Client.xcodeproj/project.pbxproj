@@ -110,6 +110,21 @@
 		083AAEFC162EFFBF0037AAB3 /* VariableDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEFA162EFFBF0037AAB3 /* VariableDetailViewController.m */; };
 		083AAF00162F480C0037AAB3 /* FunctionVariableSummaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEFF162F480C0037AAB3 /* FunctionVariableSummaryCell.m */; };
 		083AAF02162F48210037AAB3 /* FunctionVariableSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083AAF01162F48210037AAB3 /* FunctionVariableSummaryCell.xib */; };
+		0843BE5B1C1A12E600DD8F28 /* Rc2RestServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE5A1C1A12E600DD8F28 /* Rc2RestServer.m */; };
+		0843BE5C1C1A12E600DD8F28 /* Rc2RestServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE5A1C1A12E600DD8F28 /* Rc2RestServer.m */; };
+		0843BE5E1C1A186900DD8F28 /* Rc2RestHosts.json in Resources */ = {isa = PBXBuildFile; fileRef = 0843BE5D1C1A186900DD8F28 /* Rc2RestHosts.json */; };
+		0843BE5F1C1A186900DD8F28 /* Rc2RestHosts.json in Resources */ = {isa = PBXBuildFile; fileRef = 0843BE5D1C1A186900DD8F28 /* Rc2RestHosts.json */; };
+		0843BE621C1A1BDA00DD8F28 /* RCLoginSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE611C1A1BDA00DD8F28 /* RCLoginSession.m */; };
+		0843BE631C1A1BDA00DD8F28 /* RCLoginSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE611C1A1BDA00DD8F28 /* RCLoginSession.m */; };
+		0843BE681C1A1F6400DD8F28 /* Rc2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE671C1A1F6400DD8F28 /* Rc2User.swift */; };
+		0843BE691C1A1F6400DD8F28 /* Rc2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE671C1A1F6400DD8F28 /* Rc2User.swift */; };
+		0843BE6B1C1A22EC00DD8F28 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6A1C1A22EC00DD8F28 /* SwiftyJSON.swift */; };
+		0843BE6C1C1A22EC00DD8F28 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6A1C1A22EC00DD8F28 /* SwiftyJSON.swift */; };
+		0843BE6E1C1A259100DD8F28 /* Rc2Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6D1C1A259100DD8F28 /* Rc2Workspace.swift */; };
+		0843BE6F1C1A259100DD8F28 /* Rc2Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6D1C1A259100DD8F28 /* Rc2Workspace.swift */; };
+		0843BE721C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE711C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m */; };
+		0843BE731C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE711C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m */; };
+		0843BE751C1B445100DD8F28 /* Rc2RestServerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */; };
 		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
 		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -760,6 +775,19 @@
 		083AAEFE162F480C0037AAB3 /* FunctionVariableSummaryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionVariableSummaryCell.h; sourceTree = "<group>"; };
 		083AAEFF162F480C0037AAB3 /* FunctionVariableSummaryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionVariableSummaryCell.m; sourceTree = "<group>"; };
 		083AAF01162F48210037AAB3 /* FunctionVariableSummaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FunctionVariableSummaryCell.xib; sourceTree = "<group>"; };
+		0843BE591C1A12E600DD8F28 /* Rc2RestServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rc2RestServer.h; sourceTree = "<group>"; };
+		0843BE5A1C1A12E600DD8F28 /* Rc2RestServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rc2RestServer.m; sourceTree = "<group>"; };
+		0843BE5D1C1A186900DD8F28 /* Rc2RestHosts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Rc2RestHosts.json; path = resources/Rc2RestHosts.json; sourceTree = "<group>"; };
+		0843BE601C1A1BDA00DD8F28 /* RCLoginSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLoginSession.h; sourceTree = "<group>"; };
+		0843BE611C1A1BDA00DD8F28 /* RCLoginSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLoginSession.m; sourceTree = "<group>"; };
+		0843BE651C1A1F6400DD8F28 /* Mac App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mac App-Bridging-Header.h"; sourceTree = "<group>"; };
+		0843BE661C1A1F6400DD8F28 /* iPad App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iPad App-Bridging-Header.h"; sourceTree = "<group>"; };
+		0843BE671C1A1F6400DD8F28 /* Rc2User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2User.swift; sourceTree = "<group>"; };
+		0843BE6A1C1A22EC00DD8F28 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Dependencies/SwiftyJSON/Source/SwiftyJSON.swift; sourceTree = "<group>"; };
+		0843BE6D1C1A259100DD8F28 /* Rc2Workspace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2Workspace.swift; sourceTree = "<group>"; };
+		0843BE701C1A2D9400DD8F28 /* NSArray+Rc2Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Rc2Extensions.h"; path = "source/NSArray+Rc2Extensions.h"; sourceTree = "<group>"; };
+		0843BE711C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Rc2Extensions.m"; path = "source/NSArray+Rc2Extensions.m"; sourceTree = "<group>"; };
+		0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rc2RestServerTest.m; sourceTree = "<group>"; };
 		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* MCAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAppConstants.h; path = source/mac/MCAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* MCAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAppConstants.m; path = source/mac/MCAppConstants.m; sourceTree = SOURCE_ROOT; };
@@ -1602,6 +1630,22 @@
 			path = Dependencies/fmdb/src/fmdb;
 			sourceTree = "<group>";
 		};
+		0843BE641C1A1F3E00DD8F28 /* rc2v2 */ = {
+			isa = PBXGroup;
+			children = (
+				0843BE591C1A12E600DD8F28 /* Rc2RestServer.h */,
+				0843BE5A1C1A12E600DD8F28 /* Rc2RestServer.m */,
+				0843BE601C1A1BDA00DD8F28 /* RCLoginSession.h */,
+				0843BE611C1A1BDA00DD8F28 /* RCLoginSession.m */,
+				0843BE671C1A1F6400DD8F28 /* Rc2User.swift */,
+				0843BE6D1C1A259100DD8F28 /* Rc2Workspace.swift */,
+				0843BE651C1A1F6400DD8F28 /* Mac App-Bridging-Header.h */,
+				0843BE661C1A1F6400DD8F28 /* iPad App-Bridging-Header.h */,
+			);
+			name = rc2v2;
+			path = source/rc2;
+			sourceTree = "<group>";
+		};
 		084593F315B5F1D700297C9D /* admin */ = {
 			isa = PBXGroup;
 			children = (
@@ -1757,6 +1801,7 @@
 			isa = PBXGroup;
 			children = (
 				0857278219B0F89700ADCC7B /* Rc2ServerTests.m */,
+				0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */,
 				0857278019B0F89700ADCC7B /* Supporting Files */,
 			);
 			path = RestTests;
@@ -2030,6 +2075,7 @@
 				08D2435515B5D3F00064A9FA /* ios */,
 				08D2462415B5EBC20064A9FA /* mac */,
 				08D244E415B5D98A0064A9FA /* shared */,
+				0843BE6A1C1A22EC00DD8F28 /* SwiftyJSON.swift */,
 				08D248C3176A498900D71F02 /* CoreUnitTests */,
 				08BD2F4A185A4ED4002B256B /* Rc2 Packageg */,
 				0857277F19B0F89700ADCC7B /* RestTests */,
@@ -2297,6 +2343,7 @@
 			isa = PBXGroup;
 			children = (
 				08B74CF71648615800083F9A /* Localizable.strings */,
+				0843BE5D1C1A186900DD8F28 /* Rc2RestHosts.json */,
 				08BDDDBE17ECCD7A00E669E3 /* CommonDefaults.plist */,
 				08FF3C7D16E91F6B00F3E09E /* themeTemplate.plist */,
 				08D2446A15B5D8DE0064A9FA /* themes */,
@@ -2312,7 +2359,10 @@
 				08FF3D3D16F0F84600F3E09E /* ThemeEngine.plist */,
 				08FF3D3A16F0EC7E00F3E09E /* ThemeColorEntry.h */,
 				08FF3D3B16F0EC7E00F3E09E /* ThemeColorEntry.m */,
+				0843BE701C1A2D9400DD8F28 /* NSArray+Rc2Extensions.h */,
+				0843BE711C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m */,
 				082D1EB817E2402400723EB3 /* syntax highlighting */,
+				0843BE641C1A1F3E00DD8F28 /* rc2v2 */,
 				08D2459715B5DBB70064A9FA /* rc2 */,
 				0830EF4018EB50FC00422167 /* fmdb */,
 				08BDDD4E17EA48AB00E669E3 /* MagicalRecord */,
@@ -2780,6 +2830,7 @@
 		08D2431615B5D04D0064A9FA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "West Virginia University";
 				TargetAttributes = {
@@ -2815,8 +2866,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				08D2431E15B5D04D0064A9FA /* iPad App */,
 				08D2461B15B5EBC20064A9FA /* Mac App */,
+				08D2431E15B5D04D0064A9FA /* iPad App */,
 				08D248B9176A498900D71F02 /* CoreUnitTests */,
 				08BD2F48185A4ED4002B256B /* Rc2 Package */,
 				086AFE7519798EA800C83EF4 /* OCLint Mac */,
@@ -2919,6 +2970,7 @@
 				08FF3D4C16F10E1900F3E09E /* CrosshairSelector@2x.png in Resources */,
 				08FF3D4E16F10E1900F3E09E /* HorizontalSelector.png in Resources */,
 				0868D4C217FCA290002AD679 /* KTOperatorPanel.xib in Resources */,
+				0843BE5F1C1A186900DD8F28 /* Rc2RestHosts.json in Resources */,
 				08FF3D4F16F10E1900F3E09E /* HorizontalSelector@2x.png in Resources */,
 				08FF3D5016F10E1900F3E09E /* HueSaturationGradient.png in Resources */,
 				087DB8C817B57AFF00724811 /* HockeySDKResources.bundle in Resources */,
@@ -2935,6 +2987,7 @@
 				08F3FE1318356660000112F3 /* MCVariableWindowController.xib in Resources */,
 				08BDDDC017ECCD7A00E669E3 /* CommonDefaults.plist in Resources */,
 				08BAF5291974649C007228DC /* SSKeychain.strings in Resources */,
+				0843BE5E1C1A186900DD8F28 /* Rc2RestHosts.json in Resources */,
 				089C0D6D1891A5230046E8DF /* MCEditUserController.xib in Resources */,
 				0845942215B5F22700297C9D /* MacDefaults.plist in Resources */,
 				08CB421B187F48AF00F0F794 /* MCHelpSheetController.xib in Resources */,
@@ -3124,6 +3177,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0843BE751C1B445100DD8F28 /* Rc2RestServerTest.m in Sources */,
 				0814988519B115B7006C1290 /* Rc2ServerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3152,6 +3206,7 @@
 				08BDDDAE17EA48AB00E669E3 /* NSPersistentStoreCoordinator+MagicalRecord.m in Sources */,
 				08BDDDB817EA48AB00E669E3 /* MagicalRecord+Setup.m in Sources */,
 				08D2438D15B5D5AB0064A9FA /* EditorViewController.m in Sources */,
+				0843BE5C1C1A12E600DD8F28 /* Rc2RestServer.m in Sources */,
 				08D2439215B5D5BD0064A9FA /* ConsoleViewController.m in Sources */,
 				08D2439C15B5D5E20064A9FA /* ImageDisplayController.m in Sources */,
 				08D2439E15B5D5E20064A9FA /* ImagePickerController.m in Sources */,
@@ -3160,6 +3215,7 @@
 				08D2439F15B5D5E20064A9FA /* SessionFilesController.m in Sources */,
 				08BDDDAA17EA48AB00E669E3 /* NSManagedObjectModel+MagicalRecord.m in Sources */,
 				0868D4B617FA0C72002AD679 /* KTPanel.m in Sources */,
+				0843BE731C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m in Sources */,
 				08D243AA15B5D5FA0064A9FA /* DoodleView.m in Sources */,
 				08BDDD8A17EA48AB00E669E3 /* MagicalImportFunctions.m in Sources */,
 				08D243AB15B5D5FA0064A9FA /* DoodleViewController.m in Sources */,
@@ -3200,6 +3256,7 @@
 				08D2458715B5DB270064A9FA /* SBJsonParser.m in Sources */,
 				08D2458815B5DB270064A9FA /* SBJsonWriter.m in Sources */,
 				08D2458B15B5DB270064A9FA /* HandshakeHeader.m in Sources */,
+				0843BE6F1C1A259100DD8F28 /* Rc2Workspace.swift in Sources */,
 				08D2458C15B5DB270064A9FA /* MutableQueue.m in Sources */,
 				08BDDDB417EA48AB00E669E3 /* MagicalRecord+iCloud.m in Sources */,
 				08D2458D15B5DB270064A9FA /* NSData+Base64.m in Sources */,
@@ -3223,6 +3280,7 @@
 				08D245D215B5DBB70064A9FA /* RCAssignment.m in Sources */,
 				08D245D315B5DBB70064A9FA /* RCAssignmentFile.m in Sources */,
 				080F50ED1890606200CF39FB /* CXAlertViewController.m in Sources */,
+				0843BE6C1C1A22EC00DD8F28 /* SwiftyJSON.swift in Sources */,
 				0828605218526300002BA8D2 /* AMHudView.m in Sources */,
 				08BDDD8E17EA48AB00E669E3 /* NSEntityDescription+MagicalDataImport.m in Sources */,
 				08D245D415B5DBB70064A9FA /* RCCourse.m in Sources */,
@@ -3273,11 +3331,13 @@
 				08B74C311635CA8700083F9A /* VariableSpreadsheetController.m in Sources */,
 				08B74C3D1635CF4B00083F9A /* SpreadsheetScroller.m in Sources */,
 				08B74C411635D14800083F9A /* SpreadsheetCell.m in Sources */,
+				0843BE631C1A1BDA00DD8F28 /* RCLoginSession.m in Sources */,
 				08B74C571639D3AA00083F9A /* RCProject.m in Sources */,
 				0868D4D21805CE6A002AD679 /* ImagePreviewTransition.m in Sources */,
 				08B74CED163B330500083F9A /* ProjectViewController.m in Sources */,
 				08B74CF1163B357600083F9A /* ProjectCell.m in Sources */,
 				08286002183EBB84002BA8D2 /* SessionEditorLayoutManager.m in Sources */,
+				0843BE691C1A1F6400DD8F28 /* Rc2User.swift in Sources */,
 				08BAF53C1974879A007228DC /* GCDAsyncSocket.m in Sources */,
 				0830EF4E18EB50FC00422167 /* FMDatabaseAdditions.m in Sources */,
 				08B74CF61643045F00083F9A /* ProjectViewLayout.m in Sources */,
@@ -3338,6 +3398,7 @@
 				08D2463F15B5ED3C0064A9FA /* AppDelegate.m in Sources */,
 				08D2464015B5ED6D0064A9FA /* Rc2.xcdatamodeld in Sources */,
 				08D2464115B5ED800064A9FA /* RC2RemoteLogger.m in Sources */,
+				0843BE621C1A1BDA00DD8F28 /* RCLoginSession.m in Sources */,
 				08BDDDAF17EA48AB00E669E3 /* NSPersistentStoreCoordinator+MagicalRecord.m in Sources */,
 				08D2464215B5ED800064A9FA /* Rc2Server.m in Sources */,
 				08D2464315B5ED800064A9FA /* RCAudioChatEngine.m in Sources */,
@@ -3387,6 +3448,7 @@
 				08D2466A15B5EE670064A9FA /* NSData+Base64.m in Sources */,
 				0845C540192E8554009877E5 /* MCProjectShareController.m in Sources */,
 				08D2466B15B5EE670064A9FA /* WebSocket.m in Sources */,
+				0843BE6B1C1A22EC00DD8F28 /* SwiftyJSON.swift in Sources */,
 				08BDDDA517EA48AB00E669E3 /* NSManagedObjectContext+MagicalRecord.m in Sources */,
 				08D2466C15B5EE670064A9FA /* WebSocket00.m in Sources */,
 				082D1EC117E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */,
@@ -3431,6 +3493,7 @@
 				08F3FE0A18340C3B000112F3 /* MCVariableDetailsController.m in Sources */,
 				0845948F15B5F31100297C9D /* RCMManageCourseController.m in Sources */,
 				082D1ECC17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */,
+				0843BE6E1C1A259100DD8F28 /* Rc2Workspace.swift in Sources */,
 				0845949115B5F31100297C9D /* RCMMultiImageController.m in Sources */,
 				0845949315B5F31100297C9D /* RCMPDFViewController.m in Sources */,
 				0845949715B5F31100297C9D /* RCMSessionFileCellView.m in Sources */,
@@ -3464,12 +3527,14 @@
 				08E49223166E7834005E83DE /* MCSessionFileController.m in Sources */,
 				080E5083166FDFB800E95531 /* AFHTTPClient.m in Sources */,
 				080E5085166FDFB800E95531 /* AFHTTPRequestOperation.m in Sources */,
+				0843BE5B1C1A12E600DD8F28 /* Rc2RestServer.m in Sources */,
 				080E5087166FDFB800E95531 /* AFImageRequestOperation.m in Sources */,
 				08F17067198AE31700A79B9E /* RCActiveLogin.m in Sources */,
 				080E5089166FDFB800E95531 /* AFJSONRequestOperation.m in Sources */,
 				08BDDD9517EA48AB00E669E3 /* NSRelationshipDescription+MagicalDataImport.m in Sources */,
 				080E508B166FDFB800E95531 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				08BDDD8F17EA48AB00E669E3 /* NSEntityDescription+MagicalDataImport.m in Sources */,
+				0843BE721C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m in Sources */,
 				0830EF5118EB50FC00422167 /* FMDatabasePool.m in Sources */,
 				080E508D166FDFB800E95531 /* AFPropertyListRequestOperation.m in Sources */,
 				080E508F166FDFB800E95531 /* AFURLConnectionOperation.m in Sources */,
@@ -3478,6 +3543,7 @@
 				08FF3D0616E9250900F3E09E /* ThemeEngine.m in Sources */,
 				08FF3D5116F24F5200F3E09E /* ThemeColorEntry.m in Sources */,
 				0811F9F917189C390060BAB4 /* RCMMultiUpView.m in Sources */,
+				0843BE681C1A1F6400DD8F28 /* Rc2User.swift in Sources */,
 				0811F9FC17342CB70060BAB4 /* RCMPreviewImageView.m in Sources */,
 				08063D5C173AF33C0054FD1D /* MCVariableDisplayController.m in Sources */,
 				0833CAB0174160CA0007B54E /* MCCourseAdminController.m in Sources */,
@@ -3932,6 +3998,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -3963,6 +4030,8 @@
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "source/rc2/iPad App-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USER_HEADER_SEARCH_PATHS = "\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -3974,6 +4043,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -4006,6 +4076,7 @@
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "source/rc2/iPad App-Bridging-Header.h";
 				USER_HEADER_SEARCH_PATHS = "\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4053,6 +4124,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "resources/ios/Rc².entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -4087,6 +4159,7 @@
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "source/rc2/iPad App-Bridging-Header.h";
 				USER_HEADER_SEARCH_PATHS = "\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4096,7 +4169,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4126,6 +4200,8 @@
 				PRODUCT_NAME = Rc2;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "source/rc2/Mac App-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4135,7 +4211,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -4165,6 +4242,7 @@
 				PRODUCT_NAME = Rc2;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "source/rc2/Mac App-Bridging-Header.h";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4174,7 +4252,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -4204,6 +4283,7 @@
 				PRODUCT_NAME = Rc2;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "source/rc2/Mac App-Bridging-Header.h";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};

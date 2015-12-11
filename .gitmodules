@@ -46,3 +46,6 @@ url=https://github.com/mlilback/dropbox-sdk-ios.git
 [submodule "Dependencies/PEGKit"]
 	path = Dependencies/PEGKit
 	url = https://github.com/itod/pegkit.git
+[submodule "Dependencies/SwiftyJSON"]
+	path = Dependencies/SwiftyJSON
+	url = https://github.com/SwiftyJSON/SwiftyJSON.git

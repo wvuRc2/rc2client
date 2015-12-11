@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "Rc2Server.h"
+#import "AFHTTPClient.h"
 
 @interface RC2ServerAFNet1 : NSObject<Rc2Server>
+@property (nonatomic, strong, readonly) AFHTTPClient *httpClient;
 
 @end
