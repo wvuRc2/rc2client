@@ -14,8 +14,8 @@
 #import "Rc2Server.h"
 #import "RCWorkspace.h"
 #import "DropboxFolderSelectController.h"
-#import "RCActiveLogin.h"
-#import "RCUser.h"
+//#import "RCActiveLogin.h"
+//#import "RCUser.h"
 
 enum { eTree_Theme, eTree_Keyboard };
 
@@ -67,19 +67,19 @@ enum { eTree_Theme, eTree_Keyboard };
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	RCActiveLogin *login = RC2_SharedInstance().activeLogin;
+/*	RCActiveLogin *login = RC2_SharedInstance().activeLogin;
 	RCUser *user = login.currentUser;
 	self.emailField.text = user.email;
 	self.smsField.text = user.smsphone;
 	self.twitterField.text = user.twitter;
 	self.emailNoteSwitch.on = user.notesByEmail;
-	ThemeEngine *te = [ThemeEngine sharedInstance];
+*/	ThemeEngine *te = [ThemeEngine sharedInstance];
 	Theme *curTheme = te.currentTheme;
 	self.themeLabel.text = curTheme.name;
 
 	NSArray *settingsCells = @[self.themeCell];
-	if (login.isAdmin)
-		settingsCells = [settingsCells arrayByAddingObject:self.editThemeCell];
+//	if (login.isAdmin)
+//		settingsCells = [settingsCells arrayByAddingObject:self.editThemeCell];
 	self.sectionData = @[
 		@{@"name":@"Account", @"isSettings": @NO, @"cells": @[self.emailCell,self.emailNoteCell,self.twitterCell,self.smsCell,self.logoutCell]},
 		@{@"name":@"Settings", @"isSettings": @YES,  @"cells": settingsCells}
@@ -178,7 +178,7 @@ enum { eTree_Theme, eTree_Keyboard };
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];
-	RCUser *user = RC2_SharedInstance().activeLogin.currentUser;
+/*	RCUser *user = RC2_SharedInstance().activeLogin.currentUser;
 	if (textField == self.twitterField) {
 		[self updateUserSetting:@"twitter" withValue:textField.text success:^(NSInteger status) {
 			if (status != 0)
@@ -194,7 +194,7 @@ enum { eTree_Theme, eTree_Keyboard };
 			if (status != 0)
 				textField.text = user.email;
 		}];
-	}
+	} */
 	return NO;
 }
 

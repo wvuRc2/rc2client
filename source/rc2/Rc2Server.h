@@ -17,7 +17,6 @@
 @class RCUser;
 @class RCSavedSession;
 @class RCMessage;
-@class RCAssignment;
 @class RCProject;
 @class RCActiveLogin;
 @protocol Rc2Server;
@@ -145,10 +144,6 @@ NSArray* RC2_AcceptableImportFileSuffixes();
 -(void)requestNotifications:(Rc2FetchCompletionHandler)hblock;
 
 -(void)deleteNotification:(NSNumber*)noteId completionHandler:(Rc2FetchCompletionHandler)hblock;
-
-#pragma mark - courses/assignments
-
--(BOOL)synchronouslyUpdateAssignment:(RCAssignment*)assignment withValues:(NSDictionary*)newVals;
 
 #pragma mark - admin
 

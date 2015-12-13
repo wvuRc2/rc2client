@@ -8,14 +8,12 @@
 
 #import "MCAdminController.h"
 #import "MCUserAdminController.h"
-#import "MCCourseAdminController.h"
 
 @interface MCAdminController () <NSOutlineViewDataSource,NSOutlineViewDelegate>
 @property (nonatomic, weak) IBOutlet NSOutlineView *sourceList;
 @property (nonatomic, weak) IBOutlet NSView *detailView;
 @property (nonatomic, copy) NSArray *sourceItems;
 @property (nonatomic, strong) MCUserAdminController *userController;
-@property (nonatomic, strong) MCCourseAdminController *courseController;
 @end
 
 @implementation MCAdminController
@@ -25,8 +23,7 @@
 	if ((self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil])) {
 		self.sourceItems = @[
 							 @{@"name":@"Users", @"nib":@"MCUserAdminController"},
-							 @{@"name":@"Permissions"},
-							 @{@"name":@"Courses"}
+							 @{@"name":@"Permissions"}
 							];
 	}
 	return self;
@@ -71,10 +68,6 @@
 				self.userController = [[MCUserAdminController alloc] init];
 			view = self.userController.view;
 			break;
-		case 2:
-			if (nil == self.courseController)
-				self.courseController = [[MCCourseAdminController alloc] init];
-			view = self.courseController.view;
 	}
 	while (self.detailView.subviews.count > 0)
 		[self.detailView.subviews[0] removeFromSuperview];

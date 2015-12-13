@@ -8,7 +8,6 @@
 
 #import "SessionViewController.h"
 #import "Rc2AppConstants.h"
-#import "RCActiveLogin.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
 #import "AMResizableSplitViewController.h"
@@ -91,7 +90,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	__weak SessionViewController *bself = self;
+	__weak typeof(self) bself = self;
 
 	self.navigationItem.title = [NSString stringWithFormat:@"Workspace: %@", self.session.workspace.name];
 	CGFloat splitPos = [[_session settingForKey:@"splitPosition"] floatValue];
@@ -136,11 +135,8 @@
 		ritems = [NSMutableArray array];
 	self.mikeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mikeOff"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleMicrophone:)];
 	[ritems addObject:self.mikeButton];
-	RCActiveLogin *login = RC2_SharedInstance().activeLogin;
-	if (login.isAdmin || [login.usersPermissions containsObject:@"CROOM_SESS"]) {
-		self.doodleButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"doodle"] style:UIBarButtonItemStylePlain target:self action:@selector(showDoodleView:)];
-		[ritems addObject:self.doodleButton];
-	}
+	self.doodleButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"doodle"] style:UIBarButtonItemStylePlain target:self action:@selector(showDoodleView:)];
+	[ritems addObject:self.doodleButton];
 	[[NSNotificationCenter defaultCenter] addObserverForName:kWillDisplayGearMenu object:nil queue:nil usingBlock:^(NSNotification *note) {
 		if (bself.controlPopover.isPopoverVisible)
 			[bself.controlPopover dismissPopoverAnimated:YES];

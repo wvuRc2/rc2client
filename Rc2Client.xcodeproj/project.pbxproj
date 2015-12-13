@@ -357,8 +357,6 @@
 		08D2432615B5D04D0064A9FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432515B5D04D0064A9FA /* Foundation.framework */; };
 		08D2432815B5D04D0064A9FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2432715B5D04D0064A9FA /* CoreGraphics.framework */; };
 		08D2435415B5D2940064A9FA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2435315B5D2940064A9FA /* main.m */; };
-		08D2436D15B5D4C50064A9FA /* MessagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2436915B5D4B70064A9FA /* MessagesViewController.xib */; };
-		08D2436E15B5D4C80064A9FA /* MessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2436815B5D4B70064A9FA /* MessagesViewController.m */; };
 		08D2436F15B5D4CC0064A9FA /* WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D2436615B5D49C0064A9FA /* WelcomeViewController.xib */; };
 		08D2437015B5D4D00064A9FA /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2436515B5D49C0064A9FA /* WelcomeViewController.m */; };
 		08D2437115B5D4D30064A9FA /* AbstractTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2436315B5D49C0064A9FA /* AbstractTopViewController.m */; };
@@ -380,8 +378,6 @@
 		08D243B115B5D6260064A9FA /* LoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D243AF15B5D6260064A9FA /* LoginController.xib */; };
 		08D243B515B5D6310064A9FA /* iSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243B315B5D6310064A9FA /* iSettingsController.m */; };
 		08D243B615B5D6310064A9FA /* iSettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D243B415B5D6310064A9FA /* iSettingsController.xib */; };
-		08D243BD15B5D6560064A9FA /* SendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243BB15B5D6560064A9FA /* SendMessageViewController.m */; };
-		08D243BE15B5D6560064A9FA /* SendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D243BC15B5D6560064A9FA /* SendMessageViewController.xib */; };
 		08D243C115B5D6670064A9FA /* KeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243C015B5D6670064A9FA /* KeyboardToolbar.m */; };
 		08D243DF15B5D7590064A9FA /* ControllerUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243C515B5D7590064A9FA /* ControllerUserCell.m */; };
 		08D243E015B5D7590064A9FA /* ControllerUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D243C615B5D7590064A9FA /* ControllerUserCell.xib */; };
@@ -395,8 +391,6 @@
 		08D243E915B5D7590064A9FA /* NotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243D515B5D7590064A9FA /* NotificationCell.m */; };
 		08D243EA15B5D7590064A9FA /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D243D615B5D7590064A9FA /* NotificationCell.xib */; };
 		08D243EB15B5D7590064A9FA /* SessionEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243D815B5D7590064A9FA /* SessionEditView.m */; };
-		08D243EC15B5D7590064A9FA /* StudentAssignmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243DA15B5D7590064A9FA /* StudentAssignmentCell.m */; };
-		08D243ED15B5D7590064A9FA /* StudentAssignmentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D243DB15B5D7590064A9FA /* StudentAssignmentCell.xib */; };
 		08D2441115B5D78A0064A9FA /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243F415B5D78A0064A9FA /* GradientButton.m */; };
 		08D2441215B5D78A0064A9FA /* JSTokenButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243F715B5D78A0064A9FA /* JSTokenButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2441315B5D78A0064A9FA /* JSTokenField.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D243F915B5D78A0064A9FA /* JSTokenField.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -446,16 +440,12 @@
 		08D245CF15B5DBB70064A9FA /* _RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2459D15B5DBB70064A9FA /* _RCMessage.m */; };
 		08D245D015B5DBB70064A9FA /* _RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2459F15B5DBB70064A9FA /* _RCSavedSession.m */; };
 		08D245D115B5DBB70064A9FA /* _RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245A115B5DBB70064A9FA /* _RCWorkspaceCache.m */; };
-		08D245D215B5DBB70064A9FA /* RCAssignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245A315B5DBB70064A9FA /* RCAssignment.m */; };
-		08D245D315B5DBB70064A9FA /* RCAssignmentFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245A515B5DBB70064A9FA /* RCAssignmentFile.m */; };
-		08D245D415B5DBB70064A9FA /* RCCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245A715B5DBB70064A9FA /* RCCourse.m */; };
 		08D245D515B5DBB70064A9FA /* RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245A915B5DBB70064A9FA /* RCFile.m */; };
 		08D245D615B5DBB70064A9FA /* RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245AB15B5DBB70064A9FA /* RCImage.m */; };
 		08D245D715B5DBB70064A9FA /* RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245AD15B5DBB70064A9FA /* RCMessage.m */; };
 		08D245D815B5DBB70064A9FA /* RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245AF15B5DBB70064A9FA /* RCSavedSession.m */; };
 		08D245D915B5DBB70064A9FA /* RCSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B115B5DBB70064A9FA /* RCSession.m */; };
 		08D245DA15B5DBB70064A9FA /* RCSessionUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B315B5DBB70064A9FA /* RCSessionUser.m */; };
-		08D245DB15B5DBB70064A9FA /* RCStudentAssignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B515B5DBB70064A9FA /* RCStudentAssignment.m */; };
 		08D245DC15B5DBB70064A9FA /* RCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B715B5DBB70064A9FA /* RCUser.m */; };
 		08D245DD15B5DBB70064A9FA /* RCWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B915B5DBB70064A9FA /* RCWorkspace.m */; };
 		08D245DE15B5DBB70064A9FA /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245BB15B5DBB70064A9FA /* RCWorkspaceCache.m */; };
@@ -481,16 +471,12 @@
 		08D2464315B5ED800064A9FA /* RCAudioChatEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245C715B5DBB70064A9FA /* RCAudioChatEngine.m */; };
 		08D2464415B5ED800064A9FA /* RCImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245C915B5DBB70064A9FA /* RCImageCache.m */; };
 		08D2464515B5ED800064A9FA /* RCMSyntaxHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245CB15B5DBB70064A9FA /* RCMSyntaxHighlighter.m */; };
-		08D2464615B5ED9D0064A9FA /* RCAssignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245A315B5DBB70064A9FA /* RCAssignment.m */; };
-		08D2464715B5ED9D0064A9FA /* RCAssignmentFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245A515B5DBB70064A9FA /* RCAssignmentFile.m */; };
-		08D2464815B5ED9D0064A9FA /* RCCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245A715B5DBB70064A9FA /* RCCourse.m */; };
 		08D2464915B5ED9D0064A9FA /* RCFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245A915B5DBB70064A9FA /* RCFile.m */; };
 		08D2464A15B5ED9D0064A9FA /* RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245AB15B5DBB70064A9FA /* RCImage.m */; };
 		08D2464B15B5ED9D0064A9FA /* RCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245AD15B5DBB70064A9FA /* RCMessage.m */; };
 		08D2464C15B5ED9D0064A9FA /* RCSavedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245AF15B5DBB70064A9FA /* RCSavedSession.m */; };
 		08D2464D15B5ED9D0064A9FA /* RCSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B115B5DBB70064A9FA /* RCSession.m */; };
 		08D2464E15B5ED9D0064A9FA /* RCSessionUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B315B5DBB70064A9FA /* RCSessionUser.m */; };
-		08D2464F15B5ED9D0064A9FA /* RCStudentAssignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B515B5DBB70064A9FA /* RCStudentAssignment.m */; };
 		08D2465015B5ED9D0064A9FA /* RCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B715B5DBB70064A9FA /* RCUser.m */; };
 		08D2465115B5ED9D0064A9FA /* RCWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245B915B5DBB70064A9FA /* RCWorkspace.m */; };
 		08D2465215B5ED9D0064A9FA /* RCWorkspaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D245BB15B5DBB70064A9FA /* RCWorkspaceCache.m */; };
@@ -1087,9 +1073,6 @@
 		08D2436415B5D49C0064A9FA /* WelcomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		08D2436515B5D49C0064A9FA /* WelcomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		08D2436615B5D49C0064A9FA /* WelcomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WelcomeViewController.xib; sourceTree = "<group>"; };
-		08D2436715B5D4B70064A9FA /* MessagesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessagesViewController.h; sourceTree = "<group>"; };
-		08D2436815B5D4B70064A9FA /* MessagesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessagesViewController.m; sourceTree = "<group>"; };
-		08D2436915B5D4B70064A9FA /* MessagesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessagesViewController.xib; sourceTree = "<group>"; };
 		08D2438515B5D59A0064A9FA /* SessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionViewController.h; sourceTree = "<group>"; };
 		08D2438615B5D59A0064A9FA /* SessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionViewController.m; sourceTree = "<group>"; };
 		08D2438715B5D59A0064A9FA /* SessionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SessionViewController.xib; sourceTree = "<group>"; };
@@ -1120,9 +1103,6 @@
 		08D243B715B5D63D0064A9FA /* DropboxImportController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropboxImportController.h; sourceTree = "<group>"; };
 		08D243B815B5D63D0064A9FA /* DropboxImportController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DropboxImportController.m; sourceTree = "<group>"; };
 		08D243B915B5D63D0064A9FA /* DropboxImportController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DropboxImportController.xib; sourceTree = "<group>"; };
-		08D243BA15B5D6560064A9FA /* SendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessageViewController.h; sourceTree = "<group>"; };
-		08D243BB15B5D6560064A9FA /* SendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessageViewController.m; sourceTree = "<group>"; };
-		08D243BC15B5D6560064A9FA /* SendMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendMessageViewController.xib; sourceTree = "<group>"; };
 		08D243BF15B5D6670064A9FA /* KeyboardToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardToolbar.h; sourceTree = "<group>"; };
 		08D243C015B5D6670064A9FA /* KeyboardToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardToolbar.m; sourceTree = "<group>"; };
 		08D243C415B5D7590064A9FA /* ControllerUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControllerUserCell.h; sourceTree = "<group>"; };
@@ -1144,9 +1124,6 @@
 		08D243D615B5D7590064A9FA /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
 		08D243D715B5D7590064A9FA /* SessionEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionEditView.h; sourceTree = "<group>"; };
 		08D243D815B5D7590064A9FA /* SessionEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionEditView.m; sourceTree = "<group>"; };
-		08D243D915B5D7590064A9FA /* StudentAssignmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentAssignmentCell.h; sourceTree = "<group>"; };
-		08D243DA15B5D7590064A9FA /* StudentAssignmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentAssignmentCell.m; sourceTree = "<group>"; };
-		08D243DB15B5D7590064A9FA /* StudentAssignmentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StudentAssignmentCell.xib; sourceTree = "<group>"; };
 		08D243F315B5D78A0064A9FA /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GradientButton.h; path = Vendor/ios/GradientButton.h; sourceTree = SOURCE_ROOT; };
 		08D243F415B5D78A0064A9FA /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GradientButton.m; path = Vendor/ios/GradientButton.m; sourceTree = SOURCE_ROOT; };
 		08D243F615B5D78A0064A9FA /* JSTokenButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTokenButton.h; sourceTree = "<group>"; };
@@ -1229,12 +1206,6 @@
 		08D2459F15B5DBB70064A9FA /* _RCSavedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCSavedSession.m; sourceTree = "<group>"; };
 		08D245A015B5DBB70064A9FA /* _RCWorkspaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RCWorkspaceCache.h; sourceTree = "<group>"; };
 		08D245A115B5DBB70064A9FA /* _RCWorkspaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RCWorkspaceCache.m; sourceTree = "<group>"; };
-		08D245A215B5DBB70064A9FA /* RCAssignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCAssignment.h; sourceTree = "<group>"; };
-		08D245A315B5DBB70064A9FA /* RCAssignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCAssignment.m; sourceTree = "<group>"; };
-		08D245A415B5DBB70064A9FA /* RCAssignmentFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCAssignmentFile.h; sourceTree = "<group>"; };
-		08D245A515B5DBB70064A9FA /* RCAssignmentFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCAssignmentFile.m; sourceTree = "<group>"; };
-		08D245A615B5DBB70064A9FA /* RCCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCourse.h; sourceTree = "<group>"; };
-		08D245A715B5DBB70064A9FA /* RCCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCourse.m; sourceTree = "<group>"; };
 		08D245A815B5DBB70064A9FA /* RCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFile.h; sourceTree = "<group>"; };
 		08D245A915B5DBB70064A9FA /* RCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCFile.m; sourceTree = "<group>"; };
 		08D245AA15B5DBB70064A9FA /* RCImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCImage.h; sourceTree = "<group>"; };
@@ -1247,8 +1218,6 @@
 		08D245B115B5DBB70064A9FA /* RCSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RCSession.m; sourceTree = "<group>"; };
 		08D245B215B5DBB70064A9FA /* RCSessionUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSessionUser.h; sourceTree = "<group>"; };
 		08D245B315B5DBB70064A9FA /* RCSessionUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSessionUser.m; sourceTree = "<group>"; };
-		08D245B415B5DBB70064A9FA /* RCStudentAssignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCStudentAssignment.h; sourceTree = "<group>"; };
-		08D245B515B5DBB70064A9FA /* RCStudentAssignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCStudentAssignment.m; sourceTree = "<group>"; };
 		08D245B615B5DBB70064A9FA /* RCUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCUser.h; sourceTree = "<group>"; };
 		08D245B715B5DBB70064A9FA /* RCUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCUser.m; sourceTree = "<group>"; };
 		08D245B815B5DBB70064A9FA /* RCWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWorkspace.h; sourceTree = "<group>"; };
@@ -2152,9 +2121,6 @@
 				08D2436415B5D49C0064A9FA /* WelcomeViewController.h */,
 				08D2436515B5D49C0064A9FA /* WelcomeViewController.m */,
 				08D2436615B5D49C0064A9FA /* WelcomeViewController.xib */,
-				08D2436715B5D4B70064A9FA /* MessagesViewController.h */,
-				08D2436815B5D4B70064A9FA /* MessagesViewController.m */,
-				08D2436915B5D4B70064A9FA /* MessagesViewController.xib */,
 			);
 			name = "top level controllers";
 			sourceTree = "<group>";
@@ -2216,9 +2182,6 @@
 				08D243AF15B5D6260064A9FA /* LoginController.xib */,
 				08FF3D5216F278EE00F3E09E /* SendMailController.h */,
 				08FF3D5316F278EE00F3E09E /* SendMailController.m */,
-				08D243BA15B5D6560064A9FA /* SendMessageViewController.h */,
-				08D243BB15B5D6560064A9FA /* SendMessageViewController.m */,
-				08D243BC15B5D6560064A9FA /* SendMessageViewController.xib */,
 				080D655619EEF89100C50D66 /* MailActionFileProvider.h */,
 				080D655719EEF89100C50D66 /* MailActionFileProvider.m */,
 			);
@@ -2240,9 +2203,6 @@
 				08D243D415B5D7590064A9FA /* NotificationCell.h */,
 				08D243D515B5D7590064A9FA /* NotificationCell.m */,
 				08D243D615B5D7590064A9FA /* NotificationCell.xib */,
-				08D243D915B5D7590064A9FA /* StudentAssignmentCell.h */,
-				08D243DA15B5D7590064A9FA /* StudentAssignmentCell.m */,
-				08D243DB15B5D7590064A9FA /* StudentAssignmentCell.xib */,
 			);
 			name = "views and cells";
 			sourceTree = "<group>";
@@ -2440,12 +2400,6 @@
 			isa = PBXGroup;
 			children = (
 				08D2459915B5DBB70064A9FA /* generated */,
-				08D245A215B5DBB70064A9FA /* RCAssignment.h */,
-				08D245A315B5DBB70064A9FA /* RCAssignment.m */,
-				08D245A415B5DBB70064A9FA /* RCAssignmentFile.h */,
-				08D245A515B5DBB70064A9FA /* RCAssignmentFile.m */,
-				08D245A615B5DBB70064A9FA /* RCCourse.h */,
-				08D245A715B5DBB70064A9FA /* RCCourse.m */,
 				08D245A815B5DBB70064A9FA /* RCFile.h */,
 				08D245A915B5DBB70064A9FA /* RCFile.m */,
 				086CC4B5167122C7004356F6 /* RCFileContainer.h */,
@@ -2461,8 +2415,6 @@
 				08D245B115B5DBB70064A9FA /* RCSession.m */,
 				08D245B215B5DBB70064A9FA /* RCSessionUser.h */,
 				08D245B315B5DBB70064A9FA /* RCSessionUser.m */,
-				08D245B415B5DBB70064A9FA /* RCStudentAssignment.h */,
-				08D245B515B5DBB70064A9FA /* RCStudentAssignment.m */,
 				08D245B615B5DBB70064A9FA /* RCUser.h */,
 				08D245B715B5DBB70064A9FA /* RCUser.m */,
 				08D245B815B5DBB70064A9FA /* RCWorkspace.h */,
@@ -2869,7 +2821,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08D2436D15B5D4C50064A9FA /* MessagesViewController.xib in Resources */,
 				08D2436F15B5D4CC0064A9FA /* WelcomeViewController.xib in Resources */,
 				08D2438915B5D59A0064A9FA /* SessionViewController.xib in Resources */,
 				08D2438E15B5D5AB0064A9FA /* EditorViewController.xib in Resources */,
@@ -2878,14 +2829,12 @@
 				08D243A015B5D5E20064A9FA /* SessionFilesController.xib in Resources */,
 				08D243B115B5D6260064A9FA /* LoginController.xib in Resources */,
 				08D243B615B5D6310064A9FA /* iSettingsController.xib in Resources */,
-				08D243BE15B5D6560064A9FA /* SendMessageViewController.xib in Resources */,
 				08D243E015B5D7590064A9FA /* ControllerUserCell.xib in Resources */,
 				08D243E215B5D7590064A9FA /* DropboxImportCell.xib in Resources */,
 				0868D4CC17FDE6E1002AD679 /* ImageCollectionCell.xib in Resources */,
 				08D243E415B5D7590064A9FA /* FileDetailsCell.xib in Resources */,
 				08D243E815B5D7590064A9FA /* MessageListCell.xib in Resources */,
 				08D243EA15B5D7590064A9FA /* NotificationCell.xib in Resources */,
-				08D243ED15B5D7590064A9FA /* StudentAssignmentCell.xib in Resources */,
 				082D1EC717E38B6900723EB3 /* RKeywords.txt in Resources */,
 				08D2441415B5D78A0064A9FA /* README.mdown in Resources */,
 				082860041843D2AB002BA8D2 /* ImagePickerCell.xib in Resources */,
@@ -3179,7 +3128,6 @@
 			files = (
 				082D1EC017E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */,
 				08D2435415B5D2940064A9FA /* main.m in Sources */,
-				08D2436E15B5D4C80064A9FA /* MessagesViewController.m in Sources */,
 				08D2437015B5D4D00064A9FA /* WelcomeViewController.m in Sources */,
 				08D2437115B5D4D30064A9FA /* AbstractTopViewController.m in Sources */,
 				08BDDD9617EA48AB00E669E3 /* NSString+MagicalDataImport.m in Sources */,
@@ -3203,7 +3151,6 @@
 				08D243AB15B5D5FA0064A9FA /* DoodleViewController.m in Sources */,
 				08D243B015B5D6260064A9FA /* LoginController.m in Sources */,
 				08D243B515B5D6310064A9FA /* iSettingsController.m in Sources */,
-				08D243BD15B5D6560064A9FA /* SendMessageViewController.m in Sources */,
 				08D243C115B5D6670064A9FA /* KeyboardToolbar.m in Sources */,
 				08D243DF15B5D7590064A9FA /* ControllerUserCell.m in Sources */,
 				08D243E115B5D7590064A9FA /* DropboxImportCell.m in Sources */,
@@ -3216,7 +3163,6 @@
 				08D243EB15B5D7590064A9FA /* SessionEditView.m in Sources */,
 				08BAF52C1974649C007228DC /* SSKeychainQuery.m in Sources */,
 				08B1F20318CA6AC200FCA279 /* LFDisplayBridge.m in Sources */,
-				08D243EC15B5D7590064A9FA /* StudentAssignmentCell.m in Sources */,
 				08D2441115B5D78A0064A9FA /* GradientButton.m in Sources */,
 				08BDDDA417EA48AB00E669E3 /* NSManagedObjectContext+MagicalRecord.m in Sources */,
 				08D2441215B5D78A0064A9FA /* JSTokenButton.m in Sources */,
@@ -3259,13 +3205,10 @@
 				08D245D015B5DBB70064A9FA /* _RCSavedSession.m in Sources */,
 				08D245D115B5DBB70064A9FA /* _RCWorkspaceCache.m in Sources */,
 				0830EF5218EB50FC00422167 /* FMDatabaseQueue.m in Sources */,
-				08D245D215B5DBB70064A9FA /* RCAssignment.m in Sources */,
-				08D245D315B5DBB70064A9FA /* RCAssignmentFile.m in Sources */,
 				080F50ED1890606200CF39FB /* CXAlertViewController.m in Sources */,
 				0843BE6C1C1A22EC00DD8F28 /* SwiftyJSON.swift in Sources */,
 				0828605218526300002BA8D2 /* AMHudView.m in Sources */,
 				08BDDD8E17EA48AB00E669E3 /* NSEntityDescription+MagicalDataImport.m in Sources */,
-				08D245D415B5DBB70064A9FA /* RCCourse.m in Sources */,
 				08D245D515B5DBB70064A9FA /* RCFile.m in Sources */,
 				08BDDDA017EA48AB00E669E3 /* NSManagedObject+MagicalRequests.m in Sources */,
 				08D245D615B5DBB70064A9FA /* RCImage.m in Sources */,
@@ -3277,7 +3220,6 @@
 				080F50EA1890606200CF39FB /* CXAlertButtonContainerView.m in Sources */,
 				0868D4C517FCBDD6002AD679 /* ImageCollectionController.m in Sources */,
 				08D245DA15B5DBB70064A9FA /* RCSessionUser.m in Sources */,
-				08D245DB15B5DBB70064A9FA /* RCStudentAssignment.m in Sources */,
 				08D245DC15B5DBB70064A9FA /* RCUser.m in Sources */,
 				08D245DD15B5DBB70064A9FA /* RCWorkspace.m in Sources */,
 				08D245DE15B5DBB70064A9FA /* RCWorkspaceCache.m in Sources */,
@@ -3388,9 +3330,6 @@
 				08D2464515B5ED800064A9FA /* RCMSyntaxHighlighter.m in Sources */,
 				0830EF5518EB50FC00422167 /* FMResultSet.m in Sources */,
 				08BDDD8B17EA48AB00E669E3 /* MagicalImportFunctions.m in Sources */,
-				08D2464615B5ED9D0064A9FA /* RCAssignment.m in Sources */,
-				08D2464715B5ED9D0064A9FA /* RCAssignmentFile.m in Sources */,
-				08D2464815B5ED9D0064A9FA /* RCCourse.m in Sources */,
 				0857277719AFCD4400ADCC7B /* RC2ServerAFNet1.m in Sources */,
 				08D2464915B5ED9D0064A9FA /* RCFile.m in Sources */,
 				0843BE821C1B8C3D00DD8F28 /* Rc2File.swift in Sources */,
@@ -3401,7 +3340,6 @@
 				08D2464C15B5ED9D0064A9FA /* RCSavedSession.m in Sources */,
 				08D2464D15B5ED9D0064A9FA /* RCSession.m in Sources */,
 				08D2464E15B5ED9D0064A9FA /* RCSessionUser.m in Sources */,
-				08D2464F15B5ED9D0064A9FA /* RCStudentAssignment.m in Sources */,
 				08D2465015B5ED9D0064A9FA /* RCUser.m in Sources */,
 				08D2465115B5ED9D0064A9FA /* RCWorkspace.m in Sources */,
 				082D1ED817E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */,
