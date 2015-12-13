@@ -7,10 +7,12 @@
 //
 
 #import "Rc2RestServer.h"
+#import "Rc2AppConstants.h"
 #import "NSArray+Rc2Extensions.h"
 #import "Rc2-Swift.h"
 
 static Rc2RestServer *sInstance;
+static NSString *const kServerHostKey = @"ServerHostKey";
 
 ///posted on login and logout with the object being the Rc2RestServer instance
 NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusChangedNotification";
@@ -68,6 +70,11 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 	return [self.hosts valueForKeyPath:@"name"];
 }
 
+-(NSString*)defaultRestHost
+{
+	return [[self.hosts objectAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:kServerHostKey]] valueForKey:@"name"];
+}
+
 -(NSString*)userAgentString
 {
 #if (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
@@ -100,14 +107,17 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 		NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 		NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
 		if (httpResponse.statusCode == 401) {
-			handler(NO, nil, error);
+			NSError *loginError = [NSError errorWithDomain:Rc2ErrorDomain code:401 userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Invalid login or password", @"")}];
+			dispatchOnMainQueue( ^{handler(NO, nil, loginError); } );
 		} else if (httpResponse.statusCode == 200) {
-			self.loginSession = [[Rc2LoginSession alloc] initWithJsonData:json];
-			handler(YES, self.loginSession, nil);
+			self.loginSession = [[Rc2LoginSession alloc] initWithJsonData:json host:hostDict[@"host"]];
+			dispatchOnMainQueue( ^{handler(YES, self.loginSession, nil);} );
+			NSInteger hostIndex = [self.hosts indexOfObject:hostDict];
+			[[NSUserDefaults standardUserDefaults] setInteger:hostIndex forKey:kServerHostKey];
 			[[NSNotificationCenter defaultCenter] postNotificationName:Rc2RestLoginStatusChangedNotification object:self];
 		} else {
 			Rc2LogWarn(@"login got unknown error:%ld", (long)httpResponse.statusCode);
-			handler(NO, nil, error);
+			dispatchOnMainQueue( ^{handler(NO, nil, error); });
 		}
 	}];
 	[task resume];

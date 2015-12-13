@@ -18,6 +18,7 @@ extern NSString * const Rc2RestLoginStatusChangedNotification;
 @interface Rc2RestServer : NSObject
 @property (nonatomic, strong, readonly) NSURLSession *urlSession;
 @property (nonatomic, copy, readonly) NSArray<NSString*> *restHosts;
+@property (nonatomic, copy, readonly) NSString *defaultRestHost;
 @property (nonatomic, strong, readonly) Rc2LoginSession *loginSession;
 
 +(instancetype)sharedInstance;
