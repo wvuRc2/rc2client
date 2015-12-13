@@ -63,7 +63,7 @@
         
         _colors = [colors copy];
         
-        int componentCount = colors.count * COLOR_COMPONENT_COUNT;
+        int componentCount = (int)(colors.count * COLOR_COMPONENT_COUNT);
         CGFloat gradientColors[componentCount];
         int counter = 0;
         for (UIColor *color in colors) {

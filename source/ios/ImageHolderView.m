@@ -125,7 +125,7 @@
 	self.imageView.frame = imframe;
 }
 
-- (void)scrollViewDidEndZooming:(UIScrollView *)scroll withView:(UIView *)view atScale:(float)scale
+- (void)scrollViewDidEndZooming:(UIScrollView *)scroll withView:(UIView *)view atScale:(CGFloat)scale
 {
 	CGRect ourBnds = self.scrollView.bounds;
 	CGRect suggestedBnds = [self centeredFrameForScrollView:scroll andView:self.imageView];

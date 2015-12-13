@@ -15,7 +15,6 @@
 #import "VariableListController.h"
 
 @interface VariableListViewController ()
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, copy) NSArray *tableData;
 @end
 

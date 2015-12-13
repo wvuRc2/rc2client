@@ -58,7 +58,7 @@
 	if ([self.listVariable isKindOfClass:[RCEnvironment class]])
 		cell.titleLabel.text = [self.listVariable nameAtIndex:indexPath.row];
 	else
-		cell.titleLabel.text = [NSString stringWithFormat:@"%d. %@", indexPath.row+1, [self.listVariable nameAtIndex:indexPath.row]];
+		cell.titleLabel.text = [NSString stringWithFormat:@"%ld. %@", indexPath.row+1, [self.listVariable nameAtIndex:indexPath.row]];
 	cell.valueLabel.text = [aVar description];
 	cell.titleWidthConstraint.constant = self.listVariable.hasNames ? 100 : 30;
 	return cell;

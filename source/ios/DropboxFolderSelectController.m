@@ -130,7 +130,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSMutableDictionary *item = [self.entries objectAtIndex:indexPath.row];
-	[self.navigationController pushViewController:[self prepareChildControllerForPath:[[item objectForKey:@"metadata"] path]] animated:YES];
+	[self.navigationController pushViewController:[self prepareChildControllerForPath:[item valueForKeyPath:@"metadata.path"]] animated:YES];
 }
 
 -(DropboxFolderSelectController*)prepareChildControllerForPath:(NSString*)path

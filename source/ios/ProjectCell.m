@@ -91,9 +91,9 @@
 	self.detilsLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
 	if ([cellItem isKindOfClass:[RCProject class]]) {
 		self.lastAccessLabel.hidden = YES;
-		self.detilsLabel.text = [NSString stringWithFormat:@"Workspaces:%d\nFiles:%d", [[cellItem workspaces] count], [[cellItem files] count]];
+		self.detilsLabel.text = [NSString stringWithFormat:@"Workspaces:%lu\nFiles:%lu", (unsigned long)[[cellItem workspaces] count], (unsigned long)[[cellItem files] count]];
 	} else {
-		self.detilsLabel.text = [NSString stringWithFormat:@"Files:%d", [[cellItem files] count]];
+		self.detilsLabel.text = [NSString stringWithFormat:@"Files:%lu", (unsigned long)[[cellItem files] count]];
 		self.lastAccessLabel.hidden = NO;
 		self.lastAccessLabel.text = [NSString stringWithFormat:@"Last Access:\n%@",[dateFormatter stringFromDate:[cellItem lastAccess]]];
 	}

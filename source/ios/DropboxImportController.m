@@ -172,7 +172,7 @@ NSString *const kLastDropBoxPathPref = @"LastDropBoxPath";
 		//need to push next item on the stack
 		DropboxImportController *dfc = [[DropboxImportController alloc] init];
 		dfc.session = self.session;
-		dfc.thePath = [[item objectForKey:@"metadata"] path];
+		dfc.thePath = [item valueForKeyPath:@"metadata.path"];
 		dfc.dropboxCache = self.dropboxCache;
 		[self.navigationController pushViewController:dfc animated:YES];
 	}
@@ -181,7 +181,7 @@ NSString *const kLastDropBoxPathPref = @"LastDropBoxPath";
 -(IBAction)importFile:(id)sender
 {
 	NSMutableDictionary *item = [self.entries objectAtIndex:[sender tag]];
-	NSString *dbpath = [[item objectForKey:@"metadata"] path];
+	NSString *dbpath = [item valueForKeyPath:@"metadata.path"];
 	//we need to decide were to temporarily save it
 	NSFileManager *fm = [NSFileManager defaultManager];
 	NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:[dbpath lastPathComponent]];

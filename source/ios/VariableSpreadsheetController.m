@@ -60,7 +60,7 @@
 {
 	if (col == -1)
 		return [[[self.variable rowNames] objectAtIndex:row] description];
-	return [self.variable valueAtRow:row column:col];
+	return [self.variable valueAtRow:(int)row column:(int)col];
 }
 
 -(void)setVariable:(id<RCSpreadsheetData>)variable

@@ -98,8 +98,6 @@
 		0830EF5318EB50FC00422167 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0830EF4818EB50FC00422167 /* FMDatabaseQueue.m */; };
 		0830EF5418EB50FC00422167 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0830EF4B18EB50FC00422167 /* FMResultSet.m */; };
 		0830EF5518EB50FC00422167 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0830EF4B18EB50FC00422167 /* FMResultSet.m */; };
-		0833CAB0174160CA0007B54E /* MCCourseAdminController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0833CAAE174160CA0007B54E /* MCCourseAdminController.m */; };
-		0833CAB1174160CA0007B54E /* MCCourseAdminController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0833CAAF174160CA0007B54E /* MCCourseAdminController.xib */; };
 		083AAEE8162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
 		083AAEE9162CA73E0037AAB3 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */; };
 		083AAEF2162DDECF0037AAB3 /* VariableListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEF0162DDECF0037AAB3 /* VariableListViewController.m */; };
@@ -164,8 +162,6 @@
 		0845948C15B5F31100297C9D /* RCMImagePrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845946715B5F31100297C9D /* RCMImagePrintView.m */; };
 		0845948D15B5F31100297C9D /* RCMImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845946915B5F31100297C9D /* RCMImageViewer.m */; };
 		0845948E15B5F31100297C9D /* RCMImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845946A15B5F31100297C9D /* RCMImageViewer.xib */; };
-		0845948F15B5F31100297C9D /* RCMManageCourseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845946C15B5F31100297C9D /* RCMManageCourseController.m */; };
-		0845949015B5F31100297C9D /* RCMManageCourseController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845946D15B5F31100297C9D /* RCMManageCourseController.xib */; };
 		0845949115B5F31100297C9D /* RCMMultiImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845946F15B5F31100297C9D /* RCMMultiImageController.m */; };
 		0845949215B5F31100297C9D /* RCMMultiImageController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0845947015B5F31100297C9D /* RCMMultiImageController.xib */; };
 		0845949315B5F31100297C9D /* RCMPDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0845947215B5F31100297C9D /* RCMPDFViewController.m */; };
@@ -442,8 +438,7 @@
 		08D2458B15B5DB270064A9FA /* HandshakeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456415B5DB270064A9FA /* HandshakeHeader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458C15B5DB270064A9FA /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456615B5DB270064A9FA /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2458D15B5DB270064A9FA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456815B5DB270064A9FA /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2458E15B5DB270064A9FA /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456B15B5DB270064A9FA /* WebSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		08D2458F15B5DB270064A9FA /* WebSocket00.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456D15B5DB270064A9FA /* WebSocket00.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		08D2458E15B5DB270064A9FA /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456B15B5DB270064A9FA /* WebSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32 "; }; };
 		08D2459315B5DB270064A9FA /* WebSocketConnectConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457515B5DB270064A9FA /* WebSocketConnectConfig.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2459415B5DB270064A9FA /* WebSocketFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457715B5DB270064A9FA /* WebSocketFragment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2459515B5DB270064A9FA /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457915B5DB270064A9FA /* WebSocketMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -512,7 +507,6 @@
 		08D2466915B5EE670064A9FA /* MutableQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456615B5DB270064A9FA /* MutableQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466A15B5EE670064A9FA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456815B5DB270064A9FA /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2466B15B5EE670064A9FA /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456B15B5DB270064A9FA /* WebSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32 -Wno-format"; }; };
-		08D2466C15B5EE670064A9FA /* WebSocket00.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2456D15B5DB270064A9FA /* WebSocket00.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
 		08D2466F15B5EE670064A9FA /* WebSocketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457915B5DB270064A9FA /* WebSocketMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
 		08D2467115B5EE950064A9FA /* WebSocketConnectConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457515B5DB270064A9FA /* WebSocketConnectConfig.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D2467215B5EE950064A9FA /* WebSocketFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D2457715B5DB270064A9FA /* WebSocketFragment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
@@ -763,9 +757,6 @@
 		0830EF4918EB50FC00422167 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
 		0830EF4A18EB50FC00422167 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		0830EF4B18EB50FC00422167 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
-		0833CAAD174160CA0007B54E /* MCCourseAdminController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCourseAdminController.h; sourceTree = "<group>"; };
-		0833CAAE174160CA0007B54E /* MCCourseAdminController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCourseAdminController.m; sourceTree = "<group>"; };
-		0833CAAF174160CA0007B54E /* MCCourseAdminController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCCourseAdminController.xib; sourceTree = "<group>"; };
 		083AAEE6162CA73E0037AAB3 /* MAKVONotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAKVONotificationCenter.h; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.h; sourceTree = "<group>"; };
 		083AAEE7162CA73E0037AAB3 /* MAKVONotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAKVONotificationCenter.m; path = Dependencies/MAKVONotificationCenter/MAKVONotificationCenter.m; sourceTree = "<group>"; };
 		083AAEEF162DDECF0037AAB3 /* VariableListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableListViewController.h; sourceTree = "<group>"; };
@@ -848,9 +839,6 @@
 		0845946815B5F31100297C9D /* RCMImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMImageViewer.h; path = source/mac/RCMImageViewer.h; sourceTree = SOURCE_ROOT; };
 		0845946915B5F31100297C9D /* RCMImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMImageViewer.m; path = source/mac/RCMImageViewer.m; sourceTree = SOURCE_ROOT; };
 		0845946A15B5F31100297C9D /* RCMImageViewer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RCMImageViewer.xib; path = source/mac/RCMImageViewer.xib; sourceTree = SOURCE_ROOT; };
-		0845946B15B5F31100297C9D /* RCMManageCourseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMManageCourseController.h; path = source/mac/RCMManageCourseController.h; sourceTree = SOURCE_ROOT; };
-		0845946C15B5F31100297C9D /* RCMManageCourseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMManageCourseController.m; path = source/mac/RCMManageCourseController.m; sourceTree = SOURCE_ROOT; };
-		0845946D15B5F31100297C9D /* RCMManageCourseController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RCMManageCourseController.xib; path = source/mac/RCMManageCourseController.xib; sourceTree = SOURCE_ROOT; };
 		0845946E15B5F31100297C9D /* RCMMultiImageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCMMultiImageController.h; path = source/mac/RCMMultiImageController.h; sourceTree = SOURCE_ROOT; };
 		0845946F15B5F31100297C9D /* RCMMultiImageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCMMultiImageController.m; path = source/mac/RCMMultiImageController.m; sourceTree = SOURCE_ROOT; };
 		0845947015B5F31100297C9D /* RCMMultiImageController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RCMMultiImageController.xib; path = source/mac/RCMMultiImageController.xib; sourceTree = SOURCE_ROOT; };
@@ -1662,9 +1650,6 @@
 				084593F415B5F1D700297C9D /* MCEditUserController.h */,
 				084593F515B5F1D700297C9D /* MCEditUserController.m */,
 				084593F615B5F1D700297C9D /* MCEditUserController.xib */,
-				0833CAAD174160CA0007B54E /* MCCourseAdminController.h */,
-				0833CAAE174160CA0007B54E /* MCCourseAdminController.m */,
-				0833CAAF174160CA0007B54E /* MCCourseAdminController.xib */,
 				084594A415B5F44400297C9D /* RCMRolePermController.h */,
 				084594A515B5F44400297C9D /* RCMRolePermController.m */,
 				084594A615B5F44400297C9D /* RCMRolePermController.xib */,
@@ -1739,16 +1724,6 @@
 				0811F9FD17342CEB0060BAB4 /* RCMPreviewImageView.xib */,
 			);
 			name = "secondary controllers";
-			sourceTree = "<group>";
-		};
-		084594A315B5F3FD00297C9D /* courses */ = {
-			isa = PBXGroup;
-			children = (
-				0845946B15B5F31100297C9D /* RCMManageCourseController.h */,
-				0845946C15B5F31100297C9D /* RCMManageCourseController.m */,
-				0845946D15B5F31100297C9D /* RCMManageCourseController.xib */,
-			);
-			name = courses;
 			sourceTree = "<group>";
 		};
 		084594AE15B5F4A500297C9D /* views */ = {
@@ -2544,7 +2519,6 @@
 				084594AE15B5F4A500297C9D /* views */,
 				0845945315B5F2E900297C9D /* prefs */,
 				084593F315B5F1D700297C9D /* admin */,
-				084594A315B5F3FD00297C9D /* courses */,
 				084594B015B5F53900297C9D /* mac 3rdParty */,
 				08D2463B15B5ED300064A9FA /* main.m */,
 				08F65CF7187DF5B30039F74B /* MacClient.xcassets */,
@@ -3009,7 +2983,6 @@
 				0845945D15B5F2EA00297C9D /* GeneralPrefs.xib in Resources */,
 				0845948B15B5F31100297C9D /* RCMImageDetailController.xib in Resources */,
 				0845948E15B5F31100297C9D /* RCMImageViewer.xib in Resources */,
-				0845949015B5F31100297C9D /* RCMManageCourseController.xib in Resources */,
 				0845949215B5F31100297C9D /* RCMMultiImageController.xib in Resources */,
 				0845949415B5F31100297C9D /* RCMPDFViewController.xib in Resources */,
 				084594A815B5F44400297C9D /* RCMRolePermController.xib in Resources */,
@@ -3034,7 +3007,6 @@
 				0811F9FE17342CEC0060BAB4 /* RCMPreviewImageView.xib in Resources */,
 				08063D5D173AF33C0054FD1D /* MCVariableDisplayController.xib in Resources */,
 				08F3FE0B18340C3B000112F3 /* MCVariableDetailsController.xib in Resources */,
-				0833CAB1174160CA0007B54E /* MCCourseAdminController.xib in Resources */,
 				0847FDC617679F6F00D950EA /* MASPreferencesWindow.xib in Resources */,
 				085E3C4D17AAEADB005C523F /* MCDropboxConfigWindow.xib in Resources */,
 			);
@@ -3273,7 +3245,6 @@
 				0830EF5018EB50FC00422167 /* FMDatabasePool.m in Sources */,
 				08D2458E15B5DB270064A9FA /* WebSocket.m in Sources */,
 				08BDDD9017EA48AB00E669E3 /* NSNumber+MagicalDataImport.m in Sources */,
-				08D2458F15B5DB270064A9FA /* WebSocket00.m in Sources */,
 				0817C6981821A3EC00C70CA8 /* _RCImage.m in Sources */,
 				0873431817C53911000EC1E0 /* AddFullConstraintsView.m in Sources */,
 				08D2459315B5DB270064A9FA /* WebSocketConnectConfig.m in Sources */,
@@ -3461,7 +3432,6 @@
 				08D2466B15B5EE670064A9FA /* WebSocket.m in Sources */,
 				0843BE6B1C1A22EC00DD8F28 /* SwiftyJSON.swift in Sources */,
 				08BDDDA517EA48AB00E669E3 /* NSManagedObjectContext+MagicalRecord.m in Sources */,
-				08D2466C15B5EE670064A9FA /* WebSocket00.m in Sources */,
 				082D1EC117E2442E00723EB3 /* RCCodeHighlighterR.m in Sources */,
 				08BDDDB917EA48AB00E669E3 /* MagicalRecord+Setup.m in Sources */,
 				08F3FE0E18342D8D000112F3 /* RCMTableView.m in Sources */,
@@ -3503,7 +3473,6 @@
 				0845948C15B5F31100297C9D /* RCMImagePrintView.m in Sources */,
 				0845948D15B5F31100297C9D /* RCMImageViewer.m in Sources */,
 				08F3FE0A18340C3B000112F3 /* MCVariableDetailsController.m in Sources */,
-				0845948F15B5F31100297C9D /* RCMManageCourseController.m in Sources */,
 				082D1ECC17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */,
 				0843BE6E1C1A259100DD8F28 /* Rc2Workspace.swift in Sources */,
 				0845949115B5F31100297C9D /* RCMMultiImageController.m in Sources */,
@@ -3558,7 +3527,6 @@
 				0843BE681C1A1F6400DD8F28 /* Rc2User.swift in Sources */,
 				0811F9FC17342CB70060BAB4 /* RCMPreviewImageView.m in Sources */,
 				08063D5C173AF33C0054FD1D /* MCVariableDisplayController.m in Sources */,
-				0833CAB0174160CA0007B54E /* MCCourseAdminController.m in Sources */,
 				082D1EDC17E8D2DC00723EB3 /* RCRmdParser.m in Sources */,
 				0847FDAC175D30AF00D950EA /* MCTableRowView.m in Sources */,
 				0847FDC717679F6F00D950EA /* MASPreferencesWindowController.m in Sources */,
@@ -4048,6 +4016,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.ipad3;
+				PRODUCT_MODULE_NAME = Rc2;
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -4094,6 +4063,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.ipad3;
+				PRODUCT_MODULE_NAME = Rc2;
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -4177,6 +4147,7 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.ipad3;
+				PRODUCT_MODULE_NAME = Rc2;
 				PRODUCT_NAME = "Rc²";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

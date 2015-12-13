@@ -152,7 +152,7 @@ enum { eTree_Theme, eTree_Keyboard };
 	[RC2_SharedInstance() updateUserSettings:@{name:val} completionHandler:^(BOOL success, id results)
 	{
 		if (success) {
-			int status = [[results objectForKey:@"status"] integerValue];
+			int status = [[results objectForKey:@"status"] intValue];
 			sblock(status);
 		}
 	}];
