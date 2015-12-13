@@ -45,7 +45,7 @@ url=https://github.com/mlilback/dropbox-sdk-ios.git
 	url = https://github.com/robbiehanson/CocoaAsyncSocket.git
 [submodule "Dependencies/PEGKit"]
 	path = Dependencies/PEGKit
-	url = https://github.com/itod/pegkit.git
+url=https://github.com/mlilback/pegkit.git
 [submodule "Dependencies/SwiftyJSON"]
 	path = Dependencies/SwiftyJSON
 	url = https://github.com/SwiftyJSON/SwiftyJSON.git
