@@ -482,19 +482,6 @@ DQ
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="655"/>
-                            <menuItem title="Sync with Dropbox" id="704">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="handleDropboxSync:" target="-1" id="706"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Configure Dropbox Sync…" id="707">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="configureDropboxSync:" target="-1" id="709"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="M43-0m-Mn1"/>
                             <menuItem title="Chunks" tag="24090" id="ruK-h9-gWO">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Chunks" id="5NV-el-IOE">

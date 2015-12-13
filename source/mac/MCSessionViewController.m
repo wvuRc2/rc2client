@@ -51,7 +51,6 @@
 #import "RCAudioChatEngine.h"
 #import "MAKVONotificationCenter.h"
 #import "MLReachability.h"
-#import "RCDropboxSync.h"
 
 #define logJson 0
 #define DBOX_SYNC_ENABLED 0
@@ -97,7 +96,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 @property (nonatomic, copy) NSArray *data;
 @end
 
-@interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,RCDropboxSyncDelegate,NSTextStorageDelegate,NSMenuDelegate,NSToolbarDelegate> {
+@interface MCSessionViewController() <NSPopoverDelegate,MCSessionFileControllerDelegate,NSTextStorageDelegate,NSMenuDelegate,NSToolbarDelegate> {
 #if logJson
 	NSFileHandle *_jsonLog;
 #endif
@@ -124,7 +123,6 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 @property (nonatomic, strong) RCMMultiImageController *multiImageController;
 @property (nonatomic, strong) NSPopover *variablePopover;
 @property (nonatomic, strong) MCVariableDisplayController *varableDetailsController;
-@property (nonatomic, strong) RCDropboxSync *dbsync;
 @property (nonatomic, assign) NSTimeInterval lastParseTime;
 @property (nonatomic, copy) NSString *workspaceTitle;
 @property (nonatomic, strong) NSMutableSet *variableWindows;
@@ -990,37 +988,6 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 #else
 	self.busy = NO;
 #endif
-}
-
--(void)dbsync:(RCDropboxSync*)sync updateProgress:(CGFloat)percent message:(NSString*)message
-{
-	if (message)
-		self.statusMessage = message;
-}
-
--(void)dbsync:(RCDropboxSync*)sync syncComplete:(BOOL)success error:(NSError*)error
-{
-	self.dbsync = nil;
-	if (!success) {
-		Rc2LogError(@"error on sync:%@", error.localizedDescription);
-	} else {
-		Rc2LogInfo(@"sync complete");
-	}
-	self.statusMessage = nil;
-	self.busy = NO;
-}
-
--(IBAction)configureDropboxSync:(id)sender
-{
-	__block MCDropboxConfigWindow *cwin = [[MCDropboxConfigWindow alloc] initWithWorkspace:self.session.workspace];
-	__weak NSWindow *winRef = cwin.window;
-	cwin.handler = ^(NSInteger code) {
-		[NSApp endSheet:winRef returnCode:code];
-		[winRef orderOut:sender];
-	};
-	[NSApp beginSheet:cwin.window modalForWindow:self.view.window completionHandler:^(NSInteger code) {
-		cwin = nil;
-	}];
 }
 
 #pragma mark - file helper delegate
