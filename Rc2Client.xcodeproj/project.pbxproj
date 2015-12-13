@@ -4197,7 +4197,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
-					"$(SRCROOT)/3rdParty/HockeySDK-Mac/",
 					"$(SRCROOT)/3rdParty/",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -4240,7 +4239,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
-					"$(SRCROOT)/3rdParty/HockeySDK-Mac/",
 					"$(SRCROOT)/3rdParty/",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -4281,7 +4279,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
-					"$(SRCROOT)/3rdParty/HockeySDK-Mac/",
 					"$(SRCROOT)/3rdParty/",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;

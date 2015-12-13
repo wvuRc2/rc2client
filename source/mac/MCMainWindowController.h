@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class MCAbstractViewController;
-@class RCWorkspace;
+@class Rc2Workspace;
 @class RCFile;
 
 @interface MCMainWindowController : NSWindowController<NSWindowDelegate>
@@ -19,8 +19,8 @@
 @property (strong) IBOutlet NSMenu *addToolbarMenu;
 @property (strong) IBOutlet NSView *rightStatusView;
 
--(void)openSession:(RCWorkspace*)wspace file:(RCFile*)initialFile inNewWindow:(BOOL)inNewWindow;
--(void)openSession:(RCWorkspace*)wspace inNewWindow:(BOOL)inNewWindow;
+-(void)openSession:(Rc2Workspace*)wspace file:(RCFile*)initialFile;
+-(void)openSession:(Rc2Workspace*)wspace;
 -(IBAction)showAdminTools:(id)sender;
 
 -(void)showViewController:(AMViewController*)controller;

@@ -84,6 +84,15 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 #endif
 }
 
+-(NSString*)connectionDescription
+{
+	NSString *login = [self.loginSession valueForKeyPath:@"currentUser.login"];
+	NSString *host = [self.loginSession valueForKey:@"host"];
+	if ([host isEqualToString:@"rc2"])
+		return login;
+	return [NSString stringWithFormat:@"%@@%@", login, host];
+}
+
 
 -(void)loginToHostName:(NSString*)hostName login:(NSString*)login password:(NSString*)password handler:(Rc2RestCompletionHandler)handler
 {

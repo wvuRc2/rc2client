@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -11,7 +11,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <menu title="AMainMenu" systemMenu="main" id="29">
             <items>
                 <menuItem title="Rc²" id="56">
@@ -421,34 +421,34 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="Project" id="667">
+                <menuItem title="Workspace" id="667">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Project" id="668">
+                    <menu key="submenu" title="Workspace" id="668">
                         <items>
-                            <menuItem title="Create Project…" id="669">
+                            <menuItem title="Create Workspace…" id="669">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="createProject:" target="-1" id="674"/>
+                                    <action selector="createWorkspace:" target="-1" id="Kn4-aW-Nns"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Open Project" id="672">
+                            <menuItem title="Open Workspace" id="672">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="openProject:" target="-1" id="675"/>
+                                    <action selector="openWorkspace:" target="-1" id="DJu-Ip-LVL"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Rename Project…" id="670">
+                            <menuItem title="Rename Workspace…" id="670">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="renameProject:" target="-1" id="673"/>
+                                    <action selector="renameWorkspace:" target="-1" id="Zoi-75-u5h"/>
                                 </connections>
                             </menuItem>
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="Workspace" id="558">
+                <menuItem title="Session" id="558">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Workspace" id="559">
+                    <menu key="submenu" title="Session" id="559">
                         <items>
                             <menuItem title="Previous Command" keyEquivalent="" id="639">
                                 <connections>

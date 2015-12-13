@@ -1,56 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MCProjectViewController">
             <connections>
                 <outlet property="arrayController" destination="14" id="15"/>
                 <outlet property="collectionView" destination="5" id="12"/>
-                <outlet property="pathControl" destination="22" id="32"/>
                 <outlet property="view" destination="1" id="2"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="1" customClass="MCProjectView">
             <rect key="frame" x="0.0" y="0.0" width="740" height="596"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4">
-                    <rect key="frame" x="20" y="49" width="700" height="499"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <clipView key="contentView" id="5aD-g9-7Nx">
-                        <rect key="frame" x="1" y="1" width="698" height="497"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView selectable="YES" id="5" customClass="MCProjectCollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="698" height="497"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                <connections>
-                                    <binding destination="14" name="content" keyPath="arrangedObjects" id="17"/>
-                                    <binding destination="14" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="17" id="81"/>
-                                    <outlet property="delegate" destination="-2" id="13"/>
-                                    <outlet property="itemPrototype" destination="8" id="10"/>
-                                </connections>
-                            </collectionView>
-                        </subviews>
-                    </clipView>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="6">
-                        <rect key="frame" x="1" y="144" width="233" height="15"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </scroller>
-                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="7">
-                        <rect key="frame" x="234" y="1" width="15" height="143"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </scroller>
-                </scrollView>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="43">
+                <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PGj-5P-Ev7">
+                    <rect key="frame" x="20" y="49" width="700" height="527"/>
+                    <subviews>
+                        <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="roe-hr-dJt">
+                            <rect key="frame" x="0.0" y="0.0" width="700" height="527"/>
+                            <subviews>
+                                <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pcR-WX-k8t">
+                                    <rect key="frame" x="0.0" y="0.0" width="700" height="527"/>
+                                    <subviews>
+                                        <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                                            <rect key="frame" x="0.0" y="0.0" width="700" height="527"/>
+                                            <clipView key="contentView" id="5aD-g9-7Nx">
+                                                <rect key="frame" x="1" y="1" width="698" height="525"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <collectionView selectable="YES" id="5" customClass="MCProjectCollectionView">
+                                                        <rect key="frame" x="0.0" y="0.0" width="698" height="525"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        <connections>
+                                                            <binding destination="14" name="content" keyPath="arrangedObjects" id="17"/>
+                                                            <binding destination="14" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="17" id="81"/>
+                                                            <outlet property="delegate" destination="-2" id="13"/>
+                                                            <outlet property="itemPrototype" destination="8" id="10"/>
+                                                        </connections>
+                                                    </collectionView>
+                                                </subviews>
+                                            </clipView>
+                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="6">
+                                                <rect key="frame" x="1" y="144" width="233" height="15"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="7">
+                                                <rect key="frame" x="234" y="1" width="15" height="143"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                        </scrollView>
+                                    </subviews>
+                                    <visibilityPriorities>
+                                        <integer value="1000"/>
+                                    </visibilityPriorities>
+                                    <customSpacing>
+                                        <real value="3.4028234663852886e+38"/>
+                                    </customSpacing>
+                                </stackView>
+                            </subviews>
+                            <visibilityPriorities>
+                                <integer value="1000"/>
+                            </visibilityPriorities>
+                            <customSpacing>
+                                <real value="3.4028234663852886e+38"/>
+                            </customSpacing>
+                        </stackView>
+                    </subviews>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
+                <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="43">
                     <rect key="frame" x="41" y="19" width="23" height="23"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="23" id="44"/>
                     </constraints>
@@ -59,13 +90,12 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="removeSelectedProjects:" target="-2" id="64"/>
+                        <action selector="removeSelectedWorkspaces:" target="-2" id="itq-3p-lP1"/>
                         <binding destination="-2" name="enabled" keyPath="canDeleteSelection" id="83"/>
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="66">
                     <rect key="frame" x="20" y="19" width="23" height="23"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="23" id="68"/>
                         <constraint firstAttribute="height" constant="21" id="69"/>
@@ -75,39 +105,20 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="createProject:" target="-2" id="76"/>
+                        <action selector="createWorkspace:" target="-2" id="nfr-eP-Uld"/>
                         <binding destination="14" name="enabled" keyPath="canAdd" id="77"/>
                     </connections>
                 </button>
-                <pathControl focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22">
-                    <rect key="frame" x="20" y="556" width="596" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="596" id="39"/>
-                    </constraints>
-                    <pathCell key="cell" controlSize="small" selectable="YES" focusRingType="none" alignment="left" id="23">
-                        <font key="font" metaFont="smallSystem"/>
-                        <url key="url" string="Top/Project/Workspace">
-                            <url key="baseURL" string="file://localhost/"/>
-                        </url>
-                    </pathCell>
-                    <connections>
-                        <action selector="pathControlClicked:" target="-2" id="40"/>
-                    </connections>
-                </pathControl>
             </subviews>
             <constraints>
-                <constraint firstItem="4" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" symbolic="YES" id="19"/>
-                <constraint firstAttribute="trailing" secondItem="4" secondAttribute="trailing" constant="20" symbolic="YES" id="21"/>
-                <constraint firstItem="22" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" symbolic="YES" id="24"/>
-                <constraint firstItem="22" firstAttribute="top" secondItem="1" secondAttribute="top" constant="20" symbolic="YES" id="25"/>
-                <constraint firstItem="4" firstAttribute="top" secondItem="22" secondAttribute="bottom" constant="8" symbolic="YES" id="26"/>
                 <constraint firstAttribute="bottom" secondItem="43" secondAttribute="bottom" constant="20" symbolic="YES" id="59"/>
                 <constraint firstItem="43" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="41" id="60"/>
-                <constraint firstItem="43" firstAttribute="top" secondItem="4" secondAttribute="bottom" constant="8" symbolic="YES" id="62"/>
                 <constraint firstItem="66" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" symbolic="YES" id="73"/>
-                <constraint firstItem="66" firstAttribute="top" secondItem="4" secondAttribute="bottom" constant="8" symbolic="YES" id="74"/>
                 <constraint firstAttribute="bottom" secondItem="66" secondAttribute="bottom" constant="20" symbolic="YES" id="75"/>
+                <constraint firstItem="PGj-5P-Ev7" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="H4H-R1-mSz"/>
+                <constraint firstItem="66" firstAttribute="top" secondItem="PGj-5P-Ev7" secondAttribute="bottom" constant="8" id="bfX-zr-0LC"/>
+                <constraint firstItem="PGj-5P-Ev7" firstAttribute="top" secondItem="1" secondAttribute="top" constant="20" id="e6D-E5-E7n"/>
+                <constraint firstAttribute="trailing" secondItem="PGj-5P-Ev7" secondAttribute="trailing" constant="20" id="iua-qm-mTI"/>
             </constraints>
             <connections>
                 <outlet property="viewController" destination="-2" id="3"/>
@@ -117,7 +128,7 @@
         <arrayController selectsInsertedObjects="NO" avoidsEmptySelection="NO" id="14"/>
     </objects>
     <resources>
-        <image name="NSAddTemplate" width="8" height="8"/>
-        <image name="NSRemoveTemplate" width="8" height="8"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSRemoveTemplate" width="11" height="11"/>
     </resources>
 </document>

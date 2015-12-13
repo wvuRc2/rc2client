@@ -6,10 +6,10 @@
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
+#import "Rc2-Swift.h"
 #import "MCMainWindowController.h"
 #import "MCAppConstants.h"
-#import "Rc2Server.h"
-#import "RCWorkspace.h"
+#import "Rc2RestServer.h"
 #import "RCSession.h"
 #import <Vyana/NSMenu+AMExtensions.h>
 #import "MCSessionViewController.h"
@@ -43,7 +43,8 @@
 - (void)windowDidLoad
 {
 	[super windowDidLoad];
-	self.window.title = [NSString stringWithFormat:@"%@ (%@)", self.window.title, [RC2_SharedInstance() connectionDescription]];
+	Rc2RestServer *server = [Rc2RestServer sharedInstance];
+	self.window.title = [NSString stringWithFormat:@"%@ (%@)", self.window.title, server.connectionDescription];
 	self.projectController = [[MCProjectViewController alloc] init];
 	self.projectController.view.frame = self.detailContainer.frame;
 	self.projectController.view.autoresizingMask = self.detailContainer.autoresizingMask;
@@ -56,8 +57,8 @@
 	[self.projectController didBecomeVisible];
 	//if the list of projects is refreshed, the current session will be referencing a dealloced project since the workspace
 	// keeps a weak reference
-	__weak MCMainWindowController *bself = self;
-	[self observeTarget:RC2_SharedInstance() keyPath:@"projects" options:0 block:^(MAKVONotification *notification) {
+	__weak typeof(self) bself = self;
+	[self observeTarget:server keyPath:@"loginSession" options:0 block:^(MAKVONotification *notification) {
 		if (bself.currentSessionController && nil == bself.currentSessionController.view.window)
 			bself.currentSessionController = nil;
 	}];
@@ -102,12 +103,12 @@
 
 #pragma mark - meat & potatos
 
--(void)openSession:(RCWorkspace*)wspace inNewWindow:(BOOL)inNewWindow
+-(void)openSession:(Rc2Workspace*)wspace
 {
-	[self openSession:wspace file:nil inNewWindow:inNewWindow];
+	[self openSession:wspace file:nil];
 }
 
--(void)openSession:(RCWorkspace*)wspace file:(RCFile*)initialFile inNewWindow:(BOOL)inNewWindow
+-(void)openSession:(Rc2Workspace*)wspace file:(RCFile*)initialFile
 {
 	if (self.currentSessionController.session.workspace != wspace) {
 		RCSession *session = [[RCSession alloc] initWithWorkspace:wspace serverResponse:nil];
