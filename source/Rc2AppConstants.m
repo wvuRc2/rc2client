@@ -8,6 +8,8 @@
 
 NSString *const RC2IdleTimerFiredNotification = @"RC2IdleTimerFiredNotification";
 
+NSString *const Rc2ErrorDomain = @"Rc2";
+
 //iOS ones, many which need to be removed/deprecated
 NSString *const kPrefLastLogin = @"LastLogin";
 NSString *const kPrefCustomKey1URL = @"PrefCustomKey1URL";

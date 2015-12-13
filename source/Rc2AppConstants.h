@@ -7,6 +7,7 @@
 //
 
 extern NSString *const RC2IdleTimerFiredNotification;
+extern NSString *const Rc2ErrorDomain;
 
 extern NSString *const kPrefLastLogin;
 
@@ -35,3 +36,8 @@ extern NSString *const kPref_SearchResultBGColor;
 //notifications
 extern NSString *const kDropboxSyncRequestedNotification;
 extern NSString *const kWillDisplayGearMenu;
+
+//helper function
+static inline void dispatchOnMainQueue(dispatch_block_t block) {
+	dispatch_async(dispatch_get_main_queue(), block);
+}
