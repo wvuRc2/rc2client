@@ -66,7 +66,6 @@
 		0828600718451B7C002BA8D2 /* Rc2AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828600618451B7C002BA8D2 /* Rc2AppConstants.m */; };
 		0828600818451B7C002BA8D2 /* Rc2AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828600618451B7C002BA8D2 /* Rc2AppConstants.m */; };
 		0828605218526300002BA8D2 /* AMHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828605118526300002BA8D2 /* AMHudView.m */; };
-		082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082CEE8E161C8C8900E01F48 /* FScript.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEE9D161CC84A00E01F48 /* MCSessionView.m */; };
 		082CEEC0161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
 		082CEEC1161F685900E01F48 /* RCVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CEEBF161F685900E01F48 /* RCVariable.m */; };
@@ -134,8 +133,6 @@
 		0843BE821C1B8C3D00DD8F28 /* Rc2File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */; };
 		0843BE831C1B8C3D00DD8F28 /* Rc2File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */; };
 		0843BE841C1B8C3D00DD8F28 /* Rc2File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */; };
-		084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; };
-		084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 084593D415B5F09500297C9D /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		084593E715B5F16F00297C9D /* MCAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593E615B5F16F00297C9D /* MCAppConstants.m */; };
 		084593FA15B5F1D700297C9D /* MCEditUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F515B5F1D700297C9D /* MCEditUserController.m */; };
@@ -654,7 +651,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				084593D715B5F0A500297C9D /* HockeySDK.framework in Copy Frameworks */,
 				084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */,
 				085C6EF917A99E370085DE88 /* DropboxOSX.framework in Copy Frameworks */,
 			);
@@ -731,7 +727,6 @@
 		0828600618451B7C002BA8D2 /* Rc2AppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rc2AppConstants.m; path = source/Rc2AppConstants.m; sourceTree = "<group>"; };
 		0828605018526300002BA8D2 /* AMHudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMHudView.h; path = Dependencies/AMHudView/AMHudView.h; sourceTree = SOURCE_ROOT; };
 		0828605118526300002BA8D2 /* AMHudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMHudView.m; path = Dependencies/AMHudView/AMHudView.m; sourceTree = SOURCE_ROOT; };
-		082CEE8E161C8C8900E01F48 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FScript.framework; path = 3rdParty/FScript.framework; sourceTree = "<group>"; };
 		082CEE9C161CC84A00E01F48 /* MCSessionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSessionView.h; path = source/mac/MCSessionView.h; sourceTree = SOURCE_ROOT; };
 		082CEE9D161CC84A00E01F48 /* MCSessionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSessionView.m; path = source/mac/MCSessionView.m; sourceTree = SOURCE_ROOT; };
 		082CEEBE161F685900E01F48 /* RCVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCVariable.h; sourceTree = "<group>"; };
@@ -799,7 +794,6 @@
 		0843BE791C1B6B0700DD8F28 /* loginResults.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loginResults.json; sourceTree = "<group>"; };
 		0843BE7B1C1B735B00DD8F28 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = 3rdParty/OHHTTPStubs.framework; sourceTree = SOURCE_ROOT; };
 		0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2File.swift; sourceTree = "<group>"; };
-		084593D415B5F09500297C9D /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "3rdParty/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* MCAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAppConstants.h; path = source/mac/MCAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* MCAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAppConstants.m; path = source/mac/MCAppConstants.m; sourceTree = SOURCE_ROOT; };
 		084593F415B5F1D700297C9D /* MCEditUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCEditUserController.h; sourceTree = "<group>"; };
@@ -1452,8 +1446,6 @@
 				08D2467F15B5EF630064A9FA /* SystemConfiguration.framework in Frameworks */,
 				08D2468015B5EF630064A9FA /* WebKit.framework in Frameworks */,
 				08D2461F15B5EBC20064A9FA /* Cocoa.framework in Frameworks */,
-				084593D515B5F09500297C9D /* HockeySDK.framework in Frameworks */,
-				082CEE8F161C8C8900E01F48 /* FScript.framework in Frameworks */,
 				085C6EF817A99DE80085DE88 /* DropboxOSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2567,8 +2559,6 @@
 			children = (
 				082D1EDD17E900DE00723EB3 /* ParseKit.framework */,
 				085C6EF717A99DE80085DE88 /* DropboxOSX.framework */,
-				082CEE8E161C8C8900E01F48 /* FScript.framework */,
-				084593D415B5F09500297C9D /* HockeySDK.framework */,
 				08D2468215B5EFCE0064A9FA /* Vyana.framework */,
 				08D2461E15B5EBC20064A9FA /* Cocoa.framework */,
 				08D2462015B5EBC20064A9FA /* Other Frameworks */,

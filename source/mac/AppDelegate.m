@@ -23,7 +23,6 @@
 #import "BBEdit.h"
 #import "RCMGeneralPrefs.h"
 #import "RCMFontPrefs.h"
-#import <HockeySDK/HockeySDK.h>
 #import "MASPreferencesWindowController.h"
 #import <DropboxOSX/DropboxOSX.h>
 
@@ -32,7 +31,7 @@ NSString *const kPref_StartInFullScreen = @"StartInFullScreen";
 const CGFloat kIdleTimerFrequency = 5;
 const CGFloat kMinIdleTimeBeforeAction = 20;
 
-@interface AppDelegate() <BITHockeyManagerDelegate> {
+@interface AppDelegate() {
 	BOOL __haveMoc;
 	BOOL __firstLogin;
 }
@@ -54,11 +53,6 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 
 @implementation AppDelegate
 
--(void)showMainApplicationWindow
-{
-	[self presentLoginPanel];
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	__firstLogin=YES;
@@ -73,17 +67,6 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	ZAssert(allDefs, @"failed to load common defaults");
 	[allDefs addEntriesFromDictionary:defs];
 	[defaults registerDefaults:allDefs];
-
-#if DEBUG
-	//if F-Script is available, install in menu bar
-	Class fscriptClz = NSClassFromString(@"FScriptMenuItem");
-	if (fscriptClz)
-		[[NSApp mainMenu] addItem:[[fscriptClz alloc] init]];
-	[self showMainApplicationWindow];
-#else
-	[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f4225a0ff7ed8fe53eb30f4a29a21689" companyName:@"WVU Stat Dept" delegate:self];
-	[[BITHockeyManager sharedHockeyManager] startManager];
-#endif
 
 	[MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"Rc2.sqlite"];
 	[MagicalRecord setShouldDeleteStoreOnModelMismatch:YES];
@@ -119,6 +102,7 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
 	[self setupThemeMenu];
 	self.lastEventTime = [NSDate timeIntervalSinceReferenceDate];
+	[self presentLoginPanel];
 }
 
 -(BOOL)application:(NSApplication *)app openFile:(NSString *)filename
@@ -272,11 +256,13 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 	[[NSUserDefaults standardUserDefaults] setObject:RC2_SharedInstance().activeLogin.currentUser.login forKey:kPrefLastLogin];
 	self.mainWindowController = [[MCMainWindowController alloc] init];
 	[self.mainWindowController.window makeKeyAndOrderFront:self];
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector(windowWillClose:) 
-												 name:NSWindowWillCloseNotification 
-											   object:self.mainWindowController.window];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:kPref_StartInFullScreen]) {
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver:self
+		 selector:@selector(windowWillClose:)
+			 name:NSWindowWillCloseNotification 
+		   object:self.mainWindowController.window];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:kPref_StartInFullScreen])
+	{
 		[self.mainWindowController.window toggleFullScreen:self];
 	}
 }
@@ -331,23 +317,6 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 		item.representedObject = theme;
 		[menu addItem:item];
 	}
-}
-
-#pragma mark - hockey app
-
--(NSString*)crashReportUserID
-{
-	return [[NSUserDefaults standardUserDefaults] objectForKey:kPrefLastLogin];
-}
-
--(void)showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager
-{
-	[self showMainApplicationWindow];
-}
-
--(NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window
-{
-	return [[NSManagedObjectContext MR_defaultContext] undoManager];
 }
 
 @end

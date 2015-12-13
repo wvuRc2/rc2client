@@ -9,11 +9,13 @@
 import Foundation
 
 @objc public class Rc2LoginSession : NSObject {
+	let host : String;
 	let authToken : String;
 	let currentUser : Rc2User;
 	var workspaces : [Rc2Workspace];
 	
-	init(jsonData : AnyObject) {
+	init(jsonData : AnyObject, host : String) {
+		self.host = host
 		let json = JSON(jsonData)
 		authToken = json["token"].stringValue
 		currentUser = Rc2User(json: json["user"])

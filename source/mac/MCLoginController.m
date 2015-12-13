@@ -10,13 +10,12 @@
 #import "Rc2Server.h"
 #import "Rc2AppConstants.h"
 #import "SSKeychain.h"
-
+#import "Rc2RestServer.h"
 
 @interface MCLoginController()
 @property (nonatomic, copy) BasicBlock_t completionHandler;
--(void)saveLoginInfo;
--(void)loadPasswordForLogin;
--(NSString*)selectedHost;
+@property (weak) IBOutlet NSPopUpButton *serverPopUp;
+@property (copy) NSArray<NSString*> *hosts;
 @end
 
 @implementation MCLoginController
@@ -31,12 +30,14 @@
 - (void)windowDidLoad
 {
 	[super windowDidLoad];
+	Rc2RestServer *restServer = [Rc2RestServer sharedInstance];
+	self.hosts = [restServer restHosts];
 	NSString *lastLogin = [[NSUserDefaults standardUserDefaults] objectForKey:kPrefLastLogin];
 	if (lastLogin) {
 		self.loginName = lastLogin;
 		[self loadPasswordForLogin];
 	}
-	self.selectedServerIdx = [RC2_SharedInstance() serverHost];
+	self.selectedHost = restServer.defaultRestHost;
 }
 
 -(void)promptForLoginWithCompletionBlock:(void (^)(void))cblock
@@ -49,22 +50,21 @@
 -(IBAction)doLogin:(id)sender
 {
 	self.isBusy=YES;
-	RC2_SharedInstance().serverHost = self.selectedServerIdx;
-	__block MCLoginController *blockSelf = self;
-	[RC2_SharedInstance() loginAsUser:self.loginName password:self.password
-		completionHandler:^(BOOL success, NSString *message) 
-		{
-			blockSelf.isBusy=NO;
-			if (success) {
-				if (RC2_SharedInstance().loggedIn) {
-					[blockSelf.window orderOut:self];
-					blockSelf.completionHandler();
-				}
-				[blockSelf saveLoginInfo];
-			} else {
-				[NSAlert displayAlertWithTitle:@"Error" details:message window:blockSelf.window];
+	__block typeof(self) bself = self;
+	Rc2RestServer *restServer = [Rc2RestServer sharedInstance];
+	[restServer loginToHostName:self.selectedHost login:self.loginName password:self.password handler:^(BOOL success, id results, NSError *error)
+	{
+		bself.isBusy=NO;
+		if (success) {
+			if (restServer.loginSession) {
+				[bself.window orderOut:self];
+				bself.completionHandler();
 			}
-		}];
+			[bself saveLoginInfo];
+		} else {
+			[NSAlert displayAlertWithTitle:@"Error" details:error.localizedDescription window:bself.window];
+		}
+	}];
 }
 
 -(void)saveLoginInfo
@@ -80,17 +80,4 @@
 		self.password = pass;
 }
 
--(NSString*)selectedHost
-{
-	switch(self.selectedServerIdx) {
-		case 0:
-		default:
-			return @"rc2.stat.wvu.edu";
-		case 1:
-			return @"barney.stat.wvu.edu";
-		case 2:
-			return @"localhost";
-	}
-}
-						  
 @end

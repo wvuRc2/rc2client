@@ -13,7 +13,7 @@ typedef void (^BasicBlock_t)(void);
 @interface MCLoginController : NSWindowController
 @property (nonatomic, copy) NSString *loginName;
 @property (nonatomic, copy) NSString *password;
-@property (nonatomic, assign) NSInteger selectedServerIdx;
+@property (nonatomic, copy) NSString *selectedHost;
 @property (nonatomic, assign) BOOL isBusy;
 
 -(void)promptForLoginWithCompletionBlock:(BasicBlock_t)cblock;
