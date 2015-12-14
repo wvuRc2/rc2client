@@ -80,43 +80,55 @@
                         <real value="3.4028234663852886e+38"/>
                     </customSpacing>
                 </stackView>
-                <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="43">
-                    <rect key="frame" x="41" y="19" width="23" height="23"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="23" id="44"/>
-                    </constraints>
-                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="45">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="removeSelectedWorkspaces:" target="-2" id="itq-3p-lP1"/>
-                        <binding destination="-2" name="enabled" keyPath="canDeleteSelection" id="83"/>
-                    </connections>
-                </button>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="66">
-                    <rect key="frame" x="20" y="19" width="23" height="23"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="23" id="68"/>
-                        <constraint firstAttribute="height" constant="21" id="69"/>
-                    </constraints>
-                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="67">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="createWorkspace:" target="-2" id="nfr-eP-Uld"/>
-                        <binding destination="14" name="enabled" keyPath="canAdd" id="77"/>
-                    </connections>
-                </button>
+                <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" misplaced="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SRM-eL-d4a">
+                    <rect key="frame" x="20" y="20" width="46" height="21"/>
+                    <subviews>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="66">
+                            <rect key="frame" x="0.0" y="-1" width="23" height="23"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="23" id="68"/>
+                                <constraint firstAttribute="height" constant="21" id="69"/>
+                            </constraints>
+                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="67">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="createWorkspace:" target="-2" id="nfr-eP-Uld"/>
+                                <binding destination="14" name="enabled" keyPath="canAdd" id="77"/>
+                            </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="43">
+                            <rect key="frame" x="23" y="-1" width="23" height="23"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="23" id="44"/>
+                                <constraint firstAttribute="height" constant="21" id="A6f-Lc-2CX"/>
+                            </constraints>
+                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="45">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="removeSelectedWorkspaces:" target="-2" id="itq-3p-lP1"/>
+                                <binding destination="-2" name="enabled" keyPath="canDeleteSelection" id="83"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="43" secondAttribute="bottom" constant="20" symbolic="YES" id="59"/>
-                <constraint firstItem="43" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="41" id="60"/>
-                <constraint firstItem="66" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" symbolic="YES" id="73"/>
-                <constraint firstAttribute="bottom" secondItem="66" secondAttribute="bottom" constant="20" symbolic="YES" id="75"/>
+                <constraint firstItem="SRM-eL-d4a" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="AjW-2w-gne"/>
                 <constraint firstItem="PGj-5P-Ev7" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="H4H-R1-mSz"/>
-                <constraint firstItem="66" firstAttribute="top" secondItem="PGj-5P-Ev7" secondAttribute="bottom" constant="8" id="bfX-zr-0LC"/>
+                <constraint firstItem="SRM-eL-d4a" firstAttribute="top" secondItem="PGj-5P-Ev7" secondAttribute="bottom" constant="8" id="NgB-TM-O7o"/>
+                <constraint firstAttribute="bottom" secondItem="SRM-eL-d4a" secondAttribute="bottom" constant="20" id="bGM-iz-3Pf"/>
                 <constraint firstItem="PGj-5P-Ev7" firstAttribute="top" secondItem="1" secondAttribute="top" constant="20" id="e6D-E5-E7n"/>
                 <constraint firstAttribute="trailing" secondItem="PGj-5P-Ev7" secondAttribute="trailing" constant="20" id="iua-qm-mTI"/>
             </constraints>
@@ -125,7 +137,7 @@
             </connections>
         </customView>
         <collectionViewItem nibName="MCProjectCollectionItem" id="8" customClass="MCProjectCollectionItem"/>
-        <arrayController selectsInsertedObjects="NO" avoidsEmptySelection="NO" id="14"/>
+        <arrayController selectsInsertedObjects="NO" avoidsEmptySelection="NO" automaticallyRearrangesObjects="YES" id="14"/>
     </objects>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>

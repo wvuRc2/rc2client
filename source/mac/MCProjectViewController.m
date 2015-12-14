@@ -42,6 +42,7 @@
 {
 	Rc2RestServer *server = [Rc2RestServer sharedInstance];
 	self.arrayController.content = [server.loginSession.workspaces mutableCopy];
+	self.arrayController.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]];
 	__weak __typeof(self) blockSelf = self;
 	[self observeTarget:self.arrayController keyPath:@"selectionIndexes" options:0 block:^(MAKVONotification *notification) {
 		[blockSelf willChangeValueForKey:@"canDeleteSelection"];
@@ -130,39 +131,42 @@
 		self.busy = NO;
 		self.statusMessage = nil;
 		if (rc == NSOKButton) {
-/*			[RC2_SharedInstance() createWorkspace:pc.stringValue inProject:self.selectedProject completionBlock:^(BOOL success, id obj) {
+			Rc2RestServer *server = [Rc2RestServer sharedInstance];
+			[server createWorkspace:pc.stringValue completionBlock:^(BOOL success, id results, NSError *error)
+			{
 				if (success) {
-					NSInteger idx = [self.selectedProject.workspaces indexOfObject:obj];
-					[self.arrayController insertObject:obj atArrangedObjectIndex:idx];
+					[self.arrayController addObject:results];
 				} else {
-					//TODO: notify user that failed
-					Rc2LogError(@"failed to create project:%@", obj);
+					//TODO: report to user that failed
+					Rc2LogError(@"failed to create project: %@", error.localizedDescription);
 				}
 			}];
-*/		}
+		}
 	}];
 }
 
 -(IBAction)removeSelectedWorkspaces:(id)sender
 {
-	id selObj = self.arrayController.selectedObjects.firstObject;
+	Rc2Workspace *wspace = self.arrayController.selectedObjects.firstObject;
 	if (![self canDeleteSelection]) {
 		NSBeep();
 		return;
 	}
-	NSAlert *alert = [NSAlert alertWithMessageText:@"Confirm Delete?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Are you sure you want to delete workspace \"%@\"? This can not be undone.", [selObj name]];
+	NSAlert *alert = [NSAlert alertWithMessageText:@"Confirm Delete?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Are you sure you want to delete workspace \"%@\"? This can not be undone.", [wspace name]];
 	[alert am_beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *balert, NSInteger rc) {
 		if (NSAlertDefaultReturn == rc) {
-/*			[RC2_SharedInstance() deleteWorkspce:selObj completionHandler:^(BOOL success, id results) {
+			self.busy = YES;
+			Rc2RestServer *server = [Rc2RestServer sharedInstance];
+			[server deleteWorkspce:wspace completionHandler:^(BOOL success, id results, NSError *error)
+			{
 				if (success) {
-						[self.arrayController removeObject:selObj];
-				[[selObj project] removeWorkspace:selObj];
+					[self.arrayController removeObject:wspace];
 				} else {
-				//TODO: notify user that failed
-				Rc2LogError(@"failed to delete workspace:%@", [selObj name]);
+					//TODO: report to user that it failed
 				}
+				self.busy = NO;
 			}];
-*/		}
+		}
 	}];
 }
 
@@ -203,15 +207,18 @@
 {
 	Rc2Workspace *wspace = item.representedObject;
 	self.busy = YES;
-/*	[RC2_SharedInstance() renameWorkspce:modelObject name:newName completionHandler:^(BOOL success, id arg) {
+	Rc2RestServer *server = [Rc2RestServer sharedInstance];
+	[server renameWorkspce:wspace name:newName completionHandler:^(BOOL success, id results, NSError *error)
+	{
 		if (success) {
+			//results is new workspace to replace wspace with.
 			[item reloadItemDetails];
 		} else {
-			[NSAlert displayAlertWithTitle:@"Error renaming Workspace" details:arg];
+			[NSAlert displayAlertWithTitle:@"Error renaming Workspace" details:error.localizedDescription];
 		}
-		self.busy=NO;
+		self.busy = NO;
 	}];
-*/}
+}
 
 -(void)collectionView:(MCProjectCollectionView *)cview showShareInfo:(RCProject*)project fromRect:(NSRect)rect
 {
