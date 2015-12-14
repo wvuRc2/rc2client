@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class Rc2LoginSession;
+@class Rc2Workspace;
 
 typedef void (^Rc2RestCompletionHandler)(BOOL success, id results, NSError *error);
 
@@ -31,5 +32,9 @@ extern NSString * const Rc2RestLoginStatusChangedNotification;
 
 //updates the workspaces array of the loginSession
 -(void)createWorkspace:(NSString*)wspaceName completionBlock:(Rc2RestCompletionHandler)handler;
+
+-(void)renameWorkspce:(Rc2Workspace*)wspace name:(NSString*)newName completionHandler:(Rc2RestCompletionHandler)handler;
+
+-(void)deleteWorkspce:(Rc2Workspace*)wspace completionHandler:(Rc2RestCompletionHandler)handler;
 
 @end

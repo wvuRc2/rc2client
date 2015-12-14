@@ -103,6 +103,8 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 	NSURL *url = [NSURL URLWithString:path relativeToURL:self.baseUrl];
 	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
 	req.HTTPMethod = method;
+	if (self.loginSession.authToken)
+		[req addValue:self.loginSession.authToken forHTTPHeaderField:@"Rc2-Auth"];
 	if (jsonDict.count > 0) {
 		[req addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 		req.HTTPBody = [NSJSONSerialization dataWithJSONObject:jsonDict options:0 error:&error];
@@ -168,6 +170,50 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 			dispatchOnMainQueue( ^{handler(YES, wspace, nil);} );
 		} else {
 			Rc2LogWarn(@"create workspace got unknown error:%ld", (long)httpResponse.statusCode);
+			dispatchOnMainQueue( ^{handler(NO, nil, error); });
+		}
+	}];
+	[task resume];
+}
+
+-(void)renameWorkspce:(Rc2Workspace*)wspace name:(NSString*)newName completionHandler:(Rc2RestCompletionHandler)handler
+{
+	NSString *path = [NSString stringWithFormat:@"workspaces/%d", wspace.wspaceId];
+	NSMutableURLRequest *req = [self requestWithPath:path method:@"PUT" json:@{@"name":newName, @"id":@(wspace.wspaceId)}];
+	NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:req completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
+	{
+		NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+		NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+		if (httpResponse.statusCode == 200) {
+			Rc2Workspace *modSpace = [[Rc2Workspace alloc] initWithJsonData:json];
+			NSMutableArray *spaces = [self.loginSession.workspaces mutableCopy];
+			[spaces replaceObjectAtIndex:[spaces indexOfObject:wspace] withObject:modSpace];
+			[spaces sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
+			self.loginSession.workspaces = spaces;
+			dispatchOnMainQueue( ^{handler(YES, modSpace, nil);} );
+		} else {
+			Rc2LogWarn(@"rename workspace got unknown error:%ld", (long)httpResponse.statusCode);
+			dispatchOnMainQueue( ^{handler(NO, nil, error); });
+		}
+	}];
+	[task resume];
+}
+
+-(void)deleteWorkspce:(Rc2Workspace*)wspace completionHandler:(Rc2RestCompletionHandler)handler
+{
+	NSString *path = [NSString stringWithFormat:@"workspaces/%d", wspace.wspaceId];
+	NSMutableURLRequest *req = [self requestWithPath:path method:@"DELETE" json:nil];
+	NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:req completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
+	{
+		NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+		NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+		if (httpResponse.statusCode == 200) {
+			NSMutableArray *spaces = [self.loginSession.workspaces mutableCopy];
+			[spaces removeObject:wspace];
+			self.loginSession.workspaces = spaces;
+			dispatchOnMainQueue( ^{handler(YES, nil, nil);} );
+		} else {
+			Rc2LogWarn(@"delete workspace got unknown error:%ld", (long)httpResponse.statusCode);
 			dispatchOnMainQueue( ^{handler(NO, nil, error); });
 		}
 	}];
