@@ -21,4 +21,8 @@ import Foundation
 		currentUser = Rc2User(json: json["user"])
 		workspaces = Rc2Workspace.workspacesFromJsonArray(json["workspaces"])
 	}
+
+	public override var description : String {
+		return "<RcLoginSession: \(currentUser.login)@\(host) (\(currentUser.userId))";
+	}
 }

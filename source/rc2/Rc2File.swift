@@ -42,4 +42,9 @@ import Foundation
 		dateCreated = NSDate(timeIntervalSince1970: json["dateCreated"].doubleValue/1000.0)
 		lastModified = NSDate(timeIntervalSince1970: json["lastModified"].doubleValue/1000.0)
 	}
+	
+	public override var description : String {
+		return "<Rc2File: \(name) (\(fileId))";
+	}
+
 }

@@ -41,4 +41,9 @@ import Foundation
 		name = json["name"].stringValue
 		files = Rc2File.filesFromJsonArray(json["files"])
 	}
+	
+	public override var description : String {
+		return "<Rc2Workspace: \(name) (\(wspaceId))";
+	}
+
 }

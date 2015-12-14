@@ -31,4 +31,8 @@ import Foundation
 		email = json["email"].stringValue
 		admin = json["admin"].boolValue
 	}
+	
+	public override var description : String {
+		return "<Rc2User: \(login) (\(userId))";
+	}
 }
