@@ -29,4 +29,7 @@ extern NSString * const Rc2RestLoginStatusChangedNotification;
 
 -(void)loginToHostName:(NSString*)hostName login:(NSString*)login password:(NSString*)password handler:(Rc2RestCompletionHandler)handler;
 
+//updates the workspaces array of the loginSession
+-(void)createWorkspace:(NSString*)wspaceName completionBlock:(Rc2RestCompletionHandler)handler;
+
 @end

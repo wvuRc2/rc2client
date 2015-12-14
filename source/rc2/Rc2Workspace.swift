@@ -25,6 +25,7 @@ import Foundation
 		for (_,subJson):(String, JSON) in json {
 			wspaces.append(Rc2Workspace(json:subJson))
 		}
+		wspaces.sortInPlace { return $0.name.localizedCompare($1.name) == .OrderedAscending }
 		return wspaces
 	}
 	

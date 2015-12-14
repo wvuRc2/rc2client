@@ -65,6 +65,8 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 	return [self initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
 }
 
+#pragma mark - basic public methods
+
 -(NSArray<NSString*>*)restHosts
 {
 	return [self.hosts valueForKeyPath:@"name"];
@@ -93,6 +95,24 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 	return [NSString stringWithFormat:@"%@@%@", login, host];
 }
 
+#pragma mark - internal utility methods
+
+-(NSMutableURLRequest*)requestWithPath:(NSString*)path method:(NSString*)method json:(NSDictionary*)jsonDict
+{
+	NSError *error;
+	NSURL *url = [NSURL URLWithString:path relativeToURL:self.baseUrl];
+	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
+	req.HTTPMethod = method;
+	if (jsonDict.count > 0) {
+		[req addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+		req.HTTPBody = [NSJSONSerialization dataWithJSONObject:jsonDict options:0 error:&error];
+		if (error)
+			Rc2LogError(@"error serialzing to json: %@ (%@)", jsonDict, error.localizedDescription);
+	}
+	return req;
+}
+
+#pragma mark - login/logout
 
 -(void)loginToHostName:(NSString*)hostName login:(NSString*)login password:(NSString*)password handler:(Rc2RestCompletionHandler)handler
 {
@@ -106,11 +126,8 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 						 hostDict[@"host"],
 						 hostDict[@"port"]];
 	self.baseUrl = [NSURL URLWithString:hoststr];
-	NSURL *loginUrl = [NSURL URLWithString:@"login" relativeToURL:self.baseUrl];
-	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:loginUrl];
-	req.HTTPMethod = @"POST";
-	req.HTTPBody = [NSJSONSerialization dataWithJSONObject:@{@"login":login, @"password":password} options:0 error:nil];
-	[req addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+	//setup done, make login request
+	NSMutableURLRequest *req = [self requestWithPath:@"login" method:@"POST" json:@{@"login":login, @"password":password}];
 	NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:req completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
 	{
 		NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -131,4 +148,30 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 	}];
 	[task resume];
 }
+
+#pragma mark - workspaces
+
+//updates the workspaces array of the loginSession
+-(void)createWorkspace:(NSString*)wspaceName completionBlock:(Rc2RestCompletionHandler)handler
+{
+	NSMutableURLRequest *req = [self requestWithPath:@"workspaces" method:@"POST" json:@{@"name":wspaceName}];
+	NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:req completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
+	{
+		NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+		NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+		if (httpResponse.statusCode == 200) {
+			Rc2Workspace *wspace = [[Rc2Workspace alloc] initWithJsonData:json];
+			NSMutableArray *spaces = [self.loginSession.workspaces mutableCopy];
+			[spaces addObject:wspace];
+			[spaces sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
+			self.loginSession.workspaces = spaces;
+			dispatchOnMainQueue( ^{handler(YES, wspace, nil);} );
+		} else {
+			Rc2LogWarn(@"create workspace got unknown error:%ld", (long)httpResponse.statusCode);
+			dispatchOnMainQueue( ^{handler(NO, nil, error); });
+		}
+	}];
+	[task resume];
+}
+
 @end
