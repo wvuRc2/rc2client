@@ -23,6 +23,7 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 @property (nonatomic, strong, readwrite) NSURLSession *urlSession;
 @property (nonatomic, strong, readwrite) Rc2LoginSession *loginSession;
 @property (nonatomic, copy) NSArray *hosts;
+@property (nonatomic, copy) NSDictionary *selectedHost;
 @property (nonatomic, copy) NSURL *baseUrl;
 @end
 
@@ -95,6 +96,21 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 	return [NSString stringWithFormat:@"%@@%@", login, host];
 }
 
+-(void)selectHost:(NSString *)hostName
+{
+	//get the host structure
+	NSDictionary *hostDict = [self.hosts rc2_firstObjectWithValue:hostName forKey:@"host"];
+	if (nil == hostDict) {
+		[NSException raise:NSInvalidArgumentException format:@"invalid hostname: %@", hostName];
+	}
+	self.selectedHost = hostDict;
+	NSString *hoststr = [NSString stringWithFormat:@"http%@://%@:%@/",
+						 [hostDict[@"secure"] boolValue] ? @"s" : @"",
+						 hostDict[@"host"],
+						 hostDict[@"port"]];
+	self.baseUrl = [NSURL URLWithString:hoststr];
+}
+
 #pragma mark - internal utility methods
 
 -(NSMutableURLRequest*)requestWithPath:(NSString*)path method:(NSString*)method json:(NSDictionary*)jsonDict
@@ -116,18 +132,8 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 
 #pragma mark - login/logout
 
--(void)loginToHostName:(NSString*)hostName login:(NSString*)login password:(NSString*)password handler:(Rc2RestCompletionHandler)handler
+-(void)login:(NSString*)login password:(NSString*)password handler:(Rc2RestCompletionHandler)handler
 {
-	//get the host structure
-	NSDictionary *hostDict = [self.hosts rc2_firstObjectWithValue:hostName forKey:@"host"];
-	if (nil == hostDict) {
-		[NSException raise:NSInvalidArgumentException format:@"invalid hostname: %@", hostName];
-	}
-	NSString *hoststr = [NSString stringWithFormat:@"http%@://%@:%@/",
-						 [hostDict[@"secure"] boolValue] ? @"s" : @"",
-						 hostDict[@"host"],
-						 hostDict[@"port"]];
-	self.baseUrl = [NSURL URLWithString:hoststr];
 	//setup done, make login request
 	NSMutableURLRequest *req = [self requestWithPath:@"login" method:@"POST" json:@{@"login":login, @"password":password}];
 	NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:req completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
@@ -138,9 +144,9 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 			NSError *loginError = [NSError errorWithDomain:Rc2ErrorDomain code:401 userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Invalid login or password", @"")}];
 			dispatchOnMainQueue( ^{handler(NO, nil, loginError); } );
 		} else if (httpResponse.statusCode == 200) {
-			self.loginSession = [[Rc2LoginSession alloc] initWithJsonData:json host:hostDict[@"host"]];
+			self.loginSession = [[Rc2LoginSession alloc] initWithJsonData:json host:self.selectedHost[@"host"]];
 			dispatchOnMainQueue( ^{handler(YES, self.loginSession, nil);} );
-			NSInteger hostIndex = [self.hosts indexOfObject:hostDict];
+			NSInteger hostIndex = [self.hosts indexOfObject:self.selectedHost];
 			[[NSUserDefaults standardUserDefaults] setInteger:hostIndex forKey:kServerHostKey];
 			[[NSNotificationCenter defaultCenter] postNotificationName:Rc2RestLoginStatusChangedNotification object:self];
 		} else {

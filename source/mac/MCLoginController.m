@@ -52,7 +52,8 @@
 	self.isBusy=YES;
 	__block typeof(self) bself = self;
 	Rc2RestServer *restServer = [Rc2RestServer sharedInstance];
-	[restServer loginToHostName:self.selectedHost login:self.loginName password:self.password handler:^(BOOL success, id results, NSError *error)
+	[restServer selectHost:self.selectedHost];
+	[restServer login:self.loginName password:self.password handler:^(BOOL success, id results, NSError *error)
 	{
 		bself.isBusy=NO;
 		if (success) {

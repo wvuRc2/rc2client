@@ -6,10 +6,10 @@
 //  Copyright © 2015 West Virginia University. All rights reserved.
 //
 
+#import "Rc2-Swift.h"
 #import <XCTest/XCTest.h>
 #import "Rc2RestServer.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
-#import "Rc2-Swift.h"
 
 @interface Rc2RestServerTest : XCTestCase
 @property (strong) XCTestExpectation *httpExpectation;
@@ -24,6 +24,7 @@
 	self.httpExpectation = [self expectationWithDescription:@"httpResponse"];
 	NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
 	self.server = [[Rc2RestServer alloc] initWithSessionConfiguration:config];
+	[self.server selectHost:@"localhost"];
 }
 
 - (void)tearDown {
@@ -32,10 +33,10 @@
 	[OHHTTPStubs removeAllStubs];
 }
 
--(void)prepareURLSessionStub:(NSString*)jsonFileName
+-(void)prepareURLSessionStub:(NSString*)jsonFileName testPath:(NSString*)path
 {
 	[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest * _Nonnull request) {
-		return [request.URL.host isEqualToString:@"localhost"];
+		return [request.URL.host isEqualToString:@"localhost" ] && [request.URL.path containsString:path];
 	} withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
 		NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:jsonFileName withExtension:@"json"];
 		return [OHHTTPStubsResponse responseWithFileURL:url statusCode:200 headers:@{@"Content-Type":@"application/json"}];
@@ -51,8 +52,8 @@
 
 -(void)testLoginData
 {
-	[self prepareURLSessionStub:@"loginResults"];
-	[self.server loginToHostName:@"localhost" login:@"test" password:@"beavis" handler:^(BOOL success, id results, NSError *error)
+	[self prepareURLSessionStub:@"loginResults" testPath:@"login"];
+	[self.server login:@"test" password:@"beavis" handler:^(BOOL success, id results, NSError *error)
 	 {
 		XCTAssertTrue(success, @"login failed: %@", error);
 		[self.httpExpectation fulfill];
@@ -64,9 +65,18 @@
 	XCTAssertEqualObjects(@"Cornholio", [self.server valueForKeyPath:@"loginSession.currentUser.lastName"], @"names not equal");
 }
 
--(void)testCreateDeleteWorkspace
+-(void)testCreateWorkspace
 {
-	
+	__block id wspace;
+	[self prepareURLSessionStub:@"createWorkspace" testPath:@"workspaces"];
+	[self.server createWorkspace:@"foofy" completionBlock:^(BOOL success, id results, NSError *error)
+	 {
+		XCTAssertTrue(success, @"create workspace failed: %@", error);
+		 wspace = results;
+		[self.httpExpectation fulfill];
+	 }];
+	[self waitForHttpExpectation];
+	XCTAssertEqualObjects([wspace valueForKey:@"name"], @"foofy", @"workspace names do not match");
 }
 
 /*

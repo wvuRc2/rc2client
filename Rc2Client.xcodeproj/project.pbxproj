@@ -124,13 +124,9 @@
 		0843BE781C1B5EBD00DD8F28 /* Rc2LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */; };
 		0843BE7A1C1B6B0700DD8F28 /* loginResults.json in Resources */ = {isa = PBXBuildFile; fileRef = 0843BE791C1B6B0700DD8F28 /* loginResults.json */; };
 		0843BE7C1C1B735B00DD8F28 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0843BE7B1C1B735B00DD8F28 /* OHHTTPStubs.framework */; };
-		0843BE7D1C1B7E2100DD8F28 /* Rc2LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */; };
-		0843BE7E1C1B7E3300DD8F28 /* Rc2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE671C1A1F6400DD8F28 /* Rc2User.swift */; };
-		0843BE7F1C1B7E3700DD8F28 /* Rc2Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6D1C1A259100DD8F28 /* Rc2Workspace.swift */; };
 		0843BE801C1B7E4D00DD8F28 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6A1C1A22EC00DD8F28 /* SwiftyJSON.swift */; };
 		0843BE821C1B8C3D00DD8F28 /* Rc2File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */; };
 		0843BE831C1B8C3D00DD8F28 /* Rc2File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */; };
-		0843BE841C1B8C3D00DD8F28 /* Rc2File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		084593E715B5F16F00297C9D /* MCAppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593E615B5F16F00297C9D /* MCAppConstants.m */; };
 		084593FA15B5F1D700297C9D /* MCEditUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084593F515B5F1D700297C9D /* MCEditUserController.m */; };
@@ -278,6 +274,7 @@
 		08BAF53919748790007228DC /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF53719748790007228DC /* AsyncSocket.m */; };
 		08BAF53C1974879A007228DC /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF53B1974879A007228DC /* GCDAsyncSocket.m */; };
 		08BAF53D1974879A007228DC /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF53B1974879A007228DC /* GCDAsyncSocket.m */; };
+		08BB97C71C20944600825E91 /* createWorkspace.json in Resources */ = {isa = PBXBuildFile; fileRef = 08BB97C61C20944600825E91 /* createWorkspace.json */; };
 		08BD2F55185A5257002B256B /* libRcpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F54185A5257002B256B /* libRcpp.a */; };
 		08BD2F57185A5289002B256B /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F56185A5289002B256B /* R.framework */; };
 		08BD2F59185A52CA002B256B /* EnvList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F58185A52CA002B256B /* EnvList.cpp */; };
@@ -979,6 +976,7 @@
 		08BAF53719748790007228DC /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncSocket.m; path = Dependencies/CocoaAsyncSocket/RunLoop/AsyncSocket.m; sourceTree = "<group>"; };
 		08BAF53A1974879A007228DC /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = Dependencies/CocoaAsyncSocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		08BAF53B1974879A007228DC /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = Dependencies/CocoaAsyncSocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
+		08BB97C61C20944600825E91 /* createWorkspace.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createWorkspace.json; sourceTree = "<group>"; };
 		08BD2F49185A4ED4002B256B /* rc2.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rc2.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BD2F53185A5088002B256B /* rc2.R */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = rc2.R; path = ../Rpackages/rc2/R/rc2.R; sourceTree = "<group>"; };
 		08BD2F54185A5257002B256B /* libRcpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRcpp.a; path = ../../../../../../Library/Frameworks/R.framework/Versions/3.0/Resources/library/Rcpp/lib/libRcpp.a; sourceTree = "<group>"; };
@@ -1759,6 +1757,7 @@
 				08DDC6E319BA61E40008CCD3 /* lognormal.R */,
 				08DDC6E419BA61E40008CCD3 /* samples.R */,
 				0857278119B0F89700ADCC7B /* Info.plist */,
+				08BB97C61C20944600825E91 /* createWorkspace.json */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2808,6 +2807,7 @@
 				08DDC6E519BA623A0008CCD3 /* lognormal.R in Resources */,
 				0843BE7A1C1B6B0700DD8F28 /* loginResults.json in Resources */,
 				08DDC6E619BA623A0008CCD3 /* samples.R in Resources */,
+				08BB97C71C20944600825E91 /* createWorkspace.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3098,12 +3098,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0843BE751C1B445100DD8F28 /* Rc2RestServerTest.m in Sources */,
-				0843BE7D1C1B7E2100DD8F28 /* Rc2LoginSession.swift in Sources */,
-				0843BE7E1C1B7E3300DD8F28 /* Rc2User.swift in Sources */,
 				0843BE801C1B7E4D00DD8F28 /* SwiftyJSON.swift in Sources */,
 				0814988519B115B7006C1290 /* Rc2ServerTests.m in Sources */,
-				0843BE841C1B8C3D00DD8F28 /* Rc2File.swift in Sources */,
-				0843BE7F1C1B7E3700DD8F28 /* Rc2Workspace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

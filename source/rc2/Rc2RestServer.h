@@ -28,7 +28,11 @@ extern NSString * const Rc2RestLoginStatusChangedNotification;
 
 -(id)initWithSessionConfiguration:(NSURLSessionConfiguration*)config;
 
--(void)loginToHostName:(NSString*)hostName login:(NSString*)login password:(NSString*)password handler:(Rc2RestCompletionHandler)handler;
+//must be called before login with a name from restHosts
+-(void)selectHost:(NSString*)hostName;
+
+//must be called before any of the following messages
+-(void)login:(NSString*)login password:(NSString*)password handler:(Rc2RestCompletionHandler)handler;
 
 //updates the workspaces array of the loginSession
 -(void)createWorkspace:(NSString*)wspaceName completionBlock:(Rc2RestCompletionHandler)handler;
