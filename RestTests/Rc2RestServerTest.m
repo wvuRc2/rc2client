@@ -12,14 +12,18 @@
 #import "Rc2-Swift.h"
 
 @interface Rc2RestServerTest : XCTestCase
-
+@property (strong) XCTestExpectation *httpExpectation;
+@property (strong) Rc2RestServer *server;
 @end
 
 @implementation Rc2RestServerTest
 
-- (void)setUp {
+- (void)setUp
+{
 	[super setUp];
-	// Put setup code here. This method is called before the invocation of each test method in the class.
+	self.httpExpectation = [self expectationWithDescription:@"httpResponse"];
+	NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+	self.server = [[Rc2RestServer alloc] initWithSessionConfiguration:config];
 }
 
 - (void)tearDown {
@@ -28,26 +32,41 @@
 	[OHHTTPStubs removeAllStubs];
 }
 
--(void)testLoginData {
-	//stub the login response
+-(void)prepareURLSessionStub:(NSString*)jsonFileName
+{
 	[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest * _Nonnull request) {
 		return [request.URL.host isEqualToString:@"localhost"];
 	} withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
-		NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"loginResults" withExtension:@"json"];
+		NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:jsonFileName withExtension:@"json"];
 		return [OHHTTPStubsResponse responseWithFileURL:url statusCode:200 headers:@{@"Content-Type":@"application/json"}];
 	}];
-	XCTestExpectation *loginExpectation = [self expectationWithDescription:@"login"];
-	NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-	Rc2RestServer *server = [[Rc2RestServer alloc] initWithSessionConfiguration:config];
-	[server loginToHostName:@"localhost" login:@"test" password:@"beavis" handler:^(BOOL success, id results, NSError *error)
+}
+
+-(void)waitForHttpExpectation
+{
+	[self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
+		NSLog(@"error waiting for expectation:%@", error);
+	}];
+}
+
+-(void)testLoginData
+{
+	[self prepareURLSessionStub:@"loginResults"];
+	[self.server loginToHostName:@"localhost" login:@"test" password:@"beavis" handler:^(BOOL success, id results, NSError *error)
 	 {
 		XCTAssertTrue(success, @"login failed: %@", error);
-		[loginExpectation fulfill];
+		[self.httpExpectation fulfill];
 	 }];
-	[self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {}];
-	XCTAssertNotNil(server.loginSession, @"no login session found");
-	XCTAssertEqualObjects(@"1_-6673679035999338665_-5094905675301261464", [server valueForKeyPath:@"loginSession.authToken"], @"tokens not equal");
-	XCTAssertEqualObjects(@"Cornholio", [server valueForKeyPath:@"loginSession.currentUser.lastName"], @"names not equal");
+	[self waitForHttpExpectation];
+	
+	XCTAssertNotNil(self.server.loginSession, @"no login session found");
+	XCTAssertEqualObjects(@"1_-6673679035999338665_-5094905675301261464", [self.server valueForKeyPath:@"loginSession.authToken"], @"tokens not equal");
+	XCTAssertEqualObjects(@"Cornholio", [self.server valueForKeyPath:@"loginSession.currentUser.lastName"], @"names not equal");
+}
+
+-(void)testCreateDeleteWorkspace
+{
+	
 }
 
 /*
