@@ -41,3 +41,7 @@ extern NSString *const kWillDisplayGearMenu;
 static inline void dispatchOnMainQueue(dispatch_block_t block) {
 	dispatch_async(dispatch_get_main_queue(), block);
 }
+
+static inline void Rc2ErrorWithDescription(NSInteger code, NSString *desc, NSError **error) {
+	*error = [NSError errorWithDomain:Rc2ErrorDomain code:code userInfo:@{NSLocalizedDescriptionKey:desc}];
+}

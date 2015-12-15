@@ -140,18 +140,26 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 	{
 		NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 		NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-		if (httpResponse.statusCode == 401) {
-			NSError *loginError = [NSError errorWithDomain:Rc2ErrorDomain code:401 userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Invalid login or password", @"")}];
-			dispatchOnMainQueue( ^{handler(NO, nil, loginError); } );
-		} else if (httpResponse.statusCode == 200) {
-			self.loginSession = [[Rc2LoginSession alloc] initWithJsonData:json host:self.selectedHost[@"host"]];
-			dispatchOnMainQueue( ^{handler(YES, self.loginSession, nil);} );
-			NSInteger hostIndex = [self.hosts indexOfObject:self.selectedHost];
-			[[NSUserDefaults standardUserDefaults] setInteger:hostIndex forKey:kServerHostKey];
-			[[NSNotificationCenter defaultCenter] postNotificationName:Rc2RestLoginStatusChangedNotification object:self];
-		} else {
-			Rc2LogWarn(@"login got unknown error:%ld", (long)httpResponse.statusCode);
-			dispatchOnMainQueue( ^{handler(NO, nil, error); });
+		switch (httpResponse.statusCode) {
+			case 200:
+			{
+				self.loginSession = [[Rc2LoginSession alloc] initWithJsonData:json host:self.selectedHost[@"host"]];
+				dispatchOnMainQueue( ^{handler(YES, self.loginSession, nil);} );
+				NSInteger hostIndex = [self.hosts indexOfObject:self.selectedHost];
+				[[NSUserDefaults standardUserDefaults] setInteger:hostIndex forKey:kServerHostKey];
+				[[NSNotificationCenter defaultCenter] postNotificationName:Rc2RestLoginStatusChangedNotification object:self];
+				break;
+			}
+			case 401:
+			{
+				NSError *loginError = [NSError errorWithDomain:Rc2ErrorDomain code:401 userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Invalid login or password", @"")}];
+				dispatchOnMainQueue( ^{handler(NO, nil, loginError); } );
+				break;
+			}
+			default:
+				Rc2LogWarn(@"login got unknown error:%ld", (long)httpResponse.statusCode);
+				dispatchOnMainQueue( ^{handler(NO, nil, error); });
+				break;
 		}
 	}];
 	[task resume];
@@ -165,18 +173,34 @@ NSString * const Rc2RestLoginStatusChangedNotification = @"Rc2RestLoginStatusCha
 	NSMutableURLRequest *req = [self requestWithPath:@"workspaces" method:@"POST" json:@{@"name":wspaceName}];
 	NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:req completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
 	{
-		NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+		NSDictionary *json = nil;
+		if (data)
+			json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 		NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-		if (httpResponse.statusCode == 200) {
-			Rc2Workspace *wspace = [[Rc2Workspace alloc] initWithJsonData:json];
-			NSMutableArray *spaces = [self.loginSession.workspaces mutableCopy];
-			[spaces addObject:wspace];
-			[spaces sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
-			self.loginSession.workspaces = spaces;
-			dispatchOnMainQueue( ^{handler(YES, wspace, nil);} );
-		} else {
-			Rc2LogWarn(@"create workspace got unknown error:%ld", (long)httpResponse.statusCode);
-			dispatchOnMainQueue( ^{handler(NO, nil, error); });
+		switch (httpResponse.statusCode) {
+			case 200:
+			{
+				Rc2Workspace *wspace = [[Rc2Workspace alloc] initWithJsonData:json];
+				NSMutableArray *spaces = [self.loginSession.workspaces mutableCopy];
+				[spaces addObject:wspace];
+				[spaces sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
+				self.loginSession.workspaces = spaces;
+				dispatchOnMainQueue( ^{handler(YES, wspace, nil);} );
+				break;
+			}
+			case 422:
+			{
+				NSError *dupErr;
+				Rc2ErrorWithDescription(422, @"A workspace with that name already exists", &dupErr);
+				dispatchOnMainQueue( ^{handler(NO, nil, dupErr); });
+				break;
+			}
+			default:
+			{
+				Rc2LogWarn(@"create workspace got unknown error:%ld", (long)httpResponse.statusCode);
+				dispatchOnMainQueue( ^{handler(NO, nil, error); });
+				break;
+			}
 		}
 	}];
 	[task resume];
