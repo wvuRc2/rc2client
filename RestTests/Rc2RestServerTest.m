@@ -8,7 +8,6 @@
 
 #import "Rc2-Swift.h"
 #import <XCTest/XCTest.h>
-#import "Rc2RestServer.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
 @interface Rc2RestServerTest : XCTestCase

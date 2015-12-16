@@ -7,6 +7,7 @@
 //
 
 NSString *const RC2IdleTimerFiredNotification = @"RC2IdleTimerFiredNotification";
+NSString *const Rc2RestLoginChangedNotification = @"Rc2RestLoginChangedNotification";
 
 NSString *const Rc2ErrorDomain = @"Rc2";
 

@@ -6,7 +6,10 @@
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 extern NSString *const RC2IdleTimerFiredNotification;
+extern NSString *const Rc2RestLoginChangedNotification;
 extern NSString *const Rc2ErrorDomain;
 
 extern NSString *const kPrefLastLogin;

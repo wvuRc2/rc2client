@@ -14,9 +14,8 @@ import Foundation
 	let currentUser : Rc2User;
 	var workspaces : [Rc2Workspace];
 	
-	init(jsonData : AnyObject, host : String) {
+	init(json : JSON, host : String) {
 		self.host = host
-		let json = JSON(jsonData)
 		authToken = json["token"].stringValue
 		currentUser = Rc2User(json: json["user"])
 		workspaces = Rc2Workspace.workspacesFromJsonArray(json["workspaces"])

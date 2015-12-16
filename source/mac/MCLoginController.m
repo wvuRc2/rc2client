@@ -6,11 +6,11 @@
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
+#import "Rc2-Swift.h"
 #import "MCLoginController.h"
 #import "Rc2Server.h"
 #import "Rc2AppConstants.h"
 #import "SSKeychain.h"
-#import "Rc2RestServer.h"
 
 @interface MCLoginController()
 @property (nonatomic, copy) BasicBlock_t completionHandler;
@@ -37,7 +37,7 @@
 		self.loginName = lastLogin;
 		[self loadPasswordForLogin];
 	}
-	self.selectedHost = restServer.defaultRestHost;
+	self.selectedHost = restServer.selectedHost;
 }
 
 -(void)promptForLoginWithCompletionBlock:(void (^)(void))cblock

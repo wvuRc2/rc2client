@@ -9,7 +9,6 @@
 #import "Rc2-Swift.h"
 #import "MCMainWindowController.h"
 #import "MCAppConstants.h"
-#import "Rc2RestServer.h"
 #import "RCSession.h"
 #import <Vyana/NSMenu+AMExtensions.h>
 #import "MCSessionViewController.h"

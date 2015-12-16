@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 West Virginia University. All rights reserved.
 //
 
+#import "Rc2-Swift.h"
 #import "MCProjectViewController.h"
-#import "Rc2RestServer.h"
 #import "MCProjectCollectionView.h"
 #import "MCMainWindowController.h"
 #import "MCProjectCollectionItem.h"
@@ -15,7 +15,6 @@
 #import "MCAppConstants.h"
 #import "MCMainWindowController.h" //for doBackToMainView: selector
 #import "MCProjectShareController.h"
-#import "Rc2-Swift.h"
 
 @interface MCProjectView : AMControlledView
 
@@ -49,7 +48,7 @@
 		[blockSelf didChangeValueForKey:@"canDeleteSelection"];
 	}];
 	NSNotificationCenter *nc  = [NSNotificationCenter defaultCenter];
-	[nc addObserver:self selector:@selector(loginChanged:) name:Rc2RestLoginStatusChangedNotification object:nil];
+	[nc addObserver:self selector:@selector(loginChanged:) name:Rc2RestLoginChangedNotification object:nil];
 }
 
 #pragma mark - meat & potatos
@@ -132,7 +131,7 @@
 		self.statusMessage = nil;
 		if (rc == NSOKButton) {
 			Rc2RestServer *server = [Rc2RestServer sharedInstance];
-			[server createWorkspace:pc.stringValue completionBlock:^(BOOL success, id results, NSError *error)
+			[server createWorkspace:pc.stringValue handler:^(BOOL success, id results, NSError *error)
 			{
 				if (success) {
 					[self.arrayController addObject:results];
@@ -157,7 +156,7 @@
 		if (NSAlertDefaultReturn == rc) {
 			self.busy = YES;
 			Rc2RestServer *server = [Rc2RestServer sharedInstance];
-			[server deleteWorkspce:wspace completionHandler:^(BOOL success, id results, NSError *error)
+			[server deleteWorkspace:wspace handler:^(BOOL success, id results, NSError *error)
 			{
 				if (success) {
 					[self.arrayController removeObject:wspace];
@@ -208,7 +207,7 @@
 	Rc2Workspace *wspace = item.representedObject;
 	self.busy = YES;
 	Rc2RestServer *server = [Rc2RestServer sharedInstance];
-	[server renameWorkspce:wspace name:newName completionHandler:^(BOOL success, id results, NSError *error)
+	[server renameWorkspace:wspace newName:newName handler:^(BOOL success, id results, NSError *error)
 	{
 		if (success) {
 			//results is new workspace to replace wspace with.

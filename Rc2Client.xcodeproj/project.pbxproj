@@ -107,8 +107,6 @@
 		083AAEFC162EFFBF0037AAB3 /* VariableDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEFA162EFFBF0037AAB3 /* VariableDetailViewController.m */; };
 		083AAF00162F480C0037AAB3 /* FunctionVariableSummaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 083AAEFF162F480C0037AAB3 /* FunctionVariableSummaryCell.m */; };
 		083AAF02162F48210037AAB3 /* FunctionVariableSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083AAF01162F48210037AAB3 /* FunctionVariableSummaryCell.xib */; };
-		0843BE5B1C1A12E600DD8F28 /* Rc2RestServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE5A1C1A12E600DD8F28 /* Rc2RestServer.m */; };
-		0843BE5C1C1A12E600DD8F28 /* Rc2RestServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE5A1C1A12E600DD8F28 /* Rc2RestServer.m */; };
 		0843BE5E1C1A186900DD8F28 /* Rc2RestHosts.json in Resources */ = {isa = PBXBuildFile; fileRef = 0843BE5D1C1A186900DD8F28 /* Rc2RestHosts.json */; };
 		0843BE5F1C1A186900DD8F28 /* Rc2RestHosts.json in Resources */ = {isa = PBXBuildFile; fileRef = 0843BE5D1C1A186900DD8F28 /* Rc2RestHosts.json */; };
 		0843BE681C1A1F6400DD8F28 /* Rc2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE671C1A1F6400DD8F28 /* Rc2User.swift */; };
@@ -275,6 +273,9 @@
 		08BAF53C1974879A007228DC /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF53B1974879A007228DC /* GCDAsyncSocket.m */; };
 		08BAF53D1974879A007228DC /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BAF53B1974879A007228DC /* GCDAsyncSocket.m */; };
 		08BB97C71C20944600825E91 /* createWorkspace.json in Resources */ = {isa = PBXBuildFile; fileRef = 08BB97C61C20944600825E91 /* createWorkspace.json */; };
+		08BB97C91C20AAC400825E91 /* Rc2RestServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB97C81C20AAC400825E91 /* Rc2RestServer.swift */; };
+		08BB97CF1C21E82700825E91 /* Rc2Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB97CE1C21E82700825E91 /* Rc2Logger.swift */; };
+		08BB97D01C21E82700825E91 /* Rc2Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB97CE1C21E82700825E91 /* Rc2Logger.swift */; };
 		08BD2F55185A5257002B256B /* libRcpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F54185A5257002B256B /* libRcpp.a */; };
 		08BD2F57185A5289002B256B /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F56185A5289002B256B /* R.framework */; };
 		08BD2F59185A52CA002B256B /* EnvList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F58185A52CA002B256B /* EnvList.cpp */; };
@@ -751,8 +752,6 @@
 		083AAEFE162F480C0037AAB3 /* FunctionVariableSummaryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionVariableSummaryCell.h; sourceTree = "<group>"; };
 		083AAEFF162F480C0037AAB3 /* FunctionVariableSummaryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionVariableSummaryCell.m; sourceTree = "<group>"; };
 		083AAF01162F48210037AAB3 /* FunctionVariableSummaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FunctionVariableSummaryCell.xib; sourceTree = "<group>"; };
-		0843BE591C1A12E600DD8F28 /* Rc2RestServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rc2RestServer.h; sourceTree = "<group>"; };
-		0843BE5A1C1A12E600DD8F28 /* Rc2RestServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rc2RestServer.m; sourceTree = "<group>"; };
 		0843BE5D1C1A186900DD8F28 /* Rc2RestHosts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Rc2RestHosts.json; path = resources/Rc2RestHosts.json; sourceTree = "<group>"; };
 		0843BE651C1A1F6400DD8F28 /* Mac App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mac App-Bridging-Header.h"; sourceTree = "<group>"; };
 		0843BE661C1A1F6400DD8F28 /* iPad App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iPad App-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -977,6 +976,8 @@
 		08BAF53A1974879A007228DC /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = Dependencies/CocoaAsyncSocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		08BAF53B1974879A007228DC /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = Dependencies/CocoaAsyncSocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		08BB97C61C20944600825E91 /* createWorkspace.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createWorkspace.json; sourceTree = "<group>"; };
+		08BB97C81C20AAC400825E91 /* Rc2RestServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2RestServer.swift; sourceTree = "<group>"; };
+		08BB97CE1C21E82700825E91 /* Rc2Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2Logger.swift; sourceTree = "<group>"; };
 		08BD2F49185A4ED4002B256B /* rc2.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rc2.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BD2F53185A5088002B256B /* rc2.R */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = rc2.R; path = ../Rpackages/rc2/R/rc2.R; sourceTree = "<group>"; };
 		08BD2F54185A5257002B256B /* libRcpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRcpp.a; path = ../../../../../../Library/Frameworks/R.framework/Versions/3.0/Resources/library/Rcpp/lib/libRcpp.a; sourceTree = "<group>"; };
@@ -1588,14 +1589,14 @@
 		0843BE641C1A1F3E00DD8F28 /* rc2v2 */ = {
 			isa = PBXGroup;
 			children = (
-				0843BE591C1A12E600DD8F28 /* Rc2RestServer.h */,
-				0843BE5A1C1A12E600DD8F28 /* Rc2RestServer.m */,
+				08BB97C81C20AAC400825E91 /* Rc2RestServer.swift */,
 				0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */,
 				0843BE671C1A1F6400DD8F28 /* Rc2User.swift */,
 				0843BE6D1C1A259100DD8F28 /* Rc2Workspace.swift */,
 				0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */,
 				0843BE651C1A1F6400DD8F28 /* Mac App-Bridging-Header.h */,
 				0843BE661C1A1F6400DD8F28 /* iPad App-Bridging-Header.h */,
+				08BB97CE1C21E82700825E91 /* Rc2Logger.swift */,
 			);
 			name = rc2v2;
 			path = source/rc2;
@@ -3126,7 +3127,6 @@
 				08BDDDAE17EA48AB00E669E3 /* NSPersistentStoreCoordinator+MagicalRecord.m in Sources */,
 				08BDDDB817EA48AB00E669E3 /* MagicalRecord+Setup.m in Sources */,
 				08D2438D15B5D5AB0064A9FA /* EditorViewController.m in Sources */,
-				0843BE5C1C1A12E600DD8F28 /* Rc2RestServer.m in Sources */,
 				08D2439215B5D5BD0064A9FA /* ConsoleViewController.m in Sources */,
 				08D2439C15B5D5E20064A9FA /* ImageDisplayController.m in Sources */,
 				08D2439E15B5D5E20064A9FA /* ImagePickerController.m in Sources */,
@@ -3141,6 +3141,7 @@
 				08D243AB15B5D5FA0064A9FA /* DoodleViewController.m in Sources */,
 				08D243B015B5D6260064A9FA /* LoginController.m in Sources */,
 				08D243B515B5D6310064A9FA /* iSettingsController.m in Sources */,
+				08BB97D01C21E82700825E91 /* Rc2Logger.swift in Sources */,
 				08D243C115B5D6670064A9FA /* KeyboardToolbar.m in Sources */,
 				08D243DF15B5D7590064A9FA /* ControllerUserCell.m in Sources */,
 				08D243E115B5D7590064A9FA /* DropboxImportCell.m in Sources */,
@@ -3320,6 +3321,7 @@
 				0830EF5518EB50FC00422167 /* FMResultSet.m in Sources */,
 				08BDDD8B17EA48AB00E669E3 /* MagicalImportFunctions.m in Sources */,
 				0857277719AFCD4400ADCC7B /* RC2ServerAFNet1.m in Sources */,
+				08BB97CF1C21E82700825E91 /* Rc2Logger.swift in Sources */,
 				08D2464915B5ED9D0064A9FA /* RCFile.m in Sources */,
 				0843BE821C1B8C3D00DD8F28 /* Rc2File.swift in Sources */,
 				08BDDD9917EA48AB00E669E3 /* NSManagedObject+MagicalAggregation.m in Sources */,
@@ -3435,7 +3437,6 @@
 				08E49223166E7834005E83DE /* MCSessionFileController.m in Sources */,
 				080E5083166FDFB800E95531 /* AFHTTPClient.m in Sources */,
 				080E5085166FDFB800E95531 /* AFHTTPRequestOperation.m in Sources */,
-				0843BE5B1C1A12E600DD8F28 /* Rc2RestServer.m in Sources */,
 				080E5087166FDFB800E95531 /* AFImageRequestOperation.m in Sources */,
 				08F17067198AE31700A79B9E /* RCActiveLogin.m in Sources */,
 				080E5089166FDFB800E95531 /* AFJSONRequestOperation.m in Sources */,
@@ -3448,6 +3449,7 @@
 				080E508F166FDFB800E95531 /* AFURLConnectionOperation.m in Sources */,
 				080E5091166FDFB800E95531 /* AFXMLRequestOperation.m in Sources */,
 				084B479D167A8B3D000A0A6F /* MLReachability.m in Sources */,
+				08BB97C91C20AAC400825E91 /* Rc2RestServer.swift in Sources */,
 				08FF3D0616E9250900F3E09E /* ThemeEngine.m in Sources */,
 				08FF3D5116F24F5200F3E09E /* ThemeColorEntry.m in Sources */,
 				0811F9F917189C390060BAB4 /* RCMMultiUpView.m in Sources */,
