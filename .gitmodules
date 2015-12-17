@@ -49,3 +49,6 @@ url=https://github.com/mlilback/pegkit.git
 [submodule "Dependencies/SwiftyJSON"]
 	path = Dependencies/SwiftyJSON
 	url = https://github.com/SwiftyJSON/SwiftyJSON.git
+[submodule "Dependencies/Mockingjay"]
+	path = Dependencies/Mockingjay
+	url = https://github.com/kylef/Mockingjay.git

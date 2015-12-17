@@ -5,12 +5,15 @@
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "FA958DB2025B3756F66BF392BBEAFCAEA9861923" : 0,
+    "2202450528CFA50DD806F0340B3987713E89BFB6" : 0,
     "948C6829607794C9C905880E4DE9DD942A04092A" : 0,
     "0CA27A43414FB33F98B16BE18013A983CABB105E" : 0,
     "8730C80E8B12BF26DB276CC2340B10B47D409BC3" : 0,
     "A3E60E27418F09F46699E52B2066A9C3A9694F19" : 0,
+    "A11A2549D5CB40607BCC5ED8DF4A3BF3E6CE30E2" : 0,
     "59BCCFF68011542A051983972F0A0E4EA5C0D708" : 0,
     "EA60A5E9A0C703EEA6EF5BB737B47871FAB1B79A" : 0,
+    "7BB2FEFCEC73967FEC5025D3BB10FFCAF0030B19" : 0,
     "C16576B571172538D95183F9515DC5DB064EAF7F" : 0,
     "F0515DE9ED749C0E1C50A307EAD2A54C575AF047" : 0,
     "19AF20DAFBA589639D5357C3C0D8AA0D5AE0D524" : 0,
@@ -21,6 +24,7 @@
     "958932E9D08E4465709D54DB1E7CECF23B0F442E" : 0,
     "DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8" : 0,
     "DEAD28040A2EC20EE843BD935425F7B439BE8B85" : 0,
+    "6C25B371DC66ADF4587F56D8CF85DD31480F6F3F" : 0,
     "1C75F1C5CFCB95B3702F6F632FA05ED5244B519E" : 0,
     "35B5C9A93714EC9BEB56BAE809C5551E5C66E52D" : 0,
     "04101981B66E318109934C9516F88D824BB96459" : 0
@@ -28,12 +32,15 @@
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "93588D34-7E89-4138-9715-0316CBA6EA0A",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "FA958DB2025B3756F66BF392BBEAFCAEA9861923" : "rc2client\/Dependencies\/MAKVONotificationCenter\/",
+    "2202450528CFA50DD806F0340B3987713E89BFB6" : "rc2client\/Dependencies\/Mockingjay\/URITemplate\/",
     "948C6829607794C9C905880E4DE9DD942A04092A" : "rc2client\/Dependencies\/PEGKit\/lib\/TDTemplateEngine\/",
     "0CA27A43414FB33F98B16BE18013A983CABB105E" : "rc2client\/Dependencies\/HockeySDK-iOS\/",
     "8730C80E8B12BF26DB276CC2340B10B47D409BC3" : "rc2client\/Dependencies\/AMResizableSplitterViewController\/",
     "A3E60E27418F09F46699E52B2066A9C3A9694F19" : "rc2client\/Dependencies\/AMHudView\/",
+    "A11A2549D5CB40607BCC5ED8DF4A3BF3E6CE30E2" : "rc2client\/OHHTTPStubs\/",
     "59BCCFF68011542A051983972F0A0E4EA5C0D708" : "rc2client\/Dependencies\/PEGKit\/",
     "EA60A5E9A0C703EEA6EF5BB737B47871FAB1B79A" : "rc2proj\/Vyana\/",
+    "7BB2FEFCEC73967FEC5025D3BB10FFCAF0030B19" : "rc2client\/Dependencies\/Mockingjay\/URITemplate\/URITemplateTests\/Cases\/",
     "C16576B571172538D95183F9515DC5DB064EAF7F" : "rc2client\/Dependencies\/SSKeychain\/",
     "F0515DE9ED749C0E1C50A307EAD2A54C575AF047" : "rc2client\/Dependencies\/MASPreferences\/",
     "19AF20DAFBA589639D5357C3C0D8AA0D5AE0D524" : "rc2client\/Dependencies\/Dropbox\/",
@@ -44,6 +51,7 @@
     "958932E9D08E4465709D54DB1E7CECF23B0F442E" : "rc2client\/Dependencies\/MagicalRecord\/",
     "DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8" : "rc2client\/Dependencies\/AFNetworking\/",
     "DEAD28040A2EC20EE843BD935425F7B439BE8B85" : "rc2client\/",
+    "6C25B371DC66ADF4587F56D8CF85DD31480F6F3F" : "rc2client\/Dependencies\/Mockingjay\/",
     "1C75F1C5CFCB95B3702F6F632FA05ED5244B519E" : "rc2client\/Dependencies\/CocoaAsyncSocket\/",
     "35B5C9A93714EC9BEB56BAE809C5551E5C66E52D" : "rc2client\/Dependencies\/Vyana\/Dependencies\/CocoaLumberjack\/",
     "04101981B66E318109934C9516F88D824BB96459" : "rc2client\/Dependencies\/fmdb\/"
@@ -83,6 +91,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1C75F1C5CFCB95B3702F6F632FA05ED5244B519E"
     },
     {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/kylef\/URITemplate.swift",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2202450528CFA50DD806F0340B3987713E89BFB6"
+    },
+    {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/robbiehanson\/CocoaLumberjack.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "35B5C9A93714EC9BEB56BAE809C5551E5C66E52D"
@@ -91,6 +104,16 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/itod\/pegkit.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "59BCCFF68011542A051983972F0A0E4EA5C0D708"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/kylef\/Mockingjay.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6C25B371DC66ADF4587F56D8CF85DD31480F6F3F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/uri-templates\/uritemplate-test",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7BB2FEFCEC73967FEC5025D3BB10FFCAF0030B19"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/radi\/LiveFrost.git",
@@ -111,6 +134,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/magicalpanda\/MagicalRecord.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "958932E9D08E4465709D54DB1E7CECF23B0F442E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/AliSoftware\/OHHTTPStubs.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A11A2549D5CB40607BCC5ED8DF4A3BF3E6CE30E2"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/agilemonks\/AMHudView.git",

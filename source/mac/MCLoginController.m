@@ -37,7 +37,7 @@
 		self.loginName = lastLogin;
 		[self loadPasswordForLogin];
 	}
-	self.selectedHost = restServer.selectedHost;
+	self.selectedHost = restServer.selectedHost[@"name"];
 }
 
 -(void)promptForLoginWithCompletionBlock:(void (^)(void))cblock

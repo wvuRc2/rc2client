@@ -62,6 +62,20 @@
                ReferencedContainer = "container:Rc2Client.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2746CDBE1A702F7800719B66"
+               BuildableName = "Mockingjay.framework"
+               BlueprintName = "Mockingjay"
+               ReferencedContainer = "container:Dependencies/Mockingjay/Mockingjay.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

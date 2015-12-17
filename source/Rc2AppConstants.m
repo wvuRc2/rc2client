@@ -6,6 +6,8 @@
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
+@import Foundation;
+
 NSString *const RC2IdleTimerFiredNotification = @"RC2IdleTimerFiredNotification";
 NSString *const Rc2RestLoginChangedNotification = @"Rc2RestLoginChangedNotification";
 

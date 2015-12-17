@@ -47,7 +47,7 @@ import Foundation
 	}
 	
 	//private init so instance is unique
-	private override init() {
+	override init() {
 		var userAgent = "Rc2 iOSClient"
 		#if os(OSX)
 			userAgent = "Rc2 MacClient"
@@ -80,7 +80,9 @@ import Foundation
 		let url = NSURL(string: path, relativeToURL: baseUrl)
 		let request = NSMutableURLRequest(URL: url!)
 		request.HTTPMethod = method
-		request.addValue(loginSession!.authToken, forHTTPHeaderField:"Rc-2Auth")
+		if loginSession != nil {
+			request.addValue(loginSession!.authToken, forHTTPHeaderField:"Rc-2Auth")
+		}
 		if (jsonDict.count > 0) {
 			request.addValue("application/json", forHTTPHeaderField:"Content-Type")
 			request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonDict, options: [])
@@ -89,7 +91,7 @@ import Foundation
 	}
 	
 	public func selectHost(hostName:String) {
-		if let hostDict = hosts.filter({ return ($0["host"] as! String) == hostName }).first {
+		if let hostDict = hosts.filter({ return ($0["name"] as! String) == hostName }).first {
 			selectedHost = hostDict
 			let hprotocol = hostDict["secure"]!.boolValue! ? "https" : "http"
 			let hoststr = "\(hprotocol)://\(hostDict["host"]!.stringValue):\(hostDict["port"]!.stringValue)/"
@@ -99,12 +101,13 @@ import Foundation
 	
 	public func login(login:String, password:String, handler:Rc2RestCompletionHandler) {
 		let req = request("login", method:"POST", jsonDict: ["login":login, "password":password])
-		let task = urlSession.dataTaskWithRequest(req) { (data, response, error) -> Void in
-			let json = JSON(data!)
+		let task = urlSession.dataTaskWithRequest(req) {
+			(data, response, error) -> Void in
+			let json = JSON(data:data!)
 			let httpResponse = response as! NSHTTPURLResponse
 			switch(httpResponse.statusCode) {
 				case 200:
-					self.loginSession = Rc2LoginSession(json: json, host: self.selectedHost["host"]!.stringValue)
+					self.loginSession = Rc2LoginSession(json: json, host: self.selectedHost["name"]! as! String)
 					dispatch_async(dispatch_get_main_queue(), { handler(success: true, results: self.loginSession!, error: nil) })
 					NSUserDefaults.standardUserDefaults().setObject(self.loginSession!.host, forKey: self.kServerHostKey)
 					NSNotificationCenter.defaultCenter().postNotificationName(Rc2RestLoginChangedNotification, object: self)
@@ -124,7 +127,7 @@ import Foundation
 	public func createWorkspace(wspaceName:String, handler:Rc2RestCompletionHandler) {
 		let req = request("workspaces", method:"POST", jsonDict: ["name":wspaceName])
 		let task = urlSession.dataTaskWithRequest(req) { (data, response, error) -> Void in
-			let json = JSON(data!)
+			let json = JSON(data:data!)
 			let httpResponse = response as! NSHTTPURLResponse
 			switch(httpResponse.statusCode) {
 			case 200:

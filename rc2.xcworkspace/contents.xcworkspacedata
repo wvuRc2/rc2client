@@ -14,6 +14,9 @@
       location = "group:Dependencies/Vyana/Vyana.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Dependencies/Mockingjay/Mockingjay.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Dependencies/PEGKit/PEGKit.xcodeproj">
    </FileRef>
 </Workspace>

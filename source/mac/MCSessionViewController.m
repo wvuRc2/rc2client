@@ -334,8 +334,6 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		return str.length > 0;
 	} else if (action == @selector(handleDropboxSync:)) {
 		return self.session.workspace.dropboxPath.length > 0 && [[DBSession sharedSession] isLinked];
-	} else if (action == @selector(configureDropboxSync:)) {
-		return YES;
 	}
 	return [self validateUserInterfaceItem:menuItem];
 }

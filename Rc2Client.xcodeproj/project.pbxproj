@@ -56,7 +56,6 @@
 		08137A3117C8024C005EA804 /* SharedImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08137A2F17C8024C005EA804 /* SharedImages.xcassets */; };
 		08137A3317C804DA005EA804 /* iOSIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08137A3217C804DA005EA804 /* iOSIcons.xcassets */; };
 		08137A3517CBC57F005EA804 /* ImageHolderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08137A3417CBC57F005EA804 /* ImageHolderView.xib */; };
-		0814988519B115B7006C1290 /* Rc2ServerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0857278219B0F89700ADCC7B /* Rc2ServerTests.m */; };
 		0817C694181EF00700C70CA8 /* RCTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C693181EF00700C70CA8 /* RCTextAttachment.m */; };
 		0817C6981821A3EC00C70CA8 /* _RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C6971821A3EC00C70CA8 /* _RCImage.m */; };
 		0817C6991821A3EC00C70CA8 /* _RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0817C6971821A3EC00C70CA8 /* _RCImage.m */; };
@@ -117,11 +116,9 @@
 		0843BE6F1C1A259100DD8F28 /* Rc2Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6D1C1A259100DD8F28 /* Rc2Workspace.swift */; };
 		0843BE721C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE711C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m */; };
 		0843BE731C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE711C1A2D9400DD8F28 /* NSArray+Rc2Extensions.m */; };
-		0843BE751C1B445100DD8F28 /* Rc2RestServerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */; };
 		0843BE771C1B5EBD00DD8F28 /* Rc2LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */; };
 		0843BE781C1B5EBD00DD8F28 /* Rc2LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */; };
 		0843BE7A1C1B6B0700DD8F28 /* loginResults.json in Resources */ = {isa = PBXBuildFile; fileRef = 0843BE791C1B6B0700DD8F28 /* loginResults.json */; };
-		0843BE7C1C1B735B00DD8F28 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0843BE7B1C1B735B00DD8F28 /* OHHTTPStubs.framework */; };
 		0843BE801C1B7E4D00DD8F28 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6A1C1A22EC00DD8F28 /* SwiftyJSON.swift */; };
 		0843BE821C1B8C3D00DD8F28 /* Rc2File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */; };
 		0843BE831C1B8C3D00DD8F28 /* Rc2File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */; };
@@ -276,6 +273,10 @@
 		08BB97C91C20AAC400825E91 /* Rc2RestServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB97C81C20AAC400825E91 /* Rc2RestServer.swift */; };
 		08BB97CF1C21E82700825E91 /* Rc2Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB97CE1C21E82700825E91 /* Rc2Logger.swift */; };
 		08BB97D01C21E82700825E91 /* Rc2Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB97CE1C21E82700825E91 /* Rc2Logger.swift */; };
+		08BB97D91C22195600825E91 /* Mockingjay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BB97D81C22195600825E91 /* Mockingjay.framework */; };
+		08BB97DB1C2219A700825E91 /* RestServerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB97DA1C2219A700825E91 /* RestServerTest.swift */; };
+		08BB97E21C221E7500825E91 /* Rc2AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828600618451B7C002BA8D2 /* Rc2AppConstants.m */; };
+		08BB97E41C22215000825E91 /* Vyana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BB97E31C22215000825E91 /* Vyana.framework */; };
 		08BD2F55185A5257002B256B /* libRcpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F54185A5257002B256B /* libRcpp.a */; };
 		08BD2F57185A5289002B256B /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F56185A5289002B256B /* R.framework */; };
 		08BD2F59185A52CA002B256B /* EnvList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F58185A52CA002B256B /* EnvList.cpp */; };
@@ -763,7 +764,6 @@
 		0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rc2RestServerTest.m; sourceTree = "<group>"; };
 		0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2LoginSession.swift; sourceTree = "<group>"; };
 		0843BE791C1B6B0700DD8F28 /* loginResults.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loginResults.json; sourceTree = "<group>"; };
-		0843BE7B1C1B735B00DD8F28 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = 3rdParty/OHHTTPStubs.framework; sourceTree = SOURCE_ROOT; };
 		0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2File.swift; sourceTree = "<group>"; };
 		084593E515B5F16F00297C9D /* MCAppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAppConstants.h; path = source/mac/MCAppConstants.h; sourceTree = SOURCE_ROOT; };
 		084593E615B5F16F00297C9D /* MCAppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAppConstants.m; path = source/mac/MCAppConstants.m; sourceTree = SOURCE_ROOT; };
@@ -865,7 +865,6 @@
 		0857277519AFCD4400ADCC7B /* RC2ServerAFNet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RC2ServerAFNet1.m; sourceTree = "<group>"; };
 		0857277E19B0F89700ADCC7B /* RestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0857278119B0F89700ADCC7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0857278219B0F89700ADCC7B /* Rc2ServerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Rc2ServerTests.m; sourceTree = "<group>"; };
 		0857278A19B0FC9300ADCC7B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		085C6EF717A99DE80085DE88 /* DropboxOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		085E3C4917AAEADB005C523F /* MCDropboxConfigWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDropboxConfigWindow.h; sourceTree = "<group>"; };
@@ -978,6 +977,10 @@
 		08BB97C61C20944600825E91 /* createWorkspace.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createWorkspace.json; sourceTree = "<group>"; };
 		08BB97C81C20AAC400825E91 /* Rc2RestServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2RestServer.swift; sourceTree = "<group>"; };
 		08BB97CE1C21E82700825E91 /* Rc2Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2Logger.swift; sourceTree = "<group>"; };
+		08BB97D51C22164400825E91 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		08BB97D81C22195600825E91 /* Mockingjay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mockingjay.framework; path = Dependencies/Mockingjay/build/Debug/Mockingjay.framework; sourceTree = "<group>"; };
+		08BB97DA1C2219A700825E91 /* RestServerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestServerTest.swift; sourceTree = "<group>"; };
+		08BB97E31C22215000825E91 /* Vyana.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vyana.framework; path = "../../Library/Developer/Xcode/DerivedData/rc2-ezjfaouxfaxcuydrlyfyjuswtief/Build/Products/Debug/Vyana.framework"; sourceTree = "<group>"; };
 		08BD2F49185A4ED4002B256B /* rc2.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rc2.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BD2F53185A5088002B256B /* rc2.R */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = rc2.R; path = ../Rpackages/rc2/R/rc2.R; sourceTree = "<group>"; };
 		08BD2F54185A5257002B256B /* libRcpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRcpp.a; path = ../../../../../../Library/Frameworks/R.framework/Versions/3.0/Resources/library/Rcpp/lib/libRcpp.a; sourceTree = "<group>"; };
@@ -1333,8 +1336,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08BB97E41C22215000825E91 /* Vyana.framework in Frameworks */,
+				08BB97D91C22195600825E91 /* Mockingjay.framework in Frameworks */,
 				0851D5FC1C18DCED00B8E993 /* SystemConfiguration.framework in Frameworks */,
-				0843BE7C1C1B735B00DD8F28 /* OHHTTPStubs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1743,9 +1747,8 @@
 		0857277F19B0F89700ADCC7B /* RestTests */ = {
 			isa = PBXGroup;
 			children = (
-				0857278219B0F89700ADCC7B /* Rc2ServerTests.m */,
+				08BB97DA1C2219A700825E91 /* RestServerTest.swift */,
 				0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */,
-				0843BE7B1C1B735B00DD8F28 /* OHHTTPStubs.framework */,
 				0857278019B0F89700ADCC7B /* Supporting Files */,
 			);
 			path = RestTests;
@@ -1754,6 +1757,7 @@
 		0857278019B0F89700ADCC7B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				08BB97D51C22164400825E91 /* Bridging-Header.h */,
 				0843BE791C1B6B0700DD8F28 /* loginResults.json */,
 				08DDC6E319BA61E40008CCD3 /* lognormal.R */,
 				08DDC6E419BA61E40008CCD3 /* samples.R */,
@@ -2046,6 +2050,8 @@
 		08D2432215B5D04D0064A9FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				08BB97E31C22215000825E91 /* Vyana.framework */,
+				08BB97D81C22195600825E91 /* Mockingjay.framework */,
 				0851D5FB1C18DCED00B8E993 /* SystemConfiguration.framework */,
 				0857278A19B0FC9300ADCC7B /* SystemConfiguration.framework */,
 				08CFBFE81979C3E3009939CB /* QuickLook.framework */,
@@ -3098,9 +3104,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0843BE751C1B445100DD8F28 /* Rc2RestServerTest.m in Sources */,
+				08BB97E21C221E7500825E91 /* Rc2AppConstants.m in Sources */,
+				08BB97DB1C2219A700825E91 /* RestServerTest.swift in Sources */,
 				0843BE801C1B7E4D00DD8F28 /* SwiftyJSON.swift in Sources */,
-				0814988519B115B7006C1290 /* Rc2ServerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3584,7 +3590,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
-					"$(PROJECT_DIR)/3rdParty",
+					"$(PROJECT_DIR)/Dependencies/Mockingjay/build/Debug",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -3598,9 +3604,10 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_MODULE_NAME = Rc2;
+				PRODUCT_MODULE_NAME = Rc2Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "RestTests/Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
 			};
 			name = Debug;
@@ -3621,7 +3628,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
-					"$(PROJECT_DIR)/3rdParty",
+					"$(PROJECT_DIR)/Dependencies/Mockingjay/build/Debug",
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -3630,9 +3637,10 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_MODULE_NAME = Rc2;
+				PRODUCT_MODULE_NAME = Rc2Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "RestTests/Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
 			};
 			name = Release;
@@ -3653,7 +3661,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
-					"$(PROJECT_DIR)/3rdParty",
+					"$(PROJECT_DIR)/Dependencies/Mockingjay/build/Debug",
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -3662,9 +3670,10 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.wvu.stat.rc2.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_MODULE_NAME = Rc2;
+				PRODUCT_MODULE_NAME = Rc2Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "RestTests/Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rc2.app/Contents/MacOS/Rc2";
 			};
 			name = Archive;
