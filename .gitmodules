@@ -1,6 +1,6 @@
 [submodule "Vyana"]
 	path = Dependencies/Vyana
-url=https://mlilback@bitbucket.org/mlilback/vyana.git
+url=https://github.com/mlilback/vyana.git
 [submodule "AMResizableSplitterViewController"]
 	path = Dependencies/AMResizableSplitterViewController
 	url = https://mlilback@github.com/agilemonks/AMResizableSplitterViewController.git
