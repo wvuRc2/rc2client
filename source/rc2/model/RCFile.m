@@ -6,9 +6,9 @@
 //  Copyright 2011 West Virginia University. All rights reserved.
 //
 
+#import "Rc2-Swift.h"
 #import "RCFile.h"
 #import "Rc2Server.h"
-#import "Rc2FileType.h"
 
 @interface RCFile()
 @property (nonatomic, copy) NSString *cachedContent;

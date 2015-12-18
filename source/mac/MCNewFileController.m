@@ -6,8 +6,8 @@
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
+#import "Rc2-Swift.h"
 #import "MCNewFileController.h"
-#import "Rc2FileType.h"
 
 @interface MCNewFileController()
 @property (nonatomic, strong) IBOutlet NSTextField *fileNameField;
@@ -36,7 +36,7 @@
 -(IBAction)createFile:(id)sender
 {
 	NSString *fname = [self.fileName stringByDeletingPathExtension];
-	fname = [fname stringByAppendingPathExtension:self.selectedFileType.extension];
+	fname = [fname stringByAppendingPathExtension:self.selectedFileType.fileExtension];
 	self.completionHandler(fname);
 	[self close];
 }

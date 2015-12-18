@@ -6,6 +6,7 @@
 //  Copyright (c) 2011 West Virginia University. All rights reserved.
 //
 
+#import "Rc2-Swift.h"
 #import "MCSessionViewController.h"
 #import "MCAppConstants.h"
 #import <DropboxOSX/DropboxOSX.h>
@@ -38,7 +39,6 @@
 #import "RCWorkspace.h"
 #import "RCProject.h"
 #import "RCFile.h"
-#import "Rc2FileType.h"
 #import "RCImage.h"
 #import "RCSessionUser.h"
 #import "RCSavedSession.h"
@@ -1105,7 +1105,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 
 -(NSTextAttachment*)textAttachmentForFileId:(NSNumber *)fileId name:(NSString *)fileName fileType:(Rc2FileType *)fileType
 {
-	NSData *metaData = [NSKeyedArchiver archivedDataWithRootObject:@{@"id":fileId, @"name":fileName, @"ext":fileType.extension}];
+	NSData *metaData = [NSKeyedArchiver archivedDataWithRootObject:@{@"id":fileId, @"name":fileName, @"ext":fileType.fileExtension}];
 	NSFileWrapper *fw = [[NSFileWrapper alloc] initRegularFileWithContents:metaData];
 	fw.filename = [NSString stringWithFormat:@"file%@-%ld", fileId, (long)[NSDate timeIntervalSinceReferenceDate]];
 	fw.preferredFilename = fw.filename;

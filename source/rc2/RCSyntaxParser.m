@@ -6,10 +6,10 @@
 //  Copyright 2013 West Virginia University. All rights reserved.
 //
 
+#import "Rc2-Swift.h"
 #import "RCSyntaxParser.h"
 #import "Rc2AppConstants.h"
 #import "RCChunk.h"
-#import "Rc2FileType.h"
 #import "RCSweaveParser.h"
 #import "RCHighlightingParser.h"
 #import "RCRmdParser.h"
@@ -30,12 +30,12 @@ NSString *kChunkStartAttribute = @"RCChunkStart";
 	Class theClass = nil;
 	if (fileType.isSweave)
 		theClass = [RCSweaveParser class];
-	else if ([fileType.extension isEqualToString:@"Rmd"])
+	else if ([fileType.fileExtension isEqualToString:@"Rmd"])
 		theClass = [RCRmdParser class];
-	else if ([fileType.extension isEqualToString:@"R"]) {
+	else if ([fileType.fileExtension isEqualToString:@"R"]) {
 		theClass = [RCHighlightingParser class];
 		highClass = [RCCodeHighlighterR class];
-	} else if ([fileType.extension isEqualToString:@"sas"]) {
+	} else if ([fileType.fileExtension isEqualToString:@"sas"]) {
 		theClass = [RCHighlightingParser class];
 		highClass = [RCCodeHighlighterSas class];
 	}

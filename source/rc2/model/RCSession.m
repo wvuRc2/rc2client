@@ -6,6 +6,7 @@
 //  Copyright 2011 West Virginia University. All rights reserved.
 //
 
+#import "Rc2-Swift.h"
 #import "Rc2AppConstants.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
@@ -21,7 +22,6 @@
 #import "RCList.h"
 #import "RCProject.h"
 #import "RCFile.h"
-#import "Rc2FileType.h"
 #import "RCImageCache.h"
 #import "WebSocket.h"
 #import "WebSocketConnectConfig.h"

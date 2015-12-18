@@ -8,11 +8,11 @@
 
 #import "Rc2FileType.h"
 
-@interface Rc2FileType()
+@interface Rc2FileTypeOld()
 @property (nonatomic, copy) NSDictionary *data;
 @end
 
-@implementation Rc2FileType
+@implementation Rc2FileTypeOld
 
 +(NSArray*)allFileTypes
 {
@@ -30,7 +30,7 @@
 	return sAllTypes;
 }
 
-+(Rc2FileType*)fileTypeWithExtension:(NSString*)fileExtention
++(instancetype)fileTypeWithExtension:(NSString*)fileExtention
 {
 	NSString *fileExt = fileExtention;
 	if ([fileExt hasPrefix:@"."])

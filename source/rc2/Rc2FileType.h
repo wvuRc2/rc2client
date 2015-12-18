@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Rc2FileType : NSObject
+@interface Rc2FileTypeOld : NSObject
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *extension;
 @property (nonatomic, readonly) NSString *details;
@@ -27,7 +27,7 @@
 
 
 +(NSArray*)allFileTypes;
-+(Rc2FileType*)fileTypeWithExtension:(NSString*)fileExt;
++(instancetype)fileTypeWithExtension:(NSString*)fileExt;
 +(NSArray*)imageFileTypes;
 +(NSArray*)textFileTypes;
 +(NSArray*)importableFileTypes;

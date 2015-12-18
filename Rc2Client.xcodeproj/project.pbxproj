@@ -277,6 +277,9 @@
 		08BB97DB1C2219A700825E91 /* RestServerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB97DA1C2219A700825E91 /* RestServerTest.swift */; };
 		08BB97E21C221E7500825E91 /* Rc2AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0828600618451B7C002BA8D2 /* Rc2AppConstants.m */; };
 		08BB97E41C22215000825E91 /* Vyana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BB97E31C22215000825E91 /* Vyana.framework */; };
+		08BB97E61C23620B00825E91 /* Rc2FileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB97E51C23620B00825E91 /* Rc2FileType.swift */; };
+		08BB97E71C23620B00825E91 /* Rc2FileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB97E51C23620B00825E91 /* Rc2FileType.swift */; };
+		08BB97E91C24956700825E91 /* Rc2FileTypeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB97E81C24956700825E91 /* Rc2FileTypeTest.swift */; };
 		08BD2F55185A5257002B256B /* libRcpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F54185A5257002B256B /* libRcpp.a */; };
 		08BD2F57185A5289002B256B /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD2F56185A5289002B256B /* R.framework */; };
 		08BD2F59185A52CA002B256B /* EnvList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08BD2F58185A52CA002B256B /* EnvList.cpp */; };
@@ -342,8 +345,6 @@
 		08C5F38F15DEB59C00B0402F /* rc2app.icns in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F38E15DEB59C00B0402F /* rc2app.icns */; };
 		08C5F39315DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
 		08C5F39415DEC50A00B0402F /* console in Resources */ = {isa = PBXBuildFile; fileRef = 08C5F39215DEC50A00B0402F /* console */; };
-		08C99AC315EE9CDF002D430D /* Rc2FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C99AC215EE9CDF002D430D /* Rc2FileType.m */; };
-		08C99AC415EE9CDF002D430D /* Rc2FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C99AC215EE9CDF002D430D /* Rc2FileType.m */; };
 		08C99AC715EE9D35002D430D /* RC2FileTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08C99AC615EE9D35002D430D /* RC2FileTypes.plist */; };
 		08C99AC815EE9D35002D430D /* RC2FileTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08C99AC615EE9D35002D430D /* RC2FileTypes.plist */; };
 		08CB421A187F48AF00F0F794 /* MCHelpSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08CB4218187F48AF00F0F794 /* MCHelpSheetController.m */; };
@@ -981,6 +982,8 @@
 		08BB97D81C22195600825E91 /* Mockingjay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mockingjay.framework; path = Dependencies/Mockingjay/build/Debug/Mockingjay.framework; sourceTree = "<group>"; };
 		08BB97DA1C2219A700825E91 /* RestServerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestServerTest.swift; sourceTree = "<group>"; };
 		08BB97E31C22215000825E91 /* Vyana.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vyana.framework; path = "../../Library/Developer/Xcode/DerivedData/rc2-ezjfaouxfaxcuydrlyfyjuswtief/Build/Products/Debug/Vyana.framework"; sourceTree = "<group>"; };
+		08BB97E51C23620B00825E91 /* Rc2FileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2FileType.swift; sourceTree = "<group>"; };
+		08BB97E81C24956700825E91 /* Rc2FileTypeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2FileTypeTest.swift; sourceTree = "<group>"; };
 		08BD2F49185A4ED4002B256B /* rc2.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rc2.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BD2F53185A5088002B256B /* rc2.R */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = rc2.R; path = ../Rpackages/rc2/R/rc2.R; sourceTree = "<group>"; };
 		08BD2F54185A5257002B256B /* libRcpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRcpp.a; path = ../../../../../../Library/Frameworks/R.framework/Versions/3.0/Resources/library/Rcpp/lib/libRcpp.a; sourceTree = "<group>"; };
@@ -1601,6 +1604,7 @@
 				0843BE651C1A1F6400DD8F28 /* Mac App-Bridging-Header.h */,
 				0843BE661C1A1F6400DD8F28 /* iPad App-Bridging-Header.h */,
 				08BB97CE1C21E82700825E91 /* Rc2Logger.swift */,
+				08BB97E51C23620B00825E91 /* Rc2FileType.swift */,
 			);
 			name = rc2v2;
 			path = source/rc2;
@@ -1749,6 +1753,7 @@
 			children = (
 				08BB97DA1C2219A700825E91 /* RestServerTest.swift */,
 				0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */,
+				08BB97E81C24956700825E91 /* Rc2FileTypeTest.swift */,
 				0857278019B0F89700ADCC7B /* Supporting Files */,
 			);
 			path = RestTests;
@@ -3105,6 +3110,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08BB97E21C221E7500825E91 /* Rc2AppConstants.m in Sources */,
+				08BB97E91C24956700825E91 /* Rc2FileTypeTest.swift in Sources */,
 				08BB97DB1C2219A700825E91 /* RestServerTest.swift in Sources */,
 				0843BE801C1B7E4D00DD8F28 /* SwiftyJSON.swift in Sources */,
 			);
@@ -3234,7 +3240,6 @@
 				08BDDD8C17EA48AB00E669E3 /* NSAttributeDescription+MagicalDataImport.m in Sources */,
 				08285FFD183EBA25002BA8D2 /* SessionEditorCotnainerView.m in Sources */,
 				08DF3D5215BDBC79000A339D /* AMResizableSplitViewController.m in Sources */,
-				08C99AC315EE9CDF002D430D /* Rc2FileType.m in Sources */,
 				08BDDDAC17EA48AB00E669E3 /* NSPersistentStore+MagicalRecord.m in Sources */,
 				082D1ED717E8C77C00723EB3 /* RCCodeHighlighterSas.m in Sources */,
 				08B7053C183181C200868E38 /* VariableListController.m in Sources */,
@@ -3268,6 +3273,7 @@
 				080E5086166FDFB800E95531 /* AFImageRequestOperation.m in Sources */,
 				080E5088166FDFB800E95531 /* AFJSONRequestOperation.m in Sources */,
 				080E508A166FDFB800E95531 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				08BB97E71C23620B00825E91 /* Rc2FileType.swift in Sources */,
 				0873431517C3DF41000EC1E0 /* ProjectViewTransition.m in Sources */,
 				08BDDDA217EA48AB00E669E3 /* NSManagedObjectContext+MagicalObserving.m in Sources */,
 				08F3FE17183D676D000112F3 /* DrropboxUploadActivity.m in Sources */,
@@ -3429,7 +3435,6 @@
 				0830EF4D18EB50FC00422167 /* FMDatabase.m in Sources */,
 				08BDDDBB17EA48AB00E669E3 /* MagicalRecord+ShorthandSupport.m in Sources */,
 				08CB421F188734A000F0F794 /* MCAdminController.m in Sources */,
-				08C99AC415EE9CDF002D430D /* Rc2FileType.m in Sources */,
 				082CEE9E161CC84A00E01F48 /* MCSessionView.m in Sources */,
 				082CEEC1161F685900E01F48 /* RCVariable.m in Sources */,
 				084D39B81627300F00B8A06B /* RCDataFrame.m in Sources */,
@@ -3467,6 +3472,7 @@
 				0847FDC717679F6F00D950EA /* MASPreferencesWindowController.m in Sources */,
 				08BDDDB117EA48AB00E669E3 /* MagicalRecord+Actions.m in Sources */,
 				08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */,
+				08BB97E61C23620B00825E91 /* Rc2FileType.swift in Sources */,
 				08ADBE2817A06C9F0004A89C /* RC2LoopQueue.m in Sources */,
 				085E3C4C17AAEADB005C523F /* MCDropboxConfigWindow.m in Sources */,
 			);

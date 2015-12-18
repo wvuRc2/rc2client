@@ -6,8 +6,8 @@
 //  Copyright 2011 West Virginia University. All rights reserved.
 //
 
+#import "Rc2-Swift.h"
 #import "Rc2Server.h"
-#import "Rc2FileType.h"
 #import "RC2ServerAFNet1.h"
 
 NSString * const RC2NotificationsReceivedNotification = @"RC2NotificationsReceivedNotification";

@@ -6,12 +6,12 @@
 //  Copyright 2012 West Virginia University. All rights reserved.
 //
 
+#import "Rc2-Swift.h"
 #import "MCSessionFileController.h"
 #import "RCFile.h"
 #import "RCSession.h"
 #import "RCProject.h"
 #import "RCWorkspace.h"
-#import "Rc2FileType.h"
 #import "RCMSessionFileCellView.h"
 #import "MultiFileImporter.h"
 #import "MCSessionViewController.h"

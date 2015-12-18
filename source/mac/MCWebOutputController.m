@@ -7,6 +7,7 @@
 //
 
 #import <Quartz/Quartz.h>
+#import "Rc2-Swift.h"
 #import "MCWebOutputController.h"
 #import "RCSavedSession.h"
 #import "RCMConsoleTextField.h"
@@ -14,7 +15,6 @@
 #import "MCAppConstants.h"
 #import "RCImageCache.h"
 #import "RCFile.h"
-#import "Rc2FileType.h"
 #import "RCImage.h"
 #import "RCSession.h"
 #import "RCWorkspace.h"
