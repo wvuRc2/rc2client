@@ -150,7 +150,7 @@ import Foundation
 	}
 
 	public func renameWorkspace(wspace:Rc2Workspace, newName:String, handler:Rc2RestCompletionHandler) {
-		let req = request("workspaces/\(wspace.wspaceId)", method:"DELETE", jsonDict: ["name":newName, "id":Int(wspace.wspaceId)])
+		let req = request("workspaces/\(wspace.wspaceId)", method:"PUT", jsonDict: ["name":newName, "id":Int(wspace.wspaceId)])
 		let task = urlSession.dataTaskWithRequest(req) { (data, response, error) -> Void in
 			let json = JSON(data!)
 			let httpResponse = response as! NSHTTPURLResponse
