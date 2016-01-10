@@ -215,6 +215,9 @@
 		089CDA571C41657F00C9CD4F /* Rc2SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA561C41657F00C9CD4F /* Rc2SessionTests.swift */; };
 		089CDA591C41663C00C9CD4F /* Rc2Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA581C41663C00C9CD4F /* Rc2Session.swift */; };
 		089CDA5A1C41663C00C9CD4F /* Rc2Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA581C41663C00C9CD4F /* Rc2Session.swift */; };
+		089CDA5C1C42FF3700C9CD4F /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089CDA5B1C42FF3700C9CD4F /* Starscream.framework */; };
+		089CDA5E1C42FF4200C9CD4F /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089CDA5D1C42FF4200C9CD4F /* Starscream.framework */; };
+		089CDA611C43015C00C9CD4F /* Starscream.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 089CDA5B1C42FF3700C9CD4F /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08A82B8C17F7127400F49071 /* SyntaxParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A82B8B17F7127400F49071 /* SyntaxParserTests.m */; };
 		08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
 		08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
@@ -631,6 +634,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				089CDA611C43015C00C9CD4F /* Starscream.framework in Copy Frameworks */,
 				084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */,
 				085C6EF917A99E370085DE88 /* DropboxOSX.framework in Copy Frameworks */,
 			);
@@ -912,6 +916,8 @@
 		087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HockeySDKResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		089CDA561C41657F00C9CD4F /* Rc2SessionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2SessionTests.swift; sourceTree = "<group>"; };
 		089CDA581C41663C00C9CD4F /* Rc2Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2Session.swift; sourceTree = "<group>"; };
+		089CDA5B1C42FF3700C9CD4F /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Starscream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		089CDA5D1C42FF4200C9CD4F /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = "../../../../../../../../working/rc2/rc2-client/Dependencies/Starscream/build/Debug-iphoneos/Starscream.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08A82B8B17F7127400F49071 /* SyntaxParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyntaxParserTests.m; sourceTree = "<group>"; };
 		08ADBE2117A054B40004A89C /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = Vendor/DropBlocks.h; sourceTree = "<group>"; };
 		08ADBE2217A054B40004A89C /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = Vendor/DropBlocks.m; sourceTree = "<group>"; };
@@ -1362,6 +1368,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				089CDA5E1C42FF4200C9CD4F /* Starscream.framework in Frameworks */,
 				08CFBFE91979C3E3009939CB /* QuickLook.framework in Frameworks */,
 				08093C1A1979B08E00F5852A /* libPEGKitIOS.a in Frameworks */,
 				080F50F11890658100CF39FB /* Accelerate.framework in Frameworks */,
@@ -1397,6 +1404,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				089CDA5C1C42FF3700C9CD4F /* Starscream.framework in Frameworks */,
 				0857278B19B0FC9300ADCC7B /* SystemConfiguration.framework in Frameworks */,
 				088C837E19900EF900831750 /* libPEGKitOSX.a in Frameworks */,
 				08BD2F7A185BACE8002B256B /* libsqlite3.dylib in Frameworks */,
@@ -2061,6 +2069,7 @@
 		08D2432215B5D04D0064A9FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				089CDA5D1C42FF4200C9CD4F /* Starscream.framework */,
 				08BB97E31C22215000825E91 /* Vyana.framework */,
 				08BB97D81C22195600825E91 /* Mockingjay.framework */,
 				0851D5FB1C18DCED00B8E993 /* SystemConfiguration.framework */,
@@ -2494,6 +2503,7 @@
 		08D2468115B5EF770064A9FA /* Mac Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				089CDA5B1C42FF3700C9CD4F /* Starscream.framework */,
 				082D1EDD17E900DE00723EB3 /* ParseKit.framework */,
 				085C6EF717A99DE80085DE88 /* DropboxOSX.framework */,
 				08D2468215B5EFCE0064A9FA /* Vyana.framework */,
@@ -3929,6 +3939,7 @@
 					"\"$(SRCROOT)/3rdParty\"",
 					"$(BUILT_PRODUCTS_DIR)",
 					"\"$(SRCROOT)/Dependencies/HockeySDK-iOS/Vendor\"",
+					"$(PROJECT_DIR)/Dependencies/Starscream/build/Debug-iphoneos",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CommonPrefix.pch;
@@ -3975,6 +3986,7 @@
 					"\"$(SRCROOT)/3rdParty\"",
 					"$(BUILT_PRODUCTS_DIR)",
 					"\"$(SRCROOT)/Dependencies/HockeySDK-iOS/Vendor\"",
+					"$(PROJECT_DIR)/Dependencies/Starscream/build/Debug-iphoneos",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CommonPrefix.pch;
@@ -4057,6 +4069,7 @@
 					"\"$(SRCROOT)/3rdParty\"",
 					"$(BUILT_PRODUCTS_DIR)",
 					"\"$(SRCROOT)/Dependencies/HockeySDK-iOS/Vendor\"",
+					"$(PROJECT_DIR)/Dependencies/Starscream/build/Debug-iphoneos",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CommonPrefix.pch;
@@ -4102,7 +4115,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
-					"$(SRCROOT)/3rdParty/",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4118,7 +4130,7 @@
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.MacClient;
@@ -4144,7 +4156,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
-					"$(SRCROOT)/3rdParty/",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4160,7 +4171,7 @@
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.MacClient;
 				PRODUCT_NAME = Rc2;
@@ -4184,7 +4195,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
-					"$(SRCROOT)/3rdParty/",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4200,7 +4210,7 @@
 				INFOPLIST_FILE = "resources/mac/MacClient-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(DSTROOT)/usr/local/lib";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.wvu.stat.rc2.MacClient;
 				PRODUCT_NAME = Rc2;

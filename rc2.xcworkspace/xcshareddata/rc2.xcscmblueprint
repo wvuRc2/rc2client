@@ -22,6 +22,7 @@
     "13C4BDEA7A51DF95D1F548ED35E0B507F8240EBD" : 0,
     "867529B7668D09EE633D8D205295317452854A64" : 0,
     "958932E9D08E4465709D54DB1E7CECF23B0F442E" : 0,
+    "C86D95FCAEB1FEA0694B5D4AC7241D7E5F42F31D" : 0,
     "DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8" : 0,
     "DEAD28040A2EC20EE843BD935425F7B439BE8B85" : 0,
     "6C25B371DC66ADF4587F56D8CF85DD31480F6F3F" : 0,
@@ -49,6 +50,7 @@
     "13C4BDEA7A51DF95D1F548ED35E0B507F8240EBD" : "rc2client\/Dependencies\/CXAlertView\/",
     "867529B7668D09EE633D8D205295317452854A64" : "rc2client\/Dependencies\/LiveFrost\/",
     "958932E9D08E4465709D54DB1E7CECF23B0F442E" : "rc2client\/Dependencies\/MagicalRecord\/",
+    "C86D95FCAEB1FEA0694B5D4AC7241D7E5F42F31D" : "rc2-client\/Dependencies\/Starscream\/",
     "DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8" : "rc2client\/Dependencies\/AFNetworking\/",
     "DEAD28040A2EC20EE843BD935425F7B439BE8B85" : "rc2client\/",
     "6C25B371DC66ADF4587F56D8CF85DD31480F6F3F" : "rc2client\/Dependencies\/Mockingjay\/",
@@ -154,6 +156,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/SwiftyJSON\/SwiftyJSON.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/daltoniam\/Starscream.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C86D95FCAEB1FEA0694B5D4AC7241D7E5F42F31D"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/AFNetworking\/AFNetworking.git",

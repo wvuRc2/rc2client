@@ -5,6 +5,9 @@
       location = "group:Rc2Client.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Dependencies/Starscream/Starscream.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Dependencies/Dropbox/DropboxSDK/DropboxSDK.xcodeproj">
    </FileRef>
    <FileRef

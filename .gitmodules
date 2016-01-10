@@ -52,3 +52,6 @@ url=https://github.com/mlilback/pegkit.git
 [submodule "Dependencies/Mockingjay"]
 	path = Dependencies/Mockingjay
 	url = https://github.com/kylef/Mockingjay.git
+[submodule "Dependencies/Starscream"]
+	path = Dependencies/Starscream
+	url = https://github.com/daltoniam/Starscream.git
