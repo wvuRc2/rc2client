@@ -119,7 +119,6 @@
 		0843BE771C1B5EBD00DD8F28 /* Rc2LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */; };
 		0843BE781C1B5EBD00DD8F28 /* Rc2LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE761C1B5EBD00DD8F28 /* Rc2LoginSession.swift */; };
 		0843BE7A1C1B6B0700DD8F28 /* loginResults.json in Resources */ = {isa = PBXBuildFile; fileRef = 0843BE791C1B6B0700DD8F28 /* loginResults.json */; };
-		0843BE801C1B7E4D00DD8F28 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE6A1C1A22EC00DD8F28 /* SwiftyJSON.swift */; };
 		0843BE821C1B8C3D00DD8F28 /* Rc2File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */; };
 		0843BE831C1B8C3D00DD8F28 /* Rc2File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843BE811C1B8C3D00DD8F28 /* Rc2File.swift */; };
 		084593D815B5F11E00297C9D /* Vyana.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2468215B5EFCE0064A9FA /* Vyana.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -213,6 +212,9 @@
 		087DB8C817B57AFF00724811 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */; };
 		088C837E19900EF900831750 /* libPEGKitOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08093C1B1979B0DA00F5852A /* libPEGKitOSX.a */; };
 		089C0D6D1891A5230046E8DF /* MCEditUserController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 084593F615B5F1D700297C9D /* MCEditUserController.xib */; };
+		089CDA571C41657F00C9CD4F /* Rc2SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA561C41657F00C9CD4F /* Rc2SessionTests.swift */; };
+		089CDA591C41663C00C9CD4F /* Rc2Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA581C41663C00C9CD4F /* Rc2Session.swift */; };
+		089CDA5A1C41663C00C9CD4F /* Rc2Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA581C41663C00C9CD4F /* Rc2Session.swift */; };
 		08A82B8C17F7127400F49071 /* SyntaxParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A82B8B17F7127400F49071 /* SyntaxParserTests.m */; };
 		08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
 		08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
@@ -908,6 +910,8 @@
 		087DB8C317B57A8200724811 /* libHockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHockeySDK.a; path = "Dependencies/HockeySDK-iOS/Support/build/Debug-iphoneos/libHockeySDK.a"; sourceTree = "<group>"; };
 		087DB8C517B57AB400724811 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = "Dependencies/HockeySDK-iOS/Vendor/CrashReporter.framework"; sourceTree = "<group>"; };
 		087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HockeySDKResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		089CDA561C41657F00C9CD4F /* Rc2SessionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2SessionTests.swift; sourceTree = "<group>"; };
+		089CDA581C41663C00C9CD4F /* Rc2Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2Session.swift; sourceTree = "<group>"; };
 		08A82B8B17F7127400F49071 /* SyntaxParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyntaxParserTests.m; sourceTree = "<group>"; };
 		08ADBE2117A054B40004A89C /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = Vendor/DropBlocks.h; sourceTree = "<group>"; };
 		08ADBE2217A054B40004A89C /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = Vendor/DropBlocks.m; sourceTree = "<group>"; };
@@ -1605,6 +1609,7 @@
 				0843BE661C1A1F6400DD8F28 /* iPad App-Bridging-Header.h */,
 				08BB97CE1C21E82700825E91 /* Rc2Logger.swift */,
 				08BB97E51C23620B00825E91 /* Rc2FileType.swift */,
+				089CDA581C41663C00C9CD4F /* Rc2Session.swift */,
 			);
 			name = rc2v2;
 			path = source/rc2;
@@ -1755,6 +1760,7 @@
 				0843BE741C1B445100DD8F28 /* Rc2RestServerTest.m */,
 				08BB97E81C24956700825E91 /* Rc2FileTypeTest.swift */,
 				0857278019B0F89700ADCC7B /* Supporting Files */,
+				089CDA561C41657F00C9CD4F /* Rc2SessionTests.swift */,
 			);
 			path = RestTests;
 			sourceTree = "<group>";
@@ -2746,7 +2752,6 @@
 				08D248B5176A498900D71F02 /* Sources */,
 				08D248B6176A498900D71F02 /* Frameworks */,
 				08D248B7176A498900D71F02 /* Resources */,
-				08D248B8176A498900D71F02 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3089,19 +3094,6 @@
 			shellScript = "#!/bin/bash\nif [[ ${CONFIGURATION} == \"Archive\" ]]; then\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\necho \"incremeting build to ${buildNumber}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${INFOPLIST_FILE}\"\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		08D248B8176A498900D71F02 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -3109,10 +3101,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				089CDA571C41657F00C9CD4F /* Rc2SessionTests.swift in Sources */,
 				08BB97E21C221E7500825E91 /* Rc2AppConstants.m in Sources */,
 				08BB97E91C24956700825E91 /* Rc2FileTypeTest.swift in Sources */,
 				08BB97DB1C2219A700825E91 /* RestServerTest.swift in Sources */,
-				0843BE801C1B7E4D00DD8F28 /* SwiftyJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3212,6 +3204,7 @@
 				0843BE6C1C1A22EC00DD8F28 /* SwiftyJSON.swift in Sources */,
 				0828605218526300002BA8D2 /* AMHudView.m in Sources */,
 				08BDDD8E17EA48AB00E669E3 /* NSEntityDescription+MagicalDataImport.m in Sources */,
+				089CDA5A1C41663C00C9CD4F /* Rc2Session.swift in Sources */,
 				08D245D515B5DBB70064A9FA /* RCFile.m in Sources */,
 				08BDDDA017EA48AB00E669E3 /* NSManagedObject+MagicalRequests.m in Sources */,
 				08D245D615B5DBB70064A9FA /* RCImage.m in Sources */,
@@ -3414,6 +3407,7 @@
 				0845948C15B5F31100297C9D /* RCMImagePrintView.m in Sources */,
 				0845948D15B5F31100297C9D /* RCMImageViewer.m in Sources */,
 				08F3FE0A18340C3B000112F3 /* MCVariableDetailsController.m in Sources */,
+				089CDA591C41663C00C9CD4F /* Rc2Session.swift in Sources */,
 				082D1ECC17E38E7B00723EB3 /* RCCodeHighlighterLatex.m in Sources */,
 				0843BE6E1C1A259100DD8F28 /* Rc2Workspace.swift in Sources */,
 				0845949115B5F31100297C9D /* RCMMultiImageController.m in Sources */,
