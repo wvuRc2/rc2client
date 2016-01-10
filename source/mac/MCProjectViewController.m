@@ -151,9 +151,13 @@
 		NSBeep();
 		return;
 	}
-	NSAlert *alert = [NSAlert alertWithMessageText:@"Confirm Delete?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Are you sure you want to delete workspace \"%@\"? This can not be undone.", [wspace name]];
-	[alert am_beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *balert, NSInteger rc) {
-		if (NSAlertDefaultReturn == rc) {
+	NSAlert *alert = [[NSAlert alloc] init];
+	alert.messageText = @"Confirm Delete?";
+	alert.buttons[0].title = @"Delete";
+	[alert addButtonWithTitle:@"Cancel"];
+	alert.informativeText = [NSString stringWithFormat:@"Are you sure you want to delete workspace \"%@\"? This can not be undone.", wspace.name];
+	[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+		if (returnCode == NSAlertFirstButtonReturn) {
 			self.busy = YES;
 			Rc2RestServer *server = [Rc2RestServer sharedInstance];
 			[server deleteWorkspace:wspace handler:^(BOOL success, id results, NSError *error)

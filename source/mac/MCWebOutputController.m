@@ -290,7 +290,7 @@ const NSInteger kMaxFontSize = 32;
 				self.helpSheet = nil;
 			});
 		};
-		[NSApp beginSheet:ctrl.window modalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+		[self.view.window beginSheet:ctrl.window completionHandler:^(NSModalResponse returnCode) {}];
 	} else {
 		[self displayHelp:items.firstObject topic:helpTopic];
 	}

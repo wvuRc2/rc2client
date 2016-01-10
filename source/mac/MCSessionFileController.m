@@ -179,7 +179,7 @@
 			 [self.fileTableView.window.firstResponder presentError:mfiRef.lastError modalForWindow:self.fileTableView.window delegate:nil didPresentSelector:nil contextInfo:nil];
 		 }];
 		 dispatch_async(dispatch_get_main_queue(), ^{
-			 [NSApp beginSheet:pwc.window modalForWindow:self.fileTableView.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+			 [self.fileTableView.window beginSheet:pwc.window completionHandler:nil];
 		 });
 	 }];
 	return YES;

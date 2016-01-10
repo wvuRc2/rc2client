@@ -155,9 +155,9 @@
 		} else {
 			//show error message on main queue
 			dispatch_async(dispatch_get_main_queue(), ^{
-				NSAlert *alert = [NSAlert alertWithMessageText:@"Import Failed" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", results];
-				[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
-				}];
+				NSAlert *alert = [[NSAlert alloc] init];
+				alert.messageText = @"Import Failed";
+				[alert beginSheetModalForWindow:self.view.window completionHandler:nil];
 			});
 		}
 		self.busy = NO;

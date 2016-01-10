@@ -560,9 +560,13 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 
 -(IBAction)deleteFile:(id)sender
 {
-	NSAlert *alert = [NSAlert alertWithMessageText:@"Delete File?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Are you sure you want to delete the file \"%@\"? This action can not be undone.", self.fileHelper.selectedFile.name];
-	[alert am_beginSheetModalForWindow:self.view.window completionHandler:^(NSAlert *theAlert, NSInteger rc) {
-		if (rc == NSFileHandlingPanelOKButton)
+	NSAlert *alert = [[NSAlert alloc] init];
+	alert.messageText = @"Delete File?";
+	alert.buttons[0].title = @"Delete";
+	[alert addButtonWithTitle:@"Cancel"];
+	alert.informativeText = [NSString stringWithFormat:@"Are you sure you want to delete the file \"%@\"? This action can not be undone.", self.fileHelper.selectedFile.name];
+	[alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+		if (returnCode == NSAlertFirstButtonReturn)
 			[self deleteSelectedFile];
 	}];
 }
@@ -843,7 +847,7 @@ void AMSetTargetActionWithBlock(id control, BasicBlock1Arg block)
 		[self.fileTableView.window.firstResponder presentError:mfiRef.lastError modalForWindow:self.fileTableView.window delegate:nil didPresentSelector:nil contextInfo:nil];
 	}];
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[NSApp beginSheet:pwc.window modalForWindow:self.fileTableView.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+		[self.fileTableView.window beginSheet:pwc.window completionHandler:nil];
 	});
 }
 
