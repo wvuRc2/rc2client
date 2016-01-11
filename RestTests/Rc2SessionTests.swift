@@ -49,6 +49,21 @@ class Rc2SessionTests: XCTestCase {
 		XCTAssertFalse(session!.connectionOpen)
 	}
 
+	func testSendMessage() {
+		let dict = ["foo":"bar", "age":21]
+		session!.sendMessage(dict)
+		let jsonData = wsSrc.lastStringWritten?.dataUsingEncoding(NSUTF8StringEncoding)
+		let jsonObj = JSON(data:jsonData!)
+		XCTAssertEqual(dict["foo"], jsonObj["foo"].stringValue)
+		XCTAssertEqual(21, jsonObj["age"].int32Value)
+	}
+	
+	func testSendMessageFailure() {
+		let dict = ["foo":wspace!, "bar":22]
+		let success = session!.sendMessage(dict)
+		XCTAssertFalse(success)
+	}
+	
 	@objc class SessionDelegate: NSObject, Rc2SessionDelegate {
 		var expectation: XCTestExpectation?
 		func sessionOpened() {
@@ -60,11 +75,14 @@ class Rc2SessionTests: XCTestCase {
 	}
 	
 	class MockWebSocket: WebSocketSource {
+		var lastStringWritten:String?
+		
 		func connect() {
 		}
 		func disconnect(forceTimeout forceTimeout: NSTimeInterval?) {
 		}
 		func writeString(str: String) {
+			lastStringWritten = str
 		}
 		func writeData(data: NSData) {
 		}

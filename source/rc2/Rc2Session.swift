@@ -38,4 +38,19 @@ import Starscream
 		connectionOpen = false
 		self.delegate?.sessionClosed()
 	}
+	
+	func sendMessage(message:Dictionary<String,AnyObject>) -> Bool {
+		guard NSJSONSerialization.isValidJSONObject(message) else {
+			return false
+		}
+		do {
+			let json = try NSJSONSerialization.dataWithJSONObject(message, options: [])
+			let jsonStr = NSString(data: json, encoding: NSUTF8StringEncoding)
+			self.wsSource.writeString(jsonStr as! String)
+		} catch let err as NSError {
+			Rc2LogError ("error sending json message on websocket:\(err)")
+			return false
+		}
+		return true
+	}
 }
