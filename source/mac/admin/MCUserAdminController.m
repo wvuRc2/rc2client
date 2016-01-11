@@ -232,12 +232,12 @@
 		[self.editController window];
 	}
 	self.editController.theUser = [[RCUser alloc] init];
-	[NSApp beginSheet:self.editController.window modalForWindow:self.view.window 
-		completionHandler:^(NSInteger returnCode)
+	[self.view.window beginSheet:self.editController.window completionHandler:^(NSModalResponse returnCode)
 	{
 		[self.editController.window orderOut:self];
-		if (NSOKButton == returnCode)
+		if (returnCode == NSModalResponseOK) {
 			[self completeAddUser:self.editController.theUser password:self.editController.selectedPassword];
+		}
 	}];
 }
 
@@ -307,12 +307,12 @@
 		[self.editController window];
 	}
 	self.editController.theUser = user;
-	[NSApp beginSheet:self.editController.window modalForWindow:self.view.window
-	completionHandler:^(NSInteger returnCode)
+	[self.view.window beginSheet:self.editController.window completionHandler:^(NSModalResponse returnCode)
 	 {
 		 [self.editController.window orderOut:self];
-		 if (NSOKButton == returnCode)
+		 if (returnCode == NSModalResponseOK) {
 			 [self completeEditUser:self.editController.theUser];
+		 }
 	 }];
 }
 

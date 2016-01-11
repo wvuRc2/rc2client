@@ -129,7 +129,7 @@
 	[pc displayModelForWindow:self.view.window completionHandler:^(NSInteger rc) {
 		self.busy = NO;
 		self.statusMessage = nil;
-		if (rc == NSOKButton) {
+		if (rc == NSModalResponseOK) {
 			Rc2RestServer *server = [Rc2RestServer sharedInstance];
 			[server createWorkspace:pc.stringValue handler:^(BOOL success, id results, NSError *error)
 			{

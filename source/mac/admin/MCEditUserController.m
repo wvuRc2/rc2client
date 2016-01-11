@@ -53,12 +53,12 @@
 
 -(IBAction)cancelEdit:(id)sender
 {
-	[NSApp endSheet:self.window returnCode:NSCancelButton];
+	[self.window.sheetParent endSheet:self.window returnCode:NSModalResponseCancel];
 }
 
 -(IBAction)saveChanges:(id)sender
 {
-	[NSApp endSheet:self.window returnCode:NSOKButton];
+	[self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
 }
 
 -(void)checkValidity
