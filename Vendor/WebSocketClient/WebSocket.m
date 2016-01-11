@@ -32,7 +32,7 @@ enum {
 typedef NSUInteger WebSocketWaitingState;
 
 
-@interface WebSocket (Private)
+@interface LegacyWebSocket (Private)
 - (void)repeatPing;
 
 - (void)dispatchFailure:(NSError *)aError;
@@ -93,7 +93,7 @@ typedef NSUInteger WebSocketWaitingState;
 @end
 
 
-@implementation WebSocket {
+@implementation LegacyWebSocket {
     BOOL isInContinuation;
 }
 

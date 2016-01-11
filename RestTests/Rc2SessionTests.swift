@@ -27,7 +27,8 @@ class Rc2SessionTests: XCTestCase {
 		let sjson = JSON(data: jsonData!)
 		let wspace = Rc2Workspace(json:sjson)
 		let delegate = SessionDelegate()
-		let session = Rc2Session(wspace, delegate:delegate)
+		let wsSrc = MockWebSocket()
+		let session = Rc2Session(wspace, delegate:delegate, source:wsSrc)
 		XCTAssertNotNil(session)
 		XCTAssertEqual(wspace, session.workspace)
 		XCTAssert(delegate === session.delegate)
@@ -53,6 +54,19 @@ class Rc2SessionTests: XCTestCase {
 		}
 		func sessionClosed() {
 			expectation?.fulfill()
+		}
+	}
+	
+	class MockWebSocket: WebSocketSource {
+		func connect() {
+		}
+		func disconnect(forceTimeout forceTimeout: NSTimeInterval?) {
+		}
+		func writeString(str: String) {
+		}
+		func writeData(data: NSData) {
+		}
+		func writePing(data: NSData) {
 		}
 	}
 }

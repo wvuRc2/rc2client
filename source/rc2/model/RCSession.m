@@ -38,7 +38,7 @@ NSString * const RC2WebSocketErrorDomain = @"RC2WebSocketErrorDomain";
 
 @interface RCSession() <WebSocketDelegate> {
 	NSMutableDictionary *_settings;
-	WebSocket *_ws;
+	LegacyWebSocket *_ws;
 }
 @property (nonatomic, copy) NSDictionary *outputColors;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
@@ -155,7 +155,7 @@ NSString *const kHelpItemURL = @"url";
 #endif
 	[config.headers addObject:[HandshakeHeader headerWithValue:cookieHeader forKey:@"Cookie"]];
 	[config.headers addObject:[HandshakeHeader headerWithValue:@"1" forKey:@"Rc2-API-Version"]];
-	_ws = [WebSocket webSocketWithConfig:config delegate:self];
+	_ws = [LegacyWebSocket webSocketWithConfig:config delegate:self];
 	[_ws open];
 	RunAfterDelay(kWebSocketTimeOutSeconds, ^{
 		if (!self.socketOpen && _ws) {

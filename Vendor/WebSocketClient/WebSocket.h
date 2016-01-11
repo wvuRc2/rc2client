@@ -115,7 +115,7 @@ typedef NSUInteger WebSocketReadyState;
 @end
 
 
-@interface WebSocket : NSObject 
+@interface LegacyWebSocket : NSObject
 {
 @protected
     AsyncSocket* socket;

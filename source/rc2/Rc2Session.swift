@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Starscream
 
 @objc protocol Rc2SessionDelegate : class {
 	func sessionOpened()
@@ -15,13 +16,16 @@ import Foundation
 
 @objc class Rc2Session : NSObject {
 	let workspace : Rc2Workspace
+	let wsSource : WebSocketSource
 	weak var delegate : Rc2SessionDelegate?
 	
 	private(set) var connectionOpen:Bool = false
 	
-	init(_ wspace:Rc2Workspace, delegate:Rc2SessionDelegate) {
+	init(_ wspace:Rc2Workspace, delegate:Rc2SessionDelegate, source:WebSocketSource)
+	{
 		workspace = wspace
 		self.delegate = delegate
+		self.wsSource = source
 		super.init()
 	}
 	
