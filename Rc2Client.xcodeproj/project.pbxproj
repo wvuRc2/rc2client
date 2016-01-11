@@ -220,6 +220,7 @@
 		089CDA611C43015C00C9CD4F /* Starscream.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 089CDA5B1C42FF3700C9CD4F /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		089CDA651C43683000C9CD4F /* WebSocketSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA641C43683000C9CD4F /* WebSocketSource.swift */; };
 		089CDA661C43683000C9CD4F /* WebSocketSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA641C43683000C9CD4F /* WebSocketSource.swift */; };
+		089CDA6D1C444D1D00C9CD4F /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089CDA6C1C444D1D00C9CD4F /* CocoaLumberjackSwift.framework */; };
 		08A82B8C17F7127400F49071 /* SyntaxParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A82B8B17F7127400F49071 /* SyntaxParserTests.m */; };
 		08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
 		08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
@@ -921,6 +922,8 @@
 		089CDA5B1C42FF3700C9CD4F /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Starscream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		089CDA5D1C42FF4200C9CD4F /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = "../../../../../../../../working/rc2/rc2-client/Dependencies/Starscream/build/Debug-iphoneos/Starscream.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		089CDA641C43683000C9CD4F /* WebSocketSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocketSource.swift; sourceTree = "<group>"; };
+		089CDA681C4446FF00C9CD4F /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Dependencies/CocoaLumberjack/build/Debug/CocoaLumberjack.framework; sourceTree = "<group>"; };
+		089CDA6C1C444D1D00C9CD4F /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = "../../../Library/Developer/Xcode/DerivedData/rc2-heenjrpfwjlxgradbxayzizorfip/Build/Products/Debug/CocoaLumberjackSwift.framework"; sourceTree = "<group>"; };
 		08A82B8B17F7127400F49071 /* SyntaxParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyntaxParserTests.m; sourceTree = "<group>"; };
 		08ADBE2117A054B40004A89C /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = Vendor/DropBlocks.h; sourceTree = "<group>"; };
 		08ADBE2217A054B40004A89C /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = Vendor/DropBlocks.m; sourceTree = "<group>"; };
@@ -1407,6 +1410,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				089CDA6D1C444D1D00C9CD4F /* CocoaLumberjackSwift.framework in Frameworks */,
 				089CDA5C1C42FF3700C9CD4F /* Starscream.framework in Frameworks */,
 				0857278B19B0FC9300ADCC7B /* SystemConfiguration.framework in Frameworks */,
 				088C837E19900EF900831750 /* libPEGKitOSX.a in Frameworks */,
@@ -2073,6 +2077,8 @@
 		08D2432215B5D04D0064A9FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				089CDA6C1C444D1D00C9CD4F /* CocoaLumberjackSwift.framework */,
+				089CDA681C4446FF00C9CD4F /* CocoaLumberjack.framework */,
 				089CDA5D1C42FF4200C9CD4F /* Starscream.framework */,
 				08BB97E31C22215000825E91 /* Vyana.framework */,
 				08BB97D81C22195600825E91 /* Mockingjay.framework */,

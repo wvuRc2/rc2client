@@ -17,12 +17,11 @@
 	#import <DropboxSDK/NSObject+DBJSON.h>
 	#import "Vyana-ios/Vyana-ios.h"
 	#import "Vyana-ios/MAZeroingWeakRef.h"
-	#import "Vyana-ios/VyanaLog.h"
 #elif TARGET_OS_MAC
 	#import <Cocoa/Cocoa.h>
+	#import <CocoaLumberjack/CocoaLumberjack.h>
 	#import <Vyana/Vyana.h>
 	#import <Vyana/AMBlockUtils.h>
-	#import <Vyana/VyanaLog.h>
 	#import <WebKit/WebKit.h>
 	#import <CoreServices/CoreServices.h>
 	#import "JSON.h"
@@ -50,13 +49,12 @@
 	#define TheApp NSApp
 #endif
 
-#define RC2_LOG_CONTEXT 0x32635200
-#define Rc2LogLevel [[VyanaLogger sharedInstance] logLevelForKey:@"rc2"]
+static const DDLogLevel ddLogLevel = DDLogLevelInfo;
 
-#define Rc2LogError(frmt, ...)     SYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_ERROR,   RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Rc2LogWarn(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_WARN,    RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Rc2LogInfo(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_INFO,    RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Rc2LogVerbose(frmt, ...)  ASYNC_LOG_OBJC_MAYBE(Rc2LogLevel, LOG_FLAG_VERBOSE, RC2_LOG_CONTEXT, frmt, ##__VA_ARGS__)
+#define Rc2LogError(frmt, ...)     DDLogError(frmt, ##__VA_ARGS__)
+#define Rc2LogWarn(frmt, ...)     DDLogWarn(frmt, ##__VA_ARGS__)
+#define Rc2LogInfo(frmt, ...)     DDLogInfo(frmt, ##__VA_ARGS__)
+#define Rc2LogVerbose(frmt, ...)     DDLogVerbose(frmt, ##__VA_ARGS__)
 
 //MagicalRecord expects logging to be compiled in app, not vyana. this fixes that problem.
 #ifdef DEBUG

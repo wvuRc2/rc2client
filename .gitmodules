@@ -1,6 +1,6 @@
 [submodule "Vyana"]
 	path = Dependencies/Vyana
-url=https://mlilback@bitbucket.org/mlilback/vyana.git
+url=https://github.com/mlilback/vyana.git
 [submodule "AMResizableSplitterViewController"]
 	path = Dependencies/AMResizableSplitterViewController
 	url = https://mlilback@github.com/agilemonks/AMResizableSplitterViewController.git
@@ -55,3 +55,6 @@ url=https://github.com/mlilback/pegkit.git
 [submodule "Dependencies/Starscream"]
 	path = Dependencies/Starscream
 	url = https://github.com/daltoniam/Starscream.git
+[submodule "Dependencies/CocoaLumberjack"]
+	path = Dependencies/CocoaLumberjack
+	url = https://github.com/CocoaLumberjack/CocoaLumberjack.git

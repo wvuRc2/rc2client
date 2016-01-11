@@ -49,7 +49,6 @@ NSString *const kServerHostKey = @"ServerHostKey";
 	self.jsonParser = [[SBJsonParser alloc] init];
 	self.remoteLogger = [[RC2RemoteLogger alloc] init];
 	self.remoteLogger.apiKey = @"sf92j5t9fk2kfkegfd110lsm";
-	[[VyanaLogger sharedInstance] startLogging];
 	[DDLog addLogger:self.remoteLogger];
 	return self;
 }

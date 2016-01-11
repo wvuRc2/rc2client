@@ -56,8 +56,9 @@ const CGFloat kMinIdleTimeBeforeAction = 20;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	__firstLogin=YES;
-	[[VyanaLogger sharedInstance] startLogging];
-	[[VyanaLogger sharedInstance] setLogLevel:LOG_LEVEL_INFO forKey:@"rc2"];
+	[DDLog addLogger:[DDTTYLogger sharedInstance]];
+	[DDLog addLogger:[DDASLLogger sharedInstance]];
+
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSURL *url = [[NSBundle mainBundle] URLForResource:@"MacDefaults" withExtension:@"plist"];
 	NSDictionary *defs = [NSDictionary dictionaryWithContentsOfURL:url];

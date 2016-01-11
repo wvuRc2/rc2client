@@ -22,4 +22,7 @@
    <FileRef
       location = "group:Dependencies/PEGKit/PEGKit.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Dependencies/CocoaLumberjack/Lumberjack.xcodeproj">
+   </FileRef>
 </Workspace>

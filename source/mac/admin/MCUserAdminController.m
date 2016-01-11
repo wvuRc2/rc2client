@@ -201,7 +201,7 @@
 
 -(IBAction)toggleSearchFilter:(id)sender
 {
-	switch ([sender tag]) {
+	switch ([(NSView*)sender tag]) {
 		case 2000:
 			self.searchesNames = YES;
 			self.searchesEmails = NO;

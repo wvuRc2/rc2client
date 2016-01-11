@@ -7,37 +7,25 @@
 //
 
 import Foundation
+import CocoaLumberjackSwift
 
-let Rc2LogLevel = VyanaLogger.sharedInstance().logLevelForKey("rc2")
-
-private func SwiftLogMacro(isAsynchronous: Bool, level: Int32, flag flg: Int32, context: Int32 = 0, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: Int32 = __LINE__, tag: AnyObject? = nil, @autoclosure string: () -> String)
+public func Rc2LogError(@autoclosure logText: () -> String, level: DDLogLevel = .Error, context: Int = 0, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UInt = __LINE__, tag: AnyObject? = nil, asynchronous async: Bool = false)
 {
-	if level & flg != 0 {
-		// Tell the DDLogMessage constructor to copy the C strings that get passed to it.
-		// Using string interpolation to prevent integer overflow warning when using StaticString.stringValue
-//		let logMessage = DDLogMessage(message: string(), level: level, flag: flg, context: context, file: "\(file)", function: "\(function)", line: line, tag: tag, options: [.CopyFile, .CopyFunction], timestamp: nil)
-//		DDLog.log(isAsynchronous, message: logMessage)
-		DDLog.log(isAsynchronous, level:level, flag:flg, context:context, file:file.stringValue, function:function.stringValue, line:line, tag:tag, format:string(), args:CVaListPointer(_fromUnsafeMutablePointer: nil))
-	}
+	SwiftLogMacro(async, level: level, flag: .Error, context: context, file: file, function: function, line: line, tag: tag, string: logText)
 }
 
-public func Rc2LogError(@autoclosure logText: () -> String, level: Int32 = Rc2LogLevel, context: Int32 = 0, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: Int32 = __LINE__, tag: AnyObject? = nil, asynchronous async: Bool = false)
+public func Rc2LogWarn(@autoclosure logText: () -> String, level: DDLogLevel = .Warning, context: Int = 0, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UInt = __LINE__, tag: AnyObject? = nil, asynchronous async: Bool = true)
 {
-	SwiftLogMacro(async, level: level, flag: LOG_FLAG_ERROR, context: context, file: file, function: function, line: line, tag: tag, string: logText)
+	SwiftLogMacro(async, level: level, flag: .Warning, context: context, file: file, function: function, line: line, tag: tag, string: logText)
 }
 
-public func Rc2LogWarn(@autoclosure logText: () -> String, level: Int32 = Rc2LogLevel, context: Int32 = 0, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: Int32 = __LINE__, tag: AnyObject? = nil, asynchronous async: Bool = true)
+public func Rc2LogInfo(@autoclosure logText: () -> String, level: DDLogLevel = .Info, context: Int = 0, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UInt = __LINE__, tag: AnyObject? = nil, asynchronous async: Bool = true)
 {
-	SwiftLogMacro(async, level: level, flag: LOG_FLAG_WARN, context: context, file: file, function: function, line: line, tag: tag, string: logText)
+	SwiftLogMacro(async, level: level, flag: .Info, context: context, file: file, function: function, line: line, tag: tag, string: logText)
 }
 
-public func Rc2LogInfo(@autoclosure logText: () -> String, level: Int32 = Rc2LogLevel, context: Int32 = 0, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: Int32 = __LINE__, tag: AnyObject? = nil, asynchronous async: Bool = true)
+public func Rc2LogVerbose(@autoclosure logText: () -> String, level: DDLogLevel = .Verbose, context: Int = 0, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UInt = __LINE__, tag: AnyObject? = nil, asynchronous async: Bool = true)
 {
-	SwiftLogMacro(async, level: level, flag: LOG_FLAG_INFO, context: context, file: file, function: function, line: line, tag: tag, string: logText)
-}
-
-public func Rc2LogVerbose(@autoclosure logText: () -> String, level: Int32 = Rc2LogLevel, context: Int32 = 0, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: Int32 = __LINE__, tag: AnyObject? = nil, asynchronous async: Bool = true)
-{
-	SwiftLogMacro(async, level: level, flag: LOG_FLAG_VERBOSE, context: context, file: file, function: function, line: line, tag: tag, string: logText)
+	SwiftLogMacro(async, level: level, flag: .Verbose, context: context, file: file, function: function, line: line, tag: tag, string: logText)
 }
 

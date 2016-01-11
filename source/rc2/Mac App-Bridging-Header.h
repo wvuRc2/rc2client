@@ -3,4 +3,3 @@
 //
 
 #import "Rc2AppConstants.h"
-#import <Vyana/VyanaLog.h>

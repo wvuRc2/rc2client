@@ -50,11 +50,11 @@
 -(NSData*)messageToJSONData:(DDLogMessage*)msg
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObject:self.apiKey forKey:@"apikey"];
-	dict[@"level"] = @(msg->logFlag);
-	dict[@"context"] = @(msg->logContext);
+	dict[@"level"] = @(msg->_level);
+	dict[@"context"] = @(msg->_context);
 	dict[@"versionStr"] = versionStr;
 	dict[@"clientident"] = self.clientIdent;
-	dict[@"message"] = msg->logMsg;
+	dict[@"message"] = msg->_message;
 	return [[dict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
 }
 
