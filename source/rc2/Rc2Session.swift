@@ -9,9 +9,10 @@
 import Foundation
 import Starscream
 
-@objc protocol Rc2SessionDelegate : class {
+protocol Rc2SessionDelegate : class {
 	func sessionOpened()
 	func sessionClosed()
+	func sessionMessageReceived(msg:JSON)
 }
 
 @objc class Rc2Session : NSObject {
@@ -30,13 +31,11 @@ import Starscream
 	}
 	
 	func open() {
-		connectionOpen = true
-		self.delegate?.sessionOpened()
+		self.wsSource.connect()
 	}
 	
 	func close() {
-		connectionOpen = false
-		self.delegate?.sessionClosed()
+		self.wsSource.disconnect(forceTimeout: 1)
 	}
 	
 	func sendMessage(message:Dictionary<String,AnyObject>) -> Bool {
@@ -52,5 +51,27 @@ import Starscream
 			return false
 		}
 		return true
+	}
+	
+	private func parseJson(text:String) -> JSON {
+		let jsonData = text.dataUsingEncoding(NSUTF8StringEncoding)
+		return JSON(data:jsonData!)
+	}
+}
+
+extension Rc2Session : WebSocketDelegate {
+	func websocketDidConnect(socket: WebSocket) {
+		connectionOpen = true
+		self.delegate?.sessionOpened()
+	}
+	func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
+		connectionOpen = false
+		self.delegate?.sessionClosed()
+	}
+	func websocketDidReceiveMessage(socket: WebSocket, text: String) {
+		self.delegate?.sessionMessageReceived(JSON.parse(text))
+	}
+	func websocketDidReceiveData(socket: WebSocket, data: NSData) {
+		
 	}
 }

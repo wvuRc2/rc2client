@@ -10,7 +10,7 @@ import Foundation
 import Starscream
 
 //wrapper protocol around starscream's WebSocket class to allow DI and mocking
-protocol WebSocketSource : class {
+public protocol WebSocketSource : class {
 	func connect()
 	func disconnect(forceTimeout forceTimeout:NSTimeInterval?)
 	func writeString(str:String)

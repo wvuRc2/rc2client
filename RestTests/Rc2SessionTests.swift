@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import Rc2
+import Starscream
 
 class Rc2SessionTests: XCTestCase {
 	static let wspaceJson = "[{\"id\":1, \"userId\":1, \"version\":1, \"name\":\"foofy\", \"files\":[]}]"
@@ -22,6 +23,7 @@ class Rc2SessionTests: XCTestCase {
 		super.setUp()
 		wspace = Rc2Workspace(json:Rc2SessionTests.sjson)
 		session = Rc2Session(wspace!, delegate:delegate, source:wsSrc)
+		wsSrc.session = session
 	}
 	
 	override func tearDown() {
@@ -64,22 +66,37 @@ class Rc2SessionTests: XCTestCase {
 		XCTAssertFalse(success)
 	}
 	
+	func testReceiveMessage() {
+		let json = "{\"foo\":11,\"bar\":\"baz\"}"
+		session?.websocketDidReceiveMessage(wsSrc.socket, text: json)
+		XCTAssertEqual(delegate.lastMessage!["foo"].intValue, 11)
+		XCTAssertEqual(delegate.lastMessage!["bar"].stringValue, "baz")
+	}
+	
 	@objc class SessionDelegate: NSObject, Rc2SessionDelegate {
 		var expectation: XCTestExpectation?
+		var lastMessage: JSON?
 		func sessionOpened() {
 			expectation?.fulfill()
 		}
 		func sessionClosed() {
 			expectation?.fulfill()
 		}
+		func sessionMessageReceived(msg:JSON) {
+			lastMessage = msg
+		}
 	}
 	
 	class MockWebSocket: WebSocketSource {
 		var lastStringWritten:String?
+		let socket = DummyWebSocket()
+		var session : Rc2Session?
 		
 		func connect() {
+			session?.websocketDidConnect(socket)
 		}
 		func disconnect(forceTimeout forceTimeout: NSTimeInterval?) {
+			session?.websocketDidDisconnect(socket, error: nil)
 		}
 		func writeString(str: String) {
 			lastStringWritten = str
@@ -87,6 +104,12 @@ class Rc2SessionTests: XCTestCase {
 		func writeData(data: NSData) {
 		}
 		func writePing(data: NSData) {
+		}
+	}
+	
+	class DummyWebSocket : WebSocket {
+		init() {
+			super.init(url: NSURL(fileURLWithPath: "/dev/null"))
 		}
 	}
 }
