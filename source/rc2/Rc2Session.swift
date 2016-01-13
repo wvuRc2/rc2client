@@ -19,6 +19,13 @@ protocol Rc2SessionDelegate : class {
 	let workspace : Rc2Workspace
 	let wsSource : WebSocketSource
 	weak var delegate : Rc2SessionDelegate?
+	var variablesVisible : Bool = false {
+		didSet {
+			if variablesVisible && variablesVisible != oldValue {
+				requestVariables()
+			}
+		}
+	}
 	
 	private(set) var connectionOpen:Bool = false
 	
@@ -38,6 +45,9 @@ protocol Rc2SessionDelegate : class {
 		self.wsSource.disconnect(forceTimeout: 1)
 	}
 	
+	//MARK: public reuest methods
+	
+	//MARK: private methods
 	func sendMessage(message:Dictionary<String,AnyObject>) -> Bool {
 		guard NSJSONSerialization.isValidJSONObject(message) else {
 			return false
@@ -59,6 +69,14 @@ protocol Rc2SessionDelegate : class {
 	}
 }
 
+//MARK: private methods
+private extension Rc2Session {
+	func requestVariables() {
+		sendMessage(["cmd":"watchVariables", "watch":variablesVisible])
+	}
+}
+
+//MARK: WebSocketDelegate implementation
 extension Rc2Session : WebSocketDelegate {
 	func websocketDidConnect(socket: WebSocket) {
 		connectionOpen = true

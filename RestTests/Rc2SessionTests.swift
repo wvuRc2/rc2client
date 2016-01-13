@@ -73,6 +73,16 @@ class Rc2SessionTests: XCTestCase {
 		XCTAssertEqual(delegate.lastMessage!["bar"].stringValue, "baz")
 	}
 	
+	func testVariablesVisible() {
+		XCTAssertTrue(session?.variablesVisible == false)
+		session?.variablesVisible = true
+		XCTAssertTrue(session?.variablesVisible == true)
+		let jsonData = wsSrc.lastStringWritten?.dataUsingEncoding(NSUTF8StringEncoding)
+		let jsonObj = JSON(data:jsonData!)
+		XCTAssertEqual(jsonObj["cmd"].stringValue, "watchVariables")
+		XCTAssertEqual(jsonObj["watch"].boolValue, true)
+	}
+	
 	@objc class SessionDelegate: NSObject, Rc2SessionDelegate {
 		var expectation: XCTestExpectation?
 		var lastMessage: JSON?
