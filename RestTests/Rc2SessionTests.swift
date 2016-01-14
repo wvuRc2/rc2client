@@ -54,7 +54,7 @@ class Rc2SessionTests: XCTestCase {
 	func testSendMessage() {
 		let dict = ["foo":"bar", "age":21]
 		session!.sendMessage(dict)
-		let jsonData = wsSrc.lastStringWritten?.dataUsingEncoding(NSUTF8StringEncoding)
+		let jsonData = wsSrc.stringsWritten.last?.dataUsingEncoding(NSUTF8StringEncoding)
 		let jsonObj = JSON(data:jsonData!)
 		XCTAssertEqual(dict["foo"], jsonObj["foo"].stringValue)
 		XCTAssertEqual(21, jsonObj["age"].int32Value)
@@ -77,10 +77,37 @@ class Rc2SessionTests: XCTestCase {
 		XCTAssertTrue(session?.variablesVisible == false)
 		session?.variablesVisible = true
 		XCTAssertTrue(session?.variablesVisible == true)
-		let jsonData = wsSrc.lastStringWritten?.dataUsingEncoding(NSUTF8StringEncoding)
+		let jsonData = wsSrc.stringsWritten.last?.dataUsingEncoding(NSUTF8StringEncoding)
 		let jsonObj = JSON(data:jsonData!)
 		XCTAssertEqual(jsonObj["cmd"].stringValue, "watchVariables")
 		XCTAssertEqual(jsonObj["watch"].boolValue, true)
+	}
+	
+	func testLookupInHelp() {
+		session?.lookupInHelp("print")
+		let json = JSON.parse(wsSrc.stringsWritten.last!)
+		XCTAssertEqual(json["msg"], "help")
+		XCTAssertEqual(json["topic"], "print")
+	}
+	
+	func testClearVariablesAndExecuteScript() {
+		//clear variables internally calls executeScript
+		session?.clearVariables()
+		let json = JSON.parse(wsSrc.stringsWritten.last!)
+		XCTAssertEqual(json["msg"], "execute")
+		XCTAssertEqual(json["code"], "rc2.clearEnvironment()")
+	}
+	
+	func testExecuteScriptWithHelp() {
+		let script = "x <- 23\nhelp(\"print\")\nc(1,3,4)"
+		session?.executeScript(script)
+		XCTAssertEqual(wsSrc.stringsWritten.count, 2)
+		let json1 = JSON.parse(wsSrc.stringsWritten[0])
+		XCTAssertEqual(json1["msg"], "help")
+		XCTAssertEqual(json1["topic"], "print")
+		let json2 = JSON.parse(wsSrc.stringsWritten[1])
+		XCTAssertEqual(json2["msg"], "execute")
+		XCTAssertEqual(json2["code"], "x <- 23\nc(1,3,4)")
 	}
 	
 	@objc class SessionDelegate: NSObject, Rc2SessionDelegate {
@@ -98,7 +125,7 @@ class Rc2SessionTests: XCTestCase {
 	}
 	
 	class MockWebSocket: WebSocketSource {
-		var lastStringWritten:String?
+		var stringsWritten = [String]()
 		let socket = DummyWebSocket()
 		var session : Rc2Session?
 		
@@ -109,7 +136,7 @@ class Rc2SessionTests: XCTestCase {
 			session?.websocketDidDisconnect(socket, error: nil)
 		}
 		func writeString(str: String) {
-			lastStringWritten = str
+			stringsWritten.append(str)
 		}
 		func writeData(data: NSData) {
 		}

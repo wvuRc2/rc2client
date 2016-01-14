@@ -26,6 +26,9 @@ protocol Rc2SessionDelegate : class {
 			}
 		}
 	}
+	var helpRegex : NSRegularExpression = {
+		return try! NSRegularExpression(pattern: "(help\\(\\\"?([\\w\\d]+)\\\"?\\))\\s*;?\\s?", options: [.DotMatchesLineSeparators])
+	}()
 	
 	private(set) var connectionOpen:Bool = false
 	
@@ -46,6 +49,35 @@ protocol Rc2SessionDelegate : class {
 	}
 	
 	//MARK: public reuest methods
+	func executeScript(var script: String) {
+		//don't send empty scripts
+		guard script.characters.count > 0 else {
+			return
+		}
+		let helpCheck = helpRegex.firstMatchInString(script, options: [], range: NSMakeRange(0, script.utf16.count))
+		if helpCheck?.numberOfRanges == 3 {
+			let topic = script.substringWithRange((helpCheck?.rangeAtIndex(2).toStringRange(script))!)
+			let adjScript = script.stringByReplacingCharactersInRange((helpCheck?.range.toStringRange(script))!, withString: "")
+			lookupInHelp(topic)
+			guard adjScript.utf16.count > 0 else {
+				return
+			}
+			script = adjScript
+		}
+		sendMessage(["msg":"execute", "code":script])
+	}
+	
+	func executeScriptFile(fileId:Int) {
+		//TODO: implement and test
+	}
+	
+	func clearVariables() {
+		executeScript("rc2.clearEnvironment()");
+	}
+	
+	func lookupInHelp(str:String) {
+		sendMessage(["msg":"help", "topic":str])
+	}
 	
 	//MARK: private methods
 	func sendMessage(message:Dictionary<String,AnyObject>) -> Bool {
@@ -62,17 +94,25 @@ protocol Rc2SessionDelegate : class {
 		}
 		return true
 	}
-	
-	private func parseJson(text:String) -> JSON {
-		let jsonData = text.dataUsingEncoding(NSUTF8StringEncoding)
-		return JSON(data:jsonData!)
-	}
 }
 
 //MARK: private methods
 private extension Rc2Session {
 	func requestVariables() {
 		sendMessage(["cmd":"watchVariables", "watch":variablesVisible])
+	}
+}
+
+extension NSRange {
+	func toStringRange(str:String) -> Range<String.Index>? {
+		let fromIdx = str.utf16.startIndex.advancedBy(self.location)
+		let toIdx = fromIdx.advancedBy(self.length, limit: str.utf16.endIndex)
+		if let from = String.Index(fromIdx, within: str),
+			let to = String.Index(toIdx, within: str)
+		{
+			return from ..< to
+		}
+		return nil
 	}
 }
 

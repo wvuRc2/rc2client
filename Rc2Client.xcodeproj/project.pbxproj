@@ -221,6 +221,10 @@
 		089CDA651C43683000C9CD4F /* WebSocketSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA641C43683000C9CD4F /* WebSocketSource.swift */; };
 		089CDA661C43683000C9CD4F /* WebSocketSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA641C43683000C9CD4F /* WebSocketSource.swift */; };
 		089CDA6D1C444D1D00C9CD4F /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089CDA6C1C444D1D00C9CD4F /* CocoaLumberjackSwift.framework */; };
+		089CDA6F1C46E37300C9CD4F /* ServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA6E1C46E37300C9CD4F /* ServerResponse.swift */; };
+		089CDA701C46E37300C9CD4F /* ServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA6E1C46E37300C9CD4F /* ServerResponse.swift */; };
+		089CDA721C4703DD00C9CD4F /* ServerResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA711C4703DD00C9CD4F /* ServerResponseTests.swift */; };
+		089CDA741C47099600C9CD4F /* resultsWithImages.json in Resources */ = {isa = PBXBuildFile; fileRef = 089CDA731C47099600C9CD4F /* resultsWithImages.json */; };
 		08A82B8C17F7127400F49071 /* SyntaxParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A82B8B17F7127400F49071 /* SyntaxParserTests.m */; };
 		08ADBE2317A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
 		08ADBE2417A054B40004A89C /* DropBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ADBE2217A054B40004A89C /* DropBlocks.m */; };
@@ -924,6 +928,9 @@
 		089CDA641C43683000C9CD4F /* WebSocketSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocketSource.swift; sourceTree = "<group>"; };
 		089CDA681C4446FF00C9CD4F /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Dependencies/CocoaLumberjack/build/Debug/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		089CDA6C1C444D1D00C9CD4F /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = "../../../Library/Developer/Xcode/DerivedData/rc2-heenjrpfwjlxgradbxayzizorfip/Build/Products/Debug/CocoaLumberjackSwift.framework"; sourceTree = "<group>"; };
+		089CDA6E1C46E37300C9CD4F /* ServerResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerResponse.swift; sourceTree = "<group>"; };
+		089CDA711C4703DD00C9CD4F /* ServerResponseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerResponseTests.swift; sourceTree = "<group>"; };
+		089CDA731C47099600C9CD4F /* resultsWithImages.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = resultsWithImages.json; sourceTree = "<group>"; };
 		08A82B8B17F7127400F49071 /* SyntaxParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyntaxParserTests.m; sourceTree = "<group>"; };
 		08ADBE2117A054B40004A89C /* DropBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBlocks.h; path = Vendor/DropBlocks.h; sourceTree = "<group>"; };
 		08ADBE2217A054B40004A89C /* DropBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBlocks.m; path = Vendor/DropBlocks.m; sourceTree = "<group>"; };
@@ -1626,6 +1633,7 @@
 				08BB97E51C23620B00825E91 /* Rc2FileType.swift */,
 				089CDA581C41663C00C9CD4F /* Rc2Session.swift */,
 				089CDA641C43683000C9CD4F /* WebSocketSource.swift */,
+				089CDA6E1C46E37300C9CD4F /* ServerResponse.swift */,
 			);
 			name = rc2v2;
 			path = source/rc2;
@@ -1777,6 +1785,7 @@
 				08BB97E81C24956700825E91 /* Rc2FileTypeTest.swift */,
 				0857278019B0F89700ADCC7B /* Supporting Files */,
 				089CDA561C41657F00C9CD4F /* Rc2SessionTests.swift */,
+				089CDA711C4703DD00C9CD4F /* ServerResponseTests.swift */,
 			);
 			path = RestTests;
 			sourceTree = "<group>";
@@ -1788,6 +1797,7 @@
 				0843BE791C1B6B0700DD8F28 /* loginResults.json */,
 				08DDC6E319BA61E40008CCD3 /* lognormal.R */,
 				08DDC6E419BA61E40008CCD3 /* samples.R */,
+				089CDA731C47099600C9CD4F /* resultsWithImages.json */,
 				0857278119B0F89700ADCC7B /* Info.plist */,
 				08BB97C61C20944600825E91 /* createWorkspace.json */,
 			);
@@ -2845,6 +2855,7 @@
 				0843BE7A1C1B6B0700DD8F28 /* loginResults.json in Resources */,
 				08DDC6E619BA623A0008CCD3 /* samples.R in Resources */,
 				08BB97C71C20944600825E91 /* createWorkspace.json in Resources */,
+				089CDA741C47099600C9CD4F /* resultsWithImages.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3121,6 +3132,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				089CDA721C4703DD00C9CD4F /* ServerResponseTests.swift in Sources */,
 				089CDA571C41657F00C9CD4F /* Rc2SessionTests.swift in Sources */,
 				08BB97E21C221E7500825E91 /* Rc2AppConstants.m in Sources */,
 				08BB97E91C24956700825E91 /* Rc2FileTypeTest.swift in Sources */,
@@ -3216,6 +3228,7 @@
 				08D2459415B5DB270064A9FA /* WebSocketFragment.m in Sources */,
 				08D2459515B5DB270064A9FA /* WebSocketMessage.m in Sources */,
 				08D245CE15B5DBB70064A9FA /* _RCFile.m in Sources */,
+				089CDA701C46E37300C9CD4F /* ServerResponse.swift in Sources */,
 				08D245CF15B5DBB70064A9FA /* _RCMessage.m in Sources */,
 				0868D4C817FCC655002AD679 /* ImageCollectionCell.m in Sources */,
 				08D245D015B5DBB70064A9FA /* _RCSavedSession.m in Sources */,
@@ -3393,6 +3406,7 @@
 				08B705391831648500868E38 /* RCList.m in Sources */,
 				08D2466F15B5EE670064A9FA /* WebSocketMessage.m in Sources */,
 				08D2467115B5EE950064A9FA /* WebSocketConnectConfig.m in Sources */,
+				089CDA6F1C46E37300C9CD4F /* ServerResponse.swift in Sources */,
 				0828600818451B7C002BA8D2 /* Rc2AppConstants.m in Sources */,
 				08D2467215B5EE950064A9FA /* WebSocketFragment.m in Sources */,
 				084593E715B5F16F00297C9D /* MCAppConstants.m in Sources */,
