@@ -110,6 +110,25 @@ class Rc2SessionTests: XCTestCase {
 		XCTAssertEqual(json2["code"], "x <- 23\nc(1,3,4)")
 	}
 	
+	func testExecuteFile() {
+		session?.executeScriptFile(1);
+		let json = JSON.parse(wsSrc.stringsWritten.last!)
+		XCTAssertEqual(json["msg"], "execute")
+		XCTAssertEqual(json["fileId"], 1)
+	}
+
+	func testUserList() {
+		session?.requestUserList();
+		let json = JSON.parse(wsSrc.stringsWritten.last!)
+		XCTAssertEqual(json["msg"], "userList")
+	}
+
+	func testForceVariableRefresh() {
+		session?.forceVariableRefresh();
+		let json = JSON.parse(wsSrc.stringsWritten.last!)
+		XCTAssertEqual(json["msg"], "watchVariables")
+	}
+
 	@objc class SessionDelegate: NSObject, Rc2SessionDelegate {
 		var expectation: XCTestExpectation?
 		var lastMessage: JSON?

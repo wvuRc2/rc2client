@@ -68,7 +68,7 @@ protocol Rc2SessionDelegate : class {
 	}
 	
 	func executeScriptFile(fileId:Int) {
-		//TODO: implement and test
+		sendMessage(["msg":"execute", "fileId":fileId])
 	}
 	
 	func clearVariables() {
@@ -77,6 +77,20 @@ protocol Rc2SessionDelegate : class {
 	
 	func lookupInHelp(str:String) {
 		sendMessage(["msg":"help", "topic":str])
+	}
+	
+	func requestUserList() {
+		sendMessage(["msg":"userList"])
+	}
+	
+	func forceVariableRefresh() {
+		sendMessage(["msg":"watchVariables", "watch":true])
+	}
+	
+	//MARK: other public methods
+	func outputColorForKey(key:OutputColors) -> Color {
+		let dict = NSUserDefaults.standardUserDefaults().dictionaryForKey("OutputColors") as! Dictionary<String,String>
+		return try! Color(hex: dict[key.rawValue]!)
 	}
 	
 	//MARK: private methods
@@ -100,19 +114,6 @@ protocol Rc2SessionDelegate : class {
 private extension Rc2Session {
 	func requestVariables() {
 		sendMessage(["cmd":"watchVariables", "watch":variablesVisible])
-	}
-}
-
-extension NSRange {
-	func toStringRange(str:String) -> Range<String.Index>? {
-		let fromIdx = str.utf16.startIndex.advancedBy(self.location)
-		let toIdx = fromIdx.advancedBy(self.length, limit: str.utf16.endIndex)
-		if let from = String.Index(fromIdx, within: str),
-			let to = String.Index(toIdx, within: str)
-		{
-			return from ..< to
-		}
-		return nil
 	}
 }
 

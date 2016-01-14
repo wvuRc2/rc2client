@@ -211,6 +211,11 @@
 		087DB8C617B57AB400724811 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087DB8C517B57AB400724811 /* CrashReporter.framework */; };
 		087DB8C817B57AFF00724811 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */; };
 		088C837E19900EF900831750 /* libPEGKitOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08093C1B1979B0DA00F5852A /* libPEGKitOSX.a */; };
+		088CE6441C47F26000153414 /* SystemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CE6431C47F26000153414 /* SystemExtensions.swift */; };
+		088CE6451C47F26000153414 /* SystemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CE6431C47F26000153414 /* SystemExtensions.swift */; };
+		088CE6471C47F34800153414 /* ColorEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CE6461C47F34800153414 /* ColorEnums.swift */; };
+		088CE6481C47F34800153414 /* ColorEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CE6461C47F34800153414 /* ColorEnums.swift */; };
+		088CE64A1C47FB6100153414 /* ColorEnumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CE6491C47FB6100153414 /* ColorEnumTests.swift */; };
 		089C0D6D1891A5230046E8DF /* MCEditUserController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 084593F615B5F1D700297C9D /* MCEditUserController.xib */; };
 		089CDA571C41657F00C9CD4F /* Rc2SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA561C41657F00C9CD4F /* Rc2SessionTests.swift */; };
 		089CDA591C41663C00C9CD4F /* Rc2Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089CDA581C41663C00C9CD4F /* Rc2Session.swift */; };
@@ -921,6 +926,9 @@
 		087DB8C317B57A8200724811 /* libHockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHockeySDK.a; path = "Dependencies/HockeySDK-iOS/Support/build/Debug-iphoneos/libHockeySDK.a"; sourceTree = "<group>"; };
 		087DB8C517B57AB400724811 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = "Dependencies/HockeySDK-iOS/Vendor/CrashReporter.framework"; sourceTree = "<group>"; };
 		087DB8C717B57AFF00724811 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HockeySDKResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		088CE6431C47F26000153414 /* SystemExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemExtensions.swift; sourceTree = "<group>"; };
+		088CE6461C47F34800153414 /* ColorEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorEnums.swift; path = source/ColorEnums.swift; sourceTree = "<group>"; };
+		088CE6491C47FB6100153414 /* ColorEnumTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorEnumTests.swift; sourceTree = "<group>"; };
 		089CDA561C41657F00C9CD4F /* Rc2SessionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2SessionTests.swift; sourceTree = "<group>"; };
 		089CDA581C41663C00C9CD4F /* Rc2Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc2Session.swift; sourceTree = "<group>"; };
 		089CDA5B1C42FF3700C9CD4F /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Starscream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1786,6 +1794,7 @@
 				0857278019B0F89700ADCC7B /* Supporting Files */,
 				089CDA561C41657F00C9CD4F /* Rc2SessionTests.swift */,
 				089CDA711C4703DD00C9CD4F /* ServerResponseTests.swift */,
+				088CE6491C47FB6100153414 /* ColorEnumTests.swift */,
 			);
 			path = RestTests;
 			sourceTree = "<group>";
@@ -2057,6 +2066,8 @@
 				08137A2F17C8024C005EA804 /* SharedImages.xcassets */,
 				08D2442515B5D7DD0064A9FA /* notes.markdown */,
 				08D244E015B5D9500064A9FA /* CommonPrefix.pch */,
+				088CE6431C47F26000153414 /* SystemExtensions.swift */,
+				088CE6461C47F34800153414 /* ColorEnums.swift */,
 				0828600518451B7C002BA8D2 /* Rc2AppConstants.h */,
 				0828600618451B7C002BA8D2 /* Rc2AppConstants.m */,
 				08D2435515B5D3F00064A9FA /* ios */,
@@ -3134,6 +3145,7 @@
 			files = (
 				089CDA721C4703DD00C9CD4F /* ServerResponseTests.swift in Sources */,
 				089CDA571C41657F00C9CD4F /* Rc2SessionTests.swift in Sources */,
+				088CE64A1C47FB6100153414 /* ColorEnumTests.swift in Sources */,
 				08BB97E21C221E7500825E91 /* Rc2AppConstants.m in Sources */,
 				08BB97E91C24956700825E91 /* Rc2FileTypeTest.swift in Sources */,
 				08BB97DB1C2219A700825E91 /* RestServerTest.swift in Sources */,
@@ -3291,6 +3303,7 @@
 				08286002183EBB84002BA8D2 /* SessionEditorLayoutManager.m in Sources */,
 				0843BE691C1A1F6400DD8F28 /* Rc2User.swift in Sources */,
 				08BAF53C1974879A007228DC /* GCDAsyncSocket.m in Sources */,
+				088CE6451C47F26000153414 /* SystemExtensions.swift in Sources */,
 				0830EF4E18EB50FC00422167 /* FMDatabaseAdditions.m in Sources */,
 				08B74CF61643045F00083F9A /* ProjectViewLayout.m in Sources */,
 				080E5082166FDFB800E95531 /* AFHTTPClient.m in Sources */,
@@ -3299,6 +3312,7 @@
 				080E5084166FDFB800E95531 /* AFHTTPRequestOperation.m in Sources */,
 				080E5086166FDFB800E95531 /* AFImageRequestOperation.m in Sources */,
 				080E5088166FDFB800E95531 /* AFJSONRequestOperation.m in Sources */,
+				088CE6481C47F34800153414 /* ColorEnums.swift in Sources */,
 				080E508A166FDFB800E95531 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				08BB97E71C23620B00825E91 /* Rc2FileType.swift in Sources */,
 				0873431517C3DF41000EC1E0 /* ProjectViewTransition.m in Sources */,
@@ -3365,6 +3379,7 @@
 				0843BE821C1B8C3D00DD8F28 /* Rc2File.swift in Sources */,
 				08BDDD9917EA48AB00E669E3 /* NSManagedObject+MagicalAggregation.m in Sources */,
 				08D2464A15B5ED9D0064A9FA /* RCImage.m in Sources */,
+				088CE6471C47F34800153414 /* ColorEnums.swift in Sources */,
 				08BDDDBD17EA48AB00E669E3 /* MagicalRecord.m in Sources */,
 				08D2464B15B5ED9D0064A9FA /* RCMessage.m in Sources */,
 				08D2464C15B5ED9D0064A9FA /* RCSavedSession.m in Sources */,
@@ -3473,6 +3488,7 @@
 				08B74C451639AC0E00083F9A /* MCProjectViewController.m in Sources */,
 				08B74C491639AE6500083F9A /* MCProjectCollectionItem.m in Sources */,
 				08B74C581639D3AA00083F9A /* RCProject.m in Sources */,
+				088CE6441C47F26000153414 /* SystemExtensions.swift in Sources */,
 				08B74C5B1639EAB800083F9A /* MCProjectCollectionView.m in Sources */,
 				08E49223166E7834005E83DE /* MCSessionFileController.m in Sources */,
 				080E5083166FDFB800E95531 /* AFHTTPClient.m in Sources */,
