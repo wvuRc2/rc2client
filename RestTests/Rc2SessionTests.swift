@@ -141,6 +141,8 @@ class Rc2SessionTests: XCTestCase {
 		func sessionMessageReceived(msg:JSON) {
 			lastMessage = msg
 		}
+		func loadHelpItems(topic: String, items: [HelpItem]) {
+		}
 	}
 	
 	class MockWebSocket: WebSocketSource {

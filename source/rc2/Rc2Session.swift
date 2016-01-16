@@ -8,11 +8,15 @@
 
 import Foundation
 import Starscream
+#if os(OSX)
+	import AppKit
+#endif
 
 protocol Rc2SessionDelegate : class {
 	func sessionOpened()
 	func sessionClosed()
 	func sessionMessageReceived(msg:JSON)
+	func loadHelpItems(topic:String, items:[HelpItem])
 }
 
 @objc class Rc2Session : NSObject {
@@ -93,6 +97,10 @@ protocol Rc2SessionDelegate : class {
 		return try! Color(hex: dict[key.rawValue]!)
 	}
 	
+	func noHelpFoundString(topic:String) -> NSAttributedString {
+		return NSAttributedString(string: "No help available for '\(topic)'\n", attributes: [NSForegroundColorAttributeName:outputColorForKey(.Help)])
+	}
+	
 	//MARK: private methods
 	func sendMessage(message:Dictionary<String,AnyObject>) -> Bool {
 		guard NSJSONSerialization.isValidJSONObject(message) else {
@@ -114,6 +122,14 @@ protocol Rc2SessionDelegate : class {
 private extension Rc2Session {
 	func requestVariables() {
 		sendMessage(["cmd":"watchVariables", "watch":variablesVisible])
+	}
+	
+	func handleHelpResults(rsp:ServerResponse) {
+		guard case let .Help(topic, items) = rsp else {
+			assertionFailure("argument was not a help response")
+			return
+		}
+		self.delegate?.loadHelpItems(topic, items: items)
 	}
 }
 

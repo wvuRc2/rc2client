@@ -8,11 +8,11 @@
 
 import Foundation
 
-public enum ServerResponse {
+public enum ServerResponse : Equatable {
 	case Error(queryId:Int, error:String)
 	case EchoQuery(queryId:Int, fileId:Int, query:String)
 	case ExecComplete(queryId:Int, batchId:Int, images:[SessionImage])
-	case Help(topic:String, paths:[String])
+	case Help(topic:String, paths:[HelpItem])
 	case Results(queryId:Int, fileId:Int, text:String)
 	case Variable(socketId:Int, delta:Bool, single:Bool, variables:Dictionary<String, JSON>)
 	
@@ -30,7 +30,7 @@ public enum ServerResponse {
 			case "echo":
 				return ServerResponse.EchoQuery(queryId: jsonObj["queryId"].intValue, fileId: jsonObj["fileId"].intValue, query: jsonObj["query"].stringValue)
 			case "help":
-				return ServerResponse.Help(topic: jsonObj["topic"].stringValue, paths: jsonObj["paths"].arrayValue.map({ return $0.stringValue }))
+				return ServerResponse.Help(topic: jsonObj["topic"].stringValue, paths: jsonObj["paths"].arrayValue.map({ return HelpItem(dict: $0.dictionaryValue) }))
 			case "variables":
 				return ServerResponse.Variable(socketId: jsonObj["socketId"].intValue, delta: jsonObj["delta"].boolValue, single: jsonObj["singleValue"].boolValue, variables: jsonObj["variables"].dictionaryValue)
 			default:
@@ -58,6 +58,18 @@ public func == (a:ServerResponse, b:ServerResponse) -> Bool {
 	}
 }
 
+public struct HelpItem : Equatable {
+	let title : String
+	let url : NSURL
+	init(dict:Dictionary<String,JSON>) {
+		title = (dict["title"]?.stringValue)!
+		url = NSURL(string: (dict["url"]?.stringValue)!)!
+	}
+}
+
+public func ==(a:HelpItem, b:HelpItem) -> Bool {
+	return a.title == b.title && a.url == b.url
+}
 
 public struct SessionImage: Equatable {
 	let id:Int

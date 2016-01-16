@@ -94,7 +94,7 @@ import Foundation
 		if let hostDict = hosts.filter({ return ($0["name"] as! String) == hostName }).first {
 			selectedHost = hostDict
 			let hprotocol = hostDict["secure"]!.boolValue! ? "https" : "http"
-			let hoststr = "\(hprotocol)://\(hostDict["host"]!.stringValue):\(hostDict["port"]!.stringValue)/"
+			let hoststr = "\(hprotocol)://\(hostDict["host"]!):\(hostDict["port"]!.stringValue)/"
 			baseUrl = NSURL(string: hoststr)!
 		}
 	}
